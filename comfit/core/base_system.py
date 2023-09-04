@@ -1,20 +1,22 @@
 import numpy as np
 
 class BaseSystem:
-    def __init__(self, dimension, x_resolution, dx=1, dy=1, dz=1, dt=0.1):
+    def __init__(self, dimension, xRes=101, dx=1.0, yRes=101, dy=1.0, zRes=101, dz=1.0, dt=0.1):
         self.dim = dimension
-        self.xRes = x_resolution
+        self.xRes = xRes
         self.yRes = 1
         self.zRes = 1
+
+        if dimension>1:
+            self.yRes = yRes
+
+        if dimension>2:
+            self.zRes = zRes
+
         self.dx = dx
         self.dy = dy
         self.dz = dz
         self.dt = dt
-
-        if self.dim > 1:
-            self.yRes = dy
-        if self.dim > 2:
-            self.zRes = dz
 
         if self.dim not in [1, 2, 3]:
             raise ValueError('Dimension must be 1, 2, or 3.')
@@ -52,11 +54,12 @@ class BaseSystem:
         self.zmax = self.z[-1] + self.dz if self.dim > 2 else 0
 
         # Fourier modes
-        self.ki = [self.calc_wavenums(self.x), None, None]
+        self.ki = [self.calc_wavenums(self.x), 0, 0]
         if self.dim > 1:
             self.ki[1] = self.calc_wavenums(self.y)
         if self.dim > 2:
             self.ki[2] = self.calc_wavenums(self.z)
+
 
         # Derivatives
         self.dif = [1j * ki for ki in self.ki]
@@ -111,6 +114,7 @@ class BaseSystem:
 
 
 if __name__ == "__main__":
-    system = BaseSystem(1, 100)
-    print(system.x)
+    bec = BaseSystem(2, dx=0.1)
+    print(bec.y)
+    print(bec.xmid)
     # ... any other demonstration or testing code ...
