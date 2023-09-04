@@ -34,13 +34,13 @@ class BaseSystem:
         self.a0 = 1  # System length PFCscale, set to 1 unless changed later
 
         # Helpful midpoints and their indices
-        self.xmidi = (1 + self.xRes) // 2
+        self.xmidi = (1 + self.xRes) // 2 - 1
         self.xmid = self.x[self.xmidi]
 
-        self.ymidi = (1 + self.yRes) // 2
+        self.ymidi = (1 + self.yRes) // 2 - 1
         self.ymid = self.y[self.ymidi]
 
-        self.zmidi = (1 + self.zRes) // 2
+        self.zmidi = (1 + self.zRes) // 2 - 1
         self.zmid = self.z[self.zmidi]
 
         self.midi = self.xRes * self.yRes * (self.zmidi - 1) + self.yRes * (self.xmidi - 1) + self.ymidi
@@ -99,9 +99,9 @@ class BaseSystem:
         high = n // 2
         low = - (n - 1) // 2
 
-        L = n * (x[1] - x[0])
+        l = n * (x[1] - x[0])
 
-        k = np.concatenate((np.arange(0, high+1), np.arange(low, 0))) * 2 * np.pi / L
+        k = np.concatenate((np.arange(0, high+1), np.arange(low, 0))) * 2 * np.pi / l
 
         if n % 2 == 0:
             k[n//2] = -k[n//2]
@@ -110,5 +110,7 @@ class BaseSystem:
 
 
 
-# Usage:
-# sys = BaseSystem(2, 100, dy=2)
+if __name__ == "__main__":
+    system = BaseSystem(1, 100)
+    print(system.x)
+    # ... any other demonstration or testing code ...
