@@ -3,3 +3,7 @@ venv/
 
 # PyCharm configuration
 .idea/
+
+comfit.egg-info/
+
+build/
