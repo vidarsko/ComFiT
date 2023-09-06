@@ -165,15 +165,3 @@ class BaseSystem:
             k[n // 2] = -k[n // 2]
 
         return k
-
-
-
-
-if __name__ == "__main__":
-    bec = BaseSystem(2, xRes=101, yRes=101)
-
-    field=bec.calc_angle_field_double_vortex()
-
-    bec.plot_angle_field(field)
-
-
