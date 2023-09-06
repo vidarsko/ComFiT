@@ -129,6 +129,27 @@ class BaseSystem:
         plt.ylabel("Y-axis")
         plt.show()
 
+    # Time evolution function
+    def evolve_ETDRK2_loop(self,integrating_factors_f,number_of_pred_it_steps=2):
+
+        N0_f = self.calc_nonlinear_evolution_term_f()
+
+        for i in range(number_of_pred_it_steps):
+            if i==1:
+                dN_f = 0
+            else:
+                dN_f = self.calc_nonlinear_evolution_term_f() - N0_f
+
+            field_f_pred = integrating_factors_f[0]*self.field_f +\
+                integrating_factors_f[1]*N0_f +\
+                integrating_factors_f[2]*dN_f
+
+            field_f_pred[0] = self.field_f[0] #This is not valid python syntax. Needs to be changed.
+
+            field_pred = np.ifftn(field_f_pred)
+
+        self.field = field_pred
+        self.field_f = field_f_pred
 
 
 
