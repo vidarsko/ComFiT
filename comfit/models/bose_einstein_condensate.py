@@ -1,5 +1,5 @@
 import numpy as np
-from ..core.base_system import BaseSystem
+from comfit.core.base_system import BaseSystem
 
 class BEC(BaseSystem):
     def __init__(self, dimension, x_resolution, **kwargs):

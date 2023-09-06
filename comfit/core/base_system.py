@@ -1,4 +1,7 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from comfit.tools.tool_colormap_angle import tool_colormap_angle
+
 
 class BaseSystem:
     def __init__(self, dimension, xRes=101, dx=1.0, yRes=101, dy=1.0, zRes=101, dz=1.0, dt=0.1):
@@ -7,10 +10,10 @@ class BaseSystem:
         self.yRes = 1
         self.zRes = 1
 
-        if dimension>1:
+        if dimension > 1:
             self.yRes = yRes
 
-        if dimension>2:
+        if dimension > 2:
             self.zRes = zRes
 
         self.dx = dx
@@ -60,7 +63,6 @@ class BaseSystem:
         if self.dim > 2:
             self.ki[2] = self.calc_wavenums(self.z)
 
-
         # Derivatives
         self.dif = [1j * ki for ki in self.ki]
 
@@ -76,6 +78,59 @@ class BaseSystem:
 
         self.rmin = [self.xmin, self.ymin, self.zmin]
         self.rmax = [self.xmax, self.ymax, self.zmax]
+
+    # Calculation of angle fields for vortices of different types
+    def calc_angle_field_single_vortex(self,
+                                       position=None,
+                                       charge=1):
+        if self.dim != 2:
+            raise Exception("The dimension of the system must be 2 for a single point vortex.")
+
+        if position is None:
+            position = [self.xmid, self.ymid]
+
+        x = self.y.reshape((self.xRes, 1))
+        y = self.y.reshape((1, self.yRes))
+
+        theta = charge*np.arctan2(y - position[1],x - position[0])
+
+        return theta
+
+    def calc_angle_field_double_vortex(self,
+                                       position1=None,
+                                       position2=None):
+
+        if self.dim != 2:
+            raise Exception("The dimension of the system must be 2 for a single point vortex.")
+
+        if position1 is None:
+            position1 = [self.xmax/3, self.ymid]
+
+        if position2 is None:
+            position2 = [2*self.xmax/3,self.ymid]
+
+        theta1 = self.calc_angle_field_single_vortex(position1)
+        theta2 = self.calc_angle_field_single_vortex(position2,charge=-1)
+
+        return np.mod(theta1+theta2+np.pi,2*np.pi)-np.pi
+
+
+    #plotting functions
+    def plot_angle_field(self,field):
+        X,Y = np.meshgrid(self.x,self.y,indexing='ij')
+        custom_colormap = tool_colormap_angle()
+
+        mesh = plt.pcolormesh(X,Y,field,shading='auto',cmap=custom_colormap)
+        cbar = plt.colorbar(mesh)  # To add a colorbar on the side
+        cbar.set_ticks(np.array([-np.pi,-2*np.pi/3,-np.pi/3,0,np.pi/3,2*np.pi/3,np.pi]))
+        cbar.set_ticklabels([r'$-\pi$',r'$-2\pi/3$',r'$-\pi/3$',r'$0$',r'$\pi/3$',r'$2\pi/3$',r'$\pi$'])
+        plt.title("Angle field")
+        plt.xlabel("X-axis")
+        plt.ylabel("Y-axis")
+        plt.show()
+
+
+
 
     @staticmethod
     def calc_wavenums(x):
@@ -104,17 +159,21 @@ class BaseSystem:
 
         l = n * (x[1] - x[0])
 
-        k = np.concatenate((np.arange(0, high+1), np.arange(low, 0))) * 2 * np.pi / l
+        k = np.concatenate((np.arange(0, high + 1), np.arange(low, 0))) * 2 * np.pi / l
 
         if n % 2 == 0:
-            k[n//2] = -k[n//2]
+            k[n // 2] = -k[n // 2]
 
         return k
 
 
 
+
 if __name__ == "__main__":
-    bec = BaseSystem(2, dx=0.1)
-    print(bec.y)
-    print(bec.xmid)
-    # ... any other demonstration or testing code ...
+    bec = BaseSystem(2, xRes=101, yRes=101)
+
+    field=bec.calc_angle_field_double_vortex()
+
+    bec.plot_angle_field(field)
+
+

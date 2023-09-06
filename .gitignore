@@ -1,9 +1,26 @@
-# Virtual environment
+# ----- Virtual Environments -----
+# Standard virtual environment
 venv/
 
+# Alternative virtual environment names
+*.venv/
+.env/
+
+# ----- Compiled Python Files -----
+*.pyc
+__pycache__/
+
+# ----- Build and Package Data -----
+comfit.egg-info/
+build/
+
+# ----- IDE and Editor Configurations -----
 # PyCharm configuration
 .idea/
 
-comfit.egg-info/
+# VS Code configuration
+.vscode/
 
-build/
+# ----- Jupyter Notebooks -----
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/

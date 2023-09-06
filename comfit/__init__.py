@@ -1,3 +1,3 @@
-import models
+from .core import BaseSystem
+from .models import BEC, PFC
 
-BEC = models.bose_einstein_condensate.BEC
