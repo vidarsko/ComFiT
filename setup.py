@@ -5,6 +5,6 @@ setup(
     version='1.0.0',
     packages=['comfit'],
     package_data={'comfit':['core/*','models/*']},
-    author='Vidar Skogvoll',
+    author='Vidar Skogvoll and Jonas Rønning',
     install_requires=['numpy>=1.22.0']
 )
