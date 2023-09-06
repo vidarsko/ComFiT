@@ -32,9 +32,6 @@ class BEC(BaseSystem):
         # Default simulation parameters
         self.gamma = 0        # Dissipation (gamma)
         self.V_ext = 0        # External potential
-        self.g0 = 1
-        self.g2 = 0
-        self.g4 = 0
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
