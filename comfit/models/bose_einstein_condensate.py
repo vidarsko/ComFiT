@@ -36,10 +36,3 @@ class BEC(BaseSystem):
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
-
-
-# Example usage
-if __name__ == "__main__":
-    bec = BEC(2, 100, dissipation_factor=0.5)
-    print(bec.gamma)  # Output: 0.5
-    print(bec.V_ext)  # Output: 0
