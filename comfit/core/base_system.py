@@ -118,6 +118,7 @@ class BaseSystem:
     #plotting functions
     def plot_angle_field(self,field):
         X,Y = np.meshgrid(self.x,self.y,indexing='ij')
+
         custom_colormap = tool_colormap_angle()
 
         mesh = plt.pcolormesh(X,Y,field,shading='auto',cmap=custom_colormap)
