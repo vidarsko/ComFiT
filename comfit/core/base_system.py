@@ -130,6 +130,40 @@ class BaseSystem:
         plt.ylabel("Y-axis")
         plt.show()
 
+    def plot_complex_field(self,complex_field,ax):
+
+
+
+        if self.dim==2:
+            rho = np.abs(complex_field)
+            theta = np.angle(complex_field)
+
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+            custom_colormap = tool_colormap_angle()
+
+            # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+            colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+
+            surf = ax.plot_surface(X, Y, rho, facecolors=colors)
+
+            # mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
+            # mappable.set_array([])
+            # mappable.set_clim(-np.pi, np.pi)
+            # cbar = plt.colorbar(mappable, ax=ax)
+            # cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+            # cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+
+            # plt.title("Angle field")
+            # plt.xlabel("X-axis")
+            # plt.ylabel("Y-axis")
+
+
+
+        else:
+            raise Exception("This plotting function not yet configured for other dimension")
+
+
     # Time evolution function
     def evolve_ETDRK2_loop(self,integrating_factors_f,field,field_f,number_of_pred_it_steps=2):
 

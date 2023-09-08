@@ -8,14 +8,20 @@ bec = cf.BEC(2,xRes=101,yRes=101)
 
 bec.set_initial_condition_disordered()
 
+# Create the figure and axes outside the loop
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
+bec.plot_complex_field(bec.psi,ax)
 for n in range(10):
+    ax.cla()
+
     psi0 = bec.psi
-    bec.evolve_dGPE(20)
-    angle = np.angle(bec.psi)
-    plt.clf()
-    bec.plot_angle_field(angle)
-    plt.pause(0.1)
+    bec.evolve_dGPE(100)
+    bec.plot_complex_field(bec.psi,ax)
+
+    plt.pause(0.5)
+
 
 
 

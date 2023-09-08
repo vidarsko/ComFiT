@@ -33,7 +33,7 @@ class BEC(BaseSystem):
         self.type = 'BEC'
 
         # Default simulation parameters
-        self.gamma = 0.9  # Dissipation (gamma)
+        self.gamma = 0.1  # Dissipation (gamma)
         self.V_ext = 0  # External potential
 
         # If there are additional arguments provided, set them as attributes
