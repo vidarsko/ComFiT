@@ -131,28 +131,44 @@ class BaseSystem:
         plt.show()
 
     # Time evolution function
-    def evolve_ETDRK2_loop(self,integrating_factors_f,number_of_pred_it_steps=2):
+    def evolve_ETDRK2_loop(self,integrating_factors_f,field,field_f,number_of_pred_it_steps=2):
 
-        N0_f = self.calc_nonlinear_evolution_term_f()
+        N0_f = self.calc_nonlinear_evolution_term_dGPE_f(field)
 
         for i in range(number_of_pred_it_steps):
             if i==1:
                 dN_f = 0
             else:
-                dN_f = self.calc_nonlinear_evolution_term_f() - N0_f
+                dN_f = self.calc_nonlinear_evolution_term_dGPE_f(field) - N0_f
 
-            field_f_pred = integrating_factors_f[0]*self.field_f +\
+            field_f_pred = integrating_factors_f[0]*field_f +\
                 integrating_factors_f[1]*N0_f +\
                 integrating_factors_f[2]*dN_f
 
-            field_f_pred[0] = self.field_f[0] #This is not valid python syntax. Needs to be changed.
+            #Can this be simplified? (Vidar 08.09.23)
+            if self.dim==1:
+                field_f_pred[0] = field_f[0]
+            elif self.dim==2:
+                field_f_pred[0,0] = field_f[0,0]
+            elif self.dim==3:
+                field_f_pred[0,0,0] = field_f[0,0,0]
 
-            field_pred = np.ifftn(field_f_pred)
+            field = np.fft.ifftn(field_f_pred)
 
-        self.field = field_pred
-        self.field_f = field_f_pred
+        return field, field_f_pred
 
 
+    def calc_k2(self):
+        if self.dim == 1:
+            k2 = self.k[0] ** 2
+        elif self.dim == 2:
+            k2 = (self.k[0] ** 2).reshape(self.xRes, 1) + \
+                 (self.k[1] ** 2).reshape(1, self.yRes)
+        elif self.dim == 3:
+            k2 = (self.k[0] ** 2).reshape(self.xRes, 1, 1) + \
+                 (self.k[1] ** 2).reshape(1, self.yRes, 1) + \
+                 (self.k[2] ** 2).reshape(1, 1, self.zRes)
+        return k2
 
     @staticmethod
     def calc_wavenums(x):
@@ -187,3 +203,5 @@ class BaseSystem:
             k[n // 2] = -k[n // 2]
 
         return k
+
+

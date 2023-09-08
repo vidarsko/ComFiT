@@ -28,10 +28,12 @@ class BEC(BaseSystem):
         super().__init__(dimension, **kwargs)
 
         # Type of the system
+        self.psi = None
+        self.psi_f = None
         self.type = 'BEC'
 
         # Default simulation parameters
-        self.gamma = 0  # Dissipation (gamma)
+        self.gamma = 0.9  # Dissipation (gamma)
         self.V_ext = 0  # External potential
 
         # If there are additional arguments provided, set them as attributes
@@ -62,19 +64,48 @@ class BEC(BaseSystem):
             raise Exception("Code for this dimension has not yet been implemented.")
 
         self.psi = noise_strength*self.psi
+        self.psi_f = np.fft.fftn(self.psi)
 
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
 
-        integrating_factors_f = self.calc_evolution_integrating_factors_dGPE(self)
+        integrating_factors_f = self.calc_evolution_integrating_factors_dGPE_f()
 
         for n in range(number_of_steps):
-            self.evolve_ETDRK2_loop(self,integrating_factors_f)
+            self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f, self.psi, self.psi_f)
+
+
 
 
     #Calculation functions
-    def calc_evolution_integrating_factors_dGPE(self):
-        if self.dim==1:
-            k2 = self.k[0]
-        elif dim==2:
-            k2 = self.k[0]
+    def calc_evolution_integrating_factors_dGPE_f(self):
+        k2 = self.calc_k2()
+
+        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
+
+        integration_factors_f = [0,0,0]
+
+        integration_factors_f[0] = np.exp(omega_f * self.dt)
+        If1 = integration_factors_f[0]
+
+        integration_factors_f[1] = (If1 - 1) / omega_f
+
+        integration_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
+
+        for i in range(3):
+            if self.dim == 1:
+                integration_factors_f[i][0]=0
+            elif self.dim == 2:
+                integration_factors_f[i][0,0]=0
+            elif self.dim == 3:
+                integration_factors_f[i][0,0,0]=0
+
+        return integration_factors_f
+
+    def calc_nonlinear_evolution_term_dGPE_f(self,psi):
+        psi2 = np.abs(psi)**2
+
+        return (1j+self.gamma)*(-self.V_ext-psi2)*psi
+
+
+
