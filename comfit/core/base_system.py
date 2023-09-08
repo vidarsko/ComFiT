@@ -57,14 +57,14 @@ class BaseSystem:
         self.zmax = self.z[-1] + self.dz if self.dim > 2 else 0
 
         # Fourier modes
-        self.ki = [self.calc_wavenums(self.x), 0, 0]
+        self.k = [self.calc_wavenums(self.x), 0, 0]
         if self.dim > 1:
-            self.ki[1] = self.calc_wavenums(self.y)
+            self.k[1] = self.calc_wavenums(self.y)
         if self.dim > 2:
-            self.ki[2] = self.calc_wavenums(self.z)
+            self.k[2] = self.calc_wavenums(self.z)
 
         # Derivatives
-        self.dif = [1j * ki for ki in self.ki]
+        self.dif = [1j * ki for ki in self.k]
 
         self.dV = self.dx
         if self.dim > 1:

@@ -62,3 +62,19 @@ class BEC(BaseSystem):
             raise Exception("Code for this dimension has not yet been implemented.")
 
         self.psi = noise_strength*self.psi
+
+    #Time evolution
+    def evolve_dGPE(self,number_of_steps):
+
+        integrating_factors_f = self.calc_evolution_integrating_factors_dGPE(self)
+
+        for n in range(number_of_steps):
+            self.evolve_ETDRK2_loop(self,integrating_factors_f)
+
+
+    #Calculation functions
+    def calc_evolution_integrating_factors_dGPE(self):
+        if self.dim==1:
+            k2 = self.k[0]
+        elif dim==2:
+            k2 = self.k[0]
