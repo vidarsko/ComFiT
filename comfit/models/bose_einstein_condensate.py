@@ -81,6 +81,7 @@ class BEC(BaseSystem):
     def set_initial_condition_Thomas_Fermi(self):
         self.psi = np.sqrt(1-self.V_ext)
         self.psi[self.V_ext > 1] = 0
+
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
 
@@ -117,7 +118,7 @@ class BEC(BaseSystem):
 
         return integration_factors_f
 
-    def calc_nonlinear_evolution_term_dGPE_f(self,psi):
+    def calc_nonlinear_evolution_term_dGPE_f(self):
         psi2 = np.abs(psi)**2
 
         return (1j+self.gamma)*(-self.V_ext-psi2)*psi

@@ -8,6 +8,8 @@ bec.set_initial_condition_Thomas_Fermi()
 
 print(bec.V_ext)
 
+
+
 plt.imshow(bec.psi)
 plt.colorbar()
 plt.show()
