@@ -76,7 +76,7 @@ class BEC(BaseSystem):
         if self.dim == 3:
             self.V_ext = trapingstrengt * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
                                            + ((self.y - self.ymid) ** 2).reshape(1, self.yRes,1)
-                                           +((self.z - self.zmid) ** 2).reshape(1, 1,self.zmid) )
+                                           +((self.z - self.zmid) ** 2).reshape(1, 1,self.zRes) )
 
     def set_initial_condition_Thomas_Fermi(self):
         self.psi = np.sqrt(1-self.V_ext)
