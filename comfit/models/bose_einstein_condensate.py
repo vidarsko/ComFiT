@@ -66,6 +66,21 @@ class BEC(BaseSystem):
         self.psi = noise_strength*self.psi
         self.psi_f = np.fft.fftn(self.psi)
 
+    def set_harmonic_potential(self,R_tf):
+        trapingstrengt = 1 / (R_tf ** 2)
+        if self.dim ==1:
+            self.V_ext = trapingstrengt*(self.x -self.xmid )**2
+        if self.dim == 2:
+            self.V_ext = trapingstrengt*(((self.x-self.xmid)**2).reshape(self.xRes, 1)
+                                         +((self.y-self.ymid)**2).reshape(1, self.yRes) )
+        if self.dim == 3:
+            self.V_ext = trapingstrengt * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
+                                           + ((self.y - self.ymid) ** 2).reshape(1, self.yRes,1)
+                                           +((self.z - self.zmid) ** 2).reshape(1, 1,self.zmid) )
+
+    def set_initial_condition_Thomas_Fermi(self):
+        self.psi = np.sqrt(1-self.V_ext)
+        self.psi[self.V_ext > 1] = 0
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
 
