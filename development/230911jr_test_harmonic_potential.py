@@ -6,9 +6,9 @@ bec = cf.BEC(2,xRes=101,yRes=101)
 bec.set_harmonic_potential(50)
 bec.set_initial_condition_Thomas_Fermi()
 
-print(bec.V_ext)
+#print(bec.V_ext)
 
-
+bec.evolve_dGPE(10)
 
 plt.imshow(bec.psi)
 plt.colorbar()

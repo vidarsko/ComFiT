@@ -118,7 +118,7 @@ class BEC(BaseSystem):
 
         return integration_factors_f
 
-    def calc_nonlinear_evolution_term_dGPE_f(self):
+    def calc_nonlinear_evolution_term_dGPE_f(self,psi):
         psi2 = np.abs(psi)**2
 
         return (1j+self.gamma)*(-self.V_ext-psi2)*psi
