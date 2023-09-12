@@ -230,6 +230,7 @@ class BaseSystem:
             else:
                 dN_f = self.calc_nonlinear_evolution_term_f(field) - N0_f
 
+            #print(N0_f)
             field_f_pred = integrating_factors_f[0]*field_f +\
                 integrating_factors_f[1]*N0_f +\
                 integrating_factors_f[2]*dN_f

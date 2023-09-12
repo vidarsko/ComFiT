@@ -7,9 +7,9 @@ bec.set_harmonic_potential(50)
 bec.set_initial_condition_Thomas_Fermi()
 
 
-plt.figure(1)
-plt.imshow(np.abs(bec.psi))
-plt.colorbar()
+#plt.figure(1)
+#plt.imshow(np.abs(bec.psi))
+#plt.colorbar()
 
 plt.figure(2)
 bec.evolve_relax_BEC(10)

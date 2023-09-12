@@ -88,8 +88,9 @@ class BEC(BaseSystem):
         Finds the Thomas_Fermi ground state of a given potential
         :return:
         """
-        self.psi = np.sqrt(1-self.V_ext)
+        self.psi = np.emath.sqrt(1-self.V_ext)
         self.psi[self.V_ext > 1] = 0
+        self.psi_f = np.fft.fftn(self.psi)
 
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
