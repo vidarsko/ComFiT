@@ -164,4 +164,8 @@ class BEC(BaseSystem):
         return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
 
 
-
+    def position_update_circular_stirrer_2D(self,stirrer_radius,t,stirrer_velocity):
+        freq = stirrer_velocity/stirrer_radius
+        posx = self.xmid + stirrer_radius*np.cos(freq*t)
+        posy = self.ymid + stirrer_radius*np.sin(freq*t)
+        return [posx,posy]
