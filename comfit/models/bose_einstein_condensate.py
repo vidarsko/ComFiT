@@ -165,6 +165,13 @@ class BEC(BaseSystem):
 
 
     def position_update_circular_stirrer_2D(self,stirrer_radius,t,stirrer_velocity):
+        """
+        Gives the position of a stiring potential at a given time
+        :param stirrer_radius:
+        :param t:
+        :param stirrer_velocity:
+        :return:
+        """
         freq = stirrer_velocity/stirrer_radius
         posx = self.xmid + stirrer_radius*np.cos(freq*t)
         posy = self.ymid + stirrer_radius*np.sin(freq*t)
