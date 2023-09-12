@@ -74,12 +74,12 @@ class BEC(BaseSystem):
         """
         trapping_strength = 1 / (R_tf ** 2)
         if self.dim ==1:
-            self.V_ext = trapping_strength*(self.x -self.xmid )**2
+            return  trapping_strength*(self.x -self.xmid )**2
         if self.dim == 2:
-            self.V_ext = trapping_strength*(((self.x-self.xmid)**2).reshape(self.xRes, 1)
+            return trapping_strength*(((self.x-self.xmid)**2).reshape(self.xRes, 1)
                                          +((self.y-self.ymid)**2).reshape(1, self.yRes) )
         if self.dim == 3:
-            self.V_ext = trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
+            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
                                            + ((self.y - self.ymid) ** 2).reshape(1, self.yRes,1)
                                            +((self.z - self.zmid) ** 2).reshape(1, 1,self.zRes) )
 
