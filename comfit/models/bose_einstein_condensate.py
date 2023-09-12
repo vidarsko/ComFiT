@@ -86,11 +86,25 @@ class BEC(BaseSystem):
     def set_initial_condition_Thomas_Fermi(self):
         """
         Finds the Thomas_Fermi ground state of a given potential
+        must be precided by an energy relaxation to find the true ground state
         :return:
         """
         self.psi = np.emath.sqrt(1-self.V_ext)
         self.psi[self.V_ext > 1] = 0
         self.psi_f = np.fft.fftn(self.psi)
+
+    def gaussian_stiring_potential(self,size,strength,position):
+
+        if self.dim ==1:
+            return strength*np.exp( -(self.x -position[0])**2/size**2 )
+
+        if self.dim == 2:
+            return strength*np.exp(-(((self.x-position[0])**2).reshape(self.xRes, 1)
+                                         + ((self.y-position[1])**2).reshape(1, self.yRes)) /size**2 )
+        if self.dim == 3:
+            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1,1)
+                                           + ((self.y - position[1]) ** 2).reshape(1, self.yRes,1)
+                                           +((self.z - position[2]) ** 2).reshape(1, 1,self.zRes))/size**2 )
 
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
