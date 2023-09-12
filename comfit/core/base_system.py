@@ -130,6 +130,13 @@ class BaseSystem:
         plt.ylabel("Y-axis")
         plt.show()
 
+    def plot_field(self,field,ax):
+
+        if self.dim == 2:
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+            surf = ax.plot_surface(X, Y, field)
+
     def plot_complex_field(self,complex_field,ax):
 
 
@@ -167,13 +174,14 @@ class BaseSystem:
     # Time evolution function
     def evolve_ETDRK2_loop(self,integrating_factors_f,field,field_f,number_of_pred_it_steps=2):
 
-        N0_f = self.calc_nonlinear_evolution_term_dGPE_f(field)
+        N0_f = self.calc_nonlinear_evolution_term_f(field)
+        #This needs to be generalized
 
         for i in range(number_of_pred_it_steps):
             if i==1:
                 dN_f = 0
             else:
-                dN_f = self.calc_nonlinear_evolution_term_dGPE_f(field) - N0_f
+                dN_f = self.calc_nonlinear_evolution_term_f(field) - N0_f
 
             field_f_pred = integrating_factors_f[0]*field_f +\
                 integrating_factors_f[1]*N0_f +\

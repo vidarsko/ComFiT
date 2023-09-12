@@ -67,18 +67,22 @@ class BEC(BaseSystem):
         self.psi_f = np.fft.fftn(self.psi)
 
     def set_harmonic_potential(self,R_tf):
-        trapingstrengt = 1 / (R_tf ** 2)
+        trapping_strength = 1 / (R_tf ** 2)
         if self.dim ==1:
-            self.V_ext = trapingstrengt*(self.x -self.xmid )**2
+            self.V_ext = trapping_strength*(self.x -self.xmid )**2
         if self.dim == 2:
-            self.V_ext = trapingstrengt*(((self.x-self.xmid)**2).reshape(self.xRes, 1)
+            self.V_ext = trapping_strength*(((self.x-self.xmid)**2).reshape(self.xRes, 1)
                                          +((self.y-self.ymid)**2).reshape(1, self.yRes) )
         if self.dim == 3:
-            self.V_ext = trapingstrengt * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
+            self.V_ext = trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
                                            + ((self.y - self.ymid) ** 2).reshape(1, self.yRes,1)
                                            +((self.z - self.zmid) ** 2).reshape(1, 1,self.zRes) )
 
     def set_initial_condition_Thomas_Fermi(self):
+        """
+        Add description here (Vidar 12.09.23)
+        :return:
+        """
         self.psi = np.sqrt(1-self.V_ext)
         self.psi[self.V_ext > 1] = 0
 
@@ -92,9 +96,25 @@ class BEC(BaseSystem):
 
 
 
+    def evolve_relax_BEC(self,number_of_steps):
+        """
+        Evolves the BEC in 'imaginary time' to reach a stable (low free energy state).
+        :param number_of_steps:
+        :return:
+        """
+        gamma0 = self.gamma
+
+        self.gamma=1-1j
+
+        self.evolve_dGPE(number_of_steps)
+
+        self.gamma=gamma0
+
+
 
     #Calculation functions
     def calc_evolution_integrating_factors_dGPE_f(self):
+
         k2 = self.calc_k2()
 
         omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
@@ -108,20 +128,20 @@ class BEC(BaseSystem):
 
         integration_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
 
-        for i in range(3):
-            if self.dim == 1:
-                integration_factors_f[i][0]=0
-            elif self.dim == 2:
-                integration_factors_f[i][0,0]=0
-            elif self.dim == 3:
-                integration_factors_f[i][0,0,0]=0
+        # for i in range(3):
+        #     if self.dim == 1:
+        #         integration_factors_f[i][0]=0
+        #     elif self.dim == 2:
+        #         integration_factors_f[i][0,0]=0
+        #     elif self.dim == 3:
+        #         integration_factors_f[i][0,0,0]=0
 
         return integration_factors_f
 
-    def calc_nonlinear_evolution_term_dGPE_f(self,psi):
+    def calc_nonlinear_evolution_term_f(self,psi):
         psi2 = np.abs(psi)**2
 
-        return (1j+self.gamma)*(-self.V_ext-psi2)*psi
+        return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
 
 
 
