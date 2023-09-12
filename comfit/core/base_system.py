@@ -114,6 +114,53 @@ class BaseSystem:
 
         return np.mod(theta1+theta2+np.pi,2*np.pi)-np.pi
 
+    def calc_wavenums(self,x):
+        """
+        Calculates the wavenumbers corresponding to the input position vectors given by x.
+
+        Parameters:
+        - x : numpy array
+            1D array of x-positions.
+
+        Returns:
+        - k : numpy array
+            1D array of wavenumbers with all the modes for the given x-array,
+            assuming periodicity from x[0] to x[0] over n intervals.
+
+        Example:
+        x = np.array([-10, -5, 0, 5, 10])
+        k = instance_of_BaseSystem.calc_wavenums(self,x)
+        print(k)
+        # Output: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
+        """
+        n = len(x)
+
+        high = n // 2
+        low = - (n - 1) // 2
+
+        l = n * (x[1] - x[0])
+
+        k = np.concatenate((np.arange(0, high + 1), np.arange(low, 0))) * 2 * np.pi / l
+
+        if n % 2 == 0:
+            k[n // 2] = -k[n // 2]
+
+        return k
+
+    def calc_k2(self):
+        if self.dim == 1:
+            k2 = self.k[0] ** 2
+        elif self.dim == 2:
+            k2 = (self.k[0] ** 2).reshape(self.xRes, 1) + \
+                 (self.k[1] ** 2).reshape(1, self.yRes)
+        elif self.dim == 3:
+            k2 = (self.k[0] ** 2).reshape(self.xRes, 1, 1) + \
+                 (self.k[1] ** 2).reshape(1, self.yRes, 1) + \
+                 (self.k[2] ** 2).reshape(1, 1, self.zRes)
+        return k2
+
+
+
 
     #plotting functions
     def plot_angle_field(self,field):
@@ -198,52 +245,5 @@ class BaseSystem:
             field = np.fft.ifftn(field_f_pred)
 
         return field, field_f_pred
-
-
-    def calc_k2(self):
-        if self.dim == 1:
-            k2 = self.k[0] ** 2
-        elif self.dim == 2:
-            k2 = (self.k[0] ** 2).reshape(self.xRes, 1) + \
-                 (self.k[1] ** 2).reshape(1, self.yRes)
-        elif self.dim == 3:
-            k2 = (self.k[0] ** 2).reshape(self.xRes, 1, 1) + \
-                 (self.k[1] ** 2).reshape(1, self.yRes, 1) + \
-                 (self.k[2] ** 2).reshape(1, 1, self.zRes)
-        return k2
-
-    @staticmethod
-    def calc_wavenums(x):
-        """
-        Calculates the wavenumbers corresponding to the input position vectors given by x.
-
-        Parameters:
-        - x : numpy array
-            1D array of x-positions.
-
-        Returns:
-        - k : numpy array
-            1D array of wavenumbers with all the modes for the given x-array,
-            assuming periodicity from x[0] to x[0] over n intervals.
-
-        Example:
-        x = np.array([-10, -5, 0, 5, 10])
-        k = instance_of_BaseSystem.calc_wavenums(x)
-        print(k)
-        # Output: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
-        """
-        n = len(x)
-
-        high = n // 2
-        low = - (n - 1) // 2
-
-        l = n * (x[1] - x[0])
-
-        k = np.concatenate((np.arange(0, high + 1), np.arange(low, 0))) * 2 * np.pi / l
-
-        if n % 2 == 0:
-            k[n // 2] = -k[n // 2]
-
-        return k
 
 
