@@ -67,6 +67,11 @@ class BEC(BaseSystem):
         self.psi_f = np.fft.fftn(self.psi)
 
     def set_harmonic_potential(self,R_tf):
+        """
+        Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
+        :param R_tf:
+        :return:
+        """
         trapping_strength = 1 / (R_tf ** 2)
         if self.dim ==1:
             self.V_ext = trapping_strength*(self.x -self.xmid )**2
@@ -80,7 +85,7 @@ class BEC(BaseSystem):
 
     def set_initial_condition_Thomas_Fermi(self):
         """
-        Add description here (Vidar 12.09.23)
+        Finds the Thomas_Fermi ground state of a given potential
         :return:
         """
         self.psi = np.sqrt(1-self.V_ext)
