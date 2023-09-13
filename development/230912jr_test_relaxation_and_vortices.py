@@ -7,11 +7,11 @@ V_trap = bec.set_harmonic_potential(50)
 stirrer_radius = 20
 stirrer_velocity = 0.6
 t=0
-position = bec.position_update_circular_stirrer_2D(stirrer_radius,t,stirrer_velocity)
+#position = bec.update_circular_stirrer_position(stirrer_radius,t,stirrer_velocity)
 
-V_stirr = bec.gaussian_stiring_potential(4,3,position)
+#V_stirr = bec.gaussian_stiring_potential(4,3,position)
 
-bec.V_ext = V_trap +V_stirr
+bec.V_ext = V_trap #+V_stirr
 
 bec.set_initial_condition_Thomas_Fermi()
 
@@ -23,20 +23,12 @@ bec.evolve_relax_BEC(10)
 
 
 
-plt.imshow(np.abs(bec.psi))
+#plt.imshow(np.abs(bec.psi))
 # plt.show()
 
-for i in range(10000):
-    t += bec.dt
-    position = bec.position_update_circular_stirrer_2D(stirrer_radius, t, stirrer_velocity)
+bec.evolve_dGPE_with_stirrer(100,4,0.6,20,0.6)
 
-    V_stirr = bec.gaussian_stiring_potential(4, 3, position)
+plt.imshow(np.abs(bec.psi))
 
-    bec.V_ext = V_trap + V_stirr
-    bec.evolve_dGPE(1)
-    if i % 100 == 0:
-        plt.imshow(np.abs(bec.psi))
-        plt.draw()
-        plt.pause(0.01)
-
+plt.show()
 

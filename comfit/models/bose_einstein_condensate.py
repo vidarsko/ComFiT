@@ -114,6 +114,20 @@ class BEC(BaseSystem):
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f, self.psi, self.psi_f)
 
+    def evolve_dGPE_with_stirrer(self,number_of_steps,size,strength,stirrer_radius,stirrer_velocity):
+        if not(hasattr(self,'stirrer')):
+            self.stirrer = True
+            self.stirrer_time = 0
+        freq = stirrer_velocity/stirrer_radius
+        V_trap = np.copy(self.V_ext)
+        for i in range(number_of_steps):
+
+            posx = self.xmid + stirrer_radius*np.cos(freq*t)
+            posy = self.ymid + stirrer_radius*np.sin(freq*t)
+            self.V_ext = V_trap + self.gaussian_stiring_potential(size,strength,[pos_x,pos_y])
+            self.evolve_dGPE(1)
+
+
 
 
     def evolve_relax_BEC(self,number_of_steps):
@@ -164,15 +178,5 @@ class BEC(BaseSystem):
         return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
 
 
-    def position_update_circular_stirrer_2D(self,stirrer_radius,t,stirrer_velocity):
-        """
-        Gives the position of a stiring potential at a given time
-        :param stirrer_radius:
-        :param t:
-        :param stirrer_velocity:
-        :return:
-        """
-        freq = stirrer_velocity/stirrer_radius
-        posx = self.xmid + stirrer_radius*np.cos(freq*t)
-        posy = self.ymid + stirrer_radius*np.sin(freq*t)
-        return [posx,posy]
+
+    
