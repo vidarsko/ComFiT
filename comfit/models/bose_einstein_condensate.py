@@ -121,11 +121,11 @@ class BEC(BaseSystem):
         freq = stirrer_velocity/stirrer_radius
         V_trap = np.copy(self.V_ext)
         for i in range(number_of_steps):
-
-            posx = self.xmid + stirrer_radius*np.cos(freq*t)
-            posy = self.ymid + stirrer_radius*np.sin(freq*t)
+            pos_x = self.xmid + stirrer_radius*np.cos(freq*self.stirrer_time)
+            pos_y = self.ymid + stirrer_radius*np.sin(freq*self.stirrer_time)
             self.V_ext = V_trap + self.gaussian_stiring_potential(size,strength,[pos_x,pos_y])
             self.evolve_dGPE(1)
+            self.stirrer_time += self.dt
 
 
 
@@ -179,4 +179,4 @@ class BEC(BaseSystem):
 
 
 
-    
+
