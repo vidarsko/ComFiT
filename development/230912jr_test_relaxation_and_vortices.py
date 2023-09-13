@@ -26,7 +26,7 @@ bec.evolve_relax_BEC(10)
 plt.imshow(np.abs(bec.psi))
 # plt.show()
 
-for i in range(1000):
+for i in range(10000):
     t += bec.dt
     position = bec.position_update_circular_stirrer_2D(stirrer_radius, t, stirrer_velocity)
 
