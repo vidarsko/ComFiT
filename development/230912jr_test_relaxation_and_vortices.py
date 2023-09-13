@@ -24,7 +24,7 @@ bec.evolve_relax_BEC(10)
 
 
 plt.imshow(np.abs(bec.psi))
-plt.show()
+# plt.show()
 
 for i in range(1000):
     t += bec.dt
@@ -36,6 +36,7 @@ for i in range(1000):
     bec.evolve_dGPE(1)
     if i % 100 == 0:
         plt.imshow(np.abs(bec.psi))
-        plt.show()
+        plt.draw()
+        plt.pause(0.01)
 
 
