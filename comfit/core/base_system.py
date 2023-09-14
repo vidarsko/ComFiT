@@ -179,7 +179,11 @@ class BaseSystem:
 
     def plot_field(self,field,ax):
 
-        if self.dim == 2:
+        if self.dim == 1:
+
+            plt.plot(self.x,field)
+
+        elif self.dim == 2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
             surf = ax.plot_surface(X, Y, field)
