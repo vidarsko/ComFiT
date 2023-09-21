@@ -162,6 +162,7 @@ class BEC(BaseSystem):
 
         integration_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
 
+        #I am not sure if this is correct or necessary (Vidar 21.09.23)
         # for i in range(3):
         #     if self.dim == 1:
         #         integration_factors_f[i][0]=0
