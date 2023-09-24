@@ -10,8 +10,10 @@ bec.set_initial_condition_disordered()
 bec.dt=0.1
 
 # Create the figure and axes outside the loop
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+#fig = plt.figure()
+#ax = fig.add_subplot(111, projection='3d')
+
+ax = plt.subplot(111,projection='3d')
 
 # bec.plot_complex_field(bec.psi,ax)
 # bec.plot_field(bec.calc_k2(),ax)

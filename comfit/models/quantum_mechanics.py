@@ -35,6 +35,7 @@ class QM(BaseSystem):
             self.psi_f = np.fft.fftn(self.psi)
 
 
+
     def set_harmonic_potential(self,trapping_strength=None):
         """
         Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
