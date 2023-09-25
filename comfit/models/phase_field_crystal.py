@@ -22,7 +22,7 @@ class PFC(BaseSystem):
 
     def calc_from_amplitudes(self):
 
-        self.Psi = self.psi0
+        self.psi = self.psi0
 
         if self.dim == 1:
             X = self.x
@@ -36,15 +36,15 @@ class PFC(BaseSystem):
         for n in range(self.number_of_reciprocal_modes):
 
             if self.dim == 1:
-                self.Psi += 2*self.eta[n]*np.exp(1j*self.q[n][0]*X)
+                self.psi += 2*self.eta[n]*np.exp(1j*self.q[n][0]*X)
 
             elif self.dim == 2:
-                self.Psi += 2*self.eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y))
+                self.psi += 2*self.eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y))
 
             elif self.dim == 3:
-                self.Psi += 2*self.eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y+self.q[n][2]*Z))
+                self.psi += 2*self.eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y+self.q[n][2]*Z))
 
-        self.Psi = np.real(self.Psi)
+        self.psi = np.real(self.psi)
 
 
 
@@ -112,6 +112,7 @@ class PFCtri(PFC):
 
         # Set the a0
         self.a0 = a0
+        self.defined_length_scale = True
 
         self.A = self.calc_initial_amplitudes()
         self.eta = [self.A, self.A, self.A]

@@ -186,7 +186,17 @@ class BaseSystem:
         elif self.dim == 2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-            surf = ax.plot_surface(X, Y, field)
+            surf = ax.pcolormesh(X/self.a0, Y/self.a0, field,shading='gouraud')
+            ax.set_aspect('equal')
+
+            if hasattr(self, 'defined_length_scale'):
+                ax.set_xlabel('$x/a_0$')
+                ax.set_ylabel('$y/a_0$')
+            else:
+                ax.set_xlabel('$x$')
+                ax.set_ylabel('$y$')
+
+
 
     def plot_complex_field(self,complex_field,ax):
 
