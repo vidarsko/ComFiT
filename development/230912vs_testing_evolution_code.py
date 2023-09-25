@@ -17,9 +17,9 @@ ax = plt.subplot(111,projection='3d')
 
 # bec.plot_complex_field(bec.psi,ax)
 # bec.plot_field(bec.calc_k2(),ax)
-# integration_factors_f = bec.calc_evolution_integrating_factors_dGPE_f()
-# print(integration_factors_f[2][0,0])
-# bec.plot_complex_field(integration_factors_f[2],ax)
+# integrating_factors_f = bec.calc_evolution_integrating_factors_dGPE_f()
+# print(integrating_factors_f[2][0,0])
+# bec.plot_complex_field(integrating_factors_f[2],ax)
 # plt.show()
 # plt.pause(10)
 

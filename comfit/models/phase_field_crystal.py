@@ -20,9 +20,14 @@ class PFC(BaseSystem):
             setattr(self, key, value)
 
 
-    def calc_from_amplitudes(self):
+
+    #Calculation methods
+    def calc_from_amplitudes(self,eta=None):
 
         self.psi = self.psi0
+
+        if eta is None:
+            eta = self.eta0
 
         if self.dim == 1:
             X = self.x
@@ -36,15 +41,61 @@ class PFC(BaseSystem):
         for n in range(self.number_of_reciprocal_modes):
 
             if self.dim == 1:
-                self.psi += 2*self.eta[n]*np.exp(1j*self.q[n][0]*X)
+                self.psi += 2*eta[n]*np.exp(1j*self.q[n][0]*X)
 
             elif self.dim == 2:
-                self.psi += 2*self.eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y))
+                self.psi += 2*eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y))
 
             elif self.dim == 3:
-                self.psi += 2*self.eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y+self.q[n][2]*Z))
+                self.psi += 2*eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y+self.q[n][2]*Z))
 
         self.psi = np.real(self.psi)
+
+
+
+    def calc_evolution_integrating_factors_PFC_f(self):
+        k2 = self.calc_k2()
+
+        if self.type == 'PFCtri':
+            omega_f = self.r + (1 - k2)**2
+        else:
+            raise Exception("Not yet configured.")
+
+        integrating_factors_f = [0,0,0]
+
+        integrating_factors_f[1] = np.exp(-k2 * omega_f * self.dt)
+        If1 = integrating_factors_f[1]
+        integrating_factors_f[2] = (If1 - 1) / omega_f
+        integrating_factors_f[3] = 1. / (-k2 * self.dt * omega_f**2) * (If1 - 1 + k2 * omega_f * self.dt)
+
+
+    def calc_non_linear_evolution_term_PFC_f(self, psi):
+        return np.fft.fftn(self.t*field**2 + self.v*psi^3)
+
+
+    # Evolution functions
+    def evolve_PFC(self,number_of_steps):
+        integrating_factors_f = self.calc_evolution_integrating_factors_PFC_f()
+
+        for n in range(number_of_steps):
+            self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f,
+                                                           self.calc_non_linear_evolution_term_PFC_f,
+                                                           self.psi, self.psi_f)
+
+
+    #Initial configuration methods
+    def conf_insert_dislocation(self,x=None,y=None):
+
+        if not(self.dim==2):
+            raise Exception("The dimension of the system must be 2 for a single point dislocation.")
+
+        if x==None:
+            x = self.xmid
+        if y==None:
+            y = self.ymid
+
+
+
 
 
 
@@ -115,7 +166,7 @@ class PFCtri(PFC):
         self.defined_length_scale = True
 
         self.A = self.calc_initial_amplitudes()
-        self.eta = [self.A, self.A, self.A]
+        self.eta0 = [self.A, self.A, self.A]
 
         #Set the elastic constants
         self.el_mu = 3 * self.A ** 2
@@ -132,6 +183,8 @@ class PFCtri(PFC):
 
         A = (-3 * v * psi0 + np.sqrt(20 * t * v - 15 * v * r + 30 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) / (15 * v)
         return A
+
+
 
 
 class PFCsq(PFC):

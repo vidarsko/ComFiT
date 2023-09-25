@@ -186,8 +186,9 @@ class BaseSystem:
         elif self.dim == 2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-            surf = ax.pcolormesh(X/self.a0, Y/self.a0, field,shading='gouraud')
+            pcm = ax.pcolormesh(X/self.a0, Y/self.a0, field,shading='gouraud',cmap='viridis')
             ax.set_aspect('equal')
+            plt.colorbar(pcm)
 
             if hasattr(self, 'defined_length_scale'):
                 ax.set_xlabel('$x/a_0$')
@@ -233,16 +234,16 @@ class BaseSystem:
 
 
     # Time evolution function
-    def evolve_ETDRK2_loop(self,integrating_factors_f,field,field_f,number_of_pred_it_steps=2):
+    def evolve_ETDRK2_loop(self,integrating_factors_f,non_linear_evolution_function_f,field,field_f,number_of_pred_it_steps=2):
 
-        N0_f = self.calc_nonlinear_evolution_term_f(field)
+        N0_f = non_linear_evolution_function_f(field)
         #This needs to be generalized
 
         for i in range(number_of_pred_it_steps):
             if i==1:
                 dN_f = 0
             else:
-                dN_f = self.calc_nonlinear_evolution_term_f(field) - N0_f
+                dN_f = non_linear_evolution_function_f(field) - N0_f
 
             #print(N0_f)
             field_f_pred = integrating_factors_f[0]*field_f +\

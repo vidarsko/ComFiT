@@ -112,7 +112,8 @@ class BEC(BaseSystem):
         integrating_factors_f = self.calc_evolution_integrating_factors_dGPE_f()
 
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f, self.psi, self.psi_f)
+            self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_f,
+                                                           self.psi, self.psi_f)
 
     def evolve_dGPE_with_stirrer(self,number_of_steps,size,strength,stirrer_radius,stirrer_velocity):
         if not(hasattr(self,'stirrer')):
@@ -153,25 +154,25 @@ class BEC(BaseSystem):
 
         omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
 
-        integration_factors_f = [0,0,0]
+        integrating_factors_f = [0,0,0]
 
-        integration_factors_f[0] = np.exp(omega_f * self.dt)
-        If1 = integration_factors_f[0]
+        integrating_factors_f[0] = np.exp(omega_f * self.dt)
+        If1 = integrating_factors_f[0]
 
-        integration_factors_f[1] = (If1 - 1) / omega_f
+        integrating_factors_f[1] = (If1 - 1) / omega_f
 
-        integration_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
+        integrating_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
 
         #I am not sure if this is correct or necessary (Vidar 21.09.23)
         # for i in range(3):
         #     if self.dim == 1:
-        #         integration_factors_f[i][0]=0
+        #         integrating_factors_f[i][0]=0
         #     elif self.dim == 2:
-        #         integration_factors_f[i][0,0]=0
+        #         integrating_factors_f[i][0,0]=0
         #     elif self.dim == 3:
-        #         integration_factors_f[i][0,0,0]=0
+        #         integrating_factors_f[i][0,0,0]=0
 
-        return integration_factors_f
+        return integrating_factors_f
 
     def calc_nonlinear_evolution_term_f(self,psi):
         psi2 = np.abs(psi)**2

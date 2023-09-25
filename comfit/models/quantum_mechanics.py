@@ -74,25 +74,25 @@ class QM(BaseSystem):
 
         omega_f = -1j *  1 / 2 * k2
 
-        integration_factors_f = [0,0,0]
+        integrating_factors_f = [0,0,0]
 
-        integration_factors_f[0] = np.exp(omega_f * self.dt)
-        If1 = integration_factors_f[0]
+        integrating_factors_f[0] = np.exp(omega_f * self.dt)
+        If1 = integrating_factors_f[0]
 
 
-        integration_factors_f[1] = (If1 - 1) / omega_f
+        integrating_factors_f[1] = (If1 - 1) / omega_f
 
-        integration_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
+        integrating_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
 
         for i in range(3):
             if self.dim == 1:
-                integration_factors_f[i][0]=0
+                integrating_factors_f[i][0]=0
             elif self.dim == 2:
-                integration_factors_f[i][0,0]=0
+                integrating_factors_f[i][0,0]=0
             elif self.dim == 3:
-                integration_factors_f[i][0,0,0]=0
+                integrating_factors_f[i][0,0,0]=0
 
-        return integration_factors_f
+        return integrating_factors_f
 
     def evolve_schrodinger(self,number_of_steps):
 
