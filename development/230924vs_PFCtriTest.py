@@ -8,9 +8,10 @@ print(pfc.q)
 eta = pfc.conf_insert_dislocation()
 pfc.calc_from_amplitudes(eta)
 
-ax = plt.subplot()
+#fig = plt.figure()
+#ax = plt.gcf().add_subplot(111)
 
 #We are in business
-pfc.plot_field(pfc.psi,ax)
+pfc.plot_field(pfc.psi)
 #plt.colorbar(plt.gci())
 plt.show()

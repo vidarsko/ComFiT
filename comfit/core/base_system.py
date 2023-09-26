@@ -177,18 +177,23 @@ class BaseSystem:
         plt.ylabel("Y-axis")
         plt.show()
 
-    def plot_field(self,field,ax):
+    def plot_field(self,field,ax=None,colorbar=True):
+
+        if ax == None:
+            ax = plt.gcf().add_subplot(111)
+
 
         if self.dim == 1:
 
-            plt.plot(self.x,field)
+            ax.plot(self.x,field)
 
         elif self.dim == 2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
             pcm = ax.pcolormesh(X/self.a0, Y/self.a0, field,shading='gouraud',cmap='viridis')
             ax.set_aspect('equal')
-            plt.colorbar(pcm)
+            if colorbar == True:
+                plt.colorbar(pcm,ax=ax)
 
             if hasattr(self, 'defined_length_scale'):
                 ax.set_xlabel('$x/a_0$')
