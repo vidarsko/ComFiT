@@ -206,8 +206,6 @@ class BaseSystem:
 
     def plot_complex_field(self,complex_field,ax):
 
-
-
         if self.dim==2:
             rho = np.abs(complex_field)
             theta = np.angle(complex_field)

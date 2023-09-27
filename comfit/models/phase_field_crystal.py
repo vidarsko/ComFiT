@@ -12,13 +12,12 @@ class PFC(BaseSystem):
         # First initialize the BaseSystem class
         super().__init__(dimension, **kwargs)
 
-        # Type of the system
-        self.type = 'PFC'
-
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+        self.dislocation_charges = np.array(
+            [[np.round(np.dot(an, qn) / (2 * np.pi), decimals=8) for qn in self.q] for an in self.a])
 
 
     #Calculation methods
@@ -70,7 +69,7 @@ class PFC(BaseSystem):
 
 
     def calc_non_linear_evolution_term_PFC_f(self, psi):
-        return np.fft.fftn(self.t*field**2 + self.v*psi^3)
+        return np.fft.fftn(self.t*psi**2 + self.v*psi**3)
 
 
     # Evolution functions
@@ -84,7 +83,7 @@ class PFC(BaseSystem):
 
 
     #Initial configuration methods
-    def conf_insert_dislocation(self,x=None,y=None):
+    def conf_insert_dislocation(self,eta=None,x=None,y=None,dislocation_type=1):
 
         if not(self.dim==2):
             raise Exception("The dimension of the system must be 2 for a single point dislocation.")
@@ -93,10 +92,18 @@ class PFC(BaseSystem):
             x = self.xmid
         if y==None:
             y = self.ymid
+        if eta==None:
+            eta = self.eta0
 
+        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
+        theta = np.arctan2(X-x,Y-x)
 
+        sn = self.dislocation_charges[dislocation_type-1]
+        for n in range(self.number_of_reciprocal_modes):
+            eta[n] *= np.exp(1j*sn[n]*theta)
 
+        return eta
 
 
 class PFCper(PFC):
@@ -139,14 +146,9 @@ class PFCtri(PFC):
 
 
         a0 = 2 * np.pi * 2 / np.sqrt(3)
-        self.a = [[1 / 2, np.sqrt(3) / 2],[1, 0],[1 / 2, -np.sqrt(3) / 2]]
+        self.a = a0*np.array([[1, 0], [1 / 2, np.sqrt(3) / 2], [1 / 2, -np.sqrt(3) / 2]])
+        self.q = np.array([[np.sqrt(3) / 2, -1 / 2], [0, 1], [-np.sqrt(3) / 2, -1 / 2]])
 
-        # Multiply every entry in self.a with self.a0
-        for i in range(len(self.a)):
-            for j in range(len(self.a[i])):
-                self.a[i][j] *= a0
-
-        self.q = [[0, 1], [np.sqrt(3) / 2, -1 / 2], [-np.sqrt(3) / 2, -1 / 2]]
 
         # Set the number of reciprocal modes
         self.number_of_reciprocal_modes = 3
@@ -193,15 +195,21 @@ class PFCsq(PFC):
         Nothing here yet
         """
 
+        a0 = 2 * np.pi
+        self.a = a0 * np.array([[1, 0], [0, 1]])
+        self.q = np.array([[1, 0], [0, 1], [1, -1], [1, 1]])
+
+
         # First initialize the BaseSystem class
-        super().__init__(dimension, x_resolution)
+        super().__init__(dimension)
 
         # Type of the system
-        self.type = 'PFC'
+        self.type = 'PFCsq'
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
+
 
 
 class PFCbcc(PFC):
@@ -210,11 +218,26 @@ class PFCbcc(PFC):
         Nothing here yet
         """
 
+        a0 = 2 * np.pi * np.sqrt(2)
+        self.a = a0 / 2 * np.array([[-1, 1, 1],
+                                    [1, -1, 1],
+                                    [1, 1, -1],
+                                    [1, 1, 1]])
+
+        self.q = np.array([[0, 1, 1],
+                           [1, 0, 1],
+                           [1, 1, 0],
+                           [0, -1, 1],
+                           [-1, 0, 1],
+                           [-1, 1, 0]]) / np.sqrt(2)
+
+
         # First initialize the BaseSystem class
-        super().__init__(dimension, x_resolution)
+        super().__init__(dimension)
 
         # Type of the system
-        self.type = 'PFC'
+        self.type = 'PFCbcc'
+
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
@@ -227,11 +250,29 @@ class PFCfcc(PFC):
         Nothing here yet
         """
 
+        a0 = 2 * np.pi * np.sqrt(3)
+        self.a = a0 / 2 * np.array([[0, 1, 1],
+                                    [1, 0, 1],
+                                    [1, 1, 0],
+                                    [0, -1, 1],
+                                    [-1, 0, 1],
+                                    [-1, 1, 0]])
+
+        self.q = np.array([[-1, 1, 1],
+                           [1, -1, 1],
+                           [1, 1, -1],
+                           [1, 1, 1],
+                           [2, 0, 0],
+                           [0, 2, 0],
+                           [0, 0, 2]]) / np.sqrt(3)
+
+
         # First initialize the BaseSystem class
-        super().__init__(dimension, x_resolution)
+        super().__init__(dimension)
 
         # Type of the system
-        self.type = 'PFC'
+        self.type = 'PFCfcc'
+
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
@@ -244,29 +285,36 @@ class PFCsc(PFC):
         Nothing here yet
         """
 
+        a0 = 2 * np.pi
+        self.a = a0 * np.array([[1, 0, 0],
+                                [0, 1, 0],
+                                [0, 0, 1]])
+
+        self.q = np.array([[1, 0, 0],
+                           [0, 1, 0],
+                           [0, 0, 1],
+                           [0, 1, 1],
+                           [1, 0, 1],
+                           [1, 1, 0],
+                           [0, -1, 1],
+                           [-1, 0, 1],
+                           [-1, 1, 0],
+                           [-1, 1, 1],
+                           [1, -1, 1],
+                           [1, 1, -1],
+                           [1, 1, 1]])
+
+
         # First initialize the BaseSystem class
-        super().__init__(dimension, x_resolution)
+        super().__init__(dimension)
 
         # Type of the system
-        self.type = 'PFC'
+        self.type = 'PFCsc'
+
+
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
 
 
-class PFCper(PFC):
-    def __init__(self, dimension, x_resolution, **kwargs):
-        """
-        Nothing here yet
-        """
-
-        # First initialize the BaseSystem class
-        super().__init__(dimension, x_resolution)
-
-        # Type of the system
-        self.type = 'PFC'
-
-        # If there are additional arguments provided, set them as attributes
-        for key, value in kwargs.items():
-            setattr(self, key, value)
