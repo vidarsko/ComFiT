@@ -89,7 +89,7 @@ class BaseSystem:
         if position is None:
             position = [self.xmid, self.ymid]
 
-        x = self.y.reshape((self.xRes, 1))
+        x = self.x.reshape((self.xRes, 1))
         y = self.y.reshape((1, self.yRes))
 
         theta = charge*np.arctan2(y - position[1],x - position[0])
@@ -133,6 +133,7 @@ class BaseSystem:
         print(k)
         # Output: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
         """
+        #TODO: This code does not work with an even number of points.
         n = len(x)
 
         high = n // 2
@@ -183,9 +184,12 @@ class BaseSystem:
             ax = plt.gcf().add_subplot(111)
 
 
+
+
         if self.dim == 1:
 
             ax.plot(self.x,field)
+
 
         elif self.dim == 2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')

@@ -95,16 +95,50 @@ class PFC(BaseSystem):
         if eta==None:
             eta = self.eta0
 
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-
-        theta = np.arctan2(X-x,Y-x)
-
         sn = self.dislocation_charges[dislocation_type-1]
         for n in range(self.number_of_reciprocal_modes):
-            eta[n] *= np.exp(1j*sn[n]*theta)
+            if sn[n] != 0:
+                eta[n] *= self.calc_angle_field_single_vortex([x,y],charge=sn[n])
 
         return eta
 
+    def conf_insert_dislocation_dipole(self,eta=None,x1=None,y1=None,x2=None,y2=None,dislocation_type=1):
+        """
+        Inserts a  dislocation dipole in the system corresponding to dislocation type and its negative
+
+        :param eta: The amplitudes currently being manipulated (default: self.eta0)
+        :param x1: The x-position of the first dislocation (default: 1/3 xmax)
+        :param y1: The y-position of the first dislocation (default: 1/2 ymax)
+        :param x2: The x-position of the second dislocation (default: 2/3 xmax)
+        :param y2: The y-position of the second dislocation (default: 1/2 ymax)
+        :param dislocation_type: the type of dislocation dipole (default: 1)
+        :return:
+        """
+        #TODO: Improve code documentation
+
+        if not(self.dim==2):
+            raise Exception("The dimension of the system must be 2 to insert a dislocation dipole.")
+
+        if x1==None:
+            x1 = self.xmax/3
+        if y1==None:
+            y1 = self.ymax/2
+        if x2==None:
+            x2 = 2*self.xmax/3
+        if y2==None:
+            y2 = self.ymax/2
+        if eta==None:
+            eta = self.eta0
+
+        sn = self.dislocation_charges[dislocation_type - 1]
+
+        theta1 = self.calc_angle_field_single_vortex([x1,y1])
+        theta2 = self.calc_angle_field_single_vortex([x2,y2])
+
+        for n in range(self.number_of_reciprocal_modes):
+            if sn[n] != 0:
+                eta[n] *= np.exp(1j*sn[n]*theta1)
+                eta[n] *= np.exp(-1j*sn[n]*theta2)
 
 class PFCper(PFC):
     def __init__(self,  **kwargs):
