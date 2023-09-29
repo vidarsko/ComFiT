@@ -249,7 +249,7 @@ class PFCbcc(PFC):
 class PFCfcc(PFC):
     def __init__(self, dimension, x_resolution, **kwargs):
         """
-        Nothing here yet
+        PFC class for FCC
         """
 
         a0 = 2 * np.pi * np.sqrt(3)
