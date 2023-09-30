@@ -133,11 +133,10 @@ class BaseSystem:
         print(k)
         # Output: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
         """
-        #TODO: This code does not work with an even number of points.
         n = len(x)
 
         high = n // 2
-        low = - (n - 1) // 2
+        low = - ((n - 1) // 2)
 
         l = n * (x[1] - x[0])
 

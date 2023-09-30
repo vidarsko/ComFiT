@@ -49,6 +49,7 @@ class PFC(BaseSystem):
                 self.psi += 2*eta[n]*np.exp(1j*(self.q[n][0]*X+self.q[n][1]*Y+self.q[n][2]*Z))
 
         self.psi = np.real(self.psi)
+        self.psi_f = np.fft.fftn(self.psi)
 
 
 
@@ -62,10 +63,10 @@ class PFC(BaseSystem):
 
         integrating_factors_f = [0,0,0]
 
-        integrating_factors_f[1] = np.exp(-k2 * omega_f * self.dt)
-        If1 = integrating_factors_f[1]
-        integrating_factors_f[2] = (If1 - 1) / omega_f
-        integrating_factors_f[3] = 1. / (-k2 * self.dt * omega_f**2) * (If1 - 1 + k2 * omega_f * self.dt)
+        integrating_factors_f[0] = np.exp(-k2 * omega_f * self.dt)
+        If1 = integrating_factors_f[0]
+        integrating_factors_f[1] = (If1 - 1) / omega_f
+        integrating_factors_f[2] = 1. / (-k2 * self.dt * omega_f**2) * (If1 - 1 + k2 * omega_f * self.dt)
 
 
     def calc_non_linear_evolution_term_PFC_f(self, psi):
@@ -76,6 +77,7 @@ class PFC(BaseSystem):
     def evolve_PFC(self,number_of_steps):
         integrating_factors_f = self.calc_evolution_integrating_factors_PFC_f()
 
+        print(integrating_factors_f)
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f,
                                                            self.calc_non_linear_evolution_term_PFC_f,
