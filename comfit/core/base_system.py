@@ -183,8 +183,6 @@ class BaseSystem:
             ax = plt.gcf().add_subplot(111)
 
 
-
-
         if self.dim == 1:
 
             ax.plot(self.x,field)
@@ -256,7 +254,7 @@ class BaseSystem:
                 integrating_factors_f[1]*N0_f +\
                 integrating_factors_f[2]*dN_f
 
-            #Can this be simplified? (Vidar 08.09.23)
+            #TODO: simplify this piece of code (Vidar 08.09.23)
             if self.dim==1:
                 field_f_pred[0] = field_f[0]
             elif self.dim==2:

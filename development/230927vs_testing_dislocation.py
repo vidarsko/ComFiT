@@ -9,7 +9,6 @@ pfc.calc_from_amplitudes(eta)
 #ax = plt.gcf().add_subplot(111)
 
 for n in range(10):
-
     pfc.plot_field(pfc.psi)
     pfc.evolve_PFC(100)
     plt.draw()
