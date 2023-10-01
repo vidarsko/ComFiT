@@ -135,15 +135,13 @@ class BaseSystem:
         """
         n = len(x)
 
-        high = n // 2
-        low = - ((n - 1) // 2)
+        high = (n-1) // 2
+        low = - (n // 2)
 
         l = n * (x[1] - x[0])
 
         k = np.concatenate((np.arange(0, high + 1), np.arange(low, 0))) * 2 * np.pi / l
 
-        if n % 2 == 0:
-            k[n // 2] = -k[n // 2]
 
         return k
 
@@ -204,8 +202,14 @@ class BaseSystem:
                 ax.set_ylabel('$y$')
 
 
+    def plot_fourier_field(self,field_f,**kwargs):
+        field_f = np.fft.fftshift(field_f)
+        self.plot_complex_field(field_f,**kwargs)
 
-    def plot_complex_field(self,complex_field,ax):
+    def plot_complex_field(self,complex_field,ax=None):
+
+        if ax == None:
+            ax = plt.gcf().add_subplot(111)
 
         if self.dim==2:
             rho = np.abs(complex_field)

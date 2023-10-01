@@ -84,6 +84,7 @@ class PFC(BaseSystem):
                                                            self.calc_non_linear_evolution_term_PFC_f,
                                                            self.psi, self.psi_f)
             self.psi = np.real(self.psi)
+            self.psi_f = np.fft.fftn(self.psi)
 
 
     #Initial configuration methods
