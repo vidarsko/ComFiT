@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from comfit.tools.tool_colormap_angle import tool_colormap_angle
+from icecream import ic
 
 
 class BaseSystem:
@@ -202,14 +203,45 @@ class BaseSystem:
                 ax.set_ylabel('$y$')
 
 
-    def plot_fourier_field(self,field_f,**kwargs):
+    def plot_fourier_field(self,field_f,ax=None):
         field_f = np.fft.fftshift(field_f)
-        self.plot_complex_field(field_f,**kwargs)
+
+        if ax == None:
+            ax = plt.gcf().add_subplot(111,projection='3d')
+
+        if self.dim==2:
+            rho = np.abs(field_f)
+            theta = np.angle(field_f)
+
+            Kx, Ky = np.meshgrid(self.k[0], self.k[1], indexing='ij')
+
+            Kx = np.fft.fftshift(Kx)
+            Ky = np.fft.fftshift(Ky)
+
+            custom_colormap = tool_colormap_angle()
+
+            # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+            colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+            ic(theta)
+            surf = ax.plot_surface(Kx, Ky, rho, facecolors=colors, shade=True)
+
+
+
+            # mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
+            # mappable.set_array([])
+            # mappable.set_clim(-np.pi, np.pi)
+            # cbar = plt.colorbar(mappable, ax=ax)
+            # cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+            # cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+
+            # plt.title("Angle field")
+            # plt.xlabel("X-axis")
+            # plt.ylabel("Y-axis")
 
     def plot_complex_field(self,complex_field,ax=None):
 
         if ax == None:
-            ax = plt.gcf().add_subplot(111)
+            ax = plt.gcf().add_subplot(111,projection='3d')
 
         if self.dim==2:
             rho = np.abs(complex_field)

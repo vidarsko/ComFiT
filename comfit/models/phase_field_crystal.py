@@ -66,7 +66,11 @@ class PFC(BaseSystem):
         integrating_factors_f[0] = np.exp(-k2 * omega_f * self.dt)
         If1 = integrating_factors_f[0]
         integrating_factors_f[1] = (If1 - 1) / omega_f
-        integrating_factors_f[2] = 1. / (-k2 * self.dt * omega_f**2) * (If1 - 1 + k2 * omega_f * self.dt)
+        with np.errstate(divide='ignore',invalid='ignore'):
+            #This calculation is not valid for the k=0 point, but this will be set explicitly afterwards.
+            #That is why it is ignored
+            integrating_factors_f[2] = 1. / (-k2 * self.dt * omega_f**2) * (If1 - 1 + k2 * omega_f * self.dt)
+
 
 
         return integrating_factors_f
