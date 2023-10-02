@@ -26,7 +26,7 @@ bec.evolve_relax_BEC(10)
 #plt.imshow(np.abs(bec.psi))
 # plt.show()
 
-bec.evolve_dGPE_with_stirrer(100,4,0.6,20,0.6)
+bec.evolve_dGPE_with_stirrer(1000,4,0.6,20,0.6)
 
 plt.imshow(np.abs(bec.psi))
 
