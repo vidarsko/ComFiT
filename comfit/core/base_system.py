@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from comfit.tools.tool_colormap_angle import tool_colormap_angle
-from icecream import ic
 
 
 class BaseSystem:
@@ -58,11 +57,14 @@ class BaseSystem:
         self.zmax = self.z[-1] + self.dz if self.dim > 2 else 0
 
         # Fourier modes
-        self.k = [self.calc_wavenums(self.x), 0, 0]
-        if self.dim > 1:
-            self.k[1] = self.calc_wavenums(self.y)
-        if self.dim > 2:
-            self.k[2] = self.calc_wavenums(self.z)
+        self.k = [self.calc_wavenums(self.x)]
+        if self.dim == 2:
+            self.k[0] = self.k[0].reshape(self.xRes, 1)
+            self.k.append(self.calc_wavenums(self.y).reshape(1, self.yRes))
+        elif self.dim == 3:
+            self.k[0] = self.k[0].reshape(self.xRes, 1, 1)
+            self.k.append(self.calc_wavenums(self.y).reshape(1, self.yRes, 1))
+            self.k.append(self.calc_wavenums(self.z).reshape(1, 1, self.zRes))
 
         # Derivatives
         self.dif = [1j * ki for ki in self.k]
@@ -147,17 +149,18 @@ class BaseSystem:
         return k
 
     def calc_k2(self):
-        if self.dim == 1:
-            k2 = self.k[0] ** 2
-        elif self.dim == 2:
-            k2 = (self.k[0] ** 2).reshape(self.xRes, 1) + \
-                 (self.k[1] ** 2).reshape(1, self.yRes)
-        elif self.dim == 3:
-            k2 = (self.k[0] ** 2).reshape(self.xRes, 1, 1) + \
-                 (self.k[1] ** 2).reshape(1, self.yRes, 1) + \
-                 (self.k[2] ** 2).reshape(1, 1, self.zRes)
-        return k2
+        return sum([self.k[i] ** 2 for i in range(len(self.k))])
 
+
+    def calc_defect_field(self,psi,psi0=1):
+
+        if self.dim == 2:
+            if len(psi) == 2:
+                psi_f = [np.fft.fftn(psi[0]),np.fft.fftn(psi[1])]
+
+                return 1/(np.pi*psi0**2)*np.real(
+                        np.fft.ifftn(self.dif[0]*psi_f[0])*np.fft.ifftn(self.dif[1]*psi_f[1]) -
+                        np.fft.ifftn(self.dif[1]*psi_f[0])*np.fft.ifftn(self.dif[0]*psi_f[1]))
 
 
 
@@ -174,7 +177,7 @@ class BaseSystem:
         plt.title("Angle field")
         plt.xlabel("X-axis")
         plt.ylabel("Y-axis")
-        plt.show()
+
 
     def plot_field(self,field,ax=None,colorbar=True):
 

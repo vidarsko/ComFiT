@@ -29,9 +29,14 @@ bec.evolve_relax_BEC(10)
 ax = plt.figure().add_subplot(111)
 
 for n in range(50):
-    bec.evolve_dGPE_with_stirrer(400,4,0.6,20,0.6)
-    ax.clear()
-    plt.imshow(np.abs(bec.psi))
+    print(n)
+    bec.evolve_dGPE_with_stirrer(100,4,2,20,1)
+
+    rho = bec.calc_vortex_density()
+
+    plt.gcf().clear()
+    # bec.plot_angle_field(np.angle(bec.psi))
+    bec.plot_field(rho)
 
     plt.draw()
     plt.pause(0.05)

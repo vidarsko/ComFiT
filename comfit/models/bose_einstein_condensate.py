@@ -93,7 +93,7 @@ class BEC(BaseSystem):
         self.psi[self.V_ext > 1] = 0
         self.psi_f = np.fft.fftn(self.psi)
 
-    def gaussian_stiring_potential(self,size,strength,position):
+    def gaussian_stirring_potential(self,size,strength,position):
 
         if self.dim ==1:
             return strength*np.exp( -(self.x -position[0])**2/size**2 )
@@ -120,13 +120,18 @@ class BEC(BaseSystem):
             self.stirrer = True
             self.stirrer_time = 0
         freq = stirrer_velocity/stirrer_radius
+        
         V_trap = np.copy(self.V_ext)
+        
         for i in range(number_of_steps):
             pos_x = self.xmid + stirrer_radius*np.cos(freq*self.stirrer_time)
             pos_y = self.ymid + stirrer_radius*np.sin(freq*self.stirrer_time)
-            self.V_ext = V_trap + self.gaussian_stiring_potential(size,strength,[pos_x,pos_y])
+            self.V_ext = V_trap + self.gaussian_stirring_potential(size,strength,[pos_x,pos_y])
             self.evolve_dGPE(1)
             self.stirrer_time += self.dt
+
+        self.V_ext = self.V_ext - self.gaussian_stirring_potential(size,strength,[pos_x,pos_y])
+
 
 
 
@@ -180,5 +185,7 @@ class BEC(BaseSystem):
         return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
 
 
+    def calc_vortex_density(self):
+        return self.calc_defect_field([np.real(self.psi),np.imag(self.psi)])
 
 
