@@ -2,8 +2,9 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-bec = cf.BEC(2,xRes=101,yRes=101)
-V_trap = bec.set_harmonic_potential(50)
+
+bec = cf.BEC(2,xRes=201,yRes=201,gamma=0.08)
+V_trap = bec.set_harmonic_potential(100)
 stirrer_radius = 20
 stirrer_velocity = 0.6
 t=0
@@ -28,15 +29,15 @@ bec.evolve_relax_BEC(10)
 
 ax = plt.figure().add_subplot(111)
 
-for n in range(50):
+for n in range(20):
     print(n)
-    bec.evolve_dGPE_with_stirrer(100,4,2,20,1)
+    bec.evolve_dGPE_with_stirrer(100,4,0.8,20,0.6)
 
     rho = bec.calc_vortex_density()
 
     plt.gcf().clear()
     # bec.plot_angle_field(np.angle(bec.psi))
-    bec.plot_field(rho)
+    bec.plot_field(rho,colormap=cf.tool_colormap_bluewhitered(),cmin=-0.2,cmax=0.2)
 
     plt.draw()
     plt.pause(0.05)

@@ -1,10 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from comfit.tools.tool_colormap_angle import tool_colormap_angle
+from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
 
 
 class BaseSystem:
-    def __init__(self, dimension, xRes=101, dx=1.0, yRes=101, dy=1.0, zRes=101, dz=1.0, dt=0.1):
+    def __init__(self, dimension, xRes=101, dx=1.0, yRes=101, dy=1.0, zRes=101, dz=1.0, dt=0.1,**kwargs):
         self.dim = dimension
         self.xRes = xRes
         self.yRes = 1
@@ -179,7 +179,7 @@ class BaseSystem:
         plt.ylabel("Y-axis")
 
 
-    def plot_field(self,field,ax=None,colorbar=True):
+    def plot_field(self,field,ax=None,colorbar=True,colormap='viridis',cmax=None,cmin=None):
 
         if ax == None:
             ax = plt.gcf().add_subplot(111)
@@ -193,10 +193,18 @@ class BaseSystem:
         elif self.dim == 2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-            pcm = ax.pcolormesh(X/self.a0, Y/self.a0, field,shading='gouraud',cmap='viridis')
+            pcm = ax.pcolormesh(X/self.a0, Y/self.a0, field,shading='gouraud',cmap=colormap)
             ax.set_aspect('equal')
-            if colorbar == True:
-                plt.colorbar(pcm,ax=ax)
+
+            if cmin is not None:
+                pcm.set_clim(vmin=cmin)
+            if cmax is not None:
+                pcm.set_clim(vmax=cmax)
+
+            if colorbar:
+                cbar = plt.colorbar(pcm,ax=ax)
+
+
 
             if hasattr(self, 'defined_length_scale'):
                 ax.set_xlabel('$x/a_0$')
