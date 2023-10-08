@@ -179,7 +179,7 @@ class BaseSystem:
         plt.ylabel("Y-axis")
 
     def plot_field(self, field, ax=None, colorbar=True, colormap='viridis', cmax=None, cmin=None,
-                   number_of_layers=1):
+                   number_of_layers=1,hold=False):
 
 
 
@@ -212,9 +212,16 @@ class BaseSystem:
                 ax.set_xlabel('$x$')
                 ax.set_ylabel('$y$')
 
+            return ax
+
         elif self.dim == 3:
+
             if ax == None:
+                plt.figure()
                 ax = plt.gcf().add_subplot(111, projection='3d')
+
+            if not hold:
+                ax.clear()
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
@@ -236,7 +243,12 @@ class BaseSystem:
                 ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2],alpha=0.5,color=cmap(layer_value/field_max))
 
             ax.set_aspect('equal')
-            cbar = plt.gcf().colorbar(ax.collections[0])
+            if colorbar:
+                sm = plt.cm.ScalarMappable(cmap=cmap)
+                sm.set_clim(field_min, field_max)
+                plt.colorbar(sm, ax=ax)
+
+            return ax
 
     def plot_fourier_field(self, field_f, ax=None):
         field_f = np.fft.fftshift(field_f)
