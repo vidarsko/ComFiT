@@ -179,7 +179,7 @@ class BaseSystem:
         plt.ylabel("Y-axis")
 
     def plot_field(self, field, ax=None, colorbar=True, colormap='viridis', cmax=None, cmin=None,
-                   number_of_layers3D=2):
+                   number_of_layers=1):
 
 
 
@@ -218,17 +218,25 @@ class BaseSystem:
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-            layer_values = np.linspace(np.min(field), np.max(field), number_of_layers3D + 2)
+            field_min = np.min(field)
+            field_max = np.max(field)
+
+            layer_values = np.linspace(field_min, field_max, number_of_layers + 2)
+            print(layer_values)
 
             cmap = plt.get_cmap('viridis')
 
-            iso = marching_cubes(field, layer_values[1])
-            vertices = iso[0]
-            triangulation = Triangulation(vertices[:, 0], vertices[:, 1])
-            triangulation.z = vertices[:, 2]
+            verts, faces, _, _ = marching_cubes(field, layer_values[1])
 
-            ax.plot_trisurf(vertices[:, 0], vertices[:, 1], vertices[:, 2], triangles=triangulation.triangles)
+            ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2],alpha=0.5,color=cmap(layer_values[1]/field_max))
 
+            for layer_value in layer_values[2:-1]:
+                print(layer_value)
+                verts, faces, _, _ = marching_cubes(field, layer_value)
+                ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2],alpha=0.5,color=cmap(layer_value/field_max))
+
+            ax.set_aspect('equal')
+            cbar = plt.gcf().colorbar(ax.collections[0])
 
     def plot_fourier_field(self, field_f, ax=None):
         field_f = np.fft.fftshift(field_f)
