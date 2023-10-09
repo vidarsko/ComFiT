@@ -336,6 +336,7 @@ class BaseSystem:
                            integrating_factors_f[2] * dN_f
 
             # TODO: simplify this piece of code (Vidar 08.09.23)
+            # think the folowing is problematic for the nematic, have not found a fix
             if self.dim == 1:
                 field_f_pred[0] = field_f[0]
             elif self.dim == 2:
@@ -343,6 +344,6 @@ class BaseSystem:
             elif self.dim == 3:
                 field_f_pred[0, 0, 0] = field_f[0, 0, 0]
 
-            field = np.fft.ifftn(field_f_pred)
+            field = np.fft.ifftn(field_f_pred,axes =(range(-self.dim,0)))
 
         return field, field_f_pred

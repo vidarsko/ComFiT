@@ -63,10 +63,10 @@ class nematic(BaseSystem):
             self.Q[0][1] = self.S0/2 *np.sin(2*theta_rand)
 
             self.Q_f = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.cdouble)
-            self.Q_f[0][0] = np.fft.fftn(self.Q[0][0])
-            self.Q_f[1][0] = np.fft.fftn(self.Q[1][0])
-            self.Q_f[0][1] = np.fft.fftn(self.Q[0][1])
-            self.Q_f[1][1] = np.fft.fftn(self.Q[1][1])
+            self.Q_f[0][0] = np.fft.fft2(self.Q[0][0])
+            self.Q_f[1][0] = np.fft.fft2(self.Q[1][0])
+            self.Q_f[0][1] = np.fft.fft2(self.Q[0][1])
+            self.Q_f[1][1] = np.fft.fft2(self.Q[1][1])
         else:
             raise Exception("not included at the moment")
 
@@ -76,7 +76,7 @@ class nematic(BaseSystem):
         :return:  integrating_factors_f
         """
         k2 = self.calc_k2()
-
+        print(self.K)
         omega_f = (self.A*self.B-self.K*k2  )/self.gamma
 
         integrating_factors_f = [0, 0, 0]
@@ -93,7 +93,7 @@ class nematic(BaseSystem):
     def calc_nonlinear_evolution_term_no_flow_f(self,Q):
         Q2 = np.sum(self.Q[i][j]*self.Q[j][i] for j in range(self.dim) for i in range(self.dim))
 
-        return -2*np.fft.fftn(self.A*Q2 *self.Q,axes =(range(-self.dim,0)))
+        return -2*self.A*np.fft.fftn(Q2 *self.Q,axes =(range(-self.dim,0)))
 
     def evolve_nematic_no_flow(self,number_of_steps):
 
