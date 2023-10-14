@@ -164,6 +164,18 @@ class BaseSystem:
                     np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]) -
                     np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1]))
 
+    def calc_defect_field_singular(self,psi0=1):
+        return calc_defect_density(self,psi,1)*calc_delta_function(psi,psi0)
+
+    def calc_delta_function(self,psi,psi0=1):
+        width = psi0 / 10
+        n = len(psi)
+        if self.dim == 2:
+            if n == 2:
+                psi2 = psi[0]**2 + psi[1]**2
+                return 1/(2*np.pi*width**2)*np.exp(-psi2/(2*width**2))
+
+
     # plotting functions
     def plot_angle_field(self, field):
         X, Y = np.meshgrid(self.x, self.y, indexing='ij')
