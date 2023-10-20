@@ -54,7 +54,7 @@ class nematic(BaseSystem):
         :return:
         """
         if self.dim == 2:
-            self.S0 = np.sqrt(self.B)
+            self.S0 = np.sqrt(self.B)#*noise_strength_S
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes)
             self.Q = np.zeros((self.dim,self.dim,self.xRes,self.yRes))
             self.Q[0][0] = self.S0/2 *np.cos(2*theta_rand)
@@ -62,11 +62,8 @@ class nematic(BaseSystem):
             self.Q[1][0] =  self.S0/2 *np.sin(2*theta_rand)
             self.Q[0][1] = self.S0/2 *np.sin(2*theta_rand)
 
-            self.Q_f = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.cdouble)
-            self.Q_f[0][0] = np.fft.fft2(self.Q[0][0])
-            self.Q_f[1][0] = np.fft.fft2(self.Q[1][0])
-            self.Q_f[0][1] = np.fft.fft2(self.Q[0][1])
-            self.Q_f[1][1] = np.fft.fft2(self.Q[1][1])
+            self.Q_f = np.fft.fft2(self.Q)
+
         else:
             raise Exception("not included at the moment")
 
@@ -76,7 +73,7 @@ class nematic(BaseSystem):
         :return:  integrating_factors_f
         """
         k2 = self.calc_k2()
-        print(self.K)
+
         omega_f = (self.A*self.B-self.K*k2  )/self.gamma
 
         integrating_factors_f = [0, 0, 0]
@@ -102,7 +99,7 @@ class nematic(BaseSystem):
         for n in range(number_of_steps):
             self.Q, self.Q_f = self.evolve_ETDRK2_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
-            self.Q = np.real(self.Q)
+        self.Q = np.real(self.Q)
     def calc_S(self):
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
