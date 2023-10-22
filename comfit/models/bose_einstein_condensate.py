@@ -186,6 +186,19 @@ class BEC(BaseSystem):
 
 
     def calc_vortex_density(self):
-        return self.calc_defect_field([np.real(self.psi),np.imag(self.psi)])
+        return self.calc_defect_density([np.real(self.psi),np.imag(self.psi)])
+
+    def calc_vortex_density_singular(self):
+        return self.calc_defect_density_singular([np.real(self.psi),np.imag(self.psi)])
 
 
+    def calc_vortex_nodes(self):
+
+        rho = self.calc_vortex_density_singular()
+
+        rho_max = np.argmax(np.abs(rho))
+
+        
+
+
+        return [1,1,1]

@@ -154,7 +154,7 @@ class BaseSystem:
     def calc_k2(self):
         return sum([self.k[i] ** 2 for i in range(len(self.k))])
 
-    def calc_defect_field(self, psi, psi0=1):
+    def calc_defect_density(self, psi, psi0=1):
 
         if self.dim == 2:
             if len(psi) == 2:
@@ -164,8 +164,8 @@ class BaseSystem:
                     np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]) -
                     np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1]))
 
-    def calc_defect_field_singular(self,psi0=1):
-        return calc_defect_density(self,psi,1)*calc_delta_function(psi,psi0)
+    def calc_defect_density_singular(self,psi,psi0=1):
+        return self.calc_defect_density(psi,1)*self.calc_delta_function(psi,psi0)
 
     def calc_delta_function(self,psi,psi0=1):
         width = psi0 / 10
