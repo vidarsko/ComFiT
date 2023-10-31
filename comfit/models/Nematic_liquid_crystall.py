@@ -39,7 +39,7 @@ class nematic(BaseSystem):
         self.B = 1
         self.Lambda = 0 #flow allignment, not sure if this will be implemented
         self.gamma = 1  # rotational diffusion
-        self.Gamma = 0 # friction, note in 3 dim this has to be zero
+        self.Gamma = 1 # friction, note in 3 dim this has to be zero
         self.eta = 1 # viscosity
 
 
@@ -64,6 +64,10 @@ class nematic(BaseSystem):
 
             self.Q_f = np.fft.fft2(self.Q)
 
+            self.k2 = self.calc_k2() # k2
+            self.k2_press = self.calc_k2()
+            self.k2_press[0,0] = 1 # sets the pressure to zero
+
         else:
             raise Exception("not included at the moment")
 
@@ -72,9 +76,9 @@ class nematic(BaseSystem):
 
         :return:  integrating_factors_f
         """
-        k2 = self.calc_k2()
 
-        omega_f = (self.A*self.B-self.K*k2  )/self.gamma
+
+        omega_f = (self.A*self.B-self.K*self.k2  )/self.gamma
 
         integrating_factors_f = [0, 0, 0]
 
@@ -88,9 +92,9 @@ class nematic(BaseSystem):
         return integrating_factors_f
 
     def calc_nonlinear_evolution_term_no_flow_f(self,Q):
-        Q2 = np.sum(self.Q[i][j]*self.Q[j][i] for j in range(self.dim) for i in range(self.dim))
+        Q2 = np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
 
-        return -2*self.A*np.fft.fftn(Q2 *self.Q,axes =(range(-self.dim,0)))
+        return -2*self.A*np.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
 
     def evolve_nematic_no_flow(self,number_of_steps):
 
@@ -103,3 +107,79 @@ class nematic(BaseSystem):
     def calc_S(self):
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
+
+    def calc_u(self,Q):
+        '''
+        calculate the velocity and its fourier transform. Note that if Gamma = 0 we have to use the self.k2_press to avoid
+        divition by zero. This is not a problem since the zero mode of all the forces are zero
+        :return:
+        '''
+        self.F_af = self.calc_activ_force_f(Q)
+        self.F_pf = self.calc_pasiv_force_f()
+        self.p_f = self.calc_pressure_f()
+        grad_pf = self.calc_grad_p_f()
+        if self.Gamma > 0.0:
+            self.u_f = (self.F_af + self.F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2)
+        else:
+            self.u_f = (self.F_af + self.F_pf - grad_pf) / (self.eta * self.k2_press)
+        self.u = np.fft.ifftn(self.u_f, axes=(range(-self.dim, 0)))
+
+    def calc_activ_force_f(self,Q):
+        '''
+        Function that calculates the activ force in fourier space.
+        :return:
+        '''
+        F_af = []
+        for j in range(self.dim):
+            F_af.append(np.sum(1j*self.k[i]*np.fft.fftn(self.alpha *Q[j][i],axes=(range(-self.dim,0))) for i in range(self.dim)))
+        return np.array(F_af)
+
+    def calc_pasiv_force_f(self):
+        '''
+        Will be added when active force seems to work
+        :return:
+        '''
+        return 0
+
+    def calc_pressure_f(self):
+        p_af = np.sum(1j*self.k[i]*self.F_af[i] for i in range(self.dim))
+        p_pf = 0
+        return -(p_af + p_pf)/self.k2_press
+
+    def calc_grad_p_f(self):
+        grad_pf = []
+        for i in range(self.dim):
+            grad_pf.append(1j*self.k[i]*self.p_f)
+        return np.array(grad_pf)
+
+    def calc_vorticity_tensor(self):
+        Omega_f = np.zeros_like(self.Q)
+        for i in range(self.dim):
+            for j in range(self.dim):
+                Omega_f[i][j] = (1j*self.k[i]*self.u_f[j] -1j*self.k[j]*self.u_f[i])/2
+        Omega = np.fft.ifftn(Omega_f,axes=range(-self.dim,0))
+        return Omega
+
+    def calc_nonlinear_evolution_term_f(self,Q):
+        self.calc_u(Q)
+        Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
+        H_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
+        Omega =self.calc_vorticity_tensor()
+        Antisym_Omega_Q = np.zeros_like(Q)
+        advectiv_deriv = np.zeros_like(Q)
+        for i in range(self.dim):
+            for j in range(self.dim):
+                Antisym_Omega_Q[i][j] = np.sum(Q[i][k]*Omega[k][j] -Omega[i][k]*Q[k][j] for k in range(self.dim))
+                advectiv_deriv[i][j] = - np.sum(self.u[k]* np.fft.ifftn(1j*self.k[k] * Q_f[i][j])for k in range(self.dim) )
+        return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +H_f
+
+    def evolve_nematic(self, number_of_steps):
+
+        integrating_factors_f = self.calc_evolution_integrating_factors_nematic_f()
+
+        for n in range(number_of_steps):
+            self.Q, self.Q_f = self.evolve_ETDRK2_loop(integrating_factors_f,
+                                                       self.calc_nonlinear_evolution_term_f,
+                                                       self.Q, self.Q_f)
+        self.Q = np.real(self.Q)
+        self.u = np.real(self.u)
