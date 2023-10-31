@@ -110,7 +110,7 @@ class nematic(BaseSystem):
 
     def calc_u(self,Q):
         '''
-        calculate the velocity and its fourier transform. Note that if Gamma = 0 we have to use the self.k2_press to avoid
+        calculate the velocity and its fourier transform. Because of the possibility Gamma = 0 we have to use the self.k2_press to avoid
         divition by zero. This is not a problem since the zero mode of all the forces are zero
         :return:
         '''
@@ -118,16 +118,14 @@ class nematic(BaseSystem):
         self.F_pf = self.calc_pasiv_force_f()
         self.p_f = self.calc_pressure_f()
         grad_pf = self.calc_grad_p_f()
-        if self.Gamma > 0.0:
-            self.u_f = (self.F_af + self.F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2)
-        else:
-            self.u_f = (self.F_af + self.F_pf - grad_pf) / (self.eta * self.k2_press)
+        self.u_f = (self.F_af + self.F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2_press)
+
         self.u = np.fft.ifftn(self.u_f, axes=(range(-self.dim, 0)))
 
     def calc_activ_force_f(self,Q):
         '''
-        Function that calculates the activ force in fourier space.
-        :return:
+        Function that calculates the activ force in Fourier space.
+        :return: active force
         '''
         F_af = []
         for j in range(self.dim):
@@ -137,11 +135,15 @@ class nematic(BaseSystem):
     def calc_pasiv_force_f(self):
         '''
         Will be added when active force seems to work
-        :return:
+        :return: passive force
         '''
         return 0
 
     def calc_pressure_f(self):
+        '''
+        Kalculates the pressure in Fourier space. The zero mode is set to zero
+        :return: pressure
+        '''
         p_af = np.sum(1j*self.k[i]*self.F_af[i] for i in range(self.dim))
         p_pf = 0
         return -(p_af + p_pf)/self.k2_press
@@ -153,7 +155,7 @@ class nematic(BaseSystem):
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
-        Omega_f = np.zeros_like(self.Q)
+        Omega_f = np.zeros_like(self.Q_f)
         for i in range(self.dim):
             for j in range(self.dim):
                 Omega_f[i][j] = (1j*self.k[i]*self.u_f[j] -1j*self.k[j]*self.u_f[i])/2
@@ -161,16 +163,17 @@ class nematic(BaseSystem):
         return Omega
 
     def calc_nonlinear_evolution_term_f(self,Q):
+        # TODO make this faster and test the evolvel with flow
         self.calc_u(Q)
         Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
         H_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
         Omega =self.calc_vorticity_tensor()
-        Antisym_Omega_Q = np.zeros_like(Q)
-        advectiv_deriv = np.zeros_like(Q)
+        Antisym_Omega_Q = np.zeros_like(Q_f)
+
         for i in range(self.dim):
             for j in range(self.dim):
                 Antisym_Omega_Q[i][j] = np.sum(Q[i][k]*Omega[k][j] -Omega[i][k]*Q[k][j] for k in range(self.dim))
-                advectiv_deriv[i][j] = - np.sum(self.u[k]* np.fft.ifftn(1j*self.k[k] * Q_f[i][j])for k in range(self.dim) )
+        advectiv_deriv = - np.sum(self.u[k]* np.fft.ifftn(1j*self.k[k] * Q_f)for k in range(self.dim) )
         return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +H_f
 
     def evolve_nematic(self, number_of_steps):
@@ -183,3 +186,14 @@ class nematic(BaseSystem):
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
         self.u = np.real(self.u)
+
+    def calc_defect_density_nematic(self):
+        S0 = np.sqrt(self.B)
+        psi =[self.Q[0][0],self.Q[0][1]]
+        return self.calc_defect_density(psi,S0)
+
+    def calc_director(self):
+        if self.dim == 2:
+            psi_n = self.Q[0][0] + 1j*self.Q[0][1]
+            angle = np.angle(psi_n)
+            return [np.cos(angle/2),np.sin(angle/2)]

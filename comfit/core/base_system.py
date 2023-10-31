@@ -329,6 +329,39 @@ class BaseSystem:
         else:
             raise Exception("This plotting function not yet configured for other dimension")
 
+    def plot_field_velocity_and_director(self,field,velocity,director,ax=None, colorbar=True, colormap='viridis', cmax=None, cmin=None,
+                   number_of_layers=1,hold=False):
+        '''
+        Note: streamplot assumes xy indexing and not ij. I think it is suficient
+        just transpose the matrices before putting them in
+        :param field:
+        :param velocity:
+        :param director:
+        :param ax:
+        :param colorbar:
+        :param colormap:
+        :param cmax:
+        :param cmin:
+        :param number_of_layers:
+        :param hold:
+        :return:
+        '''
+        if self.dim == 2:
+            if ax == None:
+                ax = plt.gcf().add_subplot(111)
+            X,Y =  np.meshgrid(self.x, self.y, indexing='ij')
+            ax.pcolormesh(X,Y,field,shading='gouraud', cmap=colormap)
+            ax.streamplot(X.T,Y.T,(velocity[0]).T,(velocity[1]).T)
+            ax.quiver(X,Y,director[0],director[1])
+            ax.set_aspect('equal')
+            return ax
+
+        else:
+            raise Exception("This plotting function not yet configured for other dimension")
+
+
+
+
     # Time evolution function
     def evolve_ETDRK2_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f,
                            number_of_pred_it_steps=2):
@@ -352,10 +385,12 @@ class BaseSystem:
             if self.dim == 1:
                 field_f_pred[0] = field_f[0]
             elif self.dim == 2:
-                field_f_pred[0, 0] = field_f[0, 0]
+                field_f_pred[:,:,0, 0] = field_f[:,:,0, 0]
             elif self.dim == 3:
                 field_f_pred[0, 0, 0] = field_f[0, 0, 0]
 
             field = np.fft.ifftn(field_f_pred,axes =(range(-self.dim,0)))
 
         return field, field_f_pred
+
+
