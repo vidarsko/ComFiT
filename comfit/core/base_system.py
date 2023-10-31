@@ -6,7 +6,6 @@ from skimage.measure import marching_cubes
 from matplotlib.tri import Triangulation
 
 
-
 class BaseSystem:
     def __init__(self, dimension, xRes=101, dx=1.0, yRes=101, dy=1.0, zRes=101, dz=1.0, dt=0.1, **kwargs):
         self.dim = dimension
@@ -164,17 +163,27 @@ class BaseSystem:
                     np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]) -
                     np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1]))
 
-    def calc_defect_density_singular(self,psi,psi0=1):
-        return self.calc_defect_density(psi,1)*self.calc_delta_function(psi,psi0)
+    def calc_defect_density_singular(self, psi, psi0=1):
+        return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
 
-    def calc_delta_function(self,psi,psi0=1):
-        width = psi0 / 10
+    def calc_delta_function(self, psi, psi0=1):
+        width = psi0/2
         n = len(psi)
         if self.dim == 2:
             if n == 2:
-                psi2 = psi[0]**2 + psi[1]**2
-                return 1/(2*np.pi*width**2)*np.exp(-psi2/(2*width**2))
+                psi2 = psi[0] ** 2 + psi[1] ** 2
+                return 1 / (2 * np.pi * width ** 2) * np.exp(-psi2 / (2 * width ** 2))
 
+    def calc_integrate_field(self, field, index=None, radius=None):
+
+        if self.dim == 2:
+            if index is None:
+               return np.sum(field)*self.dV
+            else:
+                ball = (self.x[index[0]] - self.x.reshape((self.xRes, 1))) ** 2 + (self.y[index[1]] - self.y.reshape((1,self.yRes))) ** 2 <= radius**2
+                return np.sum(field[ball]) * self.dV, ball
+        else:
+            raise Exception("Not yet configured for other dimensions.")
 
     # plotting functions
     def plot_angle_field(self, field):
@@ -190,10 +199,11 @@ class BaseSystem:
         plt.xlabel("X-axis")
         plt.ylabel("Y-axis")
 
-    def plot_field(self, field, ax=None, colorbar=True, colormap='viridis', cmax=None, cmin=None,
-                   number_of_layers=1,hold=False):
+    def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
+                   number_of_layers=1, hold=False, cmap_symmetric=True):
 
-
+        if colormap is None:
+            colormap = tool_colormap_bluewhitered()
 
         if self.dim == 1:
 
@@ -213,6 +223,11 @@ class BaseSystem:
                 pcm.set_clim(vmin=cmin)
             if cmax is not None:
                 pcm.set_clim(vmax=cmax)
+
+            if cmap_symmetric:
+                cmax = abs(field).max()
+                cmin = -cmax
+                pcm.set_clim(vmin=cmin, vmax=cmax)
 
             if colorbar:
                 cbar = plt.colorbar(pcm, ax=ax)
@@ -247,12 +262,14 @@ class BaseSystem:
 
             verts, faces, _, _ = marching_cubes(field, layer_values[1])
 
-            ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2],alpha=0.5,color=cmap(layer_values[1]/field_max))
+            ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+                            color=cmap(layer_values[1] / field_max))
 
             for layer_value in layer_values[2:-1]:
                 print(layer_value)
                 verts, faces, _, _ = marching_cubes(field, layer_value)
-                ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2],alpha=0.5,color=cmap(layer_value/field_max))
+                ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+                                color=cmap(layer_value / field_max))
 
             ax.set_aspect('equal')
             if colorbar:
@@ -329,8 +346,9 @@ class BaseSystem:
         else:
             raise Exception("This plotting function not yet configured for other dimension")
 
-    def plot_field_velocity_and_director(self,field,velocity,director,ax=None, colorbar=True, colormap='viridis', cmax=None, cmin=None,
-                   number_of_layers=1,hold=False):
+    def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
+                                         cmax=None, cmin=None,
+                                         number_of_layers=1, hold=False):
         '''
         Note: streamplot assumes xy indexing and not ij. I think it is suficient
         just transpose the matrices before putting them in
@@ -349,18 +367,15 @@ class BaseSystem:
         if self.dim == 2:
             if ax == None:
                 ax = plt.gcf().add_subplot(111)
-            X,Y =  np.meshgrid(self.x, self.y, indexing='ij')
-            ax.pcolormesh(X,Y,field,shading='gouraud', cmap=colormap)
-            ax.streamplot(X.T,Y.T,(velocity[0]).T,(velocity[1]).T)
-            ax.quiver(X,Y,director[0],director[1])
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap)
+            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T)
+            ax.quiver(X, Y, director[0], director[1])
             ax.set_aspect('equal')
             return ax
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
-
-
-
 
     # Time evolution function
     def evolve_ETDRK2_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f,
@@ -389,8 +404,6 @@ class BaseSystem:
             elif self.dim == 3:
                 field_f_pred[0, 0, 0] = field_f[0, 0, 0]
 
-            field = np.fft.ifftn(field_f_pred,axes =(range(-self.dim,0)))
+            field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
 
         return field, field_f_pred
-
-

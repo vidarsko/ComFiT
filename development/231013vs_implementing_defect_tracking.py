@@ -4,9 +4,9 @@ import comfit as cf
 import matplotlib.pyplot as plt
 
 
-bec = cf.BEC(2,xRes=101,yRes=101)
+bec = cf.BEC(2,xRes=11,yRes=11)
 bec.set_initial_condition_disordered()
-bec.evolve_relax_BEC(100)
+bec.evolve_relax_BEC(200)
 
 # rho = bec.calc_vortex_density_singular()
 #

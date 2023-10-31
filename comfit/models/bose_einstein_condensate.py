@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from comfit.core.base_system import BaseSystem
 
 
@@ -189,16 +190,41 @@ class BEC(BaseSystem):
         return self.calc_defect_density([np.real(self.psi),np.imag(self.psi)])
 
     def calc_vortex_density_singular(self):
-        return self.calc_defect_density_singular([np.real(self.psi),np.imag(self.psi)])
+        return self.calc_defect_density([np.real(self.psi),np.imag(self.psi)])
 
 
     def calc_vortex_nodes(self):
 
-        rho = self.calc_vortex_density_singular()
+        charge_tolerance = 0.2
 
-        rho_max = np.argmax(np.abs(rho))
+        rho = self.calc_vortex_density()
 
-        
+        rho_max_index = np.unravel_index(np.argmax(np.abs(rho)),rho.shape)
+        charge,ball = self.calc_integrate_field(rho,index=rho_max_index,radius=1)
+        #self.plot_field(rho)
+        #plt.show()
+
+        vortex_nodes = []
+
+        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
 
-        return [1,1,1]
+        while abs(charge)>charge_tolerance:
+            vortex = {}
+            vortex['position_index'] = rho_max_index
+            vortex['charge'] = charge
+            print(ball*abs(rho)*X)
+            x = np.mean(ball*abs(rho)*X)/np.sum(ball*abs(rho))
+            y = np.mean(ball*abs(rho)*Y)/np.sum(ball*abs(rho))
+            vortex['position'] = [x,y]
+
+            vortex_nodes.append(vortex)
+
+            rho[ball]=0
+            rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
+
+            charge, ball = self.calc_integrate_field(rho, index=rho_max_index, radius=1)
+
+
+
+        return vortex_nodes
