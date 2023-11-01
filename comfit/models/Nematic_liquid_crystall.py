@@ -39,7 +39,7 @@ class nematic(BaseSystem):
         self.B = 1
         self.Lambda = 0 #flow allignment, not sure if this will be implemented
         self.gamma = 1  # rotational diffusion
-        self.Gamma = 1 # friction, note in 3 dim this has to be zero
+        self.Gamma = 0 # friction, note in 3 dim this has to be zero
         self.eta = 1 # viscosity
 
 
@@ -115,7 +115,7 @@ class nematic(BaseSystem):
         :return:
         '''
         self.F_af = self.calc_activ_force_f(Q)
-        self.F_pf = self.calc_pasiv_force_f()
+        self.F_pf = self.calc_passive_force_f(Q)
         self.p_f = self.calc_pressure_f()
         grad_pf = self.calc_grad_p_f()
         self.u_f = (self.F_af + self.F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2_press)
@@ -132,20 +132,39 @@ class nematic(BaseSystem):
             F_af.append(np.sum(1j*self.k[i]*np.fft.fftn(self.alpha *Q[j][i],axes=(range(-self.dim,0))) for i in range(self.dim)))
         return np.array(F_af)
 
-    def calc_pasiv_force_f(self):
+    def calc_passive_force_f(self,Q):
         '''
-        Will be added when active force seems to work
+        At the moment this is not working
         :return: passive force
         '''
-        return 0
+        Pi_f = self.calc_passive_stress_f(Q)
+        F_pf = []
+        for j in range(self.dim):
+            F_pf.append(np.sum(1j * self.k[i] *Pi_f[i][j] for i in range(self.dim)))
+        return F_pf
 
+    def calc_passive_stress_f(self,Q):
+        H = self.calc_molecular_field(self.Q_f)
+        Antisym_QH = np.zeros_like(self.Q_f)
+        Ericksen = np.zeros_like(self.Q_f)
+        for i in range(self.dim):
+            for j in range(self.dim):
+                Antisym_QH[i][j] = np.sum(Q[i][k]*H[k][j] -H[i][k]*Q[k][j] for k in range(self.dim))
+                Ericksen[i][j] = - self.K*np.sum(np.fft.ifftn(1j*self.k[i]*np.fft.fftn(Q[m][l]))*
+                                          np.fft.ifftn(1j * self.k[j] * np.fft.fftn(Q[m][l]))
+                                          for m in range(self.dim) for l in range(self.dim))
+        return np.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
+    def calc_molecular_field(self,Q):
+        Q2 =  np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
+        temp = -self.K * np.fft.ifftn( self.k2* np.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
+        return temp +self.A*self.B*Q -2*self.A*Q2*Q
     def calc_pressure_f(self):
         '''
-        Kalculates the pressure in Fourier space. The zero mode is set to zero
+        calculates the pressure in Fourier space. The zero mode is set to zero
         :return: pressure
         '''
         p_af = np.sum(1j*self.k[i]*self.F_af[i] for i in range(self.dim))
-        p_pf = 0
+        p_pf = np.sum(1j*self.k[i]*self.F_pf[i] for i in range(self.dim))
         return -(p_af + p_pf)/self.k2_press
 
     def calc_grad_p_f(self):
@@ -162,11 +181,18 @@ class nematic(BaseSystem):
         Omega = np.fft.ifftn(Omega_f,axes=range(-self.dim,0))
         return Omega
 
+    def calc_strain_rate_tensor_f(self):
+        E_f = np.zeros_like(self.Q_f)
+        for i in range(self.dim):
+            for j in range(self.dim):
+                E_f[i][j]= (1j*self.k[i]*self.u_f[j] +1j*self.k[j]*self.u_f[i])/2
+        return E_f
+
     def calc_nonlinear_evolution_term_f(self,Q):
-        # TODO make this faster and test the evolvel with flow
+        # TODO make this faster and test the evolve with flow
         self.calc_u(Q)
         Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
-        H_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
+        N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
         Omega =self.calc_vorticity_tensor()
         Antisym_Omega_Q = np.zeros_like(Q_f)
 
@@ -174,7 +200,7 @@ class nematic(BaseSystem):
             for j in range(self.dim):
                 Antisym_Omega_Q[i][j] = np.sum(Q[i][k]*Omega[k][j] -Omega[i][k]*Q[k][j] for k in range(self.dim))
         advectiv_deriv = - np.sum(self.u[k]* np.fft.ifftn(1j*self.k[k] * Q_f)for k in range(self.dim) )
-        return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +H_f
+        return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
     def evolve_nematic(self, number_of_steps):
 

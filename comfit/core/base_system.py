@@ -369,8 +369,8 @@ class BaseSystem:
                 ax = plt.gcf().add_subplot(111)
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
             ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap)
-            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T)
-            ax.quiver(X, Y, director[0], director[1])
+            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T,color='k')
+            ax.quiver(X, Y, director[0], director[1],headwidth=0,scale=50)
             ax.set_aspect('equal')
             return ax
 
