@@ -197,10 +197,15 @@ class BEC(BaseSystem):
 
         charge_tolerance = 0.2
 
+        #Calculate defect density
         rho = self.calc_vortex_density()
 
+        #Calculate the point where defect density is largest
         rho_max_index = np.unravel_index(np.argmax(np.abs(rho)),rho.shape)
+
+        #Integrate the defect density around this point (i.e. in a ball around)
         charge,ball = self.calc_integrate_field(rho,index=rho_max_index,radius=1)
+
         #self.plot_field(rho)
         #plt.show()
 
