@@ -236,6 +236,25 @@ class BEC(BaseSystem):
 
     #Plot functions
     def plot_vortices(self,vortex_nodes):
+        x_coords_pos = []
+        y_coords_pos = []
+
+        x_coords_neg = []
+        y_coords_neg = []
+
+        for vortex in vortex_nodes:
+
+            if vortex['charge'] > 0:
+                x_coords_pos.append(vortex['position'][0])
+                y_coords_pos.append(vortex['position'][1])
+            else:
+                x_coords_neg.append(vortex['position'][0])
+                y_coords_neg.append(vortex['position'][1])
+
+        print(x_coords_pos,y_coords_pos)
+        print(x_coords_neg,y_coords_neg)
+        plt.scatter(x_coords_pos,y_coords_pos, marker='+',color='red')
+        plt.scatter(x_coords_neg,y_coords_neg, marker='*',color='blue')
 
         
 

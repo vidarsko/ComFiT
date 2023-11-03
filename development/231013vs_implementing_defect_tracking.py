@@ -4,7 +4,7 @@ import comfit as cf
 import matplotlib.pyplot as plt
 
 
-bec = cf.BEC(2,xRes=21,yRes=19)
+bec = cf.BEC(2,xRes=201,yRes=201)
 bec.set_initial_condition_disordered()
 bec.evolve_relax_BEC(200)
 
@@ -14,5 +14,5 @@ bec.evolve_relax_BEC(200)
 # plt.show()
 
 nodes = bec.calc_vortex_nodes()
-print(nodes)
-
+bec.plot_vortices(nodes)
+plt.show()
