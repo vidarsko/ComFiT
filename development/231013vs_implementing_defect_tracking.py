@@ -4,7 +4,7 @@ import comfit as cf
 import matplotlib.pyplot as plt
 
 
-bec = cf.BEC(2,xRes=11,yRes=11)
+bec = cf.BEC(2,xRes=21,yRes=19)
 bec.set_initial_condition_disordered()
 bec.evolve_relax_BEC(200)
 

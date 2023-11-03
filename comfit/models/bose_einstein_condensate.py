@@ -217,10 +217,9 @@ class BEC(BaseSystem):
         while abs(charge)>charge_tolerance:
             vortex = {}
             vortex['position_index'] = rho_max_index
-            vortex['charge'] = charge
-            print(ball*abs(rho)*X)
-            x = np.mean(ball*abs(rho)*X)/np.sum(ball*abs(rho))
-            y = np.mean(ball*abs(rho)*Y)/np.sum(ball*abs(rho))
+            vortex['charge'] = np.sign(charge)*np.ceil(np.abs(charge))
+            x = np.sum(ball*abs(rho)*X)/np.sum(ball*abs(rho))
+            y = np.sum(ball*abs(rho)*Y)/np.sum(ball*abs(rho))
             vortex['position'] = [x,y]
 
             vortex_nodes.append(vortex)
@@ -233,3 +232,10 @@ class BEC(BaseSystem):
 
 
         return vortex_nodes
+
+
+    #Plot functions
+    def plot_vortices(self,vortex_nodes):
+
+        
+
