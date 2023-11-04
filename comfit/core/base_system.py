@@ -186,18 +186,23 @@ class BaseSystem:
             raise Exception("Not yet configured for other dimensions.")
 
     # plotting functions
-    def plot_angle_field(self, field):
+    def plot_angle_field(self, field,ax=None):
+
+        if ax is None:
+            ax = plt.gcf().add_subplot(111)
+
         X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
         custom_colormap = tool_colormap_angle()
 
-        mesh = plt.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap)
+        mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap)
         cbar = plt.colorbar(mesh)  # To add a colorbar on the side
         cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
         cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
-        plt.title("Angle field")
-        plt.xlabel("X-axis")
-        plt.ylabel("Y-axis")
+        #ax.title("Angle field")
+        #ax.xlabel("X-axis")
+        #ax.ylabel("Y-axis")
+        ax.set_aspect('equal')
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
                    number_of_layers=1, hold=False, cmap_symmetric=True):

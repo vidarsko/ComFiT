@@ -235,7 +235,11 @@ class BEC(BaseSystem):
 
 
     #Plot functions
-    def plot_vortices(self,vortex_nodes):
+    def plot_vortices(self,vortex_nodes,ax=None):
+
+        if ax == None:
+            ax = plt.gcf().add_subplot(111)
+
         x_coords_pos = []
         y_coords_pos = []
 
@@ -253,8 +257,9 @@ class BEC(BaseSystem):
 
         print(x_coords_pos,y_coords_pos)
         print(x_coords_neg,y_coords_neg)
-        plt.scatter(x_coords_pos,y_coords_pos, marker='+',color='red')
-        plt.scatter(x_coords_neg,y_coords_neg, marker='*',color='blue')
+        ax.scatter(x_coords_pos,y_coords_pos, marker='+',color='red')
+        ax.scatter(x_coords_neg,y_coords_neg, marker='*',color='blue')
+        ax.set_aspect('equal')
 
         
 
