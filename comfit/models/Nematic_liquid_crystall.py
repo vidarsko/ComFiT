@@ -144,7 +144,7 @@ class nematic(BaseSystem):
         return F_pf
 
     def calc_passive_stress_f(self,Q):
-        H = self.calc_molecular_field(self.Q_f)
+        H = self.calc_molecular_field(Q)
         Antisym_QH = np.zeros_like(self.Q_f)
         Ericksen = np.zeros_like(self.Q_f)
         for i in range(self.dim):
@@ -214,9 +214,9 @@ class nematic(BaseSystem):
         self.u = np.real(self.u)
 
     def calc_defect_density_nematic(self):
-        S0 = np.sqrt(self.B)
+        psi0 = np.sqrt(self.B)/2
         psi =[self.Q[0][0],self.Q[0][1]]
-        return self.calc_defect_density(psi,S0)
+        return self.calc_defect_density(psi,psi0)
 
     def calc_director(self):
         if self.dim == 2:
