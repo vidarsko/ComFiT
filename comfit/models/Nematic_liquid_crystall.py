@@ -33,13 +33,13 @@ class nematic(BaseSystem):
         self.type = 'Nematic'
 
         #defoult parameters
-        self.alpha = -1  #defult is an extensile system
+        self.alpha = -0.5  #defult is an extensile system
         self.K = 1
         self.A = 1
         self.B = 1
         self.Lambda = 0 #flow allignment, not sure if this will be implemented
         self.gamma = 1  # rotational diffusion
-        self.Gamma = 0 # friction, note in 3 dim this has to be zero
+        self.Gamma = 0.1 # friction, note in 3 dim this has to be zero
         self.eta = 1 # viscosity
 
 
@@ -140,7 +140,7 @@ class nematic(BaseSystem):
         Pi_f = self.calc_passive_stress_f(Q)
         F_pf = []
         for j in range(self.dim):
-            F_pf.append(np.sum(1j * self.k[i] *Pi_f[i][j] for i in range(self.dim)))
+            F_pf.append(np.sum(1j * self.k[i] *Pi_f[j][i] for i in range(self.dim)))
         return F_pf
 
     def calc_passive_stress_f(self,Q):
@@ -189,7 +189,7 @@ class nematic(BaseSystem):
         return E_f
 
     def calc_nonlinear_evolution_term_f(self,Q):
-        # TODO make this faster and test the evolve with flow
+        # TODO test and make sure that the passive stress works as intended
         self.calc_u(Q)
         Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
         N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
@@ -199,7 +199,7 @@ class nematic(BaseSystem):
         for i in range(self.dim):
             for j in range(self.dim):
                 Antisym_Omega_Q[i][j] = np.sum(Q[i][k]*Omega[k][j] -Omega[i][k]*Q[k][j] for k in range(self.dim))
-        advectiv_deriv = - np.sum(self.u[k]* np.fft.ifftn(1j*self.k[k] * Q_f)for k in range(self.dim) )
+        advectiv_deriv = - np.sum(self.u[k]* np.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
         return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
     def evolve_nematic(self, number_of_steps):
