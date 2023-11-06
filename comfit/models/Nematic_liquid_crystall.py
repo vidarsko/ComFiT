@@ -39,7 +39,7 @@ class nematic(BaseSystem):
         self.B = 1
         self.Lambda = 0 #flow allignment, not sure if this will be implemented
         self.gamma = 1  # rotational diffusion
-        self.Gamma = 0.1 # friction, note in 3 dim this has to be zero
+        self.Gamma = 0 # friction, note in 3 dim this has to be zero
         self.eta = 1 # viscosity
 
 
@@ -120,7 +120,7 @@ class nematic(BaseSystem):
         grad_pf = self.calc_grad_p_f()
         self.u_f = (self.F_af + self.F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2_press)
 
-        self.u = np.fft.ifftn(self.u_f, axes=(range(-self.dim, 0)))
+        self.u = np.real(np.fft.ifftn(self.u_f, axes=(range(-self.dim, 0))))
 
     def calc_activ_force_f(self,Q):
         '''
@@ -211,7 +211,7 @@ class nematic(BaseSystem):
                                                        self.calc_nonlinear_evolution_term_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
-        self.u = np.real(self.u)
+
 
     def calc_defect_density_nematic(self):
         psi0 = np.sqrt(self.B)/2
