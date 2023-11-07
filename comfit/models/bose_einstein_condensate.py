@@ -123,12 +123,12 @@ class BEC(BaseSystem):
             return strength*np.exp( -(self.x -position[0])**2/size**2 )
 
         elif self.dim == 2:
-            return strength*np.exp(-(((self.x-position[0])**2).reshape(self.xRes, 1)
-                                         + ((self.y-position[1])**2).reshape(1, self.yRes)) /size**2 )
+            return strength/(np.sqrt(2*np.pi)*size)**2*np.exp(-(((self.x-position[0])**2).reshape(self.xRes, 1)
+                                         + ((self.y-position[1])**2).reshape(1, self.yRes)) /(2*size**2) )
         elif self.dim == 3:
-            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1,1)
+            return strength* np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1,1)
                                            + ((self.y - position[1]) ** 2).reshape(1, self.yRes,1)
-                                           +((self.z - position[2]) ** 2).reshape(1, 1,self.zRes))/size**2 )
+                                           +((self.z - position[2]) ** 2).reshape(1, 1,self.zRes))/(2*size**2 ))
 
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
