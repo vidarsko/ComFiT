@@ -406,7 +406,7 @@ class BaseSystem:
             if self.dim == 1:
                 field_f_pred[0] = field_f[0]
             elif self.dim == 2:
-                field_f_pred[:,:,0, 0] = field_f[:,:,0, 0]
+                field_f_pred[0, 0] = field_f[0, 0]
             elif self.dim == 3:
                 field_f_pred[0, 0, 0] = field_f[0, 0, 0]
 

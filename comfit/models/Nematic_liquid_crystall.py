@@ -33,7 +33,7 @@ class nematic(BaseSystem):
         self.type = 'Nematic'
 
         #defoult parameters
-        self.alpha = -1.5  #defult is an extensile system
+        self.alpha = -1  #defult is an extensile system
         self.K = 1
         self.A = 1
         self.B = 1

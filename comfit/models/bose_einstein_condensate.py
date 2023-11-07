@@ -94,6 +94,29 @@ class BEC(BaseSystem):
         self.psi[self.V_ext > 1] = 0
         self.psi_f = np.fft.fftn(self.psi)
 
+    def set_spatialy_varying_gamma(self,d=7, wx=0,wy=0,wz=0):
+        '''
+        this function sets a dissipative frame around the computational domain
+        :param d: length of the interface between the low gamma and high gamma regions
+        :param wx: distance fom center to the frame in x-direction
+        :param wy:     -- " --                         y-direction
+        :param wz:     -- " --                         z-direction
+        :return:
+        '''
+        if self.dim == 2:
+            X,Y =  np.meshgrid(self.x, self.y, indexing='ij')
+            gammax = self.gamma +1/2 * (2 + np.tanh((X-self.xmid-wx)/d) - np.tanh((X-self.xmid+wx)/d) )
+            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y-self.ymid - wy) / d) - np.tanh((Y-self.ymid + wy) / d))
+            self.gamma = np.maximum(gammax,gammay)
+        elif self.dim == 3:
+            X, Y, Z = np.meshgrid(self.x, self.y,self.z, indexing='ij')
+            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X-self.xmid - wx) / d) - np.tanh((X-self.xmid + wx) / d))
+            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y-self.ymid - wy) / d) - np.tanh((Y-self.ymid + wy) / d))
+            gammaz = self.gamma + 1 / 2 * (2 + np.tanh((Z-self.zmid - wz) / d) - np.tanh((Z-self.zmid + wz) / d))
+            self.gamma = np.maximum(gammax, gammay,gammaz)
+        else:
+            raise Exception("This feature is not yet available for the given dimension.")
+
     def gaussian_stirring_potential(self,size,strength,position):
 
         if self.dim ==1:
@@ -151,9 +174,16 @@ class BEC(BaseSystem):
 
         self.gamma=gamma0
 
+    def evolve_comoving_dGPE(self, number_of_steps, velx):
+        self.vel_x = velx
+        integrating_factors_f = self.calc_evolution_integrating_factors_comoving_dGPE_f()
+
+        for n in range(number_of_steps):
+            self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
+                                                           self.psi, self.psi_f)
 
 
-    #Calculation functions
+            #Calculation functions
     def calc_evolution_integrating_factors_dGPE_f(self):
 
         k2 = self.calc_k2()
@@ -180,11 +210,40 @@ class BEC(BaseSystem):
 
         return integrating_factors_f
 
+    def calc_evolution_integrating_factors_comoving_dGPE_f(self):
+        '''
+        In this function the integrating factors are calculated for a condensate that is moving relative to a stirring potential.
+        It is here assumed that the velocity is in the x-direction
+        Note that gamma is here not a function anymore. This means that k2 has to be used in the non-linear term, so we
+        make it a property of the class
+        :return:
+        '''
+        self.k2 = self.calc_k2()
+
+        omega_f = 1j * (1 - 1 / 2 * self.k2) + self.vel_x *1j*self.k[0]
+
+        integrating_factors_f = [0,0,0]
+
+        integrating_factors_f[0] = np.exp(omega_f * self.dt)
+        If1 = integrating_factors_f[0]
+
+        integrating_factors_f[1] = (If1 - 1) / omega_f
+
+        integrating_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
+
+        return integrating_factors_f
+
     def calc_nonlinear_evolution_term_f(self,psi):
         psi2 = np.abs(psi)**2
 
         return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
 
+    def calc_nonlinear_evolution_term_comoving_f(self,psi):
+        psi2 = np.abs(psi)**2
+        term1 = np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
+        term2 = np.fft.fftn(self.gamma*psi)
+        term3 = np.fft.fftn(self.gamma*np.fft.ifftn(-self.k2*np.fft.fftn(psi))) / 2
+        return term1 + term2 + term3
 
     def calc_vortex_density(self):
         return self.calc_defect_density([np.real(self.psi),np.imag(self.psi)])
