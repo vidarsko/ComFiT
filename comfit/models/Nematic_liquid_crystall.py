@@ -33,7 +33,7 @@ class nematic(BaseSystem):
         self.type = 'Nematic'
 
         #defoult parameters
-        self.alpha = -0.5  #defult is an extensile system
+        self.alpha = -1.5  #defult is an extensile system
         self.K = 1
         self.A = 1
         self.B = 1
@@ -66,7 +66,7 @@ class nematic(BaseSystem):
 
             self.k2 = self.calc_k2() # k2
             self.k2_press = self.calc_k2()
-            self.k2_press[0,0] = 1 # sets the pressure to zero
+            self.k2_press[0,0] = 1 # for calculating pressure and velocity
 
         else:
             raise Exception("not included at the moment")
@@ -111,7 +111,7 @@ class nematic(BaseSystem):
     def calc_u(self,Q):
         '''
         calculate the velocity and its fourier transform. Because of the possibility Gamma = 0 we have to use the self.k2_press to avoid
-        divition by zero. This is not a problem since the zero mode of all the forces are zero
+        division by zero. This is not a problem since the zero mode of all the forces are zero
         :return:
         '''
         self.F_af = self.calc_activ_force_f(Q)
@@ -129,12 +129,12 @@ class nematic(BaseSystem):
         '''
         F_af = []
         for j in range(self.dim):
-            F_af.append(np.sum(1j*self.k[i]*np.fft.fftn(self.alpha *Q[j][i],axes=(range(-self.dim,0))) for i in range(self.dim)))
+            F_af.append(np.sum(1j*self.k[i]*np.fft.fftn(self.alpha *Q[j][i]) for i in range(self.dim)))
         return np.array(F_af)
 
     def calc_passive_force_f(self,Q):
         '''
-        At the moment this is not working
+        Calculate the passive force in Fourier space
         :return: passive force
         '''
         Pi_f = self.calc_passive_stress_f(Q)
@@ -179,7 +179,7 @@ class nematic(BaseSystem):
             for j in range(self.dim):
                 Omega_f[i][j] = (1j*self.k[i]*self.u_f[j] -1j*self.k[j]*self.u_f[i])/2
         Omega = np.fft.ifftn(Omega_f,axes=range(-self.dim,0))
-        return Omega
+        return np.real(Omega)
 
     def calc_strain_rate_tensor_f(self):
         E_f = np.zeros_like(self.Q_f)
@@ -211,7 +211,7 @@ class nematic(BaseSystem):
                                                        self.calc_nonlinear_evolution_term_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
-
+        self.u =np.real(self.u)
 
     def calc_defect_density_nematic(self):
         psi0 = np.sqrt(self.B)/2
