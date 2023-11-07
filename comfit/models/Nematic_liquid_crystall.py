@@ -33,7 +33,7 @@ class nematic(BaseSystem):
         self.type = 'Nematic'
 
         #defoult parameters
-        self.alpha = -1  #defult is an extensile system
+        self.alpha = -2  #defult is an extensile system
         self.K = 1
         self.A = 1
         self.B = 1
@@ -104,6 +104,7 @@ class nematic(BaseSystem):
             self.Q, self.Q_f = self.evolve_ETDRK2_loop_test(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
         self.Q = np.real(self.Q)
+
     def calc_S(self):
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
@@ -211,7 +212,7 @@ class nematic(BaseSystem):
                                                        self.calc_nonlinear_evolution_term_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
-        self.u =np.real(self.u)
+
 
     def calc_defect_density_nematic(self):
         psi0 = np.sqrt(self.B)/2

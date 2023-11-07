@@ -175,12 +175,12 @@ class BEC(BaseSystem):
         self.gamma=gamma0
 
     def evolve_comoving_dGPE(self, number_of_steps, velx):
-        #TODO find out why this is unstable
+
 
         integrating_factors_f = self.calc_evolution_integrating_factors_comoving_dGPE_f(velx)
 
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETDRK2_loop_test(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
+            self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
                                                            self.psi, self.psi_f)
 
 

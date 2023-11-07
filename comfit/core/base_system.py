@@ -391,7 +391,7 @@ class BaseSystem:
         # This needs to be generalized
 
         for i in range(number_of_pred_it_steps):
-            if i == 1:
+            if i == 0:
                 dN_f = 0
             else:
                 dN_f = non_linear_evolution_function_f(field) - N0_f
@@ -409,12 +409,14 @@ class BaseSystem:
                 field_f_pred[0, 0] = field_f[0, 0]
             elif self.dim == 3:
                 field_f_pred[0, 0, 0] = field_f[0, 0, 0]
+                #continue
 
             field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
 
         return field, field_f_pred
 
     def evolve_ETDRK2_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
+        # seems to be more stable than the one above. Should give the same results, but don't
         N_0 = non_linear_evolution_function_f(field)
         field_f = field_f*integrating_factors_f[0] + N_0 *integrating_factors_f[1]
         temp = np.fft.ifftn(field_f,axes=(range(-self.dim, 0)))
