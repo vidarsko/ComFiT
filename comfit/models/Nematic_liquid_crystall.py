@@ -101,7 +101,7 @@ class nematic(BaseSystem):
         integrating_factors_f = self.calc_evolution_integrating_factors_nematic_f()
 
         for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETDRK2_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
+            self.Q, self.Q_f = self.evolve_ETDRK2_loop_test(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
         self.Q = np.real(self.Q)
     def calc_S(self):
@@ -207,7 +207,7 @@ class nematic(BaseSystem):
         integrating_factors_f = self.calc_evolution_integrating_factors_nematic_f()
 
         for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETDRK2_loop(integrating_factors_f,
+            self.Q, self.Q_f = self.evolve_ETDRK2_loop_test(integrating_factors_f,
                                                        self.calc_nonlinear_evolution_term_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
