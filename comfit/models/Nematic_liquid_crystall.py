@@ -33,7 +33,7 @@ class nematic(BaseSystem):
         self.type = 'Nematic'
 
         #defoult parameters
-        self.alpha = -2  #defult is an extensile system
+        self.alpha = -1  #defult is an extensile system
         self.K = 1
         self.A = 1
         self.B = 1
@@ -101,7 +101,7 @@ class nematic(BaseSystem):
         integrating_factors_f = self.calc_evolution_integrating_factors_nematic_f()
 
         for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETDRK2_loop_test(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
+            self.Q, self.Q_f = self.evolve_ETDRK2_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
         self.Q = np.real(self.Q)
 
@@ -208,7 +208,7 @@ class nematic(BaseSystem):
         integrating_factors_f = self.calc_evolution_integrating_factors_nematic_f()
 
         for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETDRK2_loop_test(integrating_factors_f,
+            self.Q, self.Q_f = self.evolve_ETDRK2_loop(integrating_factors_f,
                                                        self.calc_nonlinear_evolution_term_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)

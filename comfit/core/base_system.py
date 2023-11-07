@@ -391,6 +391,7 @@ class BaseSystem:
         # This needs to be generalized
 
         for i in range(number_of_pred_it_steps):
+            #print(i)
             if i == 0:
                 dN_f = 0
             else:
@@ -402,15 +403,15 @@ class BaseSystem:
                            integrating_factors_f[2] * dN_f
 
             # TODO: simplify this piece of code (Vidar 08.09.23)
-            # Why is this needed?
-            if self.dim == 1:
-                field_f_pred[0] = field_f[0]
-            elif self.dim == 2:
-                field_f_pred[0, 0] = field_f[0, 0]
-            elif self.dim == 3:
-                field_f_pred[0, 0, 0] = field_f[0, 0, 0]
+            # I don't think this was needed
+       #     if self.dim == 1:
+       #         field_f_pred[0] = field_f_pred[0]
+       #     elif self.dim == 2:
+       #         field_f_pred[0, 0] = field_f_pred[0, 0]
+       #     elif self.dim == 3:
+       #         field_f_pred[0, 0, 0] = field_f_pred[0, 0, 0]
                 #continue
-
+          #  print(field_f_pred)
             field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
 
         return field, field_f_pred
@@ -419,8 +420,10 @@ class BaseSystem:
         # seems to be more stable than the one above. Should give the same results, but don't
         N_0 = non_linear_evolution_function_f(field)
         field_f = field_f*integrating_factors_f[0] + N_0 *integrating_factors_f[1]
+        print(field_f)
         temp = np.fft.ifftn(field_f,axes=(range(-self.dim, 0)))
         N_1 =non_linear_evolution_function_f(temp) -N_0
         field_f += N_1* integrating_factors_f[2]
         field = np.fft.ifftn(field_f,axes=(range(-self.dim, 0)))
+        print(field_f)
         return field, field_f

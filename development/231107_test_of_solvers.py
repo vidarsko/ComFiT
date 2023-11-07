@@ -13,5 +13,5 @@ new_t,new_tf =bec.evolve_ETDRK2_loop_test(integrating_gactors,bec.calc_nonlinear
 new,new_f = bec.evolve_ETDRK2_loop(integrating_gactors,bec.calc_nonlinear_evolution_term_f,bec.psi,bec.psi_f)
 
 
-print(new)
-print(new_t)
+#print(new)
+#print(new_t)
