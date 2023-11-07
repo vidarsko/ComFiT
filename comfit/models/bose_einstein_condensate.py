@@ -107,13 +107,13 @@ class BEC(BaseSystem):
             X,Y =  np.meshgrid(self.x, self.y, indexing='ij')
             gammax = self.gamma +1/2 * (2 + np.tanh((X-self.xmid-wx)/d) - np.tanh((X-self.xmid+wx)/d) )
             gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y-self.ymid - wy) / d) - np.tanh((Y-self.ymid + wy) / d))
-            self.gamma = np.maximum(gammax,gammay)
+            self.gamma = np.real(np.maximum(gammax,gammay))
         elif self.dim == 3:
             X, Y, Z = np.meshgrid(self.x, self.y,self.z, indexing='ij')
             gammax = self.gamma + 1 / 2 * (2 + np.tanh((X-self.xmid - wx) / d) - np.tanh((X-self.xmid + wx) / d))
             gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y-self.ymid - wy) / d) - np.tanh((Y-self.ymid + wy) / d))
             gammaz = self.gamma + 1 / 2 * (2 + np.tanh((Z-self.zmid - wz) / d) - np.tanh((Z-self.zmid + wz) / d))
-            self.gamma = np.maximum(gammax, gammay,gammaz)
+            self.gamma = np.real(np.maximum(gammax, gammay,gammaz))
         else:
             raise Exception("This feature is not yet available for the given dimension.")
 
@@ -122,10 +122,10 @@ class BEC(BaseSystem):
         if self.dim ==1:
             return strength*np.exp( -(self.x -position[0])**2/size**2 )
 
-        if self.dim == 2:
+        elif self.dim == 2:
             return strength*np.exp(-(((self.x-position[0])**2).reshape(self.xRes, 1)
                                          + ((self.y-position[1])**2).reshape(1, self.yRes)) /size**2 )
-        if self.dim == 3:
+        elif self.dim == 3:
             return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1,1)
                                            + ((self.y - position[1]) ** 2).reshape(1, self.yRes,1)
                                            +((self.z - position[2]) ** 2).reshape(1, 1,self.zRes))/size**2 )
@@ -176,8 +176,8 @@ class BEC(BaseSystem):
 
     def evolve_comoving_dGPE(self, number_of_steps, velx):
         #TODO find out why this is unstable
-        self.vel_x = velx
-        integrating_factors_f = self.calc_evolution_integrating_factors_comoving_dGPE_f()
+
+        integrating_factors_f = self.calc_evolution_integrating_factors_comoving_dGPE_f(velx)
 
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
@@ -211,7 +211,7 @@ class BEC(BaseSystem):
 
         return integrating_factors_f
 
-    def calc_evolution_integrating_factors_comoving_dGPE_f(self):
+    def calc_evolution_integrating_factors_comoving_dGPE_f(self,velx):
         '''
         In this function the integrating factors are calculated for a condensate that is moving relative to a stirring potential.
         It is here assumed that the velocity is in the x-direction
@@ -219,9 +219,9 @@ class BEC(BaseSystem):
         make it a property of the class
         :return:
         '''
-        self.k2 = self.calc_k2()
+        k2 = self.calc_k2()
 
-        omega_f = 1j * (1 - 1 / 2 * self.k2) + self.vel_x *1j*self.k[0]
+        omega_f = 1j * (1 - 1 / 2 * k2) + velx * self.dif[0]
 
         integrating_factors_f = [0,0,0]
 
@@ -241,10 +241,10 @@ class BEC(BaseSystem):
 
     def calc_nonlinear_evolution_term_comoving_f(self,psi):
         psi2 = np.abs(psi)**2
-        term1 = np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
+        term1 = np.fft.fftn(-(1j+self.gamma)*(self.V_ext+psi2)*psi)
         term2 = np.fft.fftn(self.gamma*psi)
-        term3 = 0.5*np.fft.fftn(self.gamma*np.fft.ifftn(-self.k2*np.fft.fftn(psi)))
-        return term1 + term2 + term3
+        term3 = 0.5*np.fft.fftn(self.gamma*np.fft.ifftn(-self.calc_k2()*np.fft.fftn(psi)))
+        return (term1 + term2 + term3)
 
     def calc_vortex_density(self):
         return self.calc_defect_density([np.real(self.psi),np.imag(self.psi)])
