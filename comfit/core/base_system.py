@@ -420,10 +420,8 @@ class BaseSystem:
         # seems to be more stable than the one above. Should give the same results, but don't
         N_0 = non_linear_evolution_function_f(field)
         field_f = field_f*integrating_factors_f[0] + N_0 *integrating_factors_f[1]
-        print(field_f)
         temp = np.fft.ifftn(field_f,axes=(range(-self.dim, 0)))
         N_1 =non_linear_evolution_function_f(temp) -N_0
         field_f += N_1* integrating_factors_f[2]
         field = np.fft.ifftn(field_f,axes=(range(-self.dim, 0)))
-        print(field_f)
         return field, field_f
