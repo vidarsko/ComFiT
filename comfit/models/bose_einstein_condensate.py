@@ -175,6 +175,7 @@ class BEC(BaseSystem):
         self.gamma=gamma0
 
     def evolve_comoving_dGPE(self, number_of_steps, velx):
+        #TODO find out why this is unstable
         self.vel_x = velx
         integrating_factors_f = self.calc_evolution_integrating_factors_comoving_dGPE_f()
 
@@ -242,7 +243,7 @@ class BEC(BaseSystem):
         psi2 = np.abs(psi)**2
         term1 = np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
         term2 = np.fft.fftn(self.gamma*psi)
-        term3 = np.fft.fftn(self.gamma*np.fft.ifftn(-self.k2*np.fft.fftn(psi))) / 2
+        term3 = 0.5*np.fft.fftn(self.gamma*np.fft.ifftn(-self.k2*np.fft.fftn(psi)))
         return term1 + term2 + term3
 
     def calc_vortex_density(self):
