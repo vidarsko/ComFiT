@@ -467,7 +467,6 @@ class BaseSystem:
         t_0 = self.t
         N0_f = non_linear_evolution_function_f(field,F_t)
         for i in range(number_of_pred_it_steps):
-            # print(i)
             if i == 0:
                 dN_f = 0
             else:
