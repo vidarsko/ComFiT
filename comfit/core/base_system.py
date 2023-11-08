@@ -383,6 +383,50 @@ class BaseSystem:
         else:
             raise Exception("This plotting function not yet configured for other dimension")
 
+    #integrating factors
+    def calc_evolution_integrating_factors_ETDRK2(self,omega_f):
+        """
+        Calculates integrating factors for ETDRK2
+        :param omega_f:
+        :return:
+        """
+        integrating_factors_f = [0,0,0]
+
+        integrating_factors_f[0] = np.exp(omega_f * self.dt)
+        If1 = integrating_factors_f[0]
+
+        integrating_factors_f[1] = (If1 - 1) / omega_f
+
+        integrating_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
+
+        return integrating_factors_f
+
+    def calc_evolution_integrating_factors_ETDRK4(self,omega_f):
+        """
+        Calculates integrating factors for ETDRK4
+        :param omega_f:
+        :return:
+        """
+        integrating_factors_f = [0, 0, 0, 0, 0]
+
+        integrating_factors_f[0] = np.exp(omega_f * self.dt / 2)
+        If1 = integrating_factors_f[0]
+
+        integrating_factors_f[1] = (If1 - 1) / omega_f
+
+        integrating_factors_f[2] = 1 / (self.dt ** 2 * omega_f ** 3) \
+                                   * (-4 - self.dt * omega_f + If1 ** 2 * (
+                    4 - 3 * self.dt * omega_f + self.dt ** 2 * omega_f ** 2))
+
+        integrating_factors_f[3] = 1 / (self.dt ** 2 * omega_f ** 3) \
+                                   * (2 + self.dt * omega_f + If1 ** 2 * (-2 + self.dt * omega_f))
+
+        integrating_factors_f[4] = 1 / (self.dt ** 2 * omega_f ** 3) \
+                                   * (-4 - 3 * self.dt * omega_f - self.dt ** 2 * omega_f ** 2 + If1 ** 2 * (
+                    4 - self.dt * omega_f))
+
+        return integrating_factors_f
+
     # Time evolution function
     def evolve_ETDRK2_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f,
                            number_of_pred_it_steps=2):
@@ -440,6 +484,7 @@ class BaseSystem:
 
 
     def evolve_ETDRK4_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
+
         N_0f = non_linear_evolution_function_f(field)
 
         a_f = field_f*integrating_factors_f[0] +N_0f * integrating_factors_f[1]
@@ -456,7 +501,37 @@ class BaseSystem:
 
         field_f =  field_f * integrating_factors_f[0]**2 + N_0f*integrating_factors_f[2] \
                     + 2*(N_a + N_b)*integrating_factors_f[3] + N_c*integrating_factors_f[4]
+
         field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+
+        return field, field_f
+
+    def evolve_ETDRK4_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f,
+                                   number_of_pred_it_steps=2):
+        t_0 = self.t
+        N_0f = non_linear_evolution_function_f(field,F_t)
+
+        self.t = t_0 + self.dt / 2
+
+        a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
+        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
+
+        N_a = non_linear_evolution_function_f(a,F_t)
+
+        b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
+        b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
+        N_b = non_linear_evolution_function_f(b,F_t)
+
+        self.t = t_0 + self.dt
+
+        c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
+        c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
+        N_c = non_linear_evolution_function_f(c,F_t)
+
+        field_f = field_f * integrating_factors_f[0] ** 2 + N_0f * integrating_factors_f[2] \
+                  + 2 * (N_a + N_b) * integrating_factors_f[3] + N_c * integrating_factors_f[4]
+        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+
         return field, field_f
 
     def evolve_ETDRK2_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):

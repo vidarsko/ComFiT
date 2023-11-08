@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import comfit as cf
 
-bec = cf.BEC(2,xRes=64,yRes=64,gamma=0,dt=0.1)
+bec = cf.BEC(2,xRes=64,yRes=64,gamma=0.01,dt=0.1)
 
 stirrer_radius = 20
 stirrer_velocity = 0.6
@@ -22,7 +22,7 @@ bec.evolve_relax_BEC(20)
 plt.imshow(np.abs(bec.psi)**2)
 plt.show()
 
-bec.evolve_time_dependent(900,V_t)
+bec.evolve_time_dependent_ETDRK4(90000,V_t)
 
 plt.imshow(np.abs(bec.psi)**2)
 plt.colorbar()
