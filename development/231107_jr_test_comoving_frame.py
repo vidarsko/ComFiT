@@ -11,9 +11,9 @@ bec.evolve_relax_BEC(100)
 
 bec.set_spatialy_varying_gamma(wx=26,wy=26,wz=26)
 
-k2 = bec.calc_k2()
 
 
+#print(np.min(k2))
 #plt.imshow(bec.gamma)
 #plt.colorbar()
 #plt.show()

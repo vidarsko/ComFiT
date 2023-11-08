@@ -416,6 +416,27 @@ class BaseSystem:
 
         return field, field_f_pred
 
+
+    def evolve_ETDRK2_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t,field, field_f,
+                           number_of_pred_it_steps=2):
+        t_0 = self.t
+        N0_f = non_linear_evolution_function_f(field,F_t)
+        for i in range(number_of_pred_it_steps):
+            # print(i)
+            if i == 0:
+                dN_f = 0
+            else:
+                self.t = t_0 +self.dt
+                dN_f = non_linear_evolution_function_f(field,F_t) - N0_f
+
+            # print(N0_f)
+            field_f_pred = integrating_factors_f[0] * field_f + \
+                           integrating_factors_f[1] * N0_f + \
+                           integrating_factors_f[2] * dN_f
+
+            field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
+
+        return field, field_f_pred
     def evolve_ETDRK2_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
         # seems to be more stable than the one above. Should give the same results, but don't
         N_0 = non_linear_evolution_function_f(field)

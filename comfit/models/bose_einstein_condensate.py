@@ -123,12 +123,12 @@ class BEC(BaseSystem):
             return strength*np.exp( -(self.x -position[0])**2/size**2 )
 
         elif self.dim == 2:
-            return strength/(np.sqrt(2*np.pi)*size)**2*np.exp(-(((self.x-position[0])**2).reshape(self.xRes, 1)
-                                         + ((self.y-position[1])**2).reshape(1, self.yRes)) /(2*size**2) )
+            return strength*np.exp(-(((self.x-position[0])**2).reshape(self.xRes, 1)
+                                         + ((self.y-position[1])**2).reshape(1, self.yRes)) /(size**2) )
         elif self.dim == 3:
             return strength* np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1,1)
                                            + ((self.y - position[1]) ** 2).reshape(1, self.yRes,1)
-                                           +((self.z - position[2]) ** 2).reshape(1, 1,self.zRes))/(2*size**2 ))
+                                           +((self.z - position[2]) ** 2).reshape(1, 1,self.zRes))/(size**2 ))
 
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
@@ -157,7 +157,16 @@ class BEC(BaseSystem):
         self.V_ext = self.V_ext - self.gaussian_stirring_potential(size,strength,[pos_x,pos_y])
 
 
-
+    def evolve_time_dependent(self,number_of_steps,V_t):
+        """ evolver for time dependent potential, takes inn a function V_t
+         that is the time dependent potential.
+          Gives the user the freedom to use whatever potential they want"""
+        if not(hasattr(self,'t')):
+            self.t = 0
+        integrating_factors_f = self.calc_evolution_integrating_factors_dGPE_f()
+        for n in range(number_of_steps):
+            self.psi, self.psi_f = self.evolve_ETDRK2_loop_timedep(integrating_factors_f,self.calc_nonlinear_evolution_term_timedep_f,
+                                                                    V_t, self.psi, self.psi_f)
 
 
     def evolve_relax_BEC(self,number_of_steps):
@@ -236,8 +245,12 @@ class BEC(BaseSystem):
 
     def calc_nonlinear_evolution_term_f(self,psi):
         psi2 = np.abs(psi)**2
-
         return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
+
+    def calc_nonlinear_evolution_term_timedep_f(self,psi,V_t):
+        self.V_ext = V_t(self.t)
+        psi2 = np.abs(psi) ** 2
+        return np.fft.fftn((1j + self.gamma) * (-self.V_ext - psi2) * psi)
 
     def calc_nonlinear_evolution_term_comoving_f(self,psi):
         psi2 = np.abs(psi)**2
@@ -251,6 +264,8 @@ class BEC(BaseSystem):
 
     def calc_vortex_density_singular(self):
         return self.calc_defect_density([np.real(self.psi),np.imag(self.psi)])
+
+
 
 
     def calc_vortex_nodes(self):
