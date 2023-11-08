@@ -390,6 +390,7 @@ class BaseSystem:
         :param omega_f:
         :return:
         """
+        #TODO: replace the functions in nematic and bec that calculates this individualy
         integrating_factors_f = [0,0,0]
 
         integrating_factors_f[0] = np.exp(omega_f * self.dt)
