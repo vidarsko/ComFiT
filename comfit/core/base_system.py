@@ -437,8 +437,30 @@ class BaseSystem:
             field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
 
         return field, field_f_pred
+
+
+    def evolve_ETDRK4_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
+        N_0f = non_linear_evolution_function_f(field)
+
+        a_f = field_f*integrating_factors_f[0] +N_0f * integrating_factors_f[1]
+        a = np.fft.ifftn(a_f,axes=(range(-self.dim, 0)))
+        N_a = non_linear_evolution_function_f(a)
+
+        b_f = field_f*integrating_factors_f[0] + N_a* integrating_factors_f[1]
+        b = np.fft.ifftn(b_f,axes=(range(-self.dim, 0)))
+        N_b = non_linear_evolution_function_f(b)
+
+        c_f = a_f*integrating_factors_f[0] +(2*N_b -N_0f)*integrating_factors_f[1]
+        c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
+        N_c = non_linear_evolution_function_f(c)
+
+        field_f =  field_f * integrating_factors_f[0]**2 + N_0f*integrating_factors_f[2] \
+                    + 2*(N_a + N_b)*integrating_factors_f[3] + N_c*integrating_factors_f[4]
+        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+        return field, field_f
+
     def evolve_ETDRK2_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
-        # seems to be more stable than the one above. Should give the same results, but don't
+        # TODO this can eventualy be removed
         N_0 = non_linear_evolution_function_f(field)
         field_f = field_f*integrating_factors_f[0] + N_0 *integrating_factors_f[1]
         temp = np.fft.ifftn(field_f,axes=(range(-self.dim, 0)))

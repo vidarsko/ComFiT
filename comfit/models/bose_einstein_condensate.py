@@ -140,6 +140,7 @@ class BEC(BaseSystem):
                                                            self.psi, self.psi_f)
 
     def evolve_dGPE_with_stirrer(self,number_of_steps,size,strength,stirrer_radius,stirrer_velocity):
+        # TODO will be removed soon
         if not(hasattr(self,'stirrer')):
             self.stirrer = True
             self.stirrer_time = 0
