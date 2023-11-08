@@ -132,16 +132,18 @@ class BEC(BaseSystem):
 
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
-
-        integrating_factors_f = self.calc_evolution_integrating_factors_dGPE_f()
+        k2 = self.calc_k2()
+        omega_f =   (1j + self.gamma) * (1 - 1 / 2 * k2)
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK2(omega_f)
 
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_f,
                                                            self.psi, self.psi_f)
 
     def evolve_dGPE_ETDRK4(self,number_of_steps):
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4_dGPE_f()
-
+        k2 = self.calc_k2()
+        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETDRK4_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_f,
                                                            self.psi, self.psi_f)
@@ -171,7 +173,10 @@ class BEC(BaseSystem):
           Gives the user the freedom to use whatever potential they want"""
         if not(hasattr(self,'t')):
             self.t = 0
-        integrating_factors_f = self.calc_evolution_integrating_factors_dGPE_f()
+        k2 = self.calc_k2()
+
+        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK2(omega_f)
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETDRK2_loop_timedep(integrating_factors_f,self.calc_nonlinear_evolution_term_timedep_f,
                                                                     V_t, self.psi, self.psi_f)
@@ -179,7 +184,9 @@ class BEC(BaseSystem):
     def evolve_time_dependent_ETDRK4(self,number_of_steps,V_t):
         if not (hasattr(self, 't')):
             self.t = 0
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4_dGPE_f()
+        k2 = self.calc_k2()
+        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETDRK4_loop_timedep(integrating_factors_f,
                                                                    self.calc_nonlinear_evolution_term_timedep_f,
