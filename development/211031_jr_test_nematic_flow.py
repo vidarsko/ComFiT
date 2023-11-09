@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import comfit as cf
 
-nem = cf.nematic(2,xRes=64,yRes=64,dx=1,dy=1,dt=0.05)
+nem = cf.nematic(2,xRes=64,yRes=64,dx=1,dy=1,dt=0.1)
 
 
 
 nem.set_initial_condition_disordered(noise_strength=4)
-nem.evolve_nematic_no_flow(20)
+nem.evolve_nematic_no_flow(10)
 
 
 nem.evolve_nematic(8000)

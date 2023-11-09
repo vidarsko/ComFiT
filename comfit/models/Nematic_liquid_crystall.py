@@ -97,11 +97,11 @@ class nematic(BaseSystem):
         return -2*self.A*np.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
 
     def evolve_nematic_no_flow(self,number_of_steps):
-
-        integrating_factors_f = self.calc_evolution_integrating_factors_nematic_f()
+        omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
 
         for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETDRK2_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
+            self.Q, self.Q_f = self.evolve_ETDRK4_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
         self.Q = np.real(self.Q)
 
@@ -204,11 +204,11 @@ class nematic(BaseSystem):
         return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
     def evolve_nematic(self, number_of_steps):
-
-        integrating_factors_f = self.calc_evolution_integrating_factors_nematic_f()
+        omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
 
         for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETDRK2_loop(integrating_factors_f,
+            self.Q, self.Q_f = self.evolve_ETDRK4_loop(integrating_factors_f,
                                                        self.calc_nonlinear_evolution_term_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)

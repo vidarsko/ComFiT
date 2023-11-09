@@ -148,23 +148,7 @@ class BEC(BaseSystem):
             self.psi, self.psi_f = self.evolve_ETDRK4_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_f,
                                                            self.psi, self.psi_f)
 
-    def evolve_dGPE_with_stirrer(self,number_of_steps,size,strength,stirrer_radius,stirrer_velocity):
-        # TODO will be removed soon
-        if not(hasattr(self,'stirrer')):
-            self.stirrer = True
-            self.stirrer_time = 0
-        freq = stirrer_velocity/stirrer_radius
-        
-        V_trap = np.copy(self.V_ext)
-        
-        for i in range(number_of_steps):
-            pos_x = self.xmid + stirrer_radius*np.cos(freq*self.stirrer_time)
-            pos_y = self.ymid + stirrer_radius*np.sin(freq*self.stirrer_time)
-            self.V_ext = V_trap + self.gaussian_stirring_potential(size,strength,[pos_x,pos_y])
-            self.evolve_dGPE(1)
-            self.stirrer_time += self.dt
 
-        self.V_ext = self.V_ext - self.gaussian_stirring_potential(size,strength,[pos_x,pos_y])
 
 
     def evolve_time_dependent(self,number_of_steps,V_t):
@@ -207,9 +191,14 @@ class BEC(BaseSystem):
         self.gamma=gamma0
 
     def evolve_comoving_dGPE(self, number_of_steps, velx):
+        #TODO This one is unstable in 3D (2D is fine) when using ETDRK4 (no problem with ETDRK2)
+        # i am not sure why, and this needs to be figured out. The ETDRK4 do not have stability
+        # problems in when stiring in the normal frame in 3D
+        k2 = self.calc_k2()
 
+        omega_f = (1j) * (1 - 1 / 2 * k2) + velx * self.dif[0]
 
-        integrating_factors_f = self.calc_evolution_integrating_factors_comoving_dGPE_f(velx)
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK2(omega_f)
 
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
@@ -217,69 +206,7 @@ class BEC(BaseSystem):
 
 
             #Calculation functions
-    def calc_evolution_integrating_factors_dGPE_f(self):
 
-        k2 = self.calc_k2()
-
-        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
-
-        integrating_factors_f = [0,0,0]
-
-        integrating_factors_f[0] = np.exp(omega_f * self.dt)
-        If1 = integrating_factors_f[0]
-
-        integrating_factors_f[1] = (If1 - 1) / omega_f
-
-        integrating_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
-
-        return integrating_factors_f
-
-    def calc_evolution_integrating_factors_comoving_dGPE_f(self,velx):
-        '''
-        In this function the integrating factors are calculated for a condensate that is moving relative to a stirring potential.
-        It is here assumed that the velocity is in the x-direction
-        Note that gamma is here not a function anymore. This means that k2 has to be used in the non-linear term, so we
-        make it a property of the class
-        :return:
-        '''
-        k2 = self.calc_k2()
-
-        omega_f = 1j * (1 - 1 / 2 * k2) + velx * self.dif[0]
-
-        integrating_factors_f = [0,0,0]
-
-        integrating_factors_f[0] = np.exp(omega_f * self.dt)
-        If1 = integrating_factors_f[0]
-
-        integrating_factors_f[1] = (If1 - 1) / omega_f
-
-        integrating_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
-
-        return integrating_factors_f
-
-    def calc_evolution_integrating_factors_ETDRK4_dGPE_f(self):
-
-        k2 = self.calc_k2()
-
-        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
-
-        integrating_factors_f = [0, 0, 0, 0, 0]
-
-        integrating_factors_f[0] = np.exp(omega_f * self.dt/2)
-        If1 = integrating_factors_f[0]
-
-        integrating_factors_f[1] = (If1 - 1) / omega_f
-
-        integrating_factors_f[2] = 1 / (self.dt**2 * omega_f ** 3)\
-                                   * (-4-self.dt*omega_f + If1**2*(4-3*self.dt*omega_f +self.dt**2*omega_f**2) )
-
-        integrating_factors_f[3] = 1 / (self.dt**2 * omega_f ** 3)\
-                                   *(2+self.dt*omega_f +If1**2*(-2+self.dt*omega_f))
-
-        integrating_factors_f[4] =1 / (self.dt**2 * omega_f ** 3)\
-                                   *(-4-3*self.dt*omega_f -self.dt**2*omega_f**2 + If1**2*(4-self.dt*omega_f))
-
-        return integrating_factors_f
 
     def calc_nonlinear_evolution_term_f(self,psi):
         psi2 = np.abs(psi)**2

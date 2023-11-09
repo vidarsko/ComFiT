@@ -530,6 +530,7 @@ class BaseSystem:
 
         field_f = field_f * integrating_factors_f[0] ** 2 + N_0f * integrating_factors_f[2] \
                   + 2 * (N_a + N_b) * integrating_factors_f[3] + N_c * integrating_factors_f[4]
+
         field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
 
         return field, field_f

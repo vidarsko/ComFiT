@@ -22,5 +22,5 @@ bec.psi += (0.01*np.random.randn(bec.xRes,bec.yRes,bec.zRes)+ 0.01*np.random.ran
 for i in range(10):
     bec.evolve_comoving_dGPE(1000,0.8)
    # bec.evolve_relax_BEC(10000)
-    bec.plot_field(np.abs(bec.psi)**2,number_of_layers=2)
+    bec.plot_field(np.abs(bec.psi)**2)
     plt.show()
