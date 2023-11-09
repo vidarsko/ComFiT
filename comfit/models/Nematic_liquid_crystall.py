@@ -71,44 +71,14 @@ class nematic(BaseSystem):
         else:
             raise Exception("not included at the moment")
 
-    def calc_evolution_integrating_factors_nematic_f(self):
-        """
-
-        :return:  integrating_factors_f
-        """
 
 
-        omega_f = (self.A*self.B-self.K*self.k2  )/self.gamma
-
-        integrating_factors_f = [0, 0, 0]
-
-        integrating_factors_f[0] = np.exp(omega_f * self.dt)
-        If1 = integrating_factors_f[0]
-
-        integrating_factors_f[1] = (If1 - 1) / omega_f
-
-        integrating_factors_f[2] = 1 / (self.dt * omega_f ** 2) * (If1 - 1 - omega_f * self.dt)
-
-        return integrating_factors_f
-
-    def calc_nonlinear_evolution_term_no_flow_f(self,Q):
-        Q2 = np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
-
-        return -2*self.A*np.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
-
-    def evolve_nematic_no_flow(self,number_of_steps):
-        omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
-
-        for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETDRK4_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
-                                                           self.Q, self.Q_f)
-        self.Q = np.real(self.Q)
 
     def calc_S(self):
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
 
+#### calculations related to the flow field
     def calc_u(self,Q):
         '''
         calculate the velocity and its fourier transform. Because of the possibility Gamma = 0 we have to use the self.k2_press to avoid
@@ -155,10 +125,12 @@ class nematic(BaseSystem):
                                           np.fft.ifftn(1j * self.k[j] * np.fft.fftn(Q[m][l]))
                                           for m in range(self.dim) for l in range(self.dim))
         return np.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
+
     def calc_molecular_field(self,Q):
         Q2 =  np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
         temp = -self.K * np.fft.ifftn( self.k2* np.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
+
     def calc_pressure_f(self):
         '''
         calculates the pressure in Fourier space. The zero mode is set to zero
@@ -189,6 +161,7 @@ class nematic(BaseSystem):
                 E_f[i][j]= (1j*self.k[i]*self.u_f[j] +1j*self.k[j]*self.u_f[i])/2
         return E_f
 
+#### Calculation of non-linear evolution terms
     def calc_nonlinear_evolution_term_f(self,Q):
         # TODO test and make sure that the passive stress works as intended
         self.calc_u(Q)
@@ -203,6 +176,13 @@ class nematic(BaseSystem):
         advectiv_deriv = - np.sum(self.u[k]* np.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
         return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
+    def calc_nonlinear_evolution_term_no_flow_f(self,Q):
+        Q2 = np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
+
+        return -2*self.A*np.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
+
+
+##### evolvers
     def evolve_nematic(self, number_of_steps):
         omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
         integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
@@ -213,7 +193,17 @@ class nematic(BaseSystem):
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
 
+    def evolve_nematic_no_flow(self,number_of_steps):
+        omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
 
+        for n in range(number_of_steps):
+            self.Q, self.Q_f = self.evolve_ETDRK4_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
+                                                           self.Q, self.Q_f)
+        self.Q = np.real(self.Q)
+
+
+##### defect tracking
     def calc_defect_density_nematic(self):
         psi0 = np.sqrt(self.B)/2
         psi =[self.Q[0][0],self.Q[0][1]]
