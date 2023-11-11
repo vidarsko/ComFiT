@@ -117,6 +117,7 @@ class BEC(BaseSystem):
         else:
             raise Exception("This feature is not yet available for the given dimension.")
 
+    #TODO Rename this function so that it fits into the naming convention of functions in the class (Vidar 11.11.23)
     def gaussian_stirring_potential(self,size,strength,position):
 
         if self.dim ==1:
@@ -234,6 +235,14 @@ class BEC(BaseSystem):
 
 
     def calc_vortex_nodes(self):
+        """
+        Calculate the positions and charges of vortex nodes based on the defect density.
+        Returns:
+            list: A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
+                  - 'position_index': The position index of the vortex node in the defect density array.
+                  - 'charge': The charge of the vortex node.
+                  - 'position': The position of the vortex node as a list [x, y].
+        """
 
         charge_tolerance = 0.2
 

@@ -8,6 +8,23 @@ from matplotlib.tri import Triangulation
 
 class BaseSystem:
     def __init__(self, dimension, xRes=101, dx=1.0, yRes=101, dy=1.0, zRes=101, dz=1.0, dt=0.1, **kwargs):
+        """
+        Initialize the class with the given parameters.
+        Parameters:
+            dimension (int): The dimension of the system. Must be 1, 2, or 3.
+            xRes (int): The resolution of the x-axis.
+            dx (float): The spacing between points on the x-axis.
+            yRes (int): The resolution of the y-axis.
+            dy (float): The spacing between points on the y-axis.
+            zRes (int): The resolution of the z-axis.
+            dz (float): The spacing between points on the z-axis.
+            dt (float): The time step.
+            **kwargs: Additional keyword arguments.
+        Raises:
+            ValueError: If the dimension is not 1, 2, or 3.
+        Returns:
+            None
+        """
         self.dim = dimension
         self.xRes = xRes
         self.yRes = 1
@@ -85,10 +102,22 @@ class BaseSystem:
         self.rmin = [self.xmin, self.ymin, self.zmin]
         self.rmax = [self.xmax, self.ymax, self.zmax]
 
+    # CALCULATION FUNCTIONS
+
     # Calculation of angle fields for vortices of different types
     def calc_angle_field_single_vortex(self,
                                        position=None,
                                        charge=1):
+        """
+        Calculate the angle field due to a single vortex.
+        Args:
+            position (list, optional): The position of the vortex. Defaults to None.
+            charge (int, optional): The charge of the vortex. Defaults to 1.
+        Raises:
+            Exception: If the dimension of the system is not 2.
+        Returns:
+            numpy.ndarray: The angle field calculated for the vortex.
+        """
         if self.dim != 2:
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
 
@@ -105,6 +134,16 @@ class BaseSystem:
     def calc_angle_field_double_vortex(self,
                                        position1=None,
                                        position2=None):
+        """
+        Calculates the angle field for a double vortex system.
+        Args:
+            position1 (list, optional): The position of the first vortex. Defaults to None.
+            position2 (list, optional): The position of the second vortex. Defaults to None.
+        Raises:
+            Exception: If the dimension of the system is not 2.
+        Returns:
+            float: The calculated angle field for the double vortex system.
+        """
 
         if self.dim != 2:
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
@@ -167,7 +206,7 @@ class BaseSystem:
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
 
     def calc_delta_function(self, psi, psi0=1):
-        width = psi0/2
+        width = psi0 / 2
         n = len(psi)
         if self.dim == 2:
             if n == 2:
@@ -178,16 +217,68 @@ class BaseSystem:
 
         if self.dim == 2:
             if index is None:
-               return np.sum(field)*self.dV
+                return np.sum(field) * self.dV
             else:
-                ball = (self.x[index[0]] - self.x.reshape((self.xRes, 1))) ** 2 + (self.y[index[1]] - self.y.reshape((1,self.yRes))) ** 2 <= radius**2
+                ball = (self.x[index[0]] - self.x.reshape((self.xRes, 1))) ** 2 + (
+                            self.y[index[1]] - self.y.reshape((1, self.yRes))) ** 2 <= radius ** 2
                 return np.sum(field[ball]) * self.dV, ball
         else:
             raise Exception("Not yet configured for other dimensions.")
 
-    # plotting functions
-    def plot_angle_field(self, field,ax=None):
+    def calc_evolution_integrating_factors_ETDRK2(self, omega_f):
+        """
+        Calculates integrating factors for ETDRK2
+        :param omega_f:
+        :return:
+        """
+        integrating_factors_f = [0, 0, 0]
 
+        integrating_factors_f[0] = np.exp(omega_f * self.dt)
+        If1 = integrating_factors_f[0]
+
+        integrating_factors_f[1] = (If1 - 1) / omega_f
+
+        integrating_factors_f[2] = 1 / (self.dt * omega_f ** 2) * (If1 - 1 - omega_f * self.dt)
+
+        return integrating_factors_f
+
+    def calc_evolution_integrating_factors_ETDRK4(self, omega_f):
+        """
+        Calculates integrating factors for ETDRK4
+        :param omega_f:
+        :return:
+        """
+        integrating_factors_f = [0, 0, 0, 0, 0]
+
+        integrating_factors_f[0] = np.exp(omega_f * self.dt / 2)
+        If1 = integrating_factors_f[0]
+
+        integrating_factors_f[1] = (If1 - 1) / omega_f
+
+        integrating_factors_f[2] = 1 / (self.dt ** 2 * omega_f ** 3) \
+                                   * (-4 - self.dt * omega_f + If1 ** 2 * (
+                4 - 3 * self.dt * omega_f + self.dt ** 2 * omega_f ** 2))
+
+        integrating_factors_f[3] = 1 / (self.dt ** 2 * omega_f ** 3) \
+                                   * (2 + self.dt * omega_f + If1 ** 2 * (-2 + self.dt * omega_f))
+
+        integrating_factors_f[4] = 1 / (self.dt ** 2 * omega_f ** 3) \
+                                   * (-4 - 3 * self.dt * omega_f - self.dt ** 2 * omega_f ** 2 + If1 ** 2 * (
+                4 - self.dt * omega_f))
+
+        return integrating_factors_f
+
+    # PLOTTING FUNCTIONS
+
+    def plot_angle_field(self, field, ax=None):
+        """
+        Plot the angle field.
+        Parameters:
+            field (array-like): The angle field values.
+            ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
+        Returns:
+            None
+        """
         if ax is None:
             ax = plt.gcf().add_subplot(111)
 
@@ -199,13 +290,28 @@ class BaseSystem:
         cbar = plt.colorbar(mesh)  # To add a colorbar on the side
         cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
         cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
-        #ax.title("Angle field")
-        #ax.xlabel("X-axis")
-        #ax.ylabel("Y-axis")
+        # ax.title("Angle field")
+        # ax.xlabel("X-axis")
+        # ax.ylabel("Y-axis")
         ax.set_aspect('equal')
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
                    number_of_layers=1, hold=False, cmap_symmetric=True):
+        """
+        Plots the given field.
+        Parameters:
+            field (array-like): The field to be plotted.
+            ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
+            colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
+            colormap (Colormap, optional): The colormap to use for the plot. If None, a default colormap will be used.
+            cmax (float, optional): The maximum value for the colorbar. If None, the maximum value of the field will be used.
+            cmin (float, optional): The minimum value for the colorbar. If None, the minimum value of the field will be used.
+            number_of_layers (int, optional): The number of layers to plot for a 3D field. Default is 1.
+            hold (bool, optional): Whether to clear the axes before plotting. Default is False.
+            cmap_symmetric (bool, optional): Whether to make the colormap symmetric. Default is True.
+        Returns:
+            ax (Axes): The axes object containing the plot.
+        """
 
         if colormap is None:
             colormap = tool_colormap_bluewhitered()
@@ -318,7 +424,20 @@ class BaseSystem:
             # plt.ylabel("Y-axis")
 
     def plot_complex_field(self, complex_field, ax=None):
+        """
+        Plot a complex field.
 
+        Parameters:
+            complex_field (numpy.ndarray): The complex field to plot.
+            ax (matplotlib.axes.Axes, optional): The matplotlib axes on which to plot the field.
+                If not provided, a new 3D axes will be created.
+
+        Raises:
+            Exception: If the dimension of the field is not 2.
+
+        Returns:
+            None
+        """
         if ax == None:
             ax = plt.gcf().add_subplot(111, projection='3d')
 
@@ -375,57 +494,13 @@ class BaseSystem:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
             cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap)
             plt.colorbar(cbar)
-            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T,color='k')
-            ax.quiver(X, Y, director[0], director[1],headwidth=0,scale=50)
+            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='k')
+            ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
             ax.set_aspect('equal')
             return ax
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
-
-    #integrating factors
-    def calc_evolution_integrating_factors_ETDRK2(self,omega_f):
-        """
-        Calculates integrating factors for ETDRK2
-        :param omega_f:
-        :return:
-        """
-        integrating_factors_f = [0,0,0]
-
-        integrating_factors_f[0] = np.exp(omega_f * self.dt)
-        If1 = integrating_factors_f[0]
-
-        integrating_factors_f[1] = (If1 - 1) / omega_f
-
-        integrating_factors_f[2] = 1 / (self.dt * omega_f**2) * (If1 - 1 - omega_f * self.dt)
-
-        return integrating_factors_f
-
-    def calc_evolution_integrating_factors_ETDRK4(self,omega_f):
-        """
-        Calculates integrating factors for ETDRK4
-        :param omega_f:
-        :return:
-        """
-        integrating_factors_f = [0, 0, 0, 0, 0]
-
-        integrating_factors_f[0] = np.exp(omega_f * self.dt / 2)
-        If1 = integrating_factors_f[0]
-
-        integrating_factors_f[1] = (If1 - 1) / omega_f
-
-        integrating_factors_f[2] = 1 / (self.dt ** 2 * omega_f ** 3) \
-                                   * (-4 - self.dt * omega_f + If1 ** 2 * (
-                    4 - 3 * self.dt * omega_f + self.dt ** 2 * omega_f ** 2))
-
-        integrating_factors_f[3] = 1 / (self.dt ** 2 * omega_f ** 3) \
-                                   * (2 + self.dt * omega_f + If1 ** 2 * (-2 + self.dt * omega_f))
-
-        integrating_factors_f[4] = 1 / (self.dt ** 2 * omega_f ** 3) \
-                                   * (-4 - 3 * self.dt * omega_f - self.dt ** 2 * omega_f ** 2 + If1 ** 2 * (
-                    4 - self.dt * omega_f))
-
-        return integrating_factors_f
 
     # Time evolution function
     def evolve_ETDRK2_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f,
@@ -435,7 +510,7 @@ class BaseSystem:
         # This needs to be generalized
 
         for i in range(number_of_pred_it_steps):
-            #print(i)
+            # print(i)
             if i == 0:
                 dN_f = 0
             else:
@@ -446,31 +521,20 @@ class BaseSystem:
                            integrating_factors_f[1] * N0_f + \
                            integrating_factors_f[2] * dN_f
 
-            # TODO: simplify this piece of code (Vidar 08.09.23)
-            # I don't think this was needed
-       #     if self.dim == 1:
-       #         field_f_pred[0] = field_f_pred[0]
-       #     elif self.dim == 2:
-       #         field_f_pred[0, 0] = field_f_pred[0, 0]
-       #     elif self.dim == 3:
-       #         field_f_pred[0, 0, 0] = field_f_pred[0, 0, 0]
-                #continue
-          #  print(field_f_pred)
             field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
 
         return field, field_f_pred
 
-
-    def evolve_ETDRK2_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t,field, field_f,
-                           number_of_pred_it_steps=2):
+    def evolve_ETDRK2_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f,
+                                   number_of_pred_it_steps=2):
         t_0 = self.t
-        N0_f = non_linear_evolution_function_f(field,F_t)
+        N0_f = non_linear_evolution_function_f(field, F_t)
         for i in range(number_of_pred_it_steps):
             if i == 0:
                 dN_f = 0
             else:
-                self.t = t_0 +self.dt
-                dN_f = non_linear_evolution_function_f(field,F_t) - N0_f
+                self.t = t_0 + self.dt
+                dN_f = non_linear_evolution_function_f(field, F_t) - N0_f
 
             # print(N0_f)
             field_f_pred = integrating_factors_f[0] * field_f + \
@@ -481,51 +545,49 @@ class BaseSystem:
 
         return field, field_f_pred
 
-
     def evolve_ETDRK4_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
 
         N_0f = non_linear_evolution_function_f(field)
 
-        a_f = field_f*integrating_factors_f[0] +N_0f * integrating_factors_f[1]
-        a = np.fft.ifftn(a_f,axes=(range(-self.dim, 0)))
+        a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
+        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
         N_a = non_linear_evolution_function_f(a)
 
-        b_f = field_f*integrating_factors_f[0] + N_a* integrating_factors_f[1]
-        b = np.fft.ifftn(b_f,axes=(range(-self.dim, 0)))
+        b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
+        b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
         N_b = non_linear_evolution_function_f(b)
 
-        c_f = a_f*integrating_factors_f[0] +(2*N_b -N_0f)*integrating_factors_f[1]
+        c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
         c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
         N_c = non_linear_evolution_function_f(c)
 
-        field_f =  field_f * integrating_factors_f[0]**2 + N_0f*integrating_factors_f[2] \
-                    + 2*(N_a + N_b)*integrating_factors_f[3] + N_c*integrating_factors_f[4]
+        field_f = field_f * integrating_factors_f[0] ** 2 + N_0f * integrating_factors_f[2] \
+                  + 2 * (N_a + N_b) * integrating_factors_f[3] + N_c * integrating_factors_f[4]
 
         field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
 
         return field, field_f
 
-    def evolve_ETDRK4_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f,
-                                   number_of_pred_it_steps=2):
+    def evolve_ETDRK4_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f):
         t_0 = self.t
-        N_0f = non_linear_evolution_function_f(field,F_t)
+        N_0f = non_linear_evolution_function_f(field, F_t)
 
         self.t = t_0 + self.dt / 2
 
         a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
         a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
 
-        N_a = non_linear_evolution_function_f(a,F_t)
+        N_a = non_linear_evolution_function_f(a, F_t)
 
         b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
         b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
-        N_b = non_linear_evolution_function_f(b,F_t)
+        N_b = non_linear_evolution_function_f(b, F_t)
 
         self.t = t_0 + self.dt
 
         c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
         c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
-        N_c = non_linear_evolution_function_f(c,F_t)
+        N_c = non_linear_evolution_function_f(c, F_t)
 
         field_f = field_f * integrating_factors_f[0] ** 2 + N_0f * integrating_factors_f[2] \
                   + 2 * (N_a + N_b) * integrating_factors_f[3] + N_c * integrating_factors_f[4]
@@ -537,9 +599,9 @@ class BaseSystem:
     def evolve_ETDRK2_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
         # TODO this can eventualy be removed
         N_0 = non_linear_evolution_function_f(field)
-        field_f = field_f*integrating_factors_f[0] + N_0 *integrating_factors_f[1]
-        temp = np.fft.ifftn(field_f,axes=(range(-self.dim, 0)))
-        N_1 =non_linear_evolution_function_f(temp) -N_0
-        field_f += N_1* integrating_factors_f[2]
-        field = np.fft.ifftn(field_f,axes=(range(-self.dim, 0)))
+        field_f = field_f * integrating_factors_f[0] + N_0 * integrating_factors_f[1]
+        temp = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+        N_1 = non_linear_evolution_function_f(temp) - N_0
+        field_f += N_1 * integrating_factors_f[2]
+        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
         return field, field_f
