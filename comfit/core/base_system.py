@@ -193,7 +193,16 @@ class BaseSystem:
         return sum([self.k[i] ** 2 for i in range(len(self.k))])
 
     def calc_defect_density(self, psi, psi0=1):
+        """
+        Calculate the defect density of a given psi field.
 
+        Parameters:
+            psi (list): A list of two psi fields.
+            psi0 (float, optional): The value of psi_0. Defaults to 1.
+
+        Returns:
+            float: The defect density of the psi field.
+        """
         if self.dim == 2:
             if len(psi) == 2:
                 psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
@@ -203,9 +212,28 @@ class BaseSystem:
                     np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1]))
 
     def calc_defect_density_singular(self, psi, psi0=1):
+        """
+        Calculate the singular defect density for a given psi field.
+
+        Parameters:
+            psi (float): The value of psi.
+            psi0 (float, optional): The reference value of psi. Defaults to 1.
+        Returns:
+            float: The defect density for the given psi value.
+        """
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
 
     def calc_delta_function(self, psi, psi0=1):
+        """
+        Calculate the delta function for a given wavefunction.
+
+        Parameters:
+            psi (list): The wavefunction.
+            psi0 (float): The width of the wavefunction. Default is 1.
+
+        Returns:
+            float: The value of the delta function.
+        """
         width = psi0 / 2
         n = len(psi)
         if self.dim == 2:
@@ -214,6 +242,22 @@ class BaseSystem:
                 return 1 / (2 * np.pi * width ** 2) * np.exp(-psi2 / (2 * width ** 2))
 
     def calc_integrate_field(self, field, index=None, radius=None):
+        """
+        Calculates the integrated field value within a specified region.
+
+        Parameters:
+            field (numpy.ndarray): The field array.
+            index (tuple, optional): The indices of the center point in the field. Defaults to None.
+            radius (float, optional): The radius of the region. Defaults to None.
+
+        Returns:
+            tuple or float: If index is provided, returns a tuple containing the integrated field value
+                            within the region and a boolean array indicating the region. If index is None,
+                            returns the integrated field value within the entire field.
+
+        Raises:
+            Exception: If the dimension of the field is not 2.
+        """
 
         if self.dim == 2:
             if index is None:
@@ -244,9 +288,13 @@ class BaseSystem:
 
     def calc_evolution_integrating_factors_ETDRK4(self, omega_f):
         """
-        Calculates integrating factors for ETDRK4
-        :param omega_f:
-        :return:
+        Calculate the evolution integrating factors using the ETDRK4 method.
+
+        Parameters:
+            omega_f (float): The value of omega_f.
+
+        Returns:
+            list: The list of integrating factors.
         """
         integrating_factors_f = [0, 0, 0, 0, 0]
 
@@ -391,6 +439,16 @@ class BaseSystem:
             return ax
 
     def plot_fourier_field(self, field_f, ax=None):
+        """
+        Plot a Fourier field.
+
+        Parameters:
+            field_f (ndarray): The Fourier field to be plotted.
+            ax (Axes3D, optional): The matplotlib 3D axis to be used for plotting. If not provided, a new axis will be created.
+
+        Returns:
+            None
+        """
         field_f = np.fft.fftshift(field_f)
 
         if ax == None:
@@ -473,21 +531,30 @@ class BaseSystem:
     def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
                                          cmax=None, cmin=None,
                                          number_of_layers=1, hold=False):
-        '''
+        """
+        Plot the field, velocity, and director in the given axes.
+
+        Parameters:
+            field (ndarray): The field to be plotted.
+            velocity (ndarray): The velocity to be plotted.
+            director (ndarray): The director to be plotted.
+            ax (Axes, optional): The axes to plot the field, velocity, and director on. If not provided, a new subplot will be created.
+            colorbar (bool, optional): Whether to show the colorbar. Default is True.
+            colormap (str, optional): The colormap to use for plotting the field. Default is 'viridis'.
+            cmax (float, optional): The maximum value for the colorbar. If not provided, the maximum value of the field will be used.
+            cmin (float, optional): The minimum value for the colorbar. If not provided, the minimum value of the field will be used.
+            number_of_layers (int, optional): The number of layers in the plot. Default is 1.
+            hold (bool, optional): Whether to hold the plot. Default is False.
+
+        Returns:
+            ax (Axes): The axes with the plotted field, velocity, and director.
+
+        Raises:
+            Exception: If the plotting function is not yet configured for dimensions other than 2.
+
         Note: streamplot assumes xy indexing and not ij. I think it is suficient
         just transpose the matrices before putting them in
-        :param field:
-        :param velocity:
-        :param director:
-        :param ax:
-        :param colorbar:
-        :param colormap:
-        :param cmax:
-        :param cmin:
-        :param number_of_layers:
-        :param hold:
-        :return:
-        '''
+        """
         if self.dim == 2:
             if ax == None:
                 ax = plt.gcf().add_subplot(111)
@@ -505,6 +572,19 @@ class BaseSystem:
     # Time evolution function
     def evolve_ETDRK2_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f,
                            number_of_pred_it_steps=2):
+        """
+        Evolves the given field using the ETDRK2 scheme with a loop.
+
+        Parameters:
+            integrating_factors_f (list): A list of three integrating factors.
+            non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
+            field (ndarray): The initial field to be evolved.
+            field_f (ndarray): The Fourier transform of the initial field.
+            number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
+
+        Returns:
+            tuple: A tuple containing the evolved field and the predicted field in Fourier space.
+        """
 
         N0_f = non_linear_evolution_function_f(field)
         # This needs to be generalized
