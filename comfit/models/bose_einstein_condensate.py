@@ -141,7 +141,7 @@ class BEC(BaseSystem):
             self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_f,
                                                            self.psi, self.psi_f)
 
-    def evolve_dGPE_ETDRK4(self,number_of_steps):
+    def evolve_dGPE_ETD4RK(self,number_of_steps):
         k2 = self.calc_k2()
         omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
         integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
@@ -187,14 +187,14 @@ class BEC(BaseSystem):
 
         self.gamma=1-1j
 
-        self.evolve_dGPE_ETDRK4(number_of_steps)
+        #self.evolve_dGPE_ETD4RK(number_of_steps)
 
         self.gamma=gamma0
 
     def evolve_comoving_dGPE(self, number_of_steps, velx):
         #TODO This one is unstable in 3D (2D is fine) when using ETDRK4 (no problem with ETDRK2)
         # i am not sure why, and this needs to be figured out. The ETDRK4 do not have stability
-        # problems in when stiring in the normal frame in 3D
+        # problems in when stiring in the normal frame in 3D (Jonas <13.11.23)
         k2 = self.calc_k2()
 
         omega_f = (1j) * (1 - 1 / 2 * k2) + velx * self.dif[0]
