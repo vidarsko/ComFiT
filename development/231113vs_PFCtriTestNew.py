@@ -8,7 +8,6 @@ print(pfc.q)
 eta = pfc.conf_insert_dislocation()
 pfc.calc_from_amplitudes(eta)
 
-#pfc.plot_complex_field(eta[0])
 #fig = plt.figure()
 #ax = plt.gcf().add_subplot(111)
 

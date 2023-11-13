@@ -107,7 +107,7 @@ class PFC(BaseSystem):
         sn = self.dislocation_charges[dislocation_type-1]
         for n in range(self.number_of_reciprocal_modes):
             if sn[n] != 0:
-                eta[n] *= self.calc_angle_field_single_vortex([x,y],charge=sn[n])
+                eta[n] *= np.exp(1j*self.calc_angle_field_single_vortex([x,y],charge=sn[n]))
 
         return eta
 
