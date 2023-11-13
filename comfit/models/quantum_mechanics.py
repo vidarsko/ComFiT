@@ -99,4 +99,4 @@ class QM(BaseSystem):
         integrating_factors_f = self.calc_evolution_integrating_factors_schrodinger_f()
 
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETDRK2_loop(integrating_factors_f, self.psi, self.psi_f)
+            self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f, self.psi, self.psi_f)

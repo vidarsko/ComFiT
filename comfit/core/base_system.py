@@ -269,9 +269,9 @@ class BaseSystem:
         else:
             raise Exception("Not yet configured for other dimensions.")
 
-    def calc_evolution_integrating_factors_ETDRK2(self, omega_f):
+    def calc_evolution_integrating_factors_ETD2RK(self, omega_f):
         """
-        Calculates integrating factors for ETDRK2
+        Calculates integrating factors for ETD2RK
         :param omega_f:
         :return:
         """
@@ -570,10 +570,10 @@ class BaseSystem:
             raise Exception("This plotting function not yet configured for other dimension")
 
     # Time evolution function
-    def evolve_ETDRK2_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f,
+    def evolve_ETD2RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f,
                            number_of_pred_it_steps=2):
         """
-        Evolves the given field using the ETDRK2 scheme with a loop.
+        Evolves the given field using the ETD2RK scheme with a loop.
 
         Parameters:
             integrating_factors_f (list): A list of three integrating factors.
@@ -605,7 +605,7 @@ class BaseSystem:
 
         return field, field_f_pred
 
-    def evolve_ETDRK2_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f,
+    def evolve_ETD2RK_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f,
                                    number_of_pred_it_steps=2):
         t_0 = self.t
         N0_f = non_linear_evolution_function_f(field, F_t)
@@ -676,7 +676,7 @@ class BaseSystem:
 
         return field, field_f
 
-    def evolve_ETDRK2_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
+    def evolve_ETD2RK_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
         # TODO this can eventualy be removed
         N_0 = non_linear_evolution_function_f(field)
         field_f = field_f * integrating_factors_f[0] + N_0 * integrating_factors_f[1]
