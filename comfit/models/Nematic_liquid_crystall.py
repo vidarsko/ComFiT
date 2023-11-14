@@ -20,8 +20,8 @@ class nematic(BaseSystem):
             The system object representing the nematic simulation.
 
         Example:
-        nematic = nematic(3, 100, alpha=0.5)
-        Creates a nematic system with 3 dimensions and an x-resolution of 100. The activity alpha is set to 0.5.
+        nematic = nematic(2, 100, alpha=-0.5)
+        Creates a nematic system with 2 dimensions and an x-resolution of 100. The activity alpha is set to -0.5.
         """
         super().__init__(dimension, **kwargs)
 
@@ -129,6 +129,13 @@ class nematic(BaseSystem):
         return np.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
 
     def calc_molecular_field(self,Q):
+        """
+        Finds the molecular field (NB! strictly 2D at the moment)
+        Args
+            Q (numpy.ndarray): The nematic tensor
+        Returns:
+             (numpy.ndarray): The molecular field
+        """
         Q2 =  np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
         temp = -self.K * np.fft.ifftn( self.k2* np.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
@@ -136,19 +143,30 @@ class nematic(BaseSystem):
     def calc_pressure_f(self):
         '''
         calculates the pressure in Fourier space. The zero mode is set to zero
-        :return: pressure
+        Returns:
+            (numpy.ndarray) the pressure
         '''
         p_af = np.sum(1j*self.k[i]*self.F_af[i] for i in range(self.dim))
         p_pf = np.sum(1j*self.k[i]*self.F_pf[i] for i in range(self.dim))
         return -(p_af + p_pf)/self.k2_press
 
     def calc_grad_p_f(self):
+        """
+        Caclulates the gradient of the pressure
+        Returns:
+             (numpy.ndarray) gradient of th epressure
+        """
         grad_pf = []
         for i in range(self.dim):
             grad_pf.append(1j*self.k[i]*self.p_f)
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
+        """
+        Calculates the vorticity tensor
+        returns:
+            (numpy.ndarray) The vorticity tensor
+        """
         Omega_f = np.zeros_like(self.Q_f)
         for i in range(self.dim):
             for j in range(self.dim):
@@ -157,6 +175,11 @@ class nematic(BaseSystem):
         return np.real(Omega)
 
     def calc_strain_rate_tensor_f(self):
+        """
+        Calculates the strainrate tensor
+        returns:
+            (numpy.ndarray) The strainrate
+        """
         E_f = np.zeros_like(self.Q_f)
         for i in range(self.dim):
             for j in range(self.dim):
