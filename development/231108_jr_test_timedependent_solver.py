@@ -14,7 +14,7 @@ def V_t(t):
     pos_x = bec.xmid + stirrer_radius * np.cos(freq * t)
     pos_y = bec.ymid + stirrer_radius * np.sin(freq * t)
     pos_z = bec.zmid
-    return  bec.gaussian_stirring_potential(size, strength, [pos_x, pos_y,pos_z])
+    return  bec.calc_gaussian_stirring_potential(size, strength, [pos_x, pos_y,pos_z])
 
 bec.V_ext = V_t(0)
 bec.set_initial_condition_Thomas_Fermi()
