@@ -9,7 +9,7 @@ class nematic(BaseSystem):
 
         Parameters:
         - dimension : int
-            The dimension of the system.
+            The dimension of the system. Note that only d=2 is implemented at the moment
         - x_resolution : int
             The resolution along the x-axis.
         - kwargs : dict, optional
@@ -49,9 +49,11 @@ class nematic(BaseSystem):
     # Initial condition
     def set_initial_condition_disordered(self, noise_strength=0.01):
         """
-        Note noise is here only in angle
-        :param noise_strength:
-        :return:
+        Initialises the system with the nematogens pointing in the x-direction with some random noise in the angle
+        Args:
+             noise_strength (float): A meshure for how much noise to put in the angle
+        returns:
+            Initialises self.Q  and self.Q_f
         """
         if self.dim == 2:
             self.S0 = np.sqrt(self.B)
