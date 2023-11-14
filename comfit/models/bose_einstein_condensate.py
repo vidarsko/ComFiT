@@ -69,9 +69,11 @@ class BEC(BaseSystem):
 
     def set_harmonic_potential(self,R_tf):
         """
-        Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
-        :param R_tf:
-        :return:
+        Set the external potential to a harmonic trap with R_tf being the Thomas-Fermi radius
+        Args:
+                R_tf (float): The Thomas-Fermi radius
+        returns:
+                A harmonic potential
         """
         trapping_strength = 1 / (R_tf ** 2)
         if self.dim ==1:
@@ -86,9 +88,10 @@ class BEC(BaseSystem):
 
     def set_initial_condition_Thomas_Fermi(self):
         """
-        Finds the Thomas_Fermi ground state of a given potential
-        must be precided by an energy relaxation to find the true ground state
-        :return:
+        Finds the Thomas_Fermi ground state.
+        Must be precided by an energy relaxation to find the true ground state
+
+        Returns: sets the value of self.psi and self.psi_f
         """
         self.psi = np.emath.sqrt(1-self.V_ext)
         self.psi[self.V_ext > 1] = 0
@@ -96,12 +99,13 @@ class BEC(BaseSystem):
 
     def set_spatialy_varying_gamma(self,d=7, wx=0,wy=0,wz=0):
         '''
-        this function sets a dissipative frame around the computational domain
-        :param d: length of the interface between the low gamma and high gamma regions
-        :param wx: distance fom center to the frame in x-direction
-        :param wy:     -- " --                         y-direction
-        :param wz:     -- " --                         z-direction
-        :return:
+        This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
+         Args
+             d (float): length of the interface between the low gamma and high gamma regions
+            wx (float): distance fom center to the frame in x-direction
+            wy (float):    -- " --                         y-direction
+            wz (float):     -- " --                         z-direction
+        return: self.gamma
         '''
         if self.dim == 2:
             X,Y =  np.meshgrid(self.x, self.y, indexing='ij')
@@ -117,8 +121,17 @@ class BEC(BaseSystem):
         else:
             raise Exception("This feature is not yet available for the given dimension.")
 
-    #TODO Rename this function so that it fits into the naming convention of functions in the class (Vidar 11.11.23)
-    def gaussian_stirring_potential(self,size,strength,position):
+
+    def calc_gaussian_stirring_potential(self,size,strength,position):
+        """
+        Function for calculate a gaussian potential
+        Args:
+            size (float) size of the stirrer
+            strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
+            position (array) the position of the stirrer
+        returns:
+            (numpy.ndarray) a gaussian potential
+        """
 
         if self.dim ==1:
             return strength*np.exp( -(self.x -position[0])**2/size**2 )
@@ -133,6 +146,13 @@ class BEC(BaseSystem):
 
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
+        '''
+               Evolver that uses the EDT2RK loop for the dGPE, assuming a time-independent potential
+                   Args:
+                       number_of_steps (int) the number of time steps that we are evolving the equation
+                   returns:
+                       Updates the self.psi and self.psi_f
+               '''
         k2 = self.calc_k2()
         omega_f =   (1j + self.gamma) * (1 - 1 / 2 * k2)
         integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
@@ -142,6 +162,13 @@ class BEC(BaseSystem):
                                                            self.psi, self.psi_f)
 
     def evolve_dGPE_ETD4RK(self,number_of_steps):
+        '''
+        Evolver that uses the EDT4RK loop for the dGPE, assuming a time-independent potential
+            Args:
+                number_of_steps (int) the number of time steps that we are evolving the equation
+            returns:
+                Updates the self.psi and self.psi_f
+        '''
         k2 = self.calc_k2()
         omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
         integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
@@ -153,9 +180,14 @@ class BEC(BaseSystem):
 
 
     def evolve_time_dependent(self,number_of_steps,V_t):
-        """ evolver for time dependent potential, takes inn a function V_t
-         that is the time dependent potential.
-          Gives the user the freedom to use whatever potential they want"""
+        '''
+        Evolver that uses the EDT2RK loop for the dGPE, assuming a time-dependent potential
+            Args:
+                number_of_steps (int) the number of time steps that we are evolving the equation
+                V_t (function(float)) the time dependent potential
+            returns:
+                Updates the self.psi and self.psi_f
+        '''
         if not(hasattr(self,'t')):
             self.t = 0
         k2 = self.calc_k2()
@@ -167,6 +199,14 @@ class BEC(BaseSystem):
                                                                     V_t, self.psi, self.psi_f)
 
     def evolve_time_dependent_ETDRK4(self,number_of_steps,V_t):
+        '''
+        Evolver that uses the EDT4RK loop for the dGPE, assuming a time-dependent potential
+            Args:
+                number_of_steps (int) the number of time steps that we are evolving the equation
+                V_t (function(float)) the time dependent potential
+            returns:
+                Updates the self.psi and self.psi_f
+        '''
         if not (hasattr(self, 't')):
             self.t = 0
         k2 = self.calc_k2()
@@ -178,31 +218,39 @@ class BEC(BaseSystem):
                                                                    V_t, self.psi, self.psi_f)
 
     def evolve_relax_BEC(self,number_of_steps):
-        """
-        Evolves the BEC in 'imaginary time' to reach a stable (low free energy state).
-        :param number_of_steps:
-        :return:
-        """
+        '''
+        Evolver that uses the EDT4RK loop for the dGPE in imaginary time to relax the equation
+            Args:
+                number_of_steps (int) the number of time steps that we are evolving the equation
+            returns:
+                Updates the self.psi and self.psi_f
+        '''
         gamma0 = self.gamma
 
         self.gamma=1-1j
 
-        #self.evolve_dGPE_ETD4RK(number_of_steps)
+        self.evolve_dGPE_ETD4RK(number_of_steps)
 
         self.gamma=gamma0
 
     def evolve_comoving_dGPE(self, number_of_steps, velx):
-        #TODO This one is unstable in 3D (2D is fine) when using ETDRK4 (no problem with ETD2RK)
-        # i am not sure why, and this needs to be figured out. The ETDRK4 do not have stability
-        # problems in when stiring in the normal frame in 3D (Jonas <13.11.23)
+        '''
+        Evolver that uses the EDT4RK loop for the dGPE in the comoving frame.
+        This evolver assume that the stiring is in the x-direction and that gamma is spatialy dependent
+            Args:
+                number_of_steps (int) the number of time steps that we are evolving the equation
+                velx (float) velocity in x direction
+            returns:
+                Updates the fields self.psi and self.psi_f
+                '''
         k2 = self.calc_k2()
 
         omega_f = (1j) * (1 - 1 / 2 * k2) + velx * self.dif[0]
 
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
 
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
+            self.psi, self.psi_f = self.evolve_ETDRK4_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
                                                            self.psi, self.psi_f)
 
 
