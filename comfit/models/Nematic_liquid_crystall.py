@@ -33,28 +33,28 @@ class nematic(BaseSystem):
         self.type = 'Nematic'
 
         #defoult parameters
-        self.alpha = -1  #defult is an extensile system
-        self.K = 1
-        self.A = 1
-        self.B = 1
-        self.Lambda = 0 #flow allignment, not sure if this will be implemented
-        self.gamma = 1  # rotational diffusion
-        self.Gamma = 0 # friction, note in 3 dim this has to be zero
-        self.eta = 1 # viscosity
+        self.alpha = -1 if 'alpha' not in kwargs else kwargs['alpha']   #defult is an extensile system
+        self.K = 1 if 'K' not in kwargs else kwargs['K']
+        self.A = 1 if 'A' not in kwargs else kwargs['A']
+        self.B = 1 if 'B' not in kwargs else kwargs['B']
+        self.Lambda = 0 if 'Lambda' not in kwargs else kwargs['Lambda'] #flow allignment, not sure if this will be implemented
+        self.gamma = 1  if 'gamma' not in kwargs else kwargs['gamma']  # rotational diffusion
+        self.Gamma = 0 if 'Gamma' not in kwargs else kwargs['Gamma'] # friction, note in 3 dim this has to be zero
+        self.eta = 1 if 'eta' not in kwargs else kwargs['eta'] # viscosity
 
 
         for key, value in kwargs.items():
             setattr(self, key, value)
 
     # Initial condition
-    def set_initial_condition_disordered(self, noise_strength=0.01,noise_strength_S =0.1):
+    def set_initial_condition_disordered(self, noise_strength=0.01):
         """
         Note noise is here only in angle
         :param noise_strength:
         :return:
         """
         if self.dim == 2:
-            self.S0 = np.sqrt(self.B)#*noise_strength_S
+            self.S0 = np.sqrt(self.B)
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes)
             self.Q = np.zeros((self.dim,self.dim,self.xRes,self.yRes))
             self.Q[0][0] = self.S0/2 *np.cos(2*theta_rand)
@@ -163,7 +163,7 @@ class nematic(BaseSystem):
 
 #### Calculation of non-linear evolution terms
     def calc_nonlinear_evolution_term_f(self,Q):
-        # TODO test and make sure that the passive stress works as intended
+        # TODO test and make sure that the passive stress works as intended (Jonas: 2023/11/14)
         self.calc_u(Q)
         Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
         N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
