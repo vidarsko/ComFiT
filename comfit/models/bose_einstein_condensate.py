@@ -258,15 +258,38 @@ class BEC(BaseSystem):
 
 
     def calc_nonlinear_evolution_term_f(self,psi):
+        """
+        Calculates the non-linear evolution term of the dGPE
+        Args:
+             psi (numpy.ndarray): the wavefunction at a given time.
+        returns:
+            (numpy.ndarray): the non-linear evolution term
+        """
         psi2 = np.abs(psi)**2
         return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
 
     def calc_nonlinear_evolution_term_timedep_f(self,psi,V_t):
+        """
+        Calculates the non-linear evolution term of the dGPE when the potential is time dependent
+        Args:
+            psi (numpy.ndarray): the wavefunction at a given time.
+            V_t (function): the time-dependent potential
+        Returns:
+             (numpy.ndarray): the non-linear evolution term
+        """
         self.V_ext = V_t(self.t)
         psi2 = np.abs(psi) ** 2
         return np.fft.fftn((1j + self.gamma) * (-self.V_ext - psi2) * psi)
 
     def calc_nonlinear_evolution_term_comoving_f(self,psi):
+        """
+               Calculates the non-linear evolution term of the dGPE when gamma is not a constant.
+               Relevant for example in the comoving frame when we have a dissipative frame around the edge.
+               Args:
+                   psi (numpy.ndarray): the wavefunction at a given time.
+               Returns:
+                    (numpy.ndarray): the non-linear evolution term
+               """
         psi2 = np.abs(psi)**2
         term1 = np.fft.fftn(-(1j+self.gamma)*(self.V_ext+psi2)*psi)
         term2 = np.fft.fftn(self.gamma*psi)
