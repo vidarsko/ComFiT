@@ -41,7 +41,7 @@ class BEC(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-    # Initial conditions
+    # SETTING FUNCTIONS
     def set_initial_condition_disordered(self, noise_strength=0.01):
         """
         Sets disordered initial condition for the BEC with some thermal flcutiations
@@ -96,6 +96,46 @@ class BEC(BaseSystem):
         self.psi = np.emath.sqrt(1-self.V_ext)
         self.psi[self.V_ext > 1] = 0
         self.psi_f = np.fft.fftn(self.psi)
+
+    def set_initial_condition_vortex_dipole(self):
+        """
+        Sets the initial condition for a vortex dipole configuration in a 2-dimensional system.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            Exception: If the dimension of the system is not 2.
+        """
+        if not(self.dim==2):
+            raise Exception("The dimension of the system must be 2 for a vortex dipole configuration.")
+
+        self.conf_insert_vortex(charge=1,position=[2/3*self.xmax, self.ymid])
+        self.conf_insert_vortex(charge=-1,position=[1/3*self.xmax, self.ymid])
+
+    # CONFIGURATION FUNCTIONS
+    def conf_insert_vortex(self,charge=1,position=None):
+        """
+        Sets the initial condition for a vortex dipole
+        Returns:
+        Modifies the value of self.psi and self.psi_f
+        """
+        if not(self.dim==2):
+            raise Exception("The dimension of the system must be 2 for a single point vortex.")
+
+        if position is None:
+            position = [self.xmid, self.ymid]
+
+        if self.psi is None:
+            self.psi = np.ones((self.xRes, self.yRes))
+            # TODO: maybe this needs to be formulated in terms of model parameters (Vidar 16.11.23)
+
+        self.psi = self.psi*np.exp(1j * self.calc_angle_field_single_vortex(position, charge=charge))
+        self.psi_f = np.fft.fftn(self.psi)
+
 
     def set_spatialy_varying_gamma(self,d=7, wx=0,wy=0,wz=0):
         '''
