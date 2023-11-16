@@ -16,6 +16,8 @@ def V_t(t):
     pos_z = bec.zmid
     return  bec.calc_gaussian_stirring_potential(size, strength, [pos_x, pos_y,pos_z])
 
+#bec.set_time_dependent_potential(V_t)
+
 bec.V_ext = V_t(0)
 bec.set_initial_condition_Thomas_Fermi()
 bec.evolve_relax_BEC(20)

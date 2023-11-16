@@ -187,18 +187,21 @@ class BEC(BaseSystem):
     #Time evolution
     def evolve_dGPE(self,number_of_steps):
         '''
-               Evolver that uses the EDT2RK loop for the dGPE, assuming a time-independent potential
-                   Args:
-                       number_of_steps (int) the number of time steps that we are evolving the equation
-                   returns:
-                       Updates the self.psi and self.psi_f
-               '''
+       Evolver that uses the EDT2RK loop for the dGPE, assuming a time-independent potential
+           Args:
+               number_of_steps (int) the number of time steps that we are evolving the equation
+           returns:
+               Updates the self.psi and self.psi_f
+       '''
+
+        method = 'ETD2RK'
+
         k2 = self.calc_k2()
         omega_f =   (1j + self.gamma) * (1 - 1 / 2 * k2)
         integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
 
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_f,
+            self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
                                                            self.psi, self.psi_f)
 
     def evolve_dGPE_ETD4RK(self,number_of_steps):
@@ -213,7 +216,7 @@ class BEC(BaseSystem):
         omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
         integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETDRK4_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_f,
+            self.psi, self.psi_f = self.evolve_ETDRK4_loop(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
                                                            self.psi, self.psi_f)
 
 
@@ -269,7 +272,7 @@ class BEC(BaseSystem):
 
         self.gamma=1-1j
 
-        self.evolve_dGPE_ETD4RK(number_of_steps)
+        self.evolve_dGPE(number_of_steps)
 
         self.gamma=gamma0
 
@@ -294,10 +297,10 @@ class BEC(BaseSystem):
                                                            self.psi, self.psi_f)
 
 
-            #Calculation functions
+    # CALCULATION FUCNTIONS
 
 
-    def calc_nonlinear_evolution_term_f(self,psi):
+    def calc_nonlinear_evolution_function_f(self,psi):
         """
         Calculates the non-linear evolution term of the dGPE
         Args:
@@ -307,6 +310,7 @@ class BEC(BaseSystem):
         """
         psi2 = np.abs(psi)**2
         return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
+
 
     def calc_nonlinear_evolution_term_timedep_f(self,psi,V_t):
         """

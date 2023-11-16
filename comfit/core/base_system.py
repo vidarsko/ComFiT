@@ -284,10 +284,10 @@ class BaseSystem:
         If1 = integrating_factors_f[0]
 
         integrating_factors_f[1] = (If1 - 1) / omega_f
-        integrating_factors_f[1][np.abs(omega_f)<tol] = self.dt
+        integrating_factors_f[1][np.abs(omega_f) < tol] = self.dt
 
         integrating_factors_f[2] = 1 / (self.dt * omega_f ** 2) * (If1 - 1 - omega_f * self.dt)
-        integrating_factors_f[2][np.abs(omega_f)<tol] = self.dt/2
+        integrating_factors_f[2][np.abs(omega_f) < tol] = self.dt/2
         return integrating_factors_f
 
     def calc_evolution_integrating_factors_ETDRK4(self, omega_f, tol = 10**(-4)):
@@ -329,7 +329,171 @@ class BaseSystem:
 
         return integrating_factors_f
 
-    # PLOTTING FUNCTIONS
+    # Time evolution function
+    def evolve_ETD2RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f, t=None):
+        """
+        Evolves the given field using the ETD2RK scheme with a loop.
+
+        Parameters:
+            integrating_factors_f (list): A list of three integrating factors.
+            non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
+            field (ndarray): The initial field to be evolved.
+            field_f (ndarray): The Fourier transform of the initial field.
+            t (float, optional): The time to evolve the field.
+
+        Returns:
+            tuple: A tuple containing the evolved field and the predicted field in Fourier space.
+        """
+
+        if t==None:
+            def N_f(field,t):
+                return non_linear_evolution_function_f(field)
+            t=0
+
+        else:
+            def N_f(field,t):
+                return non_linear_evolution_function_f(field,t)
+
+        N0_f = N_f(field, t)
+
+
+        a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
+        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
+
+        N_a_f = N_f(a,t+self.dt)
+        field_f = a_f + integrating_factors_f[2]*(N_a_f - N0_f)
+        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+
+        return field, field_f
+
+
+
+    def evolve_ETD2RK_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f,
+                                   number_of_pred_it_steps=2):
+
+        """
+       Evolves the given field using the ETD2RK scheme with a loop. Is for the special case that the non-linear
+       function is time dependent
+
+       Parameters:
+           integrating_factors_f (list): A list of three integrating factors.
+           non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
+           field (ndarray): The initial field to be evolved.
+           field_f (ndarray): The Fourier transform of the initial field.
+           number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
+            F_t (function): time dependent part of the non linear evolution function
+        Returns:
+        tuple: A tuple containing the evolved field and the predicted field in Fourier space.
+    """
+        t_0 = self.t
+        N0_f = non_linear_evolution_function_f(field, F_t)
+        for i in range(number_of_pred_it_steps):
+            if i == 0:
+                dN_f = 0
+            else:
+                self.t = t_0 + self.dt
+                dN_f = non_linear_evolution_function_f(field, F_t) - N0_f
+
+            # print(N0_f)
+            field_f_pred = integrating_factors_f[0] * field_f + \
+                           integrating_factors_f[1] * N0_f + \
+                           integrating_factors_f[2] * dN_f
+
+            field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
+
+        return field, field_f_pred
+
+    def evolve_ETDRK4_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
+
+        """
+         Evolves the given field using the ETD4RK scheme with a loop.
+
+         Parameters:
+             integrating_factors_f (list): A list of three integrating factors.
+             non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
+             field (ndarray): The initial field to be evolved.
+             field_f (ndarray): The Fourier transform of the initial field.
+             number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
+
+         Returns:
+             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
+         """
+        N_0f = non_linear_evolution_function_f(field)
+
+        a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
+        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
+        N_a = non_linear_evolution_function_f(a)
+
+        b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
+        b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
+        N_b = non_linear_evolution_function_f(b)
+
+        c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
+        c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
+        N_c = non_linear_evolution_function_f(c)
+
+        field_f = field_f * integrating_factors_f[2]  + N_0f * integrating_factors_f[3] \
+                  + 2 * (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
+
+        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+
+        return field, field_f
+
+    def evolve_ETDRK4_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f):
+        """
+         Evolves the given field using the ETD4RK scheme with a loop. Is for the special case that the non-linear
+         function is time dependent
+
+         Parameters:
+             integrating_factors_f (list): A list of three integrating factors.
+             non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
+             field (ndarray): The initial field to be evolved.
+             field_f (ndarray): The Fourier transform of the initial field.
+             number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
+             F_t (function): time dependent part of the non linear evolution function
+         Returns:
+             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
+         """
+
+        t_0 = self.t
+        N_0f = non_linear_evolution_function_f(field, F_t)
+
+        self.t = t_0 + self.dt / 2
+
+        a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
+        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
+
+        N_a = non_linear_evolution_function_f(a, F_t)
+
+        b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
+        b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
+        N_b = non_linear_evolution_function_f(b, F_t)
+
+        self.t = t_0 + self.dt
+
+        c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
+        c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
+        N_c = non_linear_evolution_function_f(c, F_t)
+
+        field_f = field_f * integrating_factors_f[2]  + N_0f * integrating_factors_f[3] \
+                  + 2 * (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
+
+        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+
+        return field, field_f
+
+    def evolve_ETD2RK_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
+        # TODO this can eventualy be removed
+        N_0 = non_linear_evolution_function_f(field)
+        field_f = field_f * integrating_factors_f[0] + N_0 * integrating_factors_f[1]
+        temp = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+        N_1 = non_linear_evolution_function_f(temp) - N_0
+        field_f += N_1 * integrating_factors_f[2]
+        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+        return field, field_f
+
+
+ # PLOTTING FUNCTIONS
 
     def plot_angle_field(self, field, ax=None):
         """
@@ -581,163 +745,3 @@ class BaseSystem:
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
-
-    # Time evolution function
-    def evolve_ETD2RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f,
-                           number_of_pred_it_steps=2):
-        """
-        Evolves the given field using the ETD2RK scheme with a loop.
-
-        Parameters:
-            integrating_factors_f (list): A list of three integrating factors.
-            non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
-            field (ndarray): The initial field to be evolved.
-            field_f (ndarray): The Fourier transform of the initial field.
-            number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
-
-        Returns:
-            tuple: A tuple containing the evolved field and the predicted field in Fourier space.
-        """
-
-        N0_f = non_linear_evolution_function_f(field)
-        # This needs to be generalized
-
-        for i in range(number_of_pred_it_steps):
-            # print(i)
-            if i == 0:
-                dN_f = 0
-            else:
-                dN_f = non_linear_evolution_function_f(field) - N0_f
-
-            # print(N0_f)
-            field_f_pred = integrating_factors_f[0] * field_f + \
-                           integrating_factors_f[1] * N0_f + \
-                           integrating_factors_f[2] * dN_f
-
-            field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
-
-        return field, field_f_pred
-
-    def evolve_ETD2RK_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f,
-                                   number_of_pred_it_steps=2):
-
-        """
-       Evolves the given field using the ETD2RK scheme with a loop. Is for the special case that the non-linear
-       function is time dependent
-
-       Parameters:
-           integrating_factors_f (list): A list of three integrating factors.
-           non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
-           field (ndarray): The initial field to be evolved.
-           field_f (ndarray): The Fourier transform of the initial field.
-           number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
-            F_t (function): time dependent part of the non linear evolution function
-        Returns:
-        tuple: A tuple containing the evolved field and the predicted field in Fourier space.
-    """
-        t_0 = self.t
-        N0_f = non_linear_evolution_function_f(field, F_t)
-        for i in range(number_of_pred_it_steps):
-            if i == 0:
-                dN_f = 0
-            else:
-                self.t = t_0 + self.dt
-                dN_f = non_linear_evolution_function_f(field, F_t) - N0_f
-
-            # print(N0_f)
-            field_f_pred = integrating_factors_f[0] * field_f + \
-                           integrating_factors_f[1] * N0_f + \
-                           integrating_factors_f[2] * dN_f
-
-            field = np.fft.ifftn(field_f_pred, axes=(range(-self.dim, 0)))
-
-        return field, field_f_pred
-
-    def evolve_ETDRK4_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
-
-        """
-         Evolves the given field using the ETD4RK scheme with a loop.
-
-         Parameters:
-             integrating_factors_f (list): A list of three integrating factors.
-             non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
-             field (ndarray): The initial field to be evolved.
-             field_f (ndarray): The Fourier transform of the initial field.
-             number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
-
-         Returns:
-             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
-         """
-        N_0f = non_linear_evolution_function_f(field)
-
-        a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
-        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
-        N_a = non_linear_evolution_function_f(a)
-
-        b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
-        b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
-        N_b = non_linear_evolution_function_f(b)
-
-        c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
-        c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
-        N_c = non_linear_evolution_function_f(c)
-
-        field_f = field_f * integrating_factors_f[2]  + N_0f * integrating_factors_f[3] \
-                  + 2 * (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
-
-        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
-
-        return field, field_f
-
-    def evolve_ETDRK4_loop_timedep(self, integrating_factors_f, non_linear_evolution_function_f, F_t, field, field_f):
-        """
-         Evolves the given field using the ETD4RK scheme with a loop. Is for the special case that the non-linear
-         function is time dependent
-
-         Parameters:
-             integrating_factors_f (list): A list of three integrating factors.
-             non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
-             field (ndarray): The initial field to be evolved.
-             field_f (ndarray): The Fourier transform of the initial field.
-             number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
-             F_t (function): time dependent part of the non linear evolution function
-         Returns:
-             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
-         """
-
-        t_0 = self.t
-        N_0f = non_linear_evolution_function_f(field, F_t)
-
-        self.t = t_0 + self.dt / 2
-
-        a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
-        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
-
-        N_a = non_linear_evolution_function_f(a, F_t)
-
-        b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
-        b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
-        N_b = non_linear_evolution_function_f(b, F_t)
-
-        self.t = t_0 + self.dt
-
-        c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
-        c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
-        N_c = non_linear_evolution_function_f(c, F_t)
-
-        field_f = field_f * integrating_factors_f[2]  + N_0f * integrating_factors_f[3] \
-                  + 2 * (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
-
-        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
-
-        return field, field_f
-
-    def evolve_ETD2RK_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
-        # TODO this can eventualy be removed
-        N_0 = non_linear_evolution_function_f(field)
-        field_f = field_f * integrating_factors_f[0] + N_0 * integrating_factors_f[1]
-        temp = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
-        N_1 = non_linear_evolution_function_f(temp) - N_0
-        field_f += N_1 * integrating_factors_f[2]
-        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
-        return field, field_f

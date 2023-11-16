@@ -9,8 +9,8 @@ bec.psi_f =np.fft.fft2(bec.psi)
 
 integrating_gactors = bec.calc_evolution_integrating_factors_dGPE_f()
 
-new_t,new_tf =bec.evolve_ETD2RK_loop_test(integrating_gactors,bec.calc_nonlinear_evolution_term_f,bec.psi,bec.psi_f)
-new,new_f = bec.evolve_ETD2RK_loop(integrating_gactors,bec.calc_nonlinear_evolution_term_f,bec.psi,bec.psi_f)
+new_t,new_tf =bec.evolve_ETD2RK_loop_test(integrating_gactors,bec.calc_nonlinear_evolution_function_f,bec.psi,bec.psi_f)
+new,new_f = bec.evolve_ETD2RK_loop(integrating_gactors, bec.calc_nonlinear_evolution_function_f, bec.psi, bec.psi_f)
 
 
 #print(new)

@@ -63,7 +63,7 @@ class QM(BaseSystem):
 
 
 
-    def calc_nonlinear_evolution_term_f(self,psi):
+    def calc_nonlinear_evolution_function_f(self,psi):
 
         return np.fft.fftn((1j) * (-self.V_ext) * psi)
 
@@ -99,4 +99,4 @@ class QM(BaseSystem):
         integrating_factors_f = self.calc_evolution_integrating_factors_schrodinger_f()
 
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f, self.psi, self.psi_f)
+            self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f, self.psi, self.psi_f, )

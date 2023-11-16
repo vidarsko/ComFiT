@@ -128,6 +128,8 @@ class nematic(BaseSystem):
                                           for m in range(self.dim) for l in range(self.dim))
         return np.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
 
+        #TODO: Double check that Q[1][1] is the same as Q[1,1,:,:] (Vidar 16.11.23)
+
     def calc_molecular_field(self,Q):
         """
         Finds the molecular field (NB! strictly 2D at the moment)
@@ -187,7 +189,7 @@ class nematic(BaseSystem):
         return E_f
 
 #### Calculation of non-linear evolution terms
-    def calc_nonlinear_evolution_term_f(self,Q):
+    def calc_nonlinear_evolution_function_f(self,Q):
         # TODO test and make sure that the passive stress works as intended (Jonas: 2023/11/14)
         self.calc_u(Q)
         Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
@@ -214,7 +216,7 @@ class nematic(BaseSystem):
 
         for n in range(number_of_steps):
             self.Q, self.Q_f = self.evolve_ETDRK4_loop(integrating_factors_f,
-                                                       self.calc_nonlinear_evolution_term_f,
+                                                       self.calc_nonlinear_evolution_function_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
 
