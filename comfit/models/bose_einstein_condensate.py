@@ -234,43 +234,6 @@ class BEC(BaseSystem):
 
 
 
-    def evolve_time_dependent(self,number_of_steps,V_t):
-        '''
-        Evolver that uses the EDT2RK loop for the dGPE, assuming a time-dependent potential
-            Args:
-                number_of_steps (int) the number of time steps that we are evolving the equation
-                V_t (function(float)) the time dependent potential
-            returns:
-                Updates the self.psi and self.psi_f
-        '''
-        if not(hasattr(self,'t')):
-            self.t = 0
-        k2 = self.calc_k2()
-
-        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
-        for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETD2RK_loop_timedep(integrating_factors_f,self.calc_nonlinear_evolution_term_timedep_f,
-                                                                    V_t, self.psi, self.psi_f)
-
-    def evolve_time_dependent_ETDRK4(self,number_of_steps,V_t):
-        '''
-        Evolver that uses the EDT4RK loop for the dGPE, assuming a time-dependent potential
-            Args:
-                number_of_steps (int) the number of time steps that we are evolving the equation
-                V_t (function(float)) the time dependent potential
-            returns:
-                Updates the self.psi and self.psi_f
-        '''
-        if not (hasattr(self, 't')):
-            self.t = 0
-        k2 = self.calc_k2()
-        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
-        for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETDRK4_loop_timedep(integrating_factors_f,
-                                                                   self.calc_nonlinear_evolution_term_timedep_f,
-                                                                   V_t, self.psi, self.psi_f)
 
     def evolve_relax_BEC(self,number_of_steps):
         '''
