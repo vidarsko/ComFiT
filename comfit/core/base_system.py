@@ -412,7 +412,7 @@ class BaseSystem:
 
         return field, field_f
 
-  
+
 
     def evolve_ETD2RK_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
         # TODO this can eventualy be removed

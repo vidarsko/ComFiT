@@ -288,18 +288,6 @@ class BEC(BaseSystem):
         return np.fft.fftn((1j+self.gamma)*(-self.V_ext()-psi2)*psi)
 
 
-    def calc_nonlinear_evolution_term_timedep_f(self,psi,V_t):
-        """
-        Calculates the non-linear evolution term of the dGPE when the potential is time dependent
-        Args:
-            psi (numpy.ndarray): the wavefunction at a given time.
-            V_t (function): the time-dependent potential
-        Returns:
-             (numpy.ndarray): the non-linear evolution term
-        """
-        self.V_ext = V_t(self.t)
-        psi2 = np.abs(psi) ** 2
-        return np.fft.fftn((1j + self.gamma) * (-self.V_ext - psi2) * psi)
 
     def calc_nonlinear_evolution_term_comoving_f(self,psi):
         """
