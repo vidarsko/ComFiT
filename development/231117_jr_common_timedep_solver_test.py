@@ -20,7 +20,7 @@ bec.V0 = V_t()
 
 
 bec.set_initial_condition_Thomas_Fermi()
-bec.evolve_relax_BEC(20)
+bec.evolve_relax_BEC(20,'ETD4RK')
 
 
 
@@ -29,7 +29,7 @@ bec.set_time_dependent_potential(V_t)
 bec.plot_field(np.abs(bec.psi)**2)
 plt.show()
 
-bec.evolve_dGPE_ETD4RK(2000)
+bec.evolve_dGPE(2000,'ETD4RK')
 
 bec.plot_field(np.abs(bec.psi)**2)
 plt.show()

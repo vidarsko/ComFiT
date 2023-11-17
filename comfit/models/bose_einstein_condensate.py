@@ -197,7 +197,7 @@ class BEC(BaseSystem):
                                            +((self.z - position[2]) ** 2).reshape(1, 1,self.zRes))/(size**2 ))
 
     #Time evolution
-    def evolve_dGPE(self,number_of_steps):
+    def evolve_dGPE(self,number_of_steps,method = 'ETD2RK'):
         '''
        Evolver that uses the EDT2RK loop for the dGPE, assuming a time-independent potential
            Args:
@@ -206,36 +206,28 @@ class BEC(BaseSystem):
                Updates the self.psi and self.psi_f
        '''
 
-        method = 'ETD2RK'
 
         k2 = self.calc_k2()
         omega_f =   (1j + self.gamma) * (1 - 1 / 2 * k2)
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+
+        if method == 'ETD2RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+            solver = self.evolve_ETD2RK_loop
+
+        elif method == 'ETD4RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+            solver = self.evolve_ETD4RK_loop
+        else:
+            raise Exception("This method is not implemented.")
 
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
-                                                           self.psi, self.psi_f)
-
-    def evolve_dGPE_ETD4RK(self,number_of_steps):
-        '''
-        Evolver that uses the EDT4RK loop for the dGPE, assuming a time-independent potential
-            Args:
-                number_of_steps (int) the number of time steps that we are evolving the equation
-            returns:
-                Updates the self.psi and self.psi_f
-        '''
-        k2 = self.calc_k2()
-        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
-        for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETDRK4_loop(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
+            self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
                                                            self.psi, self.psi_f)
 
 
 
 
-
-    def evolve_relax_BEC(self,number_of_steps):
+    def evolve_relax_BEC(self,number_of_steps,method= 'ETD2RK'):
         '''
         Evolver that uses the EDT4RK loop for the dGPE in imaginary time to relax the equation
             Args:
@@ -247,12 +239,12 @@ class BEC(BaseSystem):
 
         self.gamma=1-1j
 
-        self.evolve_dGPE(number_of_steps)
+        self.evolve_dGPE(number_of_steps,method)
 
         self.gamma=gamma0
         self.t =0
 
-    def evolve_comoving_dGPE(self, number_of_steps, velx):
+    def evolve_comoving_dGPE(self, number_of_steps, velx,method = 'ETD2RK'):
         '''
         Evolver that uses the EDT4RK loop for the dGPE in the comoving frame.
         This evolver assume that the stiring is in the x-direction and that gamma is spatialy dependent
@@ -266,10 +258,17 @@ class BEC(BaseSystem):
 
         omega_f = (1j) * (1 - 1 / 2 * k2) + velx * self.dif[0]
 
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETDRK4(omega_f)
+        if method == 'ETD2RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+            solver = self.evolve_ETD2RK_loop
+        elif method == 'ETD4RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+            solver = self.evolve_ETD4RK_loop
+        else:
+            raise Exception('This method is not implemented')
 
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETDRK4_loop(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
+            self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
                                                            self.psi, self.psi_f)
 
 

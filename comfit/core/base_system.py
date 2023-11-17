@@ -290,7 +290,7 @@ class BaseSystem:
         integrating_factors_f[2][np.abs(omega_f) < tol] = self.dt/2
         return integrating_factors_f
 
-    def calc_evolution_integrating_factors_ETDRK4(self, omega_f, tol = 10**(-4)):
+    def calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol = 10**(-4)):
         """
         Calculate the evolution integrating factors using the ETDRK4 method.
 
@@ -372,7 +372,7 @@ class BaseSystem:
 
 
 
-    def evolve_ETDRK4_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
+    def evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
 
         """
          Evolves the given field using the ETD4RK scheme with a loop.
