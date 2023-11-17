@@ -35,7 +35,9 @@ class BEC(BaseSystem):
 
         # Default simulation parameters
         self.gamma = 0.1 if 'gamma' not in kwargs else kwargs['gamma']    # Dissipation (gamma)
-        self.V_ext = 0  # External potential
+
+        self.V0 = 0
+        self.V_ext = lambda: self.V0  # External potential, note this is a function
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
@@ -69,7 +71,7 @@ class BEC(BaseSystem):
 
     def set_harmonic_potential(self,R_tf):
         """
-        Set the external potential to a harmonic trap with R_tf being the Thomas-Fermi radius
+        Set returns a harmonic trap with R_tf being the Thomas-Fermi radius
         Args:
                 R_tf (float): The Thomas-Fermi radius
         returns:
@@ -85,6 +87,15 @@ class BEC(BaseSystem):
             return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
                                            + ((self.y - self.ymid) ** 2).reshape(1, self.yRes,1)
                                            +((self.z - self.zmid) ** 2).reshape(1, 1,self.zRes) )
+    def set_time_dependent_potential(self,Func):
+        """
+        Set the potential to the function Func. Func has to use self.dt as the time variabel.
+        Args:
+            Func (function): the timedependent potetnial that we want
+        returns:
+            Set V_ext to Func
+        """
+        self.V_ext = Func
 
     def set_initial_condition_Thomas_Fermi(self):
         """
@@ -93,8 +104,9 @@ class BEC(BaseSystem):
 
         Returns: sets the value of self.psi and self.psi_f
         """
-        self.psi = np.emath.sqrt(1-self.V_ext)
-        self.psi[self.V_ext > 1] = 0
+        V_0 = self.V_ext()
+        self.psi = np.emath.sqrt(1-V_0)
+        self.psi[V_0 > 1] = 0
         self.psi_f = np.fft.fftn(self.psi)
 
     def set_initial_condition_vortex_dipole(self):
@@ -275,6 +287,7 @@ class BEC(BaseSystem):
         self.evolve_dGPE(number_of_steps)
 
         self.gamma=gamma0
+        self.t =0
 
     def evolve_comoving_dGPE(self, number_of_steps, velx):
         '''
@@ -309,7 +322,7 @@ class BEC(BaseSystem):
             (numpy.ndarray): the non-linear evolution term
         """
         psi2 = np.abs(psi)**2
-        return np.fft.fftn((1j+self.gamma)*(-self.V_ext-psi2)*psi)
+        return np.fft.fftn((1j+self.gamma)*(-self.V_ext()-psi2)*psi)
 
 
     def calc_nonlinear_evolution_term_timedep_f(self,psi,V_t):
@@ -335,7 +348,7 @@ class BEC(BaseSystem):
                     (numpy.ndarray): the non-linear evolution term
                """
         psi2 = np.abs(psi)**2
-        term1 = np.fft.fftn(-(1j+self.gamma)*(self.V_ext+psi2)*psi)
+        term1 = np.fft.fftn(-(1j+self.gamma)*(self.V_ext()+psi2)*psi)
         term2 = np.fft.fftn(self.gamma*psi)
         term3 = 0.5*np.fft.fftn(self.gamma*np.fft.ifftn(-self.calc_k2()*np.fft.fftn(psi)))
         return (term1 + term2 + term3)

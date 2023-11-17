@@ -29,7 +29,7 @@ class BaseSystem:
         self.xRes = xRes
         self.yRes = 1
         self.zRes = 1
-
+        self.t = 0
         if dimension > 1:
             self.yRes = yRes
 
@@ -344,7 +344,7 @@ class BaseSystem:
         Returns:
             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
         """
-
+        """
         if t==None:
             def N_f(field,t):
                 return non_linear_evolution_function_f(field)
@@ -353,14 +353,15 @@ class BaseSystem:
         else:
             def N_f(field,t):
                 return non_linear_evolution_function_f(field,t)
-
-        N0_f = N_f(field, t)
+        """
+        t_0 = self.t
+        N0_f = non_linear_evolution_function_f(field)
 
 
         a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
         a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
-
-        N_a_f = N_f(a,t+self.dt)
+        self.t = t_0 +self.dt
+        N_a_f = non_linear_evolution_function_f(a)
         field_f = a_f + integrating_factors_f[2]*(N_a_f - N0_f)
         field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
 
@@ -409,7 +410,7 @@ class BaseSystem:
          Evolves the given field using the ETD4RK scheme with a loop.
 
          Parameters:
-             integrating_factors_f (list): A list of three integrating factors.
+             integrating_factors_f (list): A list of five integrating factors.
              non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
              field (ndarray): The initial field to be evolved.
              field_f (ndarray): The Fourier transform of the initial field.
@@ -420,6 +421,9 @@ class BaseSystem:
          """
         N_0f = non_linear_evolution_function_f(field)
 
+        t_0 = self.t
+        self.t = t_0 + self.dt / 2
+
         a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
         a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
         N_a = non_linear_evolution_function_f(a)
@@ -428,6 +432,7 @@ class BaseSystem:
         b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
         N_b = non_linear_evolution_function_f(b)
 
+        self.t = t_0 + self.dt
         c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
         c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
         N_c = non_linear_evolution_function_f(c)
@@ -445,7 +450,7 @@ class BaseSystem:
          function is time dependent
 
          Parameters:
-             integrating_factors_f (list): A list of three integrating factors.
+             integrating_factors_f (list): A list of five integrating factors.
              non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
              field (ndarray): The initial field to be evolved.
              field_f (ndarray): The Fourier transform of the initial field.
