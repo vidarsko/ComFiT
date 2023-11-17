@@ -210,23 +210,39 @@ class nematic(BaseSystem):
 
 
 ##### evolvers
-    def evolve_nematic(self, number_of_steps):
+    def evolve_nematic(self, number_of_steps, method= 'ETD2RK'):
         omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
 
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+        if method == 'ETD2RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+            solver = self.evolve_ETD2RK_loop
 
+        elif method == 'ETD4RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+            solver = self.evolve_ETD4RK_loop
+        else:
+            raise Exception('Mehtod is not implemented')
         for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETD4RK_loop(integrating_factors_f,
+            self.Q, self.Q_f = solver(integrating_factors_f,
                                                        self.calc_nonlinear_evolution_function_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
 
-    def evolve_nematic_no_flow(self,number_of_steps):
+    def evolve_nematic_no_flow(self,number_of_steps,method = 'ETD2RK'):
         omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+
+        if method == 'ETD2RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+            solver = self.evolve_ETD2RK_loop
+
+        elif method == 'ETD4RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+            solver = self.evolve_ETD4RK_loop
+        else:
+            raise Exception('Mehtod is not implemented')
 
         for n in range(number_of_steps):
-            self.Q, self.Q_f = self.evolve_ETD4RK_loop(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
+            self.Q, self.Q_f = solver(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
         self.Q = np.real(self.Q)
 
