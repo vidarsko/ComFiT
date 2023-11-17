@@ -159,6 +159,36 @@ class BaseSystem:
 
         return np.mod(theta1 + theta2 + np.pi, 2 * np.pi) - np.pi
 
+    def calc_angle_field_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
+
+        if position is None:
+            position = self.rmid
+
+        if radius is None:
+            radius = self.xmax / 3
+
+        n = normal_vector / np.linalg.norm(np.array(normal_vector))
+        print(n)
+        r0 = position
+        print(r0)
+
+        [X, Y, Z] = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
+        m2 = n[0] * (X - r0[0]) \
+             + n[1] * (Y - r0[1]) \
+             + n[2] * (Z - r0[2])
+
+        m1 = np.sqrt(
+            (X - r0[0] - m2 * n[0]) ** 2
+            + (Y - r0[1] - m2 * n[1]) ** 2
+            + (Z - r0[2] - m2 * n[2]) ** 2
+        )
+
+        theta1 = np.arctan2(m2, m1 + radius)
+        theta2 = np.arctan2(m2, m1 - radius)
+
+        return np.mod(theta1 + theta2 + np.pi, 2 * np.pi) - np.pi
+
     def calc_wavenums(self, x):
         """
         Calculates the wavenumbers corresponding to the input position vectors given by x.
@@ -264,12 +294,12 @@ class BaseSystem:
                 return np.sum(field) * self.dV
             else:
                 ball = (self.x[index[0]] - self.x.reshape((self.xRes, 1))) ** 2 + (
-                            self.y[index[1]] - self.y.reshape((1, self.yRes))) ** 2 <= radius ** 2
+                        self.y[index[1]] - self.y.reshape((1, self.yRes))) ** 2 <= radius ** 2
                 return np.sum(field[ball]) * self.dV, ball
         else:
             raise Exception("Not yet configured for other dimensions.")
 
-    def calc_evolution_integrating_factors_ETD2RK(self, omega_f,tol=10**(-4)):
+    def calc_evolution_integrating_factors_ETD2RK(self, omega_f, tol=10 ** (-4)):
         """
         Calculates integrating factors for ETD2RK
          parameters
@@ -287,10 +317,10 @@ class BaseSystem:
         integrating_factors_f[1][np.abs(omega_f) < tol] = self.dt
 
         integrating_factors_f[2] = 1 / (self.dt * omega_f ** 2) * (If1 - 1 - omega_f * self.dt)
-        integrating_factors_f[2][np.abs(omega_f) < tol] = self.dt/2
+        integrating_factors_f[2][np.abs(omega_f) < tol] = self.dt / 2
         return integrating_factors_f
 
-    def calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol = 10**(-4)):
+    def calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10 ** (-4)):
         """
         Calculate the evolution integrating factors using the ETDRK4 method.
 
@@ -300,32 +330,32 @@ class BaseSystem:
         Returns:
             list: The list of integrating factors.
         """
-        integrating_factors_f = [0, 0, 0, 0, 0,0]
+        integrating_factors_f = [0, 0, 0, 0, 0, 0]
 
         integrating_factors_f[0] = np.exp(omega_f * self.dt / 2)
         If1 = integrating_factors_f[0]
 
         integrating_factors_f[1] = (If1 - 1) / omega_f
-        integrating_factors_f[1][np.abs(omega_f)< tol] = self.dt/2
+        integrating_factors_f[1][np.abs(omega_f) < tol] = self.dt / 2
 
-        integrating_factors_f[2] = np.exp(omega_f * self.dt )
+        integrating_factors_f[2] = np.exp(omega_f * self.dt)
 
         integrating_factors_f[3] = 1 / (self.dt ** 2 * omega_f ** 3) \
                                    * (-4 - self.dt * omega_f + If1 ** 2 * (
                 4 - 3 * self.dt * omega_f + self.dt ** 2 * omega_f ** 2))
 
-        integrating_factors_f[3][np.abs(omega_f)<tol] = self.dt/6
+        integrating_factors_f[3][np.abs(omega_f) < tol] = self.dt / 6
 
         integrating_factors_f[4] = 1 / (self.dt ** 2 * omega_f ** 3) \
                                    * (2 + self.dt * omega_f + If1 ** 2 * (-2 + self.dt * omega_f))
 
-        integrating_factors_f[4][np.abs(omega_f)<tol] = self.dt/3
+        integrating_factors_f[4][np.abs(omega_f) < tol] = self.dt / 3
 
         integrating_factors_f[5] = 1 / (self.dt ** 2 * omega_f ** 3) \
                                    * (-4 - 3 * self.dt * omega_f - self.dt ** 2 * omega_f ** 2 + If1 ** 2 * (
                 4 - self.dt * omega_f))
 
-        integrating_factors_f[5][np.abs(omega_f)< tol] = self.dt/6
+        integrating_factors_f[5][np.abs(omega_f) < tol] = self.dt / 6
 
         return integrating_factors_f
 
@@ -358,19 +388,14 @@ class BaseSystem:
         t_0 = self.t
         N0_f = non_linear_evolution_function_f(field)
 
-
         a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
         a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
-        self.t = t_0 +self.dt
+        self.t = t_0 + self.dt
         N_a_f = non_linear_evolution_function_f(a)
-        field_f = a_f + integrating_factors_f[2]*(N_a_f - N0_f)
+        field_f = a_f + integrating_factors_f[2] * (N_a_f - N0_f)
         field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
 
         return field, field_f
-
-
-
-
 
     def evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
 
@@ -405,14 +430,12 @@ class BaseSystem:
         c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
         N_c = non_linear_evolution_function_f(c)
 
-        field_f = field_f * integrating_factors_f[2]  + N_0f * integrating_factors_f[3] \
+        field_f = field_f * integrating_factors_f[2] + N_0f * integrating_factors_f[3] \
                   + 2 * (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
 
         field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
 
         return field, field_f
-
-
 
     def evolve_ETD2RK_loop_test(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
         # TODO this can eventualy be removed
@@ -424,8 +447,7 @@ class BaseSystem:
         field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
         return field, field_f
 
-
- # PLOTTING FUNCTIONS
+    # PLOTTING FUNCTIONS
 
     def plot_angle_field(self, field, ax=None):
         """
@@ -436,21 +458,64 @@ class BaseSystem:
         Returns:
             None
         """
-        if ax is None:
-            ax = plt.gcf().add_subplot(111)
 
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        if self.dim == 2:
 
-        custom_colormap = tool_colormap_angle()
+            if ax is None:
+                ax = plt.gcf().add_subplot(111)
 
-        mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap)
-        cbar = plt.colorbar(mesh)  # To add a colorbar on the side
-        cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-        cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
-        # ax.title("Angle field")
-        # ax.xlabel("X-axis")
-        # ax.ylabel("Y-axis")
-        ax.set_aspect('equal')
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+            custom_colormap = tool_colormap_angle()
+
+            mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap)
+            cbar = plt.colorbar(mesh)  # To add a colorbar on the side
+            cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+            # ax.title("Angle field")
+            # ax.xlabel("X-axis")
+            # ax.ylabel("Y-axis")
+            ax.set_aspect('equal')
+
+        elif self.dim == 3:
+
+            if ax == None:
+                plt.figure()
+                ax = plt.gcf().add_subplot(111, projection='3d')
+
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
+            cmap = tool_colormap_angle()
+
+            field_min = np.min(field)
+            field_max = np.max(field)
+
+
+            for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
+
+                if field_min < angle < field_max:
+
+                    field_to_plot = field.copy()
+                    field_to_plot[field < angle - 1] = float('nan')
+                    field_to_plot[field > angle + 1] = float('nan')
+
+                    verts, faces, _, _ = marching_cubes(field_to_plot, angle)
+
+                    ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+                                    color=cmap((angle + np.pi) / (2 * np.pi)))
+
+
+            field = np.mod(field,2*np.pi)
+
+            field_to_plot = field.copy()
+            field_to_plot[field < np.pi - 1] = float('nan')
+            field_to_plot[field > np.pi + 1] = float('nan')
+
+            verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
+
+            ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+                            color=cmap(0))
+
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
                    number_of_layers=1, hold=False, cmap_symmetric=True):

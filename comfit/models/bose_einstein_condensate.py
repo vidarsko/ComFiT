@@ -149,6 +149,7 @@ class BEC(BaseSystem):
         self.psi_f = np.fft.fftn(self.psi)
 
 
+    #TODO: Give this funciton a slightly more informative name. (Vidar 17.11.23)
     def set_spatialy_varying_gamma(self,d=7, wx=0,wy=0,wz=0):
         '''
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
@@ -208,7 +209,7 @@ class BEC(BaseSystem):
 
 
         k2 = self.calc_k2()
-        omega_f =   (1j + self.gamma) * (1 - 1 / 2 * k2)
+        omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
 
         if method == 'ETD2RK':
             integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
