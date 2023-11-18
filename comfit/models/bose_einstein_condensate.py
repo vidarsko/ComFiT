@@ -128,6 +128,21 @@ class BEC(BaseSystem):
         self.conf_insert_vortex(charge=1,position=[2/3*self.xmax, self.ymid])
         self.conf_insert_vortex(charge=-1,position=[1/3*self.xmax, self.ymid])
 
+    def set_initial_condition_vortex_ring(self,position=None, radius=None, normal_vector=[0, 0, 1]):
+        """
+        Sets the initial condition for a vortex ring configuration in a 3-dimensional system
+        """
+        if position is None:
+            position = self.rmid
+
+        if radius is None:
+            radius = self.xmax/3
+
+        theta = self.calc_angle_field_vortex_ring(position, radius, normal_vector)
+
+        self.psi = np.exp(1j*theta)
+        self.psi_f = np.fft.fftn(self.psi)
+
     # CONFIGURATION FUNCTIONS
     def conf_insert_vortex(self,charge=1,position=None):
         """
