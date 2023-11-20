@@ -169,25 +169,32 @@ class BaseSystem:
 
         n = normal_vector / np.linalg.norm(np.array(normal_vector))
         print(n)
-        r0 = position
-        print(r0)
-
         [X, Y, Z] = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-        m2 = n[0] * (X - r0[0]) \
-             + n[1] * (Y - r0[1]) \
-             + n[2] * (Z - r0[2])
+        theta_sum = 0
+        position = np.array(position)
+        #The following code adds the angle field also in the mirrors so that the final field becomes compatible with the
+        #periodic boundary conditions.
+        #for r0 in [position, position - (self.xmax, 0, 0), position + (self.xmax, 0, 0),
+        #           position - (0, self.ymax, 0), position + (0, self.ymax, 0),
+        #           position - (0, 0, self.zmax), position + (0, 0, self.zmax)]:
+        # It does not work as intended atm (Vidar 20.11.23)
+        for r0 in [position]:
+            print(r0)
+            m2 = n[0] * (X - r0[0]) \
+                 + n[1] * (Y - r0[1]) \
+                 + n[2] * (Z - r0[2])
 
-        m1 = np.sqrt(
-            (X - r0[0] - m2 * n[0]) ** 2
-            + (Y - r0[1] - m2 * n[1]) ** 2
-            + (Z - r0[2] - m2 * n[2]) ** 2
-        )
+            m1 = np.sqrt(
+                (X - r0[0] - m2 * n[0]) ** 2
+                + (Y - r0[1] - m2 * n[1]) ** 2
+                + (Z - r0[2] - m2 * n[2]) ** 2
+            )
 
-        theta1 = np.arctan2(m2, m1 + radius)
-        theta2 = np.arctan2(m2, m1 - radius)
+            theta_sum = theta_sum + np.arctan2(m2, m1 + radius)
+            theta_sum = theta_sum + np.arctan2(m2, m1 - radius)
 
-        return np.mod(theta1 + theta2 + np.pi, 2 * np.pi) - np.pi
+        return np.mod(theta_sum, 2 * np.pi) - np.pi
 
     def calc_wavenums(self, x):
         """
@@ -490,11 +497,9 @@ class BaseSystem:
             field_min = np.min(field)
             field_max = np.max(field)
 
-
             for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
 
                 if field_min < angle < field_max:
-
                     field_to_plot = field.copy()
                     field_to_plot[field < angle - 1] = float('nan')
                     field_to_plot[field > angle + 1] = float('nan')
@@ -504,8 +509,7 @@ class BaseSystem:
                     ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
                                     color=cmap((angle + np.pi) / (2 * np.pi)))
 
-
-            field = np.mod(field,2*np.pi)
+            field = np.mod(field, 2 * np.pi)
 
             field_to_plot = field.copy()
             field_to_plot[field < np.pi - 1] = float('nan')
@@ -515,7 +519,6 @@ class BaseSystem:
 
             ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
                             color=cmap(0))
-
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
                    number_of_layers=1, hold=False, cmap_symmetric=True):
