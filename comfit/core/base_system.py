@@ -376,7 +376,6 @@ class BaseSystem:
             non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
             field (ndarray): The initial field to be evolved.
             field_f (ndarray): The Fourier transform of the initial field.
-            t (float, optional): The time to evolve the field.
 
         Returns:
             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
@@ -414,7 +413,6 @@ class BaseSystem:
              non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
              field (ndarray): The initial field to be evolved.
              field_f (ndarray): The Fourier transform of the initial field.
-             number_of_pred_it_steps (int, optional): The number of predictor iterations. Defaults to 2.
 
          Returns:
              tuple: A tuple containing the evolved field and the predicted field in Fourier space.
