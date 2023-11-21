@@ -249,7 +249,7 @@ class BEC(BaseSystem):
 
 
 
-
+        # TODO: the solvers has to be tested and compared aginst each other (Jonas 21/11/23)
     def evolve_relax_BEC(self,number_of_steps,method= 'ETD2RK'):
         '''
         Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
