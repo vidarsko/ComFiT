@@ -367,7 +367,7 @@ class BaseSystem:
         return integrating_factors_f
 
     # Time evolution function
-    def evolve_ETD2RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f, t=None):
+    def evolve_ETD2RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):
         """
         Evolves the given field using the ETD2RK scheme with a loop.
 
