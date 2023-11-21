@@ -157,23 +157,29 @@ class BEC(BaseSystem):
             position = [self.xmid, self.ymid]
 
         if self.psi is None:
-            self.psi = np.ones((self.xRes, self.yRes))
+            self.set_initial_condition_Thomas_Fermi()
+
             # TODO: maybe this needs to be formulated in terms of model parameters (Vidar 16.11.23)
+            #  Answer: Homogeneous ground-state is now replaced by the Thomas-Fermy (Jonas 21.11.23 )
 
         self.psi = self.psi*np.exp(1j * self.calc_angle_field_single_vortex(position, charge=charge))
         self.psi_f = np.fft.fftn(self.psi)
 
 
     #TODO: Give this funciton a slightly more informative name. (Vidar 17.11.23)
-    def set_spatialy_varying_gamma(self,d=7, wx=0,wy=0,wz=0):
+    # Answer: Is the proposed name more informative (Jonas 21.11.23)
+
+    def set_dissipative_frame(self,d=7, wx=50,wy=50,wz=50):
         '''
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
+        This sets a dissipative frame around the computational domain
          Args
              d (float): length of the interface between the low gamma and high gamma regions
             wx (float): distance fom center to the frame in x-direction
             wy (float):    -- " --                         y-direction
             wz (float):     -- " --                         z-direction
-        return: self.gamma
+        return:
+            modify self.gamma
         '''
         if self.dim == 2:
             X,Y =  np.meshgrid(self.x, self.y, indexing='ij')
