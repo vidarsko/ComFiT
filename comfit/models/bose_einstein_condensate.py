@@ -413,5 +413,5 @@ class BEC(BaseSystem):
         ax.scatter(x_coords_neg,y_coords_neg, marker='*',color='blue')
         ax.set_aspect('equal')
 
-        
+
 
