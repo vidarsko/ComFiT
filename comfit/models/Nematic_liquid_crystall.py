@@ -142,7 +142,8 @@ class nematic(BaseSystem):
 
         #TODO: Double check that Q[1][1] is the same as Q[1,1,:,:] (Vidar 16.11.23)
         # Answer: this is tested in 231121jr_test_of_nematic_indexing.py,
-        # where i chech that they have the same shape and that the difference is zero (Jonas 21.11.23)
+        # where I chech that they have the same shape and that the difference between the
+        # absolute values are zero (Jonas 21.11.23)
 
     def calc_molecular_field(self,Q):
         """
