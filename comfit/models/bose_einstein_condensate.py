@@ -160,7 +160,7 @@ class BEC(BaseSystem):
             self.set_initial_condition_Thomas_Fermi()
 
             # TODO: maybe this needs to be formulated in terms of model parameters (Vidar 16.11.23)
-            #  Answer: Homogeneous ground-state is now replaced by the Thomas-Fermy (Jonas 21.11.23 )
+            #  Answer: Homogeneous ground-state is now replaced by the Thomas-Fermi ground-state (Jonas 21.11.23 )
 
         self.psi = self.psi*np.exp(1j * self.calc_angle_field_single_vortex(position, charge=charge))
         self.psi_f = np.fft.fftn(self.psi)
