@@ -141,7 +141,8 @@ class nematic(BaseSystem):
         return np.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
 
         #TODO: Double check that Q[1][1] is the same as Q[1,1,:,:] (Vidar 16.11.23)
-    # this is tested in 231121jr_test_of_nematic_indexing.py, where i chech that they have the same shape and that the difference is zero
+        # Answer: this is tested in 231121jr_test_of_nematic_indexing.py,
+        # where i chech that they have the same shape and that the difference is zero (Jonas 21.11.23)
 
     def calc_molecular_field(self,Q):
         """
