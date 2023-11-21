@@ -215,9 +215,10 @@ class BEC(BaseSystem):
     #Time evolution
     def evolve_dGPE(self,number_of_steps,method = 'ETD2RK'):
         '''
-       Evolver that uses the EDT2RK loop for the dGPE, assuming a time-independent potential
+       Evolver for the dGPE.
            Args:
                number_of_steps (int) the number of time steps that we are evolving the equation
+               method (string, optional) the integration method we want to use. ETD2RK is sett as default
            returns:
                Updates the self.psi and self.psi_f
        '''
@@ -245,9 +246,10 @@ class BEC(BaseSystem):
 
     def evolve_relax_BEC(self,number_of_steps,method= 'ETD2RK'):
         '''
-        Evolver that uses the EDT4RK loop for the dGPE in imaginary time to relax the equation
+        Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
             Args:
                 number_of_steps (int) the number of time steps that we are evolving the equation
+                method (string, optional) the integration method we want to use. ETD2RK is sett as default
             returns:
                 Updates the self.psi and self.psi_f
         '''
@@ -262,11 +264,12 @@ class BEC(BaseSystem):
 
     def evolve_comoving_dGPE(self, number_of_steps, velx,method = 'ETD2RK'):
         '''
-        Evolver that uses the EDT4RK loop for the dGPE in the comoving frame.
-        This evolver assume that the stiring is in the x-direction and that gamma is spatialy dependent
+        Evolver orr the dGPE in the comoving frame.
+        This evolver assume that the stirring is in the x-direction and that gamma is spatialy dependent
             Args:
                 number_of_steps (int) the number of time steps that we are evolving the equation
                 velx (float) velocity in x direction
+                method (string, optional) the integration method we want to use. ETD2RK is sett as default
             returns:
                 Updates the fields self.psi and self.psi_f
                 '''
