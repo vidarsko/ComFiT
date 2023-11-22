@@ -175,11 +175,11 @@ class BaseSystem:
         position = np.array(position)
         #The following code adds the angle field also in the mirrors so that the final field becomes compatible with the
         #periodic boundary conditions.
-        #for r0 in [position, position - (self.xmax, 0, 0), position + (self.xmax, 0, 0),
-        #           position - (0, self.ymax, 0), position + (0, self.ymax, 0),
-        #           position - (0, 0, self.zmax), position + (0, 0, self.zmax)]:
+        for r0 in [position, position - (self.xmax, 0, 0), position + (self.xmax, 0, 0),
+                  position - (0, self.ymax, 0), position + (0, self.ymax, 0),
+                  position - (0, 0, self.zmax), position + (0, 0, self.zmax)]:
         # It does not work as intended atm (Vidar 20.11.23)
-        for r0 in [position]:
+        #for r0 in [position]:
             print(r0)
             m2 = n[0] * (X - r0[0]) \
                  + n[1] * (Y - r0[1]) \
