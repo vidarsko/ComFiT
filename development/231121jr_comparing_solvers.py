@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import comfit as cf
 
-bec = cf.BEC(3,xRes=64,yRes=64,zRes=64,gamma=0.005,dt=0.01)
+bec = cf.BEC(3,xRes=64,yRes=64,zRes=64,gamma=0.005,dt=0.5)
 
 stirrer_radius = 20
 stirrer_velocity = 0.6
