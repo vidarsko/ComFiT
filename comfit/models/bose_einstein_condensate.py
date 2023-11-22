@@ -416,7 +416,7 @@ class BEC(BaseSystem):
 
     def vortex_remover(self,nodes,Area):
         '''
-        Function that finds and removes vortices outside of the area inside the corners
+        Function that finds and removes vortices outside of the area defined by the corners
         (x1,y1), (x1,y2), (x2,y1), (x2,y2)
         Args:
             nodes (list) a list containing the vortices
@@ -429,3 +429,4 @@ class BEC(BaseSystem):
             if not(Area[0] < x_coord and x_coord < Area[1] \
                     and Area[2] < y_coord and y_coord < Area[3]):
                 self.conf_insert_vortex( charge=-1*vortex['charge'], position=[x_coord,y_coord])
+                self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
