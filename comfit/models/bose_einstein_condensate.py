@@ -157,23 +157,29 @@ class BEC(BaseSystem):
             position = [self.xmid, self.ymid]
 
         if self.psi is None:
-            self.psi = np.ones((self.xRes, self.yRes))
+            self.set_initial_condition_Thomas_Fermi()
+
             # TODO: maybe this needs to be formulated in terms of model parameters (Vidar 16.11.23)
+            #  Answer: Homogeneous ground-state is now replaced by the Thomas-Fermi ground-state (Jonas 21.11.23 )
 
         self.psi = self.psi*np.exp(1j * self.calc_angle_field_single_vortex(position, charge=charge))
         self.psi_f = np.fft.fftn(self.psi)
 
 
     #TODO: Give this funciton a slightly more informative name. (Vidar 17.11.23)
-    def set_spatialy_varying_gamma(self,d=7, wx=0,wy=0,wz=0):
+    # Answer: Is the proposed name more informative (Jonas 21.11.23)
+
+    def set_dissipative_frame(self,d=7, wx=50,wy=50,wz=50):
         '''
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
+        This sets a dissipative frame around the computational domain
          Args
              d (float): length of the interface between the low gamma and high gamma regions
             wx (float): distance fom center to the frame in x-direction
             wy (float):    -- " --                         y-direction
             wz (float):     -- " --                         z-direction
-        return: self.gamma
+        return:
+            modify self.gamma
         '''
         if self.dim == 2:
             X,Y =  np.meshgrid(self.x, self.y, indexing='ij')
@@ -215,9 +221,10 @@ class BEC(BaseSystem):
     #Time evolution
     def evolve_dGPE(self,number_of_steps,method = 'ETD2RK'):
         '''
-       Evolver that uses the EDT2RK loop for the dGPE, assuming a time-independent potential
+       Evolver for the dGPE.
            Args:
                number_of_steps (int) the number of time steps that we are evolving the equation
+               method (string, optional) the integration method we want to use. ETD2RK is sett as default
            returns:
                Updates the self.psi and self.psi_f
        '''
@@ -242,12 +249,13 @@ class BEC(BaseSystem):
 
 
 
-
+        # TODO: the solvers has to be tested and compared aginst each other (Jonas 21/11/23)
     def evolve_relax_BEC(self,number_of_steps,method= 'ETD2RK'):
         '''
-        Evolver that uses the EDT4RK loop for the dGPE in imaginary time to relax the equation
+        Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
             Args:
                 number_of_steps (int) the number of time steps that we are evolving the equation
+                method (string, optional) the integration method we want to use. ETD2RK is sett as default
             returns:
                 Updates the self.psi and self.psi_f
         '''
@@ -262,11 +270,12 @@ class BEC(BaseSystem):
 
     def evolve_comoving_dGPE(self, number_of_steps, velx,method = 'ETD2RK'):
         '''
-        Evolver that uses the EDT4RK loop for the dGPE in the comoving frame.
-        This evolver assume that the stiring is in the x-direction and that gamma is spatialy dependent
+        Evolver orr the dGPE in the comoving frame.
+        This evolver assume that the stirring is in the x-direction and that gamma is spatialy dependent
             Args:
                 number_of_steps (int) the number of time steps that we are evolving the equation
                 velx (float) velocity in x direction
+                method (string, optional) the integration method we want to use. ETD2RK is sett as default
             returns:
                 Updates the fields self.psi and self.psi_f
                 '''
@@ -404,5 +413,20 @@ class BEC(BaseSystem):
         ax.scatter(x_coords_neg,y_coords_neg, marker='*',color='blue')
         ax.set_aspect('equal')
 
-        
 
+    def vortex_remover(self,nodes,Area):
+        '''
+        Function that finds and removes vortices outside of the area defined by the corners
+        (x1,y1), (x1,y2), (x2,y1), (x2,y2)
+        Args:
+            nodes (list) a list containing the vortices
+            Area  (array) list on the format (x1,x2,y1,y2)
+        returns:
+        '''
+        for vortex in nodes:
+            x_coord = vortex['position'][0]
+            y_coord = vortex['position'][1]
+            if not(Area[0] < x_coord and x_coord < Area[1] \
+                    and Area[2] < y_coord and y_coord < Area[3]):
+                self.conf_insert_vortex( charge=-1*vortex['charge'], position=[x_coord,y_coord])
+                self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])

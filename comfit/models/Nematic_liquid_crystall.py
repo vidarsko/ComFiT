@@ -77,6 +77,11 @@ class nematic(BaseSystem):
 
 
     def calc_S(self):
+        '''
+        Calculates the strength of nematic order S
+        :returns
+            (numpy.narray) S
+        '''
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
 
@@ -86,6 +91,7 @@ class nematic(BaseSystem):
         calculate the velocity and its fourier transform. Because of the possibility Gamma = 0 we have to use the self.k2_press to avoid
         division by zero. This is not a problem since the zero mode of all the forces are zero
         :return:
+            (numpy.narray) velocity
         '''
         self.F_af = self.calc_activ_force_f(Q)
         self.F_pf = self.calc_passive_force_f(Q)
@@ -117,6 +123,12 @@ class nematic(BaseSystem):
         return F_pf
 
     def calc_passive_stress_f(self,Q):
+        """
+        Calculates the passive stress in fourier space
+        Args:
+            Q (numpy.narray) the order parameter that we use to find the stress.
+        return: (numpy.narray) the passive stress in fourier space
+        """
         H = self.calc_molecular_field(Q)
         Antisym_QH = np.zeros_like(self.Q_f)
         Ericksen = np.zeros_like(self.Q_f)
@@ -129,6 +141,9 @@ class nematic(BaseSystem):
         return np.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
 
         #TODO: Double check that Q[1][1] is the same as Q[1,1,:,:] (Vidar 16.11.23)
+        # Answer: this is tested in 231121jr_test_of_nematic_indexing.py,
+        # where I chech that they have the same shape and that the difference between the
+        # absolute values are zero (Jonas 21.11.23)
 
     def calc_molecular_field(self,Q):
         """
@@ -191,6 +206,13 @@ class nematic(BaseSystem):
 #### Calculation of non-linear evolution terms
     def calc_nonlinear_evolution_function_f(self,Q):
         # TODO test and make sure that the passive stress works as intended (Jonas: 2023/11/14)
+        """
+        Calculates the non-linear evolution function for the nematic
+        Args:
+            Q (numpy.narray) the nematc orderparameter
+        returns:
+            (numpy.narray) the non-linear evolution function evaluated in Fourier space
+        """
         self.calc_u(Q)
         Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
         N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
@@ -204,6 +226,13 @@ class nematic(BaseSystem):
         return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
     def calc_nonlinear_evolution_term_no_flow_f(self,Q):
+        """
+            Calculates the non-linear evolution function for the nematic without the flow field
+                Args:
+                    Q (numpy.narray) the nematc orderparameter
+                returns:
+                    (numpy.narray) the non-linear evolution function evaluated in Fourier space
+                """
         Q2 = np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
 
         return -2*self.A*np.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
@@ -211,6 +240,14 @@ class nematic(BaseSystem):
 
 ##### evolvers
     def evolve_nematic(self, number_of_steps, method= 'ETD2RK'):
+        '''
+         Evolver for the nematic system
+            Args:
+                number_of_steps (int) the number of time steps that we are evolving the equation
+                method (string, optional) the integration method we want to use. ETD2RK is sett as default
+            returns:
+                Updates the fields self.Q and self.Q_f
+        '''
         omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
 
         if method == 'ETD2RK':
@@ -229,6 +266,14 @@ class nematic(BaseSystem):
         self.Q = np.real(self.Q)
 
     def evolve_nematic_no_flow(self,number_of_steps,method = 'ETD2RK'):
+        '''
+                 Evolver for the nematic system without the flow field
+                    Args:
+                        number_of_steps (int) the number of time steps that we are evolving the equation
+                        method (string, optional) the integration method we want to use. ETD2RK is sett as default
+                    returns:
+                        Updates the fields self.Q and self.Q_f
+                '''
         omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
 
         if method == 'ETD2RK':
@@ -249,11 +294,21 @@ class nematic(BaseSystem):
 
 ##### defect tracking
     def calc_defect_density_nematic(self):
+        """
+        calculates the defect density
+        return:
+            (numpy.narray) The defect density
+        """
         psi0 = np.sqrt(self.B)/2
         psi =[self.Q[0][0],self.Q[0][1]]
         return self.calc_defect_density(psi,psi0)
 
     def calc_director(self):
+        """
+        Finds the director field
+        return:
+            (numpy.narray) the director field
+        """
         if self.dim == 2:
             psi_n = self.Q[0][0] + 1j*self.Q[0][1]
             angle = np.angle(psi_n)
