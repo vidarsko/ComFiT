@@ -202,7 +202,6 @@ class BaseSystem:
         N=0
         for nx in range(-N, N+1):
             for ny in range(-N, N+1):
-                print(nx,ny)
                 theta1 = self.calc_angle_field_single_vortex(np.array(position1)+(nx*self.xmax,ny*self.ymax), charge=1)
                 theta2 = self.calc_angle_field_single_vortex(np.array(position2)+(nx*self.xmax,ny*self.ymax), charge=-1)
                 theta_sum = theta_sum + theta1 + theta2
