@@ -6,5 +6,5 @@ setup(
     packages=['comfit'],
     package_data={'comfit':['core/*','models/*']},
     author='Vidar Skogvoll and Jonas Rønning',
-    install_requires=['numpy>=1.22.0','scikit-image']
+    install_requires=['numpy>=1.22.0','scikit-image','matplotlib']
 )

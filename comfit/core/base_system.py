@@ -56,7 +56,7 @@ class BaseSystem:
         self.Res = self.xRes * self.yRes * self.zRes
         self.dims = [self.yRes, self.xRes, self.zRes]
 
-        self.a0 = 1  # System length PFCscale, set to 1 unless changed later
+        self.a0 = 1  # System length scale
 
         # Helpful midpoints and their indices
         self.xmidi = (1 + self.xRes) // 2 - 1
@@ -129,7 +129,7 @@ class BaseSystem:
 
         theta = charge * np.arctan2(y - position[1], x - position[0])
 
-        return theta
+        return np.mod(theta+np.pi, 2*np.pi)-np.pi
 
     def calc_angle_field_double_vortex(self,
                                        position1=None,
@@ -154,10 +154,61 @@ class BaseSystem:
         if position2 is None:
             position2 = [2 * self.xmax / 3, self.ymid]
 
-        theta1 = self.calc_angle_field_single_vortex(position1)
-        theta2 = self.calc_angle_field_single_vortex(position2, charge=-1)
+        # n = 1
+        # theta_sum=0
+        #
+        # displacements = np.array([[0,0],
+        #                           [1,0],[-1,0],[0,-1],[0,1],
+        #                           [1,1],[-1,-1],[-1,1],[1,-1],
+        #                           [2,0],[0,2],[-2,0],[0,-2],
+        #                           [2,1],[-2,1],[2,-1],[-2,-1],[1,2],[-1,2],[1,-2],[-1,-2],
+        #                           [3,3],[-3,-3],[-3,3],[3,-3]])\
+        #                 *np.array([self.xmax,self.ymax])
+        #
+        # #displacements = np.array([[0,0]])
+        # #displacements = np.array([[-1,0]])*np.array([self.xmax,self.ymax])
+        # #displacements = np.array([[-1, 0], [1, 0]]) * np.array([self.xmax, self.ymax])
+        # displacements = np.array([[0, 0],
+        #                           [1, 0], [-1, 0], [0, -1], [0, 1],
+        #                           [1,1],[-1,-1],[-1,1],[1,-1]]) \
+        #                 * np.array([self.xmax, self.ymax])
+        #
+        # for displacement in displacements:
+        #     theta1 = self.calc_angle_field_single_vortex(np.array(position1)+displacement, charge=1)
+        #     theta2 = self.calc_angle_field_single_vortex(np.array(position2)+displacement, charge=-1)
+        #     theta_sum = theta_sum + theta1 + theta2
+        #
+        # amp = np.exp(1j*theta_sum)
+        # amp = np.fft.ifftn(np.fft.fftn(amp)*self.calc_gaussfilter_f(5*self.dx))
+        # theta = np.angle(amp)
 
-        return np.mod(theta1 + theta2 + np.pi, 2 * np.pi) - np.pi
+        # x = self.x.reshape((self.xRes, 1))
+        # y = self.y.reshape((1, self.yRes))
+        #z = x + 1j*y
+        #
+        #amp = np.sin((z-position1[0]-position1[1]*1j)/(25))*np.sin((np.conj(z)-position2[0]+position2[1]*1j)/(25))
+
+        # amp = np.sin((x-position1[0])/self.xmax)*np.sin((x-position2[0])/self.xmax) \
+        #       + 1j*np.sin((y-position1[1])/self.ymax)*np.sin((y-position2[1])/self.ymax)
+
+        # xa = x - position1[0]
+        # ya = y - position1[1]
+        # xb = x - position2[0]
+        # yb = y - position2[1]
+        #
+        # amp = (np.exp(1j*xa*ya/(self.xmax*self.ymax)) - 1)*(np.exp(1j*xb*yb/(self.xmax*self.ymax)) - 1)
+
+        theta_sum = 0
+        N=0
+        for nx in range(-N, N+1):
+            for ny in range(-N, N+1):
+                print(nx,ny)
+                theta1 = self.calc_angle_field_single_vortex(np.array(position1)+(nx*self.xmax,ny*self.ymax), charge=1)
+                theta2 = self.calc_angle_field_single_vortex(np.array(position2)+(nx*self.xmax,ny*self.ymax), charge=-1)
+                theta_sum = theta_sum + theta1 + theta2
+        # theta = np.angle(amp)
+
+        return np.mod(theta_sum+np.pi, 2 * np.pi) - np.pi
 
     def calc_angle_field_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
 
@@ -228,6 +279,13 @@ class BaseSystem:
 
     def calc_k2(self):
         return sum([self.k[i] ** 2 for i in range(len(self.k))])
+
+    def calc_gaussfilter_f(self,a0=None):
+
+        if a0 is None:
+            a0 = self.a0
+
+        return np.exp(-1/2*a0**2*self.calc_k2())
 
     def calc_defect_density(self, psi, psi0=1):
         """
@@ -473,7 +531,7 @@ class BaseSystem:
 
             custom_colormap = tool_colormap_angle()
 
-            mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap)
+            mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap,vmin=-np.pi, vmax=np.pi)
             cbar = plt.colorbar(mesh)  # To add a colorbar on the side
             cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
             cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
