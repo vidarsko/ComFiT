@@ -158,14 +158,17 @@ class BaseSystem:
         theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid)-np.array(dipole_vector)/2, charge=-1)
         theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid)+np.array(dipole_vector)/2, charge=1)
 
+        # Imposing the angle field in a circular region around the dipole
         radius = np.min([self.xmax,self.ymax])/2
         region_to_exclude = (self.x.reshape((self.xRes,1))-self.xmid)**2 + (self.y.reshape((1,self.yRes))-self.ymid)**2 > radius**2
         theta[region_to_exclude] = 0
 
+        #Coarse-graining the angle field to remove artifacts from boundaries
         amp = np.exp(1j * theta)
-        amp = np.fft.ifftn(np.fft.fftn(amp) * self.calc_gaussfilter_f(10 * self.dx))
+        amp = np.fft.ifftn(np.fft.fftn(amp) * self.calc_gaussfilter_f(5 * self.dx))
         theta = np.angle(amp)
 
+        #Roll the field so that the dipole center of mass is at the desired position.
         Rx = round((self.rmid[0] - dipole_position[0])/self.dx)
         theta = np.roll(theta,-Rx, axis=0)
         Ry = round((self.rmid[1] - dipole_position[1]) / self.dy)
@@ -478,7 +481,7 @@ class BaseSystem:
 
     # PLOTTING FUNCTIONS
 
-    def plot_angle_field(self, field, ax=None):
+    def plot_angle_field(self, field, ax=None, colorbar=True):
         """
         Plot the angle field.
         Parameters:
@@ -498,13 +501,16 @@ class BaseSystem:
             custom_colormap = tool_colormap_angle()
 
             mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap,vmin=-np.pi, vmax=np.pi)
-            cbar = plt.colorbar(mesh)  # To add a colorbar on the side
-            cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+            if colorbar:
+                cbar = plt.colorbar(mesh)  # To add a colorbar on the side
+                cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+                cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
             # ax.title("Angle field")
-            # ax.xlabel("X-axis")
-            # ax.ylabel("Y-axis")
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
             ax.set_aspect('equal')
+
+            return ax
 
         elif self.dim == 3:
 
