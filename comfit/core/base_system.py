@@ -131,14 +131,14 @@ class BaseSystem:
 
         return np.mod(theta+np.pi, 2*np.pi)-np.pi
 
-    def calc_angle_field_double_vortex(self,
-                                       position1=None,
-                                       position2=None):
+    def calc_angle_field_vortex_dipole(self,
+                                       dipole_vector=None,
+                                       dipole_position=None):
         """
         Calculates the angle field for a double vortex system.
         Args:
-            position1 (list, optional): The position of the first vortex. Defaults to None.
-            position2 (list, optional): The position of the second vortex. Defaults to None.
+            dipole_vector (list, optional): The dipole vector. Defaults to None.
+            dipole_position (list, optional): The position the center of mass of the dipole. Defaults to None.
         Raises:
             Exception: If the dimension of the system is not 2.
         Returns:
@@ -148,66 +148,32 @@ class BaseSystem:
         if self.dim != 2:
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
 
-        if position1 is None:
-            position1 = [self.xmax / 3, self.ymid]
+        if dipole_vector is None:
+            dipole_vector = [self.xmax/3, 0]
 
-        if position2 is None:
-            position2 = [2 * self.xmax / 3, self.ymid]
+        if dipole_position is None:
+            dipole_position = self.rmid
 
-        # n = 1
-        # theta_sum=0
-        #
-        # displacements = np.array([[0,0],
-        #                           [1,0],[-1,0],[0,-1],[0,1],
-        #                           [1,1],[-1,-1],[-1,1],[1,-1],
-        #                           [2,0],[0,2],[-2,0],[0,-2],
-        #                           [2,1],[-2,1],[2,-1],[-2,-1],[1,2],[-1,2],[1,-2],[-1,-2],
-        #                           [3,3],[-3,-3],[-3,3],[3,-3]])\
-        #                 *np.array([self.xmax,self.ymax])
-        #
-        # #displacements = np.array([[0,0]])
-        # #displacements = np.array([[-1,0]])*np.array([self.xmax,self.ymax])
-        # #displacements = np.array([[-1, 0], [1, 0]]) * np.array([self.xmax, self.ymax])
-        # displacements = np.array([[0, 0],
-        #                           [1, 0], [-1, 0], [0, -1], [0, 1],
-        #                           [1,1],[-1,-1],[-1,1],[1,-1]]) \
-        #                 * np.array([self.xmax, self.ymax])
-        #
-        # for displacement in displacements:
-        #     theta1 = self.calc_angle_field_single_vortex(np.array(position1)+displacement, charge=1)
-        #     theta2 = self.calc_angle_field_single_vortex(np.array(position2)+displacement, charge=-1)
-        #     theta_sum = theta_sum + theta1 + theta2
-        #
-        # amp = np.exp(1j*theta_sum)
-        # amp = np.fft.ifftn(np.fft.fftn(amp)*self.calc_gaussfilter_f(5*self.dx))
-        # theta = np.angle(amp)
+        theta = 0
+        theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid)-np.array(dipole_vector)/2, charge=-1)
+        theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid)+np.array(dipole_vector)/2, charge=1)
 
-        # x = self.x.reshape((self.xRes, 1))
-        # y = self.y.reshape((1, self.yRes))
-        #z = x + 1j*y
-        #
-        #amp = np.sin((z-position1[0]-position1[1]*1j)/(25))*np.sin((np.conj(z)-position2[0]+position2[1]*1j)/(25))
+        radius = np.min([self.xmax,self.ymax])/2
+        region_to_exclude = (self.x.reshape((self.xRes,1))-self.xmid)**2 + (self.y.reshape((1,self.yRes))-self.ymid)**2 > radius**2
+        theta[region_to_exclude] = 0
 
-        # amp = np.sin((x-position1[0])/self.xmax)*np.sin((x-position2[0])/self.xmax) \
-        #       + 1j*np.sin((y-position1[1])/self.ymax)*np.sin((y-position2[1])/self.ymax)
+        amp = np.exp(1j * theta)
+        amp = np.fft.ifftn(np.fft.fftn(amp) * self.calc_gaussfilter_f(10 * self.dx))
+        theta = np.angle(amp)
 
-        # xa = x - position1[0]
-        # ya = y - position1[1]
-        # xb = x - position2[0]
-        # yb = y - position2[1]
-        #
-        # amp = (np.exp(1j*xa*ya/(self.xmax*self.ymax)) - 1)*(np.exp(1j*xb*yb/(self.xmax*self.ymax)) - 1)
+        Rx = round((self.rmid[0] - dipole_position[0])/self.dx)
+        theta = np.roll(theta,-Rx, axis=0)
+        Ry = round((self.rmid[1] - dipole_position[1]) / self.dy)
+        theta = np.roll(theta, -Ry, axis=1)
 
-        theta_sum = 0
-        N=0
-        for nx in range(-N, N+1):
-            for ny in range(-N, N+1):
-                theta1 = self.calc_angle_field_single_vortex(np.array(position1)+(nx*self.xmax,ny*self.ymax), charge=1)
-                theta2 = self.calc_angle_field_single_vortex(np.array(position2)+(nx*self.xmax,ny*self.ymax), charge=-1)
-                theta_sum = theta_sum + theta1 + theta2
-        # theta = np.angle(amp)
 
-        return np.mod(theta_sum+np.pi, 2 * np.pi) - np.pi
+
+        return np.mod(theta+np.pi, 2 * np.pi) - np.pi
 
     def calc_angle_field_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
 
@@ -285,6 +251,7 @@ class BaseSystem:
             a0 = self.a0
 
         return np.exp(-1/2*a0**2*self.calc_k2())
+
 
     def calc_defect_density(self, psi, psi0=1):
         """
