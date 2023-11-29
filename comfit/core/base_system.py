@@ -184,7 +184,12 @@ class BaseSystem:
             position = self.rmid
 
         if radius is None:
-            radius = self.xmax / 3
+            radius = np.min([self.xmax, self.ymax, self.zmax]) / 3
+
+        if radius>np.min([self.xmax, self.ymax, self.zmax])/3:
+            print("Warning: The radius of the suggested vortex ring is large."
+                  "This can cause unwanted boundary effects.")
+
 
         n = normal_vector / np.linalg.norm(np.array(normal_vector))
         print(n)
@@ -563,6 +568,11 @@ class BaseSystem:
             ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
                             color=cmap(0))
 
+            ax.set_xlim3d(self.x[0], self.x[-1])
+            ax.set_ylim3d(self.y[0], self.y[-1])
+            ax.set_zlim3d(self.z[0], self.z[-1])
+            ax.set_aspect('equal')
+
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
                    number_of_layers=1, hold=False, cmap_symmetric=True):
         """
@@ -655,6 +665,11 @@ class BaseSystem:
                 sm = plt.cm.ScalarMappable(cmap=cmap)
                 sm.set_clim(field_min, field_max)
                 plt.colorbar(sm, ax=ax)
+
+            ax.set_xlim3d(self.x[0], self.x[-1])
+            ax.set_ylim3d(self.y[0], self.y[-1])
+            ax.set_zlim3d(self.z[0], self.z[-1])
+            ax.set_aspect('equal')
 
             return ax
 

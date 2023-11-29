@@ -1,1 +1,2 @@
 from .tool_colormaps import tool_colormap_bluewhitered, tool_colormap_angle
+from .tool_animation import tool_save_plot, tool_make_animation

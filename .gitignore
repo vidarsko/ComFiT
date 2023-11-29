@@ -24,3 +24,7 @@ build/
 # ----- Jupyter Notebooks -----
 # Jupyter notebook checkpoints
 .ipynb_checkpoints/
+
+# ----- Picture and movie files -----
+*.png
+*.mp4

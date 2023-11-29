@@ -138,7 +138,7 @@ class BEC(BaseSystem):
         if radius is None:
             radius = self.xmax/3
 
-        theta = self.calc_angle_field_vortex_ring(position, radius, normal_vector)
+        theta = self.calc_angle_field_vortex_ring(position=position, radius=radius, normal_vector=normal_vector)
 
         self.psi = np.exp(1j*theta)
         self.psi_f = np.fft.fftn(self.psi)
