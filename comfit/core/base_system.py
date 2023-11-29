@@ -176,7 +176,7 @@ class BaseSystem:
 
 
 
-        return np.mod(theta+np.pi, 2 * np.pi) - np.pi
+        return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
     def calc_angle_field_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
 
@@ -190,30 +190,45 @@ class BaseSystem:
         print(n)
         [X, Y, Z] = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-        theta_sum = 0
+        theta = 0
         position = np.array(position)
-        #The following code adds the angle field also in the mirrors so that the final field becomes compatible with the
-        #periodic boundary conditions.
-        for r0 in [position, position - (self.xmax, 0, 0), position + (self.xmax, 0, 0),
-                  position - (0, self.ymax, 0), position + (0, self.ymax, 0),
-                  position - (0, 0, self.zmax), position + (0, 0, self.zmax)]:
-        # It does not work as intended atm (Vidar 20.11.23)
-        #for r0 in [position]:
-            print(r0)
-            m2 = n[0] * (X - r0[0]) \
-                 + n[1] * (Y - r0[1]) \
-                 + n[2] * (Z - r0[2])
 
-            m1 = np.sqrt(
-                (X - r0[0] - m2 * n[0]) ** 2
-                + (Y - r0[1] - m2 * n[1]) ** 2
-                + (Z - r0[2] - m2 * n[2]) ** 2
-            )
+        r0 = self.rmid
 
-            theta_sum = theta_sum + np.arctan2(m2, m1 + radius)
-            theta_sum = theta_sum + np.arctan2(m2, m1 - radius)
+        m2 = n[0] * (X - r0[0]) \
+             + n[1] * (Y - r0[1]) \
+             + n[2] * (Z - r0[2])
 
-        return np.mod(theta_sum, 2 * np.pi) - np.pi
+        m1 = np.sqrt(
+            (X - r0[0] - m2 * n[0]) ** 2
+            + (Y - r0[1] - m2 * n[1]) ** 2
+            + (Z - r0[2] - m2 * n[2]) ** 2
+        )
+
+        theta = theta + np.arctan2(m2, m1 + radius)
+        theta = theta + np.arctan2(m2, m1 - radius)
+
+        # Imposing the angle field in a ball region around the dislocation ring
+        radius = np.min([self.xmax, self.ymax, self.zmax]) / 2
+        region_to_exclude = (self.x.reshape((self.xRes, 1, 1)) - self.xmid) ** 2 \
+                            + (self.y.reshape((1, self.yRes, 1)) - self.ymid) ** 2\
+                            + (self.z.reshape((1, 1, self.zRes)) - self.zmid) ** 2 > radius ** 2
+        theta[region_to_exclude] = 0
+
+        # Coarse-graining the angle field to remove artifacts from boundaries
+        amp = np.exp(1j * theta)
+        amp = np.fft.ifftn(np.fft.fftn(amp) * self.calc_gaussfilter_f(7 * self.dx))
+        theta = np.angle(amp)
+
+        # Roll the field so that the dipole center of mass is at the desired position.
+        Rx = round((self.rmid[0] - position[0]) / self.dx)
+        theta = np.roll(theta, -Rx, axis=0)
+        Ry = round((self.rmid[1] - position[1]) / self.dy)
+        theta = np.roll(theta, -Ry, axis=1)
+        Rz = round((self.rmid[2] - position[2]) / self.dz)
+        theta = np.roll(theta, -Rz, axis=2)
+
+        return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
     def calc_wavenums(self, x):
         """
