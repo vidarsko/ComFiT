@@ -91,7 +91,7 @@ class BEC(BaseSystem):
         """
         Set the potential to the function Func. Func has to use self.dt as the time variabel.
         Args:
-            Func (function): the timedependent potetnial that we want
+            Func (function): the time-dependent potetnial that we want
         returns:
             Set V_ext to Func
         """
@@ -167,7 +167,7 @@ class BEC(BaseSystem):
 
 
     #TODO: Give this funciton a slightly more informative name. (Vidar 17.11.23)
-    # Answer: Is the proposed name more informative (Jonas 21.11.23)
+    # Answer: Is the proposed name more informative? (Jonas 21.11.23)
 
     def set_dissipative_frame(self,d=7, wx=50,wy=50,wz=50):
         '''
@@ -270,7 +270,7 @@ class BEC(BaseSystem):
 
     def evolve_comoving_dGPE(self, number_of_steps, velx,method = 'ETD2RK'):
         '''
-        Evolver orr the dGPE in the comoving frame.
+        Evolver for the dGPE in the comoving frame.
         This evolver assume that the stirring is in the x-direction and that gamma is spatialy dependent
             Args:
                 number_of_steps (int) the number of time steps that we are evolving the equation
@@ -414,7 +414,7 @@ class BEC(BaseSystem):
         ax.set_aspect('equal')
 
 
-    def vortex_remover(self,nodes,Area):
+    def conf_vortex_remover(self,nodes,Area):
         '''
         Function that finds and removes vortices outside of the area defined by the corners
         (x1,y1), (x1,y2), (x2,y1), (x2,y2)
@@ -428,5 +428,5 @@ class BEC(BaseSystem):
             y_coord = vortex['position'][1]
             if not(Area[0] < x_coord and x_coord < Area[1] \
                     and Area[2] < y_coord and y_coord < Area[3]):
-                self.conf_insert_vortex( charge=-1*vortex['charge'], position=[x_coord,y_coord])
-                self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
+                self.conf_insert_vortex( charge=-1*vortex['charge'], position=[x_coord+self.dx,y_coord])
+                #self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
