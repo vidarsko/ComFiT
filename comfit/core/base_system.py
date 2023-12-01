@@ -154,27 +154,29 @@ class BaseSystem:
         if dipole_position is None:
             dipole_position = self.rmid
 
+        #Add the vortices to the theta-field
         theta = 0
         theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid)-np.array(dipole_vector)/2, charge=-1)
         theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid)+np.array(dipole_vector)/2, charge=1)
 
-        # Imposing the angle field in a circular region around the dipole
-        radius = np.min([self.xmax,self.ymax])/2
-        region_to_exclude = (self.x.reshape((self.xRes,1))-self.xmid)**2 + (self.y.reshape((1,self.yRes))-self.ymid)**2 > radius**2
-        theta[region_to_exclude] = 0
-
-        #Coarse-graining the angle field to remove artifacts from boundaries
+        #Convert the field to a complex field to make it fit the periodic boundary conditions
         amp = np.exp(1j * theta)
-        amp = np.fft.ifftn(np.fft.fftn(amp) * self.calc_gaussfilter_f(5 * self.dx))
+
+        #Filter the angle field
+        width = 0.2*np.min([self.xmax, self.ymax])
+        radius = 0.4 * np.min([self.xmax, self.ymax])
+
+        r2 = (self.x.reshape((self.xRes, 1)) - self.xmid) ** 2 + (self.y.reshape((1, self.yRes)) - self.ymid) ** 2
+        filter = (1+np.tanh((radius**2-r2)/width**2))/2
+        amp = amp * filter + (1-filter)
+
         theta = np.angle(amp)
 
-        #Roll the field so that the dipole center of mass is at the desired position.
+        #Roll the field so that the dipole center is at the desired position.
         Rx = round((self.rmid[0] - dipole_position[0])/self.dx)
         theta = np.roll(theta,-Rx, axis=0)
         Ry = round((self.rmid[1] - dipole_position[1]) / self.dy)
         theta = np.roll(theta, -Ry, axis=1)
-
-
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
@@ -195,6 +197,7 @@ class BaseSystem:
         print(n)
         [X, Y, Z] = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
+        # Add the vortices to the theta-field
         theta = 0
         position = np.array(position)
 
@@ -213,19 +216,25 @@ class BaseSystem:
         theta = theta + np.arctan2(m2, m1 + radius)
         theta = theta + np.arctan2(m2, m1 - radius)
 
-        # Imposing the angle field in a ball region around the dislocation ring
-        radius = np.min([self.xmax, self.ymax, self.zmax]) / 2
-        region_to_exclude = (self.x.reshape((self.xRes, 1, 1)) - self.xmid) ** 2 \
-                            + (self.y.reshape((1, self.yRes, 1)) - self.ymid) ** 2\
-                            + (self.z.reshape((1, 1, self.zRes)) - self.zmid) ** 2 > radius ** 2
-        theta[region_to_exclude] = 0
 
-        # Coarse-graining the angle field to remove artifacts from boundaries
+        # Convert the field to a complex field to make it fit the periodic boundary conditions
         amp = np.exp(1j * theta)
-        amp = np.fft.ifftn(np.fft.fftn(amp) * self.calc_gaussfilter_f(7 * self.dx))
+
+        # Filter the angle field
+        width = 0.2 * np.min([self.xmax, self.ymax,self.zmax])
+        radius = 0.4 * np.min([self.xmax, self.ymax,self.zmax])
+        #TODO: This radius shares name with the one defining the ring. May cause trouble down the line (Vidar 01.12.23)
+
+        r2 = (self.x.reshape((self.xRes, 1, 1)) - self.xmid) ** 2 \
+             + (self.y.reshape((1, self.yRes, 1)) - self.ymid) ** 2 \
+             + (self.z.reshape((1, 1, self.zRes)) - self.zmid) ** 2
+
+        filter = (1 + np.tanh((radius ** 2 - r2) / width ** 2)) / 2  # Goes from 1 to 0 continuously
+        amp = amp * filter + (1 - filter)
+
         theta = np.angle(amp)
 
-        # Roll the field so that the dipole center of mass is at the desired position.
+        # Roll the field so that the ring center is at the desired position.
         Rx = round((self.rmid[0] - position[0]) / self.dx)
         theta = np.roll(theta, -Rx, axis=0)
         Ry = round((self.rmid[1] - position[1]) / self.dy)
