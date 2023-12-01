@@ -351,8 +351,11 @@ class BaseSystem:
         Raises:
             Exception: If the dimension of the field is not 2.
         """
+        if self.dim == 1:
+            if index is None:
+                return np.sum(field) * self.dV
 
-        if self.dim == 2:
+        elif self.dim == 2:
             if index is None:
                 return np.sum(field) * self.dV
             else:

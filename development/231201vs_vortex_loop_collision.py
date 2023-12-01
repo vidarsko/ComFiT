@@ -1,3 +1,8 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
 import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +15,7 @@ bec.evolve_relax_BEC(100)
 # bec.plot_field(abs(bec.psi))
 # plt.show()
 
-for i in range(500):
+for i in range(20):
     bec.evolve_dGPE(10)
     bec.plot_field(abs(bec.psi))
     #theta = bec.calc_angle_field_vortex_ring(normal_vector=[0,0,1],radius=13)

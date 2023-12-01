@@ -50,7 +50,8 @@ class QM(BaseSystem):
 
 
         if self.dim ==1:
-            return  trapping_strength*(self.x -self.xmid )**2
+            return  trapping_strength*(self.x - self.xmid )**2
+
         if self.dim == 2:
             return trapping_strength*(((self.x-self.xmid)**2).reshape(self.xRes, 1)
                                          +((self.y-self.ymid)**2).reshape(1, self.yRes) )
@@ -121,3 +122,13 @@ class QM(BaseSystem):
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
                                                            self.psi, self.psi_f)
+
+
+    # Hamilton minimization functions
+
+    def calc_Hamiltonian(self):
+        integrand = -1/2*np.conj(self.psi)\
+            * np.fft.ifftn(-self.calc_k2()*self.psi_f)\
+            + self.V_ext*abs(self.psi)**2
+        return self.calc_integrate_field(integrand)
+    

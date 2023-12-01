@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from comfit.core.base_system import BaseSystem
+from tqdm import tqdm
 
 
 class BEC(BaseSystem):
@@ -249,7 +250,7 @@ class BEC(BaseSystem):
         else:
             raise Exception("This method is not implemented.")
 
-        for n in range(number_of_steps):
+        for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
             self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
                                                            self.psi, self.psi_f)
 
@@ -269,6 +270,7 @@ class BEC(BaseSystem):
 
         self.gamma=1-1j
 
+        print("Relaxing the BEC...")
         self.evolve_dGPE(number_of_steps,method)
 
         self.gamma=gamma0
@@ -303,7 +305,9 @@ class BEC(BaseSystem):
                                                            self.psi, self.psi_f)
 
 
-    # CALCULATION FUCNTIONS
+    # CALCULATION FUNCTIONS
+
+
 
 
     def calc_nonlinear_evolution_function_f(self,psi):
