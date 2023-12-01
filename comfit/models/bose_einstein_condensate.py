@@ -128,10 +128,13 @@ class BEC(BaseSystem):
         self.conf_insert_vortex(charge=1,position=[2/3*self.xmax, self.ymid])
         self.conf_insert_vortex(charge=-1,position=[1/3*self.xmax, self.ymid])
 
-    def set_initial_condition_vortex_ring(self,position=None, radius=None, normal_vector=[0, 0, 1]):
+    def conf_insert_vortex_ring(self,position=None, radius=None, normal_vector=[0, 0, 1]):
         """
         Sets the initial condition for a vortex ring configuration in a 3-dimensional system
         """
+        if not(self.dim==3):
+            raise Exception("The dimension of the system must be 3 for a vortex ring configuration.")
+
         if position is None:
             position = self.rmid
 
@@ -140,7 +143,10 @@ class BEC(BaseSystem):
 
         theta = self.calc_angle_field_vortex_ring(position=position, radius=radius, normal_vector=normal_vector)
 
-        self.psi = np.exp(1j*theta)
+        if self.psi is None:
+            self.psi = 1
+
+        self.psi = self.psi*np.exp(1j*theta)
         self.psi_f = np.fft.fftn(self.psi)
 
     # CONFIGURATION FUNCTIONS
@@ -407,8 +413,8 @@ class BEC(BaseSystem):
                 x_coords_neg.append(vortex['position'][0])
                 y_coords_neg.append(vortex['position'][1])
 
-        print(x_coords_pos,y_coords_pos)
-        print(x_coords_neg,y_coords_neg)
+        #print(x_coords_pos,y_coords_pos)
+        #print(x_coords_neg,y_coords_neg)
         ax.scatter(x_coords_pos,y_coords_pos, marker='+',color='red')
         ax.scatter(x_coords_neg,y_coords_neg, marker='*',color='blue')
         ax.set_aspect('equal')

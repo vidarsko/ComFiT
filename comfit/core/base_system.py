@@ -420,7 +420,8 @@ class BaseSystem:
 
         Parameters:
             integrating_factors_f (list): A list of three integrating factors.
-            non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
+            non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field
+                    and returns the fourier transform.
             field (ndarray): The initial field to be evolved.
             field_f (ndarray): The Fourier transform of the initial field.
 
@@ -621,19 +622,18 @@ class BaseSystem:
             if colorbar:
                 cbar = plt.colorbar(pcm, ax=ax)
 
-            if hasattr(self, 'defined_length_scale'):
-                ax.set_xlabel('$x/a_0$')
-                ax.set_ylabel('$y/a_0$')
-            else:
-                ax.set_xlabel('$x$')
-                ax.set_ylabel('$y$')
+
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_aspect('equal')
+
 
             return ax
 
         elif self.dim == 3:
 
             if ax == None:
-                plt.figure()
+                plt.clf()
                 ax = plt.gcf().add_subplot(111, projection='3d')
 
             if not hold:
@@ -645,7 +645,7 @@ class BaseSystem:
             field_max = np.max(field)
 
             layer_values = np.linspace(field_min, field_max, number_of_layers + 2)
-            print(layer_values)
+            #print(layer_values)
 
             cmap = plt.get_cmap('viridis')
 
@@ -655,7 +655,7 @@ class BaseSystem:
                             color=cmap(layer_values[1] / field_max))
 
             for layer_value in layer_values[2:-1]:
-                print(layer_value)
+                #print(layer_value)
                 verts, faces, _, _ = marching_cubes(field, layer_value)
                 ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
                                 color=cmap(layer_value / field_max))

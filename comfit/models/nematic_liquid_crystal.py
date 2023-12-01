@@ -1,7 +1,7 @@
 import numpy as np
 from comfit.core.base_system import BaseSystem
 
-class nematic(BaseSystem):
+class Nematic(BaseSystem):
 
     def __init__(self, dimension, **kwargs):
         """

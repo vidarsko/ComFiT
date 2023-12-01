@@ -2,15 +2,18 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-bec = cf.BEC(3,xRes=31,yRes=31,zRes=31,gamma=0)
-bec.set_initial_condition_vortex_ring(normal_vector=[1,0,0],radius=11)
+bec = cf.BEC(3,xRes=51,yRes=51,zRes=51,gamma=0)
+print(bec.psi)
+bec.conf_insert_vortex_ring(normal_vector=[0,1,0],radius=20)
+bec.conf_insert_vortex_ring(normal_vector=[0,-1,0],radius=10)
 bec.evolve_relax_BEC(100)
-ax=None
+
 for i in range(1000):
     bec.evolve_dGPE(10)
-    ax = bec.plot_field(abs(bec.psi),ax=ax,colorbar=False)
+    bec.plot_field(abs(bec.psi))
     #theta = bec.calc_angle_field_vortex_ring(normal_vector=[0,0,1],radius=13)
     #bec.plot_angle_field(theta)
     cf.tool_save_plot(i)
-
+    #plt.draw()
+    #plt.pause(0.03)
 cf.tool_make_animation(i)
