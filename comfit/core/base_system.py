@@ -54,7 +54,12 @@ class BaseSystem:
             self.z = np.arange(0, self.zRes * self.dz, self.dz)
 
         self.Res = self.xRes * self.yRes * self.zRes
-        self.dims = [self.yRes, self.xRes, self.zRes]
+        if self.dim==1:
+            self.dims=1
+        elif self.dim==2:
+            self.dims = [self.yRes, self.xRes]
+        elif self.dim == 3:
+            self.dims = [self.yRes, self.xRes, self.zRes]
 
         self.a0 = 1  # System length scale
 
@@ -315,6 +320,41 @@ class BaseSystem:
             float: The defect density for the given psi value.
         """
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
+
+    def calc_defect_velocity_field(self,psi,dt_psi):
+
+        if self.dim==2:
+            if len(psi) == 2:
+                # Parameters to exclude region
+                threshold = 0.4
+
+                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+
+                dx_psi0 = np.fft.ifftn(self.dif[0] * psi_f[0])
+                dy_psi1 = np.fft.ifftn(self.dif[1] * psi_f[1])
+                dx_psi1 = np.fft.ifftn(self.dif[0] * psi_f[1])
+                dy_psi0 = np.fft.ifftn(self.dif[1] * psi_f[0])
+
+                denominator = np.real(dx_psi0 * dy_psi1 - dx_psi1*dy_psi0)
+
+                denominator_max = np.max(abs(denominator))
+                region_to_ignore = abs(denominator) < threshold * denominator_max
+
+                Vx = -2 * np.real( dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) / denominator
+                Vy = -2 * np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0) / denominator
+
+                print(region_to_ignore.shape)
+                print(Vx.shape)
+                print(Vy.shape)
+
+                Vx[region_to_ignore] = 0
+                Vy[region_to_ignore] = 0
+
+                return [Vx,Vy]
+
+
+
+
 
     def calc_delta_function(self, psi, psi0=1):
         """
@@ -686,49 +726,48 @@ class BaseSystem:
             return ax
 
     def plot_fourier_field(self, field_f, ax=None):
-        """
-        Plot a Fourier field.
+            """
+            Plot a Fourier field.
 
-        Parameters:
-            field_f (ndarray): The Fourier field to be plotted.
-            ax (Axes3D, optional): The matplotlib 3D axis to be used for plotting. If not provided, a new axis will be created.
+            Parameters:
+                field_f (ndarray): The Fourier field to be plotted.
+                ax (Axes3D, optional): The matplotlib 3D axis to be used for plotting. If not provided, a new axis will be created.
 
-        Returns:
-            None
-        """
-        field_f = np.fft.fftshift(field_f)
+            Returns:
+                None
+            """
+            field_f = np.fft.fftshift(field_f)
 
-        if ax == None:
-            ax = plt.gcf().add_subplot(111, projection='3d')
+            if ax == None:
+                ax = plt.gcf().add_subplot(111, projection='3d')
 
-        if self.dim == 2:
-            rho = np.abs(field_f)
-            theta = np.angle(field_f)
+            if self.dim == 2:
+                rho = np.abs(field_f)
+                theta = np.angle(field_f)
 
-            Kx, Ky = np.meshgrid(self.k[0], self.k[1], indexing='ij')
+                Kx, Ky = np.meshgrid(self.k[0], self.k[1], indexing='ij')
 
-            Kx = np.fft.fftshift(Kx)
-            Ky = np.fft.fftshift(Ky)
+                Kx = np.fft.fftshift(Kx)
+                Ky = np.fft.fftshift(Ky)
 
-            custom_colormap = tool_colormap_angle()
+                custom_colormap = tool_colormap_angle()
 
-            # Get the colors from a colormap (e.g., hsv, but you can choose any other)
-            colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
-            ic(theta)
-            surf = ax.plot_surface(Kx, Ky, rho, facecolors=colors, shade=True)
+                # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+                colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+                surf = ax.plot_surface(Kx, Ky, rho, facecolors=colors, shade=True)
 
-            # mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
-            # mappable.set_array([])
-            # mappable.set_clim(-np.pi, np.pi)
-            # cbar = plt.colorbar(mappable, ax=ax)
-            # cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-            # cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+                # mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
+                # mappable.set_array([])
+                # mappable.set_clim(-np.pi, np.pi)
+                # cbar = plt.colorbar(mappable, ax=ax)
+                # cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+                # cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
-            # plt.title("Angle field")
-            # plt.xlabel("X-axis")
-            # plt.ylabel("Y-axis")
+                # plt.title("Angle field")
+                # plt.xlabel("X-axis")
+                # plt.ylabel("Y-axis")
 
-    def plot_complex_field(self, complex_field, ax=None):
+    def plot_complex_field(self, complex_field, ax=None, method='not3D',colorbar=False):
         """
         Plot a complex field.
 
@@ -743,37 +782,87 @@ class BaseSystem:
         Returns:
             None
         """
-        if ax == None:
-            ax = plt.gcf().add_subplot(111, projection='3d')
+
 
         if self.dim == 2:
             rho = np.abs(complex_field)
             theta = np.angle(complex_field)
 
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-            custom_colormap = tool_colormap_angle()
+            if method == '3D':
+                if ax == None:
+                    ax = plt.gcf().add_subplot(111, projection='3d')
 
-            # Get the colors from a colormap (e.g., hsv, but you can choose any other)
-            colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-            surf = ax.plot_surface(X, Y, rho, facecolors=colors)
 
-            # mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
-            # mappable.set_array([])
-            # mappable.set_clim(-np.pi, np.pi)
-            # cbar = plt.colorbar(mappable, ax=ax)
-            # cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-            # cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+                custom_colormap = tool_colormap_angle()
 
-            # plt.title("Angle field")
-            # plt.xlabel("X-axis")
-            # plt.ylabel("Y-axis")
+                # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+                colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+
+                surf = ax.plot_surface(X, Y, rho, facecolors=colors)
+            else:
+                self.plot_angle_field(theta,ax=ax)
+
+
+            if colorbar:
+                mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
+                mappable.set_array([])
+                mappable.set_clim(-np.pi, np.pi)
+                cbar = plt.colorbar(mappable, ax=ax)
+                cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+                cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+
+
+            plt.xlabel("$x/a_0$")
+            plt.ylabel("$y/a_0$")
 
 
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
+
+
+    def plot_vector_field(self,vector_field, ax = None, step = None):
+            """
+            Plots a vector field on a 2D grid.
+
+            Parameters:
+            vector_field (tuple): Tuple containing the x and y components of the vector field.
+            ax (matplotlib.axes.Axes, optional): The axes on which to plot the vector field. If not provided, a new subplot will be created.
+
+            Returns:
+            None
+            """
+
+            if ax == None:
+                ax = plt.gcf().add_subplot(111)
+                
+            if step == None:
+                step = 5
+
+            X, Y = np.meshgrid(self.x,self.y,indexing = 'ij')
+
+
+            X_subset = X[::step, ::step]
+            Y_subset = Y[::step, ::step]
+            U_subset = vector_field[0][::step, ::step]
+            V_subset = vector_field[1][::step, ::step]
+
+            max_vector = np.max(np.sqrt(U_subset**2+V_subset**2))
+            print(max_vector)
+
+            ax.quiver(X_subset,Y_subset,U_subset,V_subset,scale=25*max_vector/step)
+
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_aspect('equal')
+            ax.set_xlim([0, self.x[-1]])
+            ax.set_ylim([0, self.y[-1]])
+
+
+
 
     def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
                                          cmax=None, cmin=None,

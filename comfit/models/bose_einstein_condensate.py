@@ -35,7 +35,7 @@ class BEC(BaseSystem):
         self.type = 'BEC'
 
         # Default simulation parameters
-        self.gamma = 0.1 if 'gamma' not in kwargs else kwargs['gamma']    # Dissipation (gamma)
+        self.gamma = 0.1 if 'gamma' not in kwargs else kwargs['gamma']  # Dissipation (gamma)
 
         self.V0 = 0
         self.V_ext = lambda: self.V0  # External potential, note this is a function
@@ -53,24 +53,24 @@ class BEC(BaseSystem):
         :return:
         """
 
-        if self.dim==1:
+        if self.dim == 1:
             self.psi = np.random.rand(self.xRes) - 0.5 + \
                        1j * np.random.rand(self.xRes) - 0.5j
 
-        elif self.dim==2:
-            self.psi = np.random.rand(self.xRes, self.yRes)-0.5 + \
-                       1j*np.random.rand(self.xRes, self.yRes)-0.5j
+        elif self.dim == 2:
+            self.psi = np.random.rand(self.xRes, self.yRes) - 0.5 + \
+                       1j * np.random.rand(self.xRes, self.yRes) - 0.5j
 
-        elif self.dim==3:
-            self.psi = np.random.rand(self.xRes, self.yRes,self.zRes) - 0.5 + \
-                       1j * np.random.rand(self.xRes, self.yRes,self.zRes) - 0.5j
+        elif self.dim == 3:
+            self.psi = np.random.rand(self.xRes, self.yRes, self.zRes) - 0.5 + \
+                       1j * np.random.rand(self.xRes, self.yRes, self.zRes) - 0.5j
         else:
             raise Exception("Code for this dimension has not yet been implemented.")
 
-        self.psi = noise_strength*self.psi
+        self.psi = noise_strength * self.psi
         self.psi_f = np.fft.fftn(self.psi)
 
-    def set_harmonic_potential(self,R_tf):
+    def set_harmonic_potential(self, R_tf):
         """
         Set returns a harmonic trap with R_tf being the Thomas-Fermi radius
         Args:
@@ -79,16 +79,17 @@ class BEC(BaseSystem):
                 A harmonic potential
         """
         trapping_strength = 1 / (R_tf ** 2)
-        if self.dim ==1:
-            return  trapping_strength*(self.x -self.xmid )**2
+        if self.dim == 1:
+            return trapping_strength * (self.x - self.xmid) ** 2
         if self.dim == 2:
-            return trapping_strength*(((self.x-self.xmid)**2).reshape(self.xRes, 1)
-                                         +((self.y-self.ymid)**2).reshape(1, self.yRes) )
+            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1)
+                                        + ((self.y - self.ymid) ** 2).reshape(1, self.yRes))
         if self.dim == 3:
-            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
-                                           + ((self.y - self.ymid) ** 2).reshape(1, self.yRes,1)
-                                           +((self.z - self.zmid) ** 2).reshape(1, 1,self.zRes) )
-    def set_time_dependent_potential(self,Func):
+            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1, 1)
+                                        + ((self.y - self.ymid) ** 2).reshape(1, self.yRes, 1)
+                                        + ((self.z - self.zmid) ** 2).reshape(1, 1, self.zRes))
+
+    def set_time_dependent_potential(self, Func):
         """
         Set the potential to the function Func. Func has to use self.dt as the time variabel.
         Args:
@@ -105,12 +106,35 @@ class BEC(BaseSystem):
 
         Returns: sets the value of self.psi and self.psi_f
         """
-        V_0 = self.V_ext()
-        self.psi = np.emath.sqrt(1-V_0)
+        V_0 = np.zeros(self.dims) + self.V_ext()
+        self.psi = np.emath.sqrt(1 - V_0)
+
         self.psi[V_0 > 1] = 0
         self.psi_f = np.fft.fftn(self.psi)
 
-    def set_initial_condition_vortex_dipole(self):
+    # CONFIGURATION FUNCTIONS
+    def conf_insert_vortex(self, charge=1, position=None):
+        """
+        Sets the initial condition for a vortex dipole
+        Returns:
+        Modifies the value of self.psi and self.psi_f
+        """
+        if not (self.dim == 2):
+            raise Exception("The dimension of the system must be 2 for a single point vortex.")
+
+        if position is None:
+            position = [self.xmid, self.ymid]
+
+        if self.psi is None:
+            self.set_initial_condition_Thomas_Fermi()
+
+            # TODO: maybe this needs to be formulated in terms of model parameters (Vidar 16.11.23)
+            #  Answer: Homogeneous ground-state is now replaced by the Thomas-Fermi ground-state (Jonas 21.11.23 )
+
+        self.psi = self.psi * np.exp(1j * self.calc_angle_field_single_vortex(position, charge=charge))
+        self.psi_f = np.fft.fftn(self.psi)
+
+    def conf_insert_vortex_dipole(self, dipole_vector=None, dipole_position=None):
         """
         Sets the initial condition for a vortex dipole configuration in a 2-dimensional system.
 
@@ -123,60 +147,43 @@ class BEC(BaseSystem):
         Raises:
             Exception: If the dimension of the system is not 2.
         """
-        if not(self.dim==2):
+        if not (self.dim == 2):
             raise Exception("The dimension of the system must be 2 for a vortex dipole configuration.")
 
-        self.conf_insert_vortex(charge=1,position=[2/3*self.xmax, self.ymid])
-        self.conf_insert_vortex(charge=-1,position=[1/3*self.xmax, self.ymid])
+        if self.psi is None:
+            self.set_initial_condition_Thomas_Fermi()
 
-    def conf_insert_vortex_ring(self,position=None, radius=None, normal_vector=[0, 0, 1]):
+        if dipole_vector is None:
+            dipole_vector = [self.xmax / 3, 0]
+
+        if dipole_position is None:
+            dipole_position = self.rmid
+
+        self.psi = self.psi * np.exp(1j * self.calc_angle_field_vortex_dipole(dipole_vector, dipole_position))
+        self.psi_f = np.fft.fftn(self.psi)
+
+    def conf_insert_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
         """
         Sets the initial condition for a vortex ring configuration in a 3-dimensional system
         """
-        if not(self.dim==3):
+        if not (self.dim == 3):
             raise Exception("The dimension of the system must be 3 for a vortex ring configuration.")
 
         if position is None:
             position = self.rmid
 
         if radius is None:
-            radius = self.xmax/3
+            radius = self.xmax / 3
 
         theta = self.calc_angle_field_vortex_ring(position=position, radius=radius, normal_vector=normal_vector)
 
         if self.psi is None:
             self.psi = 1
 
-        self.psi = self.psi*np.exp(1j*theta)
+        self.psi = self.psi * np.exp(1j * theta)
         self.psi_f = np.fft.fftn(self.psi)
 
-    # CONFIGURATION FUNCTIONS
-    def conf_insert_vortex(self,charge=1,position=None):
-        """
-        Sets the initial condition for a vortex dipole
-        Returns:
-        Modifies the value of self.psi and self.psi_f
-        """
-        if not(self.dim==2):
-            raise Exception("The dimension of the system must be 2 for a single point vortex.")
-
-        if position is None:
-            position = [self.xmid, self.ymid]
-
-        if self.psi is None:
-            self.set_initial_condition_Thomas_Fermi()
-
-            # TODO: maybe this needs to be formulated in terms of model parameters (Vidar 16.11.23)
-            #  Answer: Homogeneous ground-state is now replaced by the Thomas-Fermi ground-state (Jonas 21.11.23 )
-
-        self.psi = self.psi*np.exp(1j * self.calc_angle_field_single_vortex(position, charge=charge))
-        self.psi_f = np.fft.fftn(self.psi)
-
-
-    #TODO: Give this funciton a slightly more informative name. (Vidar 17.11.23)
-    # Answer: Is the proposed name more informative? (Jonas 21.11.23)
-
-    def set_dissipative_frame(self,d=7, wx=50,wy=50,wz=50):
+    def set_dissipative_frame(self, d=7, wx=50, wy=50, wz=50):
         '''
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
         This sets a dissipative frame around the computational domain
@@ -189,21 +196,20 @@ class BEC(BaseSystem):
             modify self.gamma
         '''
         if self.dim == 2:
-            X,Y =  np.meshgrid(self.x, self.y, indexing='ij')
-            gammax = self.gamma +1/2 * (2 + np.tanh((X-self.xmid-wx)/d) - np.tanh((X-self.xmid+wx)/d) )
-            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y-self.ymid - wy) / d) - np.tanh((Y-self.ymid + wy) / d))
-            self.gamma = np.real(np.maximum(gammax,gammay))
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X - self.xmid - wx) / d) - np.tanh((X - self.xmid + wx) / d))
+            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y - self.ymid - wy) / d) - np.tanh((Y - self.ymid + wy) / d))
+            self.gamma = np.real(np.maximum(gammax, gammay))
         elif self.dim == 3:
-            X, Y, Z = np.meshgrid(self.x, self.y,self.z, indexing='ij')
-            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X-self.xmid - wx) / d) - np.tanh((X-self.xmid + wx) / d))
-            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y-self.ymid - wy) / d) - np.tanh((Y-self.ymid + wy) / d))
-            gammaz = self.gamma + 1 / 2 * (2 + np.tanh((Z-self.zmid - wz) / d) - np.tanh((Z-self.zmid + wz) / d))
-            self.gamma = np.real(np.maximum(gammax, gammay,gammaz))
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X - self.xmid - wx) / d) - np.tanh((X - self.xmid + wx) / d))
+            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y - self.ymid - wy) / d) - np.tanh((Y - self.ymid + wy) / d))
+            gammaz = self.gamma + 1 / 2 * (2 + np.tanh((Z - self.zmid - wz) / d) - np.tanh((Z - self.zmid + wz) / d))
+            self.gamma = np.real(np.maximum(gammax, gammay, gammaz))
         else:
             raise Exception("This feature is not yet available for the given dimension.")
 
-
-    def calc_gaussian_stirring_potential(self,size,strength,position):
+    def calc_gaussian_stirring_potential(self, size, strength, position):
         """
         Function for calculate a gaussian potential
         Args:
@@ -214,19 +220,19 @@ class BEC(BaseSystem):
             (numpy.ndarray) a gaussian potential
         """
 
-        if self.dim ==1:
-            return strength*np.exp( -(self.x -position[0])**2/size**2 )
+        if self.dim == 1:
+            return strength * np.exp(-(self.x - position[0]) ** 2 / size ** 2)
 
         elif self.dim == 2:
-            return strength*np.exp(-(((self.x-position[0])**2).reshape(self.xRes, 1)
-                                         + ((self.y-position[1])**2).reshape(1, self.yRes)) /(size**2) )
+            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1)
+                                       + ((self.y - position[1]) ** 2).reshape(1, self.yRes)) / (size ** 2))
         elif self.dim == 3:
-            return strength* np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1,1)
-                                           + ((self.y - position[1]) ** 2).reshape(1, self.yRes,1)
-                                           +((self.z - position[2]) ** 2).reshape(1, 1,self.zRes))/(size**2 ))
+            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1, 1)
+                                       + ((self.y - position[1]) ** 2).reshape(1, self.yRes, 1)
+                                       + ((self.z - position[2]) ** 2).reshape(1, 1, self.zRes)) / (size ** 2))
 
-    #Time evolution
-    def evolve_dGPE(self,number_of_steps,method = 'ETD2RK'):
+    # Time evolution
+    def evolve_dGPE(self, number_of_steps, method='ETD2RK'):
         '''
        Evolver for the dGPE.
            Args:
@@ -235,7 +241,6 @@ class BEC(BaseSystem):
            returns:
                Updates the self.psi and self.psi_f
        '''
-
 
         k2 = self.calc_k2()
         omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
@@ -252,12 +257,11 @@ class BEC(BaseSystem):
 
         for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
             self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
-                                                           self.psi, self.psi_f)
-
-
+                                          self.psi, self.psi_f)
 
         # TODO: the solvers has to be tested and compared aginst each other (Jonas 21/11/23)
-    def evolve_relax_BEC(self,number_of_steps,method= 'ETD2RK'):
+
+    def evolve_relax_BEC(self, number_of_steps, method='ETD2RK'):
         '''
         Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
             Args:
@@ -268,15 +272,15 @@ class BEC(BaseSystem):
         '''
         gamma0 = self.gamma
 
-        self.gamma=1-1j
+        self.gamma = 1 - 1j
 
         print("Relaxing the BEC...")
-        self.evolve_dGPE(number_of_steps,method)
+        self.evolve_dGPE(number_of_steps, method)
 
-        self.gamma=gamma0
-        self.t =0
+        self.gamma = gamma0
+        self.t = 0
 
-    def evolve_comoving_dGPE(self, number_of_steps, velx,method = 'ETD2RK'):
+    def evolve_comoving_dGPE(self, number_of_steps, velx, method='ETD2RK'):
         '''
         Evolver for the dGPE in the comoving frame.
         This evolver assume that the stirring is in the x-direction and that gamma is spatialy dependent
@@ -302,15 +306,11 @@ class BEC(BaseSystem):
 
         for n in range(number_of_steps):
             self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
-                                                           self.psi, self.psi_f)
-
+                                          self.psi, self.psi_f)
 
     # CALCULATION FUNCTIONS
 
-
-
-
-    def calc_nonlinear_evolution_function_f(self,psi):
+    def calc_nonlinear_evolution_function_f(self, psi):
         """
         Calculates the non-linear evolution term of the dGPE
         Args:
@@ -318,12 +318,10 @@ class BEC(BaseSystem):
         returns:
             (numpy.ndarray): the non-linear evolution term
         """
-        psi2 = np.abs(psi)**2
-        return np.fft.fftn((1j+self.gamma)*(-self.V_ext()-psi2)*psi)
+        psi2 = np.abs(psi) ** 2
+        return np.fft.fftn((1j + self.gamma) * (-self.V_ext() - psi2) * psi)
 
-
-
-    def calc_nonlinear_evolution_term_comoving_f(self,psi):
+    def calc_nonlinear_evolution_term_comoving_f(self, psi):
         """
                Calculates the non-linear evolution term of the dGPE when gamma is not a constant.
                Relevant for example in the comoving frame when we have a dissipative frame around the edge.
@@ -332,22 +330,32 @@ class BEC(BaseSystem):
                Returns:
                     (numpy.ndarray): the non-linear evolution term
                """
-        psi2 = np.abs(psi)**2
-        term1 = np.fft.fftn(-(1j+self.gamma)*(self.V_ext()+psi2)*psi)
-        term2 = np.fft.fftn(self.gamma*psi)
-        term3 = 0.5*np.fft.fftn(self.gamma*np.fft.ifftn(-self.calc_k2()*np.fft.fftn(psi)))
+        psi2 = np.abs(psi) ** 2
+        term1 = np.fft.fftn(-(1j + self.gamma) * (self.V_ext() + psi2) * psi)
+        term2 = np.fft.fftn(self.gamma * psi)
+        term3 = 0.5 * np.fft.fftn(self.gamma * np.fft.ifftn(-self.calc_k2() * np.fft.fftn(psi)))
         return (term1 + term2 + term3)
 
-    def calc_vortex_density(self):
-        return self.calc_defect_density([np.real(self.psi),np.imag(self.psi)])
+    def calc_vortex_density(self, psi=None):
+
+        if psi is None:
+            psi = self.psi
+
+        return self.calc_defect_density([np.real(psi), np.imag(psi)])
 
     def calc_vortex_density_singular(self):
-        return self.calc_defect_density([np.real(self.psi),np.imag(self.psi)])
+        # TODO: Insert the correct value of the equilibrium of psi, based on theory (Vidar 03.12.23)
+        return self.calc_defect_density([np.real(self.psi), np.imag(self.psi)])
 
+    def calc_vortex_velocity_field(self, dt_psi, psi=None):
 
+        if psi is None:
+            psi = self.psi
 
+        return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
+                                        [np.real(dt_psi), np.imag(dt_psi)])
 
-    def calc_vortex_nodes(self):
+    def calc_vortex_nodes(self, dt_psi=None):
         """
         Calculate the positions and charges of vortex nodes based on the defect density.
         Returns:
@@ -357,47 +365,57 @@ class BEC(BaseSystem):
                   - 'position': The position of the vortex node as a list [x, y].
         """
 
-        charge_tolerance = 0.2
+        # Calculate defect density
+        rho = self.calc_vortex_density(self.psi)
 
-        #Calculate defect density
-        rho = self.calc_vortex_density()
+        if dt_psi is not None:
 
-        #Calculate the point where defect density is largest
-        rho_max_index = np.unravel_index(np.argmax(np.abs(rho)),rho.shape)
-
-        #Integrate the defect density around this point (i.e. in a ball around)
-        charge,ball = self.calc_integrate_field(rho,index=rho_max_index,radius=1)
-
-        #self.plot_field(rho)
-        #plt.show()
-
-        vortex_nodes = []
-
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            velocity_field = self.calc_vortex_velocity_field( dt_psi, self.psi)
 
 
-        while abs(charge)>charge_tolerance:
-            vortex = {}
-            vortex['position_index'] = rho_max_index
-            vortex['charge'] = np.sign(charge)*np.ceil(np.abs(charge))
-            x = np.sum(ball*abs(rho)*X)/np.sum(ball*abs(rho))
-            y = np.sum(ball*abs(rho)*Y)/np.sum(ball*abs(rho))
-            vortex['position'] = [x,y]
+        if self.dim == 2:
+            # Parameters to tune to make the algorithm work
+            charge_tolerance = 0.2
 
-            vortex_nodes.append(vortex)
-
-            rho[ball]=0
+            # Calculate the point where defect density is largest
             rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
 
+            # Integrate the defect density around this point (i.e. in a ball around)
             charge, ball = self.calc_integrate_field(rho, index=rho_max_index, radius=1)
 
+            # self.plot_field(rho)
+            # plt.show()
 
+            vortex_nodes = []
+
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+            while abs(charge) > charge_tolerance:
+                vortex = {}
+                vortex['position_index'] = rho_max_index
+                vortex['charge'] = np.sign(charge) * np.ceil(np.abs(charge))
+                x = np.sum(ball * abs(rho) * X) / np.sum(ball * abs(rho))
+                y = np.sum(ball * abs(rho) * Y) / np.sum(ball * abs(rho))
+                vortex['position'] = [x, y]
+                if dt_psi is not None:
+                    vortex['velocity'] = [velocity_field[0][rho_max_index], velocity_field[1][rho_max_index]]
+                else:
+                    vortex['velocity'] = [float('nan'), float('nan')]
+
+                # Calculate the velocity
+
+                vortex_nodes.append(vortex)
+
+                rho[ball] = 0
+                rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
+
+                charge, ball = self.calc_integrate_field(rho, index=rho_max_index, radius=1)
 
         return vortex_nodes
 
+    # Plot functions
 
-    #Plot functions
-    def plot_vortices(self,vortex_nodes,ax=None):
+    def plot_vortex_nodes(self, vortex_nodes, ax=None):
 
         if ax == None:
             ax = plt.gcf().add_subplot(111)
@@ -408,23 +426,43 @@ class BEC(BaseSystem):
         x_coords_neg = []
         y_coords_neg = []
 
+        vx_coords_pos = []
+        vy_coords_pos = []
+
+        vx_coords_neg = []
+        vy_coords_neg = []
+
         for vortex in vortex_nodes:
 
             if vortex['charge'] > 0:
                 x_coords_pos.append(vortex['position'][0])
                 y_coords_pos.append(vortex['position'][1])
+                vx_coords_pos.append(vortex['velocity'][0])
+                vy_coords_pos.append(vortex['velocity'][1])
             else:
                 x_coords_neg.append(vortex['position'][0])
                 y_coords_neg.append(vortex['position'][1])
+                vx_coords_neg.append(vortex['velocity'][0])
+                vy_coords_neg.append(vortex['velocity'][1])
 
-        #print(x_coords_pos,y_coords_pos)
-        #print(x_coords_neg,y_coords_neg)
-        ax.scatter(x_coords_pos,y_coords_pos, marker='+',color='red')
-        ax.scatter(x_coords_neg,y_coords_neg, marker='*',color='blue')
+        # print(x_coords_pos,y_coords_pos)
+        # print(x_coords_neg,y_coords_neg)
+        ax.scatter(x_coords_pos, y_coords_pos, marker='+', color='red')
+        ax.scatter(x_coords_neg, y_coords_neg, marker='*', color='blue')
+        ax.quiver(x_coords_pos, y_coords_pos, vx_coords_pos, vy_coords_pos, color='black')
+        ax.quiver(x_coords_neg, y_coords_neg, vx_coords_neg, vy_coords_neg, color='black')
         ax.set_aspect('equal')
+        ax.set_facecolor('none')
 
+        ax.set_xlabel('$x/a_0$')
+        ax.set_ylabel('$y/a_0$')
 
-    def conf_vortex_remover(self,nodes,Area):
+        ax.set_xlim([0, self.x[-1]])
+        ax.set_ylim([0, self.y[-1]])
+
+        ax.grid(True)
+
+    def conf_vortex_remover(self, nodes, Area):
         '''
         Function that finds and removes vortices outside of the area defined by the corners
         (x1,y1), (x1,y2), (x2,y1), (x2,y2)
@@ -436,7 +474,7 @@ class BEC(BaseSystem):
         for vortex in nodes:
             x_coord = vortex['position'][0]
             y_coord = vortex['position'][1]
-            if not(Area[0] < x_coord and x_coord < Area[1] \
+            if not (Area[0] < x_coord and x_coord < Area[1] \
                     and Area[2] < y_coord and y_coord < Area[3]):
-                self.conf_insert_vortex( charge=-1*vortex['charge'], position=[x_coord+self.dx,y_coord])
-                #self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
+                self.conf_insert_vortex(charge=-1 * vortex['charge'], position=[x_coord + self.dx, y_coord])
+                # self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])

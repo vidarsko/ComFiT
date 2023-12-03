@@ -17,7 +17,7 @@ bec.evolve_relax_BEC(200)
 fig,axs = plt.subplots(nrows=1,ncols=2)
 
 nodes = bec.calc_vortex_nodes()
-bec.plot_vortices(nodes,axs[0])
+bec.plot_vortex_nodes(nodes,axs[0])
 bec.plot_angle_field(np.angle(bec.psi),ax=axs[1])
 
 plt.show()
