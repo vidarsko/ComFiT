@@ -14,7 +14,7 @@ t=0
 
 bec.V_ext = V_trap #+V_stirr
 
-bec.set_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_Thomas_Fermi()
 
 
 #plt.figure(1)

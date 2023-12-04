@@ -99,7 +99,7 @@ class BEC(BaseSystem):
         """
         self.V_ext = Func
 
-    def set_initial_condition_Thomas_Fermi(self):
+    def conf_initial_condition_Thomas_Fermi(self):
         """
         Finds the Thomas_Fermi ground state.
         Must be precided by an energy relaxation to find the true ground state
@@ -126,7 +126,7 @@ class BEC(BaseSystem):
             position = [self.xmid, self.ymid]
 
         if self.psi is None:
-            self.set_initial_condition_Thomas_Fermi()
+            self.conf_initial_condition_Thomas_Fermi()
 
             # TODO: maybe this needs to be formulated in terms of model parameters (Vidar 16.11.23)
             #  Answer: Homogeneous ground-state is now replaced by the Thomas-Fermi ground-state (Jonas 21.11.23 )
@@ -151,7 +151,7 @@ class BEC(BaseSystem):
             raise Exception("The dimension of the system must be 2 for a vortex dipole configuration.")
 
         if self.psi is None:
-            self.set_initial_condition_Thomas_Fermi()
+            self.conf_initial_condition_Thomas_Fermi()
 
         if dipole_vector is None:
             dipole_vector = [self.xmax / 3, 0]
@@ -371,27 +371,27 @@ class BEC(BaseSystem):
         H = self.calc_hamiltonian_density()
         return self.calc_integrate_field(H)
 
-        def calc_gaussian_stirring_potential(self, size, strength, position):
-            """
-            Function for calculate a gaussian potential
-            Args:
-                size (float) size of the stirrer
-                strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
-                position (array) the position of the stirrer
-            returns:
-                (numpy.ndarray) a gaussian potential
-            """
+    def calc_gaussian_stirring_potential(self, size, strength, position):
+        """
+        Function for calculate a gaussian potential
+        Args:
+            size (float) size of the stirrer
+            strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
+            position (array) the position of the stirrer
+        returns:
+            (numpy.ndarray) a gaussian potential
+        """
 
-            if self.dim == 1:
-                return strength * np.exp(-(self.x - position[0]) ** 2 / size ** 2)
+        if self.dim == 1:
+            return strength * np.exp(-(self.x - position[0]) ** 2 / size ** 2)
 
-            elif self.dim == 2:
-                return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1)
-                                           + ((self.y - position[1]) ** 2).reshape(1, self.yRes)) / (size ** 2))
-            elif self.dim == 3:
-                return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1, 1)
-                                           + ((self.y - position[1]) ** 2).reshape(1, self.yRes, 1)
-                                           + ((self.z - position[2]) ** 2).reshape(1, 1, self.zRes)) / (size ** 2))
+        elif self.dim == 2:
+            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1)
+                                       + ((self.y - position[1]) ** 2).reshape(1, self.yRes)) / (size ** 2))
+        elif self.dim == 3:
+            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1, 1)
+                                       + ((self.y - position[1]) ** 2).reshape(1, self.yRes, 1)
+                                       + ((self.z - position[2]) ** 2).reshape(1, 1, self.zRes)) / (size ** 2))
 
     def calc_force_on_external_potential(self):
         """ calculates the average force acting on the external potential.
@@ -445,6 +445,7 @@ class BEC(BaseSystem):
 
             velocity_field = self.calc_vortex_velocity_field( dt_psi, self.psi)
 
+        vortex_nodes = []
 
         if self.dim == 2:
             # Parameters to tune to make the algorithm work
@@ -453,13 +454,14 @@ class BEC(BaseSystem):
             # Calculate the point where defect density is largest
             rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
 
-            # Integrate the defect density around this point (i.e. in a ball around)
-            charge, ball = self.calc_integrate_field(rho, index=rho_max_index, radius=1)
+            # Integrate the defect density around this point (i.e. in a disk around)
+            disk = self.calc_region_disk(rho_max_index,
+                                         position = [self.x[rho_max_index[0]],self.y[rho_max_index[1]]],
+                                         radius=1)
+            charge = self.calc_integrate_field(rho, disk)
 
             # self.plot_field(rho)
             # plt.show()
-
-            vortex_nodes = []
 
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
@@ -467,8 +469,8 @@ class BEC(BaseSystem):
                 vortex = {}
                 vortex['position_index'] = rho_max_index
                 vortex['charge'] = np.sign(charge) * np.ceil(np.abs(charge))
-                x = np.sum(ball * abs(rho) * X) / np.sum(ball * abs(rho))
-                y = np.sum(ball * abs(rho) * Y) / np.sum(ball * abs(rho))
+                x = np.sum(disk * abs(rho) * X) / np.sum(disk * abs(rho))
+                y = np.sum(disk * abs(rho) * Y) / np.sum(disk * abs(rho))
                 vortex['position'] = [x, y]
                 if dt_psi is not None:
                     vortex['velocity'] = [velocity_field[0][rho_max_index], velocity_field[1][rho_max_index]]
@@ -479,13 +481,63 @@ class BEC(BaseSystem):
 
                 vortex_nodes.append(vortex)
 
-                rho[ball] = 0
-                rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
+                rho[disk] = 0
 
-                charge, ball = self.calc_integrate_field(rho, index=rho_max_index, radius=1)
+                disk = self.calc_region_disk(rho_max_index,
+                                             position=[self.x[rho_max_index[0]], self.y[rho_max_index[1]]],
+                                             radius=1)
+                charge = self.calc_integrate_field(rho, disk)
 
         elif self.dim == 3:
-            pass
+            # Parameters to tune to make the algorithm work
+            charge_tolerance = 0.5
+            cylinder_height = 1
+
+            rho_norm = np.sqrt(rho[0]**2+rho[1]**2+rho[2]**2)
+
+            # Calculate the point where defect density is largest
+            rho_max_index = np.unravel_index(np.argmax(rho_norm), rho_norm.shape)
+
+            # Integrate the defect density around this point (i.e. in cylinder around)
+            tangent_vector = np.array([rho[0][rho_max_index],rho[1][rho_max_index],rho[2][rho_max_index]])
+            tangent_vector = tangent_vector/np.linalg.norm(tangent_vector)
+            cylinder = self.calc_region_cylinder(position=[self.x[rho_max_index[0]], self.y[rho_max_index[1]], self.z[rho_max_index[2]]],
+                                                 radius = 1,
+                                                 normal_vector = tangent_vector,
+                                                 height = cylinder_height)
+            charge = self.calc_integrate_field(rho_norm, cylinder)/cylinder_height
+
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
+            while charge > charge_tolerance:
+                vortex = {}
+                vortex['position_index'] = rho_max_index
+                vortex['tangent_vector'] = tangent_vector
+                x = np.sum(cylinder * abs(rho_norm) * X) / np.sum(cylinder * abs(rho_norm))
+                y = np.sum(cylinder * abs(rho_norm) * Y) / np.sum(cylinder * abs(rho_norm))
+                z = np.sum(cylinder * abs(rho_norm) * Z) / np.sum(cylinder * abs(rho_norm))
+
+                vortex['position'] = [x, y, z]
+
+                vortex_nodes.append(vortex)
+
+                rho_norm[cylinder] = 0
+
+                # self.plot_field(rho_norm)
+                # plt.draw()
+                # plt.pause(0.05)
+
+                rho_max_index = np.unravel_index(np.argmax(rho_norm), rho_norm.shape)
+                tangent_vector = np.array([rho[0][rho_max_index], rho[1][rho_max_index], rho[2][rho_max_index]])
+                tangent_vector = tangent_vector / np.linalg.norm(tangent_vector)
+
+                cylinder = self.calc_region_cylinder(position=[self.x[rho_max_index[0]], self.y[rho_max_index[1]],
+                                                               self.z[rho_max_index[2]]],
+                                                     radius=1,
+                                                     normal_vector = tangent_vector,
+                                                     height = cylinder_height)
+                charge = self.calc_integrate_field(rho_norm, cylinder) / cylinder_height
+
 
         return vortex_nodes
 
@@ -493,49 +545,86 @@ class BEC(BaseSystem):
 
     def plot_vortex_nodes(self, vortex_nodes, ax=None):
 
-        if ax == None:
-            ax = plt.gcf().add_subplot(111)
+        if self.dim == 2:
 
-        x_coords_pos = []
-        y_coords_pos = []
+            if ax == None:
+                ax = plt.gcf().add_subplot(111)
 
-        x_coords_neg = []
-        y_coords_neg = []
+            x_coords_pos = []
+            y_coords_pos = []
 
-        vx_coords_pos = []
-        vy_coords_pos = []
+            x_coords_neg = []
+            y_coords_neg = []
 
-        vx_coords_neg = []
-        vy_coords_neg = []
+            vx_coords_pos = []
+            vy_coords_pos = []
 
-        for vortex in vortex_nodes:
+            vx_coords_neg = []
+            vy_coords_neg = []
 
-            if vortex['charge'] > 0:
-                x_coords_pos.append(vortex['position'][0])
-                y_coords_pos.append(vortex['position'][1])
-                vx_coords_pos.append(vortex['velocity'][0])
-                vy_coords_pos.append(vortex['velocity'][1])
-            else:
-                x_coords_neg.append(vortex['position'][0])
-                y_coords_neg.append(vortex['position'][1])
-                vx_coords_neg.append(vortex['velocity'][0])
-                vy_coords_neg.append(vortex['velocity'][1])
+            for vortex in vortex_nodes:
 
-        # print(x_coords_pos,y_coords_pos)
-        # print(x_coords_neg,y_coords_neg)
-        ax.scatter(x_coords_pos, y_coords_pos, marker='+', color='red')
-        ax.scatter(x_coords_neg, y_coords_neg, marker='*', color='blue')
-        ax.quiver(x_coords_pos, y_coords_pos, vx_coords_pos, vy_coords_pos, color='black')
-        ax.quiver(x_coords_neg, y_coords_neg, vx_coords_neg, vy_coords_neg, color='black')
-        ax.set_aspect('equal')
-        ax.set_facecolor('none')
+                if vortex['charge'] > 0:
+                    x_coords_pos.append(vortex['position'][0])
+                    y_coords_pos.append(vortex['position'][1])
+                    vx_coords_pos.append(vortex['velocity'][0])
+                    vy_coords_pos.append(vortex['velocity'][1])
+                else:
+                    x_coords_neg.append(vortex['position'][0])
+                    y_coords_neg.append(vortex['position'][1])
+                    vx_coords_neg.append(vortex['velocity'][0])
+                    vy_coords_neg.append(vortex['velocity'][1])
 
-        ax.set_xlabel('$x/a_0$')
-        ax.set_ylabel('$y/a_0$')
+            # print(x_coords_pos,y_coords_pos)
+            # print(x_coords_neg,y_coords_neg)
+            ax.scatter(x_coords_pos, y_coords_pos, marker='+', color='red')
+            ax.scatter(x_coords_neg, y_coords_neg, marker='*', color='blue')
+            ax.quiver(x_coords_pos, y_coords_pos, vx_coords_pos, vy_coords_pos, color='black')
+            ax.quiver(x_coords_neg, y_coords_neg, vx_coords_neg, vy_coords_neg, color='black')
+            ax.set_aspect('equal')
+            ax.set_facecolor('none')
 
-        ax.set_xlim([0, self.x[-1]])
-        ax.set_ylim([0, self.y[-1]])
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
 
+            ax.set_xlim([0, self.x[-1]])
+            ax.set_ylim([0, self.y[-1]])
+
+        elif self.dim == 3:
+            if ax == None:
+                ax = plt.gcf().add_subplot(111, projection='3d')
+
+            x_coords = []
+            y_coords = []
+            z_coords = []
+            tx = []
+            ty = []
+            tz = []
+
+            for vortex in vortex_nodes:
+                x_coords.append(vortex['position'][0])
+                y_coords.append(vortex['position'][1])
+                z_coords.append(vortex['position'][2])
+
+                tx.append(vortex['tangent_vector'][0])
+                ty.append(vortex['tangent_vector'][1])
+                tz.append(vortex['tangent_vector'][2])
+
+
+            print(x_coords)
+
+            ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
+            ax.quiver(x_coords, y_coords, z_coords, tx, ty, tz, color='blue')
+
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_zlabel('$z/a_0$')
+
+            ax.set_xlim([0, self.x[-1]])
+            ax.set_ylim([0, self.y[-1]])
+            ax.set_zlim([0, self.z[-1]])
+
+            ax.set_aspect('equal')
         ax.grid(True)
 
     

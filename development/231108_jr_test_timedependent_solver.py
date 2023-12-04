@@ -19,7 +19,7 @@ def V_t(t):
 #bec.set_time_dependent_potential(V_t)
 
 bec.V_ext = V_t(0)
-bec.set_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_Thomas_Fermi()
 bec.evolve_relax_BEC(20)
 
 bec.plot_field(np.abs(bec.psi)**2)

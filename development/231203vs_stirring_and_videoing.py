@@ -25,7 +25,7 @@ def V_t():
 ### Set the potential to the t=0 value, initialise the TF ground-state and relax in imaginary time
 
 bec.V0 = V_t()
-bec.set_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_Thomas_Fermi()
 bec.evolve_relax_BEC(20,'ETD2RK')
 
 ### Updating the potential to the time-dependent function V_t()

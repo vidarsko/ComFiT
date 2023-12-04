@@ -54,9 +54,9 @@ class BaseSystem:
             self.z = np.arange(0, self.zRes * self.dz, self.dz)
 
         self.Res = self.xRes * self.yRes * self.zRes
-        if self.dim==1:
-            self.dims=1
-        elif self.dim==2:
+        if self.dim == 1:
+            self.dims = 1
+        elif self.dim == 2:
             self.dims = [self.yRes, self.xRes]
         elif self.dim == 3:
             self.dims = [self.yRes, self.xRes, self.zRes]
@@ -134,7 +134,7 @@ class BaseSystem:
 
         theta = charge * np.arctan2(y - position[1], x - position[0])
 
-        return np.mod(theta+np.pi, 2*np.pi)-np.pi
+        return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
     def calc_angle_field_vortex_dipole(self,
                                        dipole_vector=None,
@@ -154,32 +154,33 @@ class BaseSystem:
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
 
         if dipole_vector is None:
-            dipole_vector = [self.xmax/3, 0]
+            dipole_vector = [self.xmax / 3, 0]
 
         if dipole_position is None:
             dipole_position = self.rmid
 
-        #Add the vortices to the theta-field
+        # Add the vortices to the theta-field
         theta = 0
-        theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid)-np.array(dipole_vector)/2, charge=-1)
-        theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid)+np.array(dipole_vector)/2, charge=1)
+        theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid) - np.array(dipole_vector) / 2,
+                                                            charge=-1)
+        theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid) + np.array(dipole_vector) / 2, charge=1)
 
-        #Convert the field to a complex field to make it fit the periodic boundary conditions
+        # Convert the field to a complex field to make it fit the periodic boundary conditions
         amp = np.exp(1j * theta)
 
-        #Filter the angle field
-        width = 0.2*np.min([self.xmax, self.ymax])
+        # Filter the angle field
+        width = 0.2 * np.min([self.xmax, self.ymax])
         radius = 0.4 * np.min([self.xmax, self.ymax])
 
         r2 = (self.x.reshape((self.xRes, 1)) - self.xmid) ** 2 + (self.y.reshape((1, self.yRes)) - self.ymid) ** 2
-        filter = (1+np.tanh((radius**2-r2)/width**2))/2
-        amp = amp * filter + (1-filter)
+        filter = (1 + np.tanh((radius ** 2 - r2) / width ** 2)) / 2
+        amp = amp * filter + (1 - filter)
 
         theta = np.angle(amp)
 
-        #Roll the field so that the dipole center is at the desired position.
-        Rx = round((self.rmid[0] - dipole_position[0])/self.dx)
-        theta = np.roll(theta,-Rx, axis=0)
+        # Roll the field so that the dipole center is at the desired position.
+        Rx = round((self.rmid[0] - dipole_position[0]) / self.dx)
+        theta = np.roll(theta, -Rx, axis=0)
         Ry = round((self.rmid[1] - dipole_position[1]) / self.dy)
         theta = np.roll(theta, -Ry, axis=1)
 
@@ -193,10 +194,9 @@ class BaseSystem:
         if radius is None:
             radius = np.min([self.xmax, self.ymax, self.zmax]) / 3
 
-        if radius>np.min([self.xmax, self.ymax, self.zmax])/3:
+        if radius > np.min([self.xmax, self.ymax, self.zmax]) / 3:
             print("Warning: The radius of the suggested vortex ring is large."
                   "This can cause unwanted boundary effects.")
-
 
         n = normal_vector / np.linalg.norm(np.array(normal_vector))
         print(n)
@@ -221,14 +221,13 @@ class BaseSystem:
         theta = theta + np.arctan2(m2, m1 + radius)
         theta = theta + np.arctan2(m2, m1 - radius)
 
-
         # Convert the field to a complex field to make it fit the periodic boundary conditions
         amp = np.exp(1j * theta)
 
         # Filter the angle field
-        width = 0.2 * np.min([self.xmax, self.ymax,self.zmax])
-        radius = 0.4 * np.min([self.xmax, self.ymax,self.zmax])
-        #TODO: This radius shares name with the one defining the ring. May cause trouble down the line (Vidar 01.12.23)
+        width = 0.2 * np.min([self.xmax, self.ymax, self.zmax])
+        radius = 0.4 * np.min([self.xmax, self.ymax, self.zmax])
+        # TODO: This radius shares name with the one defining the ring. May cause trouble down the line (Vidar 01.12.23)
 
         r2 = (self.x.reshape((self.xRes, 1, 1)) - self.xmid) ** 2 \
              + (self.y.reshape((1, self.yRes, 1)) - self.ymid) ** 2 \
@@ -282,13 +281,12 @@ class BaseSystem:
     def calc_k2(self):
         return sum([self.k[i] ** 2 for i in range(len(self.k))])
 
-    def calc_gaussfilter_f(self,a0=None):
+    def calc_gaussfilter_f(self, a0=None):
 
         if a0 is None:
             a0 = self.a0
 
-        return np.exp(-1/2*a0**2*self.calc_k2())
-
+        return np.exp(-1 / 2 * a0 ** 2 * self.calc_k2())
 
     def calc_defect_density(self, psi, psi0=1):
         """
@@ -325,9 +323,6 @@ class BaseSystem:
 
                 return result
 
-
-
-
     def calc_defect_density_singular(self, psi, psi0=1):
         """
         Calculate the singular defect density for a given psi field.
@@ -340,9 +335,9 @@ class BaseSystem:
         """
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
 
-    def calc_defect_velocity_field(self,psi,dt_psi):
+    def calc_defect_velocity_field(self, psi, dt_psi):
 
-        if self.dim==2:
+        if self.dim == 2:
             if len(psi) == 2:
                 # Parameters to exclude region
                 threshold = 0.4
@@ -354,12 +349,12 @@ class BaseSystem:
                 dx_psi1 = np.fft.ifftn(self.dif[0] * psi_f[1])
                 dy_psi0 = np.fft.ifftn(self.dif[1] * psi_f[0])
 
-                denominator = np.real(dx_psi0 * dy_psi1 - dx_psi1*dy_psi0)
+                denominator = np.real(dx_psi0 * dy_psi1 - dx_psi1 * dy_psi0)
 
                 denominator_max = np.max(abs(denominator))
                 region_to_ignore = abs(denominator) < threshold * denominator_max
 
-                Vx = -2 * np.real( dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) / denominator
+                Vx = -2 * np.real(dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) / denominator
                 Vy = -2 * np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0) / denominator
 
                 print(region_to_ignore.shape)
@@ -369,9 +364,29 @@ class BaseSystem:
                 Vx[region_to_ignore] = 0
                 Vy[region_to_ignore] = 0
 
-                return [Vx,Vy]
+                return [Vx, Vy]
 
-    def calc_defect_current_density(self,psi,dt_psi,psi_0 =0):
+        elif self.dim == 3:
+            if len(psi) == 2:
+                # Parameters to exclude region
+                threshold = 0.4
+
+                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+
+                dx_psi0 = np.fft.ifftn(self.dif[0] * psi_f[0])
+                dy_psi0 = np.fft.ifftn(self.dif[1] * psi_f[0])
+                dz_psi0 = np.fft.ifftn(self.dif[2] * psi_f[0])
+
+                dx_psi1 = np.fft.ifftn(self.dif[0] * psi_f[1])
+                dy_psi1 = np.fft.ifftn(self.dif[1] * psi_f[1])
+                dz_psi1 = np.fft.ifftn(self.dif[2] * psi_f[1])
+
+                denominator = (dx_psi0 * dx_psi0 + dy_psi0 * dy_psi0 + dz_psi0 * dz_psi0
+                               + dx_psi1 * dx_psi1 + dy_psi1 * dy_psi1 + dz_psi1 * dz_psi1) ** 2 - \
+                              (dx_psi0 * dx_psi0 * dx_psi0 * dx_psi0 +
+                               dy_psi0 * dy_psi0 * dy_psi0 * dy_psi0 )
+
+    def calc_defect_current_density(self, psi, dt_psi, psi_0=0):
         """
         Calculates the conserved current of the superfluid density
         Args:
@@ -381,9 +396,8 @@ class BaseSystem:
         :returns
             (array) components of the conserved current
         """
-        if self.dim==2:
+        if self.dim == 2:
             if len(psi) == 2:
-
                 psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
 
                 dx_psi0 = np.fft.ifftn(self.dif[0] * psi_f[0])
@@ -391,13 +405,10 @@ class BaseSystem:
                 dx_psi1 = np.fft.ifftn(self.dif[0] * psi_f[1])
                 dy_psi0 = np.fft.ifftn(self.dif[1] * psi_f[0])
 
+                Jx = -  np.real(dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) / (psi_0 * np.pi)
+                Jy = - np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0) / (psi_0 * np.pi)
 
-
-                Jx = -  np.real( dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) /(psi_0*np.pi)
-                Jy = - np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0)/(psi_0*np.pi)
-
-                return [Jx,Jy]
-
+                return [Jx, Jy]
 
     def calc_delta_function(self, psi, psi0=1):
         """
@@ -417,7 +428,82 @@ class BaseSystem:
                 psi2 = psi[0] ** 2 + psi[1] ** 2
                 return 1 / (2 * np.pi * width ** 2) * np.exp(-psi2 / (2 * width ** 2))
 
-    def calc_integrate_field(self, field, index=None, radius=None):
+    def calc_region_disk(self, position, radius):
+
+        if self.dim == 2:
+            rx2m = (self.x - position[0] - self.xmax) ** 2
+            rx2 = (self.x - position[0]) ** 2
+            rx2p = (self.x - position[0] + self.xmax) ** 2
+            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes, 1))
+
+            ry2m = (self.y - position[1] - self.ymax) ** 2
+            ry2 = (self.y - position[1]) ** 2
+            ry2p = (self.y - position[1] + self.ymax) ** 2
+            ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes))
+
+            return rx2 + ry2 <= radius ** 2
+
+        else:
+            raise Exception("Not valid for other dimensions.")
+
+    def calc_region_ball(self, position, radius):
+        """
+        Calculates a boolean array indicating whether a point is within a ball of a given radius.
+        """
+        if self.dim == 3:
+            # This code ensures that the region is periodic
+            rx2m = (self.x - position[0] - self.xmax) ** 2
+            rx2 = (self.x - position[0]) ** 2
+            rx2p = (self.x - position[0] + self.xmax) ** 2
+            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes, 1, 1))
+
+            ry2m = (self.y - position[1] - self.ymax) ** 2
+            ry2 = (self.y - position[1]) ** 2
+            ry2p = (self.y - position[1] + self.ymax) ** 2
+            ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes, 1))
+
+            rz2m = (self.z - position[2] - self.zmax) ** 2
+            rz2 = (self.z - position[2]) ** 2
+            rz2p = (self.z - position[2] + self.zmax) ** 2
+            rz2 = np.min(np.stack((rz2m, rz2, rz2p)), axis=0).reshape((1, 1, self.zRes))
+
+            return rx2 + ry2 + rz2 <= radius ** 2
+
+        else:
+            raise Exception("Not valid for other dimensions.")
+
+    def calc_region_cylinder(self, position, radius, normal_vector, height):
+        """
+        Calculates a boolean array indicating whether a point is within a cylinder of a given radius and height.
+        """
+        if self.dim == 3:
+            t = normal_vector / np.linalg.norm(np.array(normal_vector))
+
+            rx = (self.x - position[0]).reshape((self.xRes, 1, 1))
+            rx[rx > self.xmax / 2] = rx[rx > self.xmax / 2] - self.xmax
+            rx[rx < -self.xmax / 2] = rx[rx < -self.xmax / 2] + self.xmax
+
+            ry = (self.y - position[1]).reshape((1, self.yRes, 1))
+            ry[ry > self.ymax / 2] = ry[ry > self.ymax / 2] - self.ymax
+            ry[ry < -self.ymax / 2] = ry[ry < -self.ymax / 2] + self.ymax
+
+            rz = (self.z - position[2]).reshape((1, 1, self.zRes))
+            rz[rz > self.zmax / 2] = rz[rz > self.zmax / 2] - self.zmax
+            rz[rz < -self.zmax / 2] = rz[rz < -self.zmax / 2] + self.zmax
+
+            zt = rx * t[0] + ry * t[1] + rz * t[2]
+
+            # Project to perpendicular plane vector
+            Rt2 = (rx - zt * t[0]) ** 2 + (ry - zt * t[1]) ** 2 + (rz - zt * t[2]) ** 2
+
+            return (zt ** 2 <= height ** 2) & (Rt2 <= radius ** 2)
+
+
+
+        else:
+            raise Exception("Not valid for other dimensions.")
+
+    def calc_integrate_field(self, field, region=None):
         """
         Calculates the integrated field value within a specified region.
 
@@ -434,19 +520,11 @@ class BaseSystem:
         Raises:
             Exception: If the dimension of the field is not 2.
         """
-        if self.dim == 1:
-            if index is None:
-                return np.sum(field) * self.dV
 
-        elif self.dim == 2:
-            if index is None:
-                return np.sum(field) * self.dV
-            else:
-                ball = (self.x[index[0]] - self.x.reshape((self.xRes, 1))) ** 2 + (
-                        self.y[index[1]] - self.y.reshape((1, self.yRes))) ** 2 <= radius ** 2
-                return np.sum(field[ball]) * self.dV, ball
+        if region is None:
+            return np.sum(field) * self.dV
         else:
-            raise Exception("Not yet configured for other dimensions.")
+            return np.sum(field[region]) * self.dV
 
     def calc_evolution_integrating_factors_ETD2RK(self, omega_f, tol=10 ** (-4)):
         """
@@ -616,7 +694,7 @@ class BaseSystem:
 
             custom_colormap = tool_colormap_angle()
 
-            mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap,vmin=-np.pi, vmax=np.pi)
+            mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
             if colorbar:
                 cbar = plt.colorbar(mesh)  # To add a colorbar on the side
                 cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
@@ -691,11 +769,13 @@ class BaseSystem:
             colormap = tool_colormap_bluewhitered()
 
         if self.dim == 1:
-
             ax.plot(self.x, field)
 
+        if field.dtype == bool:
+            field = field.astype(float)
 
-        elif self.dim == 2:
+        if self.dim == 2:
+
             if ax == None:
                 ax = plt.gcf().add_subplot(111)
 
@@ -717,11 +797,9 @@ class BaseSystem:
             if colorbar:
                 cbar = plt.colorbar(pcm, ax=ax)
 
-
             ax.set_xlabel('$x/a_0$')
             ax.set_ylabel('$y/a_0$')
             ax.set_aspect('equal')
-
 
             return ax
 
@@ -740,7 +818,7 @@ class BaseSystem:
             field_max = np.max(field)
 
             layer_values = np.linspace(field_min, field_max, number_of_layers + 2)
-            #print(layer_values)
+            # print(layer_values)
 
             cmap = plt.get_cmap('viridis')
 
@@ -750,7 +828,7 @@ class BaseSystem:
                             color=cmap(layer_values[1] / field_max))
 
             for layer_value in layer_values[2:-1]:
-                #print(layer_value)
+                # print(layer_value)
                 verts, faces, _, _ = marching_cubes(field, layer_value)
                 ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
                                 color=cmap(layer_value / field_max))
@@ -769,7 +847,7 @@ class BaseSystem:
             return ax
 
     def plot_fourier_field(self, field_f, ax=None):
-            """
+        """
             Plot a Fourier field.
 
             Parameters:
@@ -779,38 +857,38 @@ class BaseSystem:
             Returns:
                 None
             """
-            field_f = np.fft.fftshift(field_f)
+        field_f = np.fft.fftshift(field_f)
 
-            if ax == None:
-                ax = plt.gcf().add_subplot(111, projection='3d')
+        if ax == None:
+            ax = plt.gcf().add_subplot(111, projection='3d')
 
-            if self.dim == 2:
-                rho = np.abs(field_f)
-                theta = np.angle(field_f)
+        if self.dim == 2:
+            rho = np.abs(field_f)
+            theta = np.angle(field_f)
 
-                Kx, Ky = np.meshgrid(self.k[0], self.k[1], indexing='ij')
+            Kx, Ky = np.meshgrid(self.k[0], self.k[1], indexing='ij')
 
-                Kx = np.fft.fftshift(Kx)
-                Ky = np.fft.fftshift(Ky)
+            Kx = np.fft.fftshift(Kx)
+            Ky = np.fft.fftshift(Ky)
 
-                custom_colormap = tool_colormap_angle()
+            custom_colormap = tool_colormap_angle()
 
-                # Get the colors from a colormap (e.g., hsv, but you can choose any other)
-                colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
-                surf = ax.plot_surface(Kx, Ky, rho, facecolors=colors, shade=True)
+            # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+            colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+            surf = ax.plot_surface(Kx, Ky, rho, facecolors=colors, shade=True)
 
-                # mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
-                # mappable.set_array([])
-                # mappable.set_clim(-np.pi, np.pi)
-                # cbar = plt.colorbar(mappable, ax=ax)
-                # cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-                # cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+            # mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
+            # mappable.set_array([])
+            # mappable.set_clim(-np.pi, np.pi)
+            # cbar = plt.colorbar(mappable, ax=ax)
+            # cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+            # cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
-                # plt.title("Angle field")
-                # plt.xlabel("X-axis")
-                # plt.ylabel("Y-axis")
+            # plt.title("Angle field")
+            # plt.xlabel("X-axis")
+            # plt.ylabel("Y-axis")
 
-    def plot_complex_field(self, complex_field, ax=None, method='not3D',colorbar=False):
+    def plot_complex_field(self, complex_field, ax=None, method='not3D', colorbar=False):
         """
         Plot a complex field.
 
@@ -826,18 +904,15 @@ class BaseSystem:
             None
         """
 
-
         if self.dim == 2:
             rho = np.abs(complex_field)
             theta = np.angle(complex_field)
-
 
             if method == '3D':
                 if ax == None:
                     ax = plt.gcf().add_subplot(111, projection='3d')
 
                 X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-
 
                 custom_colormap = tool_colormap_angle()
 
@@ -846,8 +921,7 @@ class BaseSystem:
 
                 surf = ax.plot_surface(X, Y, rho, facecolors=colors)
             else:
-                self.plot_angle_field(theta,ax=ax)
-
+                self.plot_angle_field(theta, ax=ax)
 
             if colorbar:
                 mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
@@ -857,7 +931,6 @@ class BaseSystem:
                 cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
                 cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
-
             plt.xlabel("$x/a_0$")
             plt.ylabel("$y/a_0$")
 
@@ -866,9 +939,8 @@ class BaseSystem:
         else:
             raise Exception("This plotting function not yet configured for other dimension")
 
-
-    def plot_vector_field(self,vector_field, ax = None, step = None):
-            """
+    def plot_vector_field(self, vector_field, ax=None, step=None):
+        """
             Plots a vector field on a 2D grid.
 
             Parameters:
@@ -879,67 +951,64 @@ class BaseSystem:
             None
             """
 
-            if self.dim == 2:
+        if self.dim == 2:
 
-                if ax == None:
-                    ax = plt.gcf().add_subplot(111)
-                    
-                if step == None:
-                    step = 5
+            if ax == None:
+                ax = plt.gcf().add_subplot(111)
 
-                X, Y = np.meshgrid(self.x,self.y,indexing = 'ij')
+            if step == None:
+                step = 5
 
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-                X_subset = X[::step, ::step]
-                Y_subset = Y[::step, ::step]
-                U_subset = vector_field[0][::step, ::step]
-                V_subset = vector_field[1][::step, ::step]
+            X_plot = X[::step, ::step]
+            Y_plot = Y[::step, ::step]
+            U_plot = vector_field[0][::step, ::step]
+            V_plot = vector_field[1][::step, ::step]
 
-                max_vector = np.max(np.sqrt(U_subset**2+V_subset**2))
-                print(max_vector)
+            max_vector = np.max(np.sqrt(U_plot ** 2 + V_plot ** 2))
+            print(max_vector)
 
-                ax.quiver(X_subset,Y_subset,U_subset,V_subset,scale=25*max_vector/step)
+            ax.quiver(X_plot, Y_plot, U_plot, V_plot, scale=25 * max_vector / step)
 
-                ax.set_xlabel('$x/a_0$')
-                ax.set_ylabel('$y/a_0$')
-                ax.set_aspect('equal')
-                ax.set_xlim([0, self.x[-1]])
-                ax.set_ylim([0, self.y[-1]])
-            
-            elif self.dim == 3:
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_aspect('equal')
+            ax.set_xlim([0, self.x[-1]])
+            ax.set_ylim([0, self.y[-1]])
 
-                if ax == None:
-                    ax = plt.gcf().add_subplot(111, projection='3d')
-                
-                if step is None:
-                    step = 1
-                
-                X, Y, Z = np.meshgrid(self.x,self.y,self.z,indexing = 'ij')
+        elif self.dim == 3:
 
-                X_subset = X[::step, ::step, ::step]
-                Y_subset = Y[::step, ::step, ::step]
-                Z_subset = Z[::step, ::step, ::step]
-                U_subset = vector_field[0][::step, ::step, ::step]
-                V_subset = vector_field[1][::step, ::step, ::step]
-                W_subset = vector_field[2][::step, ::step, ::step]
+            if ax == None:
+                ax = plt.gcf().add_subplot(111, projection='3d')
 
-                max_vector = np.max(np.sqrt(U_subset**2+V_subset**2+W_subset**2))
+            if step is None:
+                step = 2
 
-                ax.quiver(X_subset,Y_subset,Z_subset,U_subset,V_subset,W_subset,length=25)
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-                ax.set_xlabel('$x/a_0$')
-                ax.set_ylabel('$y/a_0$')
-                ax.set_zlabel('$z/a_0$')
-                ax.set_aspect('equal')
-                ax.set_xlim([0, self.x[-1]])
-                ax.set_ylim([0, self.y[-1]])
-                ax.set_zlim([0, self.z[-1]])
+            X_plot = X[::step, ::step, ::step]
+            Y_plot = Y[::step, ::step, ::step]
+            Z_plot = Z[::step, ::step, ::step]
+            U_plot = vector_field[0][::step, ::step, ::step]
+            V_plot = vector_field[1][::step, ::step, ::step]
+            W_plot = vector_field[2][::step, ::step, ::step]
 
-                
+            max_vector = np.max(np.sqrt(U_plot ** 2 + V_plot ** 2 + W_plot ** 2))
 
+            U_plot = U_plot / max_vector
+            V_plot = V_plot / max_vector
+            W_plot = W_plot / max_vector
 
+            ax.quiver(X_plot, Y_plot, Z_plot, U_plot, V_plot, W_plot, arrow_length_ratio=0.6)
 
-
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_zlabel('$z/a_0$')
+            ax.set_aspect('equal')
+            ax.set_xlim([0, self.x[-1]])
+            ax.set_ylim([0, self.y[-1]])
+            ax.set_zlim([0, self.z[-1]])
 
     def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
                                          cmax=None, cmin=None,

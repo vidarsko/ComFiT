@@ -19,7 +19,7 @@ def V_t():
 bec.V0 = V_t()
 
 
-bec.set_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_Thomas_Fermi()
 bec.evolve_relax_BEC(20,'ETD4RK')
 
 
