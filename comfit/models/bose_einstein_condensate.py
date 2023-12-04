@@ -387,6 +387,8 @@ class BEC(BaseSystem):
             Force[i] = self.calc_integrate_field(Force_density)
         return Force
 
+
+
 ### Functions for calculating vortex properties
     def calc_vortex_density(self, psi=None):
 
