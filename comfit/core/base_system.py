@@ -308,6 +308,25 @@ class BaseSystem:
                 return 1 / (np.pi * psi0 ** 2) * np.real(
                     np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]) -
                     np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1]))
+        elif self.dim == 3:
+            if len(psi) == 2:
+                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+
+                result = [
+                    np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[2] * psi_f[1]) -
+                    np.fft.ifftn(self.dif[2] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]),
+                    -np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[2] * psi_f[1]) +
+                    np.fft.ifftn(self.dif[2] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1]),
+                    np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]) -
+                    np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1])
+                ]
+
+                result = [1 / (np.pi * psi0 ** 2) * np.real(field) for field in result]
+
+                return result
+
+
+
 
     def calc_defect_density_singular(self, psi, psi0=1):
         """
@@ -860,30 +879,64 @@ class BaseSystem:
             None
             """
 
-            if ax == None:
-                ax = plt.gcf().add_subplot(111)
+            if self.dim == 2:
+
+                if ax == None:
+                    ax = plt.gcf().add_subplot(111)
+                    
+                if step == None:
+                    step = 5
+
+                X, Y = np.meshgrid(self.x,self.y,indexing = 'ij')
+
+
+                X_subset = X[::step, ::step]
+                Y_subset = Y[::step, ::step]
+                U_subset = vector_field[0][::step, ::step]
+                V_subset = vector_field[1][::step, ::step]
+
+                max_vector = np.max(np.sqrt(U_subset**2+V_subset**2))
+                print(max_vector)
+
+                ax.quiver(X_subset,Y_subset,U_subset,V_subset,scale=25*max_vector/step)
+
+                ax.set_xlabel('$x/a_0$')
+                ax.set_ylabel('$y/a_0$')
+                ax.set_aspect('equal')
+                ax.set_xlim([0, self.x[-1]])
+                ax.set_ylim([0, self.y[-1]])
+            
+            elif self.dim == 3:
+
+                if ax == None:
+                    ax = plt.gcf().add_subplot(111, projection='3d')
                 
-            if step == None:
-                step = 5
+                if step is None:
+                    step = 1
+                
+                X, Y, Z = np.meshgrid(self.x,self.y,self.z,indexing = 'ij')
 
-            X, Y = np.meshgrid(self.x,self.y,indexing = 'ij')
+                X_subset = X[::step, ::step, ::step]
+                Y_subset = Y[::step, ::step, ::step]
+                Z_subset = Z[::step, ::step, ::step]
+                U_subset = vector_field[0][::step, ::step, ::step]
+                V_subset = vector_field[1][::step, ::step, ::step]
+                W_subset = vector_field[2][::step, ::step, ::step]
 
+                max_vector = np.max(np.sqrt(U_subset**2+V_subset**2+W_subset**2))
 
-            X_subset = X[::step, ::step]
-            Y_subset = Y[::step, ::step]
-            U_subset = vector_field[0][::step, ::step]
-            V_subset = vector_field[1][::step, ::step]
+                ax.quiver(X_subset,Y_subset,Z_subset,U_subset,V_subset,W_subset,length=25)
 
-            max_vector = np.max(np.sqrt(U_subset**2+V_subset**2))
-            print(max_vector)
+                ax.set_xlabel('$x/a_0$')
+                ax.set_ylabel('$y/a_0$')
+                ax.set_zlabel('$z/a_0$')
+                ax.set_aspect('equal')
+                ax.set_xlim([0, self.x[-1]])
+                ax.set_ylim([0, self.y[-1]])
+                ax.set_zlim([0, self.z[-1]])
 
-            ax.quiver(X_subset,Y_subset,U_subset,V_subset,scale=25*max_vector/step)
+                
 
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$y/a_0$')
-            ax.set_aspect('equal')
-            ax.set_xlim([0, self.x[-1]])
-            ax.set_ylim([0, self.y[-1]])
 
 
 

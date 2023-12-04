@@ -183,7 +183,24 @@ class BEC(BaseSystem):
         self.psi = self.psi * np.exp(1j * theta)
         self.psi_f = np.fft.fftn(self.psi)
 
-    def set_dissipative_frame(self, d=7, wx=50, wy=50, wz=50):
+    def conf_vortex_remover(self, nodes, Area):
+        '''
+        Function that finds and removes vortices outside of the area defined by the corners
+        (x1,y1), (x1,y2), (x2,y1), (x2,y2)
+        Args:
+            nodes (list) a list containing the vortices
+            Area  (array) list on the format (x1,x2,y1,y2)
+        returns:
+        '''
+        for vortex in nodes:
+            x_coord = vortex['position'][0]
+            y_coord = vortex['position'][1]
+            if not (Area[0] < x_coord and x_coord < Area[1] \
+                    and Area[2] < y_coord and y_coord < Area[3]):
+                self.conf_insert_vortex(charge=-1 * vortex['charge'], position=[x_coord + self.dx, y_coord])
+                # self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
+
+    def conf_dissipative_frame(self, d=7, wx=50, wy=50, wz=50):
         '''
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
         This sets a dissipative frame around the computational domain
@@ -209,27 +226,6 @@ class BEC(BaseSystem):
         else:
             raise Exception("This feature is not yet available for the given dimension.")
 
-    def calc_gaussian_stirring_potential(self, size, strength, position):
-        """
-        Function for calculate a gaussian potential
-        Args:
-            size (float) size of the stirrer
-            strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
-            position (array) the position of the stirrer
-        returns:
-            (numpy.ndarray) a gaussian potential
-        """
-
-        if self.dim == 1:
-            return strength * np.exp(-(self.x - position[0]) ** 2 / size ** 2)
-
-        elif self.dim == 2:
-            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1)
-                                       + ((self.y - position[1]) ** 2).reshape(1, self.yRes)) / (size ** 2))
-        elif self.dim == 3:
-            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1, 1)
-                                       + ((self.y - position[1]) ** 2).reshape(1, self.yRes, 1)
-                                       + ((self.z - position[2]) ** 2).reshape(1, 1, self.zRes)) / (size ** 2))
 
     # Time evolution
     def evolve_dGPE(self, number_of_steps, method='ETD2RK'):
@@ -336,7 +332,7 @@ class BEC(BaseSystem):
         term3 = 0.5 * np.fft.fftn(self.gamma * np.fft.ifftn(-self.calc_k2() * np.fft.fftn(psi)))
         return (term1 + term2 + term3)
 
-#### Functions for callculationg properties of the BEC
+        # Functions for callculationg properties of the BEC
 
     def calc_superfluid_current(self):
         """
@@ -375,6 +371,28 @@ class BEC(BaseSystem):
         H = self.calc_hamiltonian_density()
         return self.calc_integrate_field(H)
 
+        def calc_gaussian_stirring_potential(self, size, strength, position):
+            """
+            Function for calculate a gaussian potential
+            Args:
+                size (float) size of the stirrer
+                strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
+                position (array) the position of the stirrer
+            returns:
+                (numpy.ndarray) a gaussian potential
+            """
+
+            if self.dim == 1:
+                return strength * np.exp(-(self.x - position[0]) ** 2 / size ** 2)
+
+            elif self.dim == 2:
+                return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1)
+                                           + ((self.y - position[1]) ** 2).reshape(1, self.yRes)) / (size ** 2))
+            elif self.dim == 3:
+                return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1, 1)
+                                           + ((self.y - position[1]) ** 2).reshape(1, self.yRes, 1)
+                                           + ((self.z - position[2]) ** 2).reshape(1, 1, self.zRes)) / (size ** 2))
+
     def calc_force_on_external_potential(self):
         """ calculates the average force acting on the external potential.
         returns:
@@ -386,6 +404,7 @@ class BEC(BaseSystem):
             Force_density = np.real(np.abs(self.psi)**2 * np.fft.ifftn(1j*self.k[i]* potential_f))
             Force[i] = self.calc_integrate_field(Force_density)
         return Force
+        #TODO: It is not clear to me exactly what this function does (Vidar 04.12.23)
 
 
 
@@ -465,6 +484,9 @@ class BEC(BaseSystem):
 
                 charge, ball = self.calc_integrate_field(rho, index=rho_max_index, radius=1)
 
+        elif self.dim == 3:
+            pass
+
         return vortex_nodes
 
     # Plot functions
@@ -516,19 +538,4 @@ class BEC(BaseSystem):
 
         ax.grid(True)
 
-    def conf_vortex_remover(self, nodes, Area):
-        '''
-        Function that finds and removes vortices outside of the area defined by the corners
-        (x1,y1), (x1,y2), (x2,y1), (x2,y2)
-        Args:
-            nodes (list) a list containing the vortices
-            Area  (array) list on the format (x1,x2,y1,y2)
-        returns:
-        '''
-        for vortex in nodes:
-            x_coord = vortex['position'][0]
-            y_coord = vortex['position'][1]
-            if not (Area[0] < x_coord and x_coord < Area[1] \
-                    and Area[2] < y_coord and y_coord < Area[3]):
-                self.conf_insert_vortex(charge=-1 * vortex['charge'], position=[x_coord + self.dx, y_coord])
-                # self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
+    

@@ -9,7 +9,7 @@ bec.V0 = bec.calc_gaussian_stirring_potential(2,4,[bec.xmid,bec.ymid,bec.zmid])
 bec.set_initial_condition_Thomas_Fermi()
 bec.evolve_relax_BEC(100)
 
-bec.set_dissipative_frame(wx=26,wy=26,wz=26)
+bec.conf_dissipative_frame(wx=26,wy=26,wz=26)
 
 
 
