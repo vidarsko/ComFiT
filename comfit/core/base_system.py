@@ -352,8 +352,32 @@ class BaseSystem:
 
                 return [Vx,Vy]
 
+    def calc_defect_current_density(self,psi,dt_psi,psi_0 =0):
+        """
+        Calculates the conserved current of the superfluid density
+        Args:
+            psi (numpy.ndarray) the vector field that we find the density of
+            dt_psi (numpy.ndarray) the time derivative of psi
+            psi_0 (floar or numpy.ndarray, optional) the equilibrium state
+        :returns
+            (array) components of the conserved current
+        """
+        if self.dim==2:
+            if len(psi) == 2:
+
+                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+
+                dx_psi0 = np.fft.ifftn(self.dif[0] * psi_f[0])
+                dy_psi1 = np.fft.ifftn(self.dif[1] * psi_f[1])
+                dx_psi1 = np.fft.ifftn(self.dif[0] * psi_f[1])
+                dy_psi0 = np.fft.ifftn(self.dif[1] * psi_f[0])
 
 
+
+                Jx = -  np.real( dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) /(psi_0*np.pi)
+                Jy = - np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0)/(psi_0*np.pi)
+
+                return [Jx,Jy]
 
 
     def calc_delta_function(self, psi, psi0=1):
