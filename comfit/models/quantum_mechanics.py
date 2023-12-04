@@ -113,14 +113,18 @@ class QM(BaseSystem):
         return np.fft.fftn((1j) * (-self.V_ext) * psi)
 
 
-    def evolve_schrodinger(self,number_of_steps):
-
-        omega_f = -1j/2*self.calc_k2()
-
-        integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
-
+    def evolve_schrodinger(self,number_of_steps,method = 'ETD2RK'):
+        omega_f = -1j / 2 * self.calc_k2()
+        if method == 'EDT2RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+            solver = self.evolve_ETD2RK_loop
+        elif method == 'ETD4RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+            solver = self.evolve_ETD4RK_loop
+        else:
+            raise(Exception('This method is not implemented'))
         for n in range(number_of_steps):
-            self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
+            self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
                                                            self.psi, self.psi_f)
 
 

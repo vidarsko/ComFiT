@@ -304,7 +304,7 @@ class BEC(BaseSystem):
         else:
             raise Exception('This method is not implemented')
 
-        for n in range(number_of_steps):
+        for n in tqdm(range(number_of_steps), desc='evolving the dGPE in the comoving frame'):
             self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_term_comoving_f,
                                           self.psi, self.psi_f)
 
@@ -336,6 +336,58 @@ class BEC(BaseSystem):
         term3 = 0.5 * np.fft.fftn(self.gamma * np.fft.ifftn(-self.calc_k2() * np.fft.fftn(psi)))
         return (term1 + term2 + term3)
 
+#### Functions for callculationg properties of the BEC
+
+    def calc_superfluid_current(self):
+        """
+        Function that calculates the superfluid current
+        retuns:
+            updates or sets the superfluid current
+        """
+        if not hasattr(BEC, 'J_s'):
+            if self.dim == 2:
+                self.J_s = np.zeros((self.dim,self.xRes,self.yRes))
+            elif self.dim == 3:
+                self.J_s = np.zeros((self.dim, self.xRes, self.yRes,self.zRes))
+            else:
+                raise(Exception('Calculation of the  superfluid current is not implemented in this dimension'))
+        for i in range(self.dim):
+            self.J_s[i] = np.imag( np.conj(self.psi) * np.fft.ifftn(1j*self.k[i] *self.psi_f ))
+
+    def calc_hamiltonian_density(self):
+        """
+        Function that calculates the hamiltonian density
+        returns:
+            (numpy.ndarray) the hamiltonian density
+        """
+        k2 = self.calc_k2()
+        interaction_term = 1/2*np.abs(self.psi)**4
+        potential_term = (self.V_ext() - 1 )* np.abs(self.psi)**2
+        laplacian_term = -1/2 *np.real( np.conj(self.psi) * np.fft.ifftn(-k2*self.psi_f))
+        return laplacian_term +potential_term + interaction_term
+
+    def calc_hamiltonian(self):
+        """
+        Function that calculates the hamitlonian
+        returns:
+            (Float) the hamiltonian
+        """
+        H = self.calc_hamiltonian_density()
+        return self.calc_integrate_field(H)
+
+    def calc_force_on_external_potential(self):
+        """ calculates the average force acting on the external potential.
+        returns:
+            (numpy.ndarray) average force on the potential
+        """
+        Force =np.zeros(self.dim)
+        potential_f = np.fft.ifftn(self.V_ext())
+        for i in range(self.dim):
+            Force_density = np.real(np.abs(self.psi)**2 * np.fft.ifftn(1j*self.k[i]* potential_f))
+            Force[i] = self.calc_integrate_field(Force_density)
+        return Force
+
+### Functions for calculating vortex properties
     def calc_vortex_density(self, psi=None):
 
         if psi is None:
