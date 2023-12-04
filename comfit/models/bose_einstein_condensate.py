@@ -368,9 +368,9 @@ class BEC(BaseSystem):
 
     def calc_hamiltonian(self):
         """
-        Function that calculates the hamitlonian
+        Function that calculates the Hamitlonian
         returns:
-            (Float) the hamiltonian
+            (Float) the Hamiltonian
         """
         H = self.calc_hamiltonian_density()
         return self.calc_integrate_field(H)
