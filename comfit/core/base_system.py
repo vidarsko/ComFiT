@@ -381,10 +381,40 @@ class BaseSystem:
                 dy_psi1 = np.fft.ifftn(self.dif[1] * psi_f[1])
                 dz_psi1 = np.fft.ifftn(self.dif[2] * psi_f[1])
 
-                denominator = (dx_psi0 * dx_psi0 + dy_psi0 * dy_psi0 + dz_psi0 * dz_psi0
-                               + dx_psi1 * dx_psi1 + dy_psi1 * dy_psi1 + dz_psi1 * dz_psi1) ** 2 - \
-                              (dx_psi0 * dx_psi0 * dx_psi0 * dx_psi0 +
-                               dy_psi0 * dy_psi0 * dy_psi0 * dy_psi0 )
+
+                denominator = 2 * (dx_psi1 ** 2 * (dy_psi0 ** 2 + dz_psi0 ** 2) + (
+                            dy_psi1 * dz_psi0 - dy_psi0 * dz_psi1) ** 2 -
+                                   2 * dx_psi0 * dx_psi1 * (dy_psi0 * dy_psi1 + dz_psi0 * dz_psi1) +
+                                   dx_psi0 ** 2 * (dy_psi1 ** 2 + dz_psi1 ** 2))
+
+                Vx = -2 * np.real((
+                          (dx_psi1 ** 2 * dy_psi0 - dx_psi0 * dx_psi1 * dy_psi1 +
+                           dz_psi1 * (-dy_psi1 * dz_psi0 + dy_psi0 * dz_psi1)) * dt_psi[0] +
+                          (-dx_psi0 * dx_psi1 * dy_psi0 + dx_psi0 ** 2 * dy_psi1 +
+                           dz_psi0 * (dy_psi1 * dz_psi0 - dy_psi0 * dz_psi1)) * dt_psi[1]
+                                  )/denominator)
+                Vy = -2 * np.real((
+                          (dx_psi1 ** 2 * dy_psi0 - dx_psi0 * dx_psi1 * dy_psi1 +
+                           dz_psi1 * (-dy_psi1 * dz_psi0 + dy_psi0 * dz_psi1)) * dt_psi[0] +
+                          (-dx_psi0 * dx_psi1 * dy_psi0 + dx_psi0 ** 2 * dy_psi1 +
+                           dz_psi0 * (dy_psi1 * dz_psi0 - dy_psi0 * dz_psi1)) * dt_psi[1]
+                                  ) / denominator)
+
+                Vz = -2 * np.real((
+                          ((dx_psi1 ** 2 + dy_psi1 ** 2) * dz_psi0 - (
+                                      dx_psi0 * dx_psi1 + dy_psi0 * dy_psi1) * dz_psi1) * dt_psi[0] +
+                          (-(dx_psi0 * dx_psi1 + dy_psi0 * dy_psi1) * dz_psi0 + (
+                                      dx_psi0 ** 2 + dy_psi0 ** 2) * dz_psi1) * dt_psi[1]
+                                ) / denominator)
+
+                denominator_max = np.max(abs(denominator))
+                region_to_ignore = abs(denominator) < threshold * denominator_max
+
+                Vx[region_to_ignore] = 0
+                Vy[region_to_ignore] = 0
+                Vz[region_to_ignore] = 0
+
+                return [Vx, Vy, Vz]
 
     def calc_defect_current_density(self, psi, dt_psi, psi_0=0):
         """
@@ -688,7 +718,7 @@ class BaseSystem:
         if self.dim == 2:
 
             if ax is None:
-                ax = plt.gcf().add_subplot(111)
+                ax = plt.gca()
 
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
@@ -748,7 +778,7 @@ class BaseSystem:
             ax.set_aspect('equal')
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
-                   number_of_layers=1, hold=False, cmap_symmetric=True):
+                   number_of_layers=1, hold=False, cmap_symmetric=True, layer_values=None):
         """
         Plots the given field.
         Parameters:
@@ -816,8 +846,11 @@ class BaseSystem:
 
             field_min = np.min(field)
             field_max = np.max(field)
+            if layer_values is None:
+                layer_values = np.linspace(field_min, field_max, number_of_layers + 2)
+            else:
+                layer_values = np.concatenate([[-np.inf], layer_values, [np.inf]])
 
-            layer_values = np.linspace(field_min, field_max, number_of_layers + 2)
             # print(layer_values)
 
             cmap = plt.get_cmap('viridis')

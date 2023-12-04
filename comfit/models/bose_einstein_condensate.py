@@ -443,7 +443,7 @@ class BEC(BaseSystem):
 
         if dt_psi is not None:
 
-            velocity_field = self.calc_vortex_velocity_field( dt_psi, self.psi)
+            velocity_field = self.calc_vortex_velocity_field(dt_psi, self.psi)
 
         vortex_nodes = []
 
@@ -519,6 +519,11 @@ class BEC(BaseSystem):
 
                 vortex['position'] = [x, y, z]
 
+                if dt_psi is not None:
+                    vortex['velocity'] = [velocity_field[0][rho_max_index],
+                                          velocity_field[1][rho_max_index],
+                                          velocity_field[2][rho_max_index]]
+
                 vortex_nodes.append(vortex)
 
                 rho_norm[cylinder] = 0
@@ -591,15 +596,25 @@ class BEC(BaseSystem):
             ax.set_ylim([0, self.y[-1]])
 
         elif self.dim == 3:
+            # Plotting options
+            quiver_scale = 2 # The scale of the quiver arrows
+
             if ax == None:
-                ax = plt.gcf().add_subplot(111, projection='3d')
+                #ax = plt.gcf().add_subplot(111, projection='3d')
+                ax = plt.gca()
 
             x_coords = []
             y_coords = []
             z_coords = []
+
             tx = []
             ty = []
             tz = []
+
+            vx = []
+            vy = []
+            vz = []
+
 
             for vortex in vortex_nodes:
                 x_coords.append(vortex['position'][0])
@@ -610,11 +625,27 @@ class BEC(BaseSystem):
                 ty.append(vortex['tangent_vector'][1])
                 tz.append(vortex['tangent_vector'][2])
 
+                vx.append(vortex['velocity'][0])
+                vy.append(vortex['velocity'][1])
+                vz.append(vortex['velocity'][2])
 
-            print(x_coords)
+            tx = np.array(tx)
+            ty = np.array(ty)
+            tz = np.array(tz)
 
-            ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
-            ax.quiver(x_coords, y_coords, z_coords, tx, ty, tz, color='blue')
+            vx = np.array(vx)
+            vy = np.array(vy)
+            vz = np.array(vz)
+
+            if not len(vx) == 0:
+                v2 =vx**2 + vy**2 + vz**2
+                v_norm = np.sqrt(max(v2))
+            else:
+                v_norm = 1
+
+            #ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*tx, quiver_scale*ty, quiver_scale*tz, color='blue')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*vx/v_norm, quiver_scale*vy/v_norm, quiver_scale*vz/v_norm, color='green')
 
             ax.set_xlabel('$x/a_0$')
             ax.set_ylabel('$y/a_0$')
