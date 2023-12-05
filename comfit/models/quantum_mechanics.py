@@ -38,7 +38,7 @@ class QM(BaseSystem):
 
 
 
-    def set_harmonic_potential(self,trapping_strength=None):
+    def conf_harmonic_potential(self,trapping_strength=None):
         """
         Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
         :param R_tf:

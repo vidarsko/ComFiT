@@ -6,7 +6,7 @@ bec = cf.BEC(3,xRes=101,yRes=101,zRes=101,gamma=0)
 # print(bec.psi)
 # bec.conf_insert_vortex_ring(normal_vector=[0,1,0],radius=20)
 # bec.conf_insert_vortex_ring(normal_vector=[0,-1,0],radius=10)
-bec.set_initial_condition_disordered()
+bec.conf_initial_condition_disordered()
 
 bec.evolve_relax_BEC(1000)
 

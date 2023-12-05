@@ -24,7 +24,7 @@ bec.evolve_relax_BEC(20,'ETD2RK')
 
 
 
-bec.set_time_dependent_potential(V_t)
+bec.conf_time_dependent_potential(V_t)
 
 bec.plot_field(np.abs(bec.psi)**2)
 plt.show()

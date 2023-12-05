@@ -19,7 +19,7 @@ def V_t():
     pos_x = bec.xmid + stirrer_radius * np.cos(freq * bec.t)
     pos_y = bec.ymid + stirrer_radius * np.sin(freq * bec.t)
     stirrer = bec.calc_gaussian_stirring_potential(size, strength, [pos_x, pos_y])
-    harmonic = bec.set_harmonic_potential(R_tf)
+    harmonic = bec.conf_harmonic_potential(R_tf)
     return   harmonic + stirrer
 
 ### Set the potential to the t=0 value, initialise the TF ground-state and relax in imaginary time
@@ -29,7 +29,7 @@ bec.conf_initial_condition_Thomas_Fermi()
 bec.evolve_relax_BEC(20,'ETD2RK')
 
 ### Updating the potential to the time-dependent function V_t()
-bec.set_time_dependent_potential(V_t)
+bec.conf_time_dependent_potential(V_t)
 
 
 

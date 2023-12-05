@@ -5,7 +5,7 @@ import comfit as cf
 nem = cf.Nematic(2,xRes=101,yRes=101,dx=1,dy=1,dt=0.1)
 
 
-nem.set_initial_condition_disordered(noise_strength=4)
+nem.conf_initial_condition_disordered(noise_strength=4)
 
 nem.evolve_nematic_no_flow(50)
 

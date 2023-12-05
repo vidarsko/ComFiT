@@ -6,7 +6,7 @@ plt.ion()
 
 bec = cf.BEC(2,xRes=101,yRes=101)
 
-bec.set_initial_condition_disordered()
+bec.conf_initial_condition_disordered()
 bec.dt=0.1
 
 # Create the figure and axes outside the loop

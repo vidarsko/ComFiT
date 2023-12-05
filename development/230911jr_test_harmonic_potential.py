@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 bec = cf.BEC(2,xRes=101,yRes=101)
-bec.set_harmonic_potential(50)
+bec.conf_harmonic_potential(50)
 bec.conf_initial_condition_Thomas_Fermi()
 
 integrating_factors = bec.calc_evolution_integrating_factors_dGPE_f()

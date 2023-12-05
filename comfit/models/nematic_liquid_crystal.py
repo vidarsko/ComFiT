@@ -47,7 +47,7 @@ class Nematic(BaseSystem):
             setattr(self, key, value)
 
     # Initial condition
-    def set_initial_condition_disordered(self, noise_strength=0.01):
+    def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
         Initialises the system with the nematogens pointing in the x-direction with some random noise in the angle
         Args:

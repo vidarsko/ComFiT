@@ -45,7 +45,7 @@ class BEC(BaseSystem):
             setattr(self, key, value)
 
     # SETTING FUNCTIONS
-    def set_initial_condition_disordered(self, noise_strength=0.01):
+    def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
         Sets disordered initial condition for the BEC with some thermal flcutiations
 
@@ -70,7 +70,7 @@ class BEC(BaseSystem):
         self.psi = noise_strength * self.psi
         self.psi_f = np.fft.fftn(self.psi)
 
-    def set_harmonic_potential(self, R_tf):
+    def conf_harmonic_potential(self, R_tf):
         """
         Set returns a harmonic trap with R_tf being the Thomas-Fermi radius
         Args:
@@ -89,7 +89,7 @@ class BEC(BaseSystem):
                                         + ((self.y - self.ymid) ** 2).reshape(1, self.yRes, 1)
                                         + ((self.z - self.zmid) ** 2).reshape(1, 1, self.zRes))
 
-    def set_time_dependent_potential(self, Func):
+    def conf_time_dependent_potential(self, Func):
         """
         Set the potential to the function Func. Func has to use self.dt as the time variabel.
         Args:

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 qm = cf.QM(1,xRes=101,dx=1)
 
 qm.set_initial_condition_gaussian(position=30,width=5)
-qm.V_ext = qm.set_harmonic_potential(0.0001)
+qm.V_ext = qm.conf_harmonic_potential(0.0001)
 
 
 ymax = np.max(abs(qm.psi))**2

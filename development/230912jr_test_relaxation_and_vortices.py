@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 bec = cf.BEC(2,xRes=101,yRes=101)
-V_trap = bec.set_harmonic_potential(50)
+V_trap = bec.conf_harmonic_potential(50)
 stirrer_radius = 20
 stirrer_velocity = 0.6
 t=0
