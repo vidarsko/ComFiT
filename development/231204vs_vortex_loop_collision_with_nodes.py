@@ -12,7 +12,7 @@ bec.evolve_relax_BEC(100)
 # plt.show()
 
 N=10
-for i in range(20):
+for i in range(200):
     bec.evolve_dGPE(N-1)
     psi_old = bec.psi
     bec.evolve_dGPE(1)
@@ -22,6 +22,7 @@ for i in range(20):
     bec.plot_vortex_nodes(Dnodes)
     #theta = bec.calc_angle_field_vortex_ring(normal_vector=[0,0,1],radius=13)
     #bec.plot_angle_field(theta)
+    cf.tool_zoom_plot(2)
     cf.tool_save_plot(i)
     #plt.draw()
     #plt.pause(0.03)

@@ -491,6 +491,7 @@ class BEC(BaseSystem):
         elif self.dim == 3:
             # Parameters to tune to make the algorithm work
             charge_tolerance = 0.5
+            integration_radius = 2
             cylinder_height = 1
 
             rho_norm = np.sqrt(rho[0]**2+rho[1]**2+rho[2]**2)
@@ -502,7 +503,7 @@ class BEC(BaseSystem):
             tangent_vector = np.array([rho[0][rho_max_index],rho[1][rho_max_index],rho[2][rho_max_index]])
             tangent_vector = tangent_vector/np.linalg.norm(tangent_vector)
             cylinder = self.calc_region_cylinder(position=[self.x[rho_max_index[0]], self.y[rho_max_index[1]], self.z[rho_max_index[2]]],
-                                                 radius = 1,
+                                                 radius = integration_radius,
                                                  normal_vector = tangent_vector,
                                                  height = cylinder_height)
             charge = self.calc_integrate_field(rho_norm, cylinder)/cylinder_height
@@ -538,7 +539,7 @@ class BEC(BaseSystem):
 
                 cylinder = self.calc_region_cylinder(position=[self.x[rho_max_index[0]], self.y[rho_max_index[1]],
                                                                self.z[rho_max_index[2]]],
-                                                     radius=1,
+                                                     radius=integration_radius,
                                                      normal_vector = tangent_vector,
                                                      height = cylinder_height)
                 charge = self.calc_integrate_field(rho_norm, cylinder) / cylinder_height

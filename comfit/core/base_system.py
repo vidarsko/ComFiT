@@ -357,6 +357,8 @@ class BaseSystem:
                 Vx = -2 * np.real(dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) / denominator
                 Vy = -2 * np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0) / denominator
 
+                #TODO: check if this factor of 2 is actually supposed to be there (Vidar 05.12.23)
+
                 print(region_to_ignore.shape)
                 print(Vx.shape)
                 print(Vy.shape)
