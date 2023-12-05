@@ -3,20 +3,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 bec = cf.BEC(3,xRes=51,yRes=51,zRes=51,gamma=0)
-bec.conf_insert_vortex_ring(normal_vector=[-1,0,0],radius=10,position=[0.25*bec.xmax,bec.ymid,bec.zmid])
+#bec.conf_insert_vortex_ring(normal_vector=[-1,0,0],radius=10,position=[0.25*bec.xmax,0.5*bec.ymax,0.6*bec.zmax])
 #bec.conf_insert_vortex_ring(normal_vector=[0,-1,0],radius=10)
-bec.conf_insert_vortex_ring(normal_vector=[1,0,0],radius=10,position=[0.75*bec.xmax,bec.ymid,bec.zmid])
+bec.conf_insert_vortex_ring(normal_vector=[1,0,0],radius=10,
+                            position=bec.rmid)
 bec.evolve_relax_BEC(100)
 # bec.plot_field(abs(bec.psi))
 # plt.show()
 
 N=10
-for i in range(400):
+for i in range(20):
+    bec.evolve_dGPE(N-1)
     psi_old = bec.psi
-    bec.evolve_dGPE(N)
-    dt_psi =(bec.psi-psi_old)/(N*bec.dt)
+    bec.evolve_dGPE(1)
+    dt_psi =(bec.psi-psi_old)/(bec.dt)
     Dnodes = bec.calc_vortex_nodes(dt_psi)
-    bec.plot_field(abs(bec.psi), colorbar=False)
+    bec.plot_field(abs(bec.psi), colorbar=False,clims=[0,1],layer_values=[0.6])
     bec.plot_vortex_nodes(Dnodes)
     #theta = bec.calc_angle_field_vortex_ring(normal_vector=[0,0,1],radius=13)
     #bec.plot_angle_field(theta)
