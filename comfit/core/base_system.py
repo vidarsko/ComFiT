@@ -778,6 +778,7 @@ class BaseSystem:
             ax.set_aspect('equal')
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
+                   clims = None,
                    number_of_layers=1, hold=False, cmap_symmetric=True, layer_values=None):
         """
         Plots the given field.
@@ -807,13 +808,17 @@ class BaseSystem:
         if self.dim == 2:
 
             if ax == None:
-                ax = plt.gcf().add_subplot(111)
+                plt.clf()
+                ax = plt.gca()
 
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
             pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
             ax.set_aspect('equal')
 
+            if clims is not None:
+                cmin = clims[0]
+                cmax = clims[1]
             if cmin is not None:
                 pcm.set_clim(vmin=cmin)
             if cmax is not None:
@@ -844,38 +849,54 @@ class BaseSystem:
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
+
             field_min = np.min(field)
             field_max = np.max(field)
+
+            if clims is None:
+                cmin = field_min
+                cmax = field_max
+            else:
+                cmin = clims[0]
+                cmax = clims[1]
+
             if layer_values is None:
-                layer_values = np.linspace(field_min, field_max, number_of_layers + 2)
+                layer_values = np.linspace(cmin, cmax, number_of_layers + 2)
             else:
                 layer_values = np.concatenate([[-np.inf], layer_values, [np.inf]])
 
             # print(layer_values)
+            if colormap is None:
+                cmap = plt.get_cmap('viridis')
+            else:
+                cmap = plt.get_cmap(colormap)
 
-            cmap = plt.get_cmap('viridis')
-
-            verts, faces, _, _ = marching_cubes(field, layer_values[1])
-
-            ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+            if field_min < layer_values[1] < field_max:
+                verts, faces, _, _ = marching_cubes(field, layer_values[1])
+                ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
                             color=cmap(layer_values[1] / field_max))
 
             for layer_value in layer_values[2:-1]:
-                # print(layer_value)
-                verts, faces, _, _ = marching_cubes(field, layer_value)
-                ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+
+                if field_min < layer_value < field_max:
+                    verts, faces, _, _ = marching_cubes(field, layer_value)
+                    ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
                                 color=cmap(layer_value / field_max))
 
             ax.set_aspect('equal')
             if colorbar:
                 sm = plt.cm.ScalarMappable(cmap=cmap)
-                sm.set_clim(field_min, field_max)
+                sm.set_clim(cmin, cmax)
                 plt.colorbar(sm, ax=ax)
 
             ax.set_xlim3d(self.x[0], self.x[-1])
             ax.set_ylim3d(self.y[0], self.y[-1])
             ax.set_zlim3d(self.z[0], self.z[-1])
             ax.set_aspect('equal')
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_zlabel('$z/a_0$')
+
 
             return ax
 

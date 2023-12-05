@@ -9,7 +9,7 @@ Functions:
 import matplotlib.pyplot as plt
 from moviepy.editor import ImageSequenceClip
 import os
-from datetime import date
+from datetime import datetime
 
 def tool_save_plot(counter):
     """
@@ -20,7 +20,7 @@ def tool_save_plot(counter):
     """
     plt.savefig(f'plot_{counter}.png')
 
-def tool_make_animation(counter, name=date.today().strftime("%Y-%m-%d") + ' - output_video.mp4', fps=24):
+def tool_make_animation(counter, name=datetime.now().strftime("%y%m%d_%H%M") + ' - output_video.mp4', fps=24):
     """
     Creates an animation from a series of plot images and saves it as an MP4 video file.
 
