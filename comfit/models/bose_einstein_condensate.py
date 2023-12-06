@@ -623,8 +623,8 @@ class BEC(BaseSystem):
             ax.set_xlabel('$x/a_0$')
             ax.set_ylabel('$y/a_0$')
 
-            ax.set_xlim([0, self.x[-1]])
-            ax.set_ylim([0, self.y[-1]])
+            ax.set_xlim([0, self.xmax-self.dx])
+            ax.set_ylim([0, self.ymax-self.dy])
 
         elif self.dim == 3:
             # Plotting options
@@ -682,9 +682,9 @@ class BEC(BaseSystem):
             ax.set_ylabel('$y/a_0$')
             ax.set_zlabel('$z/a_0$')
 
-            ax.set_xlim([0, self.x[-1]])
-            ax.set_ylim([0, self.y[-1]])
-            ax.set_zlim([0, self.z[-1]])
+            ax.set_xlim([0, self.xmax-self.dx])
+            ax.set_ylim([0, self.ymax-self.dy])
+            ax.set_zlim([0, self.zmax-self.dz])
 
             ax.set_aspect('equal')
         ax.grid(True)

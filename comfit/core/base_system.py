@@ -7,7 +7,11 @@ from matplotlib.tri import Triangulation
 
 
 class BaseSystem:
-    def __init__(self, dimension, xRes=101, dx=1.0, yRes=101, dy=1.0, zRes=101, dz=1.0, dt=0.1, **kwargs):
+    def __init__(self, dimension,
+                 xRes=101, dx=1.0, xmin=0,
+                 yRes=101, dy=1.0, ymin=0,
+                 zRes=101, dz=1.0, zmin=0,
+                 dt=0.1, **kwargs):
         """
         Initialize the class with the given parameters.
         Parameters:
@@ -41,17 +45,21 @@ class BaseSystem:
         self.dz = dz
         self.dt = dt
 
+        self.xmin = xmin
+        self.xmax = xmin + self.xRes * self.dx
+
+        self.ymin = ymin
+        self.ymax = ymin + self.yRes * self.dy
+
+        self.zmin = zmin
+        self.zmax = zmin + self.zRes* self.dz
+
         if self.dim not in [1, 2, 3]:
             raise ValueError('Dimension must be 1, 2, or 3.')
 
-        self.x = np.arange(0, self.xRes * self.dx, self.dx)
-        self.y = np.array([0])
-        self.z = np.array([0])
-
-        if self.dim > 1:
-            self.y = np.arange(0, self.yRes * self.dy, self.dy)
-        if self.dim > 2:
-            self.z = np.arange(0, self.zRes * self.dz, self.dz)
+        self.x = np.linspace(self.xmin, self.xmax-self.dx, self.xRes)
+        self.y = np.linspace(self.ymin, self.ymax-self.dy, self.yRes)
+        self.z = np.linspace(self.zmin, self.zmax-self.dz, self.zRes)
 
         self.Res = self.xRes * self.yRes * self.zRes
         if self.dim == 1:
@@ -76,11 +84,6 @@ class BaseSystem:
         self.midi = self.xRes * self.yRes * (self.zmidi - 1) + self.yRes * (self.xmidi - 1) + self.ymidi
         self.rmid = [self.xmid, self.ymid, self.zmid]
 
-        # Max positions
-        self.xmax = self.x[-1] + self.dx
-        self.ymax = self.y[-1] + self.dy if self.dim > 1 else 0
-        self.zmax = self.z[-1] + self.dz if self.dim > 2 else 0
-
         # Fourier modes
         self.k = [self.calc_wavenums(self.x)]
         if self.dim == 2:
@@ -91,6 +94,16 @@ class BaseSystem:
             self.k.append(self.calc_wavenums(self.y).reshape(1, self.yRes, 1))
             self.k.append(self.calc_wavenums(self.z).reshape(1, 1, self.zRes))
 
+        # Reshape the position vectors
+        if self.dim == 2:
+            self.x = self.x.reshape((self.xRes, 1))
+            self.y = self.y.reshape((1, self.yRes))
+        elif self.dim == 3:
+            self.x = self.x.reshape((self.xRes, 1, 1))
+            self.y = self.y.reshape((1, self.yRes, 1))
+            self.z = self.z.reshape((1, 1, self.zRes))
+
+
         # Derivatives
         self.dif = [1j * ki for ki in self.k]
 
@@ -99,10 +112,6 @@ class BaseSystem:
             self.dV *= self.dy
         if self.dim > 2:
             self.dV *= self.dz
-
-        self.xmin = 0
-        self.ymin = 0
-        self.zmin = 0
 
         self.rmin = [self.xmin, self.ymin, self.zmin]
         self.rmax = [self.xmax, self.ymax, self.zmax]
@@ -760,7 +769,7 @@ class BaseSystem:
 
                     verts, faces, _, _ = marching_cubes(field_to_plot, angle)
 
-                    ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
                                     color=cmap((angle + np.pi) / (2 * np.pi)))
 
             field = np.mod(field, 2 * np.pi)
@@ -771,12 +780,12 @@ class BaseSystem:
 
             verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
 
-            ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+            ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
                             color=cmap(0))
 
-            ax.set_xlim3d(self.x[0], self.x[-1])
-            ax.set_ylim3d(self.y[0], self.y[-1])
-            ax.set_zlim3d(self.z[0], self.z[-1])
+            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
             ax.set_aspect('equal')
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
@@ -798,11 +807,17 @@ class BaseSystem:
             ax (Axes): The axes object containing the plot.
         """
 
-        if colormap is None:
-            colormap = tool_colormap_bluewhitered()
+
 
         if self.dim == 1:
-            ax.plot(self.x, field)
+            if ax == None:
+                plt.clf()
+                ax = plt.gca()
+
+            ax.plot(self.x/self.a0, field)
+            ax.set_xlabel('$x/a_0$')
+            ax.grid(True)
+
 
         if field.dtype == bool:
             field = field.astype(float)
@@ -812,6 +827,11 @@ class BaseSystem:
             if ax == None:
                 plt.clf()
                 ax = plt.gca()
+
+            if colormap is None:
+                colormap = tool_colormap_bluewhitered()
+            else:
+                cmap = plt.get_cmap(colormap)
 
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
@@ -846,11 +866,7 @@ class BaseSystem:
                 plt.clf()
                 ax = plt.gcf().add_subplot(111, projection='3d')
 
-            if not hold:
-                ax.clear()
-
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-
 
             field_min = np.min(field)
             field_max = np.max(field)
@@ -875,14 +891,14 @@ class BaseSystem:
 
             if field_min < layer_values[1] < field_max:
                 verts, faces, _, _ = marching_cubes(field, layer_values[1])
-                ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
                             color=cmap(layer_values[1] / field_max))
 
             for layer_value in layer_values[2:-1]:
 
                 if field_min < layer_value < field_max:
                     verts, faces, _, _ = marching_cubes(field, layer_value)
-                    ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2], alpha=0.5,
+                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
                                 color=cmap(layer_value / field_max))
 
             ax.set_aspect('equal')
@@ -891,9 +907,9 @@ class BaseSystem:
                 sm.set_clim(cmin, cmax)
                 plt.colorbar(sm, ax=ax)
 
-            ax.set_xlim3d(self.x[0], self.x[-1])
-            ax.set_ylim3d(self.y[0], self.y[-1])
-            ax.set_zlim3d(self.z[0], self.z[-1])
+            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
             ax.set_aspect('equal')
             ax.set_xlabel('$x/a_0$')
             ax.set_ylabel('$y/a_0$')
@@ -1030,8 +1046,8 @@ class BaseSystem:
             ax.set_xlabel('$x/a_0$')
             ax.set_ylabel('$y/a_0$')
             ax.set_aspect('equal')
-            ax.set_xlim([0, self.x[-1]])
-            ax.set_ylim([0, self.y[-1]])
+            ax.set_xlim([0, self.xmax-self.dx])
+            ax.set_ylim([0, self.ymax-self.dy])
 
         elif self.dim == 3:
 
@@ -1062,9 +1078,9 @@ class BaseSystem:
             ax.set_ylabel('$y/a_0$')
             ax.set_zlabel('$z/a_0$')
             ax.set_aspect('equal')
-            ax.set_xlim([0, self.x[-1]])
-            ax.set_ylim([0, self.y[-1]])
-            ax.set_zlim([0, self.z[-1]])
+            ax.set_xlim([0, self.xmax-self.dx])
+            ax.set_ylim([0, self.ymax-self.dy])
+            ax.set_zlim([0, self.zmax-self.dz])
 
     def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
                                          cmax=None, cmin=None,
