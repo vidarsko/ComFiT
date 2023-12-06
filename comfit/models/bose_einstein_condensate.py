@@ -255,7 +255,7 @@ class BEC(BaseSystem):
             self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
                                           self.psi, self.psi_f)
 
-        # TODO: the solvers has to be tested and compared aginst each other (Jonas 21/11/23)
+
 
     def evolve_relax_BEC(self, number_of_steps, method='ETD2RK'):
         '''
@@ -338,17 +338,45 @@ class BEC(BaseSystem):
         """
         Function that calculates the superfluid current
         retuns:
-            updates or sets the superfluid current
+            (numpy.ndarray) the superfluid current
         """
-        if not hasattr(BEC, 'J_s'):
-            if self.dim == 2:
-                self.J_s = np.zeros((self.dim,self.xRes,self.yRes))
-            elif self.dim == 3:
-                self.J_s = np.zeros((self.dim, self.xRes, self.yRes,self.zRes))
-            else:
-                raise(Exception('Calculation of the  superfluid current is not implemented in this dimension'))
+        if self.dim == 2:
+            J_s = np.zeros((self.dim,self.xRes,self.yRes))
+        elif self.dim == 3:
+            J_s = np.zeros((self.dim, self.xRes, self.yRes,self.zRes))
+        else:
+            raise(Exception('Calculation of the  superfluid current is not implemented in this dimension'))
         for i in range(self.dim):
-            self.J_s[i] = np.imag( np.conj(self.psi) * np.fft.ifftn(1j*self.k[i] *self.psi_f ))
+            J_s[i] = np.imag( np.conj(self.psi) * np.fft.ifftn(1j*self.k[i] *self.psi_f ))
+        return J_s
+
+    def calc_velocity(self):
+        """
+        calculates the weighted velocity field
+        returns:
+            (numpy.ndarray) the weighted velocity field
+        """
+        if self.dim == 2:
+            u = np.zeros((self.dim, self.xRes, self.yRes))
+        elif self.dim == 3:
+            u = np.zeros((self.dim, self.xRes, self.yRes, self.zRes))
+        else:
+            raise (Exception('Calculation of the weighted velocity is not implemented in this dimension'))
+        theta = np.angle(self.psi)
+        for i in range(self.dim):
+            u[i] = np.imag(np.exp(-1j*theta)* np.fft.ifftn(1j * self.k[i] * self.psi_f))
+        return u
+
+    def calc_kinetic_energy(self):
+        """
+        Calculates the kinetic energy.
+        returns:
+            (float) the kinetic energy
+        """
+        u = self.calc_velocity()
+        u2 = np.sum(u[i]**2 for i in range(self.dim))
+        return 0.5*self.calc_integrate_field(u2)
+
 
     def calc_hamiltonian_density(self):
         """
