@@ -17,15 +17,13 @@ pip install comfit
 ## Usage
 
 ```python
-from comfit import PFC, BEC
-
-# Define a PFC system and simulate
-pfc_system = PFC(parameters_here)
-pfc_system.simulate()
+import comfit as cf
 
 # Define a BEC system and simulate
-bec_system = BEC(parameters_here)
-bec_system.simulate()
+bec= cf.BEC(parameters_here)
+
+# Define a PFC system and simulate
+pfc = cf.PFC(parameters_here)
 ```
 
 For detailed usage instructions, please refer to our [documentation](link_to_docs).
@@ -110,3 +108,7 @@ ComFiT is licensed under the [MIT License](LICENSE).
 ## Acknowledgements
 
 We want to express our gratitude to [Institution or Collaborators Names] for their invaluable input and feedback during the development of this package.
+
+## Glorified beta-testers
+
+- [Your Name Here]
