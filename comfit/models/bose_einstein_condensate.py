@@ -70,24 +70,6 @@ class BEC(BaseSystem):
         self.psi = noise_strength * self.psi
         self.psi_f = np.fft.fftn(self.psi)
 
-    def conf_harmonic_potential(self, R_tf):
-        """
-        Set returns a harmonic trap with R_tf being the Thomas-Fermi radius
-        Args:
-                R_tf (float): The Thomas-Fermi radius
-        returns:
-                A harmonic potential
-        """
-        trapping_strength = 1 / (R_tf ** 2)
-        if self.dim == 1:
-            return trapping_strength * (self.x - self.xmid) ** 2
-        if self.dim == 2:
-            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1)
-                                        + ((self.y - self.ymid) ** 2).reshape(1, self.yRes))
-        if self.dim == 3:
-            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1, 1)
-                                        + ((self.y - self.ymid) ** 2).reshape(1, self.yRes, 1)
-                                        + ((self.z - self.zmid) ** 2).reshape(1, 1, self.zRes))
 
     def conf_time_dependent_potential(self, Func):
         """
@@ -266,6 +248,7 @@ class BEC(BaseSystem):
             returns:
                 Updates the self.psi and self.psi_f
         '''
+        temp_t = self.t
         gamma0 = self.gamma
 
         self.gamma = 1 - 1j
@@ -274,7 +257,7 @@ class BEC(BaseSystem):
         self.evolve_dGPE(number_of_steps, method)
 
         self.gamma = gamma0
-        self.t = 0
+        self.t = temp_t
 
     def evolve_comoving_dGPE(self, number_of_steps, velx, method='ETD2RK'):
         '''
@@ -398,6 +381,25 @@ class BEC(BaseSystem):
         """
         H = self.calc_hamiltonian_density()
         return self.calc_integrate_field(H)
+
+    def calc_harmonic_potential(self, R_tf):
+        """
+        Set returns a harmonic trap with R_tf being the Thomas-Fermi radius
+        Args:
+                R_tf (float): The Thomas-Fermi radius
+        returns:
+                A harmonic potential
+        """
+        trapping_strength = 1 / (R_tf ** 2)
+        if self.dim == 1:
+            return trapping_strength * (self.x - self.xmid) ** 2
+        if self.dim == 2:
+            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1)
+                                        + ((self.y - self.ymid) ** 2).reshape(1, self.yRes))
+        if self.dim == 3:
+            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1, 1)
+                                        + ((self.y - self.ymid) ** 2).reshape(1, self.yRes, 1)
+                                        + ((self.z - self.zmid) ** 2).reshape(1, 1, self.zRes))
 
     def calc_gaussian_stirring_potential(self, size, strength, position):
         """
