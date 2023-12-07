@@ -111,4 +111,4 @@ We want to express our gratitude to [Institution or Collaborators Names] for the
 
 ## Glorified beta-testers
 
-- [Your Name Here]
+- Harish Pruthviraj Jain
