@@ -1,10 +1,10 @@
 import unittest
 import sys
+import os
 
-# Adjust the path to import your comfit package
+# Adjust the path to import the comfit package
 sys.path.append(os.path.abspath('../'))
 import comfit as cf
-
 
 class TestNematicLiquidCrystal(unittest.TestCase):
 
