@@ -65,9 +65,9 @@ class BaseSystem:
         if self.dim == 1:
             self.dims = 1
         elif self.dim == 2:
-            self.dims = [self.yRes, self.xRes]
+            self.dims = [self.xRes, self.yRes]
         elif self.dim == 3:
-            self.dims = [self.yRes, self.xRes, self.zRes]
+            self.dims = [self.xRes, self.yRes, self.zRes]
 
         self.a0 = 1  # System length scale
 
