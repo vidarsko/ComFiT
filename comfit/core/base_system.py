@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
+from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
 from matplotlib.tri import Triangulation
@@ -215,16 +216,16 @@ class BaseSystem:
         theta = 0
         position = np.array(position)
 
-        r0 = self.rmid
+        position = self.rmid
 
-        m2 = n[0] * (X - r0[0]) \
-             + n[1] * (Y - r0[1]) \
-             + n[2] * (Z - r0[2])
+        m2 = n[0] * (X - position[0]) \
+             + n[1] * (Y - position[1]) \
+             + n[2] * (Z - position[2])
 
         m1 = np.sqrt(
-            (X - r0[0] - m2 * n[0]) ** 2
-            + (Y - r0[1] - m2 * n[1]) ** 2
-            + (Z - r0[2] - m2 * n[2]) ** 2
+            (X - position[0] - m2 * n[0]) ** 2
+            + (Y - position[1] - m2 * n[1]) ** 2
+            + (Z - position[2] - m2 * n[2]) ** 2
         )
 
         theta = theta + np.arctan2(m2, m1 + radius)
@@ -1010,6 +1011,97 @@ class BaseSystem:
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
+
+    def plot_field_in_plane(self, field, normal_vector=[1,1,0], position=None, ax=None):
+
+        if self.dim != 3:
+            raise Exception("This plotting function not yet configured for other dimensions")
+
+        if position is None:
+            position = self.rmid
+
+        if ax is None:
+            plt.clf()
+            ax = plt.gcf().add_subplot(111, projection='3d')
+
+        unit_vector1, unit_vector2, t = tool_create_orthonormal_triad(normal_vector)
+
+        sizes = [self.xmax-self.xmin-self.dx,
+                 self.ymax-self.ymin-self.dy,
+                 self.zmax-self.zmin-self.dz]
+        max_size = max(sizes)
+        dr = [self.dx, self.dy, self.dz]
+        min_step = min(dr)
+        linear_mesh = np.arange(-2*max_size,2*max_size, min_step)
+
+        #Mesh containing x- and y-coordinates on the plane
+        [X0,Y0] = np.meshgrid(linear_mesh, linear_mesh, indexing='ij')
+
+        #Mesh containing the true x-, y- and z-coordinates on the plane
+        R = [position[i] + unit_vector1[i] * X0 + unit_vector2[i] * Y0 for i in range(3)]
+
+        #Remove excess points from R outside of the domain
+        points_to_exclude = np.zeros_like(X0)
+        points_to_exclude += (R[0] > (self.xmax-self.dx)) + (R[0] < self.xmin)
+        points_to_exclude += (R[1] > (self.ymax-self.dy)) + (R[1] < self.ymin)
+        points_to_exclude += (R[2] > (self.zmax-self.dz)) + (R[2] < self.zmin)
+        points_to_exclude = points_to_exclude.astype(bool)
+
+        for i in range(3):
+            R[i][points_to_exclude] = float('nan')
+
+        #Find the index of the point at which the normal vector is placed
+        r2 = (self.x - position[0]) ** 2 + (self.y - position[1]) ** 2 + (self.z - position[2]) ** 2
+        position_index = np.unravel_index(np.argmin(r2), r2.shape)
+
+        #For each point in R, find:
+        #   1. The true index (float) of the point in the matrix closest to the point in R
+        Ri = [position_index[i] + (unit_vector1[i] * X0 + unit_vector2[i] * Y0) / dr[i] for i in range(3)]
+
+        # 2. The lower and upper limit of the integer index of the point in the matrix closest to the point in R
+        RiLH = [[np.floor(Ri[i]), np.ceil(Ri[i])] for i in range(3)]
+
+        # 3. The index distances between the point in R and the point in the matrix closest to it
+        dRi = [[Ri[i] - RiLH[i][0], RiLH[i][1] - Ri[i]] for i in range(3)]
+
+        field_on_plane = np.nan * np.ones_like(X0)
+        resolution_on_plane = len(linear_mesh)
+        field_size = len(field.flatten())
+
+        for i in range(resolution_on_plane):
+            for j in range(resolution_on_plane):
+                if not np.isnan(R[0][i, j]):
+                    # Collect all the indices and weights from all the voxels to which R[][i,j] belongs
+                    voxel_indices = np.nan * np.ones((2, 2, 2))
+                    voxel_weights = np.nan * np.ones((2, 2, 2))
+                    for ix in [0, 1]:
+                        for iy in [0, 1]:
+                            for iz in [0, 1]:
+                                voxel_indices[ix, iy, iz] = np.ravel_multi_index([
+                                                                         int(RiLH[0][ix][i, j]),
+                                                                         int(RiLH[1][iy][i, j]),
+                                                                         int(RiLH[2][iz][i, j])],
+                                                                        field.shape)
+
+                                voxel_weights[ix, iy, iz] = (1 - dRi[0][ix][i, j]) * \
+                                                            (1 - dRi[1][iy][i, j]) * \
+                                                            (1 - dRi[2][iz][i, j])
+
+                                valid_indices = ~np.isnan(voxel_indices)
+
+                    field_on_plane[i, j] = np.nansum(field.flatten()[voxel_indices[valid_indices].astype(int)] * voxel_weights[valid_indices])
+
+        cmin = np.nanmin(field_on_plane)
+        cmax = np.nanmax(field_on_plane)
+
+        # Replace NaNs with a transparent color
+        field_on_plane_rgba = np.zeros((*field_on_plane.shape, 4))  # Create an RGBA array
+        field_on_plane_rgba[~np.isnan(field_on_plane)] = plt.cm.viridis(
+            (field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
+        field_on_plane_rgba[np.isnan(field_on_plane)] = [0, 0, 0, 0]  # Set NaNs to transparent
+
+        ax.plot_surface(R[0] / self.a0, R[1] / self.a0, R[2] / self.a0, facecolors=field_on_plane_rgba,
+                        rstride=1,cstride=1)
 
     def plot_vector_field(self, vector_field, ax=None, step=None):
         """

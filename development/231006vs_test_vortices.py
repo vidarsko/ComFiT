@@ -20,7 +20,7 @@ bec.conf_initial_condition_Thomas_Fermi()
 #plt.figure(1)
 #plt.imshow(np.abs(bec.psi))
 #plt.colorbar()
-bec.evolve_relax_BoseEinsteinCondensate(10)
+bec.evolve_relax(10)
 
 
 

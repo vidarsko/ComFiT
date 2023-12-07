@@ -20,7 +20,7 @@ bec.V0 = V_t()
 
 
 bec.conf_initial_condition_Thomas_Fermi()
-bec.evolve_relax_BoseEinsteinCondensate(20,'ETD2RK')
+bec.evolve_relax(20,'ETD2RK')
 
 
 

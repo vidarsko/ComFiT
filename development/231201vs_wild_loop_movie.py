@@ -8,7 +8,7 @@ bec = cf.BoseEinsteinCondensate(3,xRes=101,yRes=101,zRes=101,gamma=0)
 # bec.conf_insert_vortex_ring(normal_vector=[0,-1,0],radius=10)
 bec.conf_initial_condition_disordered()
 
-bec.evolve_relax_BoseEinsteinCondensate(1000)
+bec.evolve_relax(1000)
 
 for i in range(1000):
     bec.evolve_dGPE(10)

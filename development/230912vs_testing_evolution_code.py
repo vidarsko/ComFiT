@@ -31,7 +31,7 @@ for n in range(100):
     ax.cla()
 
     psi0 = bec.psi
-    # bec.evolve_relax_BoseEinsteinCondensate(100)
+    # bec.evolve_relax(100)
     bec.evolve_dGPE(100)
     bec.plot_complex_field(bec.psi,ax)
     # bec.plot_angle_field(np.angle(bec.psi))

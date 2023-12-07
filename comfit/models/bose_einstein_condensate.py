@@ -240,7 +240,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
 
 
-    def evolve_relax_BoseEinsteinCondensate(self, number_of_steps, method='ETD2RK'):
+    def evolve_relax(self, number_of_steps, method='ETD2RK'):
         '''
         Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
             Args:

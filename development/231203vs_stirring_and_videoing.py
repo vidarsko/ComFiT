@@ -26,7 +26,7 @@ def V_t():
 
 bec.V0 = V_t()
 bec.conf_initial_condition_Thomas_Fermi()
-bec.evolve_relax_BoseEinsteinCondensate(20,'ETD2RK')
+bec.evolve_relax(20,'ETD2RK')
 
 ### Updating the potential to the time-dependent function V_t()
 bec.conf_time_dependent_potential(V_t)

@@ -4,7 +4,7 @@ import numpy as np
 
 bec = cf.BoseEinsteinCondensate(3,xRes=31,yRes=31,zRes=31)
 bec.conf_insert_vortex_ring()
-bec.evolve_relax_BoseEinsteinCondensate(300)
+bec.evolve_relax(300)
 
 psi_vec = [np.real(bec.psi),np.imag(bec.psi)]
 psi_old = bec.psi
