@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from comfit.core.base_system import BaseSystem
 from tqdm import tqdm
+from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 
 
 class BEC(BaseSystem):
@@ -485,8 +486,7 @@ class BEC(BaseSystem):
             rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
 
             # Integrate the defect density around this point (i.e. in a disk around)
-            disk = self.calc_region_disk(rho_max_index,
-                                         position = [self.x[rho_max_index[0]],self.y[rho_max_index[1]]],
+            disk = self.calc_region_disk(position = [self.x.flatten()[rho_max_index[0]],self.y.flatten()[rho_max_index[1]]],
                                          radius=1)
             charge = self.calc_integrate_field(rho, disk)
 
@@ -512,9 +512,9 @@ class BEC(BaseSystem):
                 vortex_nodes.append(vortex)
 
                 rho[disk] = 0
+                rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
 
-                disk = self.calc_region_disk(rho_max_index,
-                                             position=[self.x[rho_max_index[0]], self.y[rho_max_index[1]]],
+                disk = self.calc_region_disk(position=[self.x.flatten()[rho_max_index[0]], self.y.flatten()[rho_max_index[1]]],
                                              radius=1)
                 charge = self.calc_integrate_field(rho, disk)
 
@@ -528,11 +528,10 @@ class BEC(BaseSystem):
 
             # Calculate the point where defect density is largest
             rho_max_index = np.unravel_index(np.argmax(rho_norm), rho_norm.shape)
-
             # Integrate the defect density around this point (i.e. in cylinder around)
             tangent_vector = np.array([rho[0][rho_max_index],rho[1][rho_max_index],rho[2][rho_max_index]])
             tangent_vector = tangent_vector/np.linalg.norm(tangent_vector)
-            cylinder = self.calc_region_cylinder(position=[self.x[rho_max_index[0]], self.y[rho_max_index[1]], self.z[rho_max_index[2]]],
+            cylinder = self.calc_region_cylinder(position=[self.x.flatten()[rho_max_index[0]], self.y.flatten()[rho_max_index[1]], self.z.flatten()[rho_max_index[2]]],
                                                  radius = integration_radius,
                                                  normal_vector = tangent_vector,
                                                  height = cylinder_height)
@@ -567,8 +566,8 @@ class BEC(BaseSystem):
                 tangent_vector = np.array([rho[0][rho_max_index], rho[1][rho_max_index], rho[2][rho_max_index]])
                 tangent_vector = tangent_vector / np.linalg.norm(tangent_vector)
 
-                cylinder = self.calc_region_cylinder(position=[self.x[rho_max_index[0]], self.y[rho_max_index[1]],
-                                                               self.z[rho_max_index[2]]],
+                cylinder = self.calc_region_cylinder(position=[self.x.flatten()[rho_max_index[0]], self.y.flatten()[rho_max_index[1]],
+                                                               self.z.flatten()[rho_max_index[2]]],
                                                      radius=integration_radius,
                                                      normal_vector = tangent_vector,
                                                      height = cylinder_height)
