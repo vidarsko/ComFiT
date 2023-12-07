@@ -5,6 +5,7 @@ from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_t
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
 from matplotlib.tri import Triangulation
+import matplotlib.colors as mcolors
 
 
 class BaseSystem:
@@ -1012,7 +1013,8 @@ class BaseSystem:
         else:
             raise Exception("This plotting function not yet configured for other dimension")
 
-    def plot_field_in_plane(self, field, normal_vector=[1,1,0], position=None, ax=None):
+    def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
+                            colorbar=True):
 
         if self.dim != 3:
             raise Exception("This plotting function not yet configured for other dimensions")
@@ -1094,14 +1096,41 @@ class BaseSystem:
         cmin = np.nanmin(field_on_plane)
         cmax = np.nanmax(field_on_plane)
 
-        # Replace NaNs with a transparent color
-        field_on_plane_rgba = np.zeros((*field_on_plane.shape, 4))  # Create an RGBA array
-        field_on_plane_rgba[~np.isnan(field_on_plane)] = plt.cm.viridis(
-            (field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
-        field_on_plane_rgba[np.isnan(field_on_plane)] = [0, 0, 0, 0]  # Set NaNs to transparent
+        print((field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
 
-        ax.plot_surface(R[0] / self.a0, R[1] / self.a0, R[2] / self.a0, facecolors=field_on_plane_rgba,
+        # Replace NaNs with a transparent color
+        # field_on_plane_rgba = np.zeros((*field_on_plane.shape, 4))  # Create an RGBA array
+        # field_on_plane_rgba[~np.isnan(field_on_plane)] = plt.cm.viridis(
+        #     (field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
+        # field_on_plane_rgba[np.isnan(field_on_plane)] = [0, 0, 0, 0]  # Set NaNs to transparent
+
+        # Normalize the field data
+        norm = mcolors.Normalize(vmin=np.nanmin(field_on_plane), vmax=np.nanmax(field_on_plane), clip=True)
+
+        # Apply the colormap to your field datav
+        field_on_plane_colors = tool_colormap_angle()(norm(field_on_plane))
+
+        # Set NaNs to transparent
+        field_on_plane_colors[np.isnan(field_on_plane)] = [0, 0, 0, 0]
+
+
+        ax.plot_surface(R[0] / self.a0, R[1] / self.a0, R[2] / self.a0, facecolors=field_on_plane_colors,
                         rstride=1,cstride=1)
+
+        if colorbar:
+            sm = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
+            sm.set_clim(cmin, cmax)
+            cbar = plt.colorbar(sm, ax=ax)
+            cbar.set_ticks(np.array([0,1/6,2/6,3/6,4/6,5/6,1]))
+            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+
+        ax.set_xlim3d(self.xmin, self.xmax - self.dx)
+        ax.set_ylim3d(self.ymin, self.ymax - self.dy)
+        ax.set_zlim3d(self.zmin, self.zmax - self.dz)
+        ax.set_aspect('equal')
+        ax.set_xlabel('$x/a_0$')
+        ax.set_ylabel('$y/a_0$')
+        ax.set_zlabel('$z/a_0$')
 
     def plot_vector_field(self, vector_field, ax=None, step=None):
         """
