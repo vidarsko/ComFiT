@@ -2,9 +2,9 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-bec = cf.BEC(3,xRes=31,yRes=31,zRes=31)
+bec = cf.BoseEinsteinCondensate(3,xRes=31,yRes=31,zRes=31)
 bec.conf_insert_vortex_ring()
-bec.evolve_relax_BEC(300)
+bec.evolve_relax_BoseEinsteinCondensate(300)
 
 
 rho = bec.calc_defect_density([np.real(bec.psi),np.imag(bec.psi)])

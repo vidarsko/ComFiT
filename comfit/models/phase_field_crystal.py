@@ -2,7 +2,7 @@ import numpy as np
 from comfit.core.base_system import BaseSystem
 
 
-class PFC(BaseSystem):
+class PhaseFieldCrystal(BaseSystem):
 
     def __init__(self, dimension, **kwargs):
         """
@@ -53,10 +53,10 @@ class PFC(BaseSystem):
 
 
 
-    def calc_evolution_integrating_factors_PFC_f(self):
+    def calc_evolution_integrating_factors_f(self):
         k2 = self.calc_k2()
 
-        if self.type == 'PFCtri':
+        if self.type == 'PhaseFieldCrystal2DTriangular':
             omega_f = self.r + (1 - k2)**2
         else:
             raise Exception("Not yet configured.")
@@ -75,17 +75,17 @@ class PFC(BaseSystem):
 
         return integrating_factors_f
 
-    def calc_non_linear_evolution_term_PFC_f(self, psi):
+    def calc_non_linear_evolution_term_f(self, psi):
         return np.fft.fftn(self.t*psi**2 + self.v*psi**3)
 
 
     # Evolution functions
     def evolve_PFC(self,number_of_steps):
-        integrating_factors_f = self.calc_evolution_integrating_factors_PFC_f()
+        integrating_factors_f = self.calc_evolution_integrating_factors_f()
 
         for n in range(number_of_steps):
             self.psi, self.psi_f = self.evolve_ETD2RK_loop(integrating_factors_f,
-                                                           self.calc_non_linear_evolution_term_PFC_f, self.psi,
+                                                           self.calc_non_linear_evolution_term_f, self.psi,
                                                            self.psi_f)
             self.psi = np.real(self.psi)
             self.psi_f = np.fft.fftn(self.psi)
@@ -149,7 +149,7 @@ class PFC(BaseSystem):
                 eta[n] *= np.exp(1j*sn[n]*theta1)
                 eta[n] *= np.exp(-1j*sn[n]*theta2)
 
-class PFCper(PFC):
+class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
     def __init__(self,  **kwargs):
         """
         Nothing here yet
@@ -161,16 +161,16 @@ class PFCper(PFC):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-        # TODO: Implement the PFCper class
+        # TODO: Implement the PhaseFieldCrystal1DPeriodic class
 
-class PFCtri(PFC):
+class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
     def __init__(self, nx, ny, **kwargs):
         """
         Nothing here yet
         """
 
         # Type of the system
-        self.type = 'PFCtri'
+        self.type = 'PhaseFieldCrystal2DTriangular'
         self.dim = 2
 
         # Default simulation parameters
@@ -234,7 +234,7 @@ class PFCtri(PFC):
 
 
 
-class PFCsq(PFC):
+class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
     def __init__(self, dimension, x_resolution, **kwargs):
         """
         Nothing here yet
@@ -249,15 +249,13 @@ class PFCsq(PFC):
         super().__init__(dimension)
 
         # Type of the system
-        self.type = 'PFCsq'
+        self.type = 'PhaseFieldCrystal2DSquare'
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-
-
-class PFCbcc(PFC):
+class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
     def __init__(self, dimension, x_resolution, **kwargs):
         """
         Nothing here yet
@@ -281,7 +279,7 @@ class PFCbcc(PFC):
         super().__init__(dimension)
 
         # Type of the system
-        self.type = 'PFCbcc'
+        self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
 
 
         # If there are additional arguments provided, set them as attributes
@@ -289,10 +287,10 @@ class PFCbcc(PFC):
             setattr(self, key, value)
 
 
-class PFCfcc(PFC):
+class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
     def __init__(self, dimension, x_resolution, **kwargs):
         """
-        PFC class for FCC
+        PhaseFieldCrystal class for FCC
         """
 
         a0 = 2 * np.pi * np.sqrt(3)
@@ -316,7 +314,7 @@ class PFCfcc(PFC):
         super().__init__(dimension)
 
         # Type of the system
-        self.type = 'PFCfcc'
+        self.type = 'PhaseFieldCrystal3DFaceCenteredCubic'
 
 
         # If there are additional arguments provided, set them as attributes
@@ -324,7 +322,7 @@ class PFCfcc(PFC):
             setattr(self, key, value)
 
 
-class PFCsc(PFC):
+class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
     def __init__(self, dimension, x_resolution, **kwargs):
         """
         Nothing here yet
@@ -354,7 +352,7 @@ class PFCsc(PFC):
         super().__init__(dimension)
 
         # Type of the system
-        self.type = 'PFCsc'
+        self.type = 'PhaseFieldCrystal3DSimpleCubic'
 
 
 

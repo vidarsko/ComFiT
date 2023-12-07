@@ -1,7 +1,7 @@
 import comfit as cf
 import matplotlib.pyplot as plt
 
-qm = cf.QM(1)
+qm = cf.QuantumMechanics(1)
 qm.dt = 0.05
 qm.set_initial_condition_gaussian(0.51*qm.xmax,40)
 qm.V_ext = qm.conf_harmonic_potential(0.0001)

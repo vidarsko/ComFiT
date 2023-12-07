@@ -3,7 +3,7 @@ from comfit.core.base_system import BaseSystem
 import matplotlib.pyplot as plt
 from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
 
-class QM(BaseSystem):
+class QuantumMechanics(BaseSystem):
     def __init__(self, dimension, **kwargs):
         """
         Initializes a quamtum mechanics system evolving according to the Schrödinger equation
@@ -16,7 +16,7 @@ class QM(BaseSystem):
         # Type of the system
         self.psi = None
         self.psi_f = None
-        self.type = 'QM1' #Quantum mechanical system with one particle.
+        self.type = 'QuantumMechanics1' #Quantum mechanical system with one particle.
 
         # Default simulation parameters
         self.V_ext = 0  # External potential

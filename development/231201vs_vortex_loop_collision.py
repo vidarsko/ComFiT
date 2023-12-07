@@ -7,11 +7,11 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-bec = cf.BEC(3,xRes=51,yRes=51,zRes=51,gamma=0)
+bec = cf.BoseEinsteinCondensate(3,xRes=51,yRes=51,zRes=51,gamma=0)
 bec.conf_insert_vortex_ring(normal_vector=[0,-1,0],radius=10,position=[bec.xmid,bec.ymax,bec.zmax/2])
 #bec.conf_insert_vortex_ring(normal_vector=[0,-1,0],radius=10)
 bec.conf_insert_vortex_ring(normal_vector=[-1,0,0],radius=10,position=[bec.xmax,bec.ymid,bec.zmax/2])
-bec.evolve_relax_BEC(100)
+bec.evolve_relax_BoseEinsteinCondensate(100)
 # bec.plot_field(abs(bec.psi))
 # plt.show()
 

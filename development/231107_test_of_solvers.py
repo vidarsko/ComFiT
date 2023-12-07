@@ -2,7 +2,7 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-bec = cf.BEC(2,xRes=3,yRes=3)
+bec = cf.BoseEinsteinCondensate(2,xRes=3,yRes=3)
 
 bec.psi = np.arange(9).reshape((3,3))
 bec.psi_f =np.fft.fft2(bec.psi)

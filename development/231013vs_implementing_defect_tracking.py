@@ -5,9 +5,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-bec = cf.BEC(2,xRes=101,yRes=101)
+bec = cf.BoseEinsteinCondensate(2,xRes=101,yRes=101)
 bec.conf_initial_condition_disordered()
-bec.evolve_relax_BEC(200)
+bec.evolve_relax_BoseEinsteinCondensate(200)
 
 # rho = bec.calc_vortex_density_singular()
 #

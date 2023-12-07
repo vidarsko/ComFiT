@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import comfit as cf
 
-nem = cf.Nematic(2,xRes=64,yRes=64,dx=1,dy=1,dt=0.1)
+nem = cf.NematicLiquidCrystal(2,xRes=64,yRes=64,dx=1,dy=1,dt=0.1)
 
 
 

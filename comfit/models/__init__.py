@@ -1,5 +1,5 @@
-from .bose_einstein_condensate import BEC
-from .phase_field_crystal import PFC, PFCtri, PFCsq, PFCsc, PFCbcc, PFCfcc, PFCper
-from .quantum_mechanics import QM
-from .nematic_liquid_crystal import Nematic
+from .bose_einstein_condensate import BoseEinsteinCondensate
+from .phase_field_crystal import PhaseFieldCrystal, PhaseFieldCrystal2DTriangular, PhaseFieldCrystal2DSquare, PhaseFieldCrystal3DSimpleCubic, PhaseFieldCrystal3DBodyCenteredCubic, PhaseFieldCrystal3DFaceCenteredCubic, PhaseFieldCrystal1DPeriodic
+from .quantum_mechanics import QuantumMechanics
+from .nematic_liquid_crystal import NematicLiquidCrystal
 

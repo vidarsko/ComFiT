@@ -2,7 +2,7 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-qm = cf.QM(1,xRes=101,dx=1)
+qm = cf.QuantumMechanics(1,xRes=101,dx=1)
 
 qm.set_initial_condition_gaussian(position=40,width=5)
 #qm.conf_harmonic_potential(0)

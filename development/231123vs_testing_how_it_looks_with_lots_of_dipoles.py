@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 N=6
 res = 101
-bec = cf.BEC(2,xRes=(N+1)*res,yRes=(N+1)*res)
+bec = cf.BoseEinsteinCondensate(2,xRes=(N+1)*res,yRes=(N+1)*res)
 
 theta=0
 # ny=3

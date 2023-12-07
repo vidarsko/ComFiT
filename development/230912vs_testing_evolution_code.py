@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 plt.ion()
 
-bec = cf.BEC(2,xRes=101,yRes=101)
+bec = cf.BoseEinsteinCondensate(2,xRes=101,yRes=101)
 
 bec.conf_initial_condition_disordered()
 bec.dt=0.1
@@ -31,7 +31,7 @@ for n in range(100):
     ax.cla()
 
     psi0 = bec.psi
-    # bec.evolve_relax_BEC(100)
+    # bec.evolve_relax_BoseEinsteinCondensate(100)
     bec.evolve_dGPE(100)
     bec.plot_complex_field(bec.psi,ax)
     # bec.plot_angle_field(np.angle(bec.psi))

@@ -5,7 +5,7 @@ ComFiT is a Python library designed for simulating various condensed matter fiel
 ## Features
 
 - **General System Definition**: Utilize the `define_system` superclass to establish general properties of systems.
-- **Model-specific Simulations**: Dive deep with subclasses like `PFC` for phase-field crystal simulations and `BEC` for Bose-Einstein condensate simulations via the Gross-Pitaevski equation.
+- **Model-specific Simulations**: Dive deep with subclasses like `PhaseFieldCrystal` for phase-field crystal simulations and `BoseEinsteinCondensate` for Bose-Einstein condensate simulations via the Gross-Pitaevski equation.
 - **Extendable Framework**: Easily expand with your own models and simulations.
 
 ## Installation
@@ -19,11 +19,11 @@ pip install comfit
 ```python
 import comfit as cf
 
-# Define a BEC system and simulate
-bec= cf.BEC(parameters_here)
+# Define a BoseEinsteinCondensate system and simulate
+bec= cf.BoseEinsteinCondensate(parameters_here)
 
-# Define a PFC system and simulate
-pfc = cf.PFC(parameters_here)
+# Define a PhaseFieldCrystal system and simulate
+pfc = cf.PhaseFieldCrystal(parameters_here)
 ```
 
 For detailed usage instructions, please refer to our [documentation](link_to_docs).

@@ -1,7 +1,7 @@
 import comfit as cf
 import matplotlib.pyplot as plt
 
-pfc = cf.PFCtri(20,10)
+pfc = cf.PhaseFieldCrystal2DTriangular(20,10)
 print(pfc.a0)
 print(pfc.q)
 

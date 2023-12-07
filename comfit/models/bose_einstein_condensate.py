@@ -5,7 +5,7 @@ from tqdm import tqdm
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 
 
-class BEC(BaseSystem):
+class BoseEinsteinCondensate(BaseSystem):
     def __init__(self, dimension, **kwargs):
         """
         Initializes a system to simulate a Bose-Einstein Condensate using the Gross-Pitaevskii equation.
@@ -19,12 +19,12 @@ class BEC(BaseSystem):
             Optional keyword arguments to set additional parameters.
 
         Returns:
-        - BEC object
-            The system object representing the BEC simulation.
+        - BoseEinsteinCondensate object
+            The system object representing the BoseEinsteinCondensate simulation.
 
         Example:
-        bec = BEC(3, 100, dissipation_factor=0.5)
-        Creates a BEC system with 3 dimensions and an x-resolution of 100. The dissipation factor is set to 0.5.
+        bec = BoseEinsteinCondensate(3, 100, dissipation_factor=0.5)
+        Creates a BoseEinsteinCondensate system with 3 dimensions and an x-resolution of 100. The dissipation factor is set to 0.5.
         """
 
         # First initialize the BaseSystem class
@@ -33,7 +33,7 @@ class BEC(BaseSystem):
         # Type of the system
         self.psi = None
         self.psi_f = None
-        self.type = 'BEC'
+        self.type = 'BoseEinsteinCondensate'
 
         # Default simulation parameters
         self.gamma = 0.1 if 'gamma' not in kwargs else kwargs['gamma']  # Dissipation (gamma)
@@ -48,7 +48,7 @@ class BEC(BaseSystem):
     # SETTING FUNCTIONS
     def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
-        Sets disordered initial condition for the BEC with some thermal flcutiations
+        Sets disordered initial condition for the BoseEinsteinCondensate with some thermal flcutiations
 
         :param noise_strength:
         :return:
@@ -240,7 +240,7 @@ class BEC(BaseSystem):
 
 
 
-    def evolve_relax_BEC(self, number_of_steps, method='ETD2RK'):
+    def evolve_relax_BoseEinsteinCondensate(self, number_of_steps, method='ETD2RK'):
         '''
         Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
             Args:
@@ -254,7 +254,7 @@ class BEC(BaseSystem):
 
         self.gamma = 1 - 1j
 
-        print("Relaxing the BEC...")
+        print("Relaxing the BoseEinsteinCondensate...")
         self.evolve_dGPE(number_of_steps, method)
 
         self.gamma = gamma0
@@ -316,7 +316,7 @@ class BEC(BaseSystem):
         term3 = 0.5 * np.fft.fftn(self.gamma * np.fft.ifftn(-self.calc_k2() * np.fft.fftn(psi)))
         return (term1 + term2 + term3)
 
-        # Functions for callculationg properties of the BEC
+        # Functions for callculationg properties of the BoseEinsteinCondensate
 
     def calc_superfluid_current(self):
         """

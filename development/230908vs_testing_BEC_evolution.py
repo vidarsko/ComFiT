@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 plt.ion()
 
-bec = cf.BEC(2,xRes=101,yRes=101)
+bec = cf.BoseEinsteinCondensate(2,xRes=101,yRes=101)
 
 bec.conf_initial_condition_disordered()
 

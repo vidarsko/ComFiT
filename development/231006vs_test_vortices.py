@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-bec = cf.BEC(2,xRes=201,yRes=201,gamma=0.08)
+bec = cf.BoseEinsteinCondensate(2,xRes=201,yRes=201,gamma=0.08)
 V_trap = bec.conf_harmonic_potential(100)
 stirrer_radius = 20
 stirrer_velocity = 0.6
@@ -20,7 +20,7 @@ bec.conf_initial_condition_Thomas_Fermi()
 #plt.figure(1)
 #plt.imshow(np.abs(bec.psi))
 #plt.colorbar()
-bec.evolve_relax_BEC(10)
+bec.evolve_relax_BoseEinsteinCondensate(10)
 
 
 

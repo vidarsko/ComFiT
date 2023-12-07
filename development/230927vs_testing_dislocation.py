@@ -1,7 +1,7 @@
 import comfit as cf
 import matplotlib.pyplot as plt
 
-pfc = cf.PFCtri(13,7)
+pfc = cf.PhaseFieldCrystal2DTriangular(13,7)
 
 eta = pfc.conf_insert_dislocation_dipole(dislocation_type=1)
 pfc.calc_from_amplitudes(eta)

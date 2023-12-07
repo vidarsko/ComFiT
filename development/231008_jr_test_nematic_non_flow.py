@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import comfit as cf
 
-nem = cf.Nematic(2,xRes=101,yRes=101,dx=1,dy=1,dt=0.1)
+nem = cf.NematicLiquidCrystal(2,xRes=101,yRes=101,dx=1,dy=1,dt=0.1)
 
 
 nem.conf_initial_condition_disordered(noise_strength=4)

@@ -2,9 +2,9 @@ import comfit as cf
 import matplotlib.pyplot as plt
 import numpy as np
 
-bec = cf.BEC(2,xRes=101,yRes=101)
+bec = cf.BoseEinsteinCondensate(2,xRes=101,yRes=101)
 bec.conf_insert_vortex_dipole()
-bec.evolve_relax_BEC(300)
+bec.evolve_relax_BoseEinsteinCondensate(300)
 #Dnodes = bec.calc_vortex_nodes()
 
 psi_old = bec.psi

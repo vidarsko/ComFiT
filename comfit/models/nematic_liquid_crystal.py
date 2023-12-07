@@ -1,7 +1,7 @@
 import numpy as np
 from comfit.core.base_system import BaseSystem
 
-class Nematic(BaseSystem):
+class NematicLiquidCrystal(BaseSystem):
 
     def __init__(self, dimension, **kwargs):
         """
@@ -30,7 +30,7 @@ class Nematic(BaseSystem):
         self.Q_f = None
         self.u = None
         self.u_f = None
-        self.type = 'Nematic'
+        self.type = 'NematicLiquidCrystal'
 
         #defoult parameters
         self.alpha = -1 if 'alpha' not in kwargs else kwargs['alpha']   #defult is an extensile system

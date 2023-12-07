@@ -2,7 +2,7 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-bec = cf.BEC(2,xRes=101,yRes=101)
+bec = cf.BoseEinsteinCondensate(2,xRes=101,yRes=101)
 bec.conf_harmonic_potential(50)
 bec.conf_initial_condition_Thomas_Fermi()
 

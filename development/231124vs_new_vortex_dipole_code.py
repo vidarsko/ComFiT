@@ -2,7 +2,7 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-bec = cf.BEC(2,xRes=101,yRes=101)
+bec = cf.BoseEinsteinCondensate(2,xRes=101,yRes=101)
 
 #Figure a, just adding
 #theta = bec.calc_angle_field_vortex_dipole([0.45*bec.xmax,0],[0.75*bec.xmax,bec.ymid])
