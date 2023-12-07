@@ -553,7 +553,10 @@ class BEC(BaseSystem):
                     vortex['velocity'] = [velocity_field[0][rho_max_index],
                                           velocity_field[1][rho_max_index],
                                           velocity_field[2][rho_max_index]]
-
+                else:
+                    vortex['velocity'] = [float('nan'),
+                                          float('nan'),
+                                          float('nan')]
                 vortex_nodes.append(vortex)
 
                 rho_norm[cylinder] = 0
@@ -630,8 +633,8 @@ class BEC(BaseSystem):
             quiver_scale = 2 # The scale of the quiver arrows
 
             if ax == None:
-                #ax = plt.gcf().add_subplot(111, projection='3d')
-                ax = plt.gca()
+                ax = plt.gcf().add_subplot(111, projection='3d')
+               # ax = plt.gca()
 
             x_coords = []
             y_coords = []
