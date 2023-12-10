@@ -1014,7 +1014,7 @@ class BaseSystem:
             raise Exception("This plotting function not yet configured for other dimension")
 
     def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
-                            colorbar=True):
+                            colorbar=True, colormap = 'winter'):
 
         if self.dim != 3:
             raise Exception("This plotting function not yet configured for other dimensions")
@@ -1096,7 +1096,7 @@ class BaseSystem:
         cmin = np.nanmin(field_on_plane)
         cmax = np.nanmax(field_on_plane)
 
-        print((field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
+        #print((field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
 
         # Replace NaNs with a transparent color
         # field_on_plane_rgba = np.zeros((*field_on_plane.shape, 4))  # Create an RGBA array
@@ -1107,8 +1107,13 @@ class BaseSystem:
         # Normalize the field data
         norm = mcolors.Normalize(vmin=np.nanmin(field_on_plane), vmax=np.nanmax(field_on_plane), clip=True)
 
+        if colormap == 'angle':
+            cmap = tool_colormap_angle()
+        else:
+            cmap = plt.get_cmap(colormap)
+
         # Apply the colormap to your field datav
-        field_on_plane_colors = tool_colormap_angle()(norm(field_on_plane))
+        field_on_plane_colors = cmap(norm(field_on_plane))
 
         # Set NaNs to transparent
         field_on_plane_colors[np.isnan(field_on_plane)] = [0, 0, 0, 0]
@@ -1117,12 +1122,6 @@ class BaseSystem:
         ax.plot_surface(R[0] / self.a0, R[1] / self.a0, R[2] / self.a0, facecolors=field_on_plane_colors,
                         rstride=1,cstride=1)
 
-        if colorbar:
-            sm = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
-            sm.set_clim(cmin, cmax)
-            cbar = plt.colorbar(sm, ax=ax)
-            cbar.set_ticks(np.array([0,1/6,2/6,3/6,4/6,5/6,1]))
-            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
         ax.set_xlim3d(self.xmin, self.xmax - self.dx)
         ax.set_ylim3d(self.ymin, self.ymax - self.dy)
@@ -1131,6 +1130,18 @@ class BaseSystem:
         ax.set_xlabel('$x/a_0$')
         ax.set_ylabel('$y/a_0$')
         ax.set_zlabel('$z/a_0$')
+
+    def plot_angle_field_in_plane(self, angle_field, colorbar = True):
+
+        self.plot_field_in_plane(angle_field, colorbar=False)
+
+
+        if colorbar:
+            sm = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
+            sm.set_clim(-np.pi, np.pi)
+            cbar = plt.colorbar(sm, ax=ax)
+            cbar.set_ticks(np.array([0,1/6,2/6,3/6,4/6,5/6,1]))
+            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
     def plot_vector_field(self, vector_field, ax=None, step=None):
         """
