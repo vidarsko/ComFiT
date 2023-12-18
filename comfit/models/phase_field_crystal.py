@@ -29,25 +29,25 @@ class PhaseFieldCrystal(BaseSystem):
         if eta is None:
             eta = self.eta0
 
-        if self.dim == 1:
-            X = self.x
-
-        elif self.dim == 2:
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-
-        elif self.dim == 3:
-            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+        # if self.dim == 1:
+        #     X = self.x
+        #
+        # elif self.dim == 2:
+        #     X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        #
+        # elif self.dim == 3:
+        #     X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
         for n in range(self.number_of_reciprocal_modes):
 
             if self.dim == 1:
-                self.psi += 2 * eta[n] * np.exp(1j * self.q[n][0] * X)
+                self.psi += 2 * eta[n] * np.exp(1j * self.q[n][0] * self.x)
 
             elif self.dim == 2:
-                self.psi += 2 * eta[n] * np.exp(1j * (self.q[n][0] * X + self.q[n][1] * Y))
+                self.psi += 2 * eta[n] * np.exp(1j * (self.q[n][0] * self.x + self.q[n][1] * self.y))
 
             elif self.dim == 3:
-                self.psi += 2 * eta[n] * np.exp(1j * (self.q[n][0] * X + self.q[n][1] * Y + self.q[n][2] * Z))
+                self.psi += 2 * eta[n] * np.exp(1j * (self.q[n][0] * self.x + self.q[n][1] * self.y + self.q[n][2] * self.z))
 
         self.psi = np.real(self.psi)
         self.psi_f = np.fft.fftn(self.psi)
@@ -63,7 +63,11 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi, self.psi_f = solver(integrating_factors_f,
                                           self.calc_nonlinear_evolution_function_f,
                                           self.psi, self.psi_f)
-            self.psi = np.real(self.psi)
+
+        # These steps seem to be necessary for numerical stability (Vidar 18.12.23)
+        self.psi = np.real(self.psi)
+        self.psi_f = np.fft.fftn(self.psi)
+
 
     # CALCULATION FUNCTIONS
     def calc_nonlinear_evolution_function_f(self, psi):
@@ -280,22 +284,54 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         def equations(vars):
             A, B = vars
             eq1 = 12*psi0**2*A + 48*psi0*A*B + 36*A**3 + 72*A*B**2 + 4*A*r
-            eq2 = 12*psi0**2*B + 24*psi0*A*B + 36*B**3 + 72*A**2*B + 4*B*r
+            eq2 = 12*psi0**2*B + 24*psi0*A**2 + 36*B**3 + 72*A**2*B + 4*B*r
             return [eq1, eq2]
 
-        # Initial guess
-        initial_guess = [0.5, 0.25]
 
-        solution = fsolve(equations, initial_guess)
-        return solution[0], solution[1]
+        A = 0
+        B = 0
+
+        for A0 in np.linspace(0,1,11):
+            B0 = A0/2
+            [A_tmp, B_tmp] = fsolve(equations, [A0, B0])
+
+            if abs(A_tmp) > abs(A):
+                A = A_tmp
+                B = B_tmp
+
+        return A, B
+
+    def calc_omega_f(self):
+        k2 = self.calc_k2()
+        return - k2 * (self.r + (1 - k2)**2*(2-k2)**2)
 
 
 
 class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
-    def __init__(self, dimension, x_resolution, **kwargs):
+    def __init__(self, nx, ny, nz, **kwargs):
         """
         Nothing here yet
         """
+
+        # Type of the system
+        self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
+        self.dim = 3
+
+        # Default simulation parameters
+        self.micro_resolution = [7, 7, 7]
+        self.psi0 = -0.325
+        self.r = -0.3
+        self.t = 0
+        self.v = 1
+        self.dt = 0.1
+
+        # If there are additional arguments provided, set them as attributes
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+        self.xRes = nx * self.micro_resolution[0]
+        self.yRes = ny * self.micro_resolution[1]
+        self.zRes = nz * self.micro_resolution[2]
 
         a0 = 2 * np.pi * np.sqrt(2)
         self.a = a0 / 2 * np.array([[-1, 1, 1],
@@ -310,22 +346,68 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
                            [-1, 0, 1],
                            [-1, 1, 0]]) / np.sqrt(2)
 
-        # First initialize the BaseSystem class
-        super().__init__(dimension)
+        # Set the number of reciprocal modes
+        self.number_of_reciprocal_modes = 6
+        self.number_of_principal_reciprocal_modes = 6
+
+        # Set the grid
+        self.dx = a0 / self.micro_resolution[0]
+        self.dy = a0 / self.micro_resolution[1]
+        self.dz = a0 / self.micro_resolution[2]
+
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
+                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
+        self.A = self.calc_initial_amplitudes()
+        self.eta0 = [self.A, self.A, self.A, self.A, self.A, self.A]
+
+        # Set the elastic constants
+        # TODO: Set these right (Vidar 18.12.23)
+        self.el_mu = 3 * self.A ** 2
+        self.el_lambda = 3 * self.A ** 2
+        self.el_gamma = 0
+        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+
+
+    def calc_initial_amplitudes(self):
+        psi0 = self.psi0
+        r = self.r
+        t = self.t
+        v = self.v
+
+        A = -2/15 * psi0 + 1/15*np.sqrt(-5*r - 11*psi0**2)
+        return A
+
+class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
+    def __init__(self, nx, ny, nz, **kwargs):
+        """
+        Nothing here yet
+        """
 
         # Type of the system
         self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
+        self.dim = 3
+
+        # Default simulation parameters
+        self.micro_resolution = [11, 11, 11]
+        self.psi0 = -0.325
+        self.r = -0.3
+        self.t = 0
+        self.v = 1
+        self.dt = 0.1
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-
-class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
-    def __init__(self, dimension, x_resolution, **kwargs):
-        """
-        PhaseFieldCrystal class for FCC
-        """
+        self.xRes = nx * self.micro_resolution[0]
+        self.yRes = ny * self.micro_resolution[1]
+        self.zRes = nz * self.micro_resolution[2]
 
         a0 = 2 * np.pi * np.sqrt(3)
         self.a = a0 / 2 * np.array([[0, 1, 1],
@@ -343,22 +425,85 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
                            [0, 2, 0],
                            [0, 0, 2]]) / np.sqrt(3)
 
-        # First initialize the BaseSystem class
-        super().__init__(dimension)
+        # Set the number of reciprocal modes
+        self.number_of_reciprocal_modes = 7
+        self.number_of_principal_reciprocal_modes = 4
+
+        # Set the grid
+        self.dx = a0 / self.micro_resolution[0]
+        self.dy = a0 / self.micro_resolution[1]
+        self.dz = a0 / self.micro_resolution[2]
+
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
+                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
+        self.A, self.B = self.calc_initial_amplitudes()
+        self.eta0 = [self.A, self.A, self.A, self.A, self.B, self.B, self.B]
+
+        # Set the elastic constants
+        # TODO: Set these right (Vidar 18.12.23)
+        self.el_mu = 3 * self.A ** 2
+        self.el_lambda = 3 * self.A ** 2
+        self.el_gamma = 0
+        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+
+    def calc_initial_amplitudes(self):
+        psi0 = self.psi0
+        r = self.r
+        t = self.t
+        v = self.v
+
+        def equations(vars):
+            A, B = vars
+            eq1 = 27*A**2 + 36*B**2 + 18*B*psi0 + 3*psi0**2 + r
+            eq2 = 72*A**2*(4*B + psi0) + 90*B**3 + 18*B*psi0**2 + 6*B*r
+            return [eq1, eq2]
+
+        A = 0
+        B = 0
+
+        for A0 in np.linspace(0, 1, 11):
+            B0 = A0 / 2
+            [A_tmp, B_tmp] = fsolve(equations, [A0, B0])
+
+            if abs(A_tmp) > abs(A):
+                A = A_tmp
+                B = B_tmp
+
+        return A, B
+
+
+class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
+    def __init__(self, nx, ny, nz, **kwargs):
+        """
+        Nothing here yet
+        """
 
         # Type of the system
-        self.type = 'PhaseFieldCrystal3DFaceCenteredCubic'
+        self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
+        self.dim = 3
+
+        # Default simulation parameters
+        self.micro_resolution = [5, 5, 5]
+        self.psi0 = -0.325
+        self.r = -0.3
+        self.t = 0
+        self.v = 1
+        self.dt = 0.1
+        # TODO: Some of this code seems to be reprinted. Maybe it should be moved to the BaseSystem class? (Vidar 18.12.23)
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-
-class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
-    def __init__(self, dimension, x_resolution, **kwargs):
-        """
-        Nothing here yet
-        """
+        self.xRes = nx * self.micro_resolution[0]
+        self.yRes = ny * self.micro_resolution[1]
+        self.zRes = nz * self.micro_resolution[2]
 
         a0 = 2 * np.pi
         self.a = a0 * np.array([[1, 0, 0],
@@ -379,12 +524,66 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
                            [1, 1, -1],
                            [1, 1, 1]])
 
-        # First initialize the BaseSystem class
-        super().__init__(dimension)
+        # Set the number of reciprocal modes
+        self.number_of_reciprocal_modes = 13
+        self.number_of_principal_reciprocal_modes = 3
 
-        # Type of the system
-        self.type = 'PhaseFieldCrystal3DSimpleCubic'
+        # Set the grid
+        self.dx = a0 / self.micro_resolution[0]
+        self.dy = a0 / self.micro_resolution[1]
+        self.dz = a0 / self.micro_resolution[2]
 
-        # If there are additional arguments provided, set them as attributes
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
+                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
+        self.A, self.B, self.C = self.calc_initial_amplitudes()
+        self.eta0 = [self.A, self.A, self.A,
+                     self.B, self.B, self.B, self.B, self.B, self.B,
+                     self.C, self.C, self.C, self.C]
+
+        # Set the elastic constants
+        # TODO: Set these right (Vidar 18.12.23)
+        self.el_mu = 3 * self.A ** 2
+        self.el_lambda = 3 * self.A ** 2
+        self.el_gamma = 0
+        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+
+    def calc_initial_amplitudes(self):
+        psi0 = self.psi0
+        r = self.r
+        t = self.t
+        v = self.v
+
+        def equations(vars):
+            A, B, C = vars
+            eq1 = 15*A**3 + 24*A**2*C + 24*B*C*(3*B + psi0) \
+                    + 96*A*B**2 + 36*A*C**2 + 24*A*B*psi0 \
+                    + 3*A*psi0**2 + A*r
+            eq2 = 12*A*C*(6*B + psi0) + 6*A**2*(8*B + psi0) \
+                    + 45*B**3 + 54*B*C**2 + 12*B**2*psi0 \
+                    + 3*B*psi0**2 + B*r
+            eq3 = 6*A**3 + 27*A**2*C + 18*A*B*(3*B + psi0) \
+                    + C*(81*B**2 + 27*C**2 + 3*psi0**2 + r)
+
+            return [eq1, eq2, eq3]
+
+        A = 0
+        B = 0
+        C = 0
+
+        for A0 in np.linspace(0, 0.2, 21):
+            B0 = A0 / 2
+            C0 = A0 / 4
+            [A_tmp, B_tmp, C_tmp] = fsolve(equations, [A0, B0, C0])
+
+            if abs(A_tmp) > abs(A):
+                A = A_tmp
+                B = B_tmp
+                C = C_tmp
+
+        return A, B, C
