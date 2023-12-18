@@ -35,7 +35,7 @@ class BaseSystem:
         self.xRes = xRes
         self.yRes = 1
         self.zRes = 1
-        self.t = 0
+        self.time = 0
         if dimension > 1:
             self.yRes = yRes
 
@@ -172,9 +172,9 @@ class BaseSystem:
 
         # Add the vortices to the theta-field
         theta = 0
-        theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid) - np.array(dipole_vector) / 2,
+        theta = theta + self.calc_angle_field_single_vortex(dipole_position - np.array(dipole_vector) / 2,
                                                             charge=-1)
-        theta = theta + self.calc_angle_field_single_vortex(np.array(self.xmid) + np.array(dipole_vector) / 2, charge=1)
+        theta = theta + self.calc_angle_field_single_vortex(dipole_position + np.array(dipole_vector) / 2, charge=1)
 
         # Convert the field to a complex field to make it fit the periodic boundary conditions
         amp = np.exp(1j * theta)
@@ -569,6 +569,20 @@ class BaseSystem:
         else:
             return np.sum(field[region]) * self.dV
 
+    def calc_integrating_factors_f_and_solver(self, omega_f, method):
+
+        if method == 'ETD2RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+            solver = self.evolve_ETD2RK_loop
+
+        elif method == 'ETD4RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+            solver = self.evolve_ETD4RK_loop
+        else:
+            raise Exception("This method is not implemented.")
+
+        return integrating_factors_f, solver
+
     def calc_evolution_integrating_factors_ETD2RK(self, omega_f, tol=10 ** (-4)):
         """
         Calculates integrating factors for ETD2RK
@@ -645,7 +659,7 @@ class BaseSystem:
             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
         """
         """
-        Don't think this is needed. self.t is now initialized in base and all timedependence should be through this
+        Don't think this is needed. self.time is now initialized in base and all timedependence should be through this
         if t==None:
             def N_f(field,t):
                 return non_linear_evolution_function_f(field)
@@ -655,12 +669,12 @@ class BaseSystem:
             def N_f(field,t):
                 return non_linear_evolution_function_f(field,t)
         """
-        t_0 = self.t
+        t_0 = self.time
         N0_f = non_linear_evolution_function_f(field)
 
         a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
         a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
-        self.t = t_0 + self.dt
+        self.time = t_0 + self.dt
         N_a_f = non_linear_evolution_function_f(a)
         field_f = a_f + integrating_factors_f[2] * (N_a_f - N0_f)
         field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
@@ -683,8 +697,8 @@ class BaseSystem:
          """
         N_0f = non_linear_evolution_function_f(field)
 
-        t_0 = self.t
-        self.t = t_0 + self.dt / 2
+        t_0 = self.time
+        self.time = t_0 + self.dt / 2
 
         a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
         a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
@@ -694,7 +708,7 @@ class BaseSystem:
         b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
         N_b = non_linear_evolution_function_f(b)
 
-        self.t = t_0 + self.dt
+        self.time = t_0 + self.dt
         c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
         c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
         N_c = non_linear_evolution_function_f(c)
@@ -831,7 +845,8 @@ class BaseSystem:
                 ax = plt.gca()
 
             if colormap is None:
-                colormap = tool_colormap_bluewhitered()
+                # colormap = tool_colormap_bluewhitered()
+                cmap = plt.get_cmap('winter')
             else:
                 cmap = plt.get_cmap(colormap)
 

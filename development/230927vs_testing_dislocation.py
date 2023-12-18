@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 
 pfc = cf.PhaseFieldCrystal2DTriangular(13,7)
 
-eta = pfc.conf_insert_dislocation_dipole(dislocation_type=1)
-pfc.calc_from_amplitudes(eta)
+eta = pfc.calc_amplitudes_with_dislocation_dipole(dislocation_type=1)
+pfc.conf_PFC_from_amplitudes(eta)
 
 
 for n in range(10):

@@ -224,18 +224,11 @@ class BoseEinsteinCondensate(BaseSystem):
         k2 = self.calc_k2()
         omega_f = (1j + self.gamma) * (1 - 1 / 2 * k2)
 
-        if method == 'ETD2RK':
-            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
-            solver = self.evolve_ETD2RK_loop
-
-        elif method == 'ETD4RK':
-            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
-            solver = self.evolve_ETD4RK_loop
-        else:
-            raise Exception("This method is not implemented.")
+        integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
 
         for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
-            self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
+            self.psi, self.psi_f = solver(integrating_factors_f,
+                                          self.calc_nonlinear_evolution_function_f,
                                           self.psi, self.psi_f)
 
 
@@ -249,7 +242,7 @@ class BoseEinsteinCondensate(BaseSystem):
             returns:
                 Updates the self.psi and self.psi_f
         '''
-        temp_t = self.t
+        temp_t = self.time
         gamma0 = self.gamma
 
         self.gamma = 1 - 1j
@@ -258,7 +251,7 @@ class BoseEinsteinCondensate(BaseSystem):
         self.evolve_dGPE(number_of_steps, method)
 
         self.gamma = gamma0
-        self.t = temp_t
+        self.time = temp_t
 
     def evolve_comoving_dGPE(self, number_of_steps, velx, method='ETD2RK'):
         '''
