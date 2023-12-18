@@ -1049,16 +1049,19 @@ class BaseSystem:
         points_to_exclude += (R[2] > (self.zmax-self.dz)) + (R[2] < self.zmin)
         points_to_exclude = points_to_exclude.astype(bool)
 
+        # print("xmin:", self.xmin)
+        # print("Lmax:", self.xmax-self.dx)
+        # print("ymin:", self.ymin)
+        # print("Lmax:", self.ymax-self.dy)
+        # print("zmin:", self.zmin)
+        # print("Lmax:", self.zmax-self.dz)
         for i in range(3):
             R[i][points_to_exclude] = float('nan')
 
-        #Find the index of the point at which the normal vector is placed
-        r2 = (self.x - position[0]) ** 2 + (self.y - position[1]) ** 2 + (self.z - position[2]) ** 2
-        position_index = np.unravel_index(np.argmin(r2), r2.shape)
-
         #For each point in R, find:
         #   1. The true index (float) of the point in the matrix closest to the point in R
-        Ri = [position_index[i] + (unit_vector1[i] * X0 + unit_vector2[i] * Y0) / dr[i] for i in range(3)]
+        rmin = [self.xmin, self.ymin, self.zmin]
+        Ri = [(R[i]-rmin[i])/dr[i] for i in range(3)]
 
         # 2. The lower and upper limit of the integer index of the point in the matrix closest to the point in R
         RiLH = [[np.floor(Ri[i]), np.ceil(Ri[i])] for i in range(3)]
@@ -1079,11 +1082,13 @@ class BaseSystem:
                     for ix in [0, 1]:
                         for iy in [0, 1]:
                             for iz in [0, 1]:
+                                #print(int(RiLH[0][ix][i, j]), int(RiLH[1][iy][i, j]), int(RiLH[2][iz][i, j]))
                                 voxel_indices[ix, iy, iz] = np.ravel_multi_index([
                                                                          int(RiLH[0][ix][i, j]),
                                                                          int(RiLH[1][iy][i, j]),
                                                                          int(RiLH[2][iz][i, j])],
                                                                         field.shape)
+
 
                                 voxel_weights[ix, iy, iz] = (1 - dRi[0][ix][i, j]) * \
                                                             (1 - dRi[1][iy][i, j]) * \
@@ -1091,10 +1096,17 @@ class BaseSystem:
 
                                 valid_indices = ~np.isnan(voxel_indices)
 
-                    field_on_plane[i, j] = np.nansum(field.flatten()[voxel_indices[valid_indices].astype(int)] * voxel_weights[valid_indices])
+                    field_on_plane[i, j] = np.sum(
+                        field.flatten()[voxel_indices[valid_indices].astype(int)] *\
+                        voxel_weights[valid_indices])
 
         cmin = np.nanmin(field_on_plane)
         cmax = np.nanmax(field_on_plane)
+
+        print("field min:", np.nanmin(field))
+        print("field max:", np.nanmax(field))
+        print("cmin:", cmin)
+        print("cmax:", cmax)
 
         #print((field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
 
@@ -1105,7 +1117,7 @@ class BaseSystem:
         # field_on_plane_rgba[np.isnan(field_on_plane)] = [0, 0, 0, 0]  # Set NaNs to transparent
 
         # Normalize the field data
-        norm = mcolors.Normalize(vmin=np.nanmin(field_on_plane), vmax=np.nanmax(field_on_plane), clip=True)
+        norm = mcolors.Normalize(vmin=cmin, vmax=cmax, clip=True)
 
         if colormap == 'angle':
             cmap = tool_colormap_angle()
@@ -1117,7 +1129,6 @@ class BaseSystem:
 
         # Set NaNs to transparent
         field_on_plane_colors[np.isnan(field_on_plane)] = [0, 0, 0, 0]
-
 
         ax.plot_surface(R[0] / self.a0, R[1] / self.a0, R[2] / self.a0, facecolors=field_on_plane_colors,
                         rstride=1,cstride=1)
