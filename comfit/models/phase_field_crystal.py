@@ -1,6 +1,7 @@
 import numpy as np
 from comfit.core.base_system import BaseSystem
 from tqdm import tqdm
+from scipy.optimize import fsolve
 
 
 class PhaseFieldCrystal(BaseSystem):
@@ -217,24 +218,77 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
 
 
 class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
-    def __init__(self, dimension, x_resolution, **kwargs):
+    def __init__(self, nx, ny, **kwargs):
         """
         Nothing here yet
         """
+
+        # Type of the system
+        self.type = 'PhaseFieldCrystal2DSquare'
+        self.dim = 2
+
+        # Default simulation parameters
+        self.micro_resolution = [7, 7]
+        self.psi0 = -0.3
+        self.r = -0.3
+        self.t = 0
+        self.v = 1
+        self.dt = 0.1
+
+        # If there are additional arguments provided, set them as attributes
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+        self.xRes = nx * self.micro_resolution[0]
+        self.yRes = ny * self.micro_resolution[1]
 
         a0 = 2 * np.pi
         self.a = a0 * np.array([[1, 0], [0, 1]])
         self.q = np.array([[1, 0], [0, 1], [1, -1], [1, 1]])
 
-        # First initialize the BaseSystem class
-        super().__init__(dimension)
+        # Set the number of reciprocal modes
+        self.number_of_reciprocal_modes = 4
+        self.number_of_principal_reciprocal_modes = 2
 
-        # Type of the system
-        self.type = 'PhaseFieldCrystal2DSquare'
+        # Set the grid
+        self.dx = a0 / self.micro_resolution[0]
+        self.dy = a0 / self.micro_resolution[1]
 
-        # If there are additional arguments provided, set them as attributes
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
+                         dx=self.dx, dy=self.dy, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
+        self.A, self.B = self.calc_initial_amplitudes()
+        self.eta0 = [self.A, self.A, self.B, self.B]
+
+        # Set the elastic constants
+        self.el_mu = 3 * self.A ** 2
+        self.el_lambda = 3 * self.A ** 2
+        self.el_gamma = 0
+        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+
+    def calc_initial_amplitudes(self):
+        psi0 = self.psi0
+        r = self.r
+        t = self.t
+        v = self.v
+
+        def equations(vars):
+            A, B = vars
+            eq1 = 12*psi0**2*A + 48*psi0*A*B + 36*A**3 + 72*A*B**2 + 4*A*r
+            eq2 = 12*psi0**2*B + 24*psi0*A*B + 36*B**3 + 72*A**2*B + 4*B*r
+            return [eq1, eq2]
+
+        # Initial guess
+        initial_guess = [0.5, 0.25]
+
+        solution = fsolve(equations, initial_guess)
+        return solution[0], solution[1]
+
 
 
 class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
