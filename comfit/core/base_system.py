@@ -210,7 +210,6 @@ class BaseSystem:
                   "This can cause unwanted boundary effects.")
 
         n = normal_vector / np.linalg.norm(np.array(normal_vector))
-        print(n)
         [X, Y, Z] = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
         # Add the vortices to the theta-field

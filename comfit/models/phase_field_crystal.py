@@ -93,7 +93,10 @@ class PhaseFieldCrystal(BaseSystem):
 
         return eta
 
-    def calc_amplitudes_with_dislocation_dipole(self, eta=None, x1=None, y1=None, x2=None, y2=None, dislocation_type=1):
+    def calc_amplitudes_with_dislocation_dipole(self, eta=None,
+                                                x1=None, y1=None,
+                                                x2=None, y2=None,
+                                                dislocation_type=1):
         """
         Inserts a  dislocation dipole in the system corresponding to dislocation type and its negative
 
@@ -128,6 +131,42 @@ class PhaseFieldCrystal(BaseSystem):
             dipole_position=[(x1 + x2) / 2, (y1 + y2) / 2])
 
 
+
+        for n in range(self.number_of_reciprocal_modes):
+            if sn[n] != 0:
+                eta[n] *= np.exp(1j * sn[n] * theta)
+
+        return eta
+
+    def calc_amplitudes_with_dislocation_ring(self, eta=None,
+                                                position=None,
+                                                radius=None,
+                                                normal_vector=[0, 0, 1],
+                                                dislocation_type=1):
+        """
+        Inserts a  dislocation ring in the system corresponding to dislocation type
+
+        """
+        # TODO: Improve code documentation
+
+        if not (self.dim == 3):
+            raise Exception("The dimension of the system must be 3 to insert a dislocation dipole.")
+
+        if position == None:
+            position = self.rmid
+
+        if radius == None:
+            radius = min(self.rmax)/3
+
+        if eta == None:
+            eta = self.eta0
+
+        sn = self.dislocation_charges[dislocation_type - 1]
+
+        theta = self.calc_angle_field_vortex_ring(
+            radius=radius,
+            position=position,
+            normal_vector=normal_vector)
 
         for n in range(self.number_of_reciprocal_modes):
             if sn[n] != 0:
