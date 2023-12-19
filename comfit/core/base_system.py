@@ -1079,14 +1079,30 @@ class BaseSystem:
         Ri = [(R[i]-rmin[i])/dr[i] for i in range(3)]
 
         # 2. The lower and upper limit of the integer index of the point in the matrix closest to the point in R
-        RiLH = [[np.floor(Ri[i]), np.ceil(Ri[i])] for i in range(3)]
+        RiLH = []
+        Res = [self.xRes,self.yRes,self.zRes]
+        for i in range(3):
+            Ri_floor = np.floor(Ri[i])
+
+            Ri_ceil = np.ceil(Ri[i])
+
+            # Adjusting floor and ceil for integer values of Ri
+            is_integer = Ri[i] == Ri[i].astype(int)
+            # print(is_integer)
+            # Decrease floor by 1 if Ri is not at lower boundary
+            Ri_floor[is_integer & (Ri[i] > 0)] -= 1
+
+            # Increase ceil by 1 if Ri is not at upper boundary
+            Ri_ceil[is_integer & (Ri[i] == 0)] += 1
+
+            RiLH.append([Ri_floor, Ri_ceil])
+
 
         # 3. The index distances between the point in R and the point in the matrix closest to it
         dRi = [[Ri[i] - RiLH[i][0], RiLH[i][1] - Ri[i]] for i in range(3)]
 
         field_on_plane = np.nan * np.ones_like(X0)
         resolution_on_plane = len(linear_mesh)
-        field_size = len(field.flatten())
 
         for i in range(resolution_on_plane):
             for j in range(resolution_on_plane):
@@ -1118,19 +1134,6 @@ class BaseSystem:
         cmin = np.nanmin(field_on_plane)
         cmax = np.nanmax(field_on_plane)
 
-        print("field min:", np.nanmin(field))
-        print("field max:", np.nanmax(field))
-        print("cmin:", cmin)
-        print("cmax:", cmax)
-
-        #print((field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
-
-        # Replace NaNs with a transparent color
-        # field_on_plane_rgba = np.zeros((*field_on_plane.shape, 4))  # Create an RGBA array
-        # field_on_plane_rgba[~np.isnan(field_on_plane)] = plt.cm.viridis(
-        #     (field_on_plane[~np.isnan(field_on_plane)]-cmin)/(cmax-cmin))
-        # field_on_plane_rgba[np.isnan(field_on_plane)] = [0, 0, 0, 0]  # Set NaNs to transparent
-
         # Normalize the field data
         norm = mcolors.Normalize(vmin=cmin, vmax=cmax, clip=True)
 
@@ -1149,9 +1152,9 @@ class BaseSystem:
                         rstride=1,cstride=1)
 
 
-        ax.set_xlim3d(self.xmin, self.xmax - self.dx)
-        ax.set_ylim3d(self.ymin, self.ymax - self.dy)
-        ax.set_zlim3d(self.zmin, self.zmax - self.dz)
+        ax.set_xlim3d(self.xmin/self.a0, (self.xmax - self.dx)/self.a0)
+        ax.set_ylim3d(self.ymin/self.a0, (self.ymax - self.dy)/self.a0)
+        ax.set_zlim3d(self.zmin/self.a0, (self.zmax - self.dz)/self.a0)
         ax.set_aspect('equal')
         ax.set_xlabel('$x/a_0$')
         ax.set_ylabel('$y/a_0$')

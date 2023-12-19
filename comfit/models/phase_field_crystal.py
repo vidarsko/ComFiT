@@ -139,18 +139,69 @@ class PhaseFieldCrystal(BaseSystem):
 
 
 class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
-    def __init__(self, **kwargs):
+    def __init__(self, nx, **kwargs):
         """
         Nothing here yet
         """
-        # First initialize the BaseSystem class
-        super().__init__(dimension, **kwargs)
+
+        # Type of the system
+        self.type = 'PhaseFieldCrystal1DPeriodic'
+        self.dim = 1
+
+        # Default simulation parameters
+        self.micro_resolution = [5]
+        self.psi0 = -0.3
+        self.r = -0.3
+        self.t = 0
+        self.v = 1
+        self.dt = 0.1
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-        # TODO: Implement the PhaseFieldCrystal1DPeriodic class
+        self.xRes = nx * self.micro_resolution[0]
+
+        a0 = 2 * np.pi
+        self.a = a0 * np.array([[1]])
+        self.q = np.array([[1]])
+
+        # Set the number of reciprocal modes
+        self.number_of_reciprocal_modes = 1
+        self.number_of_principal_reciprocal_modes = 1
+
+        # Set the grid
+        self.dx = a0 / self.micro_resolution[0]
+
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
+                         dx=self.dx, dy=self.dy, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
+        self.A = self.calc_initial_amplitudes()
+        self.eta0 = [self.A]
+
+        # Set the elastic constants
+        self.el_mu = 3 * self.A ** 2
+        self.el_lambda = 3 * self.A ** 2
+        self.el_gamma = 0
+        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+
+    def calc_initial_amplitudes(self):
+        psi0 = self.psi0
+        r = self.r
+        t = self.t
+        v = self.v
+
+        A = (-3 * v * psi0 + np.sqrt(20 * t * v - 15 * v * r + 30 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) / (15 * v)
+        return A
+
+    def calc_omega_f(self):
+        k2 = self.calc_k2()
+        return - k2 * (self.r + (1 - k2)**2)
 
 
 class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
@@ -202,8 +253,8 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         self.eta0 = [self.A, self.A, self.A]
 
         # Set the elastic constants
-        self.el_mu = 3 * self.A ** 2
         self.el_lambda = 3 * self.A ** 2
+        self.el_mu = 3 * self.A ** 2
         self.el_gamma = 0
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
@@ -270,8 +321,8 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.eta0 = [self.A, self.A, self.B, self.B]
 
         # Set the elastic constants
-        self.el_mu = 3 * self.A ** 2
-        self.el_lambda = 3 * self.A ** 2
+        self.el_lambda = 16 * self.B ** 2
+        self.el_mu = 16 * self.B ** 2
         self.el_gamma = 0
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
@@ -367,10 +418,9 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         self.eta0 = [self.A, self.A, self.A, self.A, self.A, self.A]
 
         # Set the elastic constants
-        # TODO: Set these right (Vidar 18.12.23)
-        self.el_mu = 3 * self.A ** 2
-        self.el_lambda = 3 * self.A ** 2
-        self.el_gamma = 0
+        self.el_lambda = 4 * self.A ** 2
+        self.el_mu = 4 * self.A ** 2
+        self.el_gamma = - 4*self.A**2
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
 
@@ -382,6 +432,10 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
 
         A = -2/15 * psi0 + 1/15*np.sqrt(-5*r - 11*psi0**2)
         return A
+
+    def calc_omega_f(self):
+        k2 = self.calc_k2()
+        return - k2 * (self.r + (1 - k2)**2)
 
 class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
@@ -446,10 +500,9 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         self.eta0 = [self.A, self.A, self.A, self.A, self.B, self.B, self.B]
 
         # Set the elastic constants
-        # TODO: Set these right (Vidar 18.12.23)
-        self.el_mu = 3 * self.A ** 2
-        self.el_lambda = 3 * self.A ** 2
-        self.el_gamma = 0
+        self.el_lambda = 32/81 * self.A ** 2
+        self.el_mu = 32/81 * self.A ** 2
+        self.el_gamma = 32/81 * (2*self.B**2 - self.A**2)
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
     def calc_initial_amplitudes(self):
@@ -476,6 +529,10 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
                 B = B_tmp
 
         return A, B
+
+    def calc_omega_f(self):
+        k2 = self.calc_k2()
+        return - k2 * (self.r + (1 - k2)**2*(4/3-k2)**2)
 
 
 class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
@@ -547,10 +604,9 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
                      self.C, self.C, self.C, self.C]
 
         # Set the elastic constants
-        # TODO: Set these right (Vidar 18.12.23)
-        self.el_mu = 3 * self.A ** 2
-        self.el_lambda = 3 * self.A ** 2
-        self.el_gamma = 0
+        self.el_lambda = 16 * self.B ** 2 + 128 * self.C ** 2
+        self.el_mu = 16 * self.B ** 2 + 128 * self.C ** 2
+        self.el_gamma = 32*self.A**2 - 16*self.B**2 - 256*self.C**2
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
     def calc_initial_amplitudes(self):
@@ -587,3 +643,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
                 C = C_tmp
 
         return A, B, C
+
+    def calc_omega_f(self):
+        k2 = self.calc_k2()
+        return - k2 * (self.r + (1 - k2)**2*(2-k2)**2*(3-k2)**2)
