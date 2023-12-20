@@ -10,3 +10,4 @@ R2 = np.random.randint(0, 55, size=(216, 216))
 
 # Extract values
 result = field[R0, R1, R2]
+print("hello world")
