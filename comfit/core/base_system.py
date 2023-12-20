@@ -1048,7 +1048,7 @@ class BaseSystem:
         max_size = max(sizes)
         dr = [self.dx, self.dy, self.dz]
         min_step = min(dr)
-        linear_mesh = np.arange(-2*max_size,2*max_size, min_step)
+        linear_mesh = np.arange(-1*max_size,1*max_size, min_step)
 
         #Mesh containing x- and y-coordinates on the plane
         [X0,Y0] = np.meshgrid(linear_mesh, linear_mesh, indexing='ij')
@@ -1070,7 +1070,7 @@ class BaseSystem:
         # print("zmin:", self.zmin)
         # print("Lmax:", self.zmax-self.dz)
         for i in range(3):
-            R[i][points_to_exclude] = float('nan')
+            R[i][points_to_exclude] = 0
 
         #For each point in R, find:
         #   1. The true index (float) of the point in the matrix closest to the point in R
@@ -1100,35 +1100,23 @@ class BaseSystem:
         # 3. The index distances between the point in R and the point in the matrix closest to it
         dRi = [[Ri[i] - RiLH[i][0], RiLH[i][1] - Ri[i]] for i in range(3)]
 
-        field_on_plane = np.nan * np.ones_like(X0)
+        field_on_plane = np.zeros_like(X0)
         resolution_on_plane = len(linear_mesh)
 
-        for i in range(resolution_on_plane):
-            for j in range(resolution_on_plane):
-                if not np.isnan(R[0][i, j]):
-                    # Collect all the indices and weights from all the voxels to which R[][i,j] belongs
-                    voxel_indices = np.nan * np.ones((2, 2, 2))
-                    voxel_weights = np.nan * np.ones((2, 2, 2))
-                    for ix in [0, 1]:
-                        for iy in [0, 1]:
-                            for iz in [0, 1]:
-                                #print(int(RiLH[0][ix][i, j]), int(RiLH[1][iy][i, j]), int(RiLH[2][iz][i, j]))
-                                voxel_indices[ix, iy, iz] = np.ravel_multi_index([
-                                                                         int(RiLH[0][ix][i, j]),
-                                                                         int(RiLH[1][iy][i, j]),
-                                                                         int(RiLH[2][iz][i, j])],
-                                                                        field.shape)
+        for ix in [0, 1]:
+            for iy in [0, 1]:
+                for iz in [0, 1]:
+                    field_on_plane= field_on_plane \
+                                           + field[RiLH[0][ix].astype(int),
+                                                    RiLH[1][iy].astype(int),
+                                                    RiLH[2][iz].astype(int)] * \
+                                               (1 - dRi[0][ix]) * \
+                                               (1 - dRi[1][iy]) * \
+                                               (1 - dRi[2][iz])
 
-
-                                voxel_weights[ix, iy, iz] = (1 - dRi[0][ix][i, j]) * \
-                                                            (1 - dRi[1][iy][i, j]) * \
-                                                            (1 - dRi[2][iz][i, j])
-
-                                valid_indices = ~np.isnan(voxel_indices)
-
-                    field_on_plane[i, j] = np.sum(
-                        field.flatten()[voxel_indices[valid_indices].astype(int)] *\
-                        voxel_weights[valid_indices])
+        # field_on_plane[points_to_exclude] = np.nan
+        for i in range(3):
+            R[i][points_to_exclude] = np.nan
 
         cmin = np.nanmin(field_on_plane)
         cmax = np.nanmax(field_on_plane)

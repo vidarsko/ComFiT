@@ -9,10 +9,10 @@ pfc.conf_PFC_from_amplitudes(eta)
 #print(pfc.el_lambda, pfc.el_mu, pfc.el_gamma, pfc.el_nu)
 #pfc.conf_PFC_from_amplitudes()
 
-pfc.evolve_PFC(50)
+pfc.evolve_PFC(0)
 #pfc.plot_field(pfc.psi,colormap='viridis',number_of_layers=1)
 #print(pfc.psi)
-pfc.plot_field_in_plane(pfc.psi,normal_vector=[0,1,0])
+pfc.plot_field_in_plane(pfc.psi, normal_vector=[1,1,0])
 plt.show()
 
 # for n in range(30):
