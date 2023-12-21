@@ -432,7 +432,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
 
 
-### Functions for calculating vortex properties
+## Functions for calculating vortex properties
     def calc_vortex_density(self, psi=None):
 
         if psi is None:

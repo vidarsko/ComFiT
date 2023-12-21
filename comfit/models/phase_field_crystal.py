@@ -68,8 +68,103 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi = np.real(self.psi)
         self.psi_f = np.fft.fftn(self.psi)
 
+    def evolve_PFC_hydrodynamic(self, number_of_steps, 
+                                method = 'ETD2RK',
+                                gamma_S = 2**-6,
+                                rho0 = 2**-6):
+        """
+        We extend psi to also contain the hydrodynamic field in components psi[1],psi[2],psi[3]
+        """
+        
+        if hasattr(self,'velocity_field'):
+            print("Velocity field established.")
+            pass
+        else:
+            print("I am initializing a velocity field")
+            self.velocity_field = True
+            self.psi = np.array([self.psi]+[np.zeros_like(self.psi)]*self.dim)
+            self.psi_f = np.array([self.psi_f]+[np.zeros_like(self.psi_f)]*self.dim)
+            # print("psi shape", self.psi.shape)
+
+        self.gamma_S = gamma_S
+        self.rho0 = rho0
+
+        omega_f = self.calc_omega_hydrodynamic_f()
+        integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
+
+        for n in tqdm(range(number_of_steps), desc='Evolving the hydrodynamic PFC'):
+            self.psi, self.psi_f = solver(integrating_factors_f,
+                                          self.calc_nonlinear_hydrodynamic_evolution_function_f,
+                                          self.psi, self.psi_f)
+            
+        self.psi = np.real(self.psi)
+        self.psi_f = np.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
+
+
+    def calc_omega_hydrodynamic_f(self):
+        k2 = self.calc_k2()
+        return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*k2]*self.dim)
+
+
 
     # CALCULATION FUNCTIONS
+
+    def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
+
+        if field is None:
+            field = self.psi
+            field_f = self.psi_f
+
+        psi_f = field_f
+        
+        # print("field shape",field.shape)
+        # print("field_f shape",field_f.shape)
+
+        psi = field 
+        psi2 = field**2 
+        psi3 = psi2*psi
+        psi4 = psi2**2
+
+        free_energy_density = 1/2*self.calc_Lpsi(psi_f)**2 \
+            + 1/2*self.r*psi2 + 1/3*self.t*psi3 + 1/4*self.v*psi4
+        
+        # print("Lpsi shape",self.calc_Lpsi(psi_f).shape)
+
+        chemical_potential = self.calc_L2psi(psi_f)*psi \
+            + self.r*psi + self.t*psi2 + self.v*psi3
+        
+        # print("L2psi shape",self.calc_L2psi(psi_f).shape)
+        
+        # print("Free energy density shape", free_energy_density.shape)
+        # print("Chem pot shape", chemical_potential.shape)
+        return free_energy_density, chemical_potential
+
+    def calc_nonlinear_hydrodynamic_evolution_function_f(self, field):
+
+        field_f = np.fft.fftn(field, axes =( range ( - self . dim , 0) ))
+
+        k2 = self.calc_k2()
+
+        N0_f = -k2*np.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
+            - np.fft.fftn(sum([field[i]*np.fft.ifftn(self.dif[i]*field[0]) for i in range(1,self.dim)]))
+        
+        chemical_potential,free_energy_density = self.calc_PFC_free_energy_density_and_chemical_potential(field[0],field_f[0])
+
+        # print("Free energy density shape",free_energy_density.shape)
+        # print("chemical potential shape",chemical_potential.shape)
+        force_density_f = [
+                self.calc_gaussfilter_f()*
+                np.fft.fftn(
+                chemical_potential*np.fft.ifftn(self.dif[i]*field_f[0])
+                - np.fft.ifftn(self.dif[i]*np.fft.fftn(free_energy_density))
+                )
+                for i in range(self.dim)
+            ]
+
+        # print("N0f shape",N0_f.shape)
+        # print("force density shape", force_density_f[0].shape)
+        return np.array([N0_f] + [1/self.rho0*force_density_f[i] for i in range(self.dim)])
+
     def calc_nonlinear_evolution_function_f(self, psi):
         return -self.calc_k2()*np.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
 
@@ -309,6 +404,20 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
     def calc_omega_f(self):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2)
+    
+    def calc_Lpsi(self, field_f = None):
+
+        if field_f is None:
+            field_f = self.psi_f
+
+        return np.fft.ifftn((1-self.calc_k2())*field_f)
+    
+    def calc_L2psi(self, field_f = None):
+
+        if field_f is None:
+            field_f = self.psi_f
+            
+        return np.fft.ifftn((1-self.calc_k2())**2*field_f)
 
 
 class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
