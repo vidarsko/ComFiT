@@ -22,7 +22,9 @@ jobs:
         python-version: '3.9'  # Specify your Python version here
 
     - name: Install ffmpeg
-      run: sudo apt-get install -y ffmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --fix-missing ffmpeg
 
     - name: Install dependencies
       run: |
