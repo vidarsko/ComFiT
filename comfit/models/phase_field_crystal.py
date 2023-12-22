@@ -70,8 +70,8 @@ class PhaseFieldCrystal(BaseSystem):
 
     def evolve_PFC_hydrodynamic(self, number_of_steps, 
                                 method = 'ETD2RK',
-                                gamma_S = 2**-6,
-                                rho0 = 2**-6):
+                                gamma_S = 2**-2,
+                                rho0 = 2**-2):
         """
         We extend psi to also contain the hydrodynamic field in components psi[1],psi[2],psi[3]
         """
@@ -101,13 +101,11 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi_f = np.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
 
 
-    def calc_omega_hydrodynamic_f(self):
-        k2 = self.calc_k2()
-        return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*k2]*self.dim)
-
-
-
     # CALCULATION FUNCTIONS
+
+    def calc_omega_hydrodynamic_f(self):
+        return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*np.ones(self.dims)]*self.dim)
+
 
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
 
@@ -146,23 +144,10 @@ class PhaseFieldCrystal(BaseSystem):
         k2 = self.calc_k2()
 
         N0_f = -k2*np.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
-            - np.fft.fftn(sum([field[i]*np.fft.ifftn(self.dif[i]*field[0]) for i in range(1,self.dim)]))
+            - np.fft.fftn(sum([field[i+1]*np.fft.ifftn(self.dif[i]*field_f[0]) for i in range(self.dim)]))
         
-        chemical_potential,free_energy_density = self.calc_PFC_free_energy_density_and_chemical_potential(field[0],field_f[0])
+        force_density_f = self.calc_stress_divergence_f(field_f[0])
 
-        # print("Free energy density shape",free_energy_density.shape)
-        # print("chemical potential shape",chemical_potential.shape)
-        force_density_f = [
-                self.calc_gaussfilter_f()*
-                np.fft.fftn(
-                chemical_potential*np.fft.ifftn(self.dif[i]*field_f[0])
-                - np.fft.ifftn(self.dif[i]*np.fft.fftn(free_energy_density))
-                )
-                for i in range(self.dim)
-            ]
-
-        # print("N0f shape",N0_f.shape)
-        # print("force density shape", force_density_f[0].shape)
         return np.array([N0_f] + [1/self.rho0*force_density_f[i] for i in range(self.dim)])
 
     def calc_nonlinear_evolution_function_f(self, psi):
@@ -347,6 +332,8 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         # Type of the system
         self.type = 'PhaseFieldCrystal2DTriangular'
         self.dim = 2
+        self.nx = nx
+        self.ny = ny
 
         # Default simulation parameters
         self.micro_resolution = [7, 12]
@@ -405,19 +392,19 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2)
     
-    def calc_Lpsi(self, field_f = None):
-
-        if field_f is None:
-            field_f = self.psi_f
-
-        return np.fft.ifftn((1-self.calc_k2())*field_f)
     
-    def calc_L2psi(self, field_f = None):
-
+    def calc_stress_divergence_f(self, field_f = None):
+        
         if field_f is None:
             field_f = self.psi_f
-            
-        return np.fft.ifftn((1-self.calc_k2())**2*field_f)
+        
+        k2 = self.calc_k2()
+
+        return np.array(
+            [2*self.calc_gaussfilter_f()*np.fft.fftn(
+            np.fft.ifftn((1-k2)*field_f)*np.fft.ifftn(self.dif[i]*k2*field_f)
+            ) for i in range(self.dim)])
+
 
 
 class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
@@ -429,6 +416,8 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         # Type of the system
         self.type = 'PhaseFieldCrystal2DSquare'
         self.dim = 2
+        self.nx = nx
+        self.ny = ny
 
         # Default simulation parameters
         self.micro_resolution = [7, 7]
@@ -515,6 +504,9 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         # Type of the system
         self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
         self.dim = 3
+        self.nx = nx
+        self.ny = ny
+        self.nz = nz
 
         # Default simulation parameters
         self.micro_resolution = [7, 7, 7]
@@ -594,6 +586,9 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         # Type of the system
         self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
         self.dim = 3
+        self.nx = nx
+        self.ny = ny
+        self.nz = nz
 
         # Default simulation parameters
         self.micro_resolution = [11, 11, 11]
@@ -692,6 +687,9 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         # Type of the system
         self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
         self.dim = 3
+        self.nx = nx
+        self.ny = ny
+        self.nz = nz
 
         # Default simulation parameters
         self.micro_resolution = [5, 5, 5]
