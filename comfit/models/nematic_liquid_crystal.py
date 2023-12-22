@@ -86,18 +86,18 @@ class NematicLiquidCrystal(BaseSystem):
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
 
 #### calculations related to the flow field
-    def calc_u(self,Q):
+    def conf_u(self,Q):
         '''
         calculate the velocity and its fourier transform. Because of the possibility Gamma = 0 we have to use the self.k2_press to avoid
         division by zero. This is not a problem since the zero mode of all the forces are zero
         :return:
             (numpy.narray) velocity
         '''
-        self.F_af = self.calc_activ_force_f(Q)
-        self.F_pf = self.calc_passive_force_f(Q)
-        self.p_f = self.calc_pressure_f()
-        grad_pf = self.calc_grad_p_f()
-        self.u_f = (self.F_af + self.F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2_press)
+        F_af = self.calc_activ_force_f(Q)
+        F_pf = self.calc_passive_force_f(Q)
+        p_f = self.calc_pressure_f(F_af,F_pf)
+        grad_pf = self.calc_grad_p_f(p_f)
+        self.u_f = (F_af + F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2_press)
 
         self.u = np.real(np.fft.ifftn(self.u_f, axes=(range(-self.dim, 0))))
 
@@ -157,17 +157,17 @@ class NematicLiquidCrystal(BaseSystem):
         temp = -self.K * np.fft.ifftn( self.k2* np.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
 
-    def calc_pressure_f(self):
+    def calc_pressure_f(self,F_af,F_pf):
         '''
         calculates the pressure in Fourier space. The zero mode is set to zero
         Returns:
             (numpy.ndarray) the pressure
         '''
-        p_af = np.sum(1j*self.k[i]*self.F_af[i] for i in range(self.dim))
-        p_pf = np.sum(1j*self.k[i]*self.F_pf[i] for i in range(self.dim))
+        p_af = np.sum(1j*self.k[i]*F_af[i] for i in range(self.dim))
+        p_pf = np.sum(1j*self.k[i]*F_pf[i] for i in range(self.dim))
         return -(p_af + p_pf)/self.k2_press
 
-    def calc_grad_p_f(self):
+    def calc_grad_p_f(self,p_f):
         """
         Caclulates the gradient of the pressure
         Returns:
@@ -175,7 +175,7 @@ class NematicLiquidCrystal(BaseSystem):
         """
         grad_pf = []
         for i in range(self.dim):
-            grad_pf.append(1j*self.k[i]*self.p_f)
+            grad_pf.append(1j*self.k[i]*p_f)
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
@@ -213,7 +213,7 @@ class NematicLiquidCrystal(BaseSystem):
         returns:
             (numpy.narray) the non-linear evolution function evaluated in Fourier space
         """
-        self.calc_u(Q)
+        self.conf_u(Q)
         Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
         N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
         Omega =self.calc_vorticity_tensor()
