@@ -1,12 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
+from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_parula
 from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
 from matplotlib.tri import Triangulation
 import matplotlib.colors as mcolors
-
 
 class BaseSystem:
     def __init__(self, dimension,
@@ -846,12 +845,16 @@ class BaseSystem:
             if colormap is None:
                 # colormap = tool_colormap_bluewhitered()
                 cmap = plt.get_cmap('winter')
+            elif colormap == 'parula':
+                cmap = tool_colormap_parula()
             else:
                 cmap = plt.get_cmap(colormap)
 
+
+
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-            pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
+            pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=cmap)
             ax.set_aspect('equal')
 
             if clims is not None:

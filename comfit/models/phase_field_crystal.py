@@ -400,10 +400,11 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         
         k2 = self.calc_k2()
 
-        return np.array(
-            [2*self.calc_gaussfilter_f()*np.fft.fftn(
-            np.fft.ifftn((1-k2)*field_f)*np.fft.ifftn(self.dif[i]*k2*field_f)
-            ) for i in range(self.dim)])
+        return np.array([
+            -2*self.calc_gaussfilter_f()*np.fft.fftn(sum([
+                np.fft.ifftn((1-k2)*self.dif[i]*field_f)*np.fft.ifftn(self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
+                ]) + np.fft.ifftn((1-k2)*field_f)*np.fft.ifftn(self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
+                )
 
 
 
