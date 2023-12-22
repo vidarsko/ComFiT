@@ -6,6 +6,7 @@ from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
 from matplotlib.tri import Triangulation
 import matplotlib.colors as mcolors
+import scipy as sp
 
 class BaseSystem:
     def __init__(self, dimension,
@@ -310,22 +311,22 @@ class BaseSystem:
         """
         if self.dim == 2:
             if len(psi) == 2:
-                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+                psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
 
                 return 1 / (np.pi * psi0 ** 2) * np.real(
-                    np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]) -
-                    np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1]))
+                    sp.fft.ifftn(self.dif[0] * psi_f[0]) * sp.fft.ifftn(self.dif[1] * psi_f[1]) -
+                    sp.fft.ifftn(self.dif[1] * psi_f[0]) * sp.fft.ifftn(self.dif[0] * psi_f[1]))
         elif self.dim == 3:
             if len(psi) == 2:
-                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+                psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
 
                 result = [
-                    np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[2] * psi_f[1]) -
-                    np.fft.ifftn(self.dif[2] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]),
-                    -np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[2] * psi_f[1]) +
-                    np.fft.ifftn(self.dif[2] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1]),
-                    np.fft.ifftn(self.dif[0] * psi_f[0]) * np.fft.ifftn(self.dif[1] * psi_f[1]) -
-                    np.fft.ifftn(self.dif[1] * psi_f[0]) * np.fft.ifftn(self.dif[0] * psi_f[1])
+                    sp.fft.ifftn(self.dif[1] * psi_f[0]) * sp.fft.ifftn(self.dif[2] * psi_f[1]) -
+                    sp.fft.ifftn(self.dif[2] * psi_f[0]) * sp.fft.ifftn(self.dif[1] * psi_f[1]),
+                    -sp.fft.ifftn(self.dif[0] * psi_f[0]) * sp.fft.ifftn(self.dif[2] * psi_f[1]) +
+                    sp.fft.ifftn(self.dif[2] * psi_f[0]) * sp.fft.ifftn(self.dif[0] * psi_f[1]),
+                    sp.fft.ifftn(self.dif[0] * psi_f[0]) * sp.fft.ifftn(self.dif[1] * psi_f[1]) -
+                    sp.fft.ifftn(self.dif[1] * psi_f[0]) * sp.fft.ifftn(self.dif[0] * psi_f[1])
                 ]
 
                 result = [1 / (np.pi * psi0 ** 2) * np.real(field) for field in result]
@@ -351,12 +352,12 @@ class BaseSystem:
                 # Parameters to exclude region
                 threshold = 0.4
 
-                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+                psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
 
-                dx_psi0 = np.fft.ifftn(self.dif[0] * psi_f[0])
-                dy_psi1 = np.fft.ifftn(self.dif[1] * psi_f[1])
-                dx_psi1 = np.fft.ifftn(self.dif[0] * psi_f[1])
-                dy_psi0 = np.fft.ifftn(self.dif[1] * psi_f[0])
+                dx_psi0 = sp.fft.ifftn(self.dif[0] * psi_f[0])
+                dy_psi1 = sp.fft.ifftn(self.dif[1] * psi_f[1])
+                dx_psi1 = sp.fft.ifftn(self.dif[0] * psi_f[1])
+                dy_psi0 = sp.fft.ifftn(self.dif[1] * psi_f[0])
 
                 denominator = np.real(dx_psi0 * dy_psi1 - dx_psi1 * dy_psi0)
 
@@ -382,15 +383,15 @@ class BaseSystem:
                 # Parameters to exclude region
                 threshold = 0.4
 
-                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+                psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
 
-                dx_psi0 = np.fft.ifftn(self.dif[0] * psi_f[0])
-                dy_psi0 = np.fft.ifftn(self.dif[1] * psi_f[0])
-                dz_psi0 = np.fft.ifftn(self.dif[2] * psi_f[0])
+                dx_psi0 = sp.fft.ifftn(self.dif[0] * psi_f[0])
+                dy_psi0 = sp.fft.ifftn(self.dif[1] * psi_f[0])
+                dz_psi0 = sp.fft.ifftn(self.dif[2] * psi_f[0])
 
-                dx_psi1 = np.fft.ifftn(self.dif[0] * psi_f[1])
-                dy_psi1 = np.fft.ifftn(self.dif[1] * psi_f[1])
-                dz_psi1 = np.fft.ifftn(self.dif[2] * psi_f[1])
+                dx_psi1 = sp.fft.ifftn(self.dif[0] * psi_f[1])
+                dy_psi1 = sp.fft.ifftn(self.dif[1] * psi_f[1])
+                dz_psi1 = sp.fft.ifftn(self.dif[2] * psi_f[1])
 
 
                 denominator = 2 * (dx_psi1 ** 2 * (dy_psi0 ** 2 + dz_psi0 ** 2) + (
@@ -439,12 +440,12 @@ class BaseSystem:
         """
         if self.dim == 2:
             if len(psi) == 2:
-                psi_f = [np.fft.fftn(psi[0]), np.fft.fftn(psi[1])]
+                psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
 
-                dx_psi0 = np.fft.ifftn(self.dif[0] * psi_f[0])
-                dy_psi1 = np.fft.ifftn(self.dif[1] * psi_f[1])
-                dx_psi1 = np.fft.ifftn(self.dif[0] * psi_f[1])
-                dy_psi0 = np.fft.ifftn(self.dif[1] * psi_f[0])
+                dx_psi0 = sp.fft.ifftn(self.dif[0] * psi_f[0])
+                dy_psi1 = sp.fft.ifftn(self.dif[1] * psi_f[1])
+                dx_psi1 = sp.fft.ifftn(self.dif[0] * psi_f[1])
+                dy_psi0 = sp.fft.ifftn(self.dif[1] * psi_f[0])
 
                 Jx = -  np.real(dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) / (psi_0 * np.pi)
                 Jy = - np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0) / (psi_0 * np.pi)
@@ -671,11 +672,11 @@ class BaseSystem:
         N0_f = non_linear_evolution_function_f(field)
 
         a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
-        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
+        a = sp.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
         self.time = t_0 + self.dt
         N_a_f = non_linear_evolution_function_f(a)
         field_f = a_f + integrating_factors_f[2] * (N_a_f - N0_f)
-        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+        field = sp.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
 
         return field, field_f
 
@@ -699,22 +700,22 @@ class BaseSystem:
         self.time = t_0 + self.dt / 2
 
         a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
-        a = np.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
+        a = sp.fft.ifftn(a_f, axes=(range(-self.dim, 0)))
         N_a = non_linear_evolution_function_f(a)
 
         b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
-        b = np.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
+        b = sp.fft.ifftn(b_f, axes=(range(-self.dim, 0)))
         N_b = non_linear_evolution_function_f(b)
 
         self.time = t_0 + self.dt
         c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
-        c = np.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
+        c = sp.fft.ifftn(c_f, axes=(range(-self.dim, 0)))
         N_c = non_linear_evolution_function_f(c)
 
         field_f = field_f * integrating_factors_f[2] + N_0f * integrating_factors_f[3] \
                   + 2 * (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
 
-        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+        field = sp.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
 
         return field, field_f
 
@@ -722,10 +723,10 @@ class BaseSystem:
         # TODO this can eventualy be removed
         N_0 = non_linear_evolution_function_f(field)
         field_f = field_f * integrating_factors_f[0] + N_0 * integrating_factors_f[1]
-        temp = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+        temp = sp.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
         N_1 = non_linear_evolution_function_f(temp) - N_0
         field_f += N_1 * integrating_factors_f[2]
-        field = np.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
+        field = sp.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
         return field, field_f
 
     # PLOTTING FUNCTIONS

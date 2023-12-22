@@ -2,6 +2,7 @@ import numpy as np
 from comfit.core.base_system import BaseSystem
 from tqdm import tqdm
 from scipy.optimize import fsolve
+import scipy as sp
 
 
 class PhaseFieldCrystal(BaseSystem):
@@ -50,7 +51,7 @@ class PhaseFieldCrystal(BaseSystem):
                 self.psi += 2 * eta[n] * np.exp(1j * (self.q[n][0] * self.x + self.q[n][1] * self.y + self.q[n][2] * self.z))
 
         self.psi = np.real(self.psi)
-        self.psi_f = np.fft.fftn(self.psi)
+        self.psi_f = sp.fft.fftn(self.psi)
 
     # EVOLUTION FUNCTIONS
     def evolve_PFC(self, number_of_steps, method='ETD2RK'):
@@ -66,7 +67,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         # These steps seem to be necessary for numerical stability (Vidar 18.12.23)
         self.psi = np.real(self.psi)
-        self.psi_f = np.fft.fftn(self.psi)
+        self.psi_f = sp.fft.fftn(self.psi)
 
     def evolve_PFC_hydrodynamic(self, number_of_steps, 
                                 method = 'ETD2RK',
@@ -98,7 +99,7 @@ class PhaseFieldCrystal(BaseSystem):
                                           self.psi, self.psi_f)
             
         self.psi = np.real(self.psi)
-        self.psi_f = np.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
+        self.psi_f = sp.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
 
 
     # CALCULATION FUNCTIONS
@@ -139,19 +140,19 @@ class PhaseFieldCrystal(BaseSystem):
 
     def calc_nonlinear_hydrodynamic_evolution_function_f(self, field):
 
-        field_f = np.fft.fftn(field, axes =( range ( - self . dim , 0) ))
+        field_f = sp.fft.fftn(field, axes =( range ( - self . dim , 0) ))
 
         k2 = self.calc_k2()
 
-        N0_f = -k2*np.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
-            - np.fft.fftn(sum([field[i+1]*np.fft.ifftn(self.dif[i]*field_f[0]) for i in range(self.dim)]))
+        N0_f = -k2*sp.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
+            - sp.fft.fftn(sum([field[i+1]*sp.fft.ifftn(self.dif[i]*field_f[0]) for i in range(self.dim)]))
         
         force_density_f = self.calc_stress_divergence_f(field_f[0])
 
         return np.array([N0_f] + [1/self.rho0*force_density_f[i] for i in range(self.dim)])
 
     def calc_nonlinear_evolution_function_f(self, psi):
-        return -self.calc_k2()*np.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+        return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
 
     # Initial configuration methods
     def calc_amplitudes_with_dislocation(self, eta=None, x=None, y=None, dislocation_type=1):
@@ -401,9 +402,9 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         k2 = self.calc_k2()
 
         return np.array([
-            -2*self.calc_gaussfilter_f()*np.fft.fftn(sum([
-                np.fft.ifftn((1-k2)*self.dif[i]*field_f)*np.fft.ifftn(self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
-                ]) + np.fft.ifftn((1-k2)*field_f)*np.fft.ifftn(self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
+            -2*self.calc_gaussfilter_f()*sp.fft.fftn(sum([
+                sp.fft.ifftn((1-k2)*self.dif[i]*field_f)*sp.fft.ifftn(self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
+                ]) + sp.fft.ifftn((1-k2)*field_f)*sp.fft.ifftn(self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
                 )
 
 

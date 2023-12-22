@@ -40,7 +40,7 @@ for n in range(round(T/Delta_t)):
     plt.title(f't={(n+1)*Delta_t}')
     plt.draw()
     plt.pause(0.01)
-f
+
 
 
 # plt.savefig(f'nx={pfc.nx}, ny={pfc.ny}, dt={dt}, T={Delta_t}, rho0=2^{np.log2(pfc.rho0)}, gamma_S=2^{np.log2(pfc.gamma_S)}.png')
