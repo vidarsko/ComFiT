@@ -182,7 +182,7 @@ class BaseSystem:
         theta = np.zeros(self.dims)
         theta += self.calc_angle_field_single_vortex(dipole_position - np.array(dipole_vector) / 2,
                                                             charge=-1)
-        theta += theta + self.calc_angle_field_single_vortex(dipole_position + np.array(dipole_vector) / 2, 
+        theta += self.calc_angle_field_single_vortex(dipole_position + np.array(dipole_vector) / 2, 
                                                             charge=1)
 
         # Convert the field to a complex field to make it fit the periodic boundary conditions
@@ -653,123 +653,92 @@ class BaseSystem:
 
     def calc_defect_nodes(self, defect_density):
         """
-        Calculate the positions and charges of vortex nodes based on the defect density.
+        Calculate the positions and charges of defect nodes based on the defect density.
         Returns:
-            list: A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
-                  - 'position_index': The position index of the vortex node in the defect density array.
-                  - 'charge': The charge of the vortex node.
-                  - 'position': The position of the vortex node as a list [x, y].
+            list: A list of dictionaries representing the defect nodes. Each dictionary contains the following keys:
+                  - 'position_index': The position index of the defect node in the defect density array.
+                  - 'position': The position of the defect node
         """
 
-        # Calculate defect density
-        rho = self.calc_vortex_density(self.psi)
-
-        if dt_psi is not None:
-
-            velocity_field = self.calc_vortex_velocity_field(dt_psi, self.psi)
-
-        vortex_nodes = []
+        defect_nodes = []
 
         if self.dim == 2:
             # Parameters to tune to make the algorithm work
             charge_tolerance = 0.2
+            integration_radius = self.a0
 
             # Calculate the point where defect density is largest
-            rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
+            defect_density_max_index = np.unravel_index(np.argmax(np.abs(defect_density)), defect_density.shape)
 
             # Integrate the defect density around this point (i.e. in a disk around)
-            disk = self.calc_region_disk(position = [self.x.flatten()[rho_max_index[0]],self.y.flatten()[rho_max_index[1]]],
-                                         radius=1)
-            charge = self.calc_integrate_field(rho, disk)
-
-            # self.plot_field(rho)
-            # plt.show()
-
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            disk = self.calc_region_disk(position = [
+                self.x.flatten()[defect_density_max_index[0]],
+                self.y.flatten()[defect_density_max_index[1]]],
+                                         radius=integration_radius)
+            
+            charge = self.calc_integrate_field(defect_density, disk)
 
             while abs(charge) > charge_tolerance:
-                vortex = {}
-                vortex['position_index'] = rho_max_index
-                vortex['charge'] = np.sign(charge) * np.ceil(np.abs(charge))
-                x = np.sum(disk * abs(rho) * X) / np.sum(disk * abs(rho))
-                y = np.sum(disk * abs(rho) * Y) / np.sum(disk * abs(rho))
-                vortex['position'] = [x, y]
-                if dt_psi is not None:
-                    vortex['velocity'] = [velocity_field[0][rho_max_index], velocity_field[1][rho_max_index]]
-                else:
-                    vortex['velocity'] = [float('nan'), float('nan')]
+                defect_node = {}
+                defect_node['position_index'] = defect_density_max_index
+                x = np.sum(disk * abs(defect_density) * self.x) / np.sum(disk * abs(defect_density))
+                y = np.sum(disk * abs(defect_density) * self.y) / np.sum(disk * abs(defect_density))
+                defect_node['position'] = [x, y]
 
-                # Calculate the velocity
+                defect_nodes.append(defect_node)
 
-                vortex_nodes.append(vortex)
+                defect_density[disk] = 0
+                defect_density_max_index = np.unravel_index(np.argmax(np.abs(defect_density)), defect_density.shape)
 
-                rho[disk] = 0
-                rho_max_index = np.unravel_index(np.argmax(np.abs(rho)), rho.shape)
-
-                disk = self.calc_region_disk(position=[self.x.flatten()[rho_max_index[0]], self.y.flatten()[rho_max_index[1]]],
+                disk = self.calc_region_disk(position=[self.x.flatten()[defect_density_max_index[0]], self.y.flatten()[defect_density_max_index[1]]],
                                              radius=1)
-                charge = self.calc_integrate_field(rho, disk)
+                charge = self.calc_integrate_field(defect_density, disk)
 
         elif self.dim == 3:
             # Parameters to tune to make the algorithm work
             charge_tolerance = 0.5
-            integration_radius = 2
+            integration_radius = 2*self.a0
             cylinder_height = 1
 
-            rho_norm = np.sqrt(rho[0]**2+rho[1]**2+rho[2]**2)
+            defect_density_norm = np.sqrt(defect_density[0]**2+defect_density[1]**2+defect_density[2]**2)
 
             # Calculate the point where defect density is largest
-            rho_max_index = np.unravel_index(np.argmax(rho_norm), rho_norm.shape)
+            defect_density_max_index = np.unravel_index(np.argmax(defect_density_norm), defect_density_norm.shape)
             # Integrate the defect density around this point (i.e. in cylinder around)
-            tangent_vector = np.array([rho[0][rho_max_index],rho[1][rho_max_index],rho[2][rho_max_index]])
+            tangent_vector = np.array([defect_density[0][defect_density_max_index],defect_density[1][defect_density_max_index],defect_density[2][defect_density_max_index]])
             tangent_vector = tangent_vector/np.linalg.norm(tangent_vector)
-            cylinder = self.calc_region_cylinder(position=[self.x.flatten()[rho_max_index[0]], self.y.flatten()[rho_max_index[1]], self.z.flatten()[rho_max_index[2]]],
+            cylinder = self.calc_region_cylinder(position=[self.x.flatten()[defect_density_max_index[0]], self.y.flatten()[defect_density_max_index[1]], self.z.flatten()[defect_density_max_index[2]]],
                                                  radius = integration_radius,
                                                  normal_vector = tangent_vector,
                                                  height = cylinder_height)
-            charge = self.calc_integrate_field(rho_norm, cylinder)/cylinder_height
-
-            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+            charge = self.calc_integrate_field(defect_density_norm, cylinder)/cylinder_height
 
             while charge > charge_tolerance:
-                vortex = {}
-                vortex['position_index'] = rho_max_index
-                vortex['tangent_vector'] = tangent_vector
-                x = np.sum(cylinder * abs(rho_norm) * X) / np.sum(cylinder * abs(rho_norm))
-                y = np.sum(cylinder * abs(rho_norm) * Y) / np.sum(cylinder * abs(rho_norm))
-                z = np.sum(cylinder * abs(rho_norm) * Z) / np.sum(cylinder * abs(rho_norm))
+                defect_node = {}
+                defect_node['position_index'] = defect_density_max_index
+                defect_node['tangent_vector'] = tangent_vector
+                x = np.sum(cylinder * abs(defect_density_norm) * self.x) / np.sum(cylinder * abs(defect_density_norm))
+                y = np.sum(cylinder * abs(defect_density_norm) * self.y) / np.sum(cylinder * abs(defect_density_norm))
+                z = np.sum(cylinder * abs(defect_density_norm) * self.z) / np.sum(cylinder * abs(defect_density_norm))
 
-                vortex['position'] = [x, y, z]
+                defect_node['position'] = [x, y, z]
 
-                if dt_psi is not None:
-                    vortex['velocity'] = [velocity_field[0][rho_max_index],
-                                          velocity_field[1][rho_max_index],
-                                          velocity_field[2][rho_max_index]]
-                else:
-                    vortex['velocity'] = [float('nan'),
-                                          float('nan'),
-                                          float('nan')]
-                vortex_nodes.append(vortex)
+                defect_nodes.append(defect_node)
 
-                rho_norm[cylinder] = 0
+                defect_density_norm[cylinder] = 0
 
-                # self.plot_field(rho_norm)
-                # plt.draw()
-                # plt.pause(0.05)
-
-                rho_max_index = np.unravel_index(np.argmax(rho_norm), rho_norm.shape)
-                tangent_vector = np.array([rho[0][rho_max_index], rho[1][rho_max_index], rho[2][rho_max_index]])
+                defect_density_max_index = np.unravel_index(np.argmax(defect_density_norm), defect_density_norm.shape)
+                tangent_vector = np.array([defect_density[0][defect_density_max_index], defect_density[1][defect_density_max_index], defect_density[2][defect_density_max_index]])
                 tangent_vector = tangent_vector / np.linalg.norm(tangent_vector)
 
-                cylinder = self.calc_region_cylinder(position=[self.x.flatten()[rho_max_index[0]], self.y.flatten()[rho_max_index[1]],
-                                                               self.z.flatten()[rho_max_index[2]]],
+                cylinder = self.calc_region_cylinder(position=[self.x.flatten()[defect_density_max_index[0]], self.y.flatten()[defect_density_max_index[1]],
+                                                               self.z.flatten()[defect_density_max_index[2]]],
                                                      radius=integration_radius,
                                                      normal_vector = tangent_vector,
                                                      height = cylinder_height)
-                charge = self.calc_integrate_field(rho_norm, cylinder) / cylinder_height
+                charge = self.calc_integrate_field(defect_density_norm, cylinder) / cylinder_height
 
-
-        return vortex_nodes
+        return defect_nodes
 
     ## Time evolution function
     def evolve_ETD2RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f):

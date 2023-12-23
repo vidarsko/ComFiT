@@ -31,17 +31,36 @@ class TestBoseEinsteinCondensate(unittest.TestCase):
         condition = np.allclose(abs(bec.psi), 1, atol=tolerance)
         self.assertTrue(condition, "Elements in bec.psi are not approximately 1")
 
+    def test_vortex_tracker(self):
+        bec = cf.BoseEinsteinCondensate(2,xRes=31,yRes=31)
+        bec.conf_insert_vortex_dipole(
+            dipole_vector=[bec.xmax/3,0],
+            dipole_position=bec.rmid)
+        bec.evolve_relax(100)
+        Dnodes = bec.calc_vortex_nodes()
 
-    # something is wrong with this. To fix
-    # def test_vortex_tracker(self):
-    #     bec = cf.BoseEinsteinCondensate(2,xRes=31,yRes=31)
-    #     bec.conf_insert_vortex_dipole()
-    #     bec.evolve_relax(200)
-    #     bec.plot_field(abs(bec.psi))
-    #     plt.show()
-    #     Dnodes = bec.calc_vortex_nodes()
-    #     print(Dnodes)
-    #     self.assertEqual(len(Dnodes), 2)
+        self.assertEqual(len(Dnodes),2,"Dipole nodes not found")
+        xpos = [node['position'][0] for node in Dnodes]
+        ypos = [node['position'][1] for node in Dnodes]
+
+        # Sort the lists according to xpos
+        sorted_lists = sorted(zip(xpos, ypos))
+
+        # Unzip the sorted lists
+        xpos, ypos = zip(*sorted_lists)
+        
+        # Testing the position of the first node
+        self.assertAlmostEqual(xpos[0],bec.xmax/3,delta=1)
+        self.assertAlmostEqual(ypos[0],bec.ymax/2,delta=1)
+
+        # Testing the position of the second node
+        self.assertAlmostEqual(xpos[1],2*bec.xmax/3,delta=1)
+        self.assertAlmostEqual(ypos[1],bec.ymax/2,delta=1)
+
+
+
+
+
 
 
 if __name__ == '__main__':
