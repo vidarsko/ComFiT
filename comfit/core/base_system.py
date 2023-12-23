@@ -681,6 +681,7 @@ class BaseSystem:
             while abs(charge) > charge_tolerance:
                 defect_node = {}
                 defect_node['position_index'] = defect_density_max_index
+                defect_node['charge'] = np.sign(charge)
                 x = np.sum(disk * abs(defect_density) * self.x) / np.sum(disk * abs(defect_density))
                 y = np.sum(disk * abs(defect_density) * self.y) / np.sum(disk * abs(defect_density))
                 defect_node['position'] = [x, y]

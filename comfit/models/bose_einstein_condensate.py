@@ -473,7 +473,6 @@ class BoseEinsteinCondensate(BaseSystem):
 
         if self.dim == 2:
             for vortex in vortex_nodes:
-                vortex['charge'] = np.sign(rho[vortex['position_index']])
                 if dt_psi is not None:
                     vortex['velocity'] = [velocity_field[0][vortex['position_index']], 
                                         velocity_field[1][vortex['position_index']]]
@@ -481,7 +480,6 @@ class BoseEinsteinCondensate(BaseSystem):
                     vortex['velocity'] = [float('nan'), float('nan')]
         elif self.dim == 3:
             for vortex in vortex_nodes:
-                vortex['charge'] = np.sign(rho[vortex['position_index']])
                 if dt_psi is not None:
                     vortex['velocity'] = [velocity_field[0][vortex['position_index']], 
                                         velocity_field[1][vortex['position_index']], 
