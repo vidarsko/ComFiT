@@ -5,7 +5,7 @@ import os
 # Adjust the path to import the comfit package
 sys.path.append(os.path.abspath('../'))
 import comfit as cf
-
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -81,7 +81,8 @@ class TestPhaseFieldCrystal(unittest.TestCase):
         pfc.conf_PFC_from_amplitudes(eta)
         pfc.evolve_PFC(100)
         eta = pfc.calc_demodulate_PFC()
-        #Runs
+        pfc.plot_field(np.abs(eta[1]))
+        # plt.show()
     
 
     def test_phase_field_crystal_2d_square_initial_amplitudes(self):
@@ -200,3 +201,4 @@ class TestPhaseFieldCrystal(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    

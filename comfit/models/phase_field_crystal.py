@@ -270,6 +270,8 @@ class PhaseFieldCrystal(BaseSystem):
                 eta[n] = sp.fft.ifftn(gaussfilter_f*sp.fft.fftn(self.psi*np.exp(
                     -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y - 1j*self.q[n][2]*self.z  
                     )))
+                
+        return eta
 
     def calc_dislocation_density(self, eta = None):
 
