@@ -72,6 +72,18 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 except Exception as e:
                     self.fail(f"PFC Triangular amplitude calculation failed with {p}: {e}")
 
+    def test_phase_field_crystal_2d_triangular_demodulation(self):
+        pfc = cf.PhaseFieldCrystal2DTriangular(21, 14)
+        eta = pfc.calc_amplitudes_with_dislocation_dipole(
+            dislocation_type=1,
+            x1=pfc.xmax/3,   y1=pfc.ymax/2,
+            x2=2*pfc.xmax/3, y2=pfc.ymax/2)
+        pfc.conf_PFC_from_amplitudes(eta)
+        pfc.evolve_PFC(100)
+        eta = pfc.calc_demodulate_PFC()
+        #Runs
+    
+
     def test_phase_field_crystal_2d_square_initial_amplitudes(self):
 
         params = [

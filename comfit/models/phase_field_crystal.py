@@ -39,7 +39,7 @@ class PhaseFieldCrystal(BaseSystem):
         # elif self.dim == 3:
         #     X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-        for n in range(self.number_of_reciprocal_modes):
+        for n in range(self.number_of_reciprocal_lattice_modes):
 
             if self.dim == 1:
                 self.psi += 2 * eta[n] * np.exp(1j * self.q[n][0] * self.x)
@@ -168,7 +168,7 @@ class PhaseFieldCrystal(BaseSystem):
             eta = self.eta0
 
         sn = self.dislocation_charges[dislocation_type - 1]
-        for n in range(self.number_of_reciprocal_modes):
+        for n in range(self.number_of_reciprocal_lattice_modes):
             if sn[n] != 0:
                 eta[n] *= np.exp(1j * self.calc_angle_field_single_vortex([x, y], charge=sn[n]))
 
@@ -213,7 +213,7 @@ class PhaseFieldCrystal(BaseSystem):
 
 
 
-        for n in range(self.number_of_reciprocal_modes):
+        for n in range(self.number_of_reciprocal_lattice_modes):
             if sn[n] != 0:
                 eta[n] *= np.exp(1j * sn[n] * theta)
 
@@ -249,11 +249,115 @@ class PhaseFieldCrystal(BaseSystem):
             position=position,
             normal_vector=normal_vector)
 
-        for n in range(self.number_of_reciprocal_modes):
+        for n in range(self.number_of_reciprocal_lattice_modes):
             if sn[n] != 0:
                 eta[n] *= np.exp(1j * sn[n] * theta)
 
         return eta
+    
+    def calc_demodulate_PFC(self):
+        eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims)
+
+        gaussfilter_f = self.calc_gaussfilter_f()
+
+        if self.dim == 2:
+                for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                    eta[n] = sp.fft.ifftn(gaussfilter_f*sp.fft.fftn(self.psi*np.exp(
+                        -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y)))
+
+        elif self.dim == 3:
+            for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                eta[n] = sp.fft.ifftn(gaussfilter_f*sp.fft.fftn(self.psi*np.exp(
+                    -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y - 1j*self.q[n][2]*self.z  
+                    )))
+
+    def calc_dislocation_density(self, eta = None):
+
+        if eta is None:
+            eta = self.calc_demodulate_PFC()
+
+        if self.dim == 2:
+            alpha = np.zeros([2] + self.dims)
+
+            for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                D = self.calc_defect_density([np.real(eta[n]), np.imag(eta[n])],
+                                             psi0=self.A)
+                alpha[0] += D*self.q[n,0]
+                alpha[1] += D*self.q[n,1]
+
+        elif self.dim == 3:
+            alpha = np.zeros([3,3] + self.dims)
+
+            for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                D = self.calc_defect_density([np.real(eta[n]), np.imag(eta[n])],
+                                             psi0=self.A)
+                for i in range(3):
+                    alpha[i,0] += D[i]*self.q[n,0]
+                    alpha[i,1] += D[i]*self.q[n,1]
+                    alpha[i,2] += D[i]*self.q[n,2]
+
+        return alpha
+
+    def calc_dislocation_nodes(self):
+        alpha = self.calc_dislocation_density()
+
+        if self.dim == 2:
+            dislocation_nodes = self.calc_defect_nodes(np.sqrt(alpha[0]**2 + alpha[1]**2))
+            
+            for dislocation_node in dislocation_nodes:
+                Burgers_vector = np.array([
+                    alpha[0][dislocation_node['index']], 
+                    alpha[1][dislocation_node['index']]
+                    ])
+                
+                # Find the Burgers vector 
+                biggest_overlap = 0
+                for a in self.a:
+                    for sign in [-1, 1]:
+                        overlap = np.dot(Burgers_vector, sign*a)
+                        if overlap > biggest_overlap:
+                            dislocation_node['Burgers_vector'] = sign*a
+                
+        elif self.dim == 3:
+            dislocation_nodes = self.calc_defect_nodes(
+                np.sqrt(
+                      alpha[0][0]**2 + alpha[0][1]**2 + alpha[0][2]**2 \
+                    + alpha[1][0]**2 + alpha[1][1]**2 + alpha[1][2]**2 \
+                    + alpha[2][0]**2 + alpha[2][1]**2 + alpha[2][2]**2
+                )
+            )
+
+            for dislocation_node in dislocation_nodes:
+                alpha_tensor = np.array([
+                    alpha[0][0][dislocation_node['index']], alpha[0][1][dislocation_node['index']], alpha[0][2][dislocation_node['index']],
+                    alpha[1][0][dislocation_node['index']], alpha[1][1][dislocation_node['index']], alpha[1][2][dislocation_node['index']],
+                    alpha[2][0][dislocation_node['index']], alpha[2][1][dislocation_node['index']], alpha[2][2][dislocation_node['index']]
+                ])
+
+                U, S, V = np.linalg.svd(alpha_tensor)
+                tangent_vector = U[0,:]
+                Burgers_vector = V[:,0]
+
+                # Find the Burgers vector 
+                biggest_overlap = 0
+                tangent_vector_sign = np.nan
+                for a in self.a:
+                    for sign in [-1, 1]:
+                        overlap = np.dot(Burgers_vector, sign*a)
+                        if overlap > biggest_overlap:
+                            dislocation_node['Burgers_vector'] = a
+                            tangent_vector_sign = sign
+
+                dislocation_node['tangent_vector'] = tangent_vector_sign*tangent_vector
+
+        return dislocation_nodes
+
+                
+
+
+
+
+
 
     # PLOTTING FUNCTIONS
 
@@ -287,8 +391,8 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.q = np.array([[1]])
 
         # Set the number of reciprocal modes
-        self.number_of_reciprocal_modes = 1
-        self.number_of_principal_reciprocal_modes = 1
+        self.number_of_reciprocal_lattice_modes = 1
+        self.number_of_primary_reciprocal_lattice_modes = 1
 
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
@@ -356,8 +460,8 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         self.q = np.array([[np.sqrt(3) / 2, -1 / 2], [0, 1], [-np.sqrt(3) / 2, -1 / 2]])
 
         # Set the number of reciprocal modes
-        self.number_of_reciprocal_modes = 3
-        self.number_of_principal_reciprocal_modes = 3
+        self.number_of_reciprocal_lattice_modes = 3
+        self.number_of_primary_reciprocal_lattice_modes = 3
 
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
@@ -441,8 +545,8 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.q = np.array([[1, 0], [0, 1], [1, -1], [1, 1]])
 
         # Set the number of reciprocal modes
-        self.number_of_reciprocal_modes = 4
-        self.number_of_principal_reciprocal_modes = 2
+        self.number_of_reciprocal_lattice_modes = 4
+        self.number_of_primary_reciprocal_lattice_modes = 2
 
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
@@ -540,8 +644,8 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
                            [-1, 1, 0]]) / np.sqrt(2)
 
         # Set the number of reciprocal modes
-        self.number_of_reciprocal_modes = 6
-        self.number_of_principal_reciprocal_modes = 6
+        self.number_of_reciprocal_lattice_modes = 6
+        self.number_of_primary_reciprocal_lattice_modes = 6
 
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
@@ -625,8 +729,8 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
                            [0, 0, 2]]) / np.sqrt(3)
 
         # Set the number of reciprocal modes
-        self.number_of_reciprocal_modes = 7
-        self.number_of_principal_reciprocal_modes = 4
+        self.number_of_reciprocal_lattice_modes = 7
+        self.number_of_primary_reciprocal_lattice_modes = 4
 
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
@@ -730,8 +834,8 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
                            [1, 1, 1]])
 
         # Set the number of reciprocal modes
-        self.number_of_reciprocal_modes = 13
-        self.number_of_principal_reciprocal_modes = 3
+        self.number_of_reciprocal_lattice_modes = 13
+        self.number_of_primary_reciprocal_lattice_modes = 3
 
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]

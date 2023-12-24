@@ -654,90 +654,91 @@ class BaseSystem:
     def calc_defect_nodes(self, defect_density):
         """
         Calculate the positions and charges of defect nodes based on the defect density.
+        Input:
+            defect_density (numpy.ndarray): The defect density field. A positive scalar field to be integrated.
         Returns:
             list: A list of dictionaries representing the defect nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the defect node in the defect density array.
                   - 'position': The position of the defect node
         """
 
+        if not (defect_density>=0).all():
+            raise Exception("Defect density must be a positive real scalar field.")
+
         defect_nodes = []
 
         if self.dim == 2:
-            # Parameters to tune to make the algorithm work
             charge_tolerance = 0.2
             integration_radius = self.a0
-
-            # Calculate the point where defect density is largest
-            defect_density_max_index = np.unravel_index(np.argmax(np.abs(defect_density)), defect_density.shape)
-
-            # Integrate the defect density around this point (i.e. in a disk around)
-            disk = self.calc_region_disk(position = [
-                self.x.flatten()[defect_density_max_index[0]],
-                self.y.flatten()[defect_density_max_index[1]]],
-                                         radius=integration_radius)
             
-            charge = self.calc_integrate_field(defect_density, disk)
+            #Auxiliary functions
+            def calc_region(defect_density_max_index,radius):
+                return self.calc_region_disk(position=[
+                    self.x.flatten()[defect_density_max_index[0]],
+                    self.y.flatten()[defect_density_max_index[1]]], 
+                    radius=radius)
 
-            while abs(charge) > charge_tolerance:
-                defect_node = {}
-                defect_node['position_index'] = defect_density_max_index
-                defect_node['charge'] = np.sign(charge)
-                x = np.sum(disk * abs(defect_density) * self.x) / np.sum(disk * abs(defect_density))
-                y = np.sum(disk * abs(defect_density) * self.y) / np.sum(disk * abs(defect_density))
-                defect_node['position'] = [x, y]
-
-                defect_nodes.append(defect_node)
-
-                defect_density[disk] = 0
-                defect_density_max_index = np.unravel_index(np.argmax(np.abs(defect_density)), defect_density.shape)
-
-                disk = self.calc_region_disk(position=[self.x.flatten()[defect_density_max_index[0]], self.y.flatten()[defect_density_max_index[1]]],
-                                             radius=1)
-                charge = self.calc_integrate_field(defect_density, disk)
+            def calc_position_from_region(defect_density,region_to_integrate):
+                x = np.sum(region_to_integrate * defect_density * self.x) / np.sum(region_to_integrate * defect_density)
+                y = np.sum(region_to_integrate * defect_density * self.y) / np.sum(region_to_integrate * defect_density)
+                return [x,y]
 
         elif self.dim == 3:
-            # Parameters to tune to make the algorithm work
             charge_tolerance = 0.5
             integration_radius = 2*self.a0
-            cylinder_height = 1
 
-            defect_density_norm = np.sqrt(defect_density[0]**2+defect_density[1]**2+defect_density[2]**2)
+            #Auxiliary functions
+            def calc_region(defect_density_max_index,radius):
+                return self.calc_region_ball(position=[
+                        self.x.flatten()[defect_density_max_index[0]],
+                        self.y.flatten()[defect_density_max_index[1]],
+                        self.z.flatten()[defect_density_max_index[2]]], 
+                        radius=radius)
+            
+            def calc_position_from_region(defect_density,region_to_integrate):
+                x = np.sum(region_to_integrate * defect_density * self.x) / np.sum(region_to_integrate * defect_density)
+                y = np.sum(region_to_integrate * defect_density * self.y) / np.sum(region_to_integrate * defect_density)
+                z = np.sum(region_to_integrate * defect_density * self.z) / np.sum(region_to_integrate * defect_density)
+                return [x,y,z]
 
-            # Calculate the point where defect density is largest
-            defect_density_max_index = np.unravel_index(np.argmax(defect_density_norm), defect_density_norm.shape)
-            # Integrate the defect density around this point (i.e. in cylinder around)
-            tangent_vector = np.array([defect_density[0][defect_density_max_index],defect_density[1][defect_density_max_index],defect_density[2][defect_density_max_index]])
-            tangent_vector = tangent_vector/np.linalg.norm(tangent_vector)
-            cylinder = self.calc_region_cylinder(position=[self.x.flatten()[defect_density_max_index[0]], self.y.flatten()[defect_density_max_index[1]], self.z.flatten()[defect_density_max_index[2]]],
-                                                 radius = integration_radius,
-                                                 normal_vector = tangent_vector,
-                                                 height = cylinder_height)
-            charge = self.calc_integrate_field(defect_density_norm, cylinder)/cylinder_height
+        #Region to search for defect nodes
+        region_to_search = np.ones(self.dims)
 
-            while charge > charge_tolerance:
-                defect_node = {}
-                defect_node['position_index'] = defect_density_max_index
-                defect_node['tangent_vector'] = tangent_vector
-                x = np.sum(cylinder * abs(defect_density_norm) * self.x) / np.sum(cylinder * abs(defect_density_norm))
-                y = np.sum(cylinder * abs(defect_density_norm) * self.y) / np.sum(cylinder * abs(defect_density_norm))
-                z = np.sum(cylinder * abs(defect_density_norm) * self.z) / np.sum(cylinder * abs(defect_density_norm))
+        # Calculate the point where defect density is largest
+        defect_density_max_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
 
-                defect_node['position'] = [x, y, z]
+        # Integrate the defect density around this point (i.e. in a disk/ball around)
+        region_to_integrate = calc_region(defect_density_max_index,
+                                        radius=integration_radius)
+        
+        region_to_exclude_from_search = calc_region(defect_density_max_index,
+                                        radius=2*integration_radius)
+        
+        region_to_search[region_to_exclude_from_search] = 0
+        
+        charge = self.calc_integrate_field(defect_density, region_to_integrate)
 
-                defect_nodes.append(defect_node)
+        while charge > charge_tolerance:
+            defect_node = {}
+            defect_node['position_index'] = defect_density_max_index
 
-                defect_density_norm[cylinder] = 0
+            defect_node['position'] = calc_position_from_region(defect_density,region_to_integrate)
 
-                defect_density_max_index = np.unravel_index(np.argmax(defect_density_norm), defect_density_norm.shape)
-                tangent_vector = np.array([defect_density[0][defect_density_max_index], defect_density[1][defect_density_max_index], defect_density[2][defect_density_max_index]])
-                tangent_vector = tangent_vector / np.linalg.norm(tangent_vector)
+            defect_nodes.append(defect_node)
 
-                cylinder = self.calc_region_cylinder(position=[self.x.flatten()[defect_density_max_index[0]], self.y.flatten()[defect_density_max_index[1]],
-                                                               self.z.flatten()[defect_density_max_index[2]]],
-                                                     radius=integration_radius,
-                                                     normal_vector = tangent_vector,
-                                                     height = cylinder_height)
-                charge = self.calc_integrate_field(defect_density_norm, cylinder) / cylinder_height
+            defect_density[region_to_integrate] = 0
+
+            defect_density_max_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
+
+            region_to_integrate = calc_region(defect_density_max_index,
+                                        radius=integration_radius)
+            
+            region_to_exclude_from_search = calc_region(defect_density_max_index,
+                                        radius=2*integration_radius)
+            
+            region_to_search[region_to_exclude_from_search] = 0
+            
+            charge = self.calc_integrate_field(defect_density, region_to_integrate)
 
         return defect_nodes
 
