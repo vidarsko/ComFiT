@@ -325,13 +325,13 @@ class PhaseFieldCrystal(BaseSystem):
                 for a in self.a:
                     for sign in [-1, 1]:
                         overlap = np.dot(Burgers_vector, sign*a)
-                        print("Burgers vector",Burgers_vector)
-                        print("a-vector",a*sign)
-                        print("overlap",overlap)
-                        print("biggest overlap", biggest_overlap)
+                        # print("Burgers vector",Burgers_vector)
+                        # print("a-vector",a*sign)
+                        # print("overlap",overlap)
+                        # print("biggest overlap", biggest_overlap)
                         
                         if overlap > biggest_overlap:
-                            print("tjobing")
+                            # print("tjobing")
                             biggest_overlap = overlap
                             dislocation_node['Burgers_vector'] = sign*a
                 
