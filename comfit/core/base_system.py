@@ -307,24 +307,25 @@ class BaseSystem:
 
         return np.exp(-1 / 2 * a0 ** 2 * self.calc_k2())
 
-    def calc_defect_density(self, psi, psi0=1):
+    def calc_determinant_field(self, psi):
         """
-        Calculate the defect density of a given psi field.
+        Calculate the determinant transformation of a given field
 
         Parameters:
             psi (list): A list of two psi fields.
-            psi0 (float, optional): The value of psi_0. Defaults to 1.
 
         Returns:
             float: The defect density of the psi field.
         """
+        
         if self.dim == 2:
             if len(psi) == 2:
                 psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
 
-                return 1 / (np.pi * psi0 ** 2) * np.real(
+                return np.real(
                     sp.fft.ifftn(self.dif[0] * psi_f[0]) * sp.fft.ifftn(self.dif[1] * psi_f[1]) -
                     sp.fft.ifftn(self.dif[1] * psi_f[0]) * sp.fft.ifftn(self.dif[0] * psi_f[1]))
+            
         elif self.dim == 3:
             if len(psi) == 2:
                 psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
@@ -338,9 +339,21 @@ class BaseSystem:
                     sp.fft.ifftn(self.dif[1] * psi_f[0]) * sp.fft.ifftn(self.dif[0] * psi_f[1])
                 ]
 
-                result = [1 / (np.pi * psi0 ** 2) * np.real(field) for field in result]
+                return np.array(result)
 
-                return result
+    def calc_defect_density(self, psi, psi0=1):
+        """
+        Calculate the defect density of a given psi field.
+
+        Parameters:
+            psi (list): A list of two psi fields.
+            psi0 (float, optional): The value of psi_0. Defaults to 1.
+
+        Returns:
+            float: The defect density of the psi field.
+        """
+
+        return 1 / (np.pi * psi0 ** 2) * self.calc_determinant_field(self, psi)
 
     def calc_defect_density_singular(self, psi, psi0=1):
         """
@@ -651,7 +664,9 @@ class BaseSystem:
 
         return integrating_factors_f
 
-    def calc_defect_nodes(self, defect_density):
+    def calc_defect_nodes(self, defect_density,
+                          charge_tolerance=None,
+                          integration_radius=None):
         """
         Calculate the positions and charges of defect nodes based on the defect density.
         Input:
@@ -668,8 +683,10 @@ class BaseSystem:
         defect_nodes = []
 
         if self.dim == 2:
-            charge_tolerance = 0.2
-            integration_radius = self.a0
+            if charge_tolerance is None:
+                charge_tolerance = 0.2
+            if integration_radius is None:
+                integration_radius = self.a0
             
             #Auxiliary functions
             def calc_region(defect_density_max_index,radius):
@@ -725,6 +742,10 @@ class BaseSystem:
             defect_node['position'] = calc_position_from_region(defect_density,region_to_integrate)
 
             defect_nodes.append(defect_node)
+
+            # print("charge:", charge)
+            # self.plot_field(defect_density)
+            # plt.show()
 
             defect_density[region_to_integrate] = 0
 
@@ -905,7 +926,7 @@ class BaseSystem:
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
                    clims = None,
-                   number_of_layers=1, hold=False, cmap_symmetric=True, layer_values=None):
+                   number_of_layers=1, hold=False, cmap_symmetric=None, layer_values=None):
         """
         Plots the given field.
         Parameters:
@@ -944,14 +965,23 @@ class BaseSystem:
                 ax = plt.gca()
 
             if colormap is None:
-                # colormap = tool_colormap_bluewhitered()
-                cmap = plt.get_cmap('winter')
+                cmap = plt.get_cmap('viridis')
+
+            elif colormap == 'bluewhitered':
+                cmap = tool_colormap_bluewhitered()
+                # Set symmetric if not specified otherwise
+                if cmap_symmetric is None:
+                    print("Setting the colormap to be symmetric with use of bluewhitered since not otherwiese specified.")
+                    cmap_symmetric = True
+
             elif colormap == 'parula':
                 cmap = tool_colormap_parula()
+
             else:
                 cmap = plt.get_cmap(colormap)
 
-
+            if cmap_symmetric is None:
+                cmap_symmetric = False
 
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 

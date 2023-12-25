@@ -3,6 +3,7 @@ from comfit.core.base_system import BaseSystem
 from tqdm import tqdm
 from scipy.optimize import fsolve
 import scipy as sp
+import matplotlib.pyplot as plt
 
 
 class PhaseFieldCrystal(BaseSystem):
@@ -256,7 +257,8 @@ class PhaseFieldCrystal(BaseSystem):
         return eta
     
     def calc_demodulate_PFC(self):
-        eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims)
+        eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
+                       dtype=complex)
 
         gaussfilter_f = self.calc_gaussfilter_f()
 
@@ -282,8 +284,7 @@ class PhaseFieldCrystal(BaseSystem):
             alpha = np.zeros([2] + self.dims)
 
             for n in range(self.number_of_primary_reciprocal_lattice_modes):
-                D = self.calc_defect_density([np.real(eta[n]), np.imag(eta[n])],
-                                             psi0=self.A)
+                D = self.calc_determinant_field([np.real(eta[n]), np.imag(eta[n])])
                 alpha[0] += D*self.q[n,0]
                 alpha[1] += D*self.q[n,1]
 
@@ -291,33 +292,47 @@ class PhaseFieldCrystal(BaseSystem):
             alpha = np.zeros([3,3] + self.dims)
 
             for n in range(self.number_of_primary_reciprocal_lattice_modes):
-                D = self.calc_defect_density([np.real(eta[n]), np.imag(eta[n])],
-                                             psi0=self.A)
+                D = self.calc_determinant_field([np.real(eta[n]), np.imag(eta[n])])
                 for i in range(3):
                     alpha[i,0] += D[i]*self.q[n,0]
                     alpha[i,1] += D[i]*self.q[n,1]
                     alpha[i,2] += D[i]*self.q[n,2]
 
+        alpha = 2*self.dim/(self.number_of_primary_reciprocal_lattice_modes*self.A**2)*alpha
+
         return alpha
+        
 
     def calc_dislocation_nodes(self):
         alpha = self.calc_dislocation_density()
 
         if self.dim == 2:
-            dislocation_nodes = self.calc_defect_nodes(np.sqrt(alpha[0]**2 + alpha[1]**2))
+            # self.plot_field(np.sqrt(alpha[0]**2 + alpha[1]**2))
+            # plt.show()
+            dislocation_nodes = self.calc_defect_nodes(np.sqrt(alpha[0]**2 + alpha[1]**2),
+                                                       charge_tolerance=0.2*self.a0)
             
             for dislocation_node in dislocation_nodes:
                 Burgers_vector = np.array([
-                    alpha[0][dislocation_node['index']], 
-                    alpha[1][dislocation_node['index']]
+                    alpha[0][dislocation_node['position_index']], 
+                    alpha[1][dislocation_node['position_index']]
                     ])
+                
+                # print("Burgers vector:", Burgers_vector)
                 
                 # Find the Burgers vector 
                 biggest_overlap = 0
                 for a in self.a:
                     for sign in [-1, 1]:
                         overlap = np.dot(Burgers_vector, sign*a)
+                        print("Burgers vector",Burgers_vector)
+                        print("a-vector",a*sign)
+                        print("overlap",overlap)
+                        print("biggest overlap", biggest_overlap)
+                        
                         if overlap > biggest_overlap:
+                            print("tjobing")
+                            biggest_overlap = overlap
                             dislocation_node['Burgers_vector'] = sign*a
                 
         elif self.dim == 3:
@@ -331,9 +346,9 @@ class PhaseFieldCrystal(BaseSystem):
 
             for dislocation_node in dislocation_nodes:
                 alpha_tensor = np.array([
-                    alpha[0][0][dislocation_node['index']], alpha[0][1][dislocation_node['index']], alpha[0][2][dislocation_node['index']],
-                    alpha[1][0][dislocation_node['index']], alpha[1][1][dislocation_node['index']], alpha[1][2][dislocation_node['index']],
-                    alpha[2][0][dislocation_node['index']], alpha[2][1][dislocation_node['index']], alpha[2][2][dislocation_node['index']]
+                    alpha[0][0][dislocation_node['position_index']], alpha[0][1][dislocation_node['position_index']], alpha[0][2][dislocation_node['position_index']],
+                    alpha[1][0][dislocation_node['position_index']], alpha[1][1][dislocation_node['position_index']], alpha[1][2][dislocation_node['position_index']],
+                    alpha[2][0][dislocation_node['position_index']], alpha[2][1][dislocation_node['position_index']], alpha[2][2][dislocation_node['position_index']]
                 ])
 
                 U, S, V = np.linalg.svd(alpha_tensor)
@@ -354,14 +369,111 @@ class PhaseFieldCrystal(BaseSystem):
 
         return dislocation_nodes
 
-                
-
-
-
-
-
-
     # PLOTTING FUNCTIONS
+    def plot_dislocation_nodes(self, dislocation_nodes, ax=None):
+
+        if self.dim == 2:
+
+            if ax == None:
+                ax = plt.gcf().add_subplot(111)
+
+            x_coords = []
+            y_coords = []
+
+            # vx_coords = []
+            # vy_coords = []
+
+            Bx_coords = []
+            By_coords = []
+
+            for dislocation in dislocation_nodes:
+
+                x_coords.append(dislocation['position'][0])
+                y_coords.append(dislocation['position'][1])
+                # vx_coords.append(vortex['velocity'][0])
+                # vy_coords.append(vortex['velocity'][1])
+                Bx_coords.append(dislocation['Burgers_vector'][0])
+                By_coords.append(dislocation['Burgers_vector'][1])
+
+
+            # print(x_coords_pos,y_coords_pos)
+            # print(x_coords_neg,y_coords_neg)
+            ax.scatter(x_coords/self.a0, y_coords/self.a0, marker='o', color='black')
+
+            # ax.quiver(x_coords, y_coords, vx_coords, vy_coords, color='black')
+            ax.quiver(x_coords/self.a0, y_coords/self.a0, Bx_coords, By_coords, color='red')
+            
+            ax.set_aspect('equal')
+            ax.set_facecolor('none')
+
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+
+            ax.set_xlim([0, (self.xmax-self.dx)/self.a0])
+            ax.set_ylim([0, (self.ymax-self.dy)/self.a0])
+
+        elif self.dim == 3:
+            # Plotting options
+            quiver_scale = 2 # The scale of the quiver arrows
+
+            if ax == None:
+                ax = plt.gcf().add_subplot(111, projection='3d')
+               # ax = plt.gca()
+
+            x_coords = []
+            y_coords = []
+            z_coords = []
+
+            tx = []
+            ty = []
+            tz = []
+
+            vx = []
+            vy = []
+            vz = []
+
+
+            for vortex in vortex_nodes:
+                x_coords.append(vortex['position'][0])
+                y_coords.append(vortex['position'][1])
+                z_coords.append(vortex['position'][2])
+
+                tx.append(vortex['tangent_vector'][0])
+                ty.append(vortex['tangent_vector'][1])
+                tz.append(vortex['tangent_vector'][2])
+
+                vx.append(vortex['velocity'][0])
+                vy.append(vortex['velocity'][1])
+                vz.append(vortex['velocity'][2])
+
+            tx = np.array(tx)
+            ty = np.array(ty)
+            tz = np.array(tz)
+
+            vx = np.array(vx)
+            vy = np.array(vy)
+            vz = np.array(vz)
+
+            if not len(vx) == 0:
+                v2 =vx**2 + vy**2 + vz**2
+                v_norm = np.sqrt(max(v2))
+            else:
+                v_norm = 1
+
+            #ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*tx, quiver_scale*ty, quiver_scale*tz, color='blue')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*vx/v_norm, quiver_scale*vy/v_norm, quiver_scale*vz/v_norm, color='green')
+
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_zlabel('$z/a_0$')
+
+            ax.set_xlim([0, self.xmax-self.dx])
+            ax.set_ylim([0, self.ymax-self.dy])
+            ax.set_zlim([0, self.zmax-self.dz])
+
+            ax.set_aspect('equal')
+        ax.grid(True)
 
 
 class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
