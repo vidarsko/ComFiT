@@ -48,6 +48,8 @@ class NematicLiquidCrystal(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+    #TODO: rewritte so that only Qxx and Qxy is saved
+
     # Initial condition
     def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
