@@ -88,6 +88,14 @@ class NematicLiquidCrystal(BaseSystem):
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
 
     def conf_active_channel(self,width,d=7):
+        """
+        Set the activity to zero everywhere exept for inside a channel of width "width"
+        Args:
+            width (float): width of the channel
+            d (float, optional): width of interface
+        returns:
+            updates the activity to the channel configuration.
+        """
         X, Y = np.meshgrid(self.x, self.y, indexing='ij')
         alpha_0 = self.alpha
         self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
