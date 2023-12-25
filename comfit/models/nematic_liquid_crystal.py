@@ -1,6 +1,7 @@
 import numpy as np
 from comfit.core.base_system import BaseSystem
 import scipy as sp
+from tqdm import tqdm
 
 class NematicLiquidCrystal(BaseSystem):
 
@@ -260,15 +261,14 @@ class NematicLiquidCrystal(BaseSystem):
             solver = self.evolve_ETD4RK_loop
         else:
             raise Exception('Mehtod is not implemented')
-        for n in range(number_of_steps):
+        for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
             self.Q, self.Q_f = solver(integrating_factors_f,
                                                        self.calc_nonlinear_evolution_function_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
 
     def evolve_nematic_no_flow(self,number_of_steps,method = 'ETD2RK'):
-        '''
-                 Evolver for the nematic system without the flow field
+        ''' Evolver for the nematic system without the flow field
                     Args:
                         number_of_steps (int) the number of time steps that we are evolving the equation
                         method (string, optional) the integration method we want to use. ETD2RK is sett as default
@@ -287,7 +287,7 @@ class NematicLiquidCrystal(BaseSystem):
         else:
             raise Exception('Mehtod is not implemented')
 
-        for n in range(number_of_steps):
+        for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
             self.Q, self.Q_f = solver(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
         self.Q = np.real(self.Q)

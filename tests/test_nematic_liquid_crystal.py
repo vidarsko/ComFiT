@@ -29,8 +29,8 @@ class TestNematicLiquidCrystal(unittest.TestCase):
         tolerance = 0.01
 
         # Check if all elements in bec.psi are approximately 1
-        condition = np.allclose(abs(nem.Q[0][0]), 1, atol=tolerance)
-        condition = np.allclose(abs(nem.Q[0][1]), 0, atol=tolerance)
+        S = np.sqrt(nem.B)/2
+        condition = np.allclose(abs(nem.Q[0][0]),S , atol=tolerance)
         self.assertTrue(condition, "Elements in nem.Q are not approximately 1")
 
 
