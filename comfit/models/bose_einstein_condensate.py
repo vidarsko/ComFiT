@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from comfit.core.base_system import BaseSystem
 from tqdm import tqdm
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
+import scipy as sp
 
 
 class BoseEinsteinCondensate(BaseSystem):
@@ -69,7 +70,7 @@ class BoseEinsteinCondensate(BaseSystem):
             raise Exception("Code for this dimension has not yet been implemented.")
 
         self.psi = noise_strength * self.psi
-        self.psi_f = np.fft.fftn(self.psi)
+        self.psi_f = sp.fft.fftn(self.psi)
 
 
     def conf_time_dependent_potential(self, Func):
@@ -93,7 +94,7 @@ class BoseEinsteinCondensate(BaseSystem):
         self.psi = np.emath.sqrt(1 - V_0)
 
         self.psi[V_0 > 1] = 0
-        self.psi_f = np.fft.fftn(self.psi)
+        self.psi_f = sp.fft.fftn(self.psi)
 
     # CONFIGURATION FUNCTIONS
     def conf_insert_vortex(self, charge=1, position=None):
@@ -115,7 +116,7 @@ class BoseEinsteinCondensate(BaseSystem):
             #  Answer: Homogeneous ground-state is now replaced by the Thomas-Fermi ground-state (Jonas 21.11.23 )
 
         self.psi = self.psi * np.exp(1j * self.calc_angle_field_single_vortex(position, charge=charge))
-        self.psi_f = np.fft.fftn(self.psi)
+        self.psi_f = sp.fft.fftn(self.psi)
 
     def conf_insert_vortex_dipole(self, dipole_vector=None, dipole_position=None):
         """
@@ -143,7 +144,7 @@ class BoseEinsteinCondensate(BaseSystem):
             dipole_position = self.rmid
 
         self.psi = self.psi * np.exp(1j * self.calc_angle_field_vortex_dipole(dipole_vector, dipole_position))
-        self.psi_f = np.fft.fftn(self.psi)
+        self.psi_f = sp.fft.fftn(self.psi)
 
     def conf_insert_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
         """
@@ -164,7 +165,7 @@ class BoseEinsteinCondensate(BaseSystem):
             self.psi = 1
 
         self.psi = self.psi * np.exp(1j * theta)
-        self.psi_f = np.fft.fftn(self.psi)
+        self.psi_f = sp.fft.fftn(self.psi)
 
     def conf_vortex_remover(self, nodes, Area):
         '''
@@ -292,7 +293,7 @@ class BoseEinsteinCondensate(BaseSystem):
             (numpy.ndarray): the non-linear evolution term
         """
         psi2 = np.abs(psi) ** 2
-        return np.fft.fftn((1j + self.gamma) * (-self.V_ext() - psi2) * psi)
+        return sp.fft.fftn((1j + self.gamma) * (-self.V_ext() - psi2) * psi)
 
     def calc_nonlinear_evolution_term_comoving_f(self, psi):
         """
@@ -304,9 +305,9 @@ class BoseEinsteinCondensate(BaseSystem):
                     (numpy.ndarray): the non-linear evolution term
                """
         psi2 = np.abs(psi) ** 2
-        term1 = np.fft.fftn(-(1j + self.gamma) * (self.V_ext() + psi2) * psi)
-        term2 = np.fft.fftn(self.gamma * psi)
-        term3 = 0.5 * np.fft.fftn(self.gamma * np.fft.ifftn(-self.calc_k2() * np.fft.fftn(psi)))
+        term1 = sp.fft.fftn(-(1j + self.gamma) * (self.V_ext() + psi2) * psi)
+        term2 = sp.fft.fftn(self.gamma * psi)
+        term3 = 0.5 * sp.fft.fftn(self.gamma * sp.fft.ifftn(-self.calc_k2() * sp.fft.fftn(psi)))
         return (term1 + term2 + term3)
 
         # Functions for callculationg properties of the BoseEinsteinCondensate
@@ -324,7 +325,7 @@ class BoseEinsteinCondensate(BaseSystem):
         else:
             raise(Exception('Calculation of the  superfluid current is not implemented in this dimension'))
         for i in range(self.dim):
-            J_s[i] = np.imag( np.conj(self.psi) * np.fft.ifftn(1j*self.k[i] *self.psi_f ))
+            J_s[i] = np.imag( np.conj(self.psi) * sp.fft.ifftn(1j*self.k[i] *self.psi_f ))
         return J_s
 
     def calc_velocity(self):
@@ -341,7 +342,7 @@ class BoseEinsteinCondensate(BaseSystem):
             raise (Exception('Calculation of the weighted velocity is not implemented in this dimension'))
         theta = np.angle(self.psi)
         for i in range(self.dim):
-            u[i] = np.imag(np.exp(-1j*theta)* np.fft.ifftn(1j * self.k[i] * self.psi_f))
+            u[i] = np.imag(np.exp(-1j*theta)* sp.fft.ifftn(1j * self.k[i] * self.psi_f))
         return u
 
     def calc_kinetic_energy(self):
@@ -364,7 +365,7 @@ class BoseEinsteinCondensate(BaseSystem):
         k2 = self.calc_k2()
         interaction_term = 1/2*np.abs(self.psi)**4
         potential_term = (self.V_ext() - 1 )* np.abs(self.psi)**2
-        laplacian_term = -1/2 *np.real( np.conj(self.psi) * np.fft.ifftn(-k2*self.psi_f))
+        laplacian_term = -1/2 *np.real( np.conj(self.psi) * sp.fft.ifftn(-k2*self.psi_f))
         return laplacian_term +potential_term + interaction_term
 
     def calc_hamiltonian(self):
@@ -423,9 +424,9 @@ class BoseEinsteinCondensate(BaseSystem):
             (numpy.ndarray) average force on the potential
         """
         Force =np.zeros(self.dim)
-        potential_f = np.fft.ifftn(self.V_ext())
+        potential_f = sp.fft.ifftn(self.V_ext())
         for i in range(self.dim):
-            Force_density = np.real(np.abs(self.psi)**2 * np.fft.ifftn(1j*self.k[i]* potential_f))
+            Force_density = np.real(np.abs(self.psi)**2 * sp.fft.ifftn(1j*self.k[i]* potential_f))
             Force[i] = self.calc_integrate_field(Force_density)
         return Force
         #TODO: It is not clear to me exactly what this function does (Vidar 04.12.23)
