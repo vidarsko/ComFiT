@@ -1,5 +1,7 @@
 import numpy as np
 from comfit.core.base_system import BaseSystem
+import scipy as sp
+from tqdm import tqdm
 
 class NematicLiquidCrystal(BaseSystem):
 
@@ -46,6 +48,8 @@ class NematicLiquidCrystal(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+    #TODO: rewritte so that only Qxx and Qxy is saved
+
     # Initial condition
     def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
@@ -64,7 +68,7 @@ class NematicLiquidCrystal(BaseSystem):
             self.Q[1][0] =  self.S0/2 *np.sin(2*theta_rand)
             self.Q[0][1] = self.S0/2 *np.sin(2*theta_rand)
 
-            self.Q_f = np.fft.fft2(self.Q)
+            self.Q_f = sp.fft.fft2(self.Q)
 
             self.k2 = self.calc_k2() # k2
             self.k2_press = self.calc_k2()
@@ -85,6 +89,19 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
 
+    def conf_active_channel(self,width,d=7):
+        """
+        Set the activity to zero everywhere exept for inside a channel of width "width"
+        Args:
+            width (float): width of the channel
+            d (float, optional): width of interface
+        returns:
+            updates the activity to the channel configuration.
+        """
+        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        alpha_0 = self.alpha
+        self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
+
 #### calculations related to the flow field
     def conf_u(self,Q):
         '''
@@ -99,7 +116,7 @@ class NematicLiquidCrystal(BaseSystem):
         grad_pf = self.calc_grad_p_f(p_f)
         self.u_f = (F_af + F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2_press)
 
-        self.u = np.real(np.fft.ifftn(self.u_f, axes=(range(-self.dim, 0))))
+        self.u = np.real(sp.fft.ifftn(self.u_f, axes=(range(-self.dim, 0))))
 
     def calc_activ_force_f(self,Q):
         '''
@@ -108,7 +125,7 @@ class NematicLiquidCrystal(BaseSystem):
         '''
         F_af = []
         for j in range(self.dim):
-            F_af.append(np.sum(1j*self.k[i]*np.fft.fftn(self.alpha *Q[j][i]) for i in range(self.dim)))
+            F_af.append(np.sum(1j*self.k[i]*sp.fft.fftn(self.alpha *Q[j][i]) for i in range(self.dim)))
         return np.array(F_af)
 
     def calc_passive_force_f(self,Q):
@@ -135,15 +152,12 @@ class NematicLiquidCrystal(BaseSystem):
         for i in range(self.dim):
             for j in range(self.dim):
                 Antisym_QH[i][j] = np.sum(Q[i][k]*H[k][j] -H[i][k]*Q[k][j] for k in range(self.dim))
-                Ericksen[i][j] = - self.K*np.sum(np.fft.ifftn(1j*self.k[i]*np.fft.fftn(Q[m][l]))*
-                                          np.fft.ifftn(1j * self.k[j] * np.fft.fftn(Q[m][l]))
+                Ericksen[i][j] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[i]*sp.fft.fftn(Q[m][l]))*
+                                          sp.fft.ifftn(1j * self.k[j] * sp.fft.fftn(Q[m][l]))
                                           for m in range(self.dim) for l in range(self.dim))
-        return np.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
+        return sp.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
 
-        #TODO: Double check that Q[1][1] is the same as Q[1,1,:,:] (Vidar 16.11.23)
-        # Answer: this is tested in 231121jr_test_of_nematic_indexing.py,
-        # where I chech that they have the same shape and that the difference between the
-        # absolute values are zero (Jonas 21.11.23)
+
 
     def calc_molecular_field(self,Q):
         """
@@ -154,7 +168,7 @@ class NematicLiquidCrystal(BaseSystem):
              (numpy.ndarray): The molecular field
         """
         Q2 =  np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
-        temp = -self.K * np.fft.ifftn( self.k2* np.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
+        temp = -self.K * sp.fft.ifftn( self.k2* sp.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
 
     def calc_pressure_f(self,F_af,F_pf):
@@ -188,7 +202,7 @@ class NematicLiquidCrystal(BaseSystem):
         for i in range(self.dim):
             for j in range(self.dim):
                 Omega_f[i][j] = (1j*self.k[i]*self.u_f[j] -1j*self.k[j]*self.u_f[i])/2
-        Omega = np.fft.ifftn(Omega_f,axes=range(-self.dim,0))
+        Omega = sp.fft.ifftn(Omega_f,axes=range(-self.dim,0))
         return np.real(Omega)
 
     def calc_strain_rate_tensor_f(self):
@@ -214,7 +228,7 @@ class NematicLiquidCrystal(BaseSystem):
             (numpy.narray) the non-linear evolution function evaluated in Fourier space
         """
         self.conf_u(Q)
-        Q_f = np.fft.fftn(Q,axes=range(-self.dim,0))
+        Q_f = sp.fft.fftn(Q,axes=range(-self.dim,0))
         N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
         Omega =self.calc_vorticity_tensor()
         Antisym_Omega_Q = np.zeros_like(Q_f)
@@ -222,8 +236,8 @@ class NematicLiquidCrystal(BaseSystem):
         for i in range(self.dim):
             for j in range(self.dim):
                 Antisym_Omega_Q[i][j] = np.sum(Q[i][k]*Omega[k][j] -Omega[i][k]*Q[k][j] for k in range(self.dim))
-        advectiv_deriv = - np.sum(self.u[k]* np.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
-        return np.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
+        advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
+        return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
     def calc_nonlinear_evolution_term_no_flow_f(self,Q):
         """
@@ -235,7 +249,7 @@ class NematicLiquidCrystal(BaseSystem):
                 """
         Q2 = np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
 
-        return -2*self.A*np.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
+        return -2*self.A*sp.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
 
 
 ##### evolvers
@@ -259,15 +273,14 @@ class NematicLiquidCrystal(BaseSystem):
             solver = self.evolve_ETD4RK_loop
         else:
             raise Exception('Mehtod is not implemented')
-        for n in range(number_of_steps):
+        for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
             self.Q, self.Q_f = solver(integrating_factors_f,
                                                        self.calc_nonlinear_evolution_function_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
 
     def evolve_nematic_no_flow(self,number_of_steps,method = 'ETD2RK'):
-        '''
-                 Evolver for the nematic system without the flow field
+        ''' Evolver for the nematic system without the flow field
                     Args:
                         number_of_steps (int) the number of time steps that we are evolving the equation
                         method (string, optional) the integration method we want to use. ETD2RK is sett as default
@@ -286,7 +299,7 @@ class NematicLiquidCrystal(BaseSystem):
         else:
             raise Exception('Mehtod is not implemented')
 
-        for n in range(number_of_steps):
+        for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
             self.Q, self.Q_f = solver(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
         self.Q = np.real(self.Q)
