@@ -87,6 +87,11 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
 
+    def conf_active_channel(self,width,d=7):
+        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        alpha_0 = self.alpha
+        self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
+
 #### calculations related to the flow field
     def conf_u(self,Q):
         '''
@@ -142,10 +147,7 @@ class NematicLiquidCrystal(BaseSystem):
                                           for m in range(self.dim) for l in range(self.dim))
         return sp.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
 
-        #TODO: Double check that Q[1][1] is the same as Q[1,1,:,:] (Vidar 16.11.23)
-        # Answer: this is tested in 231121jr_test_of_nematic_indexing.py,
-        # where I chech that they have the same shape and that the difference between the
-        # absolute values are zero (Jonas 21.11.23)
+
 
     def calc_molecular_field(self,Q):
         """
