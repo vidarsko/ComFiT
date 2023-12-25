@@ -353,7 +353,7 @@ class BaseSystem:
             float: The defect density of the psi field.
         """
 
-        return 1 / (np.pi * psi0 ** 2) * self.calc_determinant_field(self, psi)
+        return 1 / (np.pi * psi0 ** 2) * self.calc_determinant_field(psi)
 
     def calc_defect_density_singular(self, psi, psi0=1):
         """
