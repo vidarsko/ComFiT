@@ -294,9 +294,9 @@ class PhaseFieldCrystal(BaseSystem):
             for n in range(self.number_of_primary_reciprocal_lattice_modes):
                 D = self.calc_determinant_field([np.real(eta[n]), np.imag(eta[n])])
                 for i in range(3):
-                    alpha[i,0] += D[i]*self.q[n,0]
-                    alpha[i,1] += D[i]*self.q[n,1]
-                    alpha[i,2] += D[i]*self.q[n,2]
+                    alpha[i][0] += D[i]*self.q[n,0]
+                    alpha[i][1] += D[i]*self.q[n,1]
+                    alpha[i][2] += D[i]*self.q[n,2]
 
         alpha = 2*self.dim/(self.number_of_primary_reciprocal_lattice_modes*self.A**2)*alpha
 
@@ -346,10 +346,11 @@ class PhaseFieldCrystal(BaseSystem):
 
             for dislocation_node in dislocation_nodes:
                 alpha_tensor = np.array([
-                    alpha[0][0][dislocation_node['position_index']], alpha[0][1][dislocation_node['position_index']], alpha[0][2][dislocation_node['position_index']],
-                    alpha[1][0][dislocation_node['position_index']], alpha[1][1][dislocation_node['position_index']], alpha[1][2][dislocation_node['position_index']],
-                    alpha[2][0][dislocation_node['position_index']], alpha[2][1][dislocation_node['position_index']], alpha[2][2][dislocation_node['position_index']]
+                    [alpha[0][0][dislocation_node['position_index']], alpha[0][1][dislocation_node['position_index']], alpha[0][2][dislocation_node['position_index']]],
+                    [alpha[1][0][dislocation_node['position_index']], alpha[1][1][dislocation_node['position_index']], alpha[1][2][dislocation_node['position_index']]],
+                    [alpha[2][0][dislocation_node['position_index']], alpha[2][1][dislocation_node['position_index']], alpha[2][2][dislocation_node['position_index']]]
                 ])
+                # print("alpha tensor", alpha_tensor)
 
                 U, S, V = np.linalg.svd(alpha_tensor)
                 tangent_vector = U[0,:]
@@ -430,41 +431,60 @@ class PhaseFieldCrystal(BaseSystem):
             ty = []
             tz = []
 
-            vx = []
-            vy = []
-            vz = []
+            # vx = []
+            # vy = []
+            # vz = []
+
+            Bx = []
+            By = []
+            Bz = []
 
 
-            for vortex in vortex_nodes:
-                x_coords.append(vortex['position'][0])
-                y_coords.append(vortex['position'][1])
-                z_coords.append(vortex['position'][2])
+            for dislocation in dislocation_nodes:
+                x_coords.append(dislocation['position'][0])
+                y_coords.append(dislocation['position'][1])
+                z_coords.append(dislocation['position'][2])
 
-                tx.append(vortex['tangent_vector'][0])
-                ty.append(vortex['tangent_vector'][1])
-                tz.append(vortex['tangent_vector'][2])
+                tx.append(dislocation['tangent_vector'][0])
+                ty.append(dislocation['tangent_vector'][1])
+                tz.append(dislocation['tangent_vector'][2])
 
-                vx.append(vortex['velocity'][0])
-                vy.append(vortex['velocity'][1])
-                vz.append(vortex['velocity'][2])
+                # vx.append(dislocation['velocity'][0])
+                # vy.append(dislocation['velocity'][1])
+                # vz.append(dislocation['velocity'][2])
+
+                Bx.append(dislocation['Burgers_vector'][0])
+                By.append(dislocation['Burgers_vector'][1])
+                Bz.append(dislocation['Burgers_vector'][2])
 
             tx = np.array(tx)
             ty = np.array(ty)
             tz = np.array(tz)
 
-            vx = np.array(vx)
-            vy = np.array(vy)
-            vz = np.array(vz)
+            # vx = np.array(vx)
+            # vy = np.array(vy)
+            # vz = np.array(vz)
 
-            if not len(vx) == 0:
-                v2 =vx**2 + vy**2 + vz**2
-                v_norm = np.sqrt(max(v2))
+            Bx = np.array(Bx)
+            By = np.array(By)
+            Bz = np.array(Bz)
+
+            # if not len(vx) == 0:
+            #     v2 =vx**2 + vy**2 + vz**2
+            #     v_norm = np.sqrt(max(v2))
+            # else:
+            #     v_norm = 1
+
+            if not len(Bx) == 0:
+                B2 =Bx**2 + By**2 + Bz**2
+                B_norm = np.sqrt(max(B2))
             else:
-                v_norm = 1
+                B_norm = 1
 
             #ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
             ax.quiver(x_coords, y_coords, z_coords, quiver_scale*tx, quiver_scale*ty, quiver_scale*tz, color='blue')
-            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*vx/v_norm, quiver_scale*vy/v_norm, quiver_scale*vz/v_norm, color='green')
+            # ax.quiver(x_coords, y_coords, z_coords, quiver_scale*vx/v_norm, quiver_scale*vy/v_norm, quiver_scale*vz/v_norm, color='green')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*Bx/B_norm, quiver_scale*By/B_norm, quiver_scale*Bz/B_norm, color='red')
 
             ax.set_xlabel('$x/a_0$')
             ax.set_ylabel('$y/a_0$')

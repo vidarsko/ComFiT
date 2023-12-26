@@ -330,14 +330,15 @@ class BaseSystem:
             if len(psi) == 2:
                 psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
 
-                result = [
+                result = np.array([
                     sp.fft.ifftn(self.dif[1] * psi_f[0]) * sp.fft.ifftn(self.dif[2] * psi_f[1]) -
                     sp.fft.ifftn(self.dif[2] * psi_f[0]) * sp.fft.ifftn(self.dif[1] * psi_f[1]),
                     -sp.fft.ifftn(self.dif[0] * psi_f[0]) * sp.fft.ifftn(self.dif[2] * psi_f[1]) +
                     sp.fft.ifftn(self.dif[2] * psi_f[0]) * sp.fft.ifftn(self.dif[0] * psi_f[1]),
                     sp.fft.ifftn(self.dif[0] * psi_f[0]) * sp.fft.ifftn(self.dif[1] * psi_f[1]) -
                     sp.fft.ifftn(self.dif[1] * psi_f[0]) * sp.fft.ifftn(self.dif[0] * psi_f[1])
-                ]
+                ], dtype='float64')
+                #TODO: verify that this is correct to specify as float64. (vidar 26.12.23)
 
                 return np.array(result)
 
@@ -701,8 +702,11 @@ class BaseSystem:
                 return [x,y]
 
         elif self.dim == 3:
-            charge_tolerance = 0.5
-            integration_radius = 2*self.a0
+            if charge_tolerance is None:
+                charge_tolerance = 0.5*self.a0**2
+                print("charge tolerance",charge_tolerance)
+            if integration_radius is None:
+                integration_radius = 2*self.a0
 
             #Auxiliary functions
             def calc_region(defect_density_max_index,radius):
@@ -743,9 +747,9 @@ class BaseSystem:
 
             defect_nodes.append(defect_node)
 
-            # print("charge:", charge)
-            # self.plot_field(defect_density)
-            # plt.show()
+            print("charge:", charge)
+            self.plot_field(defect_density)
+            plt.show()
 
             defect_density[region_to_integrate] = 0
 
