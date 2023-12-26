@@ -56,13 +56,29 @@ class NematicLiquidCrystal(BaseSystem):
         Function to axes the tensor element Q_ij of a trace less symetric matrix, which we will
         save as a vector
         Args:
-            i (int): i element
-            j (int): j element
+            i (int): row index
+            j (int): colum index
         Returns:
             (numpy.ndarray) Q_ij
         """
         if self.dim == 2:
             return (-1)**(i*j) *Q[(i+j)%2]
+
+    def get_anti_sym(self,omega,i,j):
+        """
+        Function to axes the tensor element omega_ij of an anti-symetric matrix, which we will
+                save as a scalar field in 2D and a vector field in 3D
+                Args:
+                    i (int): row index
+                    j (int): colum index
+                Returns:
+                    (numpy.ndarray) Q_ij
+                """
+        if self.dim == 2:
+            if i==j:
+                return 0
+            return (-1)**i *omega
+
 
     # Initial condition
     def conf_initial_condition_disordered(self, noise_strength=0.01):
@@ -208,18 +224,17 @@ class NematicLiquidCrystal(BaseSystem):
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
-        # TODO: Neds to be optimized
+        # TODO: Needs to be optimized
         """
         Calculates the vorticity tensor
         returns:
             (numpy.ndarray) The vorticity tensor
         """
-        Omega_f = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
-        for i in range(self.dim):
-            for j in range(self.dim):
-                Omega_f[i][j] = (1j*self.k[i]*self.u_f[j] -1j*self.k[j]*self.u_f[i])/2
-        Omega = sp.fft.ifftn(Omega_f,axes=range(-self.dim,0))
-        return np.real(Omega)
+        if self.dim == 2:
+
+            Omega_f = (1j*self.k[0]*self.u_f[1] -1j*self.k[1]*self.u_f[0])/2
+            Omega = sp.fft.ifftn(Omega_f,axes=range(-self.dim,0))
+            return np.real(Omega)
 
     def calc_strain_rate_tensor_f(self):
         """
@@ -250,9 +265,10 @@ class NematicLiquidCrystal(BaseSystem):
             Omega =self.calc_vorticity_tensor()
             Antisym_Omega_Q = np.zeros_like(Q_f)
 
-            Antisym_Omega_Q[0] = np.sum(self.get_Sym(Q,0,k)*Omega[k][0] -Omega[0][k]*self.get_Sym(Q,k,0) for k in range(self.dim))
+            Antisym_Omega_Q[0] = np.sum(self.get_Sym(Q,0,k)*self.get_anti_sym(Omega,k,0) -
+                                        self.get_anti_sym(Omega,0,k)*self.get_Sym(Q,k,0) for k in range(self.dim))
             Antisym_Omega_Q[1] = np.sum(
-                self.get_Sym(Q, 0, k) * Omega[k][1] - Omega[0][k] * self.get_Sym(Q, k, 1) for k in range(self.dim))
+                self.get_Sym(Q, 0, k) * self.get_anti_sym(Omega,k,1) - self.get_anti_sym(Omega,0,k) * self.get_Sym(Q, k, 1) for k in range(self.dim))
             advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
             return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
         else:
