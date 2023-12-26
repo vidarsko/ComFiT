@@ -94,9 +94,8 @@ class NematicLiquidCrystal(BaseSystem):
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes)
             self.Q = np.zeros((2,self.xRes,self.yRes))
             self.Q[0] = self.S0/2 *np.cos(2*theta_rand)
-        #    self.Q[1][1] = -self.S0/2 *np.cos(2*theta_rand)
             self.Q[1] =  self.S0/2 *np.sin(2*theta_rand)
-            #self.Q[0][1] = self.S0/2 *np.sin(2*theta_rand)
+
 
             self.Q_f = sp.fft.fft2(self.Q)
 
@@ -170,7 +169,7 @@ class NematicLiquidCrystal(BaseSystem):
         return F_pf
 
     def calc_passive_stress_f(self,Q):
-        ## TODO: this only woeks in two dimensions needs to be generalized
+        ## TODO: this only works in two dimensions needs to be generalized
         """
         Calculates the passive stress in fourier space
         Args:
@@ -224,7 +223,6 @@ class NematicLiquidCrystal(BaseSystem):
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
-        # TODO: Needs to be optimized
         """
         Calculates the vorticity tensor
         returns:
@@ -263,10 +261,10 @@ class NematicLiquidCrystal(BaseSystem):
             Q_f = sp.fft.fftn(Q,axes=range(-self.dim,0))
             N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
             Omega =self.calc_vorticity_tensor()
-            Antisym_Omega_Q = np.zeros_like(Q_f)
+            Antisym_Omega_Q = np.zeros_like(Q_f) 
 
-            Antisym_Omega_Q[0] = np.sum(self.get_Sym(Q,0,k)*self.get_anti_sym(Omega,k,0) -
-                                        self.get_anti_sym(Omega,0,k)*self.get_Sym(Q,k,0) for k in range(self.dim))
+           # Antisym_Omega_Q[0] = np.sum(self.get_Sym(Q,0,k)*self.get_anti_sym(Omega,k,0) -
+           #                             self.get_anti_sym(Omega,0,k)*self.get_Sym(Q,k,0) for k in range(self.dim))
             Antisym_Omega_Q[1] = np.sum(
                 self.get_Sym(Q, 0, k) * self.get_anti_sym(Omega,k,1) - self.get_anti_sym(Omega,0,k) * self.get_Sym(Q, k, 1) for k in range(self.dim))
             advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
