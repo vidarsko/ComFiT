@@ -1,3 +1,4 @@
+import numpy
 import numpy as np
 from comfit.core.base_system import BaseSystem
 import scipy as sp
@@ -49,10 +50,11 @@ class NematicLiquidCrystal(BaseSystem):
             setattr(self, key, value)
 
     #TODO: rewritte so that only Qxx and Qxy is saved
-    ### get and set functions
+    ### defining a get function
     def get_Sym(self,Q,i,j):
         """
-        Function to axes the tensor element Q_ij
+        Function to axes the tensor element Q_ij of a trace less symetric matrix, which we will
+        save as a vector
         Args:
             i (int): i element
             j (int): j element
@@ -74,7 +76,7 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             self.S0 = np.sqrt(self.B)
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes)
-            self.Q = np.zeros((self.dim,self.xRes,self.yRes))
+            self.Q = np.zeros((2,self.xRes,self.yRes))
             self.Q[0] = self.S0/2 *np.cos(2*theta_rand)
         #    self.Q[1][1] = -self.S0/2 *np.cos(2*theta_rand)
             self.Q[1] =  self.S0/2 *np.sin(2*theta_rand)
@@ -137,7 +139,7 @@ class NematicLiquidCrystal(BaseSystem):
         '''
         F_af = []
         for j in range(self.dim):
-            F_af.append(np.sum(1j*self.k[i]*sp.fft.fftn(self.alpha *Q[j][i]) for i in range(self.dim)))
+            F_af.append(np.sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_Sym(Q,j,i)) for i in range(self.dim)))
         return np.array(F_af)
 
     def calc_passive_force_f(self,Q):
@@ -152,6 +154,7 @@ class NematicLiquidCrystal(BaseSystem):
         return F_pf
 
     def calc_passive_stress_f(self,Q):
+        ## TODO: this only woeks in two dimensions needs to be generalized
         """
         Calculates the passive stress in fourier space
         Args:
@@ -159,13 +162,13 @@ class NematicLiquidCrystal(BaseSystem):
         return: (numpy.narray) the passive stress in fourier space
         """
         H = self.calc_molecular_field(Q)
-        Antisym_QH = np.zeros_like(self.Q_f)
-        Ericksen = np.zeros_like(self.Q_f)
+        Antisym_QH = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
+        Ericksen = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
         for i in range(self.dim):
             for j in range(self.dim):
-                Antisym_QH[i][j] = np.sum(Q[i][k]*H[k][j] -H[i][k]*Q[k][j] for k in range(self.dim))
-                Ericksen[i][j] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[i]*sp.fft.fftn(Q[m][l]))*
-                                          sp.fft.ifftn(1j * self.k[j] * sp.fft.fftn(Q[m][l]))
+                Antisym_QH[i][j] = np.sum(self.get_Sym(Q,i,k)*self.get_Sym(H,k,j) -self.get_Sym(H,i,k)*self.get_Sym(Q,k,j) for k in range(self.dim))
+                Ericksen[i][j] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[i]*sp.fft.fftn(self.get_Sym(Q,m,l)))*
+                                          sp.fft.ifftn(1j * self.k[j] * sp.fft.fftn(self.get_Sym(Q,m,l)))
                                           for m in range(self.dim) for l in range(self.dim))
         return sp.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
 
@@ -179,7 +182,7 @@ class NematicLiquidCrystal(BaseSystem):
         Returns:
              (numpy.ndarray): The molecular field
         """
-        Q2 =  np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
+        Q2 =  np.sum(self.get_Sym(Q,i,j)*self.get_Sym(Q,j,i) for j in range(self.dim) for i in range(self.dim))
         temp = -self.K * sp.fft.ifftn( self.k2* sp.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
 
@@ -205,12 +208,13 @@ class NematicLiquidCrystal(BaseSystem):
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
+        # TODO: Neds to be optimized
         """
         Calculates the vorticity tensor
         returns:
             (numpy.ndarray) The vorticity tensor
         """
-        Omega_f = np.zeros_like(self.Q_f)
+        Omega_f = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
         for i in range(self.dim):
             for j in range(self.dim):
                 Omega_f[i][j] = (1j*self.k[i]*self.u_f[j] -1j*self.k[j]*self.u_f[i])/2
@@ -239,17 +243,20 @@ class NematicLiquidCrystal(BaseSystem):
         returns:
             (numpy.narray) the non-linear evolution function evaluated in Fourier space
         """
-        self.conf_u(Q)
-        Q_f = sp.fft.fftn(Q,axes=range(-self.dim,0))
-        N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
-        Omega =self.calc_vorticity_tensor()
-        Antisym_Omega_Q = np.zeros_like(Q_f)
+        if self.dim == 2:
+            self.conf_u(Q)
+            Q_f = sp.fft.fftn(Q,axes=range(-self.dim,0))
+            N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
+            Omega =self.calc_vorticity_tensor()
+            Antisym_Omega_Q = np.zeros_like(Q_f)
 
-        for i in range(self.dim):
-            for j in range(self.dim):
-                Antisym_Omega_Q[i][j] = np.sum(Q[i][k]*Omega[k][j] -Omega[i][k]*Q[k][j] for k in range(self.dim))
-        advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
-        return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
+            Antisym_Omega_Q[0] = np.sum(self.get_Sym(Q,0,k)*Omega[k][0] -Omega[0][k]*self.get_Sym(Q,k,0) for k in range(self.dim))
+            Antisym_Omega_Q[1] = np.sum(
+                self.get_Sym(Q, 0, k) * Omega[k][1] - Omega[0][k] * self.get_Sym(Q, k, 1) for k in range(self.dim))
+            advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
+            return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
+        else:
+            raise Exception("This dimension is not implemented at the moment")
 
     def calc_nonlinear_evolution_term_no_flow_f(self,Q):
         """
@@ -259,7 +266,7 @@ class NematicLiquidCrystal(BaseSystem):
                 returns:
                     (numpy.narray) the non-linear evolution function evaluated in Fourier space
                 """
-        Q2 = np.sum(Q[i][j]*Q[j][i] for j in range(self.dim) for i in range(self.dim))
+        Q2 = np.sum(self.get_Sym(Q,i,j)*self.get_Sym(Q,j,i) for j in range(self.dim) for i in range(self.dim))
 
         return -2*self.A*sp.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
 
@@ -324,8 +331,11 @@ class NematicLiquidCrystal(BaseSystem):
         return:
             (numpy.narray) The defect density
         """
-        psi0 = np.sqrt(self.B)/2
-        psi =[self.Q[0][0],self.Q[0][1]]
+        if self.dim == 2:
+            psi0 = np.sqrt(self.B)/2
+            psi =[self.Q[0],self.Q[1]]
+        else:
+            raise Exception("Not implemented")
         return self.calc_defect_density(psi,psi0)
 
     def calc_director(self):
@@ -335,6 +345,6 @@ class NematicLiquidCrystal(BaseSystem):
             (numpy.narray) the director field
         """
         if self.dim == 2:
-            psi_n = self.Q[0][0] + 1j*self.Q[0][1]
+            psi_n = self.Q[0] + 1j*self.Q[1]
             angle = np.angle(psi_n)
             return [np.cos(angle/2),np.sin(angle/2)]
