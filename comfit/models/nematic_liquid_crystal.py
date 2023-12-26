@@ -176,16 +176,22 @@ class NematicLiquidCrystal(BaseSystem):
             Q (numpy.narray) the order parameter that we use to find the stress.
         return: (numpy.narray) the passive stress in fourier space
         """
-        H = self.calc_molecular_field(Q)
-        Antisym_QH = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
-        Ericksen = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
-        for i in range(self.dim):
-            for j in range(self.dim):
-                Antisym_QH[i][j] = np.sum(self.get_Sym(Q,i,k)*self.get_Sym(H,k,j) -self.get_Sym(H,i,k)*self.get_Sym(Q,k,j) for k in range(self.dim))
-                Ericksen[i][j] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[i]*sp.fft.fftn(self.get_Sym(Q,m,l)))*
-                                          sp.fft.ifftn(1j * self.k[j] * sp.fft.fftn(self.get_Sym(Q,m,l)))
-                                          for m in range(self.dim) for l in range(self.dim))
-        return sp.fft.fftn(Ericksen +Antisym_QH, axes=(range(-self.dim, 0)) )
+        if self.dim == 2:
+            H = self.calc_molecular_field(Q)
+            Antisym_QH = np.sum(self.get_Sym(Q,0,k)*self.get_Sym(H,k,1) -self.get_Sym(H,0,k)*self.get_Sym(Q,k,1) for k in range(self.dim))
+            Ericksen = np.zeros((self.dim,self.xRes,self.yRes),dtype=np.complex128)
+            Ericksen[0] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_Sym(Q,m,l)))*
+                                              sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_Sym(Q,m,l)))
+                                              for m in range(self.dim) for l in range(self.dim))
+            Ericksen[1] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_Sym(Q,m,l)))*
+                                              sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_Sym(Q,m,l)))
+                                              for m in range(self.dim) for l in range(self.dim))
+
+            stress = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
+            for i in range(self.dim):
+                for j in range(self.dim):
+                    stress[i][j] = self.get_Sym(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
+            return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
 
 
@@ -261,7 +267,7 @@ class NematicLiquidCrystal(BaseSystem):
             Q_f = sp.fft.fftn(Q,axes=range(-self.dim,0))
             N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
             Omega =self.calc_vorticity_tensor()
-            Antisym_Omega_Q = np.zeros_like(Q_f) 
+            Antisym_Omega_Q = np.zeros_like(Q_f)
 
            # Antisym_Omega_Q[0] = np.sum(self.get_Sym(Q,0,k)*self.get_anti_sym(Omega,k,0) -
            #                             self.get_anti_sym(Omega,0,k)*self.get_Sym(Q,k,0) for k in range(self.dim))
@@ -306,7 +312,7 @@ class NematicLiquidCrystal(BaseSystem):
             solver = self.evolve_ETD4RK_loop
         else:
             raise Exception('Mehtod is not implemented')
-        for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
+        for n in tqdm(range(number_of_steps), desc='evolving the active nematic'):
             self.Q, self.Q_f = solver(integrating_factors_f,
                                                        self.calc_nonlinear_evolution_function_f,
                                                        self.Q, self.Q_f)
@@ -332,7 +338,7 @@ class NematicLiquidCrystal(BaseSystem):
         else:
             raise Exception('Mehtod is not implemented')
 
-        for n in tqdm(range(number_of_steps), desc='evolving the dGPE'):
+        for n in tqdm(range(number_of_steps), desc='evolving the active nematic'):
             self.Q, self.Q_f = solver(integrating_factors_f,self.calc_nonlinear_evolution_term_no_flow_f,
                                                            self.Q, self.Q_f)
         self.Q = np.real(self.Q)
