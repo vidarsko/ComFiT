@@ -49,6 +49,18 @@ class NematicLiquidCrystal(BaseSystem):
             setattr(self, key, value)
 
     #TODO: rewritte so that only Qxx and Qxy is saved
+    ### get and set functions
+    def get_Sym(self,Q,i,j):
+        """
+        Function to axes the tensor element Q_ij
+        Args:
+            i (int): i element
+            j (int): j element
+        Returns:
+            (numpy.ndarray) Q_ij
+        """
+        if self.dim == 2:
+            return (-1)**(i*j) *Q[(i+j)%2]
 
     # Initial condition
     def conf_initial_condition_disordered(self, noise_strength=0.01):
@@ -62,11 +74,11 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             self.S0 = np.sqrt(self.B)
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes)
-            self.Q = np.zeros((self.dim,self.dim,self.xRes,self.yRes))
-            self.Q[0][0] = self.S0/2 *np.cos(2*theta_rand)
-            self.Q[1][1] = -self.S0/2 *np.cos(2*theta_rand)
-            self.Q[1][0] =  self.S0/2 *np.sin(2*theta_rand)
-            self.Q[0][1] = self.S0/2 *np.sin(2*theta_rand)
+            self.Q = np.zeros((self.dim,self.xRes,self.yRes))
+            self.Q[0] = self.S0/2 *np.cos(2*theta_rand)
+        #    self.Q[1][1] = -self.S0/2 *np.cos(2*theta_rand)
+            self.Q[1] =  self.S0/2 *np.sin(2*theta_rand)
+            #self.Q[0][1] = self.S0/2 *np.sin(2*theta_rand)
 
             self.Q_f = sp.fft.fft2(self.Q)
 
@@ -87,7 +99,7 @@ class NematicLiquidCrystal(BaseSystem):
             (numpy.narray) S
         '''
         if self.dim == 2:
-            return 2*np.sqrt((self.Q[0][0])**2 +(self.Q[0][1])**2)
+            return 2*np.sqrt((self.Q[0])**2 +(self.Q[1])**2)
 
     def conf_active_channel(self,width,d=7):
         """
