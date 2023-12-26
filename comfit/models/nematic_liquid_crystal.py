@@ -49,7 +49,7 @@ class NematicLiquidCrystal(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-    #TODO: rewritte so that only Qxx and Qxy is saved
+    #TODO: Generalize to 3D
     ### defining a get function
     def get_Sym(self,Q,i,j):
         """
