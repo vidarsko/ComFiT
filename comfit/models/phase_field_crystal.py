@@ -395,6 +395,8 @@ class PhaseFieldCrystal(BaseSystem):
                 Bx_coords.append(dislocation['Burgers_vector'][0])
                 By_coords.append(dislocation['Burgers_vector'][1])
 
+            x_coords = np.array(x_coords)
+            y_coords = np.array(y_coords)
 
             # print(x_coords_pos,y_coords_pos)
             # print(x_coords_neg,y_coords_neg)

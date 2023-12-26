@@ -36,6 +36,8 @@ class TestPhaseFieldCrystal(unittest.TestCase):
 
     # Add similar test methods for other subclasses like PhaseFieldCrystal2DTriangular, etc.
 
+    ## 2D triangular tests
+
     def test_phase_field_crystal_2d_triangular_evolve_PFC_with_dislocation_dipole(self):
         """Test PhaseFieldCrystal2DTriangular calc_amplitudes_with_dislocation_dipole."""
         pfc = cf.PhaseFieldCrystal2DTriangular(21, 14)
@@ -72,7 +74,7 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 except Exception as e:
                     self.fail(f"PFC Triangular amplitude calculation failed with {p}: {e}")
 
-    def test_phase_field_crystal_2d_identify_dislocations(self):
+    def test_phase_field_crystal_2d_triangular_identify_dislocations(self):
         
         # Positions of the dislocations
 
@@ -110,8 +112,7 @@ class TestPhaseFieldCrystal(unittest.TestCase):
             except Exception as e:
                 self.fail(f"PFC Triangular dislocation identification failed with dislocation type {dislocation_type}: {e}")
 
-        
-    
+    ## 2D square tests
 
     def test_phase_field_crystal_2d_square_initial_amplitudes(self):
 
@@ -141,6 +142,45 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 except Exception as e:
                     self.fail(f"PFC Square amplitude calculation failed with {p}: {e}")
 
+    def test_phase_field_crystal_2d_square_identify_dislocations(self):
+        
+        # Positions of the dislocations
+
+        for dislocation_type in [1,2]:
+            try:
+                # Initialize PFC
+                pfc = cf.PhaseFieldCrystal2DSquare(21, 21)
+                x1=pfc.xmax/3 
+                y1=pfc.ymax/2
+                x2=2*pfc.xmax/3
+                y2=pfc.ymax/2
+
+                eta = pfc.calc_amplitudes_with_dislocation_dipole(
+                    dislocation_type=1,
+                    x1=x1, y1=y1,
+                    x2=x2, y2=y2)
+                pfc.conf_PFC_from_amplitudes(eta)
+                pfc.evolve_PFC(100)
+                dislocation_nodes = pfc.calc_dislocation_nodes()
+
+                # Check if there are two dislocations
+                self.assertEqual(len(dislocation_nodes),2)
+                
+                # Check if the dislocations are correct
+                for dislocation in dislocation_nodes:
+                    self.assertEqual(np.linalg.norm(dislocation['Burgers_vector']), pfc.a0)
+                    if (dislocation['Burgers_vector'] == -pfc.a[dislocation_type-1]).all():
+                        self.assertAlmostEqual(dislocation['position'][0],x1,delta=pfc.a0)
+                        self.assertAlmostEqual(dislocation['position'][1],y1,delta=pfc.a0)
+
+                    elif (dislocation['Burgers_vector'] == pfc.a[dislocation_type-1]).all():
+                        self.assertAlmostEqual(dislocation['position'][0],x2,delta=pfc.a0)
+                        self.assertAlmostEqual(dislocation['position'][1],y2,delta=pfc.a0)
+
+            except Exception as e:
+                self.fail(f"PFC Square dislocation identification failed with dislocation type {dislocation_type}: {e}")
+
+
     def test_phase_field_crystal_3d_body_centered_cubic_initial_amplitudes(self):
 
         params = [
@@ -163,6 +203,9 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                     self.assertAlmostEqual(pfc.A, A, places=5)
                 except Exception as e:
                     self.fail(f"PFC BCC amplitude calculation failed with {p}: {e}")
+
+    
+
 
     def test_phase_field_crystal_3d_face_centered_cubic_initial_amplitudes(self):
 
