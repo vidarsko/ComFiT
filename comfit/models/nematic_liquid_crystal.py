@@ -386,6 +386,10 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("Not implemented")
         return self.calc_defect_density(psi,psi0)
 
+    def calc_dt_psi(self,Q_prev,delta_t):
+        dt_Q = (self.Q -Q_prev)/delta_t
+        return dt_Q[0] + 1j*dt_Q[1]
+
     def calc_director(self):
         """
         Finds the director field
