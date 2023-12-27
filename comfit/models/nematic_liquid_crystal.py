@@ -169,7 +169,6 @@ class NematicLiquidCrystal(BaseSystem):
         return F_pf
 
     def calc_passive_stress_f(self,Q):
-        ## TODO: this only works in two dimensions needs to be generalized
         """
         Calculates the passive stress in fourier space
         Args:
