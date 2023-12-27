@@ -414,7 +414,7 @@ class NematicLiquidCrystal(BaseSystem):
         ey = np.real(sp.fft.ifftn(1j * self.k[0] * self.Q_f[1] - 1j * self.k[1] * self.Q_f[0]))
         return np.array([ex,ey])
 
-    def calc_vortex_nodes_nem(self, dt_psi=None,polarization = None):
+    def calc_vortex_nodes_nem(self, dt_Q=None,polarization = None):
         """
         Calculate the positions and charges of vortex nodes based on the defect density.
         Returns:
@@ -430,7 +430,8 @@ class NematicLiquidCrystal(BaseSystem):
             psi = self.Q[0] + 1j*self.Q[1]
             rho = self.calc_defect_density_nematic()
 
-            if dt_psi is not None:
+            if dt_Q is not None:
+                dt_psi = dt_Q[0] + 1j*dt_Q[1]
                 velocity_field = self.calc_vortex_velocity_field(dt_psi, psi)
 
 

@@ -12,13 +12,13 @@ nem.evolve_nematic_no_flow(10)
 Q_prev = np.copy(nem.Q)
 nem.evolve_nematic(10,"ETD4RK")
 
-dt_psi = nem.calc_dt_psi(Q_prev,10*nem.dt)
+dt_Q = (nem.Q -Q_prev)/(10*nem.dt)
 
 polarization = nem.calc_defect_polarization_field()
 D = nem.calc_defect_density_nematic()
 director =nem.calc_director()
 
-Dnodes =nem.calc_vortex_nodes_nem(dt_psi,polarization)
+Dnodes =nem.calc_vortex_nodes_nem(dt_Q,polarization)
 ax= nem.plot_field_velocity_and_director(D,nem.u,director)
 nem.plot_vortex_nodes(Dnodes,ax)
 
