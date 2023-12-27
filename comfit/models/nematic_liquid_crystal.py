@@ -409,7 +409,12 @@ class NematicLiquidCrystal(BaseSystem):
             return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
                                                    [np.real(dt_psi), np.imag(dt_psi)])
 
-    def calc_vortex_nodes_nem(self, dt_psi=None):
+    def calc_defect_polarization_field(self):
+        ex = np.real(sp.fft.ifftn(1j*self.k[0]*self.Q_f[0] + 1j*self.k[1]*self.Q_f[1]))
+        ey = np.real(sp.fft.ifftn(1j * self.k[0] * self.Q_f[1] - 1j * self.k[1] * self.Q_f[0]))
+        return np.array([ex,ey])
+
+    def calc_vortex_nodes_nem(self, dt_psi=None,polarization = None):
         """
         Calculate the positions and charges of vortex nodes based on the defect density.
         Returns:
@@ -432,11 +437,18 @@ class NematicLiquidCrystal(BaseSystem):
             vortex_nodes = self.calc_defect_nodes(np.abs(rho))
             for vortex in vortex_nodes:
                 vortex['charge'] = np.sign(rho[vortex['position_index']])
+
                 if dt_psi is not None:
                     vortex['velocity'] = [velocity_field[0][vortex['position_index']],
                                           velocity_field[1][vortex['position_index']]]
                 else:
                     vortex['velocity'] = [float('nan'), float('nan')]
+
+                if vortex['charge'] >0 and polarization is not None:
+                    vortex['polarization'] = [polarization[0][vortex['position_index']]
+                        ,polarization[1][vortex['position_index']]]
+                else:
+                    vortex['polarization'] = [float('nan'), float('nan')]
 
 
         return vortex_nodes
@@ -457,8 +469,14 @@ class NematicLiquidCrystal(BaseSystem):
             vx_coords_pos = []
             vy_coords_pos = []
 
+
             vx_coords_neg = []
             vy_coords_neg = []
+
+            px_coords_pos = []
+            py_coords_pos = []
+
+
 
             for vortex in vortex_nodes:
 
@@ -467,11 +485,14 @@ class NematicLiquidCrystal(BaseSystem):
                     y_coords_pos.append(vortex['position'][1])
                     vx_coords_pos.append(vortex['velocity'][0])
                     vy_coords_pos.append(vortex['velocity'][1])
+                    px_coords_pos.append(vortex['polarization'][0])
+                    py_coords_pos.append(vortex['polarization'][1])
                 else:
                     x_coords_neg.append(vortex['position'][0])
                     y_coords_neg.append(vortex['position'][1])
                     vx_coords_neg.append(vortex['velocity'][0])
                     vy_coords_neg.append(vortex['velocity'][1])
+
 
             # print(x_coords_pos,y_coords_pos)
             # print(x_coords_neg,y_coords_neg)
@@ -479,6 +500,7 @@ class NematicLiquidCrystal(BaseSystem):
             ax.scatter(x_coords_neg, y_coords_neg, marker='*', color='blue')
             ax.quiver(x_coords_pos, y_coords_pos, vx_coords_pos, vy_coords_pos, color='black')
             ax.quiver(x_coords_neg, y_coords_neg, vx_coords_neg, vy_coords_neg, color='black')
+            ax.quiver(x_coords_pos, y_coords_pos, px_coords_pos, py_coords_pos, color='red')
             ax.set_aspect('equal')
             ax.set_facecolor('none')
 
