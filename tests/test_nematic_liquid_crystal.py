@@ -30,7 +30,22 @@ class TestNematicLiquidCrystal(unittest.TestCase):
 
         # Check if all elements in bec.psi are approximately 1
         S = np.sqrt(nem.B)/2
-        condition = np.allclose(abs(nem.Q[0][0]),S , atol=tolerance)
+        condition = np.allclose(abs(nem.Q[0]),S , atol=tolerance)
+        self.assertTrue(condition, "Elements in nem.Q are not approximately 1")
+
+
+    def test_nematic_evolver_with_defect_dipole(self):
+        """Test the enm.evolve_nematic_no_flow"""
+        nem = cf.NematicLiquidCrystal(2, xRes=21, yRes=14)
+        nem.conf_initial_condition_disordered()
+        nem.evolve_nematic_no_flow(300)
+
+        # Set the tolerance for approximation
+        tolerance = 0.01
+
+        # Check if all elements in bec.psi are approximately 1
+        S = np.sqrt(nem.B) / 2
+        condition = np.allclose(abs(nem.Q[0]), S, atol=tolerance)
         self.assertTrue(condition, "Elements in nem.Q are not approximately 1")
 
 
