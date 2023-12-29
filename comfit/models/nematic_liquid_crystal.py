@@ -439,7 +439,7 @@ class NematicLiquidCrystal(BaseSystem):
             for vortex in vortex_nodes:
                 vortex['charge'] = np.sign(rho[vortex['position_index']])
 
-                if dt_psi is not None:
+                if dt_Q is not None:
                     vortex['velocity'] = [velocity_field[0][vortex['position_index']],
                                           velocity_field[1][vortex['position_index']]]
                 else:
