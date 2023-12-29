@@ -704,7 +704,7 @@ class BaseSystem:
         elif self.dim == 3:
             if charge_tolerance is None:
                 charge_tolerance = 0.5*self.a0**2
-                print("charge tolerance",charge_tolerance)
+                # print("charge tolerance",charge_tolerance)
             if integration_radius is None:
                 integration_radius = 2*self.a0
 
@@ -747,9 +747,9 @@ class BaseSystem:
 
             defect_nodes.append(defect_node)
 
-            print("charge:", charge)
-            self.plot_field(defect_density)
-            plt.show()
+            # print("charge:", charge)
+            # self.plot_field(defect_density)
+            # plt.show()
 
             defect_density[region_to_integrate] = 0
 

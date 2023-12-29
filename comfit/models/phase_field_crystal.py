@@ -4,6 +4,7 @@ from tqdm import tqdm
 from scipy.optimize import fsolve
 import scipy as sp
 import matplotlib.pyplot as plt
+from pprint import pprint
 
 
 class PhaseFieldCrystal(BaseSystem):
@@ -350,19 +351,33 @@ class PhaseFieldCrystal(BaseSystem):
                     [alpha[1][0][dislocation_node['position_index']], alpha[1][1][dislocation_node['position_index']], alpha[1][2][dislocation_node['position_index']]],
                     [alpha[2][0][dislocation_node['position_index']], alpha[2][1][dislocation_node['position_index']], alpha[2][2][dislocation_node['position_index']]]
                 ])
-                # print("alpha tensor", alpha_tensor)
+                # print("alpha-tensor:",alpha_tensor)
 
                 U, S, V = np.linalg.svd(alpha_tensor)
-                tangent_vector = U[0,:]
-                Burgers_vector = V[:,0]
+                tangent_vector = U[:,0]
+                Burgers_vector = V[0,:]
+
+                # print("U:",U)
+                # print("S:",S)   
+                # print("V:",V)
+
+                # print("tangent vector:", tangent_vector)
+                # print("Burgers vector:", Burgers_vector)
 
                 # Find the Burgers vector 
                 biggest_overlap = 0
                 tangent_vector_sign = np.nan
+                # print("Finding new Burgers vector...")
                 for a in self.a:
                     for sign in [-1, 1]:
+                        # print("Burgers vector",Burgers_vector)
+                        # print("a-vector",a*sign)
+                        # print("overlap",np.dot(Burgers_vector,sign*a))
                         overlap = np.dot(Burgers_vector, sign*a)
                         if overlap > biggest_overlap:
+                            biggest_overlap = overlap
+                            # print("New biggest overlap", overlap)
+                            # print("Setting new BUrgers vector",a)
                             dislocation_node['Burgers_vector'] = a
                             tangent_vector_sign = sign
 
