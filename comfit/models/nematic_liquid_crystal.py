@@ -3,6 +3,7 @@ import numpy as np
 from comfit.core.base_system import BaseSystem
 import scipy as sp
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 class NematicLiquidCrystal(BaseSystem):
 
@@ -106,7 +107,35 @@ class NematicLiquidCrystal(BaseSystem):
         else:
             raise Exception("not included at the moment")
 
+    def conf_insert_vortex_dipole(self, dipole_vector=None, dipole_position=None):
+        """
+        Sets the initial condition for a vortex dipole configuration in a 2-dimensional system.
 
+        Parameters:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            Exception: If the dimension of the system is not 2.
+        """
+        if not (self.dim == 2):
+            raise Exception("The dimension of the system must be 2 for a vortex dipole configuration.")
+
+        if self.Q is None:
+            self.conf_initial_condition_disordered(noise_strength=0)
+
+        if dipole_vector is None:
+            dipole_vector = [self.xmax / 3, 0]
+
+        if dipole_position is None:
+            dipole_position = self.rmid
+
+        psi = self.Q[0] * np.exp(1j * self.calc_angle_field_vortex_dipole(dipole_vector, dipole_position))
+        self.Q[0] = np.real(psi)
+        self.Q[1] = np.imag(psi)
+        self.Q_f = sp.fft.fft2(self.Q)
 
 
     def calc_S(self):
@@ -169,7 +198,6 @@ class NematicLiquidCrystal(BaseSystem):
         return F_pf
 
     def calc_passive_stress_f(self,Q):
-        ## TODO: this only works in two dimensions needs to be generalized
         """
         Calculates the passive stress in fourier space
         Args:
@@ -358,6 +386,10 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("Not implemented")
         return self.calc_defect_density(psi,psi0)
 
+    def calc_dt_psi(self,Q_prev,delta_t):
+        dt_Q = (self.Q -Q_prev)/delta_t
+        return dt_Q[0] + 1j*dt_Q[1]
+
     def calc_director(self):
         """
         Finds the director field
@@ -368,3 +400,114 @@ class NematicLiquidCrystal(BaseSystem):
             psi_n = self.Q[0] + 1j*self.Q[1]
             angle = np.angle(psi_n)
             return [np.cos(angle/2),np.sin(angle/2)]
+
+    def calc_vortex_velocity_field(self, dt_psi, psi=None):
+        if self.dim ==2:
+            if psi is None:
+                psi = self.Q[0] +1j*self.Q[1]
+
+            return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
+                                                   [np.real(dt_psi), np.imag(dt_psi)])
+
+    def calc_defect_polarization_field(self):
+        ex = np.real(sp.fft.ifftn(1j*self.k[0]*self.Q_f[0] + 1j*self.k[1]*self.Q_f[1]))
+        ey = np.real(sp.fft.ifftn(1j * self.k[0] * self.Q_f[1] - 1j * self.k[1] * self.Q_f[0]))
+        return np.array([ex,ey])
+
+    def calc_vortex_nodes_nem(self, dt_Q=None,polarization = None):
+        """
+        Calculate the positions and charges of vortex nodes based on the defect density.
+        Returns:
+            list: A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
+                  - 'position_index': The position index of the vortex node in the defect density array.
+                  - 'charge': The charge of the vortex node.
+                  - 'position': The position of the vortex node as a list [x, y].
+                  - 'velocity': The velocity of the vortex node as a list [vx, vy].
+        """
+
+        # Calculate defect density
+        if self.dim == 2:
+            psi = self.Q[0] + 1j*self.Q[1]
+            rho = self.calc_defect_density_nematic()
+
+            if dt_Q is not None:
+                dt_psi = dt_Q[0] + 1j*dt_Q[1]
+                velocity_field = self.calc_vortex_velocity_field(dt_psi, psi)
+
+
+            vortex_nodes = self.calc_defect_nodes(np.abs(rho))
+            for vortex in vortex_nodes:
+                vortex['charge'] = np.sign(rho[vortex['position_index']])
+
+                if dt_psi is not None:
+                    vortex['velocity'] = [velocity_field[0][vortex['position_index']],
+                                          velocity_field[1][vortex['position_index']]]
+                else:
+                    vortex['velocity'] = [float('nan'), float('nan')]
+
+                if vortex['charge'] >0 and polarization is not None:
+                    vortex['polarization'] = [polarization[0][vortex['position_index']]
+                        ,polarization[1][vortex['position_index']]]
+                else:
+                    vortex['polarization'] = [float('nan'), float('nan')]
+
+
+        return vortex_nodes
+
+    def plot_vortex_nodes(self, vortex_nodes, ax=None):
+
+        if self.dim == 2:
+
+            if ax == None:
+                ax = plt.gcf().add_subplot(111)
+
+            x_coords_pos = []
+            y_coords_pos = []
+
+            x_coords_neg = []
+            y_coords_neg = []
+
+            vx_coords_pos = []
+            vy_coords_pos = []
+
+
+            vx_coords_neg = []
+            vy_coords_neg = []
+
+            px_coords_pos = []
+            py_coords_pos = []
+
+
+
+            for vortex in vortex_nodes:
+
+                if vortex['charge'] > 0:
+                    x_coords_pos.append(vortex['position'][0])
+                    y_coords_pos.append(vortex['position'][1])
+                    vx_coords_pos.append(vortex['velocity'][0])
+                    vy_coords_pos.append(vortex['velocity'][1])
+                    px_coords_pos.append(vortex['polarization'][0])
+                    py_coords_pos.append(vortex['polarization'][1])
+                else:
+                    x_coords_neg.append(vortex['position'][0])
+                    y_coords_neg.append(vortex['position'][1])
+                    vx_coords_neg.append(vortex['velocity'][0])
+                    vy_coords_neg.append(vortex['velocity'][1])
+
+
+            # print(x_coords_pos,y_coords_pos)
+            # print(x_coords_neg,y_coords_neg)
+            ax.scatter(x_coords_pos, y_coords_pos, marker='+', color='red')
+            ax.scatter(x_coords_neg, y_coords_neg, marker='*', color='blue')
+            ax.quiver(x_coords_pos, y_coords_pos, vx_coords_pos, vy_coords_pos, color='black')
+            ax.quiver(x_coords_neg, y_coords_neg, vx_coords_neg, vy_coords_neg, color='black')
+            ax.quiver(x_coords_pos, y_coords_pos, px_coords_pos, py_coords_pos, color='red')
+            ax.set_aspect('equal')
+            ax.set_facecolor('none')
+
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+
+            ax.set_xlim([0, self.xmax-self.dx])
+            ax.set_ylim([0, self.ymax-self.dy])
+

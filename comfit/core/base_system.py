@@ -1401,7 +1401,7 @@ class BaseSystem:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
             cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap)
             plt.colorbar(cbar)
-            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='k')
+            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='w')
             ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
             ax.set_aspect('equal')
             return ax
