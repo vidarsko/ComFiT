@@ -37,11 +37,11 @@ class TestNematicLiquidCrystal(unittest.TestCase):
     def test_nematic_evolver_with_defect_dipole(self):
         """Test the enm.evolve_nematic_no_flow"""
         nem = cf.NematicLiquidCrystal(2, xRes=31, yRes=31)
-        nem.conf_insert_vortex_dipole(dipole_vector=[nem.xmax/3,0],
+        nem.conf_insert_disclination_dipole(dipole_vector=[nem.xmax/3,0],
             dipole_position=nem.rmid)
         nem.evolve_nematic_no_flow(10)
         nem.evolve_nematic(1)
-        Dnodes = nem.calc_vortex_nodes_nem()
+        Dnodes = nem.calc_disclination_nodes_nem()
 
         self.assertEqual(len(Dnodes), 2, "Dipole nodes not found")
 
