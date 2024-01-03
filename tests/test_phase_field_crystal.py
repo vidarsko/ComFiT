@@ -204,8 +204,6 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 except Exception as e:
                     self.fail(f"PFC BCC amplitude calculation failed with {p}: {e}")
 
-    
-
 
     def test_phase_field_crystal_3d_face_centered_cubic_initial_amplitudes(self):
 
@@ -277,8 +275,49 @@ class TestPhaseFieldCrystal(unittest.TestCase):
 
             except Exception as e:
                 self.fail(f"PFC BCC dislocation identification failed with dislocation type {dislocation_type}: {e}")
+    
+    def test_phase_field_crystal_3d_face_centered_cubic_identify_dislocations(self):
+        # Set the plane equation
+        a = 0.1
+        b = 0.5
+        c = 0.3
+        
+        for dislocation_type in range(1,7):
+            try:
+                pfc = cf.PhaseFieldCrystal3DFaceCenteredCubic(nx=13, ny=13, nz=13)
+                # Insert a dislocation ring
+                eta = pfc.calc_amplitudes_with_dislocation_ring(
+                    normal_vector=[a,b,c],
+                    position=pfc.rmid,
+                    radius=pfc.xmax/3,
+                    dislocation_type=dislocation_type
+                )
+                pfc.conf_PFC_from_amplitudes(eta)
 
-    def test_phase_field_crystal_3d_face_centered_cubic_initial_amplitudes(self):
+                # Relax the system
+                pfc.evolve_PFC(20)
+                dislocation_nodes = pfc.calc_dislocation_nodes()
+                
+                #Check that there are nodes
+                self.assertGreater(len(dislocation_nodes),0,"Dislocation nodes not found")
+
+                #Check that all the nodes belong to the correct plane
+                for dislocation_node in dislocation_nodes:
+                    # Calculate the plane equation
+                    plane_equation = a*(dislocation_node['position'][0]-pfc.rmid[0]) \
+                                    + b*(dislocation_node['position'][1]-pfc.rmid[1]) \
+                                    + c*(dislocation_node['position'][2]-pfc.rmid[2])
+
+                    # Check if the plane equation is zero
+                    self.assertAlmostEqual(plane_equation,0,delta=0.5*pfc.a0)
+                    
+                    # Check that the Burgers vector is correct
+                    self.assertTrue((dislocation_node['Burgers_vector'] == pfc.a[dislocation_type-1]).all())
+
+            except Exception as e:
+                self.fail(f"PFC FCC dislocation identification failed with dislocation type {dislocation_type}: {e}")
+
+    def test_phase_field_crystal_3d_simple_cubic_initial_amplitudes(self):
 
         params = [
             {'nx': 1, 'ny': 1, 'nz': 1, 'r': -0.1, 't': 0, 'v': 1, 'psi0': -0.125},
@@ -310,6 +349,47 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                     self.assertAlmostEqual(pfc.C, C, places=5)
                 except Exception as e:
                     self.fail(f"PFC Simple Cubic amplitude calculation failed with {p}: {e}")
+
+    def test_phase_field_crystal_3d_simple_cubic_identify_dislocations(self):
+        # Set the plane equation
+        a = 0.8
+        b = 0.3
+        c = 0.1
+        
+        for dislocation_type in range(1,4):
+            try:
+                pfc = cf.PhaseFieldCrystal3DSimpleCubic(nx=17, ny=17, nz=17)
+                # Insert a dislocation ring
+                eta = pfc.calc_amplitudes_with_dislocation_ring(
+                    normal_vector=[a,b,c],
+                    position=pfc.rmid,
+                    radius=pfc.xmax/3,
+                    dislocation_type=dislocation_type
+                )
+                pfc.conf_PFC_from_amplitudes(eta)
+
+                # Relax the system
+                pfc.evolve_PFC(20)
+                dislocation_nodes = pfc.calc_dislocation_nodes()
+                
+                #Check that there are nodes
+                self.assertGreater(len(dislocation_nodes),0,"Dislocation nodes not found")
+
+                #Check that all the nodes belong to the correct plane
+                for dislocation_node in dislocation_nodes:
+                    # Calculate the plane equation
+                    plane_equation = a*(dislocation_node['position'][0]-pfc.rmid[0]) \
+                                    + b*(dislocation_node['position'][1]-pfc.rmid[1]) \
+                                    + c*(dislocation_node['position'][2]-pfc.rmid[2])
+
+                    # Check if the plane equation is zero
+                    self.assertAlmostEqual(plane_equation,0,delta=0.5*pfc.a0)
+                    
+                    # Check that the Burgers vector is correct
+                    self.assertTrue((dislocation_node['Burgers_vector'] == pfc.a[dislocation_type-1]).all())
+
+            except Exception as e:
+                self.fail(f"PFC FCC dislocation identification failed with dislocation type {dislocation_type}: {e}")
 
 
 if __name__ == '__main__':
