@@ -1130,10 +1130,9 @@ class BaseSystem:
             None
         """
 
-        if self.dim == 2:
-            rho = np.abs(complex_field)
-            theta = np.angle(complex_field)
 
+
+        if self.dim == 2:
             if method == '3D':
                 if ax == None:
                     ax = plt.gcf().add_subplot(111, projection='3d')
@@ -1147,7 +1146,37 @@ class BaseSystem:
 
                 surf = ax.plot_surface(X, Y, rho, facecolors=colors)
             else:
-                self.plot_angle_field(theta, ax=ax)
+                if ax == None:
+                    plt.clf()
+                    ax = plt.gca()
+
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+                rho = np.abs(complex_field)
+                theta = np.angle(complex_field)
+
+                rho_normalized = rho / np.max(rho)
+                custom_colormap_phase = tool_colormap_angle()
+
+
+                # Create a new colormap for magnitudeW
+                # Starting from white (for zero magnitude) to the full color of the phase
+                # custom_colormap_mag = mcolors.LinearSegmentedColormap.from_list(
+                #     'MagnitudeColorMap',
+                #     [(1, 1, 1, 0), custom_colormap_phase(1.0)],
+                #     N=256
+                # )
+
+                # Calculate colors based on magnitude and phase
+                #colors = custom_colormap_phase(theta)
+                #colors[..., 3] = rho_normalized  # Set the alpha channel according to the magnitude
+
+                mesh = ax.pcolormesh(X, Y, theta, shading='auto', cmap=custom_colormap_phase, vmin=-np.pi, vmax=np.pi)
+                mesh.set_alpha(rho_normalized)
+                
+                #mesh.set_array(None)  # Avoids warning
+                #mesh.set_edgecolor('face')
+                #mesh.set_facecolor(colors)  # Use the calculated colors
 
             if colorbar:
                 mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
@@ -1157,9 +1186,65 @@ class BaseSystem:
                 cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
                 cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
-            plt.xlabel("$x/a_0$")
-            plt.ylabel("$y/a_0$")
+            ax.set_xlabel("$x/a_0$")
+            ax.set_ylabel("$y/a_0$")
+            ax.set_aspect('equal')
+            
+            return ax
 
+        elif self.dim == 3:
+
+            if ax == None:
+                plt.figure()
+                ax = plt.gcf().add_subplot(111, projection='3d')
+
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
+            cmap = tool_colormap_angle()
+            # print(complex_field)
+            rho = np.abs(complex_field)
+            theta = np.angle(complex_field)
+            # print(theta)
+
+            field_min = np.min(theta)
+            field_max = np.max(theta)
+
+            for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
+                field_to_plot = theta.copy()
+
+                if np.min(field_to_plot) < angle < np.max(field_to_plot):
+                    field_to_plot[theta < angle - 1] = float('nan')
+                    field_to_plot[theta > angle + 1] = float('nan')
+
+                    verts, faces, _, _ = marching_cubes(field_to_plot, angle)
+
+                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                                    color=cmap((angle + np.pi) / (2 * np.pi)))
+
+            theta = np.mod(theta, 2 * np.pi)
+
+            field_to_plot = theta.copy()
+
+            if np.min(field_to_plot) < np.pi < np.max(field_to_plot):
+                
+                field_to_plot[theta < np.pi - 1] = float('nan')
+                field_to_plot[theta > np.pi + 1] = float('nan')
+
+                verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
+
+                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                            color=cmap(0))
+
+            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+
+            ax.set_aspect('equal')
+
+            ax.set_xlabel("$x/a_0$")
+            ax.set_ylabel("$y/a_0$")
+            ax.set_zlabel("$z/a_0$")
+            ax.set_aspect('equal')
 
 
         else:

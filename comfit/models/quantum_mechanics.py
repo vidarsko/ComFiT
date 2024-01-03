@@ -2,6 +2,7 @@ import numpy as np
 from comfit.core.base_system import BaseSystem
 import matplotlib.pyplot as plt
 from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
+import scipy as sp
 
 class QuantumMechanics(BaseSystem):
     def __init__(self, dimension, **kwargs):
@@ -25,7 +26,7 @@ class QuantumMechanics(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-    def set_initial_condition_gaussian(self,position=None,width=None):
+    def conf_initial_condition_gaussian(self,position=None,width=None):
 
         if self.dim == 1:
             if position == None:
@@ -34,8 +35,36 @@ class QuantumMechanics(BaseSystem):
                 width = 5
 
             self.psi = np.sqrt(1/np.sqrt(2*np.pi*width**2)*np.exp(-(self.x-position)**2/(2*width**2)))
-            self.psi_f = np.fft.fftn(self.psi)
+            self.psi_f = sp.fft.fftn(self.psi)
+        
+        elif self.dim == 2:
+            if position == None:
+                position = self.rmid
+            if width == None:
+                width = 5
 
+            self.psi = np.sqrt(1/(2*np.pi*width**2)*np.exp(-((self.x-position[0])**2+(self.y-position[1])**2)/(2*width**2)))
+            
+            #Initial velocity
+            #TODO: Formalize this notion of initial velocity, de brogle whatever. (Vidar 03.01.24)
+            self.psi = self.psi * np.exp(4*1j*self.x/width)
+
+            self.psi_f = sp.fft.fftn(self.psi)
+
+        elif self.dim == 3:
+            if position == None:
+                position = self.rmid
+            if width == None:
+                width = 5
+
+            self.psi = np.sqrt(1/(2*np.pi*width**2)**(3/2)*np.exp(-((self.x-position[0])**2+(self.y-position[1])**2+(self.z-position[2])**2)/(2*width**2)))
+            
+            #Initial velocity
+            #TODO: Formalize this notion of initial velocity, de brogle whatever. (Vidar 03.01.24)
+            # self.psi = self.psi * np.exp(4*1j*self.x/width)
+
+            self.psi_f = sp.fft.fftn(self.psi)
+        
 
 
     def conf_harmonic_potential(self,trapping_strength=None):
@@ -53,13 +82,43 @@ class QuantumMechanics(BaseSystem):
             return  trapping_strength*(self.x - self.xmid )**2
 
         if self.dim == 2:
-            return trapping_strength*(((self.x-self.xmid)**2).reshape(self.xRes, 1)
-                                         +((self.y-self.ymid)**2).reshape(1, self.yRes) )
+            return trapping_strength*(((self.x-self.xmid)**2) +((self.y-self.ymid)**2) )
         if self.dim == 3:
-            return trapping_strength * (((self.x - self.xmid) ** 2).reshape(self.xRes, 1,1)
-                                           + ((self.y - self.ymid) ** 2).reshape(1, self.yRes,1)
-                                           +((self.z - self.zmid) ** 2).reshape(1, 1,self.zRes) )
+            return trapping_strength * (((self.x - self.xmid) ** 2)
+                                           + ((self.y - self.ymid) ** 2)
+                                           +((self.z - self.zmid) ** 2) )
 
+    ## Calculation functions
+    def calc_nonlinear_evolution_function_f(self,psi):
+
+        return sp.fft.fftn((1j) * (-self.V_ext) * psi)
+
+
+    ## Time evolution functions
+    def evolve_schrodinger(self,number_of_steps,method = 'ETD2RK'):
+        omega_f = -1j / 2 * self.calc_k2()
+        if method == 'ETD2RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
+            solver = self.evolve_ETD2RK_loop
+        elif method == 'ETD4RK':
+            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
+            solver = self.evolve_ETD4RK_loop
+        else:
+            raise(Exception('This method is not implemented'))
+        for n in range(number_of_steps):
+            self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
+                                                           self.psi, self.psi_f)
+
+
+    # Hamilton minimization functions
+
+    def calc_Hamiltonian(self):
+        integrand = -1/2*np.conj(self.psi)\
+            * sp.fft.ifftn(-self.calc_k2()*self.psi_f)\
+            + self.V_ext*abs(self.psi)**2
+        return self.calc_integrate_field(integrand)
+    
+    ## Plotting functions 
     def plot(self, ylim=None):
 
         if self.dim == 1:
@@ -105,34 +164,4 @@ class QuantumMechanics(BaseSystem):
 
 
             return ax
-
-
-
-    def calc_nonlinear_evolution_function_f(self,psi):
-
-        return np.fft.fftn((1j) * (-self.V_ext) * psi)
-
-
-    def evolve_schrodinger(self,number_of_steps,method = 'ETD2RK'):
-        omega_f = -1j / 2 * self.calc_k2()
-        if method == 'EDT2RK':
-            integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
-            solver = self.evolve_ETD2RK_loop
-        elif method == 'ETD4RK':
-            integrating_factors_f = self.calc_evolution_integrating_factors_ETD4RK(omega_f)
-            solver = self.evolve_ETD4RK_loop
-        else:
-            raise(Exception('This method is not implemented'))
-        for n in range(number_of_steps):
-            self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
-                                                           self.psi, self.psi_f)
-
-
-    # Hamilton minimization functions
-
-    def calc_Hamiltonian(self):
-        integrand = -1/2*np.conj(self.psi)\
-            * np.fft.ifftn(-self.calc_k2()*self.psi_f)\
-            + self.V_ext*abs(self.psi)**2
-        return self.calc_integrate_field(integrand)
     
