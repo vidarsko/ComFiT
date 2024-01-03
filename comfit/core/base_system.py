@@ -1114,7 +1114,7 @@ class BaseSystem:
             # plt.xlabel("X-axis")
             # plt.ylabel("Y-axis")
 
-    def plot_complex_field(self, complex_field, ax=None, method='not3D', colorbar=False):
+    def plot_complex_field(self, complex_field, ax=None, plot_method=None, colorbar=False):
         """
         Plot a complex field.
 
@@ -1133,7 +1133,10 @@ class BaseSystem:
 
 
         if self.dim == 2:
-            if method == '3D':
+            if plot_method is None:
+                plot_method = 'phase_angle'
+
+            if plot_method == '3Dsurface':
                 if ax == None:
                     ax = plt.gcf().add_subplot(111, projection='3d')
 
@@ -1145,7 +1148,7 @@ class BaseSystem:
                 colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
 
                 surf = ax.plot_surface(X, Y, rho, facecolors=colors)
-            else:
+            elif plot_method == 'phase_angle':
                 if ax == None:
                     plt.clf()
                     ax = plt.gca()
@@ -1194,46 +1197,95 @@ class BaseSystem:
 
         elif self.dim == 3:
 
+            if plot_method is None:
+                plot_method = 'phase_blob'
+
             if ax == None:
-                plt.figure()
+                plt.clf()
                 ax = plt.gcf().add_subplot(111, projection='3d')
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-            cmap = tool_colormap_angle()
-            # print(complex_field)
             rho = np.abs(complex_field)
+            rho_normalized = rho / np.max(rho)
             theta = np.angle(complex_field)
-            # print(theta)
 
-            field_min = np.min(theta)
-            field_max = np.max(theta)
+            cmap = tool_colormap_angle()
 
-            for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
-                field_to_plot = theta.copy()
+            if plot_method == 'phase_angle':
+                
 
-                if np.min(field_to_plot) < angle < np.max(field_to_plot):
+                for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
+                    field_to_plot = theta.copy()
                     field_to_plot[theta < angle - 1] = float('nan')
                     field_to_plot[theta > angle + 1] = float('nan')
+                    field_to_plot[rho_normalized < 0.01] = float('nan')
 
-                    verts, faces, _, _ = marching_cubes(field_to_plot, angle)
+                    if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
 
-                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                    color=cmap((angle + np.pi) / (2 * np.pi)))
+                        verts, faces, _, _ = marching_cubes(field_to_plot, angle)
 
-            theta = np.mod(theta, 2 * np.pi)
+                        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                                        color=cmap((angle + np.pi) / (2 * np.pi)))
 
-            field_to_plot = theta.copy()
+                theta = np.mod(theta, 2 * np.pi)
 
-            if np.min(field_to_plot) < np.pi < np.max(field_to_plot):
-                
+                field_to_plot = theta.copy()
                 field_to_plot[theta < np.pi - 1] = float('nan')
                 field_to_plot[theta > np.pi + 1] = float('nan')
+                field_to_plot[rho_normalized < 0.01] = float('nan')
 
-                verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
+                if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
 
-                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                            color=cmap(0))
+                    verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
+
+                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                                color=cmap(0))
+            
+            elif plot_method == 'phase_blob':
+
+                if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
+                    verts, faces, _, _ = marching_cubes(rho_normalized, 0.3)
+
+                    # print("Verts shape:", verts.shape)
+                    # print("Faces shape:", faces.shape)
+
+                    # Ensure theta is sampled at the same grid points
+                    # theta_sampled = theta.flatten()[faces]
+                    # print("Theta_sampled:")
+                    # print(theta_sampled.shape)
+                    # # theta_faces = np.mean(theta_sampled, axis=1)
+                    # theta_faces = theta_sampled[:,0]
+                    # print("Theta faces:")
+                    # print(theta_faces.shape)
+
+                    # Calculate the centroids of each triangle
+                    centroids = np.mean(verts[faces], axis=1)
+
+                    # Assuming theta is defined on the same grid as rho
+                    x, y, z = np.mgrid[0:rho_normalized.shape[0], 0:rho_normalized.shape[1], 0:rho_normalized.shape[2]]
+
+                    # Flatten the grid for interpolation
+                    points = np.c_[x.ravel(), y.ravel(), z.ravel()]
+                    theta_values = theta.ravel()
+
+                    # Interpolate theta at the vertices positions
+                    theta_verts = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
+
+                    # Normalize theta values for color mapping
+                    theta_normalized = (theta_verts + np.pi) / (2*np.pi)
+
+                    # Map normalized theta values to colors
+                    colors = cmap(theta_normalized)
+
+                    # print("Colors shape:", colors.shape)
+                    # print(colors)
+
+                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, 
+                                    self.ymin+verts[:, 1]*self.dy, 
+                                    faces, 
+                                    self.zmin+verts[:, 2]*self.dz, 
+                                    facecolor=colors, antialiased=False)
 
             ax.set_xlim3d(self.xmin, self.xmax-self.dx)
             ax.set_ylim3d(self.ymin, self.ymax-self.dy)
