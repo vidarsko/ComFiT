@@ -284,12 +284,11 @@ $$
 
 where
 
-$$ \begin{aligned}
+$$ 
+\begin{aligned}
 I_{f0} &= e^{\omega_f \Delta t/2} \\
 I_{f1} &= \frac{1}{\omega_f}
-(
-e^{ \omega_f \Delta t/2}
-- 1) \\
+( e^{ \omega_f \Delta t/2} - 1) \\
 I_{f2} &= e^{\omega_f \Delta t} \\
 I_{f3} &= \frac{1}{ \omega_f^3\Delta t^2} 
 \left (
