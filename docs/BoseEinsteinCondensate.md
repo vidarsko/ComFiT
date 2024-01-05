@@ -34,12 +34,12 @@ to $\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi$, in addition we include a
 dissipative factor $\gamma$. This resoults in the dGPE on dimensionless
 form as
 [@gardiner2003stochastic; @rooney2012stochastic; @bradley2012energy; @skaugenUnifiedPerspectiveTwodimensional2018]
-$$\mathbbm i \partial_t \psi = (1-\mathbbm i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
-$$\partial_t \psi =-\mathbbm i (1-\mathbbm i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
-$$\partial_t \psi =-(\mathbbm i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
-$$\partial_t \psi =(\mathbbm i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathbbm i + \gamma) (V_{ext} + |\psi|^2)\psi$$
+$$i \partial_t \psi = (1-i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
+$$\partial_t \psi =-i (1-i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
+$$\partial_t \psi =-(i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
+$$\partial_t \psi =(i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (i + \gamma) (V_{ext} + |\psi|^2)\psi$$
 In other words
-$$\omega = (\mathbbm i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{\scriptscriptstyle \mathbbm f}}=  (\mathbbm i+\gamma) (1-\frac{1}{2}\boldsymbol{k}^2) \quad N = - (\mathbbm i + \gamma) (V_{ext} + |\psi|^2)\psi$$
+$$\omega = (i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{f}}=  (i+\gamma) (1-\frac{1}{2}\boldsymbol{k}^2) \quad N = - (i + \gamma) (V_{ext} + |\psi|^2)\psi$$
 The evolution of the wave function is included through the function
 
 ``` {.python language="Python"}
@@ -61,12 +61,12 @@ respectively.
 
 With interactions.
 
-$$\mathbbm i \partial_t \psi = (1-\mathbbm i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{\textrm{ext}}-1 +
+$$i \partial_t \psi = (1-i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{\textrm{ext}}-1 +
 \texttt g_0 |\psi|^2 
 - \texttt g_2 \nabla^2 |\psi|^2
 +  \texttt g_4 \nabla^4 |\psi|^2
 \right]\psi.$$
-$$\partial_t \psi = (\mathbbm i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm{ext}} + 1 -
+$$\partial_t \psi = (i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm{ext}} + 1 -
 \texttt g_0 |\psi|^2 
 + \texttt g_2 \nabla^2 |\psi|^2
 -  \texttt g_4 \nabla^4 |\psi|^2
@@ -74,9 +74,9 @@ $$\partial_t \psi = (\mathbbm i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm
 
 Splitting into linear and non-linear
 
-$$\omega = (\mathbbm i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{\scriptscriptstyle \mathbbm f}}=   (\mathbbm i+\gamma) (1-\boldsymbol{k}^2)$$
+$$\omega = (i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{f}}=   (i+\gamma) (1-\boldsymbol{k}^2)$$
 $$N = 
-(\mathbbm i + \gamma) (-V_{\textrm{ext}}  -
+(i + \gamma) (-V_{\textrm{ext}}  -
 \texttt g_0 |\psi|^2 
 + \texttt g_2 \nabla^2 |\psi|^2
 -  \texttt g_4 \nabla^4 |\psi|^2)\psi$$
@@ -86,7 +86,7 @@ $$N =
 When doing a simulation it is often convenient to start in a
 configuration that is close to the ground state. We can estimate this
 ground state by noticing that the GPE dissipates energy when it is
-evolved in imaginary time $t \rightarrow \mathbbm it$
+evolved in imaginary time $t \rightarrow it$
 [@minguzzi2004numerical; @kevrekidis2007emergent]. Given an external
 potential $V_{ext}$ we can therefore find an approximation to the ground
 state by starting with a guess and then removing energy from the guessed
@@ -97,7 +97,9 @@ use the Thomas-Fermi approximation
 [@dalfovo1999theory; @kevrekidis2007emergent], where we assume that
 $\psi$ is slowly varying so that we can neglect the Laplacian term.
 Looking for stationary solutions to the dGPE we obtain the equation
-$$0 = (V_{ext} -1 +|\psi|^2 )\psi.$$ This has two solutions, $\psi = 0$
+$$
+0 = (V_{ext} -1 +|\psi|^2 )\psi.$$ 
+This has two solutions, $\psi = 0$
 and $$|\psi|^2 = 1-V_{ext}.$$ In the case where $V_{ext} > 1$ there is
 only one possibility namely $\psi = 0$. In the case of $V_{ext}  < 1$
 both the stationary solutions exists so we need to evaluate their
@@ -110,7 +112,9 @@ therefore conclude that the Thomas-Fermi ground state is given as
 $$\psi = \begin{cases}
      0 & \text{if} \quad V_{ext}  > 1 \\
      \sqrt{1 -V_{ext}}  & \text{if}\quad V_{ext}  < 1 
-    \end{cases}$$ This ground state can be initialised as
+    \end{cases}
+    $$ 
+This ground state can be initialised as
 
 ``` {.python language="Python"}
 bec.conf_initial_condition_Thomas_Fermi(self)
@@ -182,7 +186,7 @@ potential is provided in the example folder.
 
 The dGPE can be transformed to a hydrodynamic description of the BEC.
 The first step in doing this is to introduce the Madelung transformation
-$\psi = \sqrt{\rho} e^{\mathbbm i\theta}$, where $\rho = |\psi|^2$ is
+$\psi = \sqrt{\rho} e^{i\theta}$, where $\rho = |\psi|^2$ is
 the superfluid density [@kevrekidis2007emergent]. For $\gamma = 0$ this
 density is conserved and satisfy the conservation equation
 $$\partial_t \rho + \nabla\cdot \boldsymbol{J}_s = 0,$$ with the
@@ -198,8 +202,9 @@ bec.calc_superfluid_current(self)
 
 We can also put the Madelung transformation into the Hamiltonian to get
 [@bradley2012energy; @nore1997kolmogorov]
-$$\label{eq:Hydrodym_hamiltonian}
-        K = \int d \mathbf r \left[\frac{1}{2}\rho v_s^2 +\frac{1}{8} \frac{|\nabla \rho|^2}{\rho} + (V_{ext}-1)\rho +\frac{1}{2}\rho^4 \right].$$
+$$
+K = \int d \mathbf r \left[\frac{1}{2}\rho v_s^2 +\frac{1}{8} \frac{|\nabla \rho|^2}{\rho} + (V_{ext}-1)\rho +\frac{1}{2}\rho^4 \right].
+$$
 The first term here is the kinetic energy of the condensate. To
 calculate this it is convenient to introduce the density weighted
 velocity $\boldsymbol{u} = \sqrt{\rho}\boldsymbol{v}_s$
@@ -278,7 +283,7 @@ initial state.
 When studying a BEC that is stirred by a potential it is in some cases
 convinient to consider the potential as stationary with the BEC flowing
 around. This can be done by boosting the dGPE so that it reads
-$$\partial_t \psi = \mathbf V_p \cdot \nabla \psi +(\mathbbm i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathbbm i + \gamma) (\mathcal U + |\psi|^2)\psi,$$
+$$\partial_t \psi = \mathbf V_p \cdot \nabla \psi +(i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (i + \gamma) (\mathcal U + |\psi|^2)\psi,$$
 where $\mathbf{V_p}$ is the velocity of the boost. Note that a Gallilean
 boost of the GPE is often accompanied by a phase shift of the wave
 function
@@ -309,7 +314,8 @@ when $\gamma$ is a function of space we can no longer put it into the
 linear differential operator $\omega$, and we have to move it into the
 non-linear part. This is taken care of in the evolver
 
-    bec.evolve_comoving_dGPE(self, number_of_steps, velx,method='ETD2RK')
-
+```python
+bec.evolve_comoving_dGPE(self, number_of_steps, velx,method='ETD2RK')
+```
 Here it is assumed that the boost is in the $x$-direction, and that the
 dissipative factor is spatially dependent.
