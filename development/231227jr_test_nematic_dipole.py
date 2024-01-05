@@ -18,8 +18,8 @@ polarization = nem.calc_defect_polarization_field()
 D = nem.calc_defect_density_nematic()
 director =nem.calc_director()
 
-Dnodes =nem.calc_disclination_nodes_nem(dt_Q,polarization)
-ax= nem.plot_field_velocity_and_director(D,nem.u,director)
-nem.plot_disclination_nodes(Dnodes,ax)
+Dnodes =nem.calc_disclination_nodes_nem()
+ax= nem.plot_field_velocity_and_director(D,nem.u,director,colormap='bwr')
+nem.plot_disclination_nodes(Dnodes)
 
 plt.show()
