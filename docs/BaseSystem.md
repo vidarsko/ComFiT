@@ -284,8 +284,7 @@ $$
 
 where
 
-$$
-\begin{aligned}
+$$ \begin{aligned}
 I_{f0} &= e^{\omega_f \Delta t/2} \\
 I_{f1} &= \frac{1}{\omega_f}
 (
