@@ -41,12 +41,12 @@ $$
 
 where $\mathcal K(\vec r'-\vec r)$ is a Gaussian kernel given by 
 
-$$
+$
 \mathcal K(\vec r'-\vec r)
 =
 \frac{1}{(2\pi w^2)^{d/2}} \exp\left (-\frac{(\vec r-\vec r')^2}{2w^2}
 \right ),
-$$
+$
 
 From a numerical point of view, this is done in Fourier space since, by the convolution theorem, 
 
