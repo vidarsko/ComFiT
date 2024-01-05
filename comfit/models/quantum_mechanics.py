@@ -61,7 +61,7 @@ class QuantumMechanics(BaseSystem):
             
             #Initial velocity
             #TODO: Formalize this notion of initial velocity, de brogle whatever. (Vidar 03.01.24)
-            # self.psi = self.psi * np.exp(2*1j*self.x/width)
+            self.psi = self.psi * np.exp(4*1j*self.x/width)
 
             self.psi_f = sp.fft.fftn(self.psi)
         

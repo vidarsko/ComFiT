@@ -1245,19 +1245,7 @@ class BaseSystem:
             elif plot_method == 'phase_blob':
 
                 if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
-                    verts, faces, _, _ = marching_cubes(rho_normalized, 0.3)
-
-                    # print("Verts shape:", verts.shape)
-                    # print("Faces shape:", faces.shape)
-
-                    # Ensure theta is sampled at the same grid points
-                    # theta_sampled = theta.flatten()[faces]
-                    # print("Theta_sampled:")
-                    # print(theta_sampled.shape)
-                    # # theta_faces = np.mean(theta_sampled, axis=1)
-                    # theta_faces = theta_sampled[:,0]
-                    # print("Theta faces:")
-                    # print(theta_faces.shape)
+                    verts, faces, _, _ = marching_cubes(rho_normalized, 0.5)
 
                     # Calculate the centroids of each triangle
                     centroids = np.mean(verts[faces], axis=1)
