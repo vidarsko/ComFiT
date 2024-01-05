@@ -1,0 +1,1 @@
+[coxExponentialTimeDifferencing2002] Cox, S. M., & Matthews, P. C. (2002). Exponential Time Differencing for Stiff Systems. Journal of Computational Physics, 176(2), 430–455. https://doi.org/10.1006/jcph.2002.6995

@@ -149,7 +149,7 @@ $$
 F = \frac{1}{2} \left ( \tanh((r^2-R^2)/w^2) - 1 \right ), 
 $$
 
-where $r^2 = (x-\xmid)^2 + (y-\ymid)^2$, which is a function that is zero in the center region and goes to $1$ at infinity over a width of $w$. The filtered field $\eta$ is then obtained by making a smooth function that goes from the previous angle field according to
+where $r^2 = (x-x_{\textrm{mid}})^2 + (y-y_{\textrm{mid}})^2$, which is a function that is zero in the center region and goes to $1$ at infinity over a width of $w$. The filtered field $\eta$ is then obtained by making a smooth function that goes from the previous angle field according to
 
 $$
 \tilde \eta = F \cdot \eta + (F-1) \cdot 1.
@@ -168,17 +168,18 @@ $$
 \partial_t \psi = \omega \psi + N
 $$
 
-where $\omega$ is a linear differential operator and $N$ is a non-linear operator (function of $\psi$). Table (referenced as `tab:time_evo_operator_examples_non_conserved`) shows some examples from the models that we will discuss in the following chapters.
+where $\omega$ is a linear differential operator and $N$ is a non-linear operator (function of $\psi$). 
+The following table shows some examples from the models that we will discuss in the following chapters.
 
 | Model | $\omega$ | $\omega_f(\mathbf{k})$ | $N$ |
 | --- | --- | --- | --- |
 | Quantum Mechanics | $\frac{1}{2}i \nabla^2 $ | $-\frac{1}{2} i \mathbf{k}^2$ | $- i V$ |
-| BEC | $(i+\gamma) (1+\frac{1}{2}\nabla^2)$ | $(i+\gamma) (1-\frac{1}{2}k^2)$ | $- (i + \gamma) (V_{ext} + |\psi|^2)\psi$ |
+| BEC | $(i+\gamma) (1+\frac{1}{2}\nabla^2)$ | $(i+\gamma) (1-\frac{1}{2}\mathbf k^2)$ | $- (i + \gamma) (V_{ext} + |\psi|^2)\psi$ |
 | Active Nematic | $\frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma}$ | $-\frac{K}{\gamma} k^2 +\frac{AB}{\gamma}$ | $- \mathbf{u}\cdot \nabla Q + Q \Omega -\Omega Q - \frac{2A}{\gamma}Q^2_{kk}Q$ |
 
 *Table: Examples of time evolution operators, non-conserved.*
 
-In the following, we will explain the method of evolution of exponential time differencing as introduced in Ref. [coxExponentialTimeDifferencing2002] for stiff systems. This will result in two integration schemes, the exponential time differencing second order Runge Kutta 2 (ETD2RK) scheme and the forth order ETD4RK scheme. As in Ref. [coxExponentialTimeDifferencing2002], we will show an intuitive way to obtain the former and only recite the expressions for the latter.
+In the following, we will explain the method of evolution of exponential time differencing as introduced in Ref. [coxExponentialTimeDifferencing2002](References.md) for stiff systems. This will result in two integration schemes, the exponential time differencing second order Runge Kutta 2 (ETD2RK) scheme and the forth order ETD4RK scheme. As in Ref. [coxExponentialTimeDifferencing2002], we will show an intuitive way to obtain the former and only recite the expressions for the latter.
 
 ### The ETD2RK scheme
 
@@ -211,115 +212,214 @@ $$
 This is an exact result, however, the last integral is unknown. In order to calculate the last integral here, we approximate it by $\psi_f N (t+\tau) \approx N_{f0} +  \frac{\Delta N_f}{\Delta t} \tau$ where $N_{f0} = N_f(\psi(t))$ and $\Delta N_f = N_f(t+\Delta t)-N_f(t)$. We also change the integration limits from $\tau \in [t,t+\Delta t]$ to $\tau \in [0,\Delta t]$, which gives:
 
 $$
-\psi_f (t+\Delta t) = \psi_f (t) e^{ \omega_f \Delta t} + e^{\omega_f \Delta t} \frac{1}{- \omega_f} [e^{- \omega_f \tau}]_0^{\Delta t} N_{f0} + e^{ \omega_f \Delta t} \frac{1}{\Delta t} [\frac{\tau e^{-\omega_f \tau}}{-\omega_f} - \frac{e^{-\omega_f \tau}}{\omega_f^2}]_0^{\Delta t} \Delta N_f
+\psi_f (t+\Delta t) = \psi_f (t) e^{ \omega_f \Delta t} $$
+$$+ e^{\omega_f \Delta t} \frac{1}{- \omega_f} [e^{- \omega_f \tau}]_0^{\Delta t} N_{f0} + e^{ \omega_f \Delta t} \frac{1}{\Delta t} [\frac{\tau e^{-\omega_f \tau}}{-\omega_f} - \frac{e^{-\omega_f \tau}}{\omega_f^2}]_0^{\Delta t} \Delta N_f
 $$
 
 To find $\psi_f (t+\Delta t)$, we would need to know the value $N_f (t+\Delta t)$ before finding the state at $\psi(t+\Delta t)$. To do this, we first find a predicted state $\psi_a$ by assuming $\Delta N_f=0$ and calculating $\psi(t)$ according to the equation above. This lets us calculate an approximate $\Delta N_f = N_{fa} - N_{f0}$ and we use this in order to evolve $\psi$. This is the ETD2RK scheme.
 
+---
 $$
-\psi_{fa} = \psi_{f0} + \psi_{f1} \psi_{f0}
-$$
-
-$$
-\psi_f (t+\Delta t) = \psi_{fa} + \psi_{f2} (N_{fa} - N_{f0})
-$$
-
-where
-
-$$
-\psi_{f0} = e^{\omega_f \Delta t}
+\psi_{fa} = \psi_{f0} + I_{f1} \psi_{f0}
 $$
 
 $$
-\psi_{f1} = \frac{1}{\omega_f} (e^{ \omega_f \Delta t} - 1)
+\psi_f (t+\Delta t) = \psi_{fa} + I_{f2} (N_{fa} - N_{f0})
 $$
 
 $$
-\psi_{f2} = \frac{1}{\Delta t \omega_f^2} (e^{ \omega_f \Delta t} -1  -\omega_f \Delta t)
+\textrm{where}
 $$
+
+$$
+I_{f0} = e^{\omega_f \Delta t}
+$$
+
+$$
+I_{f1} = \frac{1}{\omega_f} (e^{ \omega_f \Delta t} - 1)
+$$
+
+$$
+I_{f2} = \frac{1}{\Delta t \omega_f^2} (e^{ \omega_f \Delta t} -1  -\omega_f \Delta t)
+$$
+
+---
 
 For numerical purposes, it is useful to calculate the small $\omega_f$ limit. We expand the exponential in its Taylor series and keep the leading order term to get:
 
 $$
-\psi_{f0} \approx 1
+I_{f0} \approx 1
 $$
 
 $$
-\psi_{f1} \approx \Delta t
+I_{f1} \approx   \frac{1}{\omega_f} (1 + \omega_f \Delta t - 1) = \Delta t
 $$
 
 $$
-\psi_{f2} \approx \frac{1}{2} \Delta t
+I_{f2} \approx \frac{1}{\Delta t \omega_f^2}
+ \left (
+1 + \omega_f \Delta t + \frac{1}{2} ( \omega_f \Delta t )^2
+ -1  
+ -\omega_f \Delta t 
+\right ) = \frac{1}{2} \Delta t
 $$
 
-In $\psi_{f1}$, and $\psi_{f2}$ there is a division by $0$ when $\omega_f = 0$. To avoid numerical issues related to this we use the above limits when $|\omega_f|$ is smaller than a tolerance. We don't use the limit for $\psi_{f0}$ since it doesn't contain a division by $0$. The function `evolve_ETD2RK_loop` defined in the base system class performs an ETD2RK step. This function is called by the evolvers discussed in the model chapter if the method is defined as `method = "ETD2RK"`. This is the default solver if `method` is not set. The integrating factors for a given $\omega_f(\mathbf{k})$ can be found with the function `calc_evolution_integrating_factors_ETD2RK` where the variable `tol` gives when the factors should be replaced by their leading order Taylor expansion.
+In $I_{f1}$, and $I_{f2}$ there is a division by $0$ when $\omega_f = 0$. To avoid numerical issues related to this we use the above limits when $|\omega_f|$ is smaller than a tolerance. We don't use the limit for $I_{f0}$ since it doesn't contain a division by $0$. The function `evolve_ETD2RK_loop` defined in the base system class performs an ETD2RK step. This function is called by the evolvers discussed in the model chapter if the method is defined as `method = "ETD2RK"`. This is the default solver if `method` is not set. The integrating factors for a given $\omega_f(\mathbf{k})$ can be found with the function `calc_evolution_integrating_factors_ETD2RK` where the variable `tol` gives when the factors should be replaced by their leading order Taylor expansion.
+Note that all solvers defined in the  class \lstinline{BaseSystem} updates the time variable
+`self.t` to allow for time-dependents in the non-linear term.
 
-(Note: The content is lengthy and includes complex mathematical expressions. It might not render correctly on all Markdown platforms, especially those that do not support LaTeX math formatting. The code snippets and tables are formatted as standard Markdown.)
+### The ETD4RK scheme
 
+Following Ref. \cite{coxExponentialTimeDifferencing2002}, we may generalize the method to a fourth order Runge-Kutta as follows
 
-# Algorithms for tracking defects {#Chapter:defect_tracking}
+---
+$$
+\begin{aligned}
+\psi_{fa} &= I_{f0} \psi_{f0} +  I_{f1} N_{f0} \\
+\psi_{fb} &= I_{f0} \psi_{f0} + I_{f1} N_{fa} \\
+\psi_{fc} &= I_{f0} \psi_{fa} + I_{f1} (2 N_{fb} - N_{f0}) \\
+\psi_f (t+\Delta t) &;= I_{f2} \psi_{f0} + I_{f3} N_{f0} + I_{f4} (N_{fa} + N_{fb}) + I_{f5} N_{fc}
+\end{aligned}
+$$
+where
+$$
+\begin{aligned}
+I_{f0} &= e^{\omega_f \Delta t/2} \\
+I_{f1} &= \frac{1}{\omega_f}
+(
+e^{ \omega_f \Delta t/2}
+-
+1
+) \\
+I_{f2} &= e^{\omega_f \Delta t} \\
+I_{f3} &= \frac{1}{ \omega_f^3\Delta t^2} 
+\left (
+-4 -  \Delta t \omega_f + e^{\omega_f \Delta t}(4-3\omega_f \Delta t + \omega_f^2 \Delta t^2 ) 
+\right ) \\
+I_{f4} &= \frac{2}{ \omega_f^3\Delta t^2}
+\left (
+2 + \omega_f \Delta t + e^{\omega_f \Delta t}(-2 + \omega_f \Delta t)
+\right ) \\
+I_{f5} &= \frac{1}{ \omega_f^3\Delta t^2}
+\left (
+-4 - 3 \omega_f \Delta t -  \omega_f^2 \Delta t^2 + e^{\omega_f \Delta t}(4-\omega_f \Delta t)
+\right )
+\end{aligned}
+$$
+---
 
-## Tracking the indices?
+*Algorithm: The ETD4RK scheme*
 
-There is a question to be settled as to how we should track the zeros,
-because
+In the small $\omega_f$ limit, we have
+$$
+I_{f0} \approx 1
+$$
+$$
+I_{f1} \approx \frac{1}{2} \Delta t
+$$
+$$
+I_{f2} \approx 1
+$$
+$$
+I_{f3} \approx 
+\frac{1}{ \omega_f^3\Delta t^2} \times 
+\left (
+-4 -  \Delta t \omega_f + (1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(4-3\omega_f \Delta t + \omega_f^2 \Delta t^2 )
+\right ) $$
+$$
+=
+\frac{1}{ \omega_f^3\Delta t^2} 
+\left (
+\frac{4}{6} (\omega_f \Delta t)^3 - \frac{3}{2} (\omega_f \Delta t)^3 + (\omega_f \Delta t)^3
+\right )
+= \frac{1}{6} \Delta t
+$$
+$$
+    I_{f4} \approx \frac{2}{ \omega_f^3\Delta t^2}
+\left (
+2 + \omega_f \Delta t +(1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(-2 + \omega_f \Delta t)
+\right ) 
+$$
+$$
+=
+\frac{2}{ \omega_f^3\Delta t^2}
+\left (
+\frac{1}{2} (\omega_f \Delta t)^3-\frac{2}{6}(\omega_f \Delta t)^3
+\right )
+=
+\frac{1}{3} \Delta t
+$$
+$$
+I_{f5} = 
+\frac{1}{ \omega_f^3\Delta t^2} \times 
+\left (
+-4 - 3 \omega_f \Delta t -  \omega_f^2 \Delta t^2 + (1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(4-\omega_f \Delta t)
+\right )  
+$$
+$$
+=
+\frac{1}{ \omega_f^3\Delta t^2} 
+\left (
+\frac{4}{6} (\omega_f \Delta t)^3 - \frac{1}{2} (\omega_f \Delta t)^3
+\right )
+=
+\frac{1}{6} \Delta t
+$$
+Similar as for the EDT2RK case $I_{f1}$, $I_{f3}$, $I_{f4}$, and $I_{f5}$ contains a division by $0$ when $\omega_f = 0$.  
+We therfore replace these coeficients with their limits when $|\omega_f|$ is smaller than a tolerance. 
+This has been important in order to make the the code stable for some of the systems. 
+In the same way as the EDT2RK scheme this is implemented as the function
+`self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f)`
+This function is called by the evolvers discussed in the model chapter if the method is defined as ```method = "ETD4RK"```, the integrating factors are found with
+`self.calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10**(-4))`.
 
-## Methods for tracking
+### The fully non-linear limit
+It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e. the limit in which $\omega_f =0$, $N_f = \partial_t \psi \equiv \dot{\psi}_f$ and Eqs. (\ref{eq:ETD2RK_IF0_small_omega_limit}-\ref{eq:ETD2RK_IF2_small_omega_limit}) and (\ref{eq:ETD4RK_IF0_small_omega_limit}-\ref{eq:ETD4RK_IF5_small_omega_limit}) are exact. 
+For the ETD2RK scheme, we get 
+$$
+\psi_{af} = \psi_{0f} +  \dot{\psi}_{0_f} \Delta t 
+$$
+$$
+\psi(t+\Delta t)_f = \psi_{0f} + \dot{\psi}_{0f} \frac{\Delta t}{2} + \dot{\psi}_{af} \frac{\Delta t}{2},
+$$
+which is a two-stage Runge-Kutta method called Heun's method.
 
-There are multiple possible approaches to tracking defects. This is
-because we have access to both a coarse defect field, a singular defect
-field and the zeros of the wave function.
+The ETD4RK scheme becomes
+$$
+\psi_{af} = \psi_{0f} +  \dot{\psi}_{0f} \frac{\Delta t}{2} 
+$$
+$$
+\psi_{bf} =  \psi_{0f} +  \dot{\psi}_{af} \frac{\Delta t}{2} 
+$$
+$$
+\psi_{cf} = \psi_{af} + (2\dot{\psi}_{bf} - \dot{\psi}_{0f}) \frac{\Delta t}{2} 
+$$
+$$
+\psi (t+\Delta t)_f = \psi_{0f} + \frac{1}{6} (\dot{\psi}_{0f} + 2 \dot{\psi}_{af} + 2 \dot{\psi}_{bf} + \dot{\psi}_{cf} ) \Delta t.
+$$
+Note that this is not the typical Runge-Kutta 4 method, due to the differences in calculating $\psi_{cf}$.
+The reason is that a straight-forward generalization of the Runge-Kutta 4 method will not produce a fourth-order method in the general case [coxExponentialTimeDifferencing2002](References.md).
 
-### Method 1: Using the zeros of the wave function and the sign of the coarse defect density
+### The fully linear limit
 
-In this case, we consider the zeros of the order parameter as the
-indicator of the location of the defects and use the value of the defect
-density to calculate the nature of the defect.
+If $N=0$, the evolution equation changes to 
+$$
+\psi_f(t+\Delta t) = e^{\omega_f \Delta t} \psi_f.
+$$
+An example of this is the schrödinger equation, for which $\omega_f = -\frac{1}{2}  i \mathbf k^2$, so we get
+$$
+\psi_f(t+\Delta t) = e^{- i \frac{1}{2} \mathbf k^2 \Delta t} \psi_f.
+$$
+This is an exact eqution, of course, so you may evolve this free particle solution to any time.
 
-Advantages: An advantage of this method is that it captures the nature
-of defects very close up to the point of annihilation. Also, it provides
-a very natural way to find the position of the defect without being
-fixed to the predefined coordinates.
+# Algorithms for tracking defects 
 
-### Method 2: Integrating the singular defect density field
-
-Advantage: This method will allow for an intuitive emptying of the
-field, adding defects one by one untill they annihilate.
-
-Disadvantage: Due to the calculation of the delta function, the defect
-density becomes a very sharply peaked function that might land inbetween
-position indices. Not optimal
-
-### Method 3: Integrating the defect density field
-
-Advantage: As long as the defects are far apart, this method will give a
-nice and concrete way of calculating them.
-
-Disadvantage: In order to get the full charge of the defect, you will
-need to integrate over quite a large region, which is not optimal. Also,
-as the defects get close, they will start to overlap, giving defects
-with partial charges.
-
-From me messing around with the code, it actually seems as this is the
-most fruitful approach. I think we need to quantify the value at which
-the defects are no longer isolated, i.e., how large of a radius we need
-to include in order to capture the charge of the defect.
-
-## real method
-
-For all the systems, we calcuate a quanity which when integrated gives
-the charge.
-
-After integrating, if the value exceeds the threshold, we remove the
-area. We also limit the search region to outside a ball of 2 rad, to
-avoid halting the search algorithm.
-
-in the case of 3d, the charge will scale with a0 squared
+To be written
 
 ## Calculating the velocity
 
 The equations for the velocity are taken from Ref.
-[@skogvollUnifiedFieldTheory2023], simplified using Mathematica and then
+[@skogvollUnifiedFieldTheory2023](References.md), simplified using Mathematica and then
 substituted for python code using chatGPT.
 
 # Plotting
@@ -336,14 +436,7 @@ operates with three levels of plotting: *figures*, *axes* and
 *everything else*. The figure represents the plotting window that shows
 your plot, whereas axes are the individual plots represented on the
 figure. In the axes, you may place different things, like image
-instances, line2D objects or text. Ref. [@yeManyWaysCall2020] gives a
-pedagogical overview, and Fig.
-[9.1](#fig:MPLFigureAndAxes){reference-type="ref"
-reference="fig:MPLFigureAndAxes"} shows the idea.
-
-![The different levels of plotting in matplotlib. Figure reprinted from
-Ref. [@yeManyWaysCall2020] with permission (not yet confirmed).
-](Figures/FigureAndAxes.png){#fig:MPLFigureAndAxes width="\\textwidth"}
+instances, line2D objects or text. 
 
 Therefore, the implemented plot functions will all take the ax as an
 optional input and give that as an optional output if not provided.
@@ -355,86 +448,44 @@ to plot the current configuration of the field.
 
 Obviously, a lot of these plots are meant for publication. Therefore,
 there is a tool package that contains predefined and fitting sizes for
-the figures in question. \[TO BE ADDED\]
+the figures in question. $$TO BE ADDED$$
 
 ## The plot in plane function
 
-The following algorithm is implemented for the plot in plane function.
-The goal is to plot the field on a plane $P$ perpendicular to a normal
-vector $\boldsymbol{n}$ through a point $P_0$.
-
-The fundamental problem of the plot in plane function is that the field
-is only defined on a grid, a
-$(\textrm{\lstinline|xRes|},\textrm{\lstinline|yRes|},\textrm{\lstinline|zRes|})$
-matrix `field`.
-
-Given the normal vector to the plane $P$ on which we want to plot the
-function, we create a grid of x- and y-coordinates $X_0$ and $Y_0$ and
-generate a vector $\boldsymbol{R}$, which is the x- y- and z-position of
-the points on the grid. In order to make sure that we cover the whole
-domain, we first generate points of $\boldsymbol{R}$ that are also
-outside of the domain and then remove those excess points outside of the
-domain.
-
-Thus, all the coordinates in $\boldsymbol{R}$ are inside the domain
-covered by the matrix. Given such a point $\boldsymbol{R}$, we find the
-float index `Ri` corresponding to the point, e.g., if $R_x=1.7$ and we
-have `x[2] = 1` and `x[3] = 2`, then $\textrm{\lstinline|Ri[0]|} = 2.7$.
-From this vector, we determine the indices of the corners `RiLH` of the
-voxel containing $\boldsymbol{R}$ and the (positive) index distances
-`dRi` from these corners to `Ri`, see Fig.
-[\[fig:PlotInPlaneFigure\]](#fig:PlotInPlaneFigure){reference-type="ref"
-reference="fig:PlotInPlaneFigure"}.
-
-::: overpic
-Figures/PlotInPlaneIllustration/PlotInPlaneIllustration.png
-(0,3)(`RiLH[0][0]`,`RiLH[1][0]`,`RiLH[2][0]`)
-(65,3)(`RiLH[0][1]`,`RiLH[1][0]`,`RiLH[2][0]`) (23,13)`dRi[0][0]`
-(49,13)`dRi[0][1]` (66,17)`dRi[1][0]` (81,24)`dRi[1][1]`
-(-3,34)`dRi[2][0]` (-3,58)`dRi[2][0]` (38,55)(`Ri[0]`,`Ri[2]`,`Ri[3]`)
-:::
-
-We then calculate the value `field_on_plane` to be plotted at
-$\boldsymbol{R}$ by a weighted sum $$\begin{gathered}
-\textrm{\lstinline{field_on_plane}} \\
-=
-\sum_{\textrm{\lstinline|ix|,\lstinline|iy|,\lstinline|iz|}=0}^1
-(1 - \textrm{\lstinline|dRi[0][ix]|})
-(1 - \textrm{\lstinline|dRi[1][iy]|})
-(1 - \textrm{\lstinline|dRi[2][iz]|})
-\textrm{\lstinline|field[ix,iy,iz]|},
-\end{gathered}$$ which corresponds to a sum of the field at the voxel
-corners weighted by the index distance to `Ri`.
+(Essentially interpolation - need to look at the packag made for that and see if it is simpler)
 
 ## Animation
 
-Easy animation
 
 # How to create your own model
 
 Creating your own class with this framework is easy. Here is a
 step-by-step instruction on how to do it.
 
-::: tcolorbox
-Example system: The Landau theory of the Bragg-Williams theory
-[@chaikinPrinciplesCondensedMatter1995]
-$$\mathcal F[\phi] = \int d\boldsymbol{r} \frac{1}{2} \texttt r \phi^2 - \texttt w \phi^3 + \texttt u \phi^4 + \frac{1}{2} \texttt c (\nabla \phi)^2.$$
+Consider as an instructive example, the Landau theory of the Bragg-Williams theory [chaikinPrinciplesCondensedMatter1995](References.md)
+<div style="border:2px solid black; padding:10px; margin:10px;">
+
+$$
+\mathcal F[\phi] = \int d\boldsymbol{r} \frac{1}{2} \texttt r \phi^2 - \texttt w \phi^3 + \texttt u \phi^4 + \frac{1}{2} \texttt c (\nabla \phi)^2.
+$$
 Seeking to minimize this functional in equilibrium, we have a simple
 equation of motion
 $$\partial_t \phi = - \nabla^2 \frac{\delta \mathcal F}{\delta \phi}.$$
 So, before you start, you need to create a class structure for your
 system which inherits the basesystem class and sets these parameters. It
 could look something like this.
+```python
+import comfit as cf
 
-    import comfit as cf
+class Landau(BaseSystem):
+"""
+Class that ...
+"""
+def __init__():
+    something
+```
+</div>
 
-    class Landau(BaseSystem):
-    """
-    Class that ...
-    """
-    def __init__():
-        something
-:::
 
 ## Step 1: Rephrase your problem
 
@@ -443,48 +494,54 @@ and $N$ might be dependent on other fields as well.
 
 $\psi$ may well be a multi-component quantity.
 
-::: tcolorbox
+<div style="border:1px solid black; padding:10px;">
+
+
 In the previous example, we had the equation of motion. Expanding that
 we get $$\partial_t \phi = ...$$ We see that we have a linear part, and
 a non-linear part $$\omega \phi =$$ $$N =$$
-:::
+</div>
 
 ## Step 2: 
 
-Put the expression for ${{\omega}_{\scriptscriptstyle \mathbbm f}}$ into
+Put the expression for ${{\omega}_{f}}$ into
 the function that calculates the integrating factors for EDT2RK or
 EDT4RK.
 
-::: tcolorbox
+<div style="border:1px solid black; padding:10px;">
 It could be
 
-    def calc_omega_f(self):
+```python
+def calc_omega_f(self):
         Something
-:::
+```
+    
+</div>
+
 
 ## Step 3: Create the non-linear function
 
 Make a function that calculates the non-linear function $N(\psi)$ in
 Fourier space.
 
-::: tcolorbox
+<div style="border:1px solid black; padding:10px;">
 In this case, it could look like
 
-    def calc_non_linear_part(self,field):
-        Something
-:::
+```python
+def calc_non_linear_part(self,field):
+    Something
+```
+</div>
 
 ## Step 4: Make the evolver
 
-Make an evolver by inserting the integrating factors and the non-linear
-evolution function into the evolver loop corresponding to the
-integrating factors you found.
+Make an evolver by inserting the integrating factors and the non-linear evolution function into the evolver loop corresponding to the integrating factors you found.
 
     def evolver(self, number_of_steps, method='ETD2RK'):
 
         omega_f = ...
 
-        integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
+        integrating_factors_f, solver = self.calc_integrating_factors_{fa}nd_solver(omega_f, method)
 
         for n in tqdm(range(number_of_steps), desc='Evolving the model'):
             self.psi, self.psi_f = solver(integrating_factors_f,
@@ -492,18 +549,24 @@ integrating factors you found.
                                           self.psi, self.psi_f)
             self.psi = np.real(self.psi) #If your field is real
 
-::: tcolorbox
+<div style="border:2px solid black; padding:10px; margin:10px;">
 So in this case, it would be
 
     def evolve_landau(self,number_of_steps):
         solver = ...
-:::
+</div>
+
 
 ## Step 5: Configure some initial condition
 
-::: tcolorbox
-So in this case, it would be
+<div style="border:1px solid black; padding:10px;">
 
-    def conf_initial_condition(self,...):
+```python
+def conf_initial_condition(self,...):
         self.phi = np.zeros()
-:::
+```
+Your content goes here.
+</div>
+
+
+
