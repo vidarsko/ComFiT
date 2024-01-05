@@ -281,16 +281,14 @@ $$
 \psi_f (t+\Delta t) &;= I_{f2} \psi_{f0} + I_{f3} N_{f0} + I_{f4} (N_{fa} + N_{fb}) + I_{f5} N_{fc}
 \end{aligned}
 $$
+
 where
-$$
+
+$$ 
 \begin{aligned}
 I_{f0} &= e^{\omega_f \Delta t/2} \\
 I_{f1} &= \frac{1}{\omega_f}
-(
-e^{ \omega_f \Delta t/2}
--
-1
-) \\
+( e^{ \omega_f \Delta t/2} - 1) \\
 I_{f2} &= e^{\omega_f \Delta t} \\
 I_{f3} &= \frac{1}{ \omega_f^3\Delta t^2} 
 \left (
@@ -306,6 +304,7 @@ I_{f5} &= \frac{1}{ \omega_f^3\Delta t^2}
 \right )
 \end{aligned}
 $$
+
 ---
 
 *Algorithm: The ETD4RK scheme*
@@ -314,41 +313,46 @@ In the small $\omega_f$ limit, we have
 $$
 I_{f0} \approx 1
 $$
+
 $$
 I_{f1} \approx \frac{1}{2} \Delta t
 $$
+
 $$
 I_{f2} \approx 1
 $$
+
 $$
 I_{f3} \approx 
 \frac{1}{ \omega_f^3\Delta t^2} \times 
 \left (
 -4 -  \Delta t \omega_f + (1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(4-3\omega_f \Delta t + \omega_f^2 \Delta t^2 )
 \right ) $$
+
 $$
-=
-\frac{1}{ \omega_f^3\Delta t^2} 
+= \frac{1}{ \omega_f^3\Delta t^2} 
 \left (
 \frac{4}{6} (\omega_f \Delta t)^3 - \frac{3}{2} (\omega_f \Delta t)^3 + (\omega_f \Delta t)^3
 \right )
 = \frac{1}{6} \Delta t
 $$
+
 $$
-    I_{f4} \approx \frac{2}{ \omega_f^3\Delta t^2}
+I_{f4} \approx \frac{2}{ \omega_f^3\Delta t^2}
 \left (
 2 + \omega_f \Delta t +(1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(-2 + \omega_f \Delta t)
 \right ) 
 $$
+
 $$
 =
 \frac{2}{ \omega_f^3\Delta t^2}
 \left (
 \frac{1}{2} (\omega_f \Delta t)^3-\frac{2}{6}(\omega_f \Delta t)^3
 \right )
-=
-\frac{1}{3} \Delta t
+= \frac{1}{3} \Delta t
 $$
+
 $$
 I_{f5} = 
 \frac{1}{ \omega_f^3\Delta t^2} \times 
@@ -356,15 +360,15 @@ I_{f5} =
 -4 - 3 \omega_f \Delta t -  \omega_f^2 \Delta t^2 + (1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(4-\omega_f \Delta t)
 \right )  
 $$
+
 $$
-=
-\frac{1}{ \omega_f^3\Delta t^2} 
+=\frac{1}{ \omega_f^3\Delta t^2} 
 \left (
 \frac{4}{6} (\omega_f \Delta t)^3 - \frac{1}{2} (\omega_f \Delta t)^3
 \right )
-=
-\frac{1}{6} \Delta t
+= \frac{1}{6} \Delta t
 $$
+
 Similar as for the EDT2RK case $I_{f1}$, $I_{f3}$, $I_{f4}$, and $I_{f5}$ contains a division by $0$ when $\omega_f = 0$.  
 We therfore replace these coeficients with their limits when $|\omega_f|$ is smaller than a tolerance. 
 This has been important in order to make the the code stable for some of the systems. 
