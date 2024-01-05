@@ -39,8 +39,6 @@ $$
 \tilde \rho(\vec r') ,
 $$
 
-_Coarse-graining_
-
 where $\mathcal K(\vec r'-\vec r)$ is a Gaussian kernel given by 
 
 $$
