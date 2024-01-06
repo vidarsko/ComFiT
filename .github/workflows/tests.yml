@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - 'main'
+    paths:
+      - 'comfit/**.py'  # Trigger when any Python file in comfit directory is changed
   pull_request:
     branches:
       - 'main'
+    paths:
+      - 'comfit/**.py'
 
 jobs:
   tests:
@@ -31,7 +35,36 @@ jobs:
         python -m pip install --upgrade pip
         python setup.py install  # Install dependencies from setup.py
 
-    - name: Run tests
+    - name: Get changed files
+      id: files
+      uses: jitterbit/get-changed-files@v1
+
+    - name: Run specific tests
       run: |
-        cd tests  # Change directory to your tests folder
-        python -m unittest discover  # Discover and run tests
+        FILES="${{ steps.files.outputs.all }}"
+        echo "Changed files: $FILES"
+        
+        # Check for base_system.py changes and run all tests
+        if echo "$FILES" | grep -q "comfit/core/base_system.py"; then
+          echo "Changes in base_system.py detected. Running all tests."
+          python -m unittest discover tests/
+          exit 0
+        fi
+
+        # Conditional execution for each specific file
+        if echo "$FILES" | grep -q "comfit/models/quantum_mechanics.py"; then
+          echo "Running tests for quantum_mechanics changes"
+          python -m unittest tests/test_quantum_mechanics.py
+        fi
+        if echo "$FILES" | grep -q "comfit/models/bose_einstein_condensate.py"; then
+          echo "Running tests for bose_einstein_condensate changes"
+          python -m unittest tests/test_bose_einstein_condensate.py
+        fi
+        if echo "$FILES" | grep -q "comfit/models/phase_field_crystal.py"; then
+          echo "Running tests for phase_field_crystal changes"
+          python -m unittest tests/test_phase_field_crystal.py
+        fi
+        if echo "$FILES" | grep -q "comfit/models/nematic_liquid_crystal.py"; then
+          echo "Running tests for nematic_liquid_crystal changes"
+          python -m unittest tests/test_nematic_liquid_crystal.py
+        fi
