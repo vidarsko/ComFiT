@@ -11,12 +11,9 @@ represent different crystalline structures in 1, 2 and 3 dimensions, all
 of which are on the form
 $$\tilde f( \psi, \nabla \psi, ...) = \frac{1}{2} (\mathcal L(\nabla) \psi)^2 + \frac{1}{2} \texttt{r} \psi^2 + \frac{1}{3} \texttt{t} \psi^3 + \frac{1}{4} \texttt v \psi^4,$$
 where $\mathcal L (\nabla)$ is a gradient operator dependent on the
-dimension and target symmetry, listed in Tab.
-[5.1](#tab:phase_field_crystal_models){reference-type="ref"
-reference="tab:phase_field_crystal_models"}.
+dimension and target symmetry, listed below
 
-::: {#tab:phase_field_crystal_models}
-  Model             Derivative operator $\mathcal L$
+  |Model---Derivative operator $\mathcal L$---|
   ----------------- -----------------------------------------------------------------------------------
   1D periodic       $\mathcal L_1 = (1+\nabla^2)$
   2D triangular     $\mathcal L_1 = (1+\nabla^2)$
