@@ -1,6 +1,11 @@
 # ComFiT: Computational Field Theory Python Package
 
-ComFiT is a Python library designed for simulating various condensed matter field theory systems. Developed with expertise from PhD-level research in physics, this package aims to provide a comprehensive toolkit for researchers, students, and enthusiasts in the domain.
+ComFiT is an open-source Python library for simulating field theories including the Schrödinger equation, damped Gross-Pitaevskii equation, phase-field crystal models, and hydrodynamic models for active nematics and p-adic systems. 
+It uses an object-oriented approach to provide functions for system setup, time evolution, data analysis, and visualization. 
+The library features the Exponential Time Differencing method for numerical integration, specifically the ETD2RK and ETD4RK schemes, ensuring accurate time evolution in simulations. 
+
+Additionally, ComFiT includes tools for tracking and calculating the density of topological defects in various systems. 
+It also enables users to create and export plots and animations for a clearer understanding of the simulated phenomena.
 
 ## Features
 
@@ -26,11 +31,11 @@ bec= cf.BoseEinsteinCondensate(parameters_here)
 pfc = cf.PhaseFieldCrystal(parameters_here)
 ```
 
-For detailed usage instructions, please refer to our [documentation](link_to_docs).
+For detailed usage instructions, please refer to our [documentation](/docs/).
 
 ## Contributing
 
-We welcome contributions! Please read our [CONTRIBUTING guide](/docs/Contributing.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to ComFiT.
+We welcome contributions! Please read our [contributing guide](/docs/Contributing.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to ComFiT.
 
 ## License
 
@@ -38,7 +43,10 @@ ComFiT is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-We want to express our gratitude to [Institution or Collaborators Names] for their invaluable input and feedback during the development of this package.
+We are grateful to [Luiza Angheluta](https://orcid.org/0000-0001-7231-6694) for her steady guidance during our years as Ph.D. doctoral research fellows and introducing us to this field of study, 
+[Audun Skaugen](https://orcid.org/0000-0003-0005-786X) for paving the way of the study of these systems in particular and creating the first programs on which this library is built, and 
+[Vegard Gjeldvik Jervell](0009-0002-2959-0246), for helping us with the technical python parts and becoming full-fledged software developers.  
+
 
 ## Glorified beta-testers
 
