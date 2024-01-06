@@ -45,7 +45,7 @@ ComFiT is licensed under the [MIT License](LICENSE).
 
 We are grateful to [Luiza Angheluta](https://orcid.org/0000-0001-7231-6694) for her steady guidance during our years as Ph.D. doctoral research fellows and introducing us to this field of study, 
 [Audun Skaugen](https://orcid.org/0000-0003-0005-786X) for paving the way of the study of these systems in particular and creating the first programs on which this library is built, and 
-[Vegard Gjeldvik Jervell](0009-0002-2959-0246), for helping us with the technical python parts and becoming full-fledged software developers.  
+[Vegard Gjeldvik Jervell](https://orcid.org/0009-0002-2959-0246), for helping us with the technical python parts and becoming full-fledged software developers.  
 
 
 ## Glorified beta-testers
