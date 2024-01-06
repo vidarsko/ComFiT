@@ -1,5 +1,6 @@
 # How to create your own model
 
+## Level 1: Get it up and running
 Creating your own class with this framework is easy. Here is a
 step-by-step instruction on how to do it.
 
@@ -108,3 +109,12 @@ def conf_initial_condition(self,...):
 ```
 Your content goes here.
 </div>
+
+## Level 2: Merge it with the source
+
+
+If you want to contribute to the source code with your model (which is highly appreciated) to the models folder, you need to do the following while you are developing your code. Follow the examples provided by the `core_models`.
+
+* Document while writing the code, following the [notation conventions]().
+* Write documentation for the code, explaining the mathematics of the model.
+* Make tests for the model 
