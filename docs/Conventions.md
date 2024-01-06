@@ -1,5 +1,9 @@
+# Folders and file types
 
-# File namin conventions
+* Documentation is written in markdown.
+* Tutorials are written in markdown.
+
+# File naming conventions
 
 * Documentation files are named using CamelCase. 
 * Image files in the docs folder are named using `snake_case`
