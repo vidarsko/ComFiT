@@ -501,7 +501,7 @@ $$
 
 ## Demodulation
 
-$$\eta_n = \langle \psi e^{-\mathbbm i \boldsymbol{q}^{(n)} \cdot \boldsymbol{r}} \rangle$$
+$$\eta_n = \langle \psi e^{- i \boldsymbol{q}^{(n)} \cdot \boldsymbol{r}} \rangle$$
 
 ## Elasticity
 
@@ -524,7 +524,7 @@ get $$\tilde h_{xx} =$$
 :::
 :::
 
-$$\nabla \cdot \mathbbm h 
+$$\nabla \cdot  h 
 =
 \left \langle \tilde \mu_c \nabla \psi - \nabla \tilde f \right \rangle$$
 
@@ -554,7 +554,7 @@ The PFC chemical potential
 :::
 
 which gives
-$${{\omega }_{\scriptscriptstyle \mathbbm f}}= -\boldsymbol{k}^2 (r + {{\mathcal L}_{\scriptscriptstyle \mathbbm f}}^2)$$
+$${{\omega }_{\scriptscriptstyle  f}}= -\boldsymbol{k}^2 (r + {{\mathcal L}_{\scriptscriptstyle  f}}^2)$$
 $$N = \nabla^2 (\texttt{t} \psi^2 + \texttt v \psi^3)$$
 
 ### Unconserved dynamics
@@ -590,7 +590,7 @@ was derived. A simplified two-parameter model was proposed
 
 ::: tcolorbox
 $$\partial_t \psi = \nabla^2 \tilde \mu_c - \boldsymbol{v} \cdot \nabla \psi$$
-$$\partial_t \boldsymbol{v} = \frac{1}{\rho_0} (\nabla \cdot \mathbbm h + \Gamma_S \nabla^2 \boldsymbol{v} + \boldsymbol{f}^{\textrm(ext)})$$
+$$\partial_t \boldsymbol{v} = \frac{1}{\rho_0} (\nabla \cdot  h + \Gamma_S \nabla^2 \boldsymbol{v} + \boldsymbol{f}^{\textrm(ext)})$$
 The hydrodynamic PFC model
 
 (`evolve_PFC_hydrodynamic`)
