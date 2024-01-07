@@ -784,12 +784,14 @@ $\vec a^{(6)} = a_0/2(-1,1,0)$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | $0$ 
 
 | Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | | $s_4$ | $s_5$ | $s_6$ | $s_7$ | $s_8$ | $s_9$ | | $s_{10}$  | $s_{11}$ | $s_{12}$ | $s_{13}$ |
 |-------------------------|-------|-------|-------|-|-------|-------|-------|-------|-------|-------|-| ----------|----------|----------|----------|
-$\vec a^{(1)} = a_0(1,0,0)$ | $\color{red} 1$ | $0$ | $0$ | |$0$ | $\color{red} 1$ | $\color{red} 1$ | $0$ | | $\color{blue}-1$ |$\color{blue}-1$ |$\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$
-$\vec a^{(2)} = a_0 (0,1,0)$ | $0$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | | $0$ | $\color{red} 1$ |$\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ 
-$\vec a^{(3)} = a_0(0,0,1)$ | $0$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $0$ |$\color{red} 1$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ 
+$\vec a^{(1)} = a_0(1,0,0)$ | $\color{red} 1$ | $0$ | $0$ | |$0$ | $\color{red} 1$ | $\color{red} 1$ | $0$ |  $\color{blue}-1$ | | $\color{blue}-1$ |$\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$
+$\vec a^{(2)} = a_0 (0,1,0)$ | $0$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ |  $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ 
+$\vec a^{(3)} = a_0(0,0,1)$ | $0$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ | $\color{red} 1$ |  $\color{red} 1$ | $0$ | | $\color{red} 1$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ 
+
+## The dislocation density tensor
 
 Given a PFC configuration, the dislocation density tensor may be
-calculated as
+calculated as [skogvollPhaseFieldCrystal2022](References.md)
 $$\alpha_{ij} = \frac{2d}{N\eta_0^2} \sum_{n=1}^N D_i^{(n)} q_j^{(n)}
 = \frac{2 \pi d}{N} \sum_{n=1}^N \rho_i^{(n)} q_j^{(n)}$$ where
 $\boldsymbol{D}^{(n)}$ is calculated from
