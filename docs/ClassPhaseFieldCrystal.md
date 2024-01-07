@@ -85,8 +85,7 @@ been chosen so that the first $d$ primary LVs are primitive LVs which satisfy th
 ---
 
 
-<details>
-<summary> 1D periodic </summary>
+### 1D periodic
 
 Lattice constant
 $$
@@ -119,11 +118,10 @@ $$
 \right \} 
 $$
 
-</details>
 
 
-<details>
-<summary> 2D Triangular </summary>
+
+### 2D Triangular
 
 Lattice constant
 $$
@@ -161,10 +159,9 @@ $$
 }
 $$
 
-</details>
 
-<details>
-<summary> 2D square </summary>
+
+### 2D square
 
 Lattice constant
 $$
@@ -208,10 +205,9 @@ $$
 \right \}
 $$
 
-</details>
 
-<details>
-<summary> 3D body-centered cubic </summary>
+
+### 3D body-centered cubic
 
 Lattice constant
 
@@ -255,10 +251,9 @@ $$
 }
 $$
 
-</details>
 
-<details>
-<summary> 3D face-centered cubic </summary>
+
+### 3D face-centered cubic
 
 Lattice constant
 
@@ -317,10 +312,9 @@ $$
 }
 $$
 
-</details>
 
-<details>
-<summary> 3D simple cubic </summary>
+
+### 3D simple cubic
 
 Lattice constant
 
@@ -391,7 +385,7 @@ $$\mathcal R_{\textrm{sc}}^{(3)} =
 }
 $$
 
-</details>
+
 
 ## Initialization
 
@@ -401,8 +395,7 @@ consists of the equilibrium values of the amplitudes to begin with.
 The elastic constants are defined and saved as
 `el_mu, el_lambda, el_gamma`.
 
-<details>
-<summary> 1D periodic </summary>
+### 1D periodic
 
 Default resolution
 
@@ -410,10 +403,9 @@ Default model parameters $(r,\psi_0)$:
 
 Equilibrium amplitude equations
 
-</details>
 
-<details>
-<summary> 2D triangular </summary>
+
+### 2D triangular
 
 Default resolution: $[7,12]^{-1}a_0$
 
@@ -425,10 +417,9 @@ $$
 \left \{ A= -\frac{1}{5} \psi_0 + \frac{1}{15}\sqrt{- 15r - 36\psi_0^2} \right \}
 $$
 
-</details>
 
-<details>
-<summary> 2D square </summary>
+
+### 2D square
 
 Default resolution: $[7,7]^{-1}a_0$
 
@@ -445,10 +436,9 @@ $$
 \right \}
 $$
 
-</details>
 
-<details>
-<summary> 3D body-centered cubic </summary>
+
+### 3D body-centered cubic
 
 Default resolution: $[7,7,7]^{-1}a_0$
 
@@ -460,10 +450,9 @@ $$
 \left \{ A = -\frac{2}{15}\psi_0 + \frac{1}{15} \sqrt{-5r - 11 \psi_0^2} \right \}
 $$
 
-</details>
 
-<details>
-<summary> 3D face-centered cubic </summary>
+
+### 3D face-centered cubic
 
 Default resolution: $[11,11,11]^{-1}a_0$
 
@@ -480,10 +469,9 @@ $$
           \right \}
 $$
 
-</details>
 
-<details>
-<summary> 3D simple cubic </summary>
+
+### 3D simple cubic
 
 Default resolution: $[5,5,5]^{-1}a_0$
  
@@ -509,7 +497,7 @@ $$
 
 
 
-</details>
+
 
 
 ## Demodulation
