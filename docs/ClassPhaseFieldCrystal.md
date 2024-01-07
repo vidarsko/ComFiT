@@ -88,6 +88,7 @@ been chosen so that the first $d$ primary LVs are primitive LVs which satisfy th
 ### 1D periodic
 
 Lattice constant
+
 $$
 a_0 = 2\pi
 $$
@@ -96,7 +97,6 @@ Primary RLVs
 
 $$
 \mathcal R_{\textrm{per}}^{(1)} = 
-         
 \left \lbrace 
 \begin{array}{l}
     q^{(1)} = 1  \\
@@ -109,7 +109,6 @@ Primary BLVs
 
 $$
 \mathcal B_{\textrm{per}}^{(1)} = 
-         
 \left \lbrace 
 \begin{array}{l}
     a^{(1)} = a_0  \\
@@ -124,14 +123,15 @@ $$
 ### 2D Triangular
 
 Lattice constant
+
 $$
 a_0 = \frac{4\pi}{\sqrt 3}
 $$
 
 Primary RLVs
+
 $$ 
-\mathcal R_{\textrm{tri}}^{(1)} = 
-         {
+\mathcal R_{\textrm{tri}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
     \vec q^{(1)} = (\sqrt 3/2,-1/2)  \\
@@ -146,8 +146,7 @@ $$
 Primary BLVs
 
 $$
-\mathcal B_{\textrm{tri}}^{(1)} = 
-         {
+\mathcal B_{\textrm{tri}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
     \vec a^{(1)} = a_0(1,0)  \\
@@ -169,9 +168,9 @@ a_0 = 2\pi
 $$
 
 Primary RLVs
+
 $$ 
-\mathcal R_{\textrm{sq}}^{(1)} = 
-         {
+\mathcal R_{\textrm{sq}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
     \vec q^{(1)} = (1,0)  \\
