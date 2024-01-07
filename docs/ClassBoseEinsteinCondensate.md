@@ -24,9 +24,16 @@ is an interaction parameter and $\hbar$ is the Planc constant. $\psi$ is
 the wave function describing the condensate phase and $V_{ext}$ is an
 external potential. The GPE can be obtained from the varaitional
 principle [@kevrekidis2007emergent; @pitaevskiiBook]
-$$i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}.$$ with the
-Hamiltonian
-$$K = \int d^3 \mathbf r \left[\frac{\hbar^2}{2m}|\nabla\psi|^2 +(V_{ext} -\mu)|\psi|^2 +\frac{g}{2}|\psi|^4 \right].$$
+
+$$
+i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}
+$$ 
+
+with the Hamiltonian
+
+$$
+K = \int d \mathbf r \left[\frac{\hbar^2}{2m}|\nabla\psi|^2 +(V_{ext} -\mu)|\psi|^2 +\frac{g}{2}|\psi|^4 \right].
+$$
 
 We introduce dimensionless units for length $\xi = \hbar/\sqrt{m\mu}$,
 time $\tau = \xi/c$ and energy $E=\eta$ and rescaling the wave function
@@ -39,7 +46,7 @@ $$\partial_t \psi =-i (1-i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi
 $$\partial_t \psi =-(i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
 $$\partial_t \psi =(i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (i + \gamma) (V_{ext} + |\psi|^2)\psi$$
 In other words
-$$\omega = (i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{f}}=  (i+\gamma) (1-\frac{1}{2}\boldsymbol{k}^2) \quad N = - (i + \gamma) (V_{ext} + |\psi|^2)\psi$$
+$$\omega = (i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{f}}=  (i+\gamma) (1-\frac{1}{2}\mathbf{k}^2) \quad N = - (i + \gamma) (V_{ext} + |\psi|^2)\psi$$
 The evolution of the wave function is included through the function
 
 ``` {.python language="Python"}
@@ -74,7 +81,7 @@ $$\partial_t \psi = (i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm{ext}} + 
 
 Splitting into linear and non-linear
 
-$$\omega = (i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{f}}=   (i+\gamma) (1-\boldsymbol{k}^2)$$
+$$\omega = (i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{f}}=   (i+\gamma) (1-\mathbf{k}^2)$$
 $$N = 
 (i + \gamma) (-V_{\textrm{ext}}  -
 \texttt g_0 |\psi|^2 
@@ -164,8 +171,13 @@ bec.gaussian_stirring_potential(self,size,strength,position)
 ```
 
 Giving the potential
-$$V_g = g e^{-|\boldsymbol{r} - \boldsymbol{r}_p|^2/\sigma^2}.$$ Here
-$g$ is the strength, $\sigma$ is the size and $\boldsymbol{r}_p$ is the
+
+$$
+V_g = g e^{-|\mathbf{r} - \mathbf{r}_p|^2/\sigma^2}.
+$$ 
+
+Here
+$g$ is the strength, $\sigma$ is the size and $\mathbf{r}_p$ is the
 position.
 
 Much of the interesting physics happens when the potential is
@@ -189,11 +201,15 @@ The first step in doing this is to introduce the Madelung transformation
 $\psi = \sqrt{\rho} e^{i\theta}$, where $\rho = |\psi|^2$ is
 the superfluid density [@kevrekidis2007emergent]. For $\gamma = 0$ this
 density is conserved and satisfy the conservation equation
-$$\partial_t \rho + \nabla\cdot \boldsymbol{J}_s = 0,$$ with the
-superfluid current given as
-$$\boldsymbol{J}_s = \Im(\psi^* \nabla \psi) = \rho \nabla \theta = \rho \boldsymbol{v}_s.$$
+
+$$
+\partial_t \rho + \nabla\cdot \mathbf{J}_s = 0,
+$$ 
+
+with the superfluid current given as
+$$\mathbf{J}_s = \Im(\psi^* \nabla \psi) = \rho \nabla \theta = \rho \mathbf{v}_s.$$
 Here the superfluid velocity is introduced as
-$\boldsymbol{v}_s = \nabla \theta$. The superfluid current can be found
+$\mathbf{v}_s = \nabla \theta$. The superfluid current can be found
 with the function
 
 ``` {.python language="python"}
@@ -207,7 +223,7 @@ K = \int d \mathbf r \left[\frac{1}{2}\rho v_s^2 +\frac{1}{8} \frac{|\nabla \rho
 $$
 The first term here is the kinetic energy of the condensate. To
 calculate this it is convenient to introduce the density weighted
-velocity $\boldsymbol{u} = \sqrt{\rho}\boldsymbol{v}_s$
+velocity $\mathbf{u} = \sqrt{\rho}\mathbf{v}_s$
 [@bradley2012energy]. This have the advantage of not being singular at
 the centre of the topological defects. Using this we can write the
 kinetic energy as $$E_k =\int d \mathbf r \frac{1}{2}u^2.$$ The density
@@ -235,11 +251,11 @@ impurity as a Gaussian potential and measure the forces that are acting
 on it
 [@ronning2020classical; @astrakharchik2004motion; @pinsker2017gaussian].
 From the Erhenfest theorem the forces on the condensate from the stirrer
-is given as $$\boldsymbol{F} = -\langle \nabla V_{ext}\rangle.$$ Which
+is given as $$\mathbf{F} = -\langle \nabla V_{ext}\rangle.$$ Which
 means that the force acting on the stirrer is
-$\boldsymbol{F} = \langle \nabla V_{ext}\rangle$. Written explicitly
+$\mathbf{F} = \langle \nabla V_{ext}\rangle$. Written explicitly
 this is
-$$\boldsymbol{F} = \int d\mathbf r |\psi^2| \nabla V_{ext} = -\int d\mathbf r V_{ext}\nabla|\psi^2|   .$$
+$$\mathbf{F} = \int d\mathbf r |\psi^2| \nabla V_{ext} = -\int d\mathbf r V_{ext}\nabla|\psi^2|   .$$
 This is calculated by the function
 
 ``` {.python language="python"}
@@ -253,14 +269,13 @@ potential.
 
 The topological defects in the BEC takes the form of quantized vortices.
 This is because the velocity is given by the gradient of the phase
-$\boldsymbol{v}_s = \nabla \theta$. This has the consequence that the
+$\mathbf{v}_s = \nabla \theta$. This has the consequence that the
 circulation
-$$\Gamma = \oint d\boldsymbol{l} \cdot \boldsymbol{v} = \oint d\boldsymbol{l} \cdot \nabla \theta = \int d\theta$$
+$$\Gamma = \oint d\mathbf{l} \cdot \mathbf{v} = \oint d\mathbf{l} \cdot \nabla \theta = \int d\theta$$
 is quantized in units of $2\pi$, since the field $\psi$ is single
 valued. In two dimensions this vortex is a point defect, while in three
-dimensions it is a line defect. A method for tracking these defects are
-described in Chapter [8](#Chapter:defect_tracking){reference-type="ref"
-reference="Chapter:defect_tracking"}. For the BEC this method is given
+dimensions it is a line defect. 
+For the BEC this method is given
 by the function
 
 ``` {.python language="Python"}
@@ -272,9 +287,7 @@ $\partial_t \psi$ is put in as the field `dt_psi`, then the velocity of
 the defects are also found.
 
 The defects can be created in multiple ways. In addition to putting them
-in by hand as described in Section
-[2.4.3](#sec:vortex_in_periodic_boundaries){reference-type="ref"
-reference="sec:vortex_in_periodic_boundaries"} one can create them by
+in by hand, one can create them by
 stirring the condensate with a potential or by relaxing a disordered
 initial state.
 

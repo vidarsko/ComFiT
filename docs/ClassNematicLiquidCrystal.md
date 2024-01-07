@@ -3,18 +3,23 @@
 ## Variables
 
 The primary variables are the symmetric traceless tensor $Q$ and the
-velocity field $\boldsymbol{u}$
+velocity field $\\vec{u}$
 
 ``` {.python language="Python"}
 nem.Q 
     nem.u
 ```
 
-The $Q$ tensor is given by the nematic director as $$\label{eq:Q_tensor}
-Q_{ij} = S (n_i n_j - \frac{1}{d} \delta_{ij})$$ in $d$ dimensions. For
+The $Q$ tensor is given by the nematic director as 
+
+$$
+Q_{ij} = S (n_i n_j - \frac{1}{d} \delta_{ij})
+$$ 
+
+in $d$ dimensions. For
 the current version only $d=2$ is implemented. To take advantage of its
 symmetric nature we have saved $Q$ as a vector field, which in two
-dimensions takes the form $$\boldsymbol{Q} =[ Q_{xx},Q_{xy}. ]$$ We can
+dimensions takes the form $$\\vec{Q} =[ Q_{xx},Q_{xy}. ]$$ We can
 translate from tensor indexes to the right value stored in the vector by
 using the function
 
@@ -39,12 +44,17 @@ We model the active nematic using a set of coupled differential
 equations, namely the Edvard-Beris equation coupled to the Stokes
 equation
 [@marchetti2013hydrodynamics; @genkin2017topological; @nejad2020memory; @angheluta2021role]
-$$\begin{aligned}
-\partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=-\gamma^{-1}H, \label{eq:EB}
+
+$$
+\begin{aligned}
+\partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=-\gamma^{-1}H,
 \\
-(\Gamma- \eta \nabla^2 )\mathbf u &= -\nabla P + \nabla \cdot \sigma^a(Q) + \nabla \cdot \sigma^p, \label{eq:Stokes_nematic}\\
+(\Gamma- \eta \nabla^2 )\mathbf u &= -\nabla P + \nabla \cdot \sigma^a(Q) + \nabla \cdot \sigma^p, \\
     \nabla \cdot \mathbf u &= 0.
-\end{aligned}$$ Here $2\Omega_{ij} = \partial_i u_j - \partial_j u_i$ is
+\end{aligned}
+$$ 
+
+Here $2\Omega_{ij} = \partial_i u_j - \partial_j u_i$ is
 the vorticity tensor, $P$ is the pressure and we have the active stress
 $\sigma^a = \alpha Q$. The vorticity tensor is calculated by the
 function
@@ -115,12 +125,12 @@ reference="eq:Stokes_nematic"}) and then using the incompressibility
 condition giving $$\nabla^2 P = \nabla \cdot \mathbf F,$$ where
 $\mathbf F =  \nabla \cdot \sigma^a(Q) +\nabla \cdot \sigma^p(Q)$ is the
 active and passive forces. This is solved in Fourier space as
-$$-k^2  {{P}_{\scriptscriptstyle \mathbbm f}} = \mathbbm i\mathbf k \cdot {{\mathbf F}_{\scriptscriptstyle \mathbbm f}}.$$
+$$-k^2  {{P}_{\scriptscriptstyle  f}} =  i\mathbf k \cdot {{\mathbf F}_{\scriptscriptstyle  f}}.$$
 The above equation can be inverted in order to find all the modes of the
 pressure except the zero mode, i.e the pressure is determined up to a
 constant. We set this constant to zero. Once the pressure is found we
 obtain the velocity from
-$$(\Gamma + \eta k^2){{\mathbf u}_{\scriptscriptstyle \mathbbm f}} = -\mathbbm i\mathbf k {{P}_{\scriptscriptstyle \mathbbm f}} + {{F}_{\scriptscriptstyle \mathbbm f}}.$$
+$$(\Gamma + \eta k^2){{\mathbf u}_{\scriptscriptstyle  f}} = - i\mathbf k {{P}_{\scriptscriptstyle  f}} + {{F}_{\scriptscriptstyle  f}}.$$
 Note that when $\Gamma = 0$ we need to set the zero mode of the velocity
 by hand. This is set to zero. The pressure and velocity are
 calculated/updated by the two functions
@@ -140,14 +150,14 @@ Because of the head-tail symmetry if the nematic director the
 topological defects in the nematic phase can have half integer winding
 number. We can see this by maping the $Q$ tensor to a complex field.
 This is done by writing the nematic director as
-$\boldsymbol{n} = \cos{\theta} \hat x + \sin{\theta} \hat y$, with
+$\\vec{n} = \cos{\theta} \hat x + \sin{\theta} \hat y$, with
 $\hat x /\hat y$ being the unit vectors in $x /y$ direction, and mapping
 the $Q$ tensor, see
 eq. ([\[eq:Q_tensor\]](#eq:Q_tensor){reference-type="ref"
 reference="eq:Q_tensor"}), to the complex field
-$$\psi = Q_{xx} + \mathbbm iQ_{xy} = \frac{S}{2} e^{2\mathbbm i\theta}.$$
+$$\psi = Q_{xx} +  iQ_{xy} = \frac{S}{2} e^{2 i\theta}.$$
 Using the same arguments as for the BEC we find that the allowed winding
-numbers $$k = \int_C \nabla \theta \cdot d\boldsymbol{l} = 2\pi q$$ with
+numbers $$k = \int_C \nabla \theta \cdot d\\vec{l} = 2\pi q$$ with
 $q$ being a half-integer. The defects of lowest absolute charge is the
 $\pm 1/2$ defects, which are depicted in fig.
 [7.1](#fig:nem_dipole){reference-type="ref" reference="fig:nem_dipole"}.
@@ -164,10 +174,10 @@ calc_vortex_nodes_nem(self, dt_Q=None,polarization = None)
 
 If `dt_Q` is given this finds the defects velocity and if
 `polarization ` is given the polarization of the $+1/2$ defects are
-found. This polarization is given by $$\boldsymbol{e}_+ = 
-    \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\boldsymbol{r}= \boldsymbol{r}_+}$$
-where $\boldsymbol{r}_+$ is the defects position. The field
-$\boldsymbol{e}_+$ can be found by the function
+found. This polarization is given by $$\\vec{e}_+ = 
+    \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\\vec{r}= \\vec{r}_+}$$
+where $\\vec{r}_+$ is the defects position. The field
+$\\vec{e}_+$ can be found by the function
 
 ``` {.python language="Python"}
 calc_defect_polarization_field(self)
@@ -176,23 +186,6 @@ calc_defect_polarization_field(self)
 Note that this function does not include the normalization to avoid
 division by zero.
 
-The topological
-
-Given the nature of the $$Q_{ij} = (n_i n_j - \frac{1}{d} \delta_{ij})$$
-By integrating in along a path around this, we know that, around a
-defect line $$\boldsymbol{n}^{(0)} \oint d\boldsymbol{n}\cdot  = -1$$
-for some reference $\boldsymbol{n}_0$ on the path. Thus, consider now
-the following integral $$\begin{gathered}
-n^{(0)}_i \oint  Q_{ik} d Q_{kj}
-=
-n^{(0)}_i \oint  
-(n_i n_k - \frac{1}{d} \delta_{ik})
-d (n_k n_j - \frac{1}{d} \delta_{kj}) \\
-=
-n^{(0)}_i \oint  
-(n_i n_k - \frac{1}{d} \delta_{ik})
-(d n_k n_j + n_k d n_j ) 
-\end{gathered}$$ Maybe simplifyable?
 
 ## Initial States
 
@@ -239,3 +232,36 @@ $$\alpha = \alpha_0 \left[1 -1/2 \left(\tanh([x-w/2]/d) -\tanh([x+w/2]/d) \right
 $w$ is here the width of the channel, $\alpha_0$ is the activity in the
 channel and $d$ is the width of the interface between the channel and
 the bulk. More complicated structures can be created if one wish.
+
+
+## Topological defects
+
+Topological defects in nematic liquid crystals are called disclinations and are characterized the orientation of the rod-like particles having rotated after following a path around the dislocation. 
+
+$$
+D_{\gamma i} = \epsilon_{\gamma \mu \nu} \epsilon_{ikl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}
+$$
+
+In two dimensions, where $\mathbf n = (\cos \theta,\sin \theta)$, we have 
+
+$$
+Q = 
+S\begin{pmatrix}
+\cos \theta \cos \theta - \frac{1}{2} & \cos \theta \sin \theta \\
+\cos \theta \sin \theta & \sin \theta \sin \theta - \frac{1}{2}\\
+\end{pmatrix}
+=
+\frac{S}{2}
+\begin{pmatrix}
+\cos (2\theta) &  \sin(2\theta) \\
+\sin(2\theta) & - \cos (2\theta)\\
+\end{pmatrix},
+$$
+
+we get only one component, which is $D_{33}$ and 
+
+$$
+D_{33} = \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}
+$$
+
+
