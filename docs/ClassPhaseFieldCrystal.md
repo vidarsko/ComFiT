@@ -88,6 +88,7 @@ been chosen so that the first $d$ primary LVs are primitive LVs which satisfy th
 ### 1D periodic
 
 Lattice constant
+
 $$
 a_0 = 2\pi
 $$
@@ -96,7 +97,6 @@ Primary RLVs
 
 $$
 \mathcal R_{\textrm{per}}^{(1)} = 
-         
 \left \lbrace 
 \begin{array}{l}
     q^{(1)} = 1  \\
@@ -109,7 +109,6 @@ Primary BLVs
 
 $$
 \mathcal B_{\textrm{per}}^{(1)} = 
-         
 \left \lbrace 
 \begin{array}{l}
     a^{(1)} = a_0  \\
@@ -124,14 +123,15 @@ $$
 ### 2D Triangular
 
 Lattice constant
+
 $$
 a_0 = \frac{4\pi}{\sqrt 3}
 $$
 
 Primary RLVs
+
 $$ 
-\mathcal R_{\textrm{tri}}^{(1)} = 
-         {
+\mathcal R_{\textrm{tri}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
     \vec q^{(1)} = (\sqrt 3/2,-1/2)  \\
@@ -146,8 +146,7 @@ $$
 Primary BLVs
 
 $$
-\mathcal B_{\textrm{tri}}^{(1)} = 
-         {
+\mathcal B_{\textrm{tri}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
     \vec a^{(1)} = a_0(1,0)  \\
@@ -169,9 +168,9 @@ a_0 = 2\pi
 $$
 
 Primary RLVs
+
 $$ 
-\mathcal R_{\textrm{sq}}^{(1)} = 
-         {
+\mathcal R_{\textrm{sq}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
     \vec q^{(1)} = (1,0)  \\
@@ -502,7 +501,7 @@ $$
 
 ## Demodulation
 
-$$\eta_n = \langle \psi e^{-\mathbbm i \boldsymbol{q}^{(n)} \cdot \boldsymbol{r}} \rangle$$
+$$\eta_n = \langle \psi e^{- i \boldsymbol{q}^{(n)} \cdot \boldsymbol{r}} \rangle$$
 
 ## Elasticity
 
@@ -510,24 +509,114 @@ This quantity is the Poisson ratio, under some conditions. I think. To
 be fixed. $$\nu = \frac{\lambda}{(d-1)\lambda + 2\mu + \gamma}$$
 
 Elastic constants are saved in these quantities
-      pfc.el_mu      pfc.el_lambda      pfc.el_gamma      pfc.el_nu
+
+```python
+pfc.el_mu
+pfc.el_lambda
+pfc.el_gamma
+pfc.el_nu
+```
 
 The equations for calculating the stress tensor are found in Ref.
 [@skogvollStressOrderedSystems2021], but we list them below, together
 wtih the elastic constants for each of the models.
+The stress tensor $h_{ij}$ and its associated elastic constants interms of amplitudes ($A,B,C$) of the mode expansion for different PFCmodels. Here, $\mathcal L_X = X+\nabla^2$. The elastic constants canbe expressed in Voigt notation by $C_{11} = \lambda+2\mu+\gamma$,$C_{12} = \lambda$, $C_{44}=\mu$.
 
-Following the derivation in Ref. [@skogvollStressOrderedSystems2021], we
-get $$\tilde h_{xx} =$$
+$$
+\nabla \cdot  h  =
+\left \langle \tilde \mu_c \nabla \psi - \nabla \tilde f \right \rangle
+$$
 
-::: landscape
-::: {#tab:elasticity_summary}PFC model         Stress tensor $h_{ij}$                                                                                                                                                                 Elastic constants                                ----------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --------------------------------------- -- -- -- --1D periodic       $-2\left \langle (\mathcal L_1 \psi) \partial_{xx} \psi \right \rangle$                                                                                                                $\lambda =$                                                                                                                                                                                                                                               $\mu =$                                                                                                                                                                                                                                                   $\gamma = 0$                                     2D triangular     $-2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle$                                                                                                                $\lambda = 3A^2$                                                                                                                                                                                                                                          $\mu = 3A^2$                                                                                                                                                                                                                                              $\gamma = 0$                                     2D square         $-2\left \langle (\mathcal L_1 \mathcal L_2 \psi)(\mathcal L_1 + \mathcal L_2) \partial_{ij} \psi \right \rangle$                                                                      $\lambda = 16B^2$                                                                                                                                                                                                                                         $\mu = 16B^2$                                                                                                                                                                                                                                             $\gamma = 8A^2-32B^2$                            3D bcc            $-2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle$                                                                                                                $\lambda = 4 A^2$                                                                                                                                                                                                                                         $\mu = 4 A^2$                                                                                                                                                                                                                                             $\gamma = -4A^2$                                 3D fcc            $-2\left \langle (\mathcal L_1 \mathcal L_{\frac 4 3} \psi)(\mathcal L_1 + \mathcal L_{\frac 4 3}) \partial_{ij} \psi \right \rangle$                                                  $\lambda = \frac{32}{81} A^2$                                                                                                                                                                                                                             $\mu = \frac{32}{81} A^2$                                                                                                                                                                                                                                 $\gamma = \frac{32}{81} (2B^2 - A^2)$            3D simple cubic   $-2\left \langle (\mathcal L_1 \mathcal L_2 \mathcal L_3 \psi)(\mathcal L_2 \mathcal L_3 + \mathcal L_1 \mathcal L_3 + \mathcal L_1 \mathcal L_2) \partial_{ij} \psi \right \rangle$   $\lambda = 16 B^2 + 128 C^2$                                                                                                                                                                                                                              $\mu = 16 B^2 + 128 C^2$                                                                                                                                                                                                                                  $\gamma = 32 A^2 - 16 B^2 - 256 C^2$             
-: The stress tensor $h_{ij}$ and its associated elastic constants interms of amplitudes ($A,B,C$) of the mode expansion for different PFCmodels. Here, $\mathcal L_X = X+\nabla^2$. The elastic constants canbe expressed in Voigt notation by $C_{11} = \lambda+2\mu+\gamma$,$C_{12} = \lambda$, $C_{44}=\mu$. Reprinted from Ref.[@skogvollStressOrderedSystems2021] with permission.
-:::
-:::
+### 1D periodic
 
-$$\nabla \cdot \mathbbm h 
-=
-\left \langle \tilde \mu_c \nabla \psi - \nabla \tilde f \right \rangle$$
+Stress tensor
+
+Elastic constants
+
+$$
+\lambda = 
+$$
+
+$$
+\mu = 
+$$
+
+$$
+\gamma = 
+$$    
+
+### 2D triangular
+
+Stress tensor
+
+$$
+h_{ij} = -2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle
+$$
+
+Elastic constants
+
+$$\lambda = 3A^2$$
+
+$$\mu = 3A^2$$
+
+$$\gamma = 0$$                                     
+
+### 2D square
+
+Stress tensor
+$$ h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_2 \psi)(\mathcal L_1 + \mathcal L_2) \partial_{ij} \psi \right \rangle$$
+
+Elastic constants
+
+$$\lambda = 16B^2$$
+
+$$\mu = 16B^2$$ 
+
+$$\gamma = 8A^2-32B^2$$                            
+
+
+
+### 3D body-centered cubic
+
+Stress tensor
+
+$$h_{ij} = -2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle$$
+
+Elastic constants
+
+$$\lambda = 4 A^2$$
+
+$$\mu = 4 A^2$$
+
+$$\gamma = -4A^2$$                                 
+
+### 3D face-centered cubic
+
+Stress tensor
+
+$$h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_{\frac 4 3} \psi)(\mathcal L_1 + \mathcal L_{\frac 4 3}) \partial_{ij} \psi \right \rangle$$
+
+Elastic constants
+
+$$\lambda = \frac{32}{81} A^2$$
+
+$$\mu = \frac{32}{81} A^2$$
+
+$$\gamma = \frac{32}{81} (2B^2 - A^2)$$
+
+### 3D simple cubic
+
+Stress tensor
+
+$$h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_2 \mathcal L_3 \psi)(\mathcal L_2 \mathcal L_3 + \mathcal L_1 \mathcal L_3 + \mathcal L_1 \mathcal L_2) \partial_{ij} \psi \right \rangle$$
+
+Elastic constants
+
+$$\lambda = 16 B^2 + 128 C^2$$
+
+$$\mu = 16 B^2 + 128 C^2$$
+
+$$\gamma = 32 A^2 - 16 B^2 - 256 C^2$$
 
 ## Equations of motion
 
@@ -546,16 +635,13 @@ $$\partial_t \psi = \nabla^2 \mu_c,$$ The PFC evolution equation
 
 where
 
-::: tcolorbox
 $$\mu_c = 
-\frac{\delta \mathcal F}{\delta \psi}
-=
+\frac{\delta \mathcal F}{\delta \psi} =
 \left ( \mathcal L^2 \psi + \texttt r \psi + \texttt t \psi^2 + \texttt v \psi^3 \right )$$
 The PFC chemical potential
-:::
 
 which gives
-$${{\omega }_{\scriptscriptstyle \mathbbm f}}= -\boldsymbol{k}^2 (r + {{\mathcal L}_{\scriptscriptstyle \mathbbm f}}^2)$$
+$${{\omega }_{\scriptscriptstyle  f}}= -\boldsymbol{k}^2 (r + {{\mathcal L}_{\scriptscriptstyle  f}}^2)$$
 $$N = \nabla^2 (\texttt{t} \psi^2 + \texttt v \psi^3)$$
 
 ### Unconserved dynamics
@@ -568,97 +654,143 @@ $$\partial_t \psi = - \mu_c$$ The unconserved PFC evolution equation
 
 ### Evolution at mechanical equilibrium
 
-Historical context.
 
-::: tcolorbox
+---
+
 Step 1:
+
 $$\psi(t+\Delta t) = \textrm{Integrate($\Delta t$):} (\partial_t \psi)$$
+
 Step 2:
+
 $$\psi(t + \Delta t, \boldsymbol{r}) \leftarrow \psi(t + \Delta t, \boldsymbol{r} - \boldsymbol{u}^\delta),$$
-where $\boldsymbol{u}^\delta$ is the solution to
-$$\boldsymbol{u}^\delta  =$$ The PFC evolution at mechanical equilibrium
+
+where $\boldsymbol{u}^\delta$ is the solution to $$\boldsymbol{u}^\delta  =$$ 
+
+*The PFC evolution at mechanical equilibrium*
 
 (`evolve_PFC_mechanical_equilibrium`)
-:::
+
+---
 
 Note that due to the asymmetry of the elastic constants, this method can
 only be used for small deviations of the lattice orientation.
 
 ### Hydrodynamic PFC evolution
 
-In Ref. [@skogvollHydrodynamicPhaseField2022], a hydrodynamic approach
+In Ref. [@skogvollHydrodynamicPhaseField2022](References.md), a hydrodynamic approach
 was derived. A simplified two-parameter model was proposed
 
-::: tcolorbox
+---
+
 $$\partial_t \psi = \nabla^2 \tilde \mu_c - \boldsymbol{v} \cdot \nabla \psi$$
-$$\partial_t \boldsymbol{v} = \frac{1}{\rho_0} (\nabla \cdot \mathbbm h + \Gamma_S \nabla^2 \boldsymbol{v} + \boldsymbol{f}^{\textrm(ext)})$$
-The hydrodynamic PFC model
+$$\partial_t \boldsymbol{v} = \frac{1}{\rho_0} (\nabla \cdot  h + \Gamma_S \nabla^2 \boldsymbol{v} + \boldsymbol{f}^{\textrm(ext)})$$
+
+*The hydrodynamic PFC model*
 
 (`evolve_PFC_hydrodynamic`)
-:::
+
+---
 
 We insert for $\mu_c$ and write it in matrix form to emphasize the
-linear and non-linear parts $$\partial_t 
+linear and non-linear parts 
+
+$$
+\partial_t 
 \begin{pmatrix}  \psi \\  v_1 \\  v_2 \\  v_3 
-\end{pmatrix}
-=
+\end{pmatrix} =
 \begin{pmatrix}  \nabla^2 (r + \mathcal L^2) \psi \\  \frac{1}{\rho_0}\Gamma_S \nabla^2 v_1 \\  \frac{1}{\rho_0}\Gamma_S \nabla^2 v_2 \\  \frac{1}{\rho_0}\Gamma_S \nabla^2 v_3
-\end{pmatrix}
-+
+\end{pmatrix} +
 \begin{pmatrix}  \nabla^2 (\texttt t \psi^2 + \texttt v \psi^3)  - \boldsymbol{v} \cdot \nabla \psi \\  \frac{1}{\rho_0} \left (  \left \langle \tilde \mu_c \partial_x \psi - \partial_x \tilde f \right \rangle  + f_x^{(ext)}\right )\\  \frac{1}{\rho_0} \left (  \left \langle \tilde \mu_c \partial_y \psi - \partial_y \tilde f \right \rangle  + f_y^{(ext)}\right ) \\  \frac{1}{\rho_0} \left (  \left \langle \tilde \mu_c \partial_z \psi - \partial_z \tilde f \right \rangle  +  f_z^{(ext)} \right )
-\end{pmatrix}$$
+\end{pmatrix}
+$$
 
 ## Dislocations
 
 The Burgers vector is defined by
 
-::: tcolorbox
+---
 $$\oint_{\partial \mathcal M} d \boldsymbol{u} = -\boldsymbol{b}.
-\label{eq:Burgers_vector_definition}$$ Burgers vector definition
-:::
+$$ 
+
+*Burgers vector definition*
+
+---
 
 The minus sign in this convention reflects the fact that we consider the
 Burgers vector to be the disconnection error from the *ending* point to
 the *starting* point, when going an oriented path around the
-dislocation, see Fig.
-[\[fig:TypesOfDislocations\]](#fig:TypesOfDislocations){reference-type="ref"
-reference="fig:TypesOfDislocations"}.
+dislocation, 
 
-::: overpic
-Figures/TypesOfDislocations.png (0,30) (14,12) (36,30) (46,30)
-$\boldsymbol{t}$ (62,5)$x$ (35,12)$y$ (36.5,27)$z$ (68,30)
-:::
+[INSERT FIGURE]
 
 In three dimensions, the path defining the dislocation is given by the
 direction of the dislocation line tangent $\boldsymbol{t}$. Multiplying
 this equation by the reciprocal lattice vector $-\boldsymbol{q}^{(n)}$,
 we get
-$$\oint_{\partial \mathcal M} d (-\boldsymbol{q}^{(n)} \cdot \boldsymbol{u}) = (\boldsymbol{b} \cdot \boldsymbol{q}^{(n)}) \equiv 2\pi s_n,$$
-where $s_n$ is the charge associated with the Burgers vector
-$\boldsymbol{b}$
 
-::: tcolorbox
+$$\oint_{\partial \mathcal M} d (-\boldsymbol{q}^{(n)} \cdot \boldsymbol{u}) = (\boldsymbol{b} \cdot \boldsymbol{q}^{(n)}) \equiv 2\pi s_n,$$
+
+where $s_n$ is the charge associated with the Burgers vector $\boldsymbol{b}$
+
+---
 $$s_n = \frac{1}{2\pi} \boldsymbol{b} \cdot \boldsymbol{q}^{(n)}.$$
 Dislocation charge
-:::
 
-Using the primary BLVs from Tab.
-[5.2](#tab:crystalLatticeVectors){reference-type="ref"
-reference="tab:crystalLatticeVectors"}, we get the charges summarized in
-Tab. [5.5](#tab:dislocation_charges){reference-type="ref"
-reference="tab:dislocation_charges"}.
+---
 
-::: landscape
-::: {#tab:dislocation_charges}Crystal structure                                                       $\cdot \boldsymbol{q}_1$   $\cdot \boldsymbol{q}_2$   $\cdot \boldsymbol{q}_3$   $\cdot \boldsymbol{q}_4$   $\cdot \boldsymbol{q}_5$   $\cdot \boldsymbol{q}_6$   $\cdot \boldsymbol{q}_7$   $\cdot \boldsymbol{q}_8$   $\cdot \boldsymbol{q}_9$   $\cdot \boldsymbol{q}_{10}$   $\cdot \boldsymbol{q}_{11}$   $\cdot \boldsymbol{q}_{12}$   $\boldsymbol{q}_{13}$        ---------------------------------------------------------------------- -------------------------- -------------------------- -------------------------- -------------------------- -------------------------- -------------------------- -------------------------- -------------------------- -------------------------- ----------------------------- ----------------------------- ----------------------------- ----------------------- -- -- --2D tri: $\boldsymbol{b}=\boldsymbol{a}^{(1)} = a_0 (1,0)$                   $\color{red} 1$                  $0$                  $\color{blue}-1$                                                                                                                                                                                                                                                                                                2D tri: $\boldsymbol{b}=\boldsymbol{a}^{(2)} = a_0 (1/2,\sqrt 3/2)$               $0$                  $\color{red} 1$            $\color{blue}-1$                                                                                                                                                                                                                                                                                                2D tri: $\boldsymbol{b}=\boldsymbol{a}^{(3)} = a_0 (1/2,-\sqrt 3/2)$        $\color{red} 1$            $\color{blue}-1$                 $0$                                                                                                                                                                                                                                                                                                       2D sq: $\boldsymbol{b}=\boldsymbol{a}^{(1)} = a_0 (1,0)$                    $\color{red} 1$                  $0$                  $\color{red} 1$            $\color{red} 1$                                                                                                                                                                                                                                                                      2D sq: $\boldsymbol{b}=\boldsymbol{a}^{(2)} = a_0(0,1)$                           $0$                  $\color{red} 1$            $\color{blue}-1$           $\color{red} 1$                                                                                                                                                                                                                                                                      3D bcc: $\boldsymbol{b}=\boldsymbol{a}^{(1)} = a_0/2 (-1,1,1)$              $\color{red} 1$                  $0$                        $0$                        $0$                  $\color{red} 1$            $\color{red} 1$                                                                                                                                                                                                                3D bcc: $\boldsymbol{b}=\boldsymbol{a}^{(2)} = a_0/2 (1,-1,1)$                    $0$                  $\color{red} 1$                  $0$                  $\color{red} 1$                  $0$                  $\color{blue}-1$                                                                                                                                                                                                               3D bcc: $\boldsymbol{b}=\boldsymbol{a}^{(3)} = a_0/2 (1,1,-1)$                    $0$                        $0$                  $\color{red} 1$            $\color{blue}-1$           $\color{blue}-1$                 $0$                                                                                                                                                                                                                      3D bcc: $\boldsymbol{b}=\boldsymbol{a}^{(4)} = a_0/2 (1,1,1)$               $\color{red} 1$            $\color{red} 1$            $\color{red} 1$                  $0$                        $0$                        $0$                                                                                                                                                                                                                      3D fcc: $\boldsymbol{b}=\boldsymbol{a}^{(1)} = a_0/2(0,1,1)$                $\color{red} 1$                  $0$                        $0$                  $\color{red} 1$                  $0$                  $\color{red} 1$            $\color{red} 1$                                                                                                                                                                                     3D fcc: $\boldsymbol{b}=\boldsymbol{a}^{(2)} = a_0/2(1,0,1)$                      $0$                  $\color{red} 1$                  $0$                  $\color{red} 1$            $\color{red} 1$                  $0$                  $\color{red} 1$                                                                                                                                                                                     3D fcc: $\boldsymbol{b}=\boldsymbol{a}^{(3)} = a_0/2 (1,1,0)$                     $0$                        $0$                  $\color{red} 1$            $\color{red} 1$            $\color{red} 1$            $\color{red} 1$                  $0$                                                                                                                                                                                           3D fcc: $\boldsymbol{b}=\boldsymbol{a}^{(4)} = a_0/2(0,-1,1)$                     $0$                  $\color{red} 1$            $\color{blue}-1$                 $0$                        $0$                  $\color{blue}-1$           $\color{red} 1$                                                                                                                                                                                     3D fcc: $\boldsymbol{b}=\boldsymbol{a}^{(5)} = a_0/2 (-1,0,1)$              $\color{red} 1$                  $0$                  $\color{blue}-1$                 $0$                  $\color{blue}-1$                 $0$                  $\color{red} 1$                                                                                                                                                                                     3D fcc: $\boldsymbol{b}=\boldsymbol{a}^{(6)} = a_0/2(-1,1,0)$               $\color{red} 1$            $\color{blue}-1$                 $0$                        $0$                  $\color{blue}-1$           $\color{red} 1$                  $0$                                                                                                                                                                                           3D simple cubic: $\boldsymbol{b}=\boldsymbol{a}^{(1)} = a_0(1,0,0)$         $\color{red} 1$                  $0$                        $0$                        $0$                  $\color{red} 1$            $\color{red} 1$                  $0$                  $\color{blue}-1$           $\color{blue}-1$            $\color{blue}-1$               $\color{red} 1$               $\color{red} 1$            $\color{red} 1$           3D sc: $\boldsymbol{b}=\boldsymbol{a}^{(2)} = a_0 (0,1,0)$                        $0$                  $\color{red} 1$                  $0$                  $\color{red} 1$                  $0$                  $\color{red} 1$            $\color{blue}-1$                 $0$                  $\color{red} 1$              $\color{red} 1$              $\color{blue}-1$               $\color{red} 1$            $\color{red} 1$           3D simple cubic: $\boldsymbol{b}=\boldsymbol{a}^{(3)} = a_0(0,0,1)$               $0$                        $0$                  $\color{red} 1$            $\color{red} 1$            $\color{red} 1$                  $0$                  $\color{red} 1$            $\color{red} 1$                  $0$                    $\color{red} 1$               $\color{red} 1$              $\color{blue}-1$            $\color{red} 1$           
-: The charges $s_n$ corresponding to different dislocations (given byone of the primary BLVs). The vertical lines mark the portion of RLVsthat are primary, secondary and tertiary.
-:::
-:::
+Using the primary BLVs we get the charges summarized below
+
+
+### 2D triangular
+
+|Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | 
+|------------------------| ----- | ----- | ----- |
+$\vec a^{(1)} = a_0 (1,0)$               | $\color{red} 1$ | $0$ | $\color{blue}-1$ 
+$\vec a^{(2)} = a_0 (1/2,\sqrt 3/2)$     | $0$ | $\color{red} 1$ | $\color{blue}-1$ 
+$\vec a^{(3)} = a_0 (1/2,-\sqrt 3/2)$    | $\color{red} 1$ | $\color{blue}-1$ | $0$ 
+
+### 2D square
+
+|Burgers vector $\vec b$ | $s_1$ | $s_2$ | | $s_3$ | $s_4$ | 
+|------------------------| ----- | ----- |-| ----- | ----- |
+$\vec a^{(1)} = a_0 (1,0)$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $\color{red} 1$
+$\vec a^{(2)} = a_0(0,1)$ | $0$ | $\color{red} 1$ | | $\color{blue}-1$ | $\color{red} 1$
+
+### 3D body-centered cubic
+
+|Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | $s_4$ | $s_5$ | $s_6$ | 
+|------------------------| ----- | ----- | ----- | ----- | ----- | ----- |
+$\vec a^{(1)} = a_0/2 (-1,1,1)$ | $\color{red} 1$ | $0$ | $0$ | $0$ | $\color{red} 1$ | $\color{red} 1$
+$\vec a^{(2)} = a_0/2 (1,-1,1)$ | $0$ | $\color{red} 1$ | $0$ | $\color{red} 1$ | $0$ | $\color{blue}-1$
+$\vec a^{(3)} = a_0/2 (1,1,-1)$ | $0$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{blue}-1$ | $0$
+$\vec a^{(4)} = a_0/2 (1,1,1)$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$ | $0$ | $0$ | $0$
+
+### 3D face-centered cubic
+
+|Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | $s_4$ | | $s_5$ | $s_6$ | $s_7$ | 
+|------------------------| ----- | ----- | ----- | ----- |-| ----- | ----- | ----- |
+$\vec a^{(1)} = a_0/2(0,1,1)$ | $\color{red} 1$ | $0$ | $0$ | $\color{red} 1$ | | $0$ | $\color{red} 1$ | $\color{red} 1$ 
+$\vec a^{(2)} = a_0/2(1,0,1)$ | $0$ | $\color{red} 1$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $0$ | $\color{red} 1$
+$\vec a^{(3)} = a_0/2 (1,1,0)$ | $0$ | $0$ | $\color{red} 1$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ 
+$\vec a^{(4)} = a_0/2(0,-1,1)$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | |$0$ | $\color{blue}-1$ | $\color{red} 1$
+$\vec a^{(5)} = a_0/2 (-1,0,1)$ | $\color{red} 1$ | $0$ | $\color{blue}-1$ | $0$ | |$\color{blue}-1$ | $0$ | $\color{red} 1$ 
+$\vec a^{(6)} = a_0/2(-1,1,0)$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | $0$ | |$\color{blue}-1$| $\color{red} 1$ | $0$ 
+
+### 3D simple cubic
+
+| Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | | $s_4$ | $s_5$ | $s_6$ | $s_7$ | $s_8$ | $s_9$ | | $s_{10}$  | $s_{11}$ | $s_{12}$ | $s_{13}$ |
+|-------------------------|-------|-------|-------|-|-------|-------|-------|-------|-------|-------|-| ----------|----------|----------|----------|
+$\vec a^{(1)} = a_0(1,0,0)$ | $\color{red} 1$ | $0$ | $0$ | |$0$ | $\color{red} 1$ | $\color{red} 1$ | $0$ |  $\color{blue}-1$ | $\color{blue}-1$ | |$\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$
+$\vec a^{(2)} = a_0 (0,1,0)$ | $0$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ |  $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ 
+$\vec a^{(3)} = a_0(0,0,1)$ | $0$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ | $\color{red} 1$ |  $\color{red} 1$ | $0$ | | $\color{red} 1$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ 
+
+## The dislocation density tensor
 
 Given a PFC configuration, the dislocation density tensor may be
-calculated as
+calculated as [skogvollPhaseFieldCrystal2022](References.md)
 $$\alpha_{ij} = \frac{2d}{N\eta_0^2} \sum_{n=1}^N D_i^{(n)} q_j^{(n)}
-=
-\frac{2 \pi d}{N} \sum_{n=1}^N \rho_i^{(n)} q_j^{(n)}$$ where
+= \frac{2 \pi d}{N} \sum_{n=1}^N \rho_i^{(n)} q_j^{(n)}$$ where
 $\boldsymbol{D}^{(n)}$ is calculated from
 $\boldsymbol{\psi }= (\Re(\eta_n), \Im(\eta_n))$ from the $N$ primary
 reciprocal lattice vectors $\boldsymbol{q}^{(n)}$ and
