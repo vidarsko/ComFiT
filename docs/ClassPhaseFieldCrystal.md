@@ -635,13 +635,10 @@ $$\partial_t \psi = \nabla^2 \mu_c,$$ The PFC evolution equation
 
 where
 
-::: tcolorbox
 $$\mu_c = 
-\frac{\delta \mathcal F}{\delta \psi}
-=
+\frac{\delta \mathcal F}{\delta \psi} =
 \left ( \mathcal L^2 \psi + \texttt r \psi + \texttt t \psi^2 + \texttt v \psi^3 \right )$$
 The PFC chemical potential
-:::
 
 which gives
 $${{\omega }_{\scriptscriptstyle  f}}= -\boldsymbol{k}^2 (r + {{\mathcal L}_{\scriptscriptstyle  f}}^2)$$
@@ -784,7 +781,7 @@ $\vec a^{(6)} = a_0/2(-1,1,0)$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | $0$ 
 
 | Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | | $s_4$ | $s_5$ | $s_6$ | $s_7$ | $s_8$ | $s_9$ | | $s_{10}$  | $s_{11}$ | $s_{12}$ | $s_{13}$ |
 |-------------------------|-------|-------|-------|-|-------|-------|-------|-------|-------|-------|-| ----------|----------|----------|----------|
-$\vec a^{(1)} = a_0(1,0,0)$ | $\color{red} 1$ | $0$ | $0$ | |$0$ | $\color{red} 1$ | $\color{red} 1$ | $0$ |  $\color{blue}-1$ | | $\color{blue}-1$ |$\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$
+$\vec a^{(1)} = a_0(1,0,0)$ | $\color{red} 1$ | $0$ | $0$ | |$0$ | $\color{red} 1$ | $\color{red} 1$ | $0$ |  $\color{blue}-1$ | $\color{blue}-1$ | |$\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$
 $\vec a^{(2)} = a_0 (0,1,0)$ | $0$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ |  $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ 
 $\vec a^{(3)} = a_0(0,0,1)$ | $0$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ | $\color{red} 1$ |  $\color{red} 1$ | $0$ | | $\color{red} 1$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ 
 
