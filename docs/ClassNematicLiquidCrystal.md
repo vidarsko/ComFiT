@@ -237,9 +237,10 @@ the bulk. More complicated structures can be created if one wish.
 ## Topological defects
 
 Topological defects in nematic liquid crystals are called disclinations and are characterized the orientation of the rod-like particles having rotated after following a path around the dislocation. 
+From [schimmingKinematicsDynamicsDisclination2023](References.md),
 
 $$
-D_{\gamma i} = \epsilon_{\gamma \mu \nu} \epsilon_{ikl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}
+D_{\gamma i} = \epsilon_{\gamma \mu \nu} \epsilon_{ikl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}.
 $$
 
 In two dimensions, where $\mathbf n = (\cos \theta,\sin \theta)$, we have 
@@ -267,7 +268,7 @@ $$
 \end{pmatrix},
 $$
 
-where $\psi_1,\psi_2$ are the components of an $\mathcal S^1$ order parameter.
+where $\psi_1,\psi_2$ are the components of an $\mathcal D^2$ order parameter.
 We get only one component of $D_{\gamma i}$, which is $D_{33}$ which is
 
 $$
@@ -280,4 +281,45 @@ $$
 \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 2} \partial_l Q_{\nu 2}
 $$
 
+We have $Q_{\mu1} = \frac{1}{2} \psi_\mu$ and $Q_{\mu 2} = \frac{1}{2} \epsilon_{\mu q} \psi_q$, so 
 
+$$
+D_{33}
+=
+\frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu)
++
+\frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k  \epsilon_{\mu q} \psi_q) (\partial_l \epsilon_{\nu r} \psi_r)
+$$
+And using that 
+
+$$\epsilon_{\mu \nu} \epsilon_{\mu q} \epsilon_{\nu r} = \epsilon_{qr},
+$$
+
+we get
+
+$$
+D_{33} = \frac{1}{2} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu).
+$$
+
+This is the same determinant as we would get using the coarse grain density of [skogvollUnifiedFieldTheory2023](References.md), only with $\psi_0$, so, the disclination density should be 
+
+$$
+\rho_{\gamma i} = \frac{1}{\pi S_0^2} D_{\gamma i} 
+$$
+
+In three dimenstions, the story is more complicated, because we have a tensor $\rho_{\gamma i}$. 
+This tensor contains two pieces of information, namely which direction the disclination is pointing, and around which axis $\boldsymbol \Omega$, near the disclination, the rods are rotating. 
+In that way, it is similar to a dislocation density in a crystal structure, only that it allows for the orientation the "Burgers vector" to be any direction. 
+It can probably be written like this
+
+$$
+\rho_{\gamma i} = t_{\gamma} \Omega_i,
+$$
+where $\boldsymbol t$ is a unit vector. 
+From this, we see that 
+
+$$
+|\rho|^2 = \rho_{\gamma i} \rho_{\gamma i} = |\boldsymbol \Omega|^2,
+$$
+
+so $\sqrt{|\rho|^2}$ is the quantity we should integrate to find the nodes of the defects.
