@@ -258,10 +258,26 @@ S\begin{pmatrix}
 \end{pmatrix},
 $$
 
-we get only one component, which is $D_{33}$ and 
+$$
+= 
+\frac{1}{2}
+\begin{pmatrix}
+\psi_1 &  \psi_2 \\
+\psi_2 & - \psi_1\\
+\end{pmatrix},
+$$
+
+where $\psi_1,\psi_2$ are the components of an $\mathcal S^1$ order parameter.
+We get only one component of $D_{\gamma i}$, which is $D_{33}$ which is
 
 $$
 D_{33} = \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}
+$$
+$$
+=
+\epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 1} \partial_l Q_{\nu 1}
++
+\epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 2} \partial_l Q_{\nu 2}
 $$
 
 
