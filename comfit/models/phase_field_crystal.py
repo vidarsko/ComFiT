@@ -55,7 +55,7 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi = np.real(self.psi)
         self.psi_f = sp.fft.fftn(self.psi)
 
-    def calc_advect_PFC(self,u):
+    def conf_advect_PFC(self,u):
         """
         Advects the PFC according to the displacement field u.
         """
