@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_parula
 from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
+from comfit.tools.tool_math_functions import tool_multinom
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
 from matplotlib.tri import Triangulation
@@ -604,6 +605,49 @@ class BaseSystem:
             raise Exception("This method is not implemented.")
 
         return integrating_factors_f, solver
+
+    def calc_advect_field(self, field, u, field_f = None, order = 3):
+        """
+        Advects field accodring to the provided displacement field u, with a taylor expansion up to order 3.
+
+        Input: 
+            u: Displacement field (numpy.ndarray)
+            taylor_order: Order of the taylor expansion
+
+        Output:
+            None
+        """
+
+        if order > 3:
+            raise ValueError("The order of the taylor expansion must be less than or equal to 3.")
+
+        if field_f is None:
+            field_f = sp.fft.fftn(field)
+
+        if order > 0:
+            for i in range(self.dim):
+                # Calculate the derivative
+                difield = sp.fft.ifftn(self.dif[i]*field_f)
+                # Advect the PFC
+                field = field - u[i]*difield
+
+        if order > 1:
+            for i in range(self.dim):
+                for j in range(i, self.dim):
+                    # Calculate the derivative
+                    dijfield = sp.fft.ifftn(self.dif[i]*self.dif[j]*field_f)
+                    # Advect the PFC
+                    field = field - tool_multinom(i,j)*u[i]*u[j]*dijfield
+        
+        if order > 2:
+            for i in range(self.dim):
+                for j in range(i, self.dim):
+                    for k in range(j, self.dim):
+                        # Calculate the derivative
+                        dijkfield = sp.fft.ifftn(self.dif[i]*self.dif[j]*self.dif[k]*self.field_f)
+                        # Advect the PFC
+                        field = field - tool_multinom(i,j,k)*u[i]*u[j]*u[k]*dijkfield
+
 
     def calc_evolution_integrating_factors_ETD2RK(self, omega_f, tol=10 ** (-4)):
         """

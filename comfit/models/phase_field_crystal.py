@@ -55,6 +55,14 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi = np.real(self.psi)
         self.psi_f = sp.fft.fftn(self.psi)
 
+    def calc_advect_PFC(self,u):
+        """
+        Advects the PFC according to the displacement field u.
+        """
+
+        self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
+        self.psi_f = sp.fft.fftn(self.psi)
+
     # EVOLUTION FUNCTIONS
     def evolve_PFC(self, number_of_steps, method='ETD2RK'):
 

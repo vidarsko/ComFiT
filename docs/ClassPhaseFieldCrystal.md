@@ -686,10 +686,28 @@ $$\psi(t + \Delta t, \boldsymbol{r}) \leftarrow \psi(t + \Delta t, \boldsymbol{r
 where $\boldsymbol{u}^\delta$ is the solution to 
 
 $$
-\boldsymbol{u}^\delta  = 
+\partial_{j} \mathcal C_{ijkl} \partial_l u_k = - g^\psi_i, 
 $$ 
 
-This is solved by the Green's function
+where
+
+$$
+g^\psi_i = -\partial_j \mathfrak h_{ij}^\psi,
+$$ 
+
+and the elastic constants tensor $\mathcal C$ is given by 
+
+$$
+\mathcal C_{ijkl} = \lambda \delta_{ij}\delta_{kl} + 2\mu \delta_{k(i} \delta_{j)l} + \gamma \delta_{ijkl}.
+$$ 
+
+This equation is solved in Fourier space by 
+
+$$
+{u}_{\mathfrak f ~ i}^\delta = G_{\mathfrak f ~ ij} g_j^\psi,
+$$
+
+where the Greens function $G_{\mathfrak f ~ ij}$ is given in Ref. [dederichsElasticGreenFunction1969](References.md) as 
 
 $$
 {G_{\mathfrak f ~ij}} (\mathbf k) =\frac{1}{\mathbf k^2}\left ( \frac{\delta_{ij}}{\mu + \gamma \kappa_{(i)}^2} - \frac{\kappa_i \kappa_j}{(\mu +  \gamma \kappa_{(i)}^2 )(\mu +  \gamma \kappa_{(j)}^2 )} \frac{\mu+\lambda}{1+ \sum_{j=1}^3 \frac{\mu + \lambda}{\mu+\gamma \kappa_l^2} \kappa_l^2 }\right ),
