@@ -42,7 +42,19 @@ where $d$ is the spatial dimension.
 Vectors $\mathbf a, \mathbf b, \mathbf c, \boldsymbol \Omega$ are denoted using boldfont (`\mathbf`, `\boldsymbol`) , while rank 2 tensors vary more. 
 Typical choices however are non-bold greek letters ($\sigma$) lower case Fraktur letters ($\mathfrak h$, `\mathfrak h`) or capital letters ($Q$).
 
+The dot product ($\cdot$) is a contraction over the last index
 
-# Notation conventions
+$$
+(\nabla \cdot \sigma)_i = \partial_j \sigma_{ij},
+$$
+
+while the double dot product $\cdot \cdot$ is a contraction over the last two indices
+
+$$
+(\mathcal C \cdot \cdot \mathfrak e)_{ij} = \mathcal C_{ijkl} \mathfrak e_{kl}
+$$
+
+
+# Programming notation conventions
 
 *  [PEP8](https://peps.python.org/pep-0008/) for python programming, and [PEP257](https://peps.python.org/pep-0257/)/[Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) for doc strings.
