@@ -310,6 +310,7 @@ $$
 *Algorithm: The ETD4RK scheme*
 
 In the small $\omega_{\mathfrak f}$ limit, we have
+
 $$
 I_{\mathfrak f 0} \approx 1
 $$
