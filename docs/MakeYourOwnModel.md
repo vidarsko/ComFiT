@@ -116,6 +116,6 @@ Your content goes here.
 If you want to contribute to the source code with your model (which is highly appreciated) to the models folder, you need to do the following while you are developing your code. Follow the examples provided by the `core_models`.
 
 * Document while writing the code, following the [notation conventions](Conventions.md).
-* Write documentation for the code, explaining the mathematics of the model.
-* Make tests for the model
+* Write documentation for the code, explaining the mathematics of the model. Remember to follow the [mathematical notation convention](Conventions.md#mathematical-notation-convention).
+* Make tests for the model.
 * [optional] Create tutorials showcasing how to use you code.

@@ -112,7 +112,7 @@ $$
 \left \lbrace 
 \begin{array}{l}
     a^{(1)} = a_0  \\
-    a^{(-1)} = -\vec a^{(1)} 
+    a^{(-1)} = -\mathbf a^{(1)} 
 \end{array}
 \right \rbrace 
 $$
@@ -134,10 +134,10 @@ $$
 \mathcal R_{\textrm{tri}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(1)} = (\sqrt 3/2,-1/2)  \\
-    \vec q^{(2)} = (0,1) \\
-    \vec q^{(3)} = (-\sqrt 3/2,-1/2) \\ 
-    \vec q^{(-n)} = - \vec q^{(n)}|_{n=1,2,3} \\
+    \mathbf q^{(1)} = (\sqrt 3/2,-1/2)  \\
+    \mathbf q^{(2)} = (0,1) \\
+    \mathbf q^{(3)} = (-\sqrt 3/2,-1/2) \\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,2,3} \\
 \end{array}
 \right \rbrace
 }
@@ -149,10 +149,10 @@ $$
 \mathcal B_{\textrm{tri}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
-    \vec a^{(1)} = a_0(1,0)  \\
-    \vec a^{(2)} = a_0(1/2,\sqrt 3/2) \\
-    \vec a^{(3)} = a_0(1/2,-\sqrt 3/2) \\ 
-    \vec a^{(-n)}=-\vec a^{(n)}|_{n=1,2,3}  \\ 
+    \mathbf a^{(1)} = a_0(1,0)  \\
+    \mathbf a^{(2)} = a_0(1/2,\sqrt 3/2) \\
+    \mathbf a^{(3)} = a_0(1/2,-\sqrt 3/2) \\ 
+    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,2,3}  \\ 
 \end{array}
 \right \rbrace
 }
@@ -173,9 +173,9 @@ $$
 \mathcal R_{\textrm{sq}}^{(1)} = {
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(1)} = (1,0)  \\
-    \vec q^{(2)} = (0,1) \\ 
-    \vec q^{(-n)} = - \vec q^{(n)} |_{n=1,2} \\
+    \mathbf q^{(1)} = (1,0)  \\
+    \mathbf q^{(2)} = (0,1) \\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2} \\
 \end{array}
 \right \rbrace}
 $$
@@ -186,9 +186,9 @@ $$
 \mathcal B_{\textrm{sq}}^{(1)} = 
 \left \lbrace 
 \begin{array}{l}
-    \vec a^{(1)} = a_0(1,0)  \\
-    \vec a^{(2)} = a_0(0,1)  \\ 
-    \vec a^{(-1)},\vec a^{(-2)}
+    \mathbf a^{(1)} = a_0(1,0)  \\
+    \mathbf a^{(2)} = a_0(0,1)  \\ 
+    \mathbf a^{(-1)},\mathbf a^{(-2)}
 \end{array}
 \right \rbrace
 $$
@@ -197,9 +197,9 @@ $$
 \mathcal R_{\textrm{sq}}^{(2)} = 
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(3)} = (1,-1)  \\
-    \vec q^{(4)} = (1,1) \\ 
-    \vec q^{(-n)} = - \vec q^{(n)} |_{n=3,4} \\
+    \mathbf q^{(3)} = (1,-1)  \\
+    \mathbf q^{(4)} = (1,1) \\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=3,4} \\
 \end{array}
 \right \rbrace
 $$
@@ -221,11 +221,11 @@ $$
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec a^{(1)} = a_0(-1,1,1)/2  \\
-    \vec a^{(2)} = a_0(1,-1,1)/2 \\
-    \vec a^{(3)} = a_0(1,1,-1)/2\\ 
-    \vec a^{(4)} = a_0(1,1,1)/2\\ 
-    \vec a^{(-n)}=-\vec a^{(n)}|_{n=1,...,4} \\
+    \mathbf a^{(1)} = a_0(-1,1,1)/2  \\
+    \mathbf a^{(2)} = a_0(1,-1,1)/2 \\
+    \mathbf a^{(3)} = a_0(1,1,-1)/2\\ 
+    \mathbf a^{(4)} = a_0(1,1,1)/2\\ 
+    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,...,4} \\
 \end{array}
 \right \rbrace
 }
@@ -238,13 +238,13 @@ $$
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(1)} = (0,1,1)/\sqrt 2  \\
-    \vec q^{(2)} = (1,0,1)/\sqrt 2 \\
-    \vec q^{(3)} = (1,1,0)/\sqrt 2\\ 
-    \vec q^{(4)} = (0,-1,1)/\sqrt 2\\ 
-    \vec q^{(5)} = (-1,0,1)/\sqrt 2\\ 
-    \vec q^{(6)} = (-1,1,0)/\sqrt 2\\ 
-    \vec q^{(-n)} = - \vec q^{(n)}|_{n=1,...6} \\
+    \mathbf q^{(1)} = (0,1,1)/\sqrt 2  \\
+    \mathbf q^{(2)} = (1,0,1)/\sqrt 2 \\
+    \mathbf q^{(3)} = (1,1,0)/\sqrt 2\\ 
+    \mathbf q^{(4)} = (0,-1,1)/\sqrt 2\\ 
+    \mathbf q^{(5)} = (-1,0,1)/\sqrt 2\\ 
+    \mathbf q^{(6)} = (-1,1,0)/\sqrt 2\\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,...6} \\
 \end{array}
 \right \rbrace
 }
@@ -268,13 +268,13 @@ $$
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec a^{(1)} = a_0(0,1,1)/2  \\
-    \vec a^{(2)} = a_0(1,0,1)/2 \\
-    \vec a^{(3)} = a_0(1,1,0)/2\\ 
-    \vec a^{(4)} = a_0(0,-1,1)/2\\ 
-    \vec a^{(5)} = a_0(-1,0,1)/2\\ 
-    \vec a^{(6)} = a_0(-1,1,0)/2\\ 
-    \vec a^{(-n)}=-\vec a^{(n)}|_{n=1,...,6} \\ 
+    \mathbf a^{(1)} = a_0(0,1,1)/2  \\
+    \mathbf a^{(2)} = a_0(1,0,1)/2 \\
+    \mathbf a^{(3)} = a_0(1,1,0)/2\\ 
+    \mathbf a^{(4)} = a_0(0,-1,1)/2\\ 
+    \mathbf a^{(5)} = a_0(-1,0,1)/2\\ 
+    \mathbf a^{(6)} = a_0(-1,1,0)/2\\ 
+    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,...,6} \\ 
 \end{array}
 \right \rbrace
 }
@@ -287,11 +287,11 @@ $$
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(1)} = (-1,1,1)/\sqrt 3  \\
-    \vec q^{(2)} = (1,-1,1)/\sqrt 3 \\
-    \vec q^{(3)} = (1,1,-1)/\sqrt 3\\ 
-    \vec q^{(4)} = (1,1,1)/\sqrt 3\\ 
-    \vec q^{(-n)} = - \vec q^{(n)}|_{n=1,...,4}\\
+    \mathbf q^{(1)} = (-1,1,1)/\sqrt 3  \\
+    \mathbf q^{(2)} = (1,-1,1)/\sqrt 3 \\
+    \mathbf q^{(3)} = (1,1,-1)/\sqrt 3\\ 
+    \mathbf q^{(4)} = (1,1,1)/\sqrt 3\\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,...,4}\\
 \end{array}
 \right \rbrace
 }
@@ -302,10 +302,10 @@ $$
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(5)} = (2,0,0)/\sqrt 3  \\
-    \vec q^{(6)} = (0,2,0)/\sqrt 3 \\
-    \vec q^{(7)} = (0,0,2)/\sqrt 3\\ 
-    \vec q^{(-n)} = - \vec q^{(n)} |_{n=5,6,7} \\
+    \mathbf q^{(5)} = (2,0,0)/\sqrt 3  \\
+    \mathbf q^{(6)} = (0,2,0)/\sqrt 3 \\
+    \mathbf q^{(7)} = (0,0,2)/\sqrt 3\\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=5,6,7} \\
 \end{array}
 \right \rbrace
 }
@@ -328,10 +328,10 @@ $$
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec a^{(1)} = a_0(1,0,0)  \\
-    \vec a^{(2)} = a_0(0,1,0) \\
-    \vec a^{(3)} = a_0(0,0,1)\\ 
-    \vec a^{(-n)} = - \vec a^{(n)}|_{n=1,2,3} \\
+    \mathbf a^{(1)} = a_0(1,0,0)  \\
+    \mathbf a^{(2)} = a_0(0,1,0) \\
+    \mathbf a^{(3)} = a_0(0,0,1)\\ 
+    \mathbf a^{(-n)} = - \mathbf a^{(n)}|_{n=1,2,3} \\
 \end{array}
 \right \rbrace
 }
@@ -344,10 +344,10 @@ $$
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(1)} = (1,0,0)  \\
-    \vec q^{(2)} = (0,1,0) \\
-    \vec q^{(3)} = (0,0,1)\\ 
-    \vec q^{(-n)} = - \vec q^{(n)} |_{n=1,2,3}\\
+    \mathbf q^{(1)} = (1,0,0)  \\
+    \mathbf q^{(2)} = (0,1,0) \\
+    \mathbf q^{(3)} = (0,0,1)\\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2,3}\\
 \end{array}
 \right \rbrace
 }
@@ -358,13 +358,13 @@ $$
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(4)} = (0,1,1)  \\
-    \vec q^{(5)} = (1,0,1) \\
-    \vec q^{(6)} = (1,1,0)\\ 
-    \vec q^{(7)} = (0,-1,1)  \\
-    \vec q^{(8)} = (-1,0,1) \\
-    \vec q^{(9)} = (-1,1,0)\\ 
-    \vec q^{(-n)} = - \vec q^{(n)}|_{n=4,...,9} \\\\
+    \mathbf q^{(4)} = (0,1,1)  \\
+    \mathbf q^{(5)} = (1,0,1) \\
+    \mathbf q^{(6)} = (1,1,0)\\ 
+    \mathbf q^{(7)} = (0,-1,1)  \\
+    \mathbf q^{(8)} = (-1,0,1) \\
+    \mathbf q^{(9)} = (-1,1,0)\\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=4,...,9} \\\\
 \end{array}
 \right \rbrace
 }
@@ -374,11 +374,11 @@ $$\mathcal R_{\textrm{sc}}^{(3)} =
 {
 \left \lbrace 
 \begin{array}{l}
-    \vec q^{(10)} = (-1,1,1)  \\
-    \vec q^{(11)} = (1,-1,1) \\
-    \vec q^{(12)} = (1,1,-1)\\ 
-    \vec q^{(13)} = (1,1,1)\\ 
-    \vec q^{(-n)} = - \vec q^{(n)}|_{n=10,...,13} \\
+    \mathbf q^{(10)} = (-1,1,1)  \\
+    \mathbf q^{(11)} = (1,-1,1) \\
+    \mathbf q^{(12)} = (1,1,-1)\\ 
+    \mathbf q^{(13)} = (1,1,1)\\ 
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=10,...,13} \\
 \end{array}
 \right \rbrace
 }
@@ -496,12 +496,11 @@ $$
 
 
 
-
-
-
 ## Demodulation
 
-$$\eta_n = \langle \psi e^{- i \boldsymbol{q}^{(n)} \cdot \boldsymbol{r}} \rangle$$
+$$
+\eta_n = \langle \psi e^{- \mathfrak i \boldsymbol{q}^{(n)} \cdot \boldsymbol{r}} \rangle
+$$
 
 ## Elasticity
 
@@ -627,30 +626,49 @@ The basic equation motion presented in Ref.
 simple mechanism for free energy minimzation under the constraint of
 mass conservation.
 
-::: tcolorbox
-$$\partial_t \psi = \nabla^2 \mu_c,$$ The PFC evolution equation
+
+$$
+\partial_t \psi = \nabla^2 \mu_c,
+$$ 
+
+*The PFC evolution equation*
 
 (`evolve_PFC`)
-:::
 
 where
 
-$$\mu_c = 
+$$
+\mu_c = 
 \frac{\delta \mathcal F}{\delta \psi} =
-\left ( \mathcal L^2 \psi + \texttt r \psi + \texttt t \psi^2 + \texttt v \psi^3 \right )$$
+\left ( \mathcal L^2 \psi + \texttt r \psi + \texttt t \psi^2 + \texttt v \psi^3 \right )
+$$
+
 The PFC chemical potential
 
 which gives
-$${{\omega }_{\scriptscriptstyle  f}}= -\boldsymbol{k}^2 (r + {{\mathcal L}_{\scriptscriptstyle  f}}^2)$$
-$$N = \nabla^2 (\texttt{t} \psi^2 + \texttt v \psi^3)$$
+$$
+{{\omega }_{\mathfrak f}}= -\boldsymbol{k}^2 (r + {{\mathcal L}_{\mathfrak f}}^2)
+$$
+
+$$
+N = \nabla^2 (\texttt{t} \psi^2 + \texttt v \psi^3)
+$$
+
 
 ### Unconserved dynamics
 
-::: tcolorbox
-$$\partial_t \psi = - \mu_c$$ The unconserved PFC evolution equation
+
+$$
+\partial_t \psi = - \mu_c
+$$  
+
+
+
+
+The unconserved PFC evolution equation
 
 (`evolve_PFC_unconserved`)
-:::
+
 
 ### Evolution at mechanical equilibrium
 
@@ -665,7 +683,20 @@ Step 2:
 
 $$\psi(t + \Delta t, \boldsymbol{r}) \leftarrow \psi(t + \Delta t, \boldsymbol{r} - \boldsymbol{u}^\delta),$$
 
-where $\boldsymbol{u}^\delta$ is the solution to $$\boldsymbol{u}^\delta  =$$ 
+where $\boldsymbol{u}^\delta$ is the solution to 
+
+$$
+\boldsymbol{u}^\delta  = 
+$$ 
+
+This is solved by the Green's function
+
+$$
+{G_{\mathfrak f ~ij}} (\mathbf k) =\frac{1}{\mathbf k^2}\left ( \frac{\delta_{ij}}{\mu + \gamma \kappa_{(i)}^2} - \frac{\kappa_i \kappa_j}{(\mu +  \gamma \kappa_{(i)}^2 )(\mu +  \gamma \kappa_{(j)}^2 )} \frac{\mu+\lambda}{1+ \sum_{j=1}^3 \frac{\mu + \lambda}{\mu+\gamma \kappa_l^2} \kappa_l^2 }\right ),
+$$
+
+with $\boldsymbol \kappa = \mathbf k/|\mathbf k|$ there is no implicit summation over indices $(i),(j)$.  
+By defining $k_3=0$, this equation is also valid for the triangular and square symmetry in two dimensions. 
 
 *The PFC evolution at mechanical equilibrium*
 
@@ -673,8 +704,8 @@ where $\boldsymbol{u}^\delta$ is the solution to $$\boldsymbol{u}^\delta  =$$
 
 ---
 
-Note that due to the asymmetry of the elastic constants, this method can
-only be used for small deviations of the lattice orientation.
+Note that due to the asymmetry of the elastic constants, this method can only be used for small deviations of the lattice orientation.
+
 
 ### Hydrodynamic PFC evolution
 
@@ -744,55 +775,65 @@ Using the primary BLVs we get the charges summarized below
 
 ### 2D triangular
 
-|Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | 
+|Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | $s_3$ | 
 |------------------------| ----- | ----- | ----- |
-$\vec a^{(1)} = a_0 (1,0)$               | $\color{red} 1$ | $0$ | $\color{blue}-1$ 
-$\vec a^{(2)} = a_0 (1/2,\sqrt 3/2)$     | $0$ | $\color{red} 1$ | $\color{blue}-1$ 
-$\vec a^{(3)} = a_0 (1/2,-\sqrt 3/2)$    | $\color{red} 1$ | $\color{blue}-1$ | $0$ 
+$\mathbf a^{(1)} = a_0 (1,0)$               | $\color{red} 1$ | $0$ | $\color{blue}-1$ 
+$\mathbf a^{(2)} = a_0 (1/2,\sqrt 3/2)$     | $0$ | $\color{red} 1$ | $\color{blue}-1$ 
+$\mathbf a^{(3)} = a_0 (1/2,-\sqrt 3/2)$    | $\color{red} 1$ | $\color{blue}-1$ | $0$ 
 
 ### 2D square
 
-|Burgers vector $\vec b$ | $s_1$ | $s_2$ | | $s_3$ | $s_4$ | 
+|Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | | $s_3$ | $s_4$ | 
 |------------------------| ----- | ----- |-| ----- | ----- |
-$\vec a^{(1)} = a_0 (1,0)$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $\color{red} 1$
-$\vec a^{(2)} = a_0(0,1)$ | $0$ | $\color{red} 1$ | | $\color{blue}-1$ | $\color{red} 1$
+$\mathbf a^{(1)} = a_0 (1,0)$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $\color{red} 1$
+$\mathbf a^{(2)} = a_0(0,1)$ | $0$ | $\color{red} 1$ | | $\color{blue}-1$ | $\color{red} 1$
 
 ### 3D body-centered cubic
 
-|Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | $s_4$ | $s_5$ | $s_6$ | 
+|Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | $s_3$ | $s_4$ | $s_5$ | $s_6$ | 
 |------------------------| ----- | ----- | ----- | ----- | ----- | ----- |
-$\vec a^{(1)} = a_0/2 (-1,1,1)$ | $\color{red} 1$ | $0$ | $0$ | $0$ | $\color{red} 1$ | $\color{red} 1$
-$\vec a^{(2)} = a_0/2 (1,-1,1)$ | $0$ | $\color{red} 1$ | $0$ | $\color{red} 1$ | $0$ | $\color{blue}-1$
-$\vec a^{(3)} = a_0/2 (1,1,-1)$ | $0$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{blue}-1$ | $0$
-$\vec a^{(4)} = a_0/2 (1,1,1)$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$ | $0$ | $0$ | $0$
+$\mathbf a^{(1)} = a_0/2 (-1,1,1)$ | $\color{red} 1$ | $0$ | $0$ | $0$ | $\color{red} 1$ | $\color{red} 1$
+$\mathbf a^{(2)} = a_0/2 (1,-1,1)$ | $0$ | $\color{red} 1$ | $0$ | $\color{red} 1$ | $0$ | $\color{blue}-1$
+$\mathbf a^{(3)} = a_0/2 (1,1,-1)$ | $0$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{blue}-1$ | $0$
+$\mathbf a^{(4)} = a_0/2 (1,1,1)$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$ | $0$ | $0$ | $0$
 
 ### 3D face-centered cubic
 
-|Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | $s_4$ | | $s_5$ | $s_6$ | $s_7$ | 
+|Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | $s_3$ | $s_4$ | | $s_5$ | $s_6$ | $s_7$ | 
 |------------------------| ----- | ----- | ----- | ----- |-| ----- | ----- | ----- |
-$\vec a^{(1)} = a_0/2(0,1,1)$ | $\color{red} 1$ | $0$ | $0$ | $\color{red} 1$ | | $0$ | $\color{red} 1$ | $\color{red} 1$ 
-$\vec a^{(2)} = a_0/2(1,0,1)$ | $0$ | $\color{red} 1$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $0$ | $\color{red} 1$
-$\vec a^{(3)} = a_0/2 (1,1,0)$ | $0$ | $0$ | $\color{red} 1$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ 
-$\vec a^{(4)} = a_0/2(0,-1,1)$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | |$0$ | $\color{blue}-1$ | $\color{red} 1$
-$\vec a^{(5)} = a_0/2 (-1,0,1)$ | $\color{red} 1$ | $0$ | $\color{blue}-1$ | $0$ | |$\color{blue}-1$ | $0$ | $\color{red} 1$ 
-$\vec a^{(6)} = a_0/2(-1,1,0)$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | $0$ | |$\color{blue}-1$| $\color{red} 1$ | $0$ 
+$\mathbf a^{(1)} = a_0/2(0,1,1)$ | $\color{red} 1$ | $0$ | $0$ | $\color{red} 1$ | | $0$ | $\color{red} 1$ | $\color{red} 1$ 
+$\mathbf a^{(2)} = a_0/2(1,0,1)$ | $0$ | $\color{red} 1$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $0$ | $\color{red} 1$
+$\mathbf a^{(3)} = a_0/2 (1,1,0)$ | $0$ | $0$ | $\color{red} 1$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ 
+$\mathbf a^{(4)} = a_0/2(0,-1,1)$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | |$0$ | $\color{blue}-1$ | $\color{red} 1$
+$\mathbf a^{(5)} = a_0/2 (-1,0,1)$ | $\color{red} 1$ | $0$ | $\color{blue}-1$ | $0$ | |$\color{blue}-1$ | $0$ | $\color{red} 1$ 
+$\mathbf a^{(6)} = a_0/2(-1,1,0)$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | $0$ | |$\color{blue}-1$| $\color{red} 1$ | $0$ 
 
 ### 3D simple cubic
 
-| Burgers vector $\vec b$ | $s_1$ | $s_2$ | $s_3$ | | $s_4$ | $s_5$ | $s_6$ | $s_7$ | $s_8$ | $s_9$ | | $s_{10}$  | $s_{11}$ | $s_{12}$ | $s_{13}$ |
+| Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | $s_3$ | | $s_4$ | $s_5$ | $s_6$ | $s_7$ | $s_8$ | $s_9$ | | $s_{10}$  | $s_{11}$ | $s_{12}$ | $s_{13}$ |
 |-------------------------|-------|-------|-------|-|-------|-------|-------|-------|-------|-------|-| ----------|----------|----------|----------|
-$\vec a^{(1)} = a_0(1,0,0)$ | $\color{red} 1$ | $0$ | $0$ | |$0$ | $\color{red} 1$ | $\color{red} 1$ | $0$ |  $\color{blue}-1$ | $\color{blue}-1$ | |$\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$
-$\vec a^{(2)} = a_0 (0,1,0)$ | $0$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ |  $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ 
-$\vec a^{(3)} = a_0(0,0,1)$ | $0$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ | $\color{red} 1$ |  $\color{red} 1$ | $0$ | | $\color{red} 1$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ 
+$\mathbf a^{(1)} = a_0(1,0,0)$ | $\color{red} 1$ | $0$ | $0$ | |$0$ | $\color{red} 1$ | $\color{red} 1$ | $0$ |  $\color{blue}-1$ | $\color{blue}-1$ | |$\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$
+$\mathbf a^{(2)} = a_0 (0,1,0)$ | $0$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ |  $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ 
+$\mathbf a^{(3)} = a_0(0,0,1)$ | $0$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ | $\color{red} 1$ |  $\color{red} 1$ | $0$ | | $\color{red} 1$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ 
 
 ## The dislocation density tensor
 
 Given a PFC configuration, the dislocation density tensor may be
 calculated as [skogvollPhaseFieldCrystal2022](References.md)
-$$\alpha_{ij} = \frac{2d}{N\eta_0^2} \sum_{n=1}^N D_i^{(n)} q_j^{(n)}
-= \frac{2 \pi d}{N} \sum_{n=1}^N \rho_i^{(n)} q_j^{(n)}$$ where
+
+$$
+\alpha_{ij} = \frac{2d}{N\eta_0^2} \sum_{n=1}^N D_i^{(n)} q_j^{(n)}
+= \frac{2 \pi d}{N} \sum_{n=1}^N \rho_i^{(n)} q_j^{(n)}
+$$ 
+
+where
 $\boldsymbol{D}^{(n)}$ is calculated from
 $\boldsymbol{\psi }= (\Re(\eta_n), \Im(\eta_n))$ from the $N$ primary
 reciprocal lattice vectors $\boldsymbol{q}^{(n)}$ and
-$$\rho^{(n)}_i = \frac{1}{\pi \eta_0^2} D^{(n)}_i$$ In the language of
+
+$$
+\rho^{(n)}_i = \frac{1}{\pi \eta_0^2} D^{(n)}_i
+$$ 
+
+In the language of
 this

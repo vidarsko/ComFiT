@@ -26,7 +26,7 @@ external potential. The GPE can be obtained from the varaitional
 principle [@kevrekidis2007emergent; @pitaevskiiBook]
 
 $$
-i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}
+\mathfrak i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}
 $$ 
 
 with the Hamiltonian
@@ -41,12 +41,12 @@ to $\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi$, in addition we include a
 dissipative factor $\gamma$. This resoults in the dGPE on dimensionless
 form as
 [@gardiner2003stochastic; @rooney2012stochastic; @bradley2012energy; @skaugenUnifiedPerspectiveTwodimensional2018]
-$$i \partial_t \psi = (1-i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
-$$\partial_t \psi =-i (1-i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
-$$\partial_t \psi =-(i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
-$$\partial_t \psi =(i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (i + \gamma) (V_{ext} + |\psi|^2)\psi$$
+$$i \partial_t \psi = (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
+$$\partial_t \psi =-i (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
+$$\partial_t \psi =-(\mathfrak i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
+$$\partial_t \psi =(\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathfrak i + \gamma) (V_{ext} + |\psi|^2)\psi$$
 In other words
-$$\omega = (i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{f}}=  (i+\gamma) (1-\frac{1}{2}\mathbf{k}^2) \quad N = - (i + \gamma) (V_{ext} + |\psi|^2)\psi$$
+$$\omega = (\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{f}}=  (\mathfrak i+\gamma) (1-\frac{1}{2}\mathbf{k}^2) \quad N = - (\mathfrak i + \gamma) (V_{ext} + |\psi|^2)\psi$$
 The evolution of the wave function is included through the function
 
 ``` {.python language="Python"}
@@ -68,12 +68,12 @@ respectively.
 
 With interactions.
 
-$$i \partial_t \psi = (1-i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{\textrm{ext}}-1 +
+$$i \partial_t \psi = (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{\textrm{ext}}-1 +
 \texttt g_0 |\psi|^2 
 - \texttt g_2 \nabla^2 |\psi|^2
 +  \texttt g_4 \nabla^4 |\psi|^2
 \right]\psi.$$
-$$\partial_t \psi = (i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm{ext}} + 1 -
+$$\partial_t \psi = (\mathfrak i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm{ext}} + 1 -
 \texttt g_0 |\psi|^2 
 + \texttt g_2 \nabla^2 |\psi|^2
 -  \texttt g_4 \nabla^4 |\psi|^2
@@ -81,9 +81,9 @@ $$\partial_t \psi = (i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm{ext}} + 
 
 Splitting into linear and non-linear
 
-$$\omega = (i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{f}}=   (i+\gamma) (1-\mathbf{k}^2)$$
+$$\omega = (\mathfrak i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{f}}=   (\mathfrak i+\gamma) (1-\mathbf{k}^2)$$
 $$N = 
-(i + \gamma) (-V_{\textrm{ext}}  -
+(\mathfrak i + \gamma) (-V_{\textrm{ext}}  -
 \texttt g_0 |\psi|^2 
 + \texttt g_2 \nabla^2 |\psi|^2
 -  \texttt g_4 \nabla^4 |\psi|^2)\psi$$
@@ -296,11 +296,11 @@ initial state.
 When studying a BEC that is stirred by a potential it is in some cases
 convinient to consider the potential as stationary with the BEC flowing
 around. This can be done by boosting the dGPE so that it reads
-$$\partial_t \psi = \mathbf V_p \cdot \nabla \psi +(i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (i + \gamma) (\mathcal U + |\psi|^2)\psi,$$
+$$\partial_t \psi = \mathbf V_p \cdot \nabla \psi +(\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathfrak i + \gamma) (\mathcal U + |\psi|^2)\psi,$$
 where $\mathbf{V_p}$ is the velocity of the boost. Note that a Gallilean
 boost of the GPE is often accompanied by a phase shift of the wave
 function
-$\psi \rightarrow \psi \exp{(i\mathbf V_p \cdot \mathbf r + \frac i 2 V_p^2 t)}$
+$\psi \rightarrow \psi \exp{(\mathfrak i\mathbf V_p \cdot \mathbf r + \frac i 2 V_p^2 t)}$
 which transforms the superfluid velocity to the new reference frame
 [@Pismen], leaving the GPE unchanged after the Gallilean transformation.
 However the equation with $\gamma \neq 0$ is not Gallilean invariant and

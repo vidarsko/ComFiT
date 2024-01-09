@@ -49,22 +49,22 @@ $$
 From a numerical point of view, this is done in Fourier space since, by the convolution theorem, 
 
 $$
-\mathcal F \rho = \mathcal F {\mathcal K} \mathcal F {\tilde \rho}.
+\rho_{\mathfrak f} = \mathcal K_{\mathfrak f} \tilde \rho_{\mathfrak f}.
 $$
 
 Thus, we need the Fourier transform of $\mathcal K$, which is 
 
 $$
-\mathcal F {\mathcal K} = \int d^d r e^{-i \mathbf k \cdot \mathbf r} \frac{1}{(2\pi w^2)^{d/2}} \exp\left (-\frac{\mathbf r^2}{2w^2} \right )
+\mathcal K_{\mathfrak f} = \int d^d r e^{-i \mathbf k \cdot \mathbf r} \frac{1}{(2\pi w^2)^{d/2}} \exp\left (-\frac{\mathbf r^2}{2w^2} \right )
 $$
 $$
-= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} r_n^2 -i k_n r_n} 
+= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} r_n^2 - \mathfrak i k_n r_n} 
 $$
 $$
-= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} (r_n^2 + 2 i w^2 k_n r_n)}  
+= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} (r_n^2 + 2 \mathfrak i w^2 k_n r_n)}  
 $$
 $$
-= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d e^{-\frac{1}{2} w^2 k_n^2} \int dr_n e^{-\frac{1}{2 w^2} (r_n + i w^2 k_n)^2} 
+= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d e^{-\frac{1}{2} w^2 k_n^2} \int dr_n e^{-\frac{1}{2 w^2} (r_n + \mathfrak i w^2 k_n)^2} 
 $$
 $$ 
 = e^{-\frac{1}{2} w^2 \mathbf k^2}.
@@ -75,7 +75,7 @@ This is why we have the following function
 ```python
 calc_gaussfilter_f
 ```
-which calculates $\mathcal F [\mathcal K]$.
+which calculates $\mathcal K_{\mathfrak f}$.
 
 Typically, a field is coarse-grained with a width using the following piece of code
 
@@ -171,7 +171,7 @@ $$
 where $\omega$ is a linear differential operator and $N$ is a non-linear operator (function of $\psi$). 
 The following table shows some examples from the models that we will discuss in the following chapters.
 
-| Model | $\omega$ | $\omega_f(\mathbf{k})$ | $N$ |
+| Model | $\omega$ | $\omega_{\mathfrak f}(\mathbf{k})$ | $N$ |
 | --- | --- | --- | --- |
 | Quantum Mechanics | $\frac{1}{2}i \nabla^2 $ | $-\frac{1}{2} i \mathbf{k}^2$ | $- i V$ |
 | BEC | $(i+\gamma) (1+\frac{1}{2}\nabla^2)$ | $(i+\gamma) (1-\frac{1}{2}\mathbf k^2)$ | $- (i + \gamma) (V_{ext} + \psi \psi^*)\psi$ |
@@ -186,45 +186,45 @@ In the following, we will explain the method of evolution of exponential time di
 To see how we obtain the ETD2RK scheme, we take the Fourier transformation of Eq. `ref:timeevolution`, and get:
 
 $$
-\partial_t \psi_f = \omega_f \psi_f + N_f .
+\partial_t \psi_{\mathfrak f} = \omega_{\mathfrak f} \psi_{\mathfrak f} + N_{\mathfrak f} .
 $$
 
 $$
-(\partial_t \psi_f)e^{- \omega_f t}  -  \omega_f \psi_f  e^{- \omega_f t} = N_f e^{- \omega_f t} .
+(\partial_t \psi_{\mathfrak f})e^{- \omega_{\mathfrak f} t}  -  \omega_{\mathfrak f} \psi_{\mathfrak f}  e^{- \omega_{\mathfrak f} t} = N_{\mathfrak f} e^{- \omega_{\mathfrak f} t} .
 $$
 
 $$
-\partial_t (\psi_f e^{-\omega_f t} ) =  e^{-\omega_f t} N_f
+\partial_t (\psi_{\mathfrak f} e^{-\omega_{\mathfrak f} t} ) =  e^{-\omega_{\mathfrak f} t} N_{\mathfrak f}
 $$
 
-Where $\psi_f(\mathbf{k})$ is the Fourier transform of $\psi(\mathbf{r})$. Integrating from $t$ to $t+ \Delta t$, one finds:
+Where $\psi_{\mathfrak f}(\mathbf{k})$ is the Fourier transform of $\psi(\mathbf{r})$. Integrating from $t$ to $t+ \Delta t$, one finds:
 
 $$
-\psi_f (t+\Delta t) e^{- \omega_f(t+ \Delta t)} - \psi_f (t) e^{- \omega_f t} = \int_t^{t+\Delta t} e^{- \omega_f \tau} N_f d\tau
+\psi_{\mathfrak f} (t+\Delta t) e^{- \omega_{\mathfrak f}(t+ \Delta t)} - \psi_{\mathfrak f} (t) e^{- \omega_{\mathfrak f} t} = \int_t^{t+\Delta t} e^{- \omega_{\mathfrak f} \tau} N_{\mathfrak f} d\tau
 $$
 
-we multiply by $e^{ \omega_f(t+ \Delta t)}$ and get:
+we multiply by $e^{ \omega_{\mathfrak f}(t+ \Delta t)}$ and get:
 
 $$
-\psi_f (t+\Delta t) = \psi_f (t) e^{\omega_f \Delta t} + e^{ \omega_f (t+\Delta t)} \int_t^{t+\Delta t} e^{- \omega_f \tau} N_f d\tau
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f} (t) e^{\omega_{\mathfrak f} \Delta t} + e^{ \omega_{\mathfrak f} (t+\Delta t)} \int_t^{t+\Delta t} e^{- \omega_{\mathfrak f} \tau} N_{\mathfrak f} d\tau
 $$
 
-This is an exact result, however, the last integral is unknown. In order to calculate the last integral here, we approximate it by $\psi_f N (t+\tau) \approx N_{f0} +  \frac{\Delta N_f}{\Delta t} \tau$ where $N_{f0} = N_f(\psi(t))$ and $\Delta N_f = N_f(t+\Delta t)-N_f(t)$. We also change the integration limits from $\tau \in [t,t+\Delta t]$ to $\tau \in [0,\Delta t]$, which gives:
+This is an exact result, however, the last integral is unknown. In order to calculate the last integral here, we approximate it by $\psi_{\mathfrak f} N (t+\tau) \approx N_{\mathfrak f 0} +  \frac{\Delta N_{\mathfrak f}}{\Delta t} \tau$ where $N_{\mathfrak f 0} = N_{\mathfrak f}(\psi(t))$ and $\Delta N_{\mathfrak f} = N_{\mathfrak f}(t+\Delta t)-N_{\mathfrak f}(t)$. We also change the integration limits from $\tau \in [t,t+\Delta t]$ to $\tau \in [0,\Delta t]$, which gives:
 
 $$
-\psi_f (t+\Delta t) = \psi_f (t) e^{ \omega_f \Delta t} $$
-$$+ e^{\omega_f \Delta t} \frac{1}{- \omega_f} [e^{- \omega_f \tau}]_0^{\Delta t} N_{f0} + e^{ \omega_f \Delta t} \frac{1}{\Delta t} [\frac{\tau e^{-\omega_f \tau}}{-\omega_f} - \frac{e^{-\omega_f \tau}}{\omega_f^2}]_0^{\Delta t} \Delta N_f
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f} (t) e^{ \omega_{\mathfrak f} \Delta t} $$
+$$+ e^{\omega_{\mathfrak f} \Delta t} \frac{1}{- \omega_{\mathfrak f}} [e^{- \omega_{\mathfrak f} \tau}]_0^{\Delta t} N_{\mathfrak f 0} + e^{ \omega_{\mathfrak f} \Delta t} \frac{1}{\Delta t} [\frac{\tau e^{-\omega_{\mathfrak f} \tau}}{-\omega_{\mathfrak f}} - \frac{e^{-\omega_{\mathfrak f} \tau}}{\omega_{\mathfrak f}^2}]_0^{\Delta t} \Delta N_{\mathfrak f}
 $$
 
-To find $\psi_f (t+\Delta t)$, we would need to know the value $N_f (t+\Delta t)$ before finding the state at $\psi(t+\Delta t)$. To do this, we first find a predicted state $\psi_a$ by assuming $\Delta N_f=0$ and calculating $\psi(t)$ according to the equation above. This lets us calculate an approximate $\Delta N_f = N_{fa} - N_{f0}$ and we use this in order to evolve $\psi$. This is the ETD2RK scheme.
+To find $\psi_{\mathfrak f} (t+\Delta t)$, we would need to know the value $N_{\mathfrak f} (t+\Delta t)$ before finding the state at $\psi(t+\Delta t)$. To do this, we first find a predicted state $\psi_a$ by assuming $\Delta N_{\mathfrak f}=0$ and calculating $\psi(t)$ according to the equation above. This lets us calculate an approximate $\Delta N_{\mathfrak f} = N_{\mathfrak f a} - N_{\mathfrak f 0}$ and we use this in order to evolve $\psi$. This is the ETD2RK scheme.
 
 ---
 $$
-\psi_{fa} = \psi_{f0} + I_{f1} \psi_{f0}
+\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} + I_{\mathfrak f 1} \psi_{\mathfrak f 0}
 $$
 
 $$
-\psi_f (t+\Delta t) = \psi_{fa} + I_{f2} (N_{fa} - N_{f0})
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f a} + I_{\mathfrak f 2} (N_{\mathfrak f a} - N_{\mathfrak f 0})
 $$
 
 $$
@@ -232,39 +232,39 @@ $$
 $$
 
 $$
-I_{f0} = e^{\omega_f \Delta t}
+I_{\mathfrak f 0} = e^{\omega_{\mathfrak f} \Delta t}
 $$
 
 $$
-I_{f1} = \frac{1}{\omega_f} (e^{ \omega_f \Delta t} - 1)
+I_{\mathfrak f 1} = \frac{1}{\omega_{\mathfrak f}} (e^{ \omega_{\mathfrak f} \Delta t} - 1)
 $$
 
 $$
-I_{f2} = \frac{1}{\Delta t \omega_f^2} (e^{ \omega_f \Delta t} -1  -\omega_f \Delta t)
+I_{\mathfrak f 2} = \frac{1}{\Delta t \omega_{\mathfrak f}^2} (e^{ \omega_{\mathfrak f} \Delta t} -1  -\omega_{\mathfrak f} \Delta t)
 $$
 
 ---
 
-For numerical purposes, it is useful to calculate the small $\omega_f$ limit. We expand the exponential in its Taylor series and keep the leading order term to get:
+For numerical purposes, it is useful to calculate the small $\omega_{\mathfrak f}$ limit. We expand the exponential in its Taylor series and keep the leading order term to get:
 
 $$
-I_{f0} \approx 1
-$$
-
-$$
-I_{f1} \approx   \frac{1}{\omega_f} (1 + \omega_f \Delta t - 1) = \Delta t
+I_{\mathfrak f 0} \approx 1
 $$
 
 $$
-I_{f2} \approx \frac{1}{\Delta t \omega_f^2}
+I_{\mathfrak f 1} \approx   \frac{1}{\omega_{\mathfrak f}} (1 + \omega_{\mathfrak f} \Delta t - 1) = \Delta t
+$$
+
+$$
+I_{\mathfrak f 2} \approx \frac{1}{\Delta t \omega_{\mathfrak f}^2}
  \left (
-1 + \omega_f \Delta t + \frac{1}{2} ( \omega_f \Delta t )^2
+1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} ( \omega_{\mathfrak f} \Delta t )^2
  -1  
- -\omega_f \Delta t 
+ -\omega_{\mathfrak f} \Delta t 
 \right ) = \frac{1}{2} \Delta t
 $$
 
-In $I_{f1}$, and $I_{f2}$ there is a division by $0$ when $\omega_f = 0$. To avoid numerical issues related to this we use the above limits when $|\omega_f|$ is smaller than a tolerance. We don't use the limit for $I_{f0}$ since it doesn't contain a division by $0$. The function `evolve_ETD2RK_loop` defined in the base system class performs an ETD2RK step. This function is called by the evolvers discussed in the model chapter if the method is defined as `method = "ETD2RK"`. This is the default solver if `method` is not set. The integrating factors for a given $\omega_f(\mathbf{k})$ can be found with the function `calc_evolution_integrating_factors_ETD2RK` where the variable `tol` gives when the factors should be replaced by their leading order Taylor expansion.
+In $I_{\mathfrak f 1}$, and $I_{\mathfrak f 2}$ there is a division by $0$ when $\omega_{\mathfrak f} = 0$. To avoid numerical issues related to this we use the above limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance. We don't use the limit for $I_{\mathfrak f 0}$ since it doesn't contain a division by $0$. The function `evolve_ETD2RK_loop` defined in the base system class performs an ETD2RK step. This function is called by the evolvers discussed in the model chapter if the method is defined as `method = "ETD2RK"`. This is the default solver if `method` is not set. The integrating factors for a given $\omega_{\mathfrak f}(\mathbf{k})$ can be found with the function `calc_evolution_integrating_factors_ETD2RK` where the variable `tol` gives when the factors should be replaced by their leading order Taylor expansion.
 Note that all solvers defined in the  class \lstinline{BaseSystem} updates the time variable
 `self.t` to allow for time-dependents in the non-linear term.
 
@@ -275,10 +275,10 @@ Following Ref. \cite{coxExponentialTimeDifferencing2002}, we may generalize the 
 ---
 $$
 \begin{aligned}
-\psi_{fa} &= I_{f0} \psi_{f0} +  I_{f1} N_{f0} \\
-\psi_{fb} &= I_{f0} \psi_{f0} + I_{f1} N_{fa} \\
-\psi_{fc} &= I_{f0} \psi_{fa} + I_{f1} (2 N_{fb} - N_{f0}) \\
-\psi_f (t+\Delta t) &;= I_{f2} \psi_{f0} + I_{f3} N_{f0} + I_{f4} (N_{fa} + N_{fb}) + I_{f5} N_{fc}
+\psi_{\mathfrak f a} &= I_{\mathfrak f 0} \psi_{\mathfrak f 0} +  I_{\mathfrak f 1} N_{\mathfrak f 0} \\
+\psi_{\mathfrak f b} &= I_{\mathfrak f 0} \psi_{\mathfrak f 0} + I_{\mathfrak f 1} N_{\mathfrak f a} \\
+\psi_{\mathfrak f c} &= I_{\mathfrak f 0} \psi_{\mathfrak f a} + I_{\mathfrak f 1} (2 N_{\mathfrak f b} - N_{\mathfrak f 0}) \\
+\psi_{\mathfrak f} (t+\Delta t) &;= I_{\mathfrak f 2} \psi_{\mathfrak f 0} + I_{\mathfrak f 3} N_{\mathfrak f 0} + I_{\mathfrak f 4} (N_{\mathfrak f a} + N_{\mathfrak f b}) + I_{\mathfrak f 5} N_{\mathfrak f c}
 \end{aligned}
 $$
 
@@ -286,21 +286,21 @@ where
 
 $$ 
 \begin{aligned}
-I_{f0} &= e^{\omega_f \Delta t/2} \\
-I_{f1} &= \frac{1}{\omega_f}
-( e^{ \omega_f \Delta t/2} - 1) \\
-I_{f2} &= e^{\omega_f \Delta t} \\
-I_{f3} &= \frac{1}{ \omega_f^3\Delta t^2} 
+I_{\mathfrak f 0} &= e^{\omega_{\mathfrak f} \Delta t/2} \\
+I_{\mathfrak f 1} &= \frac{1}{\omega_{\mathfrak f}}
+( e^{ \omega_{\mathfrak f} \Delta t/2} - 1) \\
+I_{\mathfrak f 2} &= e^{\omega_{\mathfrak f} \Delta t} \\
+I_{\mathfrak f 3} &= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
 \left (
--4 -  \Delta t \omega_f + e^{\omega_f \Delta t}(4-3\omega_f \Delta t + \omega_f^2 \Delta t^2 ) 
+-4 -  \Delta t \omega_{\mathfrak f} + e^{\omega_{\mathfrak f} \Delta t}(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 ) 
 \right ) \\
-I_{f4} &= \frac{2}{ \omega_f^3\Delta t^2}
+I_{\mathfrak f 4} &= \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left (
-2 + \omega_f \Delta t + e^{\omega_f \Delta t}(-2 + \omega_f \Delta t)
+2 + \omega_{\mathfrak f} \Delta t + e^{\omega_{\mathfrak f} \Delta t}(-2 + \omega_{\mathfrak f} \Delta t)
 \right ) \\
-I_{f5} &= \frac{1}{ \omega_f^3\Delta t^2}
+I_{\mathfrak f 5} &= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left (
--4 - 3 \omega_f \Delta t -  \omega_f^2 \Delta t^2 + e^{\omega_f \Delta t}(4-\omega_f \Delta t)
+-4 - 3 \omega_{\mathfrak f} \Delta t -  \omega_{\mathfrak f}^2 \Delta t^2 + e^{\omega_{\mathfrak f} \Delta t}(4-\omega_{\mathfrak f} \Delta t)
 \right )
 \end{aligned}
 $$
@@ -309,110 +309,110 @@ $$
 
 *Algorithm: The ETD4RK scheme*
 
-In the small $\omega_f$ limit, we have
+In the small $\omega_{\mathfrak f}$ limit, we have
 $$
-I_{f0} \approx 1
-$$
-
-$$
-I_{f1} \approx \frac{1}{2} \Delta t
+I_{\mathfrak f 0} \approx 1
 $$
 
 $$
-I_{f2} \approx 1
+I_{\mathfrak f 1} \approx \frac{1}{2} \Delta t
 $$
 
 $$
-I_{f3} \approx 
-\frac{1}{ \omega_f^3\Delta t^2} \times 
+I_{\mathfrak f 2} \approx 1
+$$
+
+$$
+I_{\mathfrak f 3} \approx 
+\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times 
 \left (
--4 -  \Delta t \omega_f + (1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(4-3\omega_f \Delta t + \omega_f^2 \Delta t^2 )
+-4 -  \Delta t \omega_{\mathfrak f} + (1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )
 \right ) $$
 
 $$
-= \frac{1}{ \omega_f^3\Delta t^2} 
+= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
 \left (
-\frac{4}{6} (\omega_f \Delta t)^3 - \frac{3}{2} (\omega_f \Delta t)^3 + (\omega_f \Delta t)^3
+\frac{4}{6} (\omega_{\mathfrak f} \Delta t)^3 - \frac{3}{2} (\omega_{\mathfrak f} \Delta t)^3 + (\omega_{\mathfrak f} \Delta t)^3
 \right )
 = \frac{1}{6} \Delta t
 $$
 
 $$
-I_{f4} \approx \frac{2}{ \omega_f^3\Delta t^2}
+I_{\mathfrak f 4} \approx \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left (
-2 + \omega_f \Delta t +(1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(-2 + \omega_f \Delta t)
+2 + \omega_{\mathfrak f} \Delta t +(1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(-2 + \omega_{\mathfrak f} \Delta t)
 \right ) 
 $$
 
 $$
 =
-\frac{2}{ \omega_f^3\Delta t^2}
+\frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left (
-\frac{1}{2} (\omega_f \Delta t)^3-\frac{2}{6}(\omega_f \Delta t)^3
+\frac{1}{2} (\omega_{\mathfrak f} \Delta t)^3-\frac{2}{6}(\omega_{\mathfrak f} \Delta t)^3
 \right )
 = \frac{1}{3} \Delta t
 $$
 
 $$
-I_{f5} = 
-\frac{1}{ \omega_f^3\Delta t^2} \times 
+I_{\mathfrak f 5} = 
+\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times 
 \left (
--4 - 3 \omega_f \Delta t -  \omega_f^2 \Delta t^2 + (1 + \omega_f \Delta t + \frac{1}{2} (\omega_f \Delta t)^2 + \frac{1}{6} (\omega_f \Delta t)^3 )(4-\omega_f \Delta t)
+-4 - 3 \omega_{\mathfrak f} \Delta t -  \omega_{\mathfrak f}^2 \Delta t^2 + (1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(4-\omega_{\mathfrak f} \Delta t)
 \right )  
 $$
 
 $$
-=\frac{1}{ \omega_f^3\Delta t^2} 
+=\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
 \left (
-\frac{4}{6} (\omega_f \Delta t)^3 - \frac{1}{2} (\omega_f \Delta t)^3
+\frac{4}{6} (\omega_{\mathfrak f} \Delta t)^3 - \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^3
 \right )
 = \frac{1}{6} \Delta t
 $$
 
-Similar as for the EDT2RK case $I_{f1}$, $I_{f3}$, $I_{f4}$, and $I_{f5}$ contains a division by $0$ when $\omega_f = 0$.  
-We therfore replace these coeficients with their limits when $|\omega_f|$ is smaller than a tolerance. 
+Similar as for the EDT2RK case $I_{\mathfrak f 1}$, $I_{\mathfrak f 3}$, $I_{\mathfrak f 4}$, and $I_{\mathfrak f 5}$ contains a division by $0$ when $\omega_{\mathfrak f} = 0$.  
+We therfore replace these coeficients with their limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance. 
 This has been important in order to make the the code stable for some of the systems. 
 In the same way as the EDT2RK scheme this is implemented as the function
-`self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolution_function_f, field, field_f)`
+`self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolutioN_{\mathfrak f}unctioN_{\mathfrak f}, field, field_f)`
 This function is called by the evolvers discussed in the model chapter if the method is defined as ```method = "ETD4RK"```, the integrating factors are found with
 `self.calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10**(-4))`.
 
 ### The fully non-linear limit
-It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e. the limit in which $\omega_f =0$, $N_f = \partial_t \psi \equiv \dot{\psi}_f$ and Eqs. (\ref{eq:ETD2RK_IF0_small_omega_limit}-\ref{eq:ETD2RK_IF2_small_omega_limit}) and (\ref{eq:ETD4RK_IF0_small_omega_limit}-\ref{eq:ETD4RK_IF5_small_omega_limit}) are exact. 
+It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e. the limit in which $\omega_{\mathfrak f} =0$, $N_{\mathfrak f} = \partial_t \psi \equiv \dot{\psi}_f$ and Eqs. (\ref{eq:ETD2RK_IF0_small_omega_limit}-\ref{eq:ETD2RK_IF2_small_omega_limit}) and (\ref{eq:ETD4RK_IF0_small_omega_limit}-\ref{eq:ETD4RK_IF5_small_omega_limit}) are exact. 
 For the ETD2RK scheme, we get 
 $$
-\psi_{af} = \psi_{0f} +  \dot{\psi}_{0_f} \Delta t 
+\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} +  \dot{\psi}_{0_f} \Delta t 
 $$
 $$
-\psi(t+\Delta t)_f = \psi_{0f} + \dot{\psi}_{0f} \frac{\Delta t}{2} + \dot{\psi}_{af} \frac{\Delta t}{2},
+\psi(t+\Delta t)_f = \psi_{\mathfrak f 0} + \dot{\psi}_{\mathfrak f 0} \frac{\Delta t}{2} + \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2},
 $$
 which is a two-stage Runge-Kutta method called Heun's method.
 
 The ETD4RK scheme becomes
 $$
-\psi_{af} = \psi_{0f} +  \dot{\psi}_{0f} \frac{\Delta t}{2} 
+\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f 0} \frac{\Delta t}{2} 
 $$
 $$
-\psi_{bf} =  \psi_{0f} +  \dot{\psi}_{af} \frac{\Delta t}{2} 
+\psi_{\mathfrak f b} =  \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2} 
 $$
 $$
-\psi_{cf} = \psi_{af} + (2\dot{\psi}_{bf} - \dot{\psi}_{0f}) \frac{\Delta t}{2} 
+\psi_{\mathfrak f c} = \psi_{\mathfrak f a} + (2\dot{\psi}_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0}) \frac{\Delta t}{2} 
 $$
 $$
-\psi (t+\Delta t)_f = \psi_{0f} + \frac{1}{6} (\dot{\psi}_{0f} + 2 \dot{\psi}_{af} + 2 \dot{\psi}_{bf} + \dot{\psi}_{cf} ) \Delta t.
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f 0} + \frac{1}{6} (\dot{\psi}_{\mathfrak f 0} + 2 \dot{\psi}_{\mathfrak f a} + 2 \dot{\psi}_{\mathfrak f b} + \dot{\psi}_{\mathfrak f c} ) \Delta t.
 $$
-Note that this is not the typical Runge-Kutta 4 method, due to the differences in calculating $\psi_{cf}$.
+Note that this is not the typical Runge-Kutta 4 method, due to the differences in calculating $\psi_{\mathfrak f c}$.
 The reason is that a straight-forward generalization of the Runge-Kutta 4 method will not produce a fourth-order method in the general case [coxExponentialTimeDifferencing2002](References.md).
 
 ### The fully linear limit
 
 If $N=0$, the evolution equation changes to 
 $$
-\psi_f(t+\Delta t) = e^{\omega_f \Delta t} \psi_f.
+\psi_{\mathfrak f}(t+\Delta t) = e^{\omega_{\mathfrak f} \Delta t} \psi_{\mathfrak f}.
 $$
-An example of this is the schrödinger equation, for which $\omega_f = -\frac{1}{2}  i \mathbf k^2$, so we get
+An example of this is the schrödinger equation, for which $\omega_{\mathfrak f} = -\frac{1}{2}  i \mathbf k^2$, so we get
 $$
-\psi_f(t+\Delta t) = e^{- i \frac{1}{2} \mathbf k^2 \Delta t} \psi_f.
+\psi_{\mathfrak f}(t+\Delta t) = e^{- i \frac{1}{2} \mathbf k^2 \Delta t} \psi_{\mathfrak f}.
 $$
 This is an exact eqution, of course, so you may evolve this free particle solution to any time.
 
