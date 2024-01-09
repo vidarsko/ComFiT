@@ -45,17 +45,13 @@ Typical choices however are non-bold greek letters ($\sigma$) lower case Fraktur
 The dot product ($\cdot$) is a contraction over the last index
 
 $$
-(\nabla \cdot \sigma)_i = \partial_j \sigma_{ij},
+a+b
 $$
 
 while the double dot product $\dot \cdot$ is a contraction over the last two indices
 
 $$
 (\mathcal C \cdot \cdot \mathfrak e)_{ij} = \mathcal C_{ijkl} \mathfrak e_{kl}
-$$
-
-$$
-\psi(\mathbf r) = \frac{1}{(2\pi)^d} \int d^d k e^{\mathfrak i\mathbf k\cdot \mathbf r} \psi_{\mathfrak f}(\mathbf k),
 $$
 
 
