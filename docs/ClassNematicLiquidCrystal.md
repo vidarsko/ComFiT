@@ -313,7 +313,7 @@ In that way, it is similar to a dislocation density in a crystal structure, only
 It can probably be written like this
 
 $$
-\rho_{\gamma i} = t_{\gamma} \Omega_i,
+\rho_{\gamma i} = \Omega_\gamma t_{i} ,
 $$
 where $\boldsymbol t$ is a unit vector. 
 From this, we see that 
@@ -323,3 +323,16 @@ $$
 $$
 
 so $\sqrt{|\rho|^2}$ is the quantity we should integrate to find the nodes of the defects.
+
+From [schimmingKinematicsDynamicsDisclination2023](References.md), we have 
+
+$$
+t_i \delta^{(2)}(\mathbf r_{\perp}) = \delta^{(2)}(\mathbf Q_\perp) \Omega_\gamma D_{\gamma i}
+$$
+
+replacing the delta function, which we may generalize to 
+
+$$
+\mathbf \rho = \Omega_{\gamma} \frac{1}{\pi Q_{\perp}^2} D_{\gamma i}.
+$$
+
