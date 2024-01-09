@@ -234,6 +234,23 @@ channel and $d$ is the width of the interface between the channel and
 the bulk. More complicated structures can be created if one wish.
 
 
+## Three dimensions
+
+In three dimensions, the $Q$-tensor can be characterized as 
+
+$$
+Q_{ij} = S (n_i n_j - \frac{1}{3} \delta_{ij} ) + P (m_i m_j - l_i l_j),
+$$
+
+where $(\mathbf n, \mathbf m, \mathbf l )$ is an orthornmal triad. 
+It is five parameters: $S$, the two defining angles of $\mathbf n$, $P$ and the angle of $\mathbf m$ in the plane orthogonal to $\mathbf n$. 
+$S$ can always be determined from the highest eigenvalue $\lambda_{\textrm{max}}$ of $Q$ by [schimmingTheoreticalComputationalMethods2022](References.md)
+
+$$
+S = \frac{3}{2} \lambda_{\textrm{max}}
+$$
+
+
 ## Topological defects
 
 Topological defects in nematic liquid crystals are called disclinations and are characterized the orientation of the rod-like particles having rotated after following a path around the dislocation. 
@@ -274,11 +291,10 @@ We get only one component of $D_{\gamma i}$, which is $D_{33}$ which is
 $$
 D_{33} = \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}
 $$
+
 $$
-=
-\epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 1} \partial_l Q_{\nu 1}
-+
-\epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 2} \partial_l Q_{\nu 2}
+= \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 1} \partial_l Q_{\nu 1}
++ \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 2} \partial_l Q_{\nu 2}
 $$
 
 We have $Q_{\mu1} = \frac{1}{2} \psi_\mu$ and $Q_{\mu 2} = \frac{1}{2} \epsilon_{\mu q} \psi_q$, so 
@@ -290,9 +306,11 @@ D_{33}
 +
 \frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k  \epsilon_{\mu q} \psi_q) (\partial_l \epsilon_{\nu r} \psi_r)
 $$
+
 And using that 
 
-$$\epsilon_{\mu \nu} \epsilon_{\mu q} \epsilon_{\nu r} = \epsilon_{qr},
+$$
+\epsilon_{\mu \nu} \epsilon_{\mu q} \epsilon_{\nu r} = \epsilon_{qr},
 $$
 
 we get
@@ -333,6 +351,17 @@ $$
 replacing the delta function, which we may generalize to 
 
 $$
-\mathbf \rho = \Omega_{\gamma} \frac{1}{\pi Q_{\perp}^2} D_{\gamma i}.
+\mathbf \rho = \Omega_{\gamma} \frac{1}{\pi (S_0-P_0)^2} D_{\gamma i}.
 $$
 
+### Inserting topological defects
+
+How do we insert topological defects of a given character? 
+
+We can generate an initial state of $Q_{ij}$ by writing 
+
+$$
+Q_{ij} = S_0 \left (\frac{1}{2} n_i n_j - \frac{1}{d} \delta_{ij} \right ),
+$$
+
+and then simply impose an orientation field corresponding to an angle field on the $\mathbf n$ fields.
