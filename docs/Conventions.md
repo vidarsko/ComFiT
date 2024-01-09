@@ -44,14 +44,14 @@ Typical choices however are non-bold greek letters ($\sigma$) lower case Fraktur
 
 The dot product ($\cdot$) is a contraction over the last index
 
-$$
-a+b
-$$
+```math
+(\nabla \cdot \sigma)_i = \partial_j {\sigma}_{ij}
+```
 
 while the double dot product $\dot \cdot$ is a contraction over the last two indices
 
 $$
-(\mathcal C \cdot \cdot \mathfrak e)_{ij} = \mathcal C_{ijkl} \mathfrak e_{kl}
+(\mathcal C \dot \cdot \mathfrak e)_ {ij} = \mathcal C_ {ijkl} \mathfrak e_ {kl}
 $$
 
 
