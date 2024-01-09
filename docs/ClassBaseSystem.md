@@ -257,10 +257,8 @@ $$
 
 $$
 I_{\mathfrak f 2} \approx \frac{1}{\Delta t \omega_{\mathfrak f}^2}
- \left (
-1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} ( \omega_{\mathfrak f} \Delta t )^2
- -1  
- -\omega_{\mathfrak f} \Delta t 
+ \left ( 1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} ( \omega_{\mathfrak f} \Delta t )^2
+ -1 - \omega_{\mathfrak f} \Delta t 
 \right ) = \frac{1}{2} \Delta t
 $$
 
@@ -334,14 +332,12 @@ $$
 = \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
 \left (
 \frac{4}{6} (\omega_{\mathfrak f} \Delta t)^3 - \frac{3}{2} (\omega_{\mathfrak f} \Delta t)^3 + (\omega_{\mathfrak f} \Delta t)^3
-\right )
-= \frac{1}{6} \Delta t
+\right ) = \frac{1}{6} \Delta t
 $$
 
 $$
 I_{\mathfrak f 4} \approx \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
-\left (
-2 + \omega_{\mathfrak f} \Delta t +(1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(-2 + \omega_{\mathfrak f} \Delta t)
+\left (2 + \omega_{\mathfrak f} \Delta t +(1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(-2 + \omega_{\mathfrak f} \Delta t)
 \right ) 
 $$
 
@@ -350,8 +346,7 @@ $$
 \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left (
 \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^3-\frac{2}{6}(\omega_{\mathfrak f} \Delta t)^3
-\right )
-= \frac{1}{3} \Delta t
+\right ) = \frac{1}{3} \Delta t
 $$
 
 $$
@@ -366,8 +361,7 @@ $$
 =\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
 \left (
 \frac{4}{6} (\omega_{\mathfrak f} \Delta t)^3 - \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^3
-\right )
-= \frac{1}{6} \Delta t
+\right ) = \frac{1}{6} \Delta t
 $$
 
 Similar as for the EDT2RK case $I_{\mathfrak f 1}$, $I_{\mathfrak f 3}$, $I_{\mathfrak f 4}$, and $I_{\mathfrak f 5}$ contains a division by $0$ when $\omega_{\mathfrak f} = 0$.  
