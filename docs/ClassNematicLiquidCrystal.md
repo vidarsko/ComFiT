@@ -19,7 +19,7 @@ $$
 in $d$ dimensions. For
 the current version only $d=2$ is implemented. To take advantage of its
 symmetric nature we have saved $Q$ as a vector field, which in two
-dimensions takes the form $$\\vec{Q} =[ Q_{xx},Q_{xy}. ]$$ We can
+dimensions takes the form $$\vec{Q} =[ Q_{xx},Q_{xy}. ]$$ We can
 translate from tensor indexes to the right value stored in the vector by
 using the function
 

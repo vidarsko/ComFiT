@@ -164,6 +164,51 @@ class PhaseFieldCrystal(BaseSystem):
     def calc_nonlinear_evolution_function_f(self, psi):
         return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
 
+    def calc_displacement_field_to_equilibrium(self):
+        """
+        Calculates the displacement field needed to put the PFC in mechanical equilibrium.
+
+        Input:
+            None
+        
+        Output:
+            The displacement field u
+        """
+
+        # Calculate the stress divergence
+        g_f = self.calc_stress_divergence_f()
+
+        # Calculate the displacement field
+        u_f = np.zeros([self.dim] + self.dims, dtype = complex)
+
+        k2 = self.calc_k2()
+        k = np.sqrt(k2)
+
+        kappa = np.zeros([self.dim] + self.dims)
+        for l in range(self.dim):
+            kappa[l] = self.k[l]/k
+        
+        print(kappa[0])
+
+        second_term_factor = (self.el_mu + self.el_lambda)/(1+np.sum([(self.el_mu + self.el_lambda)/(self.el_mu + self.el_gamma*kappa[l]**2)*kappa[l]**2 for l in range(self.dim)]))
+
+        for i in range(self.dim):
+            for j in range(self.dim):
+                #Calculate the Green's function
+                Gij_f = int(i==j)/(self.el_mu + self.el_gamma*kappa[i]**2) \
+                - kappa[i]*kappa[j]/((self.el_mu + self.el_gamma*kappa[i]**2)*(self.el_mu + self.el_gamma*kappa[j]**2))*second_term_factor
+
+                u_f[i] += 1/k2*Gij_f*g_f[j]
+            
+            # Set the zero mode to zero
+            u_f[i][self.zero_index] = 0
+
+            # print(u_f[i])
+
+        return np.real(sp.fft.ifftn(u_f, axes = (range ( - self . dim , 0) )))
+
+        
+
     # Initial configuration methods
     def calc_amplitudes_with_dislocation(self, eta=None, x=None, y=None, dislocation_type=1):
 

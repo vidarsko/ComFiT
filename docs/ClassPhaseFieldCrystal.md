@@ -704,13 +704,13 @@ $$
 This equation is solved in Fourier space by 
 
 $$
-{u}_{\mathfrak f ~ i}^\delta = G_{\mathfrak f ~ ij} g_j^\psi,
+{u}_{\mathfrak f ~ i}^\delta = G_{\mathfrak f ~ ij} g_{\mathfrak f ~ j}^\psi,
 $$
 
 where the Greens function $G_{\mathfrak f ~ ij}$ is given in Ref. [dederichsElasticGreenFunction1969](References.md) as 
 
 $$
-{G_{\mathfrak f ~ij}} (\mathbf k) =\frac{1}{\mathbf k^2}\left ( \frac{\delta_{ij}}{\mu + \gamma \kappa_{(i)}^2} - \frac{\kappa_i \kappa_j}{(\mu +  \gamma \kappa_{(i)}^2 )(\mu +  \gamma \kappa_{(j)}^2 )} \frac{\mu+\lambda}{1+ \sum_{j=1}^3 \frac{\mu + \lambda}{\mu+\gamma \kappa_l^2} \kappa_l^2 }\right ),
+{G_{\mathfrak f ~ij}} (\mathbf k) =\frac{1}{\mathbf k^2}\left ( \frac{\delta_{ij}}{\mu + \gamma \kappa_{(i)}^2} - \frac{\kappa_i \kappa_j}{(\mu +  \gamma \kappa_{(i)}^2 )(\mu +  \gamma \kappa_{(j)}^2 )} \frac{\mu+\lambda}{1+ \sum_{l=1}^3 \frac{\mu + \lambda}{\mu+\gamma \kappa_l^2} \kappa_l^2 }\right ),
 $$
 
 with $\boldsymbol \kappa = \mathbf k/|\mathbf k|$ there is no implicit summation over indices $(i),(j)$.  

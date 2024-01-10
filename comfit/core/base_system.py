@@ -87,10 +87,13 @@ class BaseSystem:
         self.midi = self.xRes * self.yRes * (self.zmidi - 1) + self.yRes * (self.xmidi - 1) + self.ymidi
         if self.dim == 1:
             self.rmid = self.xmid
+            self.zero_index = 0
         elif self.dim == 2:
             self.rmid = [self.xmid, self.ymid]
+            self.zero_index = [0,0]
         elif self.dim == 3:
             self.rmid = [self.xmid, self.ymid, self.zmid]
+            self.zero_index = [0,0,0]
 
         # Fourier modes
         self.k = [self.calc_wavenums(self.x)]
