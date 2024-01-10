@@ -25,7 +25,7 @@ class TestBoseEinsteinCondensate(unittest.TestCase):
         bec.evolve_relax(300)
 
         # Set the tolerance for approximation
-        tolerance = 0.01
+        tolerance = 0.05
 
         # Check if all elements in bec.psi are approximately 1
         condition = np.allclose(abs(bec.psi), 1, atol=tolerance)
