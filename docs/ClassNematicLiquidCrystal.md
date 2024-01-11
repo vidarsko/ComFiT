@@ -163,6 +163,7 @@ $\pm 1/2$ defects, which are depicted in fig.
 [7.1](#fig:nem_dipole){reference-type="ref" reference="fig:nem_dipole"}.
 
 ![](images/nematic_liquid_crystal_disclination_dipole.png)
+
 *Liquid crystal disclination dipole:* 
 The nematic director (head-less vectors) around a defect dipole. The
 $+1/2$ defect is marked with red, while the $-1/2$ defect is in blue.
@@ -217,6 +218,7 @@ The activity $\alpha$ is can be spatially varying. This can be used to
 make active channels as shown in the following figure.
 
 ![Nematic liquid crystal active channel](images/nematic_liquid_crystal_active_channel.png)
+
 *Nematic liquid crystal active channel:* 
 Illustration of an active channel. `width= 20` and $d = 2$.
 
