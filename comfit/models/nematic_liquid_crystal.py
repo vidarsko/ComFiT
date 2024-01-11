@@ -120,9 +120,11 @@ class NematicLiquidCrystal(BaseSystem):
             self.k2_press = self.calc_k2()
             self.k2_press[0,0] = 1 # for calculating pressure and velocity
 
-        if self.dim == 3:
+        elif self.dim == 3:
 
-            #TODO find equilibrium S in three dim
+            #TODO find equilibrium S in three dim for C != 0
+
+            self.S0 = np.sqrt(self.B) / 2
 
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
             phi_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
@@ -132,11 +134,11 @@ class NematicLiquidCrystal(BaseSystem):
             nz = np.cos(theta_rand)
 
             self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
-            self.Q[0] = nx*nx -1/3
-            self.Q[1] = nx*ny
-            self.Q[2] = nx*nz
-            self.Q[3] = ny*ny -1/3
-            self.Q[4] = ny*nz
+            self.Q[0] = self.S0 *(nx*nx -1/3)
+            self.Q[1] = self.S0 *(nx*ny)
+            self.Q[2] = self.S0 *(nx*nz)
+            self.Q[3] = self.S0 *(ny*ny -1/3)
+            self.Q[4] = self.S0 *(ny*nz)
 
             self.Q_f = sp.fft.fftn(self.Q, axes=(range(-self.dim, 0)))
 
@@ -267,7 +269,7 @@ class NematicLiquidCrystal(BaseSystem):
 
     def calc_molecular_field(self,Q):
         """
-        Finds the molecular field (NB! strictly 2D at the moment) NOTE ALSO THAT THIS IS THE NEGATIVE MOLECULAR FIELD.
+        Finds the molecular field (NB! need to be rewriten when C != 0)
         Args
             Q (numpy.ndarray): The nematic tensor
         Returns:
