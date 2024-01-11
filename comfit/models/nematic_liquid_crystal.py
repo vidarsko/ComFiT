@@ -246,6 +246,7 @@ class NematicLiquidCrystal(BaseSystem):
         return F_pf
 
     def calc_passive_stress_f(self,Q):
+        #TODO Make 3d
         """
         Calculates the passive stress in fourier space
         Args:
@@ -279,7 +280,7 @@ class NematicLiquidCrystal(BaseSystem):
         Returns:
              (numpy.ndarray): The molecular field
         """
-        #TODO make this compatible with C != 0
+        #TODO make this compatible with C != 0 (3D ok when C==0)
         Q2 =  np.sum(self.get_sym(Q,i,j)*self.get_sym(Q,j,i) for j in range(self.dim) for i in range(self.dim))
         temp = -self.K * sp.fft.ifftn( self.k2* sp.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
@@ -306,6 +307,7 @@ class NematicLiquidCrystal(BaseSystem):
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
+        #TODO make 3D
         """
         Calculates the vorticity tensor
         returns:
@@ -318,6 +320,7 @@ class NematicLiquidCrystal(BaseSystem):
             return np.real(Omega)
 
     def calc_strain_rate_tensor_f(self):
+        # TODO Make symetric and 3d
         """
         Calculates the strainrate tensor
         returns:
@@ -332,6 +335,7 @@ class NematicLiquidCrystal(BaseSystem):
 #### Calculation of non-linear evolution terms
     def calc_nonlinear_evolution_function_f(self,Q):
         # TODO test and make sure that the passive stress works as intended (Jonas: 2023/11/14)
+        #TODO make 3d compatible
         """
         Calculates the non-linear evolution function for the nematic
         Args:
@@ -357,6 +361,7 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("This dimension is not implemented at the moment")
 
     def calc_nonlinear_evolution_term_no_flow_f(self,Q):
+        #TODO generalize to 3d (think it alredy is for C==0)
         """
             Calculates the non-linear evolution function for the nematic without the flow field
                 Args:
