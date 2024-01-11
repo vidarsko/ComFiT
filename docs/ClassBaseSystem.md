@@ -80,19 +80,19 @@ which calculates $\mathcal K_{\mathfrak f}$.
 Typically, a field is coarse-grained with a width using the following piece of code
 
 ```python
-field = np.fft.ifftn(np.fft.fftn(field) * self.calc_gaussfilter_f(width))
+field = sc.fft.ifftn(sc.fft.fftn(field) * self.calc_gaussfilter_f(width))
 ```
 
 ## Vortex fields
 
-A general feature that will be used again and again is that of angle fields of vortices. 
+A general feature that will be reused is that of vortex fields.
 An angle field is a field where each point in space corresponds to an angle $\theta \in \mathcal S^n$.
 A vortex is a topological defect in an angle field, around which the circulation is some integer multiple of the covering of $\mathcal S^n$. 
 
 ### Angle field of a single vortex in two dimensions
 
 In two dimensions, the angle field takes values $\theta \in [-\pi,\pi \rangle$ and a vortex is a point $\mathbf r_0$.
-The angle field produced by the vortex has a circulation which is a multiple integer of $2\pi$, i.e.
+The angle field produced by the vortex has a circulation which is a multiple integer of $2\pi$, i.e.,
 
 $$
 \oint d\theta = 2\pi s_n, 
