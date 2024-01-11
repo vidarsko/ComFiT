@@ -124,7 +124,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             #TODO find equilibrium S in three dim for C != 0 (11 /01 /24)
 
-            self.S0 = np.sqrt(self.B) / 2
+            self.S0 = np.sqrt(3*self.B) / 2
 
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
             phi_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
@@ -191,7 +191,7 @@ class NematicLiquidCrystal(BaseSystem):
             return 2*np.sqrt((self.Q[0])**2 +(self.Q[1])**2)
 
         elif self.dim ==3:
-            Q2 = np.sum(self.get_sym(Q,i,j)*self.get_sym(Q,j,i) for j in range(self.dim) for i in range(self.dim))
+            Q2 = np.sum(self.get_sym(self.Q,i,j)*self.get_sym(self.Q,j,i) for j in range(self.dim) for i in range(self.dim))
             return np.sqrt(3*Q2/2)
     def conf_active_channel(self,width,d=7):
         """
