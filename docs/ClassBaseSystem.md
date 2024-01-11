@@ -128,7 +128,9 @@ $$
 $$
 
 These expressions are based on the geometry depicted in the following figure.
+
 ![Vortex ring angle field explanation](images/base_system_vortex_ring_angle_field_explanation.png)
+
 *Vortex ring angle field explanation:* Geometry of a vortex ring in the plane given by $\vec n$. 
 $\mathcal N'$ is the plane normal to the tangent vector $\vec t'$ at $\vec r'$ upon which we impose a Cartesian coordinate system to determine the angles $\theta_1$, $\theta_2$ that are used to construct the (inset) initial angle field. 
 Figure reprinted from Ref. [skogvollPhaseFieldCrystal2022](References.md) with permission. 
@@ -146,6 +148,7 @@ and is implemented in the function `calc_angle_field_vortex_ring`.
 Apart from the angle field of a single vortex, the other fields are compatible with periodic boundary conditions. The expressions for these fields, however, are really only valid for an infinite region. When this is imposed on periodic boundary conditions, it results in spurious boundary effects, especially if either of the vortices is placed near the edge of the simulation domain. By simply inserting the vortices directly, we get what is shown in the following figure (a).
 
 ![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields.png)
+
 *Numerical implementaiton of periodic angle fields: *
 The angle field of panel (a) has been filtered by the field $F$ with $w=0.2x_{\textrm{max}}$ to produce the periodic field given in panel (c). 
 This field is simply rolled to produce a different position for the dipole in panel (d).
