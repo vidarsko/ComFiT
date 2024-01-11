@@ -162,9 +162,10 @@ $q$ being a half-integer. The defects of lowest absolute charge is the
 $\pm 1/2$ defects, which are depicted in fig.
 [7.1](#fig:nem_dipole){reference-type="ref" reference="fig:nem_dipole"}.
 
-![The nematic director (head-less vectors) around a defect dipole. The
+![](images/nematic_liquid_crystal_disclination_dipole.png)
+*Liquid crystal disclination dipole:* 
+The nematic director (head-less vectors) around a defect dipole. The
 $+1/2$ defect is marked with red, while the $-1/2$ defect is in blue.
-](Figures/Dipole_nem.png){#fig:nem_dipole}
 
 For tracing the defect nodes one can use the function
 
@@ -213,12 +214,11 @@ it can be used to insert a dipole into an already existing nematic.
 ## Spatially varying activity
 
 The activity $\alpha$ is can be spatially varying. This can be used to
-make active channels as shown in
-fig. [7.2](#fig:active_channel){reference-type="ref"
-reference="fig:active_channel"}
+make active channels as shown in the following figure.
 
-![Illustration of an active channel. $\text{width}= 20$ and
-$d = 2$.](Figures/FiguresOfSetup/spatial_alpha.png){#fig:active_channel}
+![Nematic liquid crystal active channel](images/nematic_liquid_crystal_active_channel.png)
+*Nematic liquid crystal active channel:* 
+Illustration of an active channel. `width= 20` and $d = 2$.
 
 This simple channel with the activity $\alpha_0$ inside and $\alpha = 0$
 outside is included as the function
