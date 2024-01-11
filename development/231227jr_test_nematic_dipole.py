@@ -20,6 +20,6 @@ director =nem.calc_director()
 
 Dnodes =nem.calc_disclination_nodes_nem()
 ax= nem.plot_field_velocity_and_director(D,nem.u,director,colormap='bwr')
-nem.plot_disclination_nodes(Dnodes)
+nem.plot_disclination_nodes(Dnodes,ax=ax)
 
 plt.show()

@@ -122,7 +122,7 @@ class NematicLiquidCrystal(BaseSystem):
 
         elif self.dim == 3:
 
-            #TODO find equilibrium S in three dim for C != 0
+            #TODO find equilibrium S in three dim for C != 0 (11 /01 /24)
 
             self.S0 = np.sqrt(self.B) / 2
 
@@ -190,6 +190,9 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0])**2 +(self.Q[1])**2)
 
+        elif self.dim ==3:
+            Q2 = np.sum(self.get_sym(Q,i,j)*self.get_sym(Q,j,i) for j in range(self.dim) for i in range(self.dim))
+            return np.sqrt(3*Q2/2)
     def conf_active_channel(self,width,d=7):
         """
         Set the activity to zero everywhere exept for inside a channel of width "width"
@@ -199,9 +202,10 @@ class NematicLiquidCrystal(BaseSystem):
         returns:
             updates the activity to the channel configuration.
         """
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-        alpha_0 = self.alpha
-        self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
+        if self.dim ==2:
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            alpha_0 = self.alpha
+            self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
 
 #### calculations related to the flow field
     def conf_u(self,Q):
@@ -275,6 +279,7 @@ class NematicLiquidCrystal(BaseSystem):
         Returns:
              (numpy.ndarray): The molecular field
         """
+        #TODO make this compatible with C != 0
         Q2 =  np.sum(self.get_sym(Q,i,j)*self.get_sym(Q,j,i) for j in range(self.dim) for i in range(self.dim))
         temp = -self.K * sp.fft.ifftn( self.k2* sp.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
@@ -341,12 +346,13 @@ class NematicLiquidCrystal(BaseSystem):
             Omega =self.calc_vorticity_tensor()
             Antisym_Omega_Q = np.zeros_like(Q_f)
 
-           # Antisym_Omega_Q[0] = np.sum(self.get_Sym(Q,0,k)*self.get_anti_sym(Omega,k,0) -
-           #                             self.get_anti_sym(Omega,0,k)*self.get_Sym(Q,k,0) for k in range(self.dim))
+            Antisym_Omega_Q[0] = np.sum(self.get_sym(Q,0,k)*self.get_anti_sym(Omega,k,0) -
+                                        self.get_anti_sym(Omega,0,k)*self.get_sym(Q,k,0) for k in range(self.dim))
             Antisym_Omega_Q[1] = np.sum(
                 self.get_sym(Q, 0, k) * self.get_anti_sym(Omega,k,1) - self.get_anti_sym(Omega,0,k) * self.get_sym(Q, k, 1) for k in range(self.dim))
             advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
             return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
+
         else:
             raise Exception("This dimension is not implemented at the moment")
 
