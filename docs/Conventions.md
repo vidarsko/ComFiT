@@ -10,8 +10,6 @@
 
 # Mathematical conventions
 
-
-
 The imaginary unit will be denoted $\mathfrak i$, `\mathfrak i` to avoid confusion with the index $i$. 
 Index symmetrization $()$ and anti-symmetrization $[]$ will be used throughout.
 They are defined for an tensor $A$ with two indices by 
@@ -54,7 +52,25 @@ $$
 (\mathcal C \dot \cdot \mathfrak e)_ {ij} = \mathcal C_ {ijkl} \mathfrak e_ {kl}
 $$
 
-
 # Programming notation conventions
 
 *  [PEP8](https://peps.python.org/pep-0008/) for python programming, and [PEP257](https://peps.python.org/pep-0257/)/[Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) for doc strings.
+
+# Plotting conventions 
+
+## Angle color scheme
+
+In many of the plotting functions, we are plotting angles, for example in plotting the phase
+of a complex number or the value of an order parameter on S1
+. In these cases, all values
+modulus 2π are eqvuivalent, but if one uses a regular color scheme, this equivalence is not
+readily visible. Therefore, when expressing angles, we use the color scheme shown in Fig. 1.1.
+This has the benefit of wrapping around itself at θ = ±π, stressing that these correspond
+
+
+*Angle color scheme.* The color scheme follows the hsv color circle going through  $\theta=0$ ({\color{Red}Red}), $\theta=\pi/3$ ({\color{Yellow}Yellow}), $\theta=2\pi/3$ ({\color{Lime}Lime}), $\theta = \pm \pi$ ({\color{Aqua} Aqua}), $\theta = -2\pi/3$ ({\color{Blue}Blue}), $\theta = -\pi/3$ ({\color{Fuchsia}Fuchsia}).
+
+
+## Plotting library
+
+The standard is matplotlib.
