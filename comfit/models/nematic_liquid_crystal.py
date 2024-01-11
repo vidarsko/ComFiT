@@ -65,6 +65,16 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             return (-1)**(i*j) *Q[(i+j)%2]
 
+        elif self.dim ==3:
+            if i != j:
+                return Q[i*j + max(i,j)]
+            else:
+                if i !=2:
+                    return Q[3*i]
+                else:
+                    return -1 * (Q[0] + Q[3])
+### TODO see if this can be improved
+
     def get_anti_sym(self,omega,i,j):
         """
         Function to axes the tensor element omega_ij of an anti-symetric matrix, which we will
@@ -79,12 +89,18 @@ class NematicLiquidCrystal(BaseSystem):
             if i==j:
                 return 0
             return (-1)**i *omega
+        elif self.dim ==3:
+            if i ==j:
+                return 0
+            else:
+                return np.sign(j-i)*omega[i+j-1]
 
 
     # Initial condition
     def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
-        Initialises the system with the nematogens pointing in the x-direction with some random noise in the angle
+        Initialises the system with the nematogens pointing in the x-direction in 2D and in the z-direction in 3D
+        with some random noise in the angle.
         Args:
              noise_strength (float): A meshure for how much noise to put in the angle
         returns:
@@ -103,6 +119,30 @@ class NematicLiquidCrystal(BaseSystem):
             self.k2 = self.calc_k2() # k2
             self.k2_press = self.calc_k2()
             self.k2_press[0,0] = 1 # for calculating pressure and velocity
+
+        if self.dim == 3:
+
+            #TODO find equilibrium S in three dim
+
+            theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
+            phi_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
+
+            nx = np.cos(theta_rand)*np.sin(phi_rand)
+            ny = np.sin(theta_rand)*np.sin(phi_rand)
+            nz = np.cos(theta_rand)
+
+            self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
+            self.Q[0] = nx*nx -1/3
+            self.Q[1] = nx*ny
+            self.Q[2] = nx*nz
+            self.Q[3] = ny*ny -1/3
+            self.Q[4] = ny*nz
+
+            self.Q_f = sp.fft.fftn(self.Q, axes=(range(-self.dim, 0)))
+
+            self.k2 = self.calc_k2()  # k2
+            self.k2_press = self.calc_k2()
+            self.k2_press[0, 0, 0] = 1  # for calculating pressure and velocity
 
         else:
             raise Exception("not included at the moment")
@@ -227,7 +267,7 @@ class NematicLiquidCrystal(BaseSystem):
 
     def calc_molecular_field(self,Q):
         """
-        Finds the molecular field (NB! strictly 2D at the moment)
+        Finds the molecular field (NB! strictly 2D at the moment) NOTE ALSO THAT THIS IS THE NEGATIVE MOLECULAR FIELD.
         Args
             Q (numpy.ndarray): The nematic tensor
         Returns:
