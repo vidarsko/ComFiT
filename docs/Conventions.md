@@ -68,6 +68,7 @@ readily visible. Therefore, when expressing angles, we use the color scheme show
 This has the benefit of wrapping around itself at θ = ±π, stressing that these correspond
 
 ![Angle color scheme](images/conventions_angle_colormap.png)
+
 *Angle color scheme.* The color scheme follows the hsv color circle going through  $\theta=0$ (Red), $\theta=\pi/3$ (Yellow), $\theta=2\pi/3$ (Lime), $\theta = \pm \pi$ (Aqua), $\theta = -2\pi/3$ (Blue), $\theta = -\pi/3$ (Fuchsia).
 
 
