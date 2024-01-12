@@ -105,6 +105,8 @@ class NematicLiquidCrystal(BaseSystem):
              noise_strength (float): A meshure for how much noise to put in the angle
         returns:
             Initialises self.Q  and self.Q_f
+        raises:
+            Exception if the dimension is not 2 or 3
         """
         if self.dim == 2:
             self.S0 = np.sqrt(self.B)
@@ -147,7 +149,7 @@ class NematicLiquidCrystal(BaseSystem):
             self.k2_press[0, 0, 0] = 1  # for calculating pressure and velocity
 
         else:
-            raise Exception("not included at the moment")
+            raise Exception("This dimension is not included for the moment")
 
     def conf_insert_disclination_dipole(self, dipole_vector=None, dipole_position=None):
         """
@@ -206,6 +208,8 @@ class NematicLiquidCrystal(BaseSystem):
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
             alpha_0 = self.alpha
             self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
+        else:
+            raise Exception("The active channel is only permitted in three dimensions")
 
 #### calculations related to the flow field
     def conf_u(self,Q):
@@ -270,6 +274,40 @@ class NematicLiquidCrystal(BaseSystem):
                     stress[i][j] = self.get_sym(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
+        elif self.dim == 3:
+            H = self.calc_molecular_field(Q)
+
+            Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
+            Antisym_QH[0] = np.sum(self.get_sym(Q,0,k)*self.get_sym(H,k,1) -self.get_sym(H,0,k)*self.get_sym(Q,k,1) for k in range(self.dim))
+            Antisym_QH[1] = np.sum(
+                self.get_sym(Q, 0, k) * self.get_sym(H, k, 2) - self.get_sym(H, 0, k) * self.get_sym(Q, k, 2) for k in
+                range(self.dim))
+            Antisym_QH[2] = np.sum(
+                self.get_sym(Q, 1, k) * self.get_sym(H, k, 2) - self.get_sym(H, 1, k) * self.get_sym(Q, k, 2) for k in
+                range(self.dim))
+
+            Ericksen = np.zeros((5, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
+            Ericksen[0] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+            Ericksen[1] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+            Ericksen[2] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+            Ericksen[3] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+            Ericksen[4] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+
+            stress = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
+            for i in range(self.dim):
+                for j in range(self.dim):
+                    stress[i][j] = self.get_sym(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
+            return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
 
     def calc_molecular_field(self,Q):
@@ -307,7 +345,6 @@ class NematicLiquidCrystal(BaseSystem):
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
-        #TODO make 3D
         """
         Calculates the vorticity tensor
         returns:
@@ -318,6 +355,15 @@ class NematicLiquidCrystal(BaseSystem):
             Omega_f = (1j*self.k[0]*self.u_f[1] -1j*self.k[1]*self.u_f[0])/2
             Omega = sp.fft.ifftn(Omega_f,axes=range(-self.dim,0))
             return np.real(Omega)
+
+        elif self.dim ==3:
+            Omega = np.zeros((3,self.xRes,self.yRes,self.zRes))
+            Omega[0] = np.real(sp.fft.ifftn((1j*self.k[0]*self.u_f[1] -1j*self.k[1]*self.u_f[0])/2,axes=range(-self.dim,0)))
+            Omega[1] = np.real(sp.fft.ifftn((1j * self.k[0] * self.u_f[2] - 1j * self.k[2] * self.u_f[0]) / 2,
+                                            axes=range(-self.dim, 0)))
+            Omega[2] = np.real(sp.fft.ifftn((1j * self.k[1] * self.u_f[2] - 1j * self.k[2] * self.u_f[1]) / 2,
+                                            axes=range(-self.dim, 0)))
+            return Omega
 
     def calc_strain_rate_tensor_f(self):
         # TODO Make symetric and 3d
@@ -356,6 +402,33 @@ class NematicLiquidCrystal(BaseSystem):
                 self.get_sym(Q, 0, k) * self.get_anti_sym(Omega,k,1) - self.get_anti_sym(Omega,0,k) * self.get_sym(Q, k, 1) for k in range(self.dim))
             advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
             return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
+
+        elif self.dim == 3:
+            self.conf_u(Q)
+            Q_f = sp.fft.fftn(Q, axes=range(-self.dim, 0))
+            N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
+            Omega = self.calc_vorticity_tensor()
+
+            advectiv_deriv = - np.sum(
+                self.u[k] * sp.fft.ifftn(1j * self.k[k] * Q_f, axes=(range(-self.dim, 0))) for k in range(self.dim))
+
+            Antisym_Omega_Q = np.zeros_like(Q_f)
+
+            Antisym_Omega_Q[0] = np.sum(self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 0) -
+                                        self.get_anti_sym(Omega, 0, k) * self.get_sym(Q, k, 0) for k in range(self.dim))
+            Antisym_Omega_Q[1] = np.sum(
+                self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 1) - self.get_anti_sym(Omega, 0, k) * self.get_sym(
+                    Q, k, 1) for k in range(self.dim))
+            Antisym_Omega_Q[2] = np.sum(
+                self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 2) - self.get_anti_sym(Omega, 0, k) * self.get_sym(
+                    Q, k, 2) for k in range(self.dim))
+            Antisym_Omega_Q[3] = np.sum(
+                self.get_sym(Q, 1, k) * self.get_anti_sym(Omega, k, 1) - self.get_anti_sym(Omega, 1, k) * self.get_sym(
+                    Q, k, 1) for k in range(self.dim))
+            Antisym_Omega_Q[4] = np.sum(
+                self.get_sym(Q, 1, k) * self.get_anti_sym(Omega, k, 2) - self.get_anti_sym(Omega, 1, k) * self.get_sym(
+                    Q, k, 2) for k in range(self.dim))
+            return sp.fft.fftn(Antisym_Omega_Q + advectiv_deriv, axes=range(-self.dim, 0)) + N_f
 
         else:
             raise Exception("This dimension is not implemented at the moment")
