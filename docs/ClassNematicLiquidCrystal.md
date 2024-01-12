@@ -155,7 +155,11 @@ $\hat x /\hat y$ being the unit vectors in $x /y$ direction, and mapping
 the $Q$ tensor, see
 eq. ([\[eq:Q_tensor\]](#eq:Q_tensor){reference-type="ref"
 reference="eq:Q_tensor"}), to the complex field
-$$\psi = Q_{xx} +  iQ_{xy} = \frac{S}{2} e^{2 i\theta}.$$
+
+$$
+\psi = Q_{xx} +  iQ_{xy} = \frac{S}{2} e^{2 i\theta}.
+$$
+
 Using the same arguments as for the BEC we find that the allowed winding
 numbers $$k = \int_C \nabla \theta \cdot d\\vec{l} = 2\pi q$$ with
 $q$ being a half-integer. The defects of lowest absolute charge is the
@@ -176,8 +180,12 @@ calc_vortex_nodes_nem(self, dt_Q=None,polarization = None)
 
 If `dt_Q` is given this finds the defects velocity and if
 `polarization ` is given the polarization of the $+1/2$ defects are
-found. This polarization is given by $$\\vec{e}_+ = 
-    \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\\vec{r}= \\vec{r}_+}$$
+found. This polarization is given by 
+
+$$
+\vec{e}_+ = \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\\vec{r}= \\vec{r}_+}
+$$
+
 where $\\vec{r}_+$ is the defects position. The field
 $\\vec{e}_+$ can be found by the function
 
