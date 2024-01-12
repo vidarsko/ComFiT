@@ -529,11 +529,16 @@ class NematicLiquidCrystal(BaseSystem):
             angle = np.angle(psi_n)
             return [np.cos(angle/2),np.sin(angle/2)]
         elif self.dim ==3:
-            # Note: since only determined up to a sign this will assume that n_x is positive
+        #TODO This was a very dumb way of doing it
             S = self.calc_S()
-            n_x = np.sqrt(self.Q[0]/S +1/3)
-            n_y = n_x * (self.Q[4]/self.Q[2])
-            n_z = n_x * (self.Q[2]/self.Q[0])
+            nx_abs = np.sqrt(np.abs(1/3 + self.Q[0]/S))
+            ny_abs = np.sqrt(np.abs(1/3 +self.Q[3]/S))
+            n_z = np.sqrt(1-nx_abs**2 -ny_abs**2)
+
+
+            n_x = np.sign(self.Q[2])*nx_abs
+            n_y = np.sign(self.Q[4])*ny_abs
+
             return [n_x,n_y,n_z]
 
     def calc_vortex_velocity_field(self, dt_psi, psi=None):
