@@ -43,7 +43,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.B = 1 if 'B' not in kwargs else kwargs['B']
         self.Lambda = 0 if 'Lambda' not in kwargs else kwargs['Lambda'] #flow allignment, not sure if this will be implemented
         self.gamma = 1  if 'gamma' not in kwargs else kwargs['gamma']  # rotational diffusion
-        self.Gamma = 0 if 'Gamma' not in kwargs else kwargs['Gamma'] # friction, note in 3 dim this has to be zero
+        self.Gamma = 0 if 'Gamma' not in kwargs else kwargs['Gamma'] # friction,
         self.eta = 1 if 'eta' not in kwargs else kwargs['eta'] # viscosity
 
 
@@ -528,6 +528,13 @@ class NematicLiquidCrystal(BaseSystem):
             psi_n = self.Q[0] + 1j*self.Q[1]
             angle = np.angle(psi_n)
             return [np.cos(angle/2),np.sin(angle/2)]
+        elif self.dim ==3:
+            # Note: since only determined up to a sign this will assume that n_x is positive
+            S = self.calc_S()
+            n_x = np.sqrt(self.Q[0]/S +1/3)
+            n_y = n_x * (self.Q[4]/self.Q[2])
+            n_z = n_x * (self.Q[2]/self.Q[0])
+            return [n_x,n_y,n_z]
 
     def calc_vortex_velocity_field(self, dt_psi, psi=None):
         if self.dim ==2:
