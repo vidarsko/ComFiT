@@ -1,7 +1,5 @@
 # Base system 
 
-![Homer simpson](images/homer.gif)
-
 This class simply initiates a system, defines the grid and contains the basic functionality for evolving in time. 
 
 ## General parameters
