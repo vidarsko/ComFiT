@@ -4,12 +4,20 @@
 
 The phase-field crystal methodology is based on postulating a free
 energy
-$$\mathcal F = \int d\boldsymbol{r} \tilde f(\psi, \nabla \psi, ...),$$
+
+$$
+\mathcal F = \int d\boldsymbol{r} \tilde f(\psi, \nabla \psi, ...),
+$$
+
 with the goal of the state that minimizes $\mathcal F$ has a certain
 symmetry. In this documentation, we will present six such models to
 represent different crystalline structures in 1, 2 and 3 dimensions, all
 of which are on the form
-$$\tilde f( \psi, \nabla \psi, ...) = \frac{1}{2} (\mathcal L(\nabla) \psi)^2 + \frac{1}{2} \texttt{r} \psi^2 + \frac{1}{3} \texttt{t} \psi^3 + \frac{1}{4} \texttt v \psi^4,$$
+
+$$
+\tilde f( \psi, \nabla \psi, ...) = \frac{1}{2} (\mathcal L(\nabla) \psi)^2 + \frac{1}{2} \texttt{r} \psi^2 + \frac{1}{3} \texttt{t} \psi^3 + \frac{1}{4} \texttt v \psi^4,
+$$
+
 where $\mathcal L (\nabla)$ is a gradient operator dependent on the
 dimension and target symmetry, listed below
 |Model| Derivative operator $\mathcal L$|
@@ -712,9 +720,14 @@ $$
 
 where the Greens function $G_{\mathfrak f ~ ij}$ is given in Ref. [dederichsElasticGreenFunction1969](References.md) as 
 
+![](images/phase_field_crystal_elastic_greens_function.png)
+
+<!--
+Rendering issues in github and so included in picture above instead.
 $$
 {G_{\mathfrak f ~ij}} (\mathbf k) =\frac{1}{\mathbf k^2}\left ( \frac{\delta_{ij}}{\mu + \gamma \kappa_{(i)}^2} - \frac{\kappa_i \kappa_j}{(\mu +  \gamma \kappa_{(i)}^2 )(\mu +  \gamma \kappa_{(j)}^2 )} \frac{\mu+\lambda}{1+ \sum_{l=1}^3 \frac{\mu + \lambda}{\mu+\gamma \kappa_l^2} \kappa_l^2 }\right ),
 $$
+-->
 
 with $\boldsymbol \kappa = \mathbf k/|\mathbf k|$ there is no implicit summation over indices $(i),(j)$.  
 By defining $k_3=0$, this equation is also valid for the triangular and square symmetry in two dimensions. 
