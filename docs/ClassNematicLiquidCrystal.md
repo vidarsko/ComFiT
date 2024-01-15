@@ -19,7 +19,7 @@ $$
 in $d$ dimensions. For
 the current version only $d=2$ is implemented. To take advantage of its
 symmetric nature we have saved $Q$ as a vector field, which in two
-dimensions takes the form $$\\vec{Q} =[ Q_{xx},Q_{xy}. ]$$ We can
+dimensions takes the form $$\vec{Q} =[ Q_{xx},Q_{xy}. ]$$ We can
 translate from tensor indexes to the right value stored in the vector by
 using the function
 
@@ -155,16 +155,22 @@ $\hat x /\hat y$ being the unit vectors in $x /y$ direction, and mapping
 the $Q$ tensor, see
 eq. ([\[eq:Q_tensor\]](#eq:Q_tensor){reference-type="ref"
 reference="eq:Q_tensor"}), to the complex field
-$$\psi = Q_{xx} +  iQ_{xy} = \frac{S}{2} e^{2 i\theta}.$$
+
+$$
+\psi = Q_{xx} +  iQ_{xy} = \frac{S}{2} e^{2 i\theta}.
+$$
+
 Using the same arguments as for the BEC we find that the allowed winding
 numbers $$k = \int_C \nabla \theta \cdot d\\vec{l} = 2\pi q$$ with
 $q$ being a half-integer. The defects of lowest absolute charge is the
 $\pm 1/2$ defects, which are depicted in fig.
 [7.1](#fig:nem_dipole){reference-type="ref" reference="fig:nem_dipole"}.
 
-![The nematic director (head-less vectors) around a defect dipole. The
+![](images/nematic_liquid_crystal_disclination_dipole.png)
+
+*Liquid crystal disclination dipole:* 
+The nematic director (head-less vectors) around a defect dipole. The
 $+1/2$ defect is marked with red, while the $-1/2$ defect is in blue.
-](Figures/Dipole_nem.png){#fig:nem_dipole}
 
 For tracing the defect nodes one can use the function
 
@@ -174,8 +180,12 @@ calc_vortex_nodes_nem(self, dt_Q=None,polarization = None)
 
 If `dt_Q` is given this finds the defects velocity and if
 `polarization ` is given the polarization of the $+1/2$ defects are
-found. This polarization is given by $$\\vec{e}_+ = 
-    \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\\vec{r}= \\vec{r}_+}$$
+found. This polarization is given by 
+
+$$
+\vec{e}_+ = \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\\vec{r}= \\vec{r}_+}
+$$
+
 where $\\vec{r}_+$ is the defects position. The field
 $\\vec{e}_+$ can be found by the function
 
@@ -213,12 +223,12 @@ it can be used to insert a dipole into an already existing nematic.
 ## Spatially varying activity
 
 The activity $\alpha$ is can be spatially varying. This can be used to
-make active channels as shown in
-fig. [7.2](#fig:active_channel){reference-type="ref"
-reference="fig:active_channel"}
+make active channels as shown in the following figure.
 
-![Illustration of an active channel. $\text{width}= 20$ and
-$d = 2$.](Figures/FiguresOfSetup/spatial_alpha.png){#fig:active_channel}
+![Nematic liquid crystal active channel](images/nematic_liquid_crystal_active_channel.png)
+
+*Nematic liquid crystal active channel:* 
+Illustration of an active channel. `width= 20` and $d = 2$.
 
 This simple channel with the activity $\alpha_0$ inside and $\alpha = 0$
 outside is included as the function

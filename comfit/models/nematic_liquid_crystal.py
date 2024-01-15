@@ -43,7 +43,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.B = 1 if 'B' not in kwargs else kwargs['B']
         self.Lambda = 0 if 'Lambda' not in kwargs else kwargs['Lambda'] #flow allignment, not sure if this will be implemented
         self.gamma = 1  if 'gamma' not in kwargs else kwargs['gamma']  # rotational diffusion
-        self.Gamma = 0 if 'Gamma' not in kwargs else kwargs['Gamma'] # friction, note in 3 dim this has to be zero
+        self.Gamma = 0 if 'Gamma' not in kwargs else kwargs['Gamma'] # friction,
         self.eta = 1 if 'eta' not in kwargs else kwargs['eta'] # viscosity
 
 
@@ -65,6 +65,16 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             return (-1)**(i*j) *Q[(i+j)%2]
 
+        elif self.dim ==3:
+            if i != j:
+                return Q[i*j + max(i,j)]
+            else:
+                if i !=2:
+                    return Q[3*i]
+                else:
+                    return -1 * (Q[0] + Q[3])
+### TODO see if this can be improved
+
     def get_anti_sym(self,omega,i,j):
         """
         Function to axes the tensor element omega_ij of an anti-symetric matrix, which we will
@@ -79,16 +89,24 @@ class NematicLiquidCrystal(BaseSystem):
             if i==j:
                 return 0
             return (-1)**i *omega
+        elif self.dim ==3:
+            if i ==j:
+                return 0
+            else:
+                return np.sign(j-i)*omega[i+j-1]
 
 
     # Initial condition
     def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
-        Initialises the system with the nematogens pointing in the x-direction with some random noise in the angle
+        Initialises the system with the nematogens pointing in the x-direction in 2D and in the z-direction in 3D
+        with some random noise in the angle.
         Args:
              noise_strength (float): A meshure for how much noise to put in the angle
         returns:
             Initialises self.Q  and self.Q_f
+        raises:
+            Exception if the dimension is not 2 or 3
         """
         if self.dim == 2:
             self.S0 = np.sqrt(self.B)
@@ -104,8 +122,34 @@ class NematicLiquidCrystal(BaseSystem):
             self.k2_press = self.calc_k2()
             self.k2_press[0,0] = 1 # for calculating pressure and velocity
 
+        elif self.dim == 3:
+
+            #TODO find equilibrium S in three dim for C != 0 (11 /01 /24)
+
+            self.S0 = np.sqrt(3*self.B) / 2
+
+            theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
+            phi_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
+
+            nx = np.cos(theta_rand)*np.sin(phi_rand)
+            ny = np.sin(theta_rand)*np.sin(phi_rand)
+            nz = np.cos(theta_rand)
+
+            self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
+            self.Q[0] = self.S0 *(nx*nx -1/3)
+            self.Q[1] = self.S0 *(nx*ny)
+            self.Q[2] = self.S0 *(nx*nz)
+            self.Q[3] = self.S0 *(ny*ny -1/3)
+            self.Q[4] = self.S0 *(ny*nz)
+
+            self.Q_f = sp.fft.fftn(self.Q, axes=(range(-self.dim, 0)))
+
+            self.k2 = self.calc_k2()  # k2
+            self.k2_press = self.calc_k2()
+            self.k2_press[0, 0, 0] = 1  # for calculating pressure and velocity
+
         else:
-            raise Exception("not included at the moment")
+            raise Exception("This dimension is not included for the moment")
 
     def conf_insert_disclination_dipole(self, dipole_vector=None, dipole_position=None):
         """
@@ -148,6 +192,9 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             return 2*np.sqrt((self.Q[0])**2 +(self.Q[1])**2)
 
+        elif self.dim ==3:
+            Q2 = np.sum(self.get_sym(self.Q,i,j)*self.get_sym(self.Q,j,i) for j in range(self.dim) for i in range(self.dim))
+            return np.sqrt(3*Q2/2)
     def conf_active_channel(self,width,d=7):
         """
         Set the activity to zero everywhere exept for inside a channel of width "width"
@@ -157,9 +204,12 @@ class NematicLiquidCrystal(BaseSystem):
         returns:
             updates the activity to the channel configuration.
         """
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-        alpha_0 = self.alpha
-        self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
+        if self.dim ==2:
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            alpha_0 = self.alpha
+            self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
+        else:
+            raise Exception("The active channel is only permitted in three dimensions")
 
 #### calculations related to the flow field
     def conf_u(self,Q):
@@ -200,6 +250,7 @@ class NematicLiquidCrystal(BaseSystem):
         return F_pf
 
     def calc_passive_stress_f(self,Q):
+        #TODO Make 3d
         """
         Calculates the passive stress in fourier space
         Args:
@@ -223,16 +274,51 @@ class NematicLiquidCrystal(BaseSystem):
                     stress[i][j] = self.get_sym(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
+        elif self.dim == 3:
+            H = self.calc_molecular_field(Q)
+
+            Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
+            Antisym_QH[0] = np.sum(self.get_sym(Q,0,k)*self.get_sym(H,k,1) -self.get_sym(H,0,k)*self.get_sym(Q,k,1) for k in range(self.dim))
+            Antisym_QH[1] = np.sum(
+                self.get_sym(Q, 0, k) * self.get_sym(H, k, 2) - self.get_sym(H, 0, k) * self.get_sym(Q, k, 2) for k in
+                range(self.dim))
+            Antisym_QH[2] = np.sum(
+                self.get_sym(Q, 1, k) * self.get_sym(H, k, 2) - self.get_sym(H, 1, k) * self.get_sym(Q, k, 2) for k in
+                range(self.dim))
+
+            Ericksen = np.zeros((5, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
+            Ericksen[0] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+            Ericksen[1] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+            Ericksen[2] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+            Ericksen[3] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+            Ericksen[4] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym(Q, m, l)))
+                                            for m in range(self.dim) for l in range(self.dim))
+
+            stress = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
+            for i in range(self.dim):
+                for j in range(self.dim):
+                    stress[i][j] = self.get_sym(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
+            return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
 
     def calc_molecular_field(self,Q):
         """
-        Finds the molecular field (NB! strictly 2D at the moment)
+        Finds the molecular field (NB! need to be rewriten when C != 0)
         Args
             Q (numpy.ndarray): The nematic tensor
         Returns:
              (numpy.ndarray): The molecular field
         """
+        #TODO make this compatible with C != 0 (3D ok when C==0)
         Q2 =  np.sum(self.get_sym(Q,i,j)*self.get_sym(Q,j,i) for j in range(self.dim) for i in range(self.dim))
         temp = -self.K * sp.fft.ifftn( self.k2* sp.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
@@ -270,7 +356,17 @@ class NematicLiquidCrystal(BaseSystem):
             Omega = sp.fft.ifftn(Omega_f,axes=range(-self.dim,0))
             return np.real(Omega)
 
+        elif self.dim ==3:
+            Omega = np.zeros((3,self.xRes,self.yRes,self.zRes))
+            Omega[0] = np.real(sp.fft.ifftn((1j*self.k[0]*self.u_f[1] -1j*self.k[1]*self.u_f[0])/2,axes=range(-self.dim,0)))
+            Omega[1] = np.real(sp.fft.ifftn((1j * self.k[0] * self.u_f[2] - 1j * self.k[2] * self.u_f[0]) / 2,
+                                            axes=range(-self.dim, 0)))
+            Omega[2] = np.real(sp.fft.ifftn((1j * self.k[1] * self.u_f[2] - 1j * self.k[2] * self.u_f[1]) / 2,
+                                            axes=range(-self.dim, 0)))
+            return Omega
+
     def calc_strain_rate_tensor_f(self):
+        # TODO Make symetric and 3d
         """
         Calculates the strainrate tensor
         returns:
@@ -285,6 +381,7 @@ class NematicLiquidCrystal(BaseSystem):
 #### Calculation of non-linear evolution terms
     def calc_nonlinear_evolution_function_f(self,Q):
         # TODO test and make sure that the passive stress works as intended (Jonas: 2023/11/14)
+        #TODO make 3d compatible
         """
         Calculates the non-linear evolution function for the nematic
         Args:
@@ -299,20 +396,49 @@ class NematicLiquidCrystal(BaseSystem):
             Omega =self.calc_vorticity_tensor()
             Antisym_Omega_Q = np.zeros_like(Q_f)
 
-           # Antisym_Omega_Q[0] = np.sum(self.get_Sym(Q,0,k)*self.get_anti_sym(Omega,k,0) -
-           #                             self.get_anti_sym(Omega,0,k)*self.get_Sym(Q,k,0) for k in range(self.dim))
+            Antisym_Omega_Q[0] = np.sum(self.get_sym(Q,0,k)*self.get_anti_sym(Omega,k,0) -
+                                        self.get_anti_sym(Omega,0,k)*self.get_sym(Q,k,0) for k in range(self.dim))
             Antisym_Omega_Q[1] = np.sum(
                 self.get_sym(Q, 0, k) * self.get_anti_sym(Omega,k,1) - self.get_anti_sym(Omega,0,k) * self.get_sym(Q, k, 1) for k in range(self.dim))
             advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
             return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
+
+        elif self.dim == 3:
+            self.conf_u(Q)
+            Q_f = sp.fft.fftn(Q, axes=range(-self.dim, 0))
+            N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
+            Omega = self.calc_vorticity_tensor()
+
+            advectiv_deriv = - np.sum(
+                self.u[k] * sp.fft.ifftn(1j * self.k[k] * Q_f, axes=(range(-self.dim, 0))) for k in range(self.dim))
+
+            Antisym_Omega_Q = np.zeros_like(Q_f)
+
+            Antisym_Omega_Q[0] = np.sum(self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 0) -
+                                        self.get_anti_sym(Omega, 0, k) * self.get_sym(Q, k, 0) for k in range(self.dim))
+            Antisym_Omega_Q[1] = np.sum(
+                self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 1) - self.get_anti_sym(Omega, 0, k) * self.get_sym(
+                    Q, k, 1) for k in range(self.dim))
+            Antisym_Omega_Q[2] = np.sum(
+                self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 2) - self.get_anti_sym(Omega, 0, k) * self.get_sym(
+                    Q, k, 2) for k in range(self.dim))
+            Antisym_Omega_Q[3] = np.sum(
+                self.get_sym(Q, 1, k) * self.get_anti_sym(Omega, k, 1) - self.get_anti_sym(Omega, 1, k) * self.get_sym(
+                    Q, k, 1) for k in range(self.dim))
+            Antisym_Omega_Q[4] = np.sum(
+                self.get_sym(Q, 1, k) * self.get_anti_sym(Omega, k, 2) - self.get_anti_sym(Omega, 1, k) * self.get_sym(
+                    Q, k, 2) for k in range(self.dim))
+            return sp.fft.fftn(Antisym_Omega_Q + advectiv_deriv, axes=range(-self.dim, 0)) + N_f
+
         else:
             raise Exception("This dimension is not implemented at the moment")
 
     def calc_nonlinear_evolution_term_no_flow_f(self,Q):
+        #TODO generalize to 3d (think it alredy is for C==0)
         """
             Calculates the non-linear evolution function for the nematic without the flow field
                 Args:
-                    Q (numpy.narray) the nematc orderparameter
+                    Q (numpy.narray) the nematic orderparameter
                 returns:
                     (numpy.narray) the non-linear evolution function evaluated in Fourier space
                 """
@@ -402,6 +528,18 @@ class NematicLiquidCrystal(BaseSystem):
             psi_n = self.Q[0] + 1j*self.Q[1]
             angle = np.angle(psi_n)
             return [np.cos(angle/2),np.sin(angle/2)]
+        elif self.dim ==3:
+        #TODO This was a very dumb way of doing it
+            S = self.calc_S()
+            nx_abs = np.sqrt(np.abs(1/3 + self.Q[0]/S))
+            ny_abs = np.sqrt(np.abs(1/3 +self.Q[3]/S))
+            n_z = np.sqrt(1-nx_abs**2 -ny_abs**2)
+
+
+            n_x = np.sign(self.Q[2])*nx_abs
+            n_y = np.sign(self.Q[4])*ny_abs
+
+            return [n_x,n_y,n_z]
 
     def calc_vortex_velocity_field(self, dt_psi, psi=None):
         if self.dim ==2:

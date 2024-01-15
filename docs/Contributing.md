@@ -13,3 +13,4 @@ If there is a more complex issue to be handled, please raise an issue and will w
 ## Creating your own model
 
 If you want to create your own model and add it to the package, please read the instructions on [how to create your own model](MakeYourOwnModel.md).
+

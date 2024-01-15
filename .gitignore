@@ -27,4 +27,5 @@ build/
 
 # ----- Picture and movie files -----
 *.png
+!/docs/images/*.png
 *.mp4
