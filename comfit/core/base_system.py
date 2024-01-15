@@ -640,7 +640,7 @@ class BaseSystem:
                     # Calculate the derivative
                     dijfield = sp.fft.ifftn(self.dif[i]*self.dif[j]*field_f)
                     # Advect the PFC
-                    field = field - tool_multinom(i,j)*u[i]*u[j]*dijfield
+                    field = field + tool_multinom(i,j)*u[i]*u[j]*dijfield
         
         if order > 2:
             for i in range(self.dim):
