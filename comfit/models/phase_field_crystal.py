@@ -187,10 +187,10 @@ class PhaseFieldCrystal(BaseSystem):
         kappa = np.zeros([self.dim] + self.dims)
         for l in range(self.dim):
             kappa[l] = self.k[l]/k
-        
-        print(kappa[0])
 
-        second_term_factor = (self.el_mu + self.el_lambda)/(1+np.sum([(self.el_mu + self.el_lambda)/(self.el_mu + self.el_gamma*kappa[l]**2)*kappa[l]**2 for l in range(self.dim)]))
+        second_term_factor = (self.el_mu + self.el_lambda)/(1+sum([(self.el_mu + self.el_lambda)/(self.el_mu + self.el_gamma*kappa[l]**2)*kappa[l]**2 for l in range(self.dim)]))
+
+        # print(second_term_factor)
 
         for i in range(self.dim):
             for j in range(self.dim):

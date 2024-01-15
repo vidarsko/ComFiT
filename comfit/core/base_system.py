@@ -90,10 +90,10 @@ class BaseSystem:
             self.zero_index = 0 #Nothing comment
         elif self.dim == 2:
             self.rmid = [self.xmid, self.ymid]
-            self.zero_index = [0,0]
+            self.zero_index = (0,0)
         elif self.dim == 3:
             self.rmid = [self.xmid, self.ymid, self.zmid]
-            self.zero_index = [0,0,0]
+            self.zero_index = (0,0,0)
 
         # Fourier modes
         self.k = [self.calc_wavenums(self.x)]
@@ -647,9 +647,11 @@ class BaseSystem:
                 for j in range(i, self.dim):
                     for k in range(j, self.dim):
                         # Calculate the derivative
-                        dijkfield = sp.fft.ifftn(self.dif[i]*self.dif[j]*self.dif[k]*self.field_f)
+                        dijkfield = sp.fft.ifftn(self.dif[i]*self.dif[j]*self.dif[k]*field_f)
                         # Advect the PFC
                         field = field - tool_multinom(i,j,k)*u[i]*u[j]*u[k]*dijkfield
+
+        return field
 
 
     def calc_evolution_integrating_factors_ETD2RK(self, omega_f, tol=10 ** (-4)):
