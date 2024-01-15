@@ -112,6 +112,30 @@ class TestPhaseFieldCrystal(unittest.TestCase):
             except Exception as e:
                 self.fail(f"PFC Triangular dislocation identification failed with dislocation type {dislocation_type}: {e}")
 
+    def test_phase_field_crystal_2d_triangular_mech_eq_dislocation_annihilation(self):
+        pfc = cf.PhaseFieldCrystal2DTriangular(31, 16)
+        x1=pfc.xmax/3 
+        y1=pfc.ymax/2
+        x2=2*pfc.xmax/3
+        y2=pfc.ymax/2
+
+        eta = pfc.calc_amplitudes_with_dislocation_dipole(
+            dislocation_type=1,
+            x1=x1, y1=y1,
+            x2=x2, y2=y2)
+        pfc.conf_PFC_from_amplitudes(eta)
+        pfc.evolve_PFC(100)
+
+        # Check if there are two dislocations
+        dislocation_nodes = pfc.calc_dislocation_nodes()
+        self.assertEqual(len(dislocation_nodes),2)
+
+        pfc.evolve_PFC_mechanical_equilibrium(5,Delta_t=1)
+
+        # Check that the dislocations have annihilated
+        dislocation_nodes = pfc.calc_dislocation_nodes()
+        self.assertEqual(len(dislocation_nodes),0)
+
     ## 2D square tests
 
     def test_phase_field_crystal_2d_square_initial_amplitudes(self):
