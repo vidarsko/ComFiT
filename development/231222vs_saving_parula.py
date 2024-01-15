@@ -258,4 +258,4 @@ cm_data = np.array(
 [0.9749, 0.9782, 0.0872],
 [0.9769, 0.9839, 0.0805]])
 
-np.save('parula_map.npy', cm_data)
+np.save('sunburst_map.npy', cm_data)

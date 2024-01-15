@@ -27,7 +27,7 @@ for n in range(round(T/Delta_t)):
     
     # f = np.real(np.fft.ifftn(pfc.calc_stress_divergence_f(pfc.psi_f[0]), axes = (range(-pfc.dim,0))))
     # fnorm = np.sqrt(f[0]**2 + f[1]**2)/(pfc.el_mu/pfc.a0)
-    #pfc.plot_field(fnorm,colormap='parula',cmap_symmetric=False)
+    #pfc.plot_field(fnorm,colormap='sunburst',cmap_symmetric=False)
     #pfc.plot_field(f[0],colormap='winter')
 
     #vnorm = np.sqrt(pfc.psi[1]**2 + pfc.psi[2]**2)
@@ -35,7 +35,7 @@ for n in range(round(T/Delta_t)):
     #pfc.plot_vector_field([pfc.psi[1],pfc.psi[2]])
 
     # pfc.plot_angle_field(np.arctan2(pfc.psi[2],pfc.psi[1]),colorbar=False)
-    pfc.plot_field(pfc.psi[0],colormap='parula',cmap_symmetric=False)
+    pfc.plot_field(pfc.psi[0],colormap='sunburst',cmap_symmetric=False)
     # pfc.plot_field(pfc.psi[1],colormap='winter')
     plt.title(f't={(n+1)*Delta_t}')
     plt.draw()

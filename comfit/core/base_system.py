@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_parula
+from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
 from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 from comfit.tools.tool_math_functions import tool_multinom
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
@@ -1027,8 +1027,8 @@ class BaseSystem:
                     print("Setting the colormap to be symmetric with use of bluewhitered since not otherwiese specified.")
                     cmap_symmetric = True
 
-            elif colormap == 'parula':
-                cmap = tool_colormap_parula()
+            elif colormap == 'sunburst':
+                cmap = tool_colormap_sunburst()
 
             else:
                 cmap = plt.get_cmap(colormap)

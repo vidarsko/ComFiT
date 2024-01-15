@@ -16,5 +16,5 @@ pfc.evolve_PFC(100)
 u = pfc.calc_displacement_field_to_equilibrium()
 pfc.conf_advect_PFC(u)
 
-pfc.plot_field(pfc.psi,colormap='parula')
+pfc.plot_field(pfc.psi,colormap='sunburst')
 plt.show()
