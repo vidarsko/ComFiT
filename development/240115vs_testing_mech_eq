@@ -1,0 +1,41 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import comfit as cf
+import matplotlib.pyplot as plt
+
+pfc = cf.PhaseFieldCrystal2DTriangular(31, 16)
+x1=pfc.xmax/3 
+y1=pfc.ymax/2
+x2=2*pfc.xmax/3
+y2=pfc.ymax/2
+
+eta = pfc.calc_amplitudes_with_dislocation_dipole(
+    dislocation_type=1,
+    x1=x1, y1=y1,
+    x2=x2, y2=y2)
+pfc.conf_PFC_from_amplitudes(eta)
+pfc.evolve_PFC(100)
+
+_, axs = plt.subplots(1, 2, figsize=(10, 5))
+
+# Check if there are two dislocations
+dislocation_nodes = pfc.calc_dislocation_nodes()
+print(len(dislocation_nodes))
+
+pfc.plot_field(pfc.psi,ax=axs[0],colormap='sunburst',colorbar=False)
+
+# for n in range(50):
+#     print(n)
+pfc.evolve_PFC_mechanical_equilibrium(350,Delta_t=1)
+    # pfc.plot_field(pfc.psi,ax=axs[1],colorbar=False,colormap='sunburst')
+    # plt.draw()
+    # plt.pause(0.01)
+
+pfc.plot_field(pfc.psi,ax=axs[1],colormap='sunburst',colorbar=False)
+
+# Check that the dislocations have annihilated
+dislocation_nodes = pfc.calc_dislocation_nodes()
+print(len(dislocation_nodes))
+
+plt.show()

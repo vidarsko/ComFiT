@@ -22,10 +22,10 @@ class TestBoseEinsteinCondensate(unittest.TestCase):
         """Test the dGPE relaxer."""
         bec = cf.BoseEinsteinCondensate(2,xRes=13,yRes=4)
         bec.conf_initial_condition_disordered()
-        bec.evolve_relax(300)
+        bec.evolve_relax(500)
 
         # Set the tolerance for approximation
-        tolerance = 0.05
+        tolerance = 0.01
 
         # Check if all elements in bec.psi are approximately 1
         condition = np.allclose(abs(bec.psi), 1, atol=tolerance)

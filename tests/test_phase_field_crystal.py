@@ -130,7 +130,7 @@ class TestPhaseFieldCrystal(unittest.TestCase):
         dislocation_nodes = pfc.calc_dislocation_nodes()
         self.assertEqual(len(dislocation_nodes),2)
 
-        pfc.evolve_PFC_mechanical_equilibrium(5,Delta_t=1)
+        pfc.evolve_PFC_mechanical_equilibrium(350,Delta_t=1)
 
         # Check that the dislocations have annihilated
         dislocation_nodes = pfc.calc_dislocation_nodes()
