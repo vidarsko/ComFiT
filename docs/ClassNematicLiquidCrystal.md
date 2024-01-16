@@ -219,7 +219,7 @@ In three dimensions we have that $\text{Tr}(Q^2) = 2 S^2/3$ and $\text{Tr}(Q^3)=
 Using this we find that there is a minimum for
 
 $$
-S = \frac{3}{4}\Frac{C}{A} \pm \frac{3}{8} \sqrt{\frac{C^2}{A^2} + \frac{16}{3} B}
+S = \frac{3}{4}\frac{C}{A} \pm \frac{3}{8} \sqrt{\frac{C^2}{A^2} + \frac{16}{3} B}
 $$
 
 ## Topological defects and active turbulence
