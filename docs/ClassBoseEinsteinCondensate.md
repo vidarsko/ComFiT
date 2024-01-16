@@ -73,11 +73,8 @@ respectively.
 With interactions.
 
 $$
-\mathfrak{i} \partial_t \psi = (1-\mathfrak{i} \gamma) \left[-\frac{1}{2} \nabla^2 + V_{\textrm{ext}}-1 +
-g_0 |\psi|^2 
--g_2 \nabla^2 |\psi|^2
-+  g_4 \nabla^4 |\psi|^2
-\right]\psi.
+\mathfrak{i} \partial_t \psi = (1-\mathfrak{i} \gamma) 
+\left[-\frac{1}{2} \nabla^2 + V_{\textrm{ext}}-1 + g_0 |\psi|^2 - g_2 \nabla^2 |\psi|^2 +  g_4 \nabla^4 |\psi|^2\right] \psi.
 $$
 
 $$
