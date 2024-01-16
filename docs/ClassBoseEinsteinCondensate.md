@@ -115,6 +115,7 @@ $$
 
 This has two solutions, $\psi = 0$
 and 
+
 $$
 |\psi|^2 = 1-V_{ext}.
 $$
