@@ -7,7 +7,7 @@ velocity field $\\vec{u}$
 
 ``` {.python language="Python"}
 nem.Q 
-    nem.u
+nem.u
 ```
 
 The $Q$ tensor is given by the nematic director as 
