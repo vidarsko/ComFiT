@@ -78,11 +78,8 @@ $$
 $$
 
 $$
-\partial_t \psi = (\mathfrak{i} + \gamma) \left[\frac{1}{2} \nabla^2 - V_{\textrm{ext}} + 1 -
-\texttt{g}_0 |\psi|^2 
-+ \texttt{g}_2 \nabla^2 |\psi|^2
--  \texttt{g}_4 \nabla^4 |\psi|^2
-\right] \psi
+\partial_t \psi = (\mathfrak{i} + \gamma) 
+\left[\frac{1}{2} \nabla^2 - V_{\textrm{ext}} + 1 - g_0 |\psi|^2 + g_2 \nabla^2 |\psi|^2- g_4 \nabla^4 |\psi|^2 \right] \psi
 $$
 
 Splitting into linear and non-linear
