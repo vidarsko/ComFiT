@@ -23,8 +23,8 @@ dimensions takes the forms
 
 $$
 \begin{aligned}
-\vec{Q} =[ Q_{xx},Q_{xy} ] \\
-\vec{Q} = [ Q_{xx},Q_{xy},Q_{xz},Q_{yy},Q_{yz}] 
+\vec{Q} &= [ Q_{xx},Q_{xy} ] \\
+\vec{Q} &= [ Q_{xx},Q_{xy},Q_{xz},Q_{yy},Q_{yz}] 
 \end{aligned}
 $$
 
