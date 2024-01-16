@@ -5,7 +5,6 @@ from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_t
 from comfit.tools.tool_math_functions import tool_multinom
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
-from matplotlib.tri import Triangulation
 import matplotlib.colors as mcolors
 import scipy as sp
 
