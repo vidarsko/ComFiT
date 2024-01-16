@@ -163,7 +163,11 @@ reference="eq:Stokes_nematic"}) and then using the incompressibility
 condition giving $$\nabla^2 P = \nabla \cdot \mathbf F,$$ where
 $\mathbf F =  \nabla \cdot \sigma^a(Q) +\nabla \cdot \sigma^p(Q)$ is the
 active and passive forces. This is solved in Fourier space as
-$$-k^2  {{P}_{\scriptscriptstyle  f}} =  i\mathbf k \cdot {{\mathbf F}_{\scriptscriptstyle  f}}.$$
+
+$$
+-k^2  {{P}_{\scriptscriptstyle  f}} =  i\mathbf k \cdot {{\mathbf F}_{\scriptscriptstyle  f}}.
+$$
+
 The above equation can be inverted in order to find all the modes of the
 pressure except the zero mode, i.e the pressure is determined up to a
 constant. We set this constant to zero. Once the pressure is found we
