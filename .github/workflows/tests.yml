@@ -6,11 +6,13 @@ on:
       - 'main'
     paths:
       - 'comfit/**.py'  # Trigger when any Python file in comfit directory is changed
+      - 'tests/test_*.py'  # Trigger when any test file is changed
   pull_request:
     branches:
       - 'main'
     paths:
-      - 'comfit/**.py'
+      - 'comfit/**.py' # Trigger when any Python file in comfit directory is changed
+      - 'tests/test_*.py' # Trigger when any test file is changed
 
 jobs:
   tests:
@@ -44,6 +46,11 @@ jobs:
         FILES="${{ steps.files.outputs.all }}"
         echo "Changed files: $FILES"
         
+        RUN_TEST_QUANTUM_MECHANICS=false
+        RUN_TEST_BOSE_EINSTEIN_CONDENSATE=false
+        RUN_TEST_PHASE_FIELD_CRYSTAL=false
+        RUN_TEST_NEMATIC_LIQUID_CRYSTAL=false
+
         # Check for base_system.py changes and run all tests
         if echo "$FILES" | grep -q "comfit/core/base_system.py"; then
           echo "Changes in base_system.py detected. Running all tests."
@@ -53,18 +60,52 @@ jobs:
 
         # Conditional execution for each specific file
         if echo "$FILES" | grep -q "comfit/models/quantum_mechanics.py"; then
-          echo "Running tests for quantum_mechanics changes"
+          RUN_TEST_QUANTUM_MECHANICS=true
+        fi
+        if echo "$FILES" | grep -q "tests/test_quantum_mechanics.py"; then
+          RUN_TEST_QUANTUM_MECHANICS=true
+        fi
+
+        if echo "$FILES" | grep -q "comfit/models/bose_einstein_condensate.py"; then
+          RUN_TEST_BOSE_EINSTEIN_CONDENSATE=true
+        fi
+        if echo "$FILES" | grep -q "tests/test_bose_einstein_condensate.py"; then
+          RUN_TEST_BOSE_EINSTEIN_CONDENSATE=true
+        fi
+
+        if echo "$FILES" | grep -q "comfit/models/phase_field_crystal.py"; then
+          RUN_TEST_PHASE_FIELD_CRYSTAL=true
+        fi
+        if echo "$FILES" | grep -q "tests/test_phase_field_crystal.py"; then
+          RUN_TEST_PHASE_FIELD_CRYSTAL=true
+        fi
+
+        if echo "$FILES" | grep -q "comfit/models/nematic_liquid_crystal.py"; then
+          RUN_TEST_NEMATIC_LIQUID_CRYSTAL=true
+        fi
+        if echo "$FILES" | grep -q "tests/test_nematic_liquid_crystal.py"; then
+          RUN_TEST_NEMATIC_LIQUID_CRYSTAL=true
+        fi
+
+        if [ "$RUN_TEST_QUANTUM_MECHANICS" = true ] ; then
+          echo "Running tests for quantum mechanics"
           python -m unittest tests/test_quantum_mechanics.py
         fi
-        if echo "$FILES" | grep -q "comfit/models/bose_einstein_condensate.py"; then
-          echo "Running tests for bose_einstein_condensate changes"
+
+        if [ "$RUN_TEST_BOSE_EINSTEIN_CONDENSATE" = true ] ; then
+          echo "Running tests for Bose-Einstein Condensate"
           python -m unittest tests/test_bose_einstein_condensate.py
         fi
-        if echo "$FILES" | grep -q "comfit/models/phase_field_crystal.py"; then
-          echo "Running tests for phase_field_crystal changes"
+
+        if [ "$RUN_TEST_PHASE_FIELD_CRYSTAL" = true ] ; then
+          echo "Running tests for Phase Field Crystal"
           python -m unittest tests/test_phase_field_crystal.py
         fi
-        if echo "$FILES" | grep -q "comfit/models/nematic_liquid_crystal.py"; then
-          echo "Running tests for nematic_liquid_crystal changes"
+
+        if [ "$RUN_TEST_NEMATIC_LIQUID_CRYSTAL" = true ] ; then
+          echo "Running tests for Nematic Liquid Crystal"
           python -m unittest tests/test_nematic_liquid_crystal.py
         fi
+        
+
+
