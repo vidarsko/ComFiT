@@ -178,7 +178,11 @@ The above equation can be inverted in order to find all the modes of the
 pressure except the zero mode, i.e the pressure is determined up to a
 constant. We set this constant to zero. Once the pressure is found we
 obtain the velocity from
-$$(\Gamma + \eta k^2){{\mathbf u}_{\scriptscriptstyle  f}} = - i\mathbf k {{P}_{\scriptscriptstyle  f}} + {{F}_{\scriptscriptstyle  f}}.$$
+
+$$
+(\Gamma + \eta k^2){{\mathbf u}_{\scriptscriptstyle  f}} = - i\mathbf k {{P}_{\scriptscriptstyle  f}} + {{F}_{\scriptscriptstyle  f}}.
+$$
+
 Note that when $\Gamma = 0$ we need to set the zero mode of the velocity
 by hand. This is set to zero. The pressure and velocity are
 calculated/updated by the two functions
