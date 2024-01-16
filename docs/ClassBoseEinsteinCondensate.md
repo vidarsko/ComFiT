@@ -132,11 +132,14 @@ $$
 Inserting the anzats $\psi =0$ we see that this vanish, while if we put
 in the anzats $|\psi|^2 = 1-V_{ext}$ we get something negative. We
 therefore conclude that the Thomas-Fermi ground state is given as
-$$\psi = \begin{cases}
+
+$$
+\psi = \begin{cases}
      0 & \text{if} \quad V_{ext}  > 1 \\
      \sqrt{1 -V_{ext}}  & \text{if}\quad V_{ext}  < 1 
     \end{cases}
-    $$ 
+$$
+
 This ground state can be initialised as
 
 ``` {.python language="Python"}
