@@ -48,7 +48,7 @@ $$\partial_t \psi =(\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathfra
 In other words
 
 $$
-\omega = (\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{f}}=  (\mathfrak i+\gamma) (1-\frac{1}{2}\mathbf{k}^2) \quad N = - (\mathfrak i + \gamma) (V_{ext} + |\psi|^2)\psi 
+\omega = (\mathfrak i+\gamma) (1 + \frac{1}{2}\nabla^2) \: {{\omega }_{f}}=  (\mathfrak i+\gamma) (1-\frac{1}{2}\mathbf{k}^2) \quad N = - (\mathfrak i + \gamma) (V_{ext} + |\psi|^2)\psi 
 $$
 
 The evolution of the wave function is included through the function
