@@ -61,7 +61,7 @@ equation
 
 $$
 \begin{aligned}
-\partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=-\gamma^{-1}H,
+\partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=\gamma^{-1}H,
 \\
 (\Gamma- \eta \nabla^2 )\mathbf u &= -\nabla P + \nabla \cdot \sigma^a(Q) + \nabla \cdot \sigma^p, \\
     \nabla \cdot \mathbf u &= 0.
@@ -84,7 +84,8 @@ the active stress is proportional to $Q$ we have not included any
 function to calculate it.
 
 The molecular field $H$ is given as
-$$H_{ij} =  \frac{\delta \mathcal{F}}{\delta Q_{ij}} =- K \nabla^2 Q_{ij} -A(B - 2Q^2_{kk})Q_{ij}$$
+$$H_{ij} =  -\frac{\delta \mathcal{F}}{\delta Q_{ij}} + \frac{\delta_{ij}}{d} \text{Tr}\left(\frac{\delta F}{\delta Q}\right)
+= K \nabla^2 Q_{ij} + A(B - 2Q^2_{kk})Q_{ij}$$
 in two dimensions. We have here used the free energy
 $$\mathcal F = \int \left( K |\nabla Q|^2 - \frac{A}{2} \left[ B \text{Tr}(Q^2) -\text{Tr}(Q^2)^2   \right] \right),$$
 where it is assumed that there is a single Frank elastic constant $K$.
