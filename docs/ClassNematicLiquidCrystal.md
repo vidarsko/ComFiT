@@ -205,7 +205,7 @@ Assuming that the unitvector $\mathbf n$ is homogeneous we can rewrite the free 
 
 
 ### In two dimmensions
-the free energy is only given by powers of $\text{Q^2}$ wich is $S^2/2$. 
+the free energy is only given by powers of $\text{Tr}(Q^2)$ wich is $S^2/2$. 
 The free-energy is therfore for a homogeneous two dimentional nematic given as
 
 $$
