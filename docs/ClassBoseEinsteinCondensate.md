@@ -72,25 +72,32 @@ respectively.
 
 With interactions.
 
-$$i \partial_t \psi = (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{\textrm{ext}}-1 +
+$$
+\mathfrak i \partial_t \psi = (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{\textrm{ext}}-1 +
 \texttt g_0 |\psi|^2 
 - \texttt g_2 \nabla^2 |\psi|^2
 +  \texttt g_4 \nabla^4 |\psi|^2
-\right]\psi.$$
-$$\partial_t \psi = (\mathfrak i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm{ext}} + 1 -
+\right]\psi.
+$$
+
+$$
+\partial_t \psi = (\mathfrak i + \gamma) \left[\frac{1}{2}\nabla^2 - V_{\textrm{ext}} + 1 -
 \texttt g_0 |\psi|^2 
 + \texttt g_2 \nabla^2 |\psi|^2
 -  \texttt g_4 \nabla^4 |\psi|^2
-\right]\psi$$
+\right]\psi
+$$
 
 Splitting into linear and non-linear
 
-$$\omega = (\mathfrak i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{f}}=   (\mathfrak i+\gamma) (1-\mathbf{k}^2)$$
+$$
+\omega = (\mathfrak i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{f}}=   (\mathfrak i+\gamma) (1-\mathbf{k}^2)$$
 $$N = 
 (\mathfrak i + \gamma) (-V_{\textrm{ext}}  -
 \texttt g_0 |\psi|^2 
 + \texttt g_2 \nabla^2 |\psi|^2
--  \texttt g_4 \nabla^4 |\psi|^2)\psi$$
+-  \texttt g_4 \nabla^4 |\psi|^2)\psi
+-  $$
 
 ## Approximation of Ground States
 
