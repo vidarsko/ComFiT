@@ -366,8 +366,8 @@ $\gamma(\mathbf{r}) =
 
 $$
 \begin{aligned}
-&\gamma_x(x)= \frac{1}{2}\big(2 + \tanh{[(x-w_x)/d]}
-&-\tanh{[(x+w_x)/d]}\big) + \gamma_0.
+\gamma_x(x)= \frac{1}{2}\big(2 + \tanh{[(x-w_x)/d]}
+-\tanh{[(x+w_x)/d]}\big) + \gamma_0.
 \end{aligned}
 $$
 
