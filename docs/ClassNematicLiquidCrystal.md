@@ -122,10 +122,16 @@ calc_passive_stress_f(self,Q)
 
 The linear and non-linear part of the evolution equation for $Q$,
 eq. ([\[eq:EB\]](#eq:EB){reference-type="ref" reference="eq:EB"}) is
-given as $$\begin{aligned}
+given as
+
+$$
+\begin{aligned}
     \omega(\nabla) &= \frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma}, \\
     N(Q) &= - \mathbf u\cdot \nabla Q + Q \Omega -\Omega Q - \frac{2A}{\gamma}Q^2_{kk}Q
-\end{aligned}$$ The evolution of this is handled by the function
+\end{aligned}
+$$
+
+The evolution of this is handled by the function
 
 ``` {.python language="Python"}
 nem.evolve_nematic(self,number_of_steps,method='ETD2RK')
