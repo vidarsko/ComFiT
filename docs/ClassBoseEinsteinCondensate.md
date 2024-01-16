@@ -85,13 +85,14 @@ $$
 Splitting into linear and non-linear
 
 $$
-\omega = (\mathfrak i+\gamma) \frac{1}{2} (1+\nabla^2) \quad {{\omega }_{f}}=   (\mathfrak i+\gamma) (1-\mathbf{k}^2)$$
-$$N = 
-(\mathfrak i + \gamma) (-V_{\textrm{ext}}  -
-\texttt g_0 |\psi|^2 
-+ \texttt g_2 \nabla^2 |\psi|^2
--  \texttt g_4 \nabla^4 |\psi|^2)\psi
--  $$
+\omega = (\mathfrak i+\gamma) \frac{1}{2} (1+\nabla^2) \quad \omega_f=   (\mathfrak i+\gamma) (1-\mathbf{k}^2)
+$$
+
+$$
+N = 
+(\mathfrak{i} + \gamma) (-V_{\textrm{ext}}  - g_0 |\psi|^2 + g_2 \nabla^2 |\psi|^2
+-  g_4 \nabla^4 |\psi|^2)\psi
+$$
 
 ## Approximation of Ground States
 
