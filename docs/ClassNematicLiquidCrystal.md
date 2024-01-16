@@ -196,6 +196,12 @@ Note that `calc_pressure_f` only returns the Fourier transform of the
 pressure. The function `conf_u` updates both the velocity field `self.u`
 and its Fourier transform `self.u_f`.
 
+## Minimum of the free energy
+When starting a simulation it is often interesting to start from a configuration that is the minimum of the free energy pluss some perturbations or with a vortex dipole/fillament.
+
+# Using the free energy we 
+
+
 ## Topological defects and active turbulence
 
 Because of the head-tail symmetry if the nematic director the
