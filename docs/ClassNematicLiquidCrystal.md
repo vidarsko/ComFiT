@@ -142,10 +142,16 @@ nem.evolve_nematic(self,number_of_steps,method='ETD2RK')
 Note that if we set the velocity field to zero the dynamics become
 $$\partial_t Q=  \frac{K}{\gamma} \nabla^2 Q_{ij} +\frac{A}{\gamma}(B - 2Q^2_{kk})Q_{ij}.$$
 This is used to relax the initial system before starting the simulation.
-The linear and nonlinear part of this equation are $$\begin{aligned}
+The linear and nonlinear part of this equation are 
+
+$$
+\begin{aligned}
     \omega(\nabla) = \frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma},  \\
     N(Q) = - \frac{2A}{\gamma}Q^2_{kk}Q.
-\end{aligned}$$ An evolver for this dissipative dynamics is included as
+\end{aligned}
+$$ 
+
+An evolver for this dissipative dynamics is included as
 
 ``` {.python language="Python"}
 nem.evolve_nematic_no_flow(self,number_of_steps,method='ETD2RK')
