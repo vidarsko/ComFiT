@@ -205,7 +205,7 @@ Assuming that the unitvector $\mathbf n$ is homogeneous we can rewrite the free 
 
 
 ### In two dimmensions
-the free energy is only given by powers of $\text{Tr}(Q^2)$ wich is $S^2/2$. 
+the free energy is only given by powers of $\text{Tr}(Q^2)$ which is $S^2/2$ in terms of $S$. 
 The free-energy is therfore for a homogeneous two dimentional nematic given as
 
 $$
@@ -215,7 +215,12 @@ $$
 The minimum of this is given as $S =\sqrt{B}$ when $B >0$ and $S = 0$ if $B<0$. 
 
 ### In three dimensions
+In three dimensions we have that $\text{Tr}(Q^2) = 2 S^2/3$ and $\text{Tr}(Q^3)= 2 S^3/9$.
+Using this we find that there is a minimum for
 
+$$
+S = \frac{3}{4}\Frac{C}{A} \pm \frac{3}{8} \sqrt{\frac{C^2}{A^2} + \frac{16}{3} B}
+$$
 
 ## Topological defects and active turbulence
 
