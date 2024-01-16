@@ -99,7 +99,11 @@ Note that the last term only exists in three dimensions since the trace of $Q^3$
 The molecular field is then given as 
 
 $$
- H_{ij} =  K \nabla^2 Q_{ij} + A(B - 2Q^2_{kk})Q_{ij} + C Q^2_{ij} - \frac{C}{3}Q^2_{kk} \delta_{ij} 
+ H_{ij} =  K \nabla^2 Q_{ij} + A(B - 2Q^2_{kk})Q_{ij} + 
+ \begin{choises}
+  0, & \text{dim }= 2 \\
+ C Q^2_{ij} - \frac{C}{3}Q^2_{kk} \delta_{ij}, & \text{dim} = 3 
+\end{choises}
 $$
 
 For the passive stress we use
