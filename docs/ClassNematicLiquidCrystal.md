@@ -197,9 +197,24 @@ pressure. The function `conf_u` updates both the velocity field `self.u`
 and its Fourier transform `self.u_f`.
 
 ## Minimum of the free energy
-When starting a simulation it is often interesting to start from a configuration that is the minimum of the free energy pluss some perturbations or with a vortex dipole/fillament.
 
-# Using the free energy we 
+When starting a simulation it is often interesting to start from a configuration that is the minimum of the free energy pluss some perturbations or with a vortex dipole/fillament.
+From the free energy we see that the minimum energy is given by a homogeneous nematic, 
+and it is inedependent of the direction the nematogens are pointing. 
+Assuming that the unitvector $\mathbf n$ is homogeneous we can rewrite the free energy in terms of the parameter $S$.
+
+
+### In two dimmensions
+the free energy is only given by powers of $\text{Q^2}$ wich is $S^2/2$. 
+The free-energy is therfore for a homogeneous two dimentional nematic given as
+
+$$
+\mathcal F =  \int \left( - \frac{A}{2} \left[ B \frac{S^2}{2} -\frac{S^4}{4}   \right] \right).
+$$
+
+The minimum of this is given as $S =\sqrt{B}$ when $B >0$ and $S = 0$ if $B<0$. 
+
+### In three dimensions
 
 
 ## Topological defects and active turbulence
