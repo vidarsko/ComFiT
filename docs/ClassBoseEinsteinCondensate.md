@@ -46,7 +46,11 @@ $$\partial_t \psi =-i (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext}
 $$\partial_t \psi =-(\mathfrak i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
 $$\partial_t \psi =(\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathfrak i + \gamma) (V_{ext} + |\psi|^2)\psi$$
 In other words
-$$\omega = (\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{f}}=  (\mathfrak i+\gamma) (1-\frac{1}{2}\mathbf{k}^2) \quad N = - (\mathfrak i + \gamma) (V_{ext} + |\psi|^2)\psi$$
+
+$$
+\omega = (\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \quad {{\omega }_{f}}=  (\mathfrak i+\gamma) (1-\frac{1}{2}\mathbf{k}^2) \quad N = - (\mathfrak i + \gamma) (V_{ext} + |\psi|^2)\psi 
+$$
+
 The evolution of the wave function is included through the function
 
 ``` {.python language="Python"}
