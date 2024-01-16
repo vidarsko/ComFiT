@@ -89,9 +89,7 @@ $$
 $$
 
 $$
-N = 
-(\mathfrak{i} + \gamma) (-V_{\textrm{ext}}  - g_0 |\psi|^2 + g_2 \nabla^2 |\psi|^2
--  g_4 \nabla^4 |\psi|^2)\psi
+N = (\mathfrak{i} + \gamma) (-V_{\textrm{ext}}  - g_0 |\psi|^2 + g_2 \nabla^2 |\psi|^2-  g_4 \nabla^4 |\psi|^2)\psi
 $$
 
 ## Approximation of Ground States
