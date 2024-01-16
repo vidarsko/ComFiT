@@ -226,7 +226,11 @@ $$
 $$ 
 
 with the superfluid current given as
-$$\mathbf{J}_s = \Im(\psi^* \nabla \psi) = \rho \nabla \theta = \rho \mathbf{v}_s.$$
+
+$$
+\mathbf{J}_s = \Im(\psi^* \nabla \psi) = \rho \nabla \theta = \rho \mathbf{v}_s.
+$$
+
 Here the superfluid velocity is introduced as
 $\mathbf{v}_s = \nabla \theta$. The superfluid current can be found
 with the function
@@ -237,9 +241,11 @@ bec.calc_superfluid_current(self)
 
 We can also put the Madelung transformation into the Hamiltonian to get
 [@bradley2012energy; @nore1997kolmogorov]
+
 $$
 K = \int d \mathbf r \left[\frac{1}{2}\rho v_s^2 +\frac{1}{8} \frac{|\nabla \rho|^2}{\rho} + (V_{ext}-1)\rho +\frac{1}{2}\rho^4 \right].
 $$
+
 The first term here is the kinetic energy of the condensate. To
 calculate this it is convenient to introduce the density weighted
 velocity $\mathbf{u} = \sqrt{\rho}\mathbf{v}_s$
@@ -256,11 +262,17 @@ bec.calc_kinetic_energy(self)
 
 Further if we insert the Madelung transformation into the dGPE and do
 some work we can map it into the Navier-Stockes equations
-[@kevrekidis2007emergent; @bradley2012energy] $$\begin{aligned}
+[@kevrekidis2007emergent; @bradley2012energy] 
+
+$$
+\begin{aligned}
     \partial_t \rho + \nabla\cdot(\rho \mathbf v) =2\gamma \rho (1-V_{eff}),
     \\
     \partial_t \mathbf v-\mathbf v\cdot\nabla \mathbf v =  - \nabla(V_{ext} +\rho) +\frac{\gamma}{2}\nabla^2 \mathbf v.
-\end{aligned}$$ Notice that the condensate density is only conserved
+\end{aligned}
+$$
+
+Notice that the condensate density is only conserved
 when $\gamma = 0$.
 
 ## Forces on external potential
@@ -270,11 +282,22 @@ impurity as a Gaussian potential and measure the forces that are acting
 on it
 [@ronning2020classical; @astrakharchik2004motion; @pinsker2017gaussian].
 From the Erhenfest theorem the forces on the condensate from the stirrer
-is given as $$\mathbf{F} = -\langle \nabla V_{ext}\rangle.$$ Which
+is given as 
+
+$$
+\mathbf{F} = -\langle \nabla V_{ext}\rangle.
+$$ 
+
+Which
 means that the force acting on the stirrer is
 $\mathbf{F} = \langle \nabla V_{ext}\rangle$. Written explicitly
 this is
-$$\mathbf{F} = \int d\mathbf r |\psi^2| \nabla V_{ext} = -\int d\mathbf r V_{ext}\nabla|\psi^2|   .$$
+
+$$
+\mathbf{F} = \int d\mathbf r |\psi^2| \nabla V_{ext} = -\int d\mathbf r V_{ext}\nabla|\psi^2|   
+.
+$$
+
 This is calculated by the function
 
 ``` {.python language="python"}
@@ -315,7 +338,11 @@ initial state.
 When studying a BEC that is stirred by a potential it is in some cases
 convinient to consider the potential as stationary with the BEC flowing
 around. This can be done by boosting the dGPE so that it reads
-$$\partial_t \psi = \mathbf V_p \cdot \nabla \psi +(\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathfrak i + \gamma) (\mathcal U + |\psi|^2)\psi,$$
+
+$$
+\partial_t \psi = \mathbf V_p \cdot \nabla \psi +(\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathfrak i + \gamma) (\mathcal U + |\psi|^2)\psi,
+$$
+
 where $\mathbf{V_p}$ is the velocity of the boost. Note that a Gallilean
 boost of the GPE is often accompanied by a phase shift of the wave
 function
