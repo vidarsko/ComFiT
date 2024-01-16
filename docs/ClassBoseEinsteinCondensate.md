@@ -362,10 +362,16 @@ dissipative factor becomes a function of space and is given by
 $\gamma(\mathbf{r}) = 
 \max[\gamma_x(x),\gamma_y(y),\gamma_z(z)]$ in three dimensions and
 $\gamma(\mathbf{r}) = 
-\max[\gamma_x(x),\gamma_y(y)$ in two dimensions. Here $$\begin{aligned}
+\max[\gamma_x(x),\gamma_y(y)$ in two dimensions. Here
+
+$$
+\begin{aligned}
 &\gamma_x(x)= \frac{1}{2}\big(2 + \tanh{[(x-w_x)/d]}
 &-\tanh{[(x+w_x)/d]}\big) + \gamma_0.
-\end{aligned}$$ and similar for $\gamma_y(y)$ and $\gamma_z(z)$. The
+\end{aligned}
+$$
+
+and similar for $\gamma_y(y)$ and $\gamma_z(z)$. The
 constant $\gamma_0$ is the value in the bulk, $d$ is the size of the
 interface between the bulk and the buffer and $w_x$ is the distance from
 the centre of the domain to the buffer in the $x$ direction. Note that
