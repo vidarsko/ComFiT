@@ -22,7 +22,7 @@ symmetric nature we have saved $Q$ as a vector field, which in two and three
 dimensions takes the forms
 $$
 \begin{align}
-\vec{Q} =[ Q_{xx},Q_{xy} ]\\
+\vec{Q} =[ Q_{xx},Q_{xy} ] //
 \vec{Q} = [Q_{xx},Q_{xy},Q_{xz},Q_{yy},Q_{yz}]
 \end{align}
 $$
