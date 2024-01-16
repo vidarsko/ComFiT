@@ -45,7 +45,12 @@ get_anti_sym(self,omega,i,j)
 
 so that we can optimally store the antisymetric tensors as well. In two
 dimensions these only have one independent component, which is stored as
-a scalar field.
+a scalar field,
+while in three dimensions it is stored as
+
+$$
+\vec \Omega = [\Omega_{xy}, \Omega_{xz}, \Omega_{yz}]
+$$
 
 ## Model
 
