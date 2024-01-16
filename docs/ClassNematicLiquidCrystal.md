@@ -87,12 +87,17 @@ The molecular field $H$ is given as
 
 $$H_{ij} =  -\frac{\delta \mathcal{F}}{\delta Q_{ij}} + \frac{\delta_{ij}}{d} \text{Tr}\left(\frac{\delta F}{\delta Q}\right)
 $$
+
 The last term is here to make it trace less. 
 For the free energy we use
-$$\mathcal F = \int \left( K |\nabla Q|^2 - \frac{A}{2} \left[ B \text{Tr}(Q^2) -\text{Tr}(Q^2)^2   \right] -\frac{C}{3}\text{Tr}(Q^3) \right),$$
+
+$$\mathcal F = \int \left( K |\nabla Q|^2 - \frac{A}{2} \left[ B \text{Tr}(Q^2) -\text{Tr}(Q^2)^2   \right] -\frac{C}{3}\text{Tr}(Q^3) \right),
+$$
+
 where it is assumed that there is a single Frank elastic constant $K$.
 Note that the last term only exists in three dimensions since the trace of $Q^3$ vanishes in two dimensions. 
 The molecular field is then given as 
+
 $$
  H_{ij} =  K \nabla^2 Q_{ij} + A(B - 2Q^2_{kk})Q_{ij} + C Q^2_{ij} - \frac{C}{3}Q^2_{kk} \delta_{ij} 
 $$
