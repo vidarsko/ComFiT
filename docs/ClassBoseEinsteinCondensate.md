@@ -108,15 +108,26 @@ use the Thomas-Fermi approximation
 [@dalfovo1999theory; @kevrekidis2007emergent], where we assume that
 $\psi$ is slowly varying so that we can neglect the Laplacian term.
 Looking for stationary solutions to the dGPE we obtain the equation
+
 $$
-0 = (V_{ext} -1 +|\psi|^2 )\psi.$$ 
+0 = (V_{ext} -1 +|\psi|^2 )\psi.
+$$
+
 This has two solutions, $\psi = 0$
-and $$|\psi|^2 = 1-V_{ext}.$$ In the case where $V_{ext} > 1$ there is
+and 
+$$
+|\psi|^2 = 1-V_{ext}.
+$$
+
+In the case where $V_{ext} > 1$ there is
 only one possibility namely $\psi = 0$. In the case of $V_{ext}  < 1$
 both the stationary solutions exists so we need to evaluate their
 energy. We can do this by considering the Hamiltonian
 
-$$K_{TF} = \int d\mathbf r \left[(V_{ext}  -1)|\psi|^2 + \frac{1}{2} |\psi|^4 \right].$$
+$$
+K_{TF} = \int d\mathbf r \left[(V_{ext}  -1)|\psi|^2 + \frac{1}{2} |\psi|^4 \right].
+$$
+
 Inserting the anzats $\psi =0$ we see that this vanish, while if we put
 in the anzats $|\psi|^2 = 1-V_{ext}$ we get something negative. We
 therefore conclude that the Thomas-Fermi ground state is given as
