@@ -21,10 +21,10 @@ the current version only $d=2$ is implemented. To take advantage of its
 symmetric nature we have saved $Q$ as a vector field, which in two and three
 dimensions takes the forms
 $$
-\begin{align}
-\vec{Q} =[ Q_{xx},Q_{xy} ] //
+\begin{aligned}
+\vec{Q} =[ Q_{xx},Q_{xy} ] \\
 \vec{Q} = [Q_{xx},Q_{xy},Q_{xz},Q_{yy},Q_{yz}]
-\end{align}
+\end{aligned}
 $$
 respectivly.
 We can translate from tensor indexes to the right value stored in the vector by
