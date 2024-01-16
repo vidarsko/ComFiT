@@ -101,7 +101,7 @@ The molecular field is then given as
 $$
  H_{ij} =  K \nabla^2 Q_{ij} + A(B - 2Q^2_{kk})Q_{ij} + 
  \begin{cases}
-  0, & \text{dim }= 2 \\
+  0, & \text{dim} = 2 \\
  C Q^2_{ij} - \frac{C}{3}Q^2_{kk} \delta_{ij}, & \text{dim} = 3 
 \end{cases}
 $$
