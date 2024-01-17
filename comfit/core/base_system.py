@@ -1458,16 +1458,22 @@ class BaseSystem:
         ax.set_ylabel('$y/a_0$')
         ax.set_zlabel('$z/a_0$')
 
-    def plot_angle_field_in_plane(self, angle_field, colorbar = True):
+    def plot_angle_field_in_plane(self, angle_field, colorbar=True):
+        """
+        Plots the angle field in a plane.
+
+        Args:
+            angle_field (numpy.ndarray): The angle field to be plotted.
+            colorbar (bool, optional): Whether to include a colorbar. Defaults to True.
+        """
 
         self.plot_field_in_plane(angle_field, colorbar=False)
-
 
         if colorbar:
             sm = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
             sm.set_clim(-np.pi, np.pi)
             cbar = plt.colorbar(sm, ax=ax)
-            cbar.set_ticks(np.array([0,1/6,2/6,3/6,4/6,5/6,1]))
+            cbar.set_ticks(np.array([0, 1/6, 2/6, 3/6, 4/6, 5/6, 1]))
             cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
     def plot_vector_field(self, vector_field, ax=None, step=None):
