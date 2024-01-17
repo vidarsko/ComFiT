@@ -4,6 +4,9 @@ from comfit.core.base_system import BaseSystem
 import scipy as sp
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import axes3d
+import matplotlib.cm as cm
+from matplotlib.colors import Normalize
 
 class NematicLiquidCrystal(BaseSystem):
 
@@ -507,7 +510,7 @@ class NematicLiquidCrystal(BaseSystem):
         return dt_Q[0] + 1j*dt_Q[1]
 
     def calc_S(self):
-        # TODO: This function needs a more descriptive name (Vidar 03.01.24)
+        # TODO: This function will be removed soon
         '''
         Calculates the strength of nematic order S
         :returns
@@ -543,7 +546,7 @@ class NematicLiquidCrystal(BaseSystem):
             S = 3/2 *eigvals[:,:,:,2]
             n = np.transpose(eigvectors[:,:,:,2], (3,0,1,2))
 
-            print(np.shape(n))
+            print(np.amax(np.abs(eigvals[:,:,:,0] -eigvals[:,:,:,1])))
             return S, n
 
     def calc_vortex_velocity_field(self, dt_psi, psi=None):
@@ -692,6 +695,7 @@ class NematicLiquidCrystal(BaseSystem):
             plt.colorbar(cbar)
             ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='w')
             ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
+            ax.quiver(X, Y, -director[0], -director[1], headwidth=0, scale=50)
             ax.set_aspect('equal')
             return ax
 
@@ -699,3 +703,43 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("This plotting function not yet configured for other dimension")
 
 
+
+    def plot_nematic_3D(self,n,S,ax = None,step=None):
+        if self.dim != 3:
+            raise Exception("Dimension not allowed")
+        if ax == None:
+            ax = plt.gcf().add_subplot(111, projection='3d')
+
+        if step is None:
+            step = 2
+
+
+
+        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
+        X_plot = X[::step, ::step, ::step]
+        Y_plot = Y[::step, ::step, ::step]
+        Z_plot = Z[::step, ::step, ::step]
+        U_plot = n[0][::step, ::step, ::step]
+        V_plot = n[1][::step, ::step, ::step]
+        W_plot = n[2][::step, ::step, ::step]
+        c = S[::step,::step,::step]
+
+        c  = (c.ravel() - c.min()) / c.ptp()
+        c = np.concatenate((c, np.repeat(c, 2)))
+
+        c = plt.cm.viridis(c)
+
+
+
+
+
+        ax.quiver(X_plot, Y_plot, Z_plot, U_plot, V_plot, W_plot, arrow_length_ratio=0,pivot= "middle",colors=c)
+
+        ax.set_xlabel('$x/a_0$')
+        ax.set_ylabel('$y/a_0$')
+        ax.set_zlabel('$z/a_0$')
+        ax.set_aspect('equal')
+        ax.set_xlim([0, self.xmax - self.dx])
+        ax.set_ylim([0, self.ymax - self.dy])
+        ax.set_zlim([0, self.zmax - self.dz])
