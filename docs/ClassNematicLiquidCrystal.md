@@ -216,10 +216,10 @@ The minimum of this is given as $S =\sqrt{B}$ when $B >0$ and $S = 0$ if $B<0$.
 
 ### In three dimensions
 In three dimensions we have that $\text{Tr}(Q^2) = 2 S^2/3$ and $\text{Tr}(Q^3)= 2 S^3/9$.
-Using this we find that there are potential minimums for
+Using this we find that there are a local minima at
 
 $$
-S = \frac{3}{4}\frac{C}{A} \pm \frac{3}{8} \sqrt{\frac{C^2}{A^2} + \frac{16}{3} B}
+S = \frac{3}{4}\frac{C}{A} + \frac{3}{8} \sqrt{\frac{C^2}{A^2} + \frac{16}{3} B}
 $$
 
 when $B > -3 C^2/(16A^2)$. 
