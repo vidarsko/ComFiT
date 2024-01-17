@@ -2,14 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import comfit as cf
 
-nem = cf.NematicLiquidCrystal(2,xRes=31,yRes=31,dx=1,dy=1,dt=0.1,alpha=-1.5)
+nem = cf.NematicLiquidCrystal(3,xRes=31,yRes=31,zRes=31,dx=1,dy=1,dt=0.1,alpha=-1.5)
 
 
 
 nem.conf_initial_condition_disordered(noise_strength=1.0)
 nem.evolve_nematic_no_flow(10,method="ETD4RK")
 
-print(nem.C)
+
 
 nem.evolve_nematic(2,method="ETD4RK")
 
