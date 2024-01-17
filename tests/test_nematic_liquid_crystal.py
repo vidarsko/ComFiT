@@ -22,16 +22,18 @@ class TestNematicLiquidCrystal(unittest.TestCase):
     def test_no_flow_evolver(self):
         """Test the enm.evolve_nematic_no_flow"""
         nem = cf.NematicLiquidCrystal(2, xRes=13, yRes=4)
-        nem.conf_initial_condition_disordered()
+        nem.conf_initial_condition_disordered(noise_strength=2)
         nem.evolve_nematic_no_flow(300)
 
         # Set the tolerance for approximation
         tolerance = 0.01
 
         # Check if all elements in bec.psi are approximately 1
-        S = np.sqrt(nem.B)/2
-        condition = np.allclose(abs(nem.Q[0]),S , atol=tolerance)
-        self.assertTrue(condition, "Elements in nem.Q are not approximately 1")
+        S_0 = np.sqrt(nem.B)
+        S,n = nem.calc_order_and_director()
+        condition = np.allclose(S_0,S , atol=tolerance)
+        self.assertTrue(condition, "Elements in nem.Q are not relaxed to the correct value")
+
 
 
     def test_nematic_evolver_with_defect_dipole(self):

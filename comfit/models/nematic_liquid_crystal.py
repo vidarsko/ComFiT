@@ -223,7 +223,7 @@ class NematicLiquidCrystal(BaseSystem):
         '''
         F_af = []
         for j in range(self.dim):
-            F_af.append(np.sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_sym(Q,j,i)) for i in range(self.dim)))
+            F_af.append(np.sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_sym(Q,j,i),axes=(range(-self.dim, 0)) ) for i in range(self.dim)))
         return np.array(F_af)
 
     def calc_passive_force_f(self,Q):
@@ -235,7 +235,7 @@ class NematicLiquidCrystal(BaseSystem):
         F_pf = []
         for j in range(self.dim):
             F_pf.append(np.sum(1j * self.k[i] *Pi_f[j][i] for i in range(self.dim)))
-        return F_pf
+        return numpy.array(F_pf)
 
     def calc_passive_stress_f(self,Q):
         #TODO Make 3d
@@ -523,7 +523,7 @@ class NematicLiquidCrystal(BaseSystem):
 
     def calc_order_and_director(self):
         """
-        Finds the amount of order (S) and the director field
+        Finds the amount of order (S) and the director field (n)
         return:
             (tuple): (scalar field) S - amount of order   , (vector field) the director field
         """
@@ -540,8 +540,9 @@ class NematicLiquidCrystal(BaseSystem):
                     Q_eig[:,:,:,i,j] = self.get_sym(self.Q,i,j)
 
             eigvals, eigvectors = numpy.linalg.eigh(Q_eig)
-            S = eigvals[:,:,:,0]
-            n = eigvectors[:,:,:,0]
+            S = 3/2 *eigvals[:,:,:,2]
+            n = np.transpose(eigvectors[:,:,:,2], (3,0,1,2))
+
             print(np.shape(n))
             return S, n
 
@@ -656,7 +657,7 @@ class NematicLiquidCrystal(BaseSystem):
             ax.set_ylim([0, self.ymax-self.dy])
 
 
-   def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
+    def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
                                          cmax=None, cmin=None,
                                          number_of_layers=1, hold=False):
         """
