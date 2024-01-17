@@ -221,6 +221,7 @@ Using this we find that there are potential minimums for
 $$
 S = \frac{3}{4}\frac{C}{A} \pm \frac{3}{8} \sqrt{\frac{C^2}{A^2} + \frac{16}{3} B}
 $$
+
 when $B > -3 C^2/(16A^2)$. 
 
 
