@@ -44,6 +44,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.K = 1 if 'K' not in kwargs else kwargs['K']
         self.A = 1 if 'A' not in kwargs else kwargs['A']
         self.B = 1 if 'B' not in kwargs else kwargs['B']
+        self.C = 0 if 'C' not in kwargs  else kwargs['C']
         self.Lambda = 0 if 'Lambda' not in kwargs else kwargs['Lambda'] #flow allignment, not sure if this will be implemented
         self.gamma = 1  if 'gamma' not in kwargs else kwargs['gamma']  # rotational diffusion
         self.Gamma = 0 if 'Gamma' not in kwargs else kwargs['Gamma'] # friction,
@@ -550,7 +551,7 @@ class NematicLiquidCrystal(BaseSystem):
 
     def calc_vortex_velocity_field(self, dt_Q, psi=None):
         """
-        Calculates the velocity field of the defect in two dimensions 
+        Calculates the velocity field of the defect in two dimensions
         :param dt_psi:
         :param psi:
         :return:
