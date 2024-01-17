@@ -52,6 +52,23 @@ $$
 \vec \Omega = [\Omega_{xy}, \Omega_{xz}, \Omega_{yz}]
 $$
 
+In order to calculate the director field $\vec n$ and the amount of order $S$ in two dimensions we use that we can map the orderparameter to the complex field $\psi = Q_{xx} +  iQ_{xy} =Se^{2i\theta}/2$, where $\theta$  is the angle of the director field. 
+In three dimensions we use that $S$ is given by the largest eigenvalue as $S = 3\lambda/2$ with the director being the coresponding eigenvector [schimmingKinematicsDynamicsDisclination2023](References.md). 
+This is taken care of in the function
+
+``` {.python language="Python"}
+calc_order_and_director(self)
+```
+
+Note that if the two smallest eigenvalues are not equal we have that the nematic is biaxial and described by
+
+$$
+Q_{ij} = S (n_i n_j - \frac{1}{3} \delta_{ij}) + P (m_i m_j -l_i l_j)
+$$
+
+where $P$ is given by the difference between the smallest eigenvalues and $\vec m$ and $\vec l$ is the corresponding eigenvectors. 
+
+
 ## Model
 
 We model the active nematic using a set of coupled differential
