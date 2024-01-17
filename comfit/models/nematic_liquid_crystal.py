@@ -546,7 +546,6 @@ class NematicLiquidCrystal(BaseSystem):
             S = 3/2 *eigvals[:,:,:,2]
             n = np.transpose(eigvectors[:,:,:,2], (3,0,1,2))
 
-            print(np.amax(np.abs(eigvals[:,:,:,0] -eigvals[:,:,:,1])))
             return S, n
 
     def calc_vortex_velocity_field(self, dt_psi, psi=None):
