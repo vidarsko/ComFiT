@@ -201,9 +201,9 @@ pressure except the zero mode, i.e the pressure is determined up to a
 constant. We set this constant to zero. Once the pressure is found we
 obtain the velocity from
 
-$$
-(\Gamma + \eta k^2){{\mathbf u}_{\scriptscriptstyle  f}} = - i\mathbf k {{P}_{\scriptscriptstyle  f}} + {{F}_{\scriptscriptstyle  f}}.
-$$
+```math
+(\Gamma + \eta k^2){{\mathbf u}_{\mathfrak  f}} = - i\mathbf k {{P}_{\mathfrak  f}} + {{F}_{\mathfrak  f}}.
+```
 
 Note that when $\Gamma = 0$ we need to set the zero mode of the velocity
 by hand. This is set to zero. The pressure and velocity are
@@ -283,11 +283,12 @@ calc_vortex_nodes_nem(self, dt_Q=None,polarization = None)
 
 If `dt_Q` is given this finds the defects velocity and if
 `polarization ` is given the polarization of the $+1/2$ defects are
-found. This polarization is given by 
+found. 
+This polarization is given by 
 
-$$
-\vec{e}_+ = \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\\vec{r}= \\vec{r}_+}
-$$
+```math
+\vec{e}_+ = \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\mathbf{r}= \mathbf{r}_+}
+```
 
 where $\\vec{r}_+$ is the defects position. The field
 $\\vec{e}_+$ can be found by the function
@@ -376,13 +377,11 @@ $$
 In two dimensions, where $\mathbf n = (\cos \theta,\sin \theta)$, we have 
 
 $$
-Q = 
-S\begin{pmatrix}
+Q = S\begin{pmatrix}
 \cos \theta \cos \theta - \frac{1}{2} & \cos \theta \sin \theta \\
 \cos \theta \sin \theta & \sin \theta \sin \theta - \frac{1}{2}\\
 \end{pmatrix}
-=
-\frac{S}{2}
+= \frac{S}{2}
 \begin{pmatrix}
 \cos (2\theta) &  \sin(2\theta) \\
 \sin(2\theta) & - \cos (2\theta)\\
@@ -390,8 +389,7 @@ S\begin{pmatrix}
 $$
 
 $$
-= 
-\frac{1}{2}
+= \frac{1}{2}
 \begin{pmatrix}
 \psi_1 &  \psi_2 \\
 \psi_2 & - \psi_1\\
@@ -405,20 +403,17 @@ $$
 D_{33} = \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}
 $$
 
-$$
+```math
 = \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 1} \partial_l Q_{\nu 1}
 + \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 2} \partial_l Q_{\nu 2}
-$$
+```
 
 We have $Q_{\mu1} = \frac{1}{2} \psi_\mu$ and $Q_{\mu 2} = \frac{1}{2} \epsilon_{\mu q} \psi_q$, so 
 
-$$
-D_{33}
-=
-\frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu)
-+
-\frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k  \epsilon_{\mu q} \psi_q) (\partial_l \epsilon_{\nu r} \psi_r)
-$$
+```math
+D_{33} = \frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu)
++ \frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k  \epsilon_{\mu q} \psi_q) (\partial_l \epsilon_{\nu r} \psi_r)
+```
 
 And using that 
 
@@ -446,6 +441,7 @@ It can probably be written like this
 $$
 \rho_{\gamma i} = \Omega_\gamma t_{i} ,
 $$
+
 where $\boldsymbol t$ is a unit vector. 
 From this, we see that 
 
