@@ -60,6 +60,15 @@ This is taken care of in the function
 calc_order_and_director(self)
 ```
 
+Note that if the two smallest eigenvalues are not equal we have that the nematic is biaxial and described by
+
+$$
+Q_{ij} = S (n_i n_j - \frac{1}{3} \delta_{ij}) + P (m_i m_j -l_i l_j)
+$$
+
+where $P$ is given by the difference between the smallest eigenvalues and $\vec m$ and $\vec l$ is the corresponding eigenvectors. 
+
+
 ## Model
 
 We model the active nematic using a set of coupled differential
