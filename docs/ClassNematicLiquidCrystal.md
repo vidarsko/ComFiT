@@ -97,8 +97,13 @@ calc_vorticity_tensor(self)
 Note that the velocity has to be updated before this function is called.
 The calculation of the pressure and velocity is described in section
 [7.4](#sec:nem_vel){reference-type="ref" reference="sec:nem_vel"}. Since
-the active stress is proportional to $Q$ we have not included any
-function to calculate it.
+the active stress is simply proportional to $Q$ we have not included any
+function to calculate it, but calculate the force directly with the function
+
+``` {.python language="Python"}
+calc_active_force_f(self,Q)
+```
+
 
 The molecular field $H$ is given as
 
@@ -130,7 +135,7 @@ and a tensor contracts the last component when calculating the
 divergence of this. The first two terms is the asymmetric stress, while
 the second term is the Ericksen stress. Terms due to flow allingment and
 anisotropic viscosity are not included. The molecular field and the
-passive stress are calculated by the functions
+passive stress  are calculated by the functions
 
 ``` {.python language="Python"}
 calc_molecular_field(self,Q)
