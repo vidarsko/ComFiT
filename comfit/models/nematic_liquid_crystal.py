@@ -705,6 +705,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def plot_nematic_3D(self,n,S,ax = None,step=None):
+        # TODO find a better way of plotting.
         if self.dim != 3:
             raise Exception("Dimension not allowed")
         if ax == None:
