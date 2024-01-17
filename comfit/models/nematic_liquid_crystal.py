@@ -548,10 +548,18 @@ class NematicLiquidCrystal(BaseSystem):
 
             return S, n
 
-    def calc_vortex_velocity_field(self, dt_psi, psi=None):
+    def calc_vortex_velocity_field(self, dt_Q, psi=None):
+        """
+        Calculates the velocity field of the defect in two dimensions 
+        :param dt_psi:
+        :param psi:
+        :return:
+        """
         if self.dim ==2:
             if psi is None:
                 psi = self.Q[0] +1j*self.Q[1]
+
+            dt_psi = dt_Q[0] + 1j * dt_Q[1]
 
             return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
                                                    [np.real(dt_psi), np.imag(dt_psi)])
@@ -578,8 +586,7 @@ class NematicLiquidCrystal(BaseSystem):
             rho = self.calc_defect_density_nematic()
 
             if dt_Q is not None:
-                dt_psi = dt_Q[0] + 1j*dt_Q[1]
-                velocity_field = self.calc_vortex_velocity_field(dt_psi, psi)
+                velocity_field = self.calc_vortex_velocity_field(dt_Q, psi)
 
 
             vortex_nodes = self.calc_defect_nodes(np.abs(rho))
