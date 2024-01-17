@@ -376,7 +376,7 @@ class NematicLiquidCrystal(BaseSystem):
         """
         Calculates the non-linear evolution function for the nematic
         Args:
-            Q (numpy.narray) the nematc orderparameter
+            Q (numpy.narray) the nematic orderparameter
         returns:
             (numpy.narray) the non-linear evolution function evaluated in Fourier space
         """
