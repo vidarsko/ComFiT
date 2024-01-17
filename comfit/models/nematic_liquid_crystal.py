@@ -51,7 +51,7 @@ class NematicLiquidCrystal(BaseSystem):
             setattr(self, key, value)
 
     #TODO: Generalize to 3D
-    ### defining a get function
+    ### defining get functions
     def get_sym(self,Q,i,j):
         """
         Function to axes the tensor element Q_ij of a trace less symmetric matrix, which we will
@@ -182,19 +182,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q_f = sp.fft.fft2(self.Q)
 
 
-    def calc_S(self):
-        #TODO: This function needs a more descriptive name (Vidar 03.01.24)
-        '''
-        Calculates the strength of nematic order S
-        :returns
-            (numpy.narray) S
-        '''
-        if self.dim == 2:
-            return 2*np.sqrt((self.Q[0])**2 +(self.Q[1])**2)
 
-        elif self.dim ==3:
-            Q2 = np.sum(self.get_sym(self.Q,i,j)*self.get_sym(self.Q,j,i) for j in range(self.dim) for i in range(self.dim))
-            return np.sqrt(3*Q2/2)
     def conf_active_channel(self,width,d=7):
         """
         Set the activity to zero everywhere exept for inside a channel of width "width"
@@ -518,28 +506,44 @@ class NematicLiquidCrystal(BaseSystem):
         dt_Q = (self.Q -Q_prev)/delta_t
         return dt_Q[0] + 1j*dt_Q[1]
 
-    def calc_director(self):
+    def calc_S(self):
+        # TODO: This function needs a more descriptive name (Vidar 03.01.24)
+        '''
+        Calculates the strength of nematic order S
+        :returns
+            (numpy.narray) S
+        '''
+        if self.dim == 2:
+            return 2 * np.sqrt((self.Q[0]) ** 2 + (self.Q[1]) ** 2)
+
+        elif self.dim == 3:
+            Q2 = np.sum(self.get_sym(self.Q, i, j) * self.get_sym(self.Q, j, i) for j in range(self.dim) for i in
+                        range(self.dim))
+            return np.sqrt(3 * Q2 / 2)
+
+    def calc_order_and_director(self):
         """
-        Finds the director field
+        Finds the amount of order (S) and the director field
         return:
-            (numpy.narray) the director field
+            (tuple): (scalar field) S - amount of order   , (vector field) the director field
         """
         if self.dim == 2:
             psi_n = self.Q[0] + 1j*self.Q[1]
             angle = np.angle(psi_n)
-            return [np.cos(angle/2),np.sin(angle/2)]
+            S =2 * np.sqrt((self.Q[0]) ** 2 + (self.Q[1]) ** 2)
+            return S, [np.cos(angle/2),np.sin(angle/2)]
         elif self.dim ==3:
-        #TODO This was a very dumb way of doing it
-            S = self.calc_S()
-            nx_abs = np.sqrt(np.abs(1/3 + self.Q[0]/S))
-            ny_abs = np.sqrt(np.abs(1/3 +self.Q[3]/S))
-            n_z = np.sqrt(1-nx_abs**2 -ny_abs**2)
+        ## need to construct a matrix
+            Q_eig = numpy.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
+            for i in range(self.dim):
+                for j in range(self.dim):
+                    Q_eig[:,:,:,i,j] = self.get_sym(self.Q,i,j)
 
-
-            n_x = np.sign(self.Q[2])*nx_abs
-            n_y = np.sign(self.Q[4])*ny_abs
-
-            return [n_x,n_y,n_z]
+            eigvals, eigvectors = numpy.linalg.eigh(Q_eig)
+            S = eigvals[:,:,:,0]
+            n = eigvectors[:,:,:,0]
+            print(np.shape(n))
+            return S, n
 
     def calc_vortex_velocity_field(self, dt_psi, psi=None):
         if self.dim ==2:
@@ -650,4 +654,47 @@ class NematicLiquidCrystal(BaseSystem):
 
             ax.set_xlim([0, self.xmax-self.dx])
             ax.set_ylim([0, self.ymax-self.dy])
+
+
+   def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
+                                         cmax=None, cmin=None,
+                                         number_of_layers=1, hold=False):
+        """
+        Plot the field, velocity, and director in the given axes.
+
+        Parameters:
+            field (ndarray): The field to be plotted.
+            velocity (ndarray): The velocity to be plotted.
+            director (ndarray): The director to be plotted.
+            ax (Axes, optional): The axes to plot the field, velocity, and director on. If not provided, a new subplot will be created.
+            colorbar (bool, optional): Whether to show the colorbar. Default is True.
+            colormap (str, optional): The colormap to use for plotting the field. Default is 'viridis'.
+            cmax (float, optional): The maximum value for the colorbar. If not provided, the maximum value of the field will be used.
+            cmin (float, optional): The minimum value for the colorbar. If not provided, the minimum value of the field will be used.
+            number_of_layers (int, optional): The number of layers in the plot. Default is 1.
+            hold (bool, optional): Whether to hold the plot. Default is False.
+
+        Returns:
+            ax (Axes): The axes with the plotted field, velocity, and director.
+
+        Raises:
+            Exception: If the plotting function is not yet configured for dimensions other than 2.
+
+        Note: streamplot assumes xy indexing and not ij. I think it is suficient
+        just transpose the matrices before putting them in
+        """
+        if self.dim == 2:
+            if ax == None:
+                ax = plt.gcf().add_subplot(111)
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap)
+            plt.colorbar(cbar)
+            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='w')
+            ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
+            ax.set_aspect('equal')
+            return ax
+
+        else:
+            raise Exception("This plotting function not yet configured for other dimension")
+
 

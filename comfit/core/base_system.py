@@ -1541,43 +1541,4 @@ class BaseSystem:
             ax.set_ylim([0, self.ymax-self.dy])
             ax.set_zlim([0, self.zmax-self.dz])
 
-    def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
-                                         cmax=None, cmin=None,
-                                         number_of_layers=1, hold=False):
-        """
-        Plot the field, velocity, and director in the given axes.
 
-        Parameters:
-            field (ndarray): The field to be plotted.
-            velocity (ndarray): The velocity to be plotted.
-            director (ndarray): The director to be plotted.
-            ax (Axes, optional): The axes to plot the field, velocity, and director on. If not provided, a new subplot will be created.
-            colorbar (bool, optional): Whether to show the colorbar. Default is True.
-            colormap (str, optional): The colormap to use for plotting the field. Default is 'viridis'.
-            cmax (float, optional): The maximum value for the colorbar. If not provided, the maximum value of the field will be used.
-            cmin (float, optional): The minimum value for the colorbar. If not provided, the minimum value of the field will be used.
-            number_of_layers (int, optional): The number of layers in the plot. Default is 1.
-            hold (bool, optional): Whether to hold the plot. Default is False.
-
-        Returns:
-            ax (Axes): The axes with the plotted field, velocity, and director.
-
-        Raises:
-            Exception: If the plotting function is not yet configured for dimensions other than 2.
-
-        Note: streamplot assumes xy indexing and not ij. I think it is suficient
-        just transpose the matrices before putting them in
-        """
-        if self.dim == 2:
-            if ax == None:
-                ax = plt.gcf().add_subplot(111)
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-            cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap)
-            plt.colorbar(cbar)
-            ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='w')
-            ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
-            ax.set_aspect('equal')
-            return ax
-
-        else:
-            raise Exception("This plotting function not yet configured for other dimension")
