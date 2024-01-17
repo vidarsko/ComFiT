@@ -52,6 +52,14 @@ $$
 \vec \Omega = [\Omega_{xy}, \Omega_{xz}, \Omega_{yz}]
 $$
 
+In order to calculate the director field $S$ and the amount of order $S$ in two dimensions we use that we can map the orderparameter to the complex field $\psi = Q_{xx} +  iQ_{xy} =Se^{2i\theta}/2$, where $\theta$  is the angle of the director field. 
+In three dimensions we use that $S$ is given by the largest eigenvalue as $S = 3\lambda/2$ with the director being the coresponding eigenvector. 
+This is taken care of in the functio
+
+``` {.python language="Python"}
+calc_order_and_director(self)
+```
+
 ## Model
 
 We model the active nematic using a set of coupled differential
