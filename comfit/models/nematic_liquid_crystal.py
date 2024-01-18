@@ -78,6 +78,21 @@ class NematicLiquidCrystal(BaseSystem):
                 else:
                     return -1 * (Q[0] + Q[3])
 ### TODO see if this can be improved
+                
+        # This code is elegant, I suppose, but quite unreadable. Here is my suggestion (Vidar 18.01.24)
+        # if self.dim == 2:
+        #     if i==1:
+        #         return Q[0] if j==1 else Q[1] 
+        #     elif i==2:
+        #         return Q[1] if j==1 else -Q[0] 
+            
+        # elif self.dim == 3:
+        #     if i==1:
+        #         return Q[0] if j==1 else Q[1] if j==2 else Q[2]
+        #     elif i==2:
+        #         return Q[1] if j==1 else -Q[3] if j==2 else Q[4]
+        #     elif i==3:
+        #         return Q[2] if j==1 else Q[4] if j==2 else -(Q[0]+Q[3])
 
     def get_anti_sym(self,omega,i,j):
         """
