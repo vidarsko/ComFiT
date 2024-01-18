@@ -736,7 +736,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 
 
-    def plot_nematic_3D(self,n,S,ax = None,step=None):
+    def plot_nematic_3D(self,n,S,ax = None,step=None,):
         # TODO find a better way of plotting.
         if self.dim != 3:
             raise Exception("Dimension not allowed")
@@ -750,13 +750,13 @@ class NematicLiquidCrystal(BaseSystem):
 
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-        X_plot = X[::step, ::step, ::step]
-        Y_plot = Y[::step, ::step, ::step]
-        Z_plot = Z[::step, ::step, ::step]
-        U_plot = n[0][::step, ::step, ::step]
-        V_plot = n[1][::step, ::step, ::step]
-        W_plot = n[2][::step, ::step, ::step]
-        c = S[::step,::step,::step]
+        X_plot = X[self.xmidi, ::step, ::step]
+        Y_plot = Y[self.xmidi, ::step, ::step]
+        Z_plot = Z[self.xmidi, ::step, ::step]
+        U_plot = n[0][self.xmidi, ::step, ::step]
+        V_plot = n[1][self.xmidi, ::step, ::step]
+        W_plot = n[2][self.xmidi, ::step, ::step]
+        c = S[self.xmidi,::step,::step]
 
         c  = (c.ravel() - c.min()) / c.ptp()
         c = np.concatenate((c, np.repeat(c, 2)))
@@ -765,6 +765,8 @@ class NematicLiquidCrystal(BaseSystem):
 
 
         ax.quiver(X_plot, Y_plot, Z_plot, U_plot, V_plot, W_plot, arrow_length_ratio=0,pivot= "middle",colors=c)
+
+        ax.set_xlim(self.xmin,self.xmax)
 
         ax.set_xlabel('$x/a_0$')
         ax.set_ylabel('$y/a_0$')
