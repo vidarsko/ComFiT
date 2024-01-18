@@ -10,6 +10,7 @@ Consider as an instructive example, the Landau theory of the Bragg-Williams theo
 $$
 \mathcal F[\phi] = \int d\boldsymbol{r} \frac{1}{2} \texttt r \phi^2 - \texttt w \phi^3 + \texttt u \phi^4 + \frac{1}{2} \texttt c (\nabla \phi)^2.
 $$
+
 Seeking to minimize this functional in equilibrium, we have a simple
 equation of motion
 $$\partial_t \phi = - \nabla^2 \frac{\delta \mathcal F}{\delta \phi}.$$
