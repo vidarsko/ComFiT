@@ -151,7 +151,7 @@ $$
 \omega(\nabla) &= \frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma}, \\
 N(Q) &= - \mathbf u\cdot \nabla Q + Q \Omega -\Omega Q - \frac{2A}{\gamma}Q^2_{kk}Q +\begin{cases}
   0, & \text{dim} = 2 \\
- C Q^2_{ij} - \frac{C}{3}Q^2_{kk} \delta_{ij}, & \text{dim} = 3 
+ C Q^2 - \frac{C}{3}Q^2_{kk} I, & \text{dim} = 3 
 \end{cases}
 \end{aligned}
 $$
@@ -174,7 +174,7 @@ $$
     \omega(\nabla) = \frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma},  \\
     N(Q) = - \frac{2A}{\gamma}Q^2_{kk}Q +\begin{cases}
   0, & \text{dim} = 2 \\
- C Q^2_{ij} - \frac{C}{3}Q^2_{kk} \delta_{ij}, & \text{dim} = 3 
+ C Q^2 - \frac{C}{3}Q^2_{kk} I, & \text{dim} = 3 
 \end{cases}.
 \end{aligned}
 $$ 
