@@ -113,11 +113,11 @@ class NematicLiquidCrystal(BaseSystem):
             Exception if the dimension is not 2 or 3
         """
         if self.dim == 2:
-            self.S0 = np.sqrt(self.B)
+            S0 = np.sqrt(self.B)
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes)
             self.Q = np.zeros((2,self.xRes,self.yRes))
-            self.Q[0] = self.S0/2 *np.cos(2*theta_rand)
-            self.Q[1] =  self.S0/2 *np.sin(2*theta_rand)
+            self.Q[0] = S0/2 *np.cos(2*theta_rand)
+            self.Q[1] =  S0/2 *np.sin(2*theta_rand)
 
 
             self.Q_f = sp.fft.fft2(self.Q)
@@ -128,9 +128,8 @@ class NematicLiquidCrystal(BaseSystem):
 
         elif self.dim == 3:
 
-            #TODO find equilibrium S in three dim for C != 0 (11 /01 /24)
+            S0 = 3/4* self.C/self.A + 3/8 * np.sqrt(self.C**2 /self.A**2 + 16/3*self.B)
 
-            self.S0 = np.sqrt(3*self.B) / 2
 
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
             phi_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
@@ -140,11 +139,11 @@ class NematicLiquidCrystal(BaseSystem):
             nz = np.cos(theta_rand)
 
             self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
-            self.Q[0] = self.S0 *(nx*nx -1/3)
-            self.Q[1] = self.S0 *(nx*ny)
-            self.Q[2] = self.S0 *(nx*nz)
-            self.Q[3] = self.S0 *(ny*ny -1/3)
-            self.Q[4] = self.S0 *(ny*nz)
+            self.Q[0] = S0 *(nx*nx -1/3)
+            self.Q[1] = S0 *(nx*ny)
+            self.Q[2] = S0 *(nx*nz)
+            self.Q[3] = S0 *(ny*ny -1/3)
+            self.Q[4] = S0 *(ny*nz)
 
             self.Q_f = sp.fft.fftn(self.Q, axes=(range(-self.dim, 0)))
 
@@ -310,6 +309,8 @@ class NematicLiquidCrystal(BaseSystem):
             return 2*( Q[0]**2 + Q[1]**2)
         elif self.dim == 3:
             return 2 *(Q[0]**2 + Q[1]**2+ Q[2]**2+Q[3]**2 + Q[4]**2 + Q[0]*Q[3])
+
+
     def calc_molecular_field(self,Q):
         """
         Finds the molecular field (NB! need to be rewriten when C != 0)
@@ -318,11 +319,24 @@ class NematicLiquidCrystal(BaseSystem):
         Returns:
              (numpy.ndarray): The molecular field
         """
-        #TODO make this compatible with C != 0 (3D ok when C==0)
+
         Q2 =  self.calc_trace_Q2(Q)
         temp = -self.K * sp.fft.ifftn( self.k2* sp.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
 
-        return temp +self.A*self.B*Q -2*self.A*Q2*Q
+        if self.dim == 2 or self.C == 0:
+            return temp +self.A*self.B*Q -2*self.A*Q2*Q
+
+        elif self.dim == 3:
+            C_term = np.zeros((5,self.xRes,self.yRes,self.zRes))
+
+            C_term[0] = self.C * (Q[0]**2 + Q[1]**2 +Q[2]**2 - 1/3 *Q2)
+            C_term[1] = self.C * (Q[0]*Q[1] + Q[1]*Q[3] +Q[2]*Q[4])
+            C_term[2] = self.C * (Q[1]*Q[4] -Q[2] * Q[3] )
+            C_term[3] = self.C * (Q[1]**2 + Q[3]**2 +Q[4]**2 - 1/3 *Q2)
+            C_term[4] + self.C * (Q[1]*Q[2]  -Q[4]*Q[0] )
+
+            return temp +self.A*self.B*Q -2*self.A*Q2*Q +C_term
+
 
     def calc_pressure_f(self,F_af,F_pf):
         '''
@@ -437,8 +451,18 @@ class NematicLiquidCrystal(BaseSystem):
                     (numpy.narray) the non-linear evolution function evaluated in Fourier space
                 """
         Q2 = self.calc_trace_Q2(Q)
+        if self.dim ==2 or self.C == 0:
+            return -2*self.A*sp.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
 
-        return -2*self.A*sp.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma
+        elif self.dim == 3:
+            C_term = np.zeros((5, self.xRes, self.yRes, self.zRes))
+
+            C_term[0] = self.C * (Q[0] ** 2 + Q[1] ** 2 + Q[2] ** 2 - 1 / 3 * Q2)
+            C_term[1] = self.C * (Q[0] * Q[1] + Q[1] * Q[3] + Q[2] * Q[4])
+            C_term[2] = self.C * (Q[1] * Q[4] - Q[2] * Q[3])
+            C_term[3] = self.C * (Q[1] ** 2 + Q[3] ** 2 + Q[4] ** 2 - 1 / 3 * Q2)
+            C_term[4] + self.C * (Q[1] * Q[2] - Q[4] * Q[0])
+            return -2*self.A*sp.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma + sp.fft.fftn(C_term ,axes =(range(-self.dim,0)))/self.gamma
 
 
 ##### evolvers
