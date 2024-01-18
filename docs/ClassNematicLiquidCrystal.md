@@ -60,7 +60,7 @@ This is taken care of in the function
 calc_order_and_director(self)
 ```
 
-Note that if the two smallest eigenvalues are not equal we have that the nematic is biaxial and described by
+Note that in general the two smallest eigenvalues are not equal so that the nematic is biaxial and described by
 
 $$
 Q_{ij} = S (n_i n_j - \frac{1}{3} \delta_{ij}) + P (m_i m_j -l_i l_j)
