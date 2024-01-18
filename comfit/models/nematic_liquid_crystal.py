@@ -128,7 +128,7 @@ class NematicLiquidCrystal(BaseSystem):
 
         elif self.dim == 3:
 
-            S0 = 3/4* self.C/self.A + 3/8 * np.sqrt(self.C**2 /self.A**2 + 16/3*self.B)
+            S0 = 1/8* self.C/self.A + 1/2 * np.sqrt(self.C**2 /(16*self.A**2) + 3*self.B)
 
 
             theta_rand = noise_strength*np.random.randn(self.xRes,self.yRes,self.zRes)
@@ -333,7 +333,7 @@ class NematicLiquidCrystal(BaseSystem):
             C_term[1] = self.C * (Q[0]*Q[1] + Q[1]*Q[3] +Q[2]*Q[4])
             C_term[2] = self.C * (Q[1]*Q[4] -Q[2] * Q[3] )
             C_term[3] = self.C * (Q[1]**2 + Q[3]**2 +Q[4]**2 - 1/3 *Q2)
-            C_term[4] + self.C * (Q[1]*Q[2]  -Q[4]*Q[0] )
+            C_term[4] = self.C * (Q[1]*Q[2]  -Q[4]*Q[0] )
 
             return temp +self.A*self.B*Q -2*self.A*Q2*Q +C_term
 
@@ -442,7 +442,7 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("This dimension is not implemented at the moment")
 
     def calc_nonlinear_evolution_term_no_flow_f(self,Q):
-        #TODO generalize to 3d (think it alredy is for C==0)
+
         """
             Calculates the non-linear evolution function for the nematic without the flow field
                 Args:
@@ -461,7 +461,7 @@ class NematicLiquidCrystal(BaseSystem):
             C_term[1] = self.C * (Q[0] * Q[1] + Q[1] * Q[3] + Q[2] * Q[4])
             C_term[2] = self.C * (Q[1] * Q[4] - Q[2] * Q[3])
             C_term[3] = self.C * (Q[1] ** 2 + Q[3] ** 2 + Q[4] ** 2 - 1 / 3 * Q2)
-            C_term[4] + self.C * (Q[1] * Q[2] - Q[4] * Q[0])
+            C_term[4] = self.C * (Q[1] * Q[2] - Q[4] * Q[0])
             return -2*self.A*sp.fft.fftn(Q2 *Q,axes =(range(-self.dim,0)))/self.gamma + sp.fft.fftn(C_term ,axes =(range(-self.dim,0)))/self.gamma
 
 

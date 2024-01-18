@@ -28,10 +28,27 @@ class TestNematicLiquidCrystal(unittest.TestCase):
         # Set the tolerance for approximation
         tolerance = 0.01
 
-        # Check if all elements in bec.psi are approximately 1
+        # Check if nem.Q have approacjed the expected=
         S_0 = np.sqrt(nem.B)
         S,n = nem.calc_order_and_director()
         condition = np.allclose(S_0,S , atol=tolerance)
+        self.assertTrue(condition, "Elements in nem.Q are not relaxed to the correct value")
+
+    def test_no_flow_evolver_3D(self):
+        nem = cf.NematicLiquidCrystal(3, xRes=13, yRes=4,zRes=13,C =1)
+        nem.conf_initial_condition_disordered(noise_strength=2)
+
+        nem.evolve_nematic_no_flow(300)
+
+
+        # Set the tolerance for approximation
+        tolerance = 0.01
+
+        # Check if all elements in  are approximately 1
+        S_0 =1/8* nem.C/nem.A + 1/2 * np.sqrt(nem.C**2 /(16*nem.A**2) + 3*nem.B)
+
+        S, n = nem.calc_order_and_director()
+        condition = np.allclose(S_0, S, atol=tolerance)
         self.assertTrue(condition, "Elements in nem.Q are not relaxed to the correct value")
 
 
