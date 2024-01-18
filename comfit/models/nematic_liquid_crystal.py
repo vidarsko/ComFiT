@@ -272,6 +272,7 @@ class NematicLiquidCrystal(BaseSystem):
             H = self.calc_molecular_field(Q)
 
             Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
+
             Antisym_QH[0] = np.sum(self.get_sym(Q,0,k)*self.get_sym(H,k,1) -self.get_sym(H,0,k)*self.get_sym(Q,k,1) for k in range(self.dim))
             Antisym_QH[1] = np.sum(
                 self.get_sym(Q, 0, k) * self.get_sym(H, k, 2) - self.get_sym(H, 0, k) * self.get_sym(Q, k, 2) for k in
@@ -308,7 +309,7 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             return 2*( Q[0]**2 + Q[1]**2)
         elif self.dim == 3:
-            return 2 *(Q[0]**2 + Q[1]*2+ Q[2]**2+Q[3]**2 + Q[4]**2 + Q[0]*Q[3])
+            return 2 *(Q[0]**2 + Q[1]**2+ Q[2]**2+Q[3]**2 + Q[4]**2 + Q[0]*Q[3])
     def calc_molecular_field(self,Q):
         """
         Finds the molecular field (NB! need to be rewriten when C != 0)
