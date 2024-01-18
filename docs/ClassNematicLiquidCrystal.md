@@ -247,7 +247,7 @@ In three dimensions we have that $\text{Tr}(Q^2) = 2 S^2/3$ and $\text{Tr}(Q^3)=
 Using this we find that there are a local minima at
 
 $$
-S = \frac{3}{4}\frac{C}{A} + \frac{3}{8} \sqrt{\frac{C^2}{A^2} + \frac{16}{3} B}
+S = \frac{1}{8}\frac{C}{A} + \frac{1}{2} \sqrt{\frac{C^2}{16 A^2} + 3 B}
 $$
 
 when $B > -3 C^2/(16A^2)$. 
