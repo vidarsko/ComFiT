@@ -207,8 +207,9 @@ class NematicLiquidCrystal(BaseSystem):
     def conf_u(self,Q):
         #TODO: This function needs a more descriptive name (Vidar 03.01.24)
         '''
-        calculate the velocity and its fourier transform. Because of the possibility Gamma = 0 we have to use the self.k2_press to avoid
-        division by zero. This is not a problem since the zero mode of all the forces are zero
+        Uodates the velocity and its fourier transform given a nematic field Q.
+        Args:
+            (numpy.narray) the Q tensor
         :return:
             (numpy.narray) velocity
         '''
@@ -267,6 +268,7 @@ class NematicLiquidCrystal(BaseSystem):
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
         elif self.dim == 3:
+            # TODO optimise
             H = self.calc_molecular_field(Q)
 
             Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
@@ -396,6 +398,7 @@ class NematicLiquidCrystal(BaseSystem):
             return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
         elif self.dim == 3:
+            # TODO: check that antisym_omega is correct (18/01/24)
             self.conf_u(Q)
             Q_f = sp.fft.fftn(Q, axes=range(-self.dim, 0))
             N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
@@ -406,20 +409,12 @@ class NematicLiquidCrystal(BaseSystem):
 
             Antisym_Omega_Q = np.zeros_like(Q_f)
 
-            Antisym_Omega_Q[0] = np.sum(self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 0) -
-                                        self.get_anti_sym(Omega, 0, k) * self.get_sym(Q, k, 0) for k in range(self.dim))
-            Antisym_Omega_Q[1] = np.sum(
-                self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 1) - self.get_anti_sym(Omega, 0, k) * self.get_sym(
-                    Q, k, 1) for k in range(self.dim))
-            Antisym_Omega_Q[2] = np.sum(
-                self.get_sym(Q, 0, k) * self.get_anti_sym(Omega, k, 2) - self.get_anti_sym(Omega, 0, k) * self.get_sym(
-                    Q, k, 2) for k in range(self.dim))
-            Antisym_Omega_Q[3] = np.sum(
-                self.get_sym(Q, 1, k) * self.get_anti_sym(Omega, k, 1) - self.get_anti_sym(Omega, 1, k) * self.get_sym(
-                    Q, k, 1) for k in range(self.dim))
-            Antisym_Omega_Q[4] = np.sum(
-                self.get_sym(Q, 1, k) * self.get_anti_sym(Omega, k, 2) - self.get_anti_sym(Omega, 1, k) * self.get_sym(
-                    Q, k, 2) for k in range(self.dim))
+            Antisym_Omega_Q[0] = -2 * (Q[1]*Omega[0] + Q[2]*Omega[1] )
+            Antisym_Omega_Q[1] = Omega[0]*(Q[0]-Q[3]) - Omega[2]*Q[2] -Omega[1]*Q[4]
+            Antisym_Omega_Q[2] = Omega[1]*(2*Q[0] + Q[3] ) + Omega[1]*Q[1] - Omega[0]*Q[4]
+            Antisym_Omega_Q[3] = 2*(Q[1]*Omega[0] -Q[4]*Omega[2])
+            Antisym_Omega_Q[4] = Omega[2]*(2*Q[3]+Q[0]) + Omega[1]*Q[1] + Omega[0]*Q[2]
+
             return sp.fft.fftn(Antisym_Omega_Q + advectiv_deriv, axes=range(-self.dim, 0)) + N_f
 
         else:
@@ -739,9 +734,6 @@ class NematicLiquidCrystal(BaseSystem):
         c = plt.cm.viridis(c)
 
 
-
-
-
         ax.quiver(X_plot, Y_plot, Z_plot, U_plot, V_plot, W_plot, arrow_length_ratio=0,pivot= "middle",colors=c)
 
         ax.set_xlabel('$x/a_0$')
@@ -751,3 +743,4 @@ class NematicLiquidCrystal(BaseSystem):
         ax.set_xlim([0, self.xmax - self.dx])
         ax.set_ylim([0, self.ymax - self.dy])
         ax.set_zlim([0, self.zmax - self.dz])
+

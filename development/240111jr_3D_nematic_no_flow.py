@@ -11,7 +11,7 @@ nem.evolve_nematic_no_flow(10,method="ETD4RK")
 
 
 
-nem.evolve_nematic(2,method="ETD4RK")
+nem.evolve_nematic(2000,method="ETD4RK")
 
 S_0 =nem.calc_S()
 S,n = nem.calc_order_and_director()
