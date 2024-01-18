@@ -321,6 +321,7 @@ class NematicLiquidCrystal(BaseSystem):
         #TODO make this compatible with C != 0 (3D ok when C==0)
         Q2 =  self.calc_trace_Q2(Q)
         temp = -self.K * sp.fft.ifftn( self.k2* sp.fft.fftn(Q,axes=(range(-self.dim,0))),axes=(range(-self.dim,0)) )
+
         return temp +self.A*self.B*Q -2*self.A*Q2*Q
 
     def calc_pressure_f(self,F_af,F_pf):
