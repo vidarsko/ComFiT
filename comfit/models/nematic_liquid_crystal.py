@@ -44,7 +44,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.K = 1 if 'K' not in kwargs else kwargs['K']
         self.A = 1 if 'A' not in kwargs else kwargs['A']
         self.B = 1 if 'B' not in kwargs else kwargs['B']
-        self.C = 0 if 'C' not in kwargs  else kwargs['C']    # note: donsent do anything when self.dim !=3
+        self.C = 0 if 'C' not in kwargs  else kwargs['C']  # note: in two dim C is never called
         self.Lambda = 0 if 'Lambda' not in kwargs else kwargs['Lambda'] #flow allignment, not sure if this will be implemented
         self.gamma = 1  if 'gamma' not in kwargs else kwargs['gamma']  # rotational diffusion
         self.Gamma = 0 if 'Gamma' not in kwargs else kwargs['Gamma'] # friction,
@@ -70,14 +70,14 @@ class NematicLiquidCrystal(BaseSystem):
             return (-1)**(i*j) *Q[(i+j)%2]
 
         elif self.dim ==3:
-            if i != j:
-                return Q[i*j + max(i,j)]
-            else:
-                if i !=2:
-                    return Q[3*i]
-                else:
-                    return -1 * (Q[0] + Q[3])
-### TODO see if this can be improved
+            if i == 0:
+                return Q[0] if j == 0 else Q[1] if j == 1 else Q[2]
+            elif i == 1:
+                return Q[1] if j == 0 else Q[3] if j == 1 else Q[4]
+            elif i == 2:
+                return Q[2] if j == 0 else Q[4] if j == 1 else -(Q[0] + Q[3])
+
+### TODO see if this can be improved (I added the conditional expressions in three D, but keept the two d case as is)
                 
         # This code is elegant, I suppose, but quite unreadable. Here is my suggestion (Vidar 18.01.24)
         # if self.dim == 2:
@@ -90,7 +90,7 @@ class NematicLiquidCrystal(BaseSystem):
         #     if i==1:
         #         return Q[0] if j==1 else Q[1] if j==2 else Q[2]
         #     elif i==2:
-        #         return Q[1] if j==1 else -Q[3] if j==2 else Q[4]
+        #         return Q[1] if j==1 else Q[3] if j==2 else Q[4]
         #     elif i==3:
         #         return Q[2] if j==1 else Q[4] if j==2 else -(Q[0]+Q[3])
 
@@ -759,7 +759,7 @@ class NematicLiquidCrystal(BaseSystem):
             ax = plt.gcf().add_subplot(111, projection='3d')
 
         if step is None:
-            step = 2
+            step = 1
 
 
 
@@ -776,7 +776,7 @@ class NematicLiquidCrystal(BaseSystem):
         c  = (c.ravel() - c.min()) / c.ptp()
         c = np.concatenate((c, np.repeat(c, 2)))
 
-        c = plt.cm.viridis(c)
+        c = plt.cm.winter(c)
 
 
         ax.quiver(X_plot, Y_plot, Z_plot, U_plot, V_plot, W_plot, arrow_length_ratio=0,pivot= "middle",colors=c)
