@@ -751,7 +751,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 
 
-    def plot_nematic_3D(self,n,scalar = None,ax = None,step=None, plane = None  ,point=None):
+    def plot_nematic_3D(self,n,scalar = None,ax = None,step=None, plane = None  ,point=None, colormap = None):
         # TODO find a better way of plotting.
         if self.dim != 3:
             raise Exception("Dimension not allowed")
@@ -760,15 +760,15 @@ class NematicLiquidCrystal(BaseSystem):
 
         if step is None:
             step = 2
-        if point == None:
+        if point is None:
             point = self.rmid
 
-        if plane == None:
+        if plane is None:
             plane = [1,0,0]
 
         plane = np.array(plane)
 
-        if scalar == None:
+        if scalar is None:
             scalar = n[0]*plane[0] + n[1]*plane[1] + n[2]*plane[2]
 
 
