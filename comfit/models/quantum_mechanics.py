@@ -26,6 +26,12 @@ class QuantumMechanics(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+    def __str__(self):
+        """
+        Returns a string representation of the system
+        """
+        return 'QuantumMechanics'
+
     def conf_initial_condition_gaussian(self,position=None,width=None):
 
         if self.dim == 1:

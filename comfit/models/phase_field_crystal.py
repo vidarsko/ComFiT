@@ -24,6 +24,9 @@ class PhaseFieldCrystal(BaseSystem):
         self.dislocation_charges = np.array(
             [[np.round(np.dot(an, qn) / (2 * np.pi), decimals=8) for qn in self.q] for an in self.a])
 
+    def __str__(self):
+        return self.type
+
     # CONFIGURATION FUNCTIONS
     def conf_PFC_from_amplitudes(self, eta=None):
 

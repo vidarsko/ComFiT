@@ -47,7 +47,13 @@ class BoseEinsteinCondensate(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-    # SETTING FUNCTIONS
+    def __str__(self):
+        """
+        Returns a string representation of the system.
+        """
+        return "BoseEinsteinCondensate"
+
+    # CONFIGURATION FUNCTIONS
     def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
         Sets disordered initial condition for the BoseEinsteinCondensate with some thermal flcutiations

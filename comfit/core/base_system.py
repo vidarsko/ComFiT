@@ -126,6 +126,14 @@ class BaseSystem:
         self.rmin = [self.xmin, self.ymin, self.zmin]
         self.rmax = [self.xmax, self.ymax, self.zmax]
 
+    def __str__(self):
+        """
+        Returns a string representation of the class.
+        Returns:
+            str: A string representation of the class.
+        """
+        return "BaseSystem"
+
     # CALCULATION FUNCTIONS
 
     # Calculation of angle fields for vortices of different types

@@ -54,6 +54,12 @@ class NematicLiquidCrystal(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+    def __str__(self):
+        """
+        Returns a string representation of the system.
+        """
+        return "NematicLiquidCrystal"
+
     #TODO: Generalize to 3D
     ### defining get functions
     def get_sym(self,Q,i,j):
