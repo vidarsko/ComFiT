@@ -22,10 +22,10 @@ This class simply initiates a system, defines the grid and contains the basic fu
 
 There are five different types of functions:
 
-1. `conf_`-functions: Configures the state of the system, for instance by setting an initial condition. Returns nothing.
+1. `conf_`-functions: Configures the state of the system, for instance by setting an initial condition. Output nothing.
 2. `evolve_`-functions: Evolves the state in time according to some equation of motion.
 3. `calc_`-functions: Calculates something from the state, returns that which has been calculated.
-4. `plot_`-functions: Functions tailored to plot specific things. Returns the axes and figure.
+4. `plot_`-functions: Functions tailored to plot specific things. Output the axes and figure.
 5. `get_`-functions: Functions that return a component of a tensor field. Relevant for symmetric and antisymmetric tensors where it is not convenient to save all elements.
 
 ## Coarse-graining

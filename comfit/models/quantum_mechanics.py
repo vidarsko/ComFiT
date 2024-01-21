@@ -28,7 +28,7 @@ class QuantumMechanics(BaseSystem):
 
     def __str__(self):
         """
-        Returns a string representation of the system
+        Output a string representation of the system
         """
         return 'QuantumMechanics'
 
@@ -77,7 +77,7 @@ class QuantumMechanics(BaseSystem):
         """
         Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
         :param R_tf:
-        :return:
+        :Output:
         """
 
         if trapping_strength == None:

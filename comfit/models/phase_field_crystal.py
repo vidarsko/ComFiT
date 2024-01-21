@@ -265,7 +265,7 @@ class PhaseFieldCrystal(BaseSystem):
         :param x2: The x-position of the second dislocation (default: 2/3 xmax)
         :param y2: The y-position of the second dislocation (default: 1/2 ymax)
         :param dislocation_type: the type of dislocation dipole (default: 1)
-        :return:
+        :Output:
         """
         # TODO: Improve code documentation
 

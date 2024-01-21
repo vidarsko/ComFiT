@@ -16,7 +16,8 @@ class BaseSystem:
                  dt=0.1, **kwargs):
         """
         Initialize the class with the given parameters.
-        Parameters:
+
+        Input:
             dimension (int): The dimension of the system. Must be 1, 2, or 3.
             xRes (int): The resolution of the x-axis.
             dx (float): The spacing between points on the x-axis.
@@ -26,10 +27,12 @@ class BaseSystem:
             dz (float): The spacing between points on the z-axis.
             dt (float): The time step.
             **kwargs: Additional keyword arguments.
+
+        Output:
+            None
+        
         Raises:
             ValueError: If the dimension is not 1, 2, or 3.
-        Returns:
-            None
         """
         self.dim = dimension
         self.xRes = xRes
@@ -128,8 +131,9 @@ class BaseSystem:
 
     def __str__(self):
         """
-        Returns a string representation of the class.
-        Returns:
+        Outputs a string representation of the class.
+
+        Output:
             str: A string representation of the class.
         """
         return "BaseSystem"
@@ -142,13 +146,16 @@ class BaseSystem:
                                        charge=1):
         """
         Calculate the angle field due to a single vortex.
-        Args:
+
+        Input:
             position (list, optional): The position of the vortex. Defaults to None.
             charge (int, optional): The charge of the vortex. Defaults to 1.
+        
+        Output:
+            numpy.ndarray: The angle field calculated for the vortex.
+            
         Raises:
             Exception: If the dimension of the system is not 2.
-        Returns:
-            numpy.ndarray: The angle field calculated for the vortex.
         """
         if self.dim != 2:
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
@@ -168,13 +175,13 @@ class BaseSystem:
                                        dipole_position=None):
         """
         Calculates the angle field for a double vortex system.
-        Args:
+        Input:
             dipole_vector (list, optional): The dipole vector. Defaults to None.
             dipole_position (list, optional): The position the center of mass of the dipole. Defaults to None.
         Raises:
             Exception: If the dimension of the system is not 2.
-        Returns:
-            float: The calculated angle field for the double vortex system.
+        Output:
+            np.ndarray: The calculated angle field for the double vortex system.
         """
 
         if self.dim != 2:
@@ -218,7 +225,15 @@ class BaseSystem:
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
     def calc_angle_field_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
-
+        """
+        Calculates the angle field for a vortex ring.
+        Input:
+            position (list, optional): The position of the vortex ring. Defaults to None.
+            radius (float, optional): The radius of the vortex ring. Defaults to None.
+            normal_vector (list, optional): The normal vector of the vortex ring. Defaults to [0,0,1].
+        Output:
+            numpy.ndarray: The calculated angle field for the vortex ring.
+        """
         if position is None:
             position = self.rmid
 
@@ -282,13 +297,11 @@ class BaseSystem:
         """
         Calculates the wavenumbers corresponding to the input position vectors given by x.
 
-        Parameters:
-        - x : numpy array
-            1D array of x-positions.
+        Input:
+        - x : 1D array of x-positions.
 
-        Returns:
-        - k : numpy array
-            1D array of wavenumbers with all the modes for the given x-array,
+        Output:
+            numpy array: 1D array of wavenumbers with all the modes for the given x-array,
             assuming periodicity from x[0] to x[0] over n intervals.
 
         Example:
@@ -322,11 +335,11 @@ class BaseSystem:
         """
         Calculate the determinant transformation of a given field
 
-        Parameters:
+        Input:
             psi (list): A list of two psi fields.
 
-        Returns:
-            float: The defect density of the psi field.
+        Output:
+            numpy.ndarray: The defect density of the psi field.
         """
         
         if self.dim == 2:
@@ -357,12 +370,12 @@ class BaseSystem:
         """
         Calculate the defect density of a given psi field.
 
-        Parameters:
+        Input:
             psi (list): A list of two psi fields.
             psi0 (float, optional): The value of psi_0. Defaults to 1.
 
-        Returns:
-            float: The defect density of the psi field.
+        Output:
+            np.ndarray: The defect density of the psi field.
         """
 
         return 1 / (np.pi * psi0 ** 2) * self.calc_determinant_field(psi)
@@ -371,19 +384,28 @@ class BaseSystem:
         """
         Calculate the singular defect density for a given psi field.
 
-        Parameters:
+        Input:
             psi (float): The value of psi.
             psi0 (float, optional): The reference value of psi. Defaults to 1.
-        Returns:
-            float: The defect density for the given psi value.
+        Output:
+            np.ndarray: The defect density for the given psi value.
         """
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
 
     def calc_defect_velocity_field(self, psi, dt_psi):
+        """
+        Calculates the velocity field of the defects in the psi field.
 
+        Input:
+            psi: The psi field
+            dt_psi: The time derivative of the psi field
+
+        Output:
+            np.ndarray: The velocity field of the defects
+        """
         if self.dim == 2:
             if len(psi) == 2:
-                # Parameters to exclude region
+                # Input to exclude region
                 threshold = 0.4
 
                 psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
@@ -414,7 +436,7 @@ class BaseSystem:
 
         elif self.dim == 3:
             if len(psi) == 2:
-                # Parameters to exclude region
+                # Input to exclude region
                 threshold = 0.4
 
                 psi_f = [sp.fft.fftn(psi[0]), sp.fft.fftn(psi[1])]
@@ -465,12 +487,14 @@ class BaseSystem:
     def calc_defect_current_density(self, psi, dt_psi, psi_0=0):
         """
         Calculates the conserved current of the superfluid density
-        Args:
+
+        Input:
             psi (numpy.ndarray) the vector field that we find the density of
             dt_psi (numpy.ndarray) the time derivative of psi
             psi_0 (floar or numpy.ndarray, optional) the equilibrium state
-        :returns
-            (array) components of the conserved current
+        
+        Output:
+            np.ndarray: Components of the conserved current
         """
         if self.dim == 2:
             if len(psi) == 2:
@@ -490,12 +514,12 @@ class BaseSystem:
         """
         Calculate the delta function for a given wavefunction.
 
-        Parameters:
+        Input:
             psi (list): The wavefunction.
             psi0 (float): The width of the wavefunction. Default is 1.
 
-        Returns:
-            float: The value of the delta function.
+        Output:
+            np.ndarray: The value of the delta function.
         """
         width = psi0 / 2
         n = len(psi)
@@ -505,7 +529,16 @@ class BaseSystem:
                 return 1 / (2 * np.pi * width ** 2) * np.exp(-psi2 / (2 * width ** 2))
 
     def calc_region_disk(self, position, radius):
-
+        """
+        Calculates a boolean array indicating whether a point is within a disk of a given radius.
+        
+        Input:
+            position: The position of the disk
+            radius: The radius of the disk
+        
+        Output:
+            np.ndarray: A boolean array indicating whether a point is within the disk
+        """
         if self.dim == 2:
             rx2m = (self.x - position[0] - self.xmax) ** 2
             rx2 = (self.x - position[0]) ** 2
@@ -525,6 +558,13 @@ class BaseSystem:
     def calc_region_ball(self, position, radius):
         """
         Calculates a boolean array indicating whether a point is within a ball of a given radius.
+        
+        Input:
+            position: The position of the ball
+            radius: The radius of the ball
+        
+        Output:
+            np.ndarray: A boolean array indicating whether a point is within the ball
         """
         if self.dim == 3:
             # This code ensures that the region is periodic
@@ -551,6 +591,15 @@ class BaseSystem:
     def calc_region_cylinder(self, position, radius, normal_vector, height):
         """
         Calculates a boolean array indicating whether a point is within a cylinder of a given radius and height.
+        
+        Input:
+            position: The position of the cylinder
+            radius: The radius of the cylinder
+            normal_vector: The normal vector of the cylinder
+            height: The height of the cylinder
+        
+        Output:
+            np.ndarray: A boolean array indicating whether a point is within the cylinder
         """
         if self.dim == 3:
             t = normal_vector / np.linalg.norm(np.array(normal_vector))
@@ -583,16 +632,19 @@ class BaseSystem:
         """
         Calculates the integrated field value within a specified region.
 
-        Parameters:
+        Input:
             field (numpy.ndarray): The field array.
             index (tuple, optional): The indices of the center point in the field. Defaults to None.
             radius (float, optional): The radius of the region. Defaults to None.
 
-        Returns:
+        Input:
             tuple or float: If index is provided, returns a tuple containing the integrated field value
                             within the region and a boolean array indicating the region. If index is None,
                             returns the integrated field value within the entire field.
 
+        Output:
+            float: The integrated field value within the region.
+                                            
         Raises:
             Exception: If the dimension of the field is not 2.
         """
@@ -603,7 +655,17 @@ class BaseSystem:
             return np.sum(field[region]) * self.dV
 
     def calc_integrating_factors_f_and_solver(self, omega_f, method):
-
+        """
+        Calculates the integrating factors and the solver for the evolution equation.
+        
+        Input:
+            omega_f: The value of omega_f
+            method: The method used for evolution
+        
+        Output:
+            integrating_factors_f: The integrating factors
+            solver: The solver for the evolution equation
+        """
         if method == 'ETD2RK':
             integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
             solver = self.evolve_ETD2RK_loop
@@ -625,7 +687,7 @@ class BaseSystem:
             taylor_order: Order of the taylor expansion
 
         Output:
-            None
+            np.ndarray: The field after advection by u
         """
 
         if order > 3:
@@ -664,10 +726,12 @@ class BaseSystem:
     def calc_evolution_integrating_factors_ETD2RK(self, omega_f, tol=10 ** (-4)):
         """
         Calculates integrating factors for ETD2RK
-         parameters
+        
+        Input:
             omega_f (numpy.ndarray): the value of omega_f
             tol (float, optional): tolerance for when to expand the integrating factors that divide by omega
-        :return:
+        
+        Output:
             list: the list of integrating factors
         """
         integrating_factors_f = [0, 0, 0]
@@ -686,10 +750,11 @@ class BaseSystem:
         """
         Calculate the evolution integrating factors using the ETDRK4 method.
 
-        Parameters:
+        Input:
             omega_f (numpy.ndarray): The value of omega_f.
             tol (float,optional): tolerance for when to expand the integrating factors that divide by omega
-        Returns:
+        
+        Output:
             list: The list of integrating factors.
         """
         integrating_factors_f = [0, 0, 0, 0, 0, 0]
@@ -726,9 +791,11 @@ class BaseSystem:
                           integration_radius=None):
         """
         Calculate the positions and charges of defect nodes based on the defect density.
+        
         Input:
             defect_density (numpy.ndarray): The defect density field. A positive scalar field to be integrated.
-        Returns:
+        
+        Output:
             list: A list of dictionaries representing the defect nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the defect node in the defect density array.
                   - 'position': The position of the defect node
@@ -828,14 +895,14 @@ class BaseSystem:
         """
         Evolves the given field using the ETD2RK scheme with a loop.
 
-        Parameters:
+        Input:
             integrating_factors_f (list): A list of three integrating factors.
             non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field
                     and returns the fourier transform.
             field (ndarray): The initial field to be evolved.
             field_f (ndarray): The Fourier transform of the initial field.
 
-        Returns:
+        Output:
             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
         """
         """
@@ -866,13 +933,13 @@ class BaseSystem:
         """
          Evolves the given field using the ETD4RK scheme with a loop.
 
-         Parameters:
+         Input:
              integrating_factors_f (list): A list of five integrating factors.
              non_linear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
              field (ndarray): The initial field to be evolved.
              field_f (ndarray): The Fourier transform of the initial field.
 
-         Returns:
+         Output:
              tuple: A tuple containing the evolved field and the predicted field in Fourier space.
          """
         N_0f = non_linear_evolution_function_f(field)
@@ -915,11 +982,13 @@ class BaseSystem:
     def plot_angle_field(self, field, ax=None, colorbar=True):
         """
         Plot the angle field.
-        Parameters:
+
+        Input:
             field (array-like): The angle field values.
             ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
-        Returns:
-            None
+        
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
         """
 
         if self.dim == 2:
@@ -989,7 +1058,8 @@ class BaseSystem:
                    number_of_layers=1, hold=False, cmap_symmetric=None, layer_values=None):
         """
         Plots the given field.
-        Parameters:
+        
+        Input:
             field (array-like): The field to be plotted.
             ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
             colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
@@ -999,8 +1069,9 @@ class BaseSystem:
             number_of_layers (int, optional): The number of layers to plot for a 3D field. Default is 1.
             hold (bool, optional): Whether to clear the axes before plotting. Default is False.
             cmap_symmetric (bool, optional): Whether to make the colormap symmetric. Default is True.
-        Returns:
-            ax (Axes): The axes object containing the plot.
+        
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
         """
 
 
@@ -1132,12 +1203,12 @@ class BaseSystem:
         """
             Plot a Fourier field.
 
-            Parameters:
+            Input:
                 field_f (ndarray): The Fourier field to be plotted.
                 ax (Axes3D, optional): The matplotlib 3D axis to be used for plotting. If not provided, a new axis will be created.
 
-            Returns:
-                None
+            Output:
+                matplotlib.axes.Axes: The axes containing the plot.
             """
         field_f = np.fft.fftshift(field_f)
 
@@ -1159,6 +1230,7 @@ class BaseSystem:
             colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
             surf = ax.plot_surface(Kx, Ky, rho, facecolors=colors, shade=True)
 
+            return ax
             # mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
             # mappable.set_array([])
             # mappable.set_clim(-np.pi, np.pi)
@@ -1174,16 +1246,16 @@ class BaseSystem:
         """
         Plot a complex field.
 
-        Parameters:
+        Input:
             complex_field (numpy.ndarray): The complex field to plot.
             ax (matplotlib.axes.Axes, optional): The matplotlib axes on which to plot the field.
                 If not provided, a new 3D axes will be created.
-
+        
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
+                
         Raises:
             Exception: If the dimension of the field is not 2.
-
-        Returns:
-            None
         """
 
 
@@ -1348,6 +1420,20 @@ class BaseSystem:
 
     def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
                             colorbar=True, colormap = 'winter'):
+        """
+        Plots the field in a plane perpendicular to the given normal vector.
+
+        Input:
+            field (array-like): The field to be plotted.
+            normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
+            position (array-like, optional): The position of the plane. Default is the middle of the system.
+            ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
+            colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
+            colormap (str, optional): The colormap to use for the plot. Default is 'winter'.
+        
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
+        """
 
         if self.dim != 3:
             raise Exception("This plotting function not yet configured for other dimensions")
@@ -1466,15 +1552,19 @@ class BaseSystem:
         ax.set_ylabel('$y/a_0$')
         ax.set_zlabel('$z/a_0$')
 
+        return ax
+
     def plot_angle_field_in_plane(self, angle_field, colorbar=True):
         """
         Plots the angle field in a plane.
 
-        Args:
+        Input:
             angle_field (numpy.ndarray): The angle field to be plotted.
             colorbar (bool, optional): Whether to include a colorbar. Defaults to True.
+        
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
         """
-
         self.plot_field_in_plane(angle_field, colorbar=False)
 
         if colorbar:
@@ -1486,15 +1576,15 @@ class BaseSystem:
 
     def plot_vector_field(self, vector_field, ax=None, step=None):
         """
-            Plots a vector field on a 2D grid.
+        Plots a vector field on a 2D grid.
 
-            Parameters:
-            vector_field (tuple): Tuple containing the x and y components of the vector field.
-            ax (matplotlib.axes.Axes, optional): The axes on which to plot the vector field. If not provided, a new subplot will be created.
+        Input:
+        vector_field (tuple): Tuple containing the x and y components of the vector field.
+        ax (matplotlib.axes.Axes, optional): The axes on which to plot the vector field. If not provided, a new subplot will be created.
 
-            Returns:
-            None
-            """
+        Output:
+        matplotlib.axes.Axes: The axes containing the plot.
+        """
 
         if self.dim == 2:
 
@@ -1554,5 +1644,7 @@ class BaseSystem:
             ax.set_xlim([0, self.xmax-self.dx])
             ax.set_ylim([0, self.ymax-self.dy])
             ax.set_zlim([0, self.zmax-self.dz])
+
+        return ax
 
 

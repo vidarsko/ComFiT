@@ -12,7 +12,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Initializes a system to simulate a Bose-Einstein Condensate using the Gross-Pitaevskii equation.
 
-        Parameters:
+        Input:
         - dimension : int
             The dimension of the system.
         - x_resolution : int
@@ -20,7 +20,7 @@ class BoseEinsteinCondensate(BaseSystem):
         - kwargs : dict, optional
             Optional keyword arguments to set additional parameters.
 
-        Returns:
+        Output:
         - BoseEinsteinCondensate object
             The system object representing the BoseEinsteinCondensate simulation.
 
@@ -49,7 +49,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def __str__(self):
         """
-        Returns a string representation of the system.
+        Output a string representation of the system.
         """
         return "BoseEinsteinCondensate"
 
@@ -57,9 +57,12 @@ class BoseEinsteinCondensate(BaseSystem):
     def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
         Sets disordered initial condition for the BoseEinsteinCondensate with some thermal flcutiations
+        
+        Input:
+            noise_strength: the strength of the noise
 
-        :param noise_strength:
-        :return:
+        Output:
+            Sets the value of self.psi and self.psi_f
         """
 
         if self.dim == 1:
@@ -83,9 +86,11 @@ class BoseEinsteinCondensate(BaseSystem):
     def conf_time_dependent_potential(self, Func):
         """
         Set the potential to the function Func. Func has to use self.dt as the time variabel.
-        Args:
+        
+        Input:
             Func (function): the time-dependent potetnial that we want
-        returns:
+
+        Output:
             Set V_ext to Func
         """
         self.V_ext = Func
@@ -95,7 +100,11 @@ class BoseEinsteinCondensate(BaseSystem):
         Finds the Thomas_Fermi ground state.
         Must be precided by an energy relaxation to find the true ground state
 
-        Returns: sets the value of self.psi and self.psi_f
+        Input:
+            None
+        
+        Output: 
+            sets the value of self.psi and self.psi_f
         """
         V_0 = np.zeros(self.dims) + self.V_ext()
         self.psi = np.emath.sqrt(1 - V_0)
@@ -107,8 +116,13 @@ class BoseEinsteinCondensate(BaseSystem):
     def conf_insert_vortex(self, charge=1, position=None):
         """
         Sets the initial condition for a vortex dipole
-        Returns:
-        Modifies the value of self.psi and self.psi_f
+
+        Input:
+            charge (int): the charge of the vortex
+            position (list): the position of the vortex
+
+        Output:
+            Modifies the value of self.psi and self.psi_f
         """
         if not (self.dim == 2):
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
@@ -129,11 +143,11 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Sets the initial condition for a vortex dipole configuration in a 2-dimensional system.
 
-        Parameters:
+        Input:
             None
 
-        Returns:
-            None
+        Output:
+            Modifies the value of self.psi and self.psi_f
 
         Raises:
             Exception: If the dimension of the system is not 2.
@@ -156,6 +170,14 @@ class BoseEinsteinCondensate(BaseSystem):
     def conf_insert_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
         """
         Sets the initial condition for a vortex ring configuration in a 3-dimensional system
+        
+        Input:
+            position (list): the position of the vortex ring
+            radius (float): the radius of the vortex ring
+            normal_vector (list): the normal vector of the vortex ring
+        
+        Output:
+            Modifies the value of self.psi and self.psi_f
         """
         if not (self.dim == 3):
             raise Exception("The dimension of the system must be 3 for a vortex ring configuration.")
@@ -178,10 +200,13 @@ class BoseEinsteinCondensate(BaseSystem):
         '''
         Function that finds and removes vortices outside of the area defined by the corners
         (x1,y1), (x1,y2), (x2,y1), (x2,y2)
-        Args:
+
+        Input:
             nodes (list) a list containing the vortices
             Area  (array) list on the format (x1,x2,y1,y2)
-        returns:
+
+        Output:
+            Modifies the value of self.psi and self.psi_f
         '''
         for vortex in nodes:
             x_coord = vortex['position'][0]
@@ -195,12 +220,14 @@ class BoseEinsteinCondensate(BaseSystem):
         '''
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
         This sets a dissipative frame around the computational domain
-         Args
-             d (float): length of the interface between the low gamma and high gamma regions
+        
+        Input:
+            d (float): length of the interface between the low gamma and high gamma regions
             wx (float): distance fom center to the frame in x-direction
             wy (float):    -- " --                         y-direction
             wz (float):     -- " --                         z-direction
-        return:
+        
+        Output:
             modify self.gamma
         '''
         if self.dim == 2:
@@ -221,12 +248,14 @@ class BoseEinsteinCondensate(BaseSystem):
     # Time evolution
     def evolve_dGPE(self, number_of_steps, method='ETD2RK'):
         '''
-       Evolver for the dGPE.
-           Args:
-               number_of_steps (int) the number of time steps that we are evolving the equation
-               method (string, optional) the integration method we want to use. ETD2RK is sett as default
-           returns:
-               Updates the self.psi and self.psi_f
+        Evolver for the dGPE.
+        
+        Input:
+            number_of_steps (int) the number of time steps that we are evolving the equation
+            method (string, optional) the integration method we want to use. ETD2RK is sett as default
+        
+        Output:
+            Updates the self.psi and self.psi_f
        '''
 
         k2 = self.calc_k2()
@@ -244,11 +273,13 @@ class BoseEinsteinCondensate(BaseSystem):
     def evolve_relax(self, number_of_steps, method='ETD2RK'):
         '''
         Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
-            Args:
-                number_of_steps (int) the number of time steps that we are evolving the equation
-                method (string, optional) the integration method we want to use. ETD2RK is sett as default
-            returns:
-                Updates the self.psi and self.psi_f
+        
+        Input:
+            number_of_steps (int) the number of time steps that we are evolving the equation
+            method (string, optional) the integration method we want to use. ETD2RK is sett as default
+        
+        Output:
+            Updates the self.psi and self.psi_f
         '''
         temp_t = self.time
         gamma0 = self.gamma
@@ -265,13 +296,15 @@ class BoseEinsteinCondensate(BaseSystem):
         '''
         Evolver for the dGPE in the comoving frame.
         This evolver assume that the stirring is in the x-direction and that gamma is spatialy dependent
-            Args:
-                number_of_steps (int) the number of time steps that we are evolving the equation
-                velx (float) velocity in x direction
-                method (string, optional) the integration method we want to use. ETD2RK is sett as default
-            returns:
-                Updates the fields self.psi and self.psi_f
-                '''
+        
+        Input:
+            number_of_steps (int) the number of time steps that we are evolving the equation
+            velx (float) velocity in x direction
+            method (string, optional) the integration method we want to use. ETD2RK is sett as default
+        
+        Output:
+            Updates the fields self.psi and self.psi_f
+            '''
         k2 = self.calc_k2()
 
         omega_f = (1j) * (1 - 1 / 2 * k2) + velx * self.dif[0]
@@ -294,9 +327,11 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_nonlinear_evolution_function_f(self, psi):
         """
         Calculates the non-linear evolution term of the dGPE
-        Args:
+        
+        Input:
              psi (numpy.ndarray): the wavefunction at a given time.
-        returns:
+        
+        Output:
             (numpy.ndarray): the non-linear evolution term
         """
         psi2 = np.abs(psi) ** 2
@@ -304,13 +339,15 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def calc_nonlinear_evolution_term_comoving_f(self, psi):
         """
-               Calculates the non-linear evolution term of the dGPE when gamma is not a constant.
-               Relevant for example in the comoving frame when we have a dissipative frame around the edge.
-               Args:
-                   psi (numpy.ndarray): the wavefunction at a given time.
-               Returns:
-                    (numpy.ndarray): the non-linear evolution term
-               """
+        Calculates the non-linear evolution term of the dGPE when gamma is not a constant.
+        Relevant for example in the comoving frame when we have a dissipative frame around the edge.
+        
+        Input:
+            psi (numpy.ndarray): the wavefunction at a given time.
+        
+        Output:
+            (numpy.ndarray): the non-linear evolution term
+        """
         psi2 = np.abs(psi) ** 2
         term1 = sp.fft.fftn(-(1j + self.gamma) * (self.V_ext() + psi2) * psi)
         term2 = sp.fft.fftn(self.gamma * psi)
@@ -322,7 +359,11 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_superfluid_current(self):
         """
         Function that calculates the superfluid current
-        retuns:
+
+        Input:
+            None
+        
+        Output:
             (numpy.ndarray) the superfluid current
         """
         if self.dim == 2:
@@ -337,8 +378,12 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def calc_velocity(self):
         """
-        calculates the weighted velocity field
-        returns:
+        Calculates the weighted velocity field
+        
+        Input:
+            None
+
+        Output:
             (numpy.ndarray) the weighted velocity field
         """
         if self.dim == 2:
@@ -355,7 +400,11 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_kinetic_energy(self):
         """
         Calculates the kinetic energy.
-        returns:
+
+        Input:
+            None
+
+        Output:
             (float) the kinetic energy
         """
         u = self.calc_velocity()
@@ -366,7 +415,11 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_hamiltonian_density(self):
         """
         Function that calculates the hamiltonian density
-        returns:
+
+        Input:
+            None
+
+        Output:
             (numpy.ndarray) the hamiltonian density
         """
         k2 = self.calc_k2()
@@ -377,8 +430,12 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def calc_hamiltonian(self):
         """
-        Function that calculates the Hamitlonian
-        returns:
+        Function that calculates the Hamiltonian
+
+        Input:
+            None
+
+        Output:
             (Float) the Hamiltonian
         """
         H = self.calc_hamiltonian_density()
@@ -387,9 +444,11 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_harmonic_potential(self, R_tf):
         """
         Set returns a harmonic trap with R_tf being the Thomas-Fermi radius
-        Args:
+        
+        Input:
                 R_tf (float): The Thomas-Fermi radius
-        returns:
+        
+        Output:
                 A harmonic potential
         """
         trapping_strength = 1 / (R_tf ** 2)
@@ -406,11 +465,13 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_gaussian_stirring_potential(self, size, strength, position):
         """
         Function for calculate a gaussian potential
-        Args:
+        
+        Input:
             size (float) size of the stirrer
             strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
             position (array) the position of the stirrer
-        returns:
+       
+        Output:
             (numpy.ndarray) a gaussian potential
         """
 
@@ -426,8 +487,13 @@ class BoseEinsteinCondensate(BaseSystem):
                                        + ((self.z - position[2]) ** 2).reshape(1, 1, self.zRes)) / (size ** 2))
 
     def calc_force_on_external_potential(self):
-        """ calculates the average force acting on the external potential.
-        returns:
+        """ 
+        Calculates the average force acting on the external potential.
+        
+        Input:
+            None
+        
+        Output:
             (numpy.ndarray) average force on the potential
         """
         Force =np.zeros(self.dim)
@@ -442,18 +508,44 @@ class BoseEinsteinCondensate(BaseSystem):
 
 ## Functions for calculating vortex properties
     def calc_vortex_density(self, psi=None):
+        """
+        Calculates the vortex density of the system.
 
+        Input:
+            psi (numpy.ndarray): The wavefunction of the system.
+        
+        Output:
+            numpy.ndarray: The vortex density of the system.
+        """
         if psi is None:
             psi = self.psi
 
         return self.calc_defect_density([np.real(psi), np.imag(psi)])
 
     def calc_vortex_density_singular(self):
+        """
+        Calculates the vortex density of the system using the singular method.
+
+        Input:
+            None
+        
+        Output:
+            numpy.ndarray: The vortex density of the system.
+        """
         # TODO: Insert the correct value of the equilibrium of psi, based on theory (Vidar 03.12.23)
         return self.calc_defect_density([np.real(self.psi), np.imag(self.psi)])
 
     def calc_vortex_velocity_field(self, dt_psi, psi=None):
+        """
+        Calculates the vortex velocity field of the system.
 
+        Input:
+            dt_psi (numpy.ndarray): The time derivative of the wavefunction of the system.
+            psi (numpy.ndarray): The wavefunction of the system.
+
+        Output:
+            numpy.ndarray: The vortex velocity field of the system. 
+        """
         if psi is None:
             psi = self.psi
 
@@ -463,7 +555,11 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_vortex_nodes(self, dt_psi=None):
         """
         Calculate the positions and charges of vortex nodes based on the defect density.
-        Returns:
+
+        Input:
+            dt_psi (numpy.ndarray): The time derivative of the wavefunction of the system.    
+    
+        Output:
             list: A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the vortex node in the defect density array.
                   - 'charge': The charge of the vortex node.
@@ -506,7 +602,20 @@ class BoseEinsteinCondensate(BaseSystem):
     # Plot functions
 
     def plot_vortex_nodes(self, vortex_nodes, ax=None):
+        """
+        Plots the vortex nodes in the system.
 
+        Input:
+            vortex_nodes (list): A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
+                                 - 'position_index': The position index of the vortex node in the defect density array.
+                                 - 'charge': The charge of the vortex node.
+                                 - 'position': The position of the vortex node as a list [x, y].
+                                 - 'velocity': The velocity of the vortex node as a list [vx, vy].
+            ax (matplotlib.axes.Axes): The axes on which to plot the vortex nodes. If None, a new figure and axes are created.
+        
+        Output:
+            matplotlib.axes.Axes: The axes on which the vortex nodes are plotted.
+        """
         if self.dim == 2:
 
             if ax == None:
@@ -614,5 +723,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
             ax.set_aspect('equal')
         ax.grid(True)
+
+        return ax
 
     
