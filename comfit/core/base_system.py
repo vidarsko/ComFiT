@@ -1122,15 +1122,24 @@ class BaseSystem:
             if clims is not None:
                 cmin = clims[0]
                 cmax = clims[1]
-            if cmin is not None:
-                pcm.set_clim(vmin=cmin)
-            if cmax is not None:
-                pcm.set_clim(vmax=cmax)
+            else:
+                cmin = np.min(field)
+                cmax = np.max(field)
+
+                if cmax-cmin < 1e-10:
+                    cmin = cmin-0.05
+                    cmax = cmax+0.05
+
+
+            pcm.set_clim(vmin=cmin)
+            pcm.set_clim(vmax=cmax)
 
             if cmap_symmetric:
                 cmax = abs(field).max()
                 cmin = -cmax
                 pcm.set_clim(vmin=cmin, vmax=cmax)
+
+            
 
             if colorbar:
                 cbar = plt.colorbar(pcm, ax=ax)
@@ -1155,6 +1164,7 @@ class BaseSystem:
             if clims is None:
                 cmin = field_min
                 cmax = field_max
+                
             else:
                 cmin = clims[0]
                 cmax = clims[1]

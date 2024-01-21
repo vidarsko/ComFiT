@@ -51,7 +51,8 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Output a string representation of the system.
         """
-        return "BoseEinsteinCondensate"
+        return f"ComFiT object: BoseEinsteinCondensate\n \
+                Dimension: {self.dim}\n"
 
     # CONFIGURATION FUNCTIONS
     def conf_initial_condition_disordered(self, noise_strength=0.01):
@@ -267,8 +268,6 @@ class BoseEinsteinCondensate(BaseSystem):
             self.psi, self.psi_f = solver(integrating_factors_f,
                                           self.calc_nonlinear_evolution_function_f,
                                           self.psi, self.psi_f)
-
-
 
     def evolve_relax(self, number_of_steps, method='ETD2RK'):
         '''

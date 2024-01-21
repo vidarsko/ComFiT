@@ -38,7 +38,8 @@ $$
 We introduce dimensionless units for length $\xi = \hbar/\sqrt{m\mu}$,
 time $\tau = \xi/c$ and energy $E=\eta$ and rescaling the wave function
 to $\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi$, in addition we include a
-dissipative factor $\gamma$. This resoults in the dGPE on dimensionless
+dissipative factor $\gamma$. 
+This results in the dGPE on dimensionless
 form as
 [@gardiner2003stochastic; @rooney2012stochastic; @bradley2012energy; @skaugenUnifiedPerspectiveTwodimensional2018]
 $$i \partial_t \psi = (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
@@ -70,16 +71,16 @@ respectively.
 
 ## General form
 
-With interactions.
+If we include longer range interactions, we get [steinbergExploringBifurcationsBose2022](References.md)
 
 $$
 \mathfrak{i} \partial_t \psi = (1-\mathfrak{i} \gamma) 
-\left[-\frac{1}{2} \nabla^2 + V_{\textrm{ext}}-1 + g_0 |\psi|^2 - g_2 \nabla^2 |\psi|^2 +  g_4 \nabla^4 |\psi|^2\right] \psi.
+\left[-\frac{1}{2} \nabla^2 + V_{\textrm{ext}}-1 + |\psi|^2 - g_2 \nabla^2 |\psi|^2 +  g_4 \nabla^4 |\psi|^2\right] \psi.
 $$
 
 $$
 \partial_t \psi = (\mathfrak{i} + \gamma) 
-\left[\frac{1}{2} \nabla^2 - V_{\textrm{ext}} + 1 - g_0 |\psi|^2 + g_2 \nabla^2 |\psi|^2- g_4 \nabla^4 |\psi|^2 \right] \psi
+\left[\frac{1}{2} \nabla^2 - V_{\textrm{ext}} + 1 -  |\psi|^2 + g_2 \nabla^2 |\psi|^2- g_4 \nabla^4 |\psi|^2 \right] \psi
 $$
 
 Splitting into linear and non-linear
@@ -89,8 +90,10 @@ $$
 $$
 
 $$
-N = (\mathfrak{i} + \gamma) (-V_{\textrm{ext}}  - g_0 |\psi|^2 + g_2 \nabla^2 |\psi|^2-  g_4 \nabla^4 |\psi|^2)\psi
+N = (\mathfrak{i} + \gamma) (-V_{\textrm{ext}}  - |\psi|^2 + g_2 \nabla^2 |\psi|^2-  g_4 \nabla^4 |\psi|^2)\psi,
 $$
+
+where $g_0$ in [steinbergExploringBifurcationsBose2022](References.md) has been set to $1$. 
 
 ## Approximation of Ground States
 
