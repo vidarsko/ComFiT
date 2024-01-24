@@ -401,9 +401,11 @@ $$
 \psi_{\mathfrak f b} =  \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2} 
 $$
 
+hei
+
 $$
 \psi_{\mathfrak f c} =
-\psi_{\mathfrak f a} + \frac{\Delta t}{2}( 2 \dot{\psi}_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0}) 
+\psi_{\mathfrak f a} + ( 2 \dot{\psi}_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0}) \frac{\Delta t}{2}
 $$
 
 $$
