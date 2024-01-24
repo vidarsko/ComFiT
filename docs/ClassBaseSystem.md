@@ -402,7 +402,7 @@ $$
 $$
 
 $$
-\psi_{\mathfrak f c} = \psi_{\mathfrak f a} +\frac{\Delta t}{2} (2 \dot{\psi}_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0}) 
+\psi_{\mathfrak f c} = \psi_{\mathfrak f a} +\frac{\Delta t}{2} 2 \dot{\psi}_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0} 
 $$
 
 $$
