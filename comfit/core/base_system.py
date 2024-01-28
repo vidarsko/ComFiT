@@ -68,7 +68,7 @@ class BaseSystem:
 
         self.Res = self.xRes * self.yRes * self.zRes
         if self.dim == 1:
-            self.dims = 1
+            self.dims = self.xRes
         elif self.dim == 2:
             self.dims = [self.xRes, self.yRes]
         elif self.dim == 3:
@@ -163,10 +163,7 @@ class BaseSystem:
         if position is None:
             position = [self.xmid, self.ymid]
 
-        x = self.x.reshape((self.xRes, 1))
-        y = self.y.reshape((1, self.yRes))
-
-        theta = charge * np.arctan2(y - position[1], x - position[0])
+        theta = charge * np.arctan2(self.y - position[1], self.x - position[0])
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
