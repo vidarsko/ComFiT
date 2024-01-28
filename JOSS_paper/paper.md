@@ -20,6 +20,7 @@ bibliography: paper.bib
 ---
 
 # Statement of need
+(A Statement of need section that clearly illustrates the research purpose of the software and places it in the context of related work.)
 
 Field theories are pivotal in understanding numerous physical phenomena, from quantum mechanics to fluid dynamics. 
 Despite their importance, there is a scarcity of comprehensive, user-friendly computational tools catering to this domain. 
@@ -28,16 +29,17 @@ ComFiT addresses this gap, targeting researchers and educators in physics and re
 Its modular design and extensive documentation make it an accessible yet powerful tool for simulating a wide range of field theories.
 
 # Summary
+(A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience.)
+
 
 ComFiT adopts an object-oriented approach, centralizing around a BaseSystem class, which provides a foundation for specific models like NematicLiquidCrystal, PhaseFieldCrystal, QuantumMechanics, and BoseEinsteinCondensate. 
 Each subclass implements model-specific equations and parameters. 
 The library employs Exponential Time Differencing (ETD) methods, particularly ETD2RK and ETD4RK schemes, for accurate time evolution in simulations.
 ComFiT has broad applications in academic research, particularly in the study of complex systems in physics. Its capability to simulate diverse field theories makes it a valuable tool for both theoretical and applied research.
 
-# Installation and Documentation
-ComFiT can be installed via standard Python package management systems. The library is accompanied by comprehensive documentation, including installation guides, user manuals, and API references, facilitating easy adoption by new users.
 
-# Community and Contributions
+# Research projects 
+(Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.)
 
 ComFiT encourages community involvement. 
 The project's repository provides guidelines for code contributions, feature suggestions, and issue reporting, promoting collaborative development and continuous improvement.
