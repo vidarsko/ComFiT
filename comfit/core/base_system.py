@@ -1051,7 +1051,7 @@ class BaseSystem:
             ax.set_aspect('equal')
 
     def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
-                   clims = None,
+                   clims = None, xlim = None, ylim = None, zlim = None,
                    number_of_layers=1, hold=False, cmap_symmetric=None, layer_values=None):
         """
         Plots the given field.
@@ -1114,7 +1114,6 @@ class BaseSystem:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
             pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=cmap)
-            ax.set_aspect('equal')
 
             if clims is not None:
                 cmin = clims[0]
@@ -1141,9 +1140,20 @@ class BaseSystem:
             if colorbar:
                 cbar = plt.colorbar(pcm, ax=ax)
 
+
+            #TODO: Fix so that the automatic clims match the region to be plotted (Vidar 28.01.24)
+            # Get limits to plot
+            if xlim is None:
+                xlim = [self.xmin, self.xmax]
+            if ylim is None:
+                ylim = [self.ymin, self.ymax]
+
+            ax.set_xlim(xlim[0]/self.a0, xlim[1]/self.a0)
+            ax.set_ylim(ylim[0]/self.a0, ylim[1]/self.a0)
             ax.set_xlabel('$x/a_0$')
             ax.set_ylabel('$y/a_0$')
             ax.set_aspect('equal')
+
 
             return ax
 

@@ -6,6 +6,8 @@ import os
 sys.path.append(os.path.abspath('../'))
 import comfit as cf
 import numpy as np
+import matplotlib.pyplot as plt
+import scipy as sp
 
 class TestBaseSystem(unittest.TestCase):
 
@@ -131,17 +133,48 @@ class TestBaseSystem(unittest.TestCase):
         assert np.all(angle_field >= -np.pi) and np.all(angle_field <= np.pi), "Expected angle field between -pi and pi"
 
 
-    # def test_calc_wavenums(self):
-    #     """ Test calculation of wavenumbers """
+    def test_calc_wavenums(self):
+        """ Test calculation of wavenumbers """
         
-    #     # Initialize BaseSystem object
-    #     bs = cf.BaseSystem(2)
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(1)
 
-    #     x = np.array([-10, -5, 0, 5, 10])
-    #     k = bs.calc_wavenums(x)
+        x = np.array([-10, -5, 0, 5, 10])
+        k = bs.calc_wavenums(x)
 
-    #     #Check values of k
+        #Check values of k
+        np.testing.assert_allclose(k, np.array([ 0., 0.25132741,0.50265482,-0.50265482,-0.25132741]))
 
+
+    def test_calc_determinant_field(self):
+        """ Test calculation of determinant field """
         
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(2, xRes=101, dx=1, yRes=101, dy=1)
+
+        # 2 dimensions
+        # Testing a zero-field
+        psi = np.zeros((2,bs.xRes,bs.yRes))
+        D = bs.calc_determinant_field(psi)
+        np.testing.assert_allclose(D, np.zeros((bs.xRes,bs.yRes)))
+
+        # Testing a +1 charge field
+        # Making the field respecting the periodicity
+        psi[0] = bs.xmax/(2*np.pi)*np.sin((bs.x - bs.xmid)/bs.xmax*2*np.pi)
+        psi[1] = bs.ymax/(2*np.pi)*np.sin((bs.y - bs.ymid)/bs.ymax*2*np.pi)
+        D = bs.calc_determinant_field(psi)
+        self.assertAlmostEquals(D[bs.xmidi,bs.ymidi], 1.0)
+
+        # Testing a -1 charge field
+        # Making the field respecting the periodicity
+        psi[0] = bs.xmax/(2*np.pi)*np.sin((bs.x - bs.xmid)/bs.xmax*2*np.pi)
+        psi[1] = -bs.ymax/(2*np.pi)*np.sin((bs.y - bs.ymid)/bs.ymax*2*np.pi)
+        D = bs.calc_determinant_field(psi)
+        self.assertAlmostEquals(D[bs.xmidi,bs.ymidi], -1.0)
+
+
+
+
+
 if __name__ == '__main__':
     unittest.main()
