@@ -172,6 +172,25 @@ class TestBaseSystem(unittest.TestCase):
         D = bs.calc_determinant_field(psi)
         self.assertAlmostEquals(D[bs.xmidi,bs.ymidi], -1.0)
 
+        # 3 dimensions
+        # Testing a 0-field
+        bs = cf.BaseSystem(3, xRes=31, dx=1, yRes=42, dy=1, zRes=13, dz=1)
+        psi = np.zeros((2,bs.xRes,bs.yRes,bs.zRes))
+        D = bs.calc_determinant_field(psi)
+        np.testing.assert_allclose(D, np.zeros((3,bs.xRes,bs.yRes,bs.zRes)))
+    
+        # Testing a +1 charge field
+        # Making the field respecting the periodicity
+        psi[0] = bs.xmax/(2*np.pi)*np.sin((bs.x - bs.xmid)/bs.xmax*2*np.pi)
+        psi[1] = bs.zmax/(2*np.pi)*np.sin((bs.z - bs.zmid)/bs.zmax*2*np.pi)
+        D = bs.calc_determinant_field(psi)
+        # At the center, the defect density should point in the negative y-direction
+        np.testing.assert_allclose(np.array([
+                                 D[0,bs.xmidi,bs.ymidi,bs.zmidi],
+                                 D[1,bs.xmidi,bs.ymidi,bs.zmidi],
+                                 D[2,bs.xmidi,bs.ymidi,bs.zmidi]]), 
+                                 np.array([0.0, -1.0, 0.0]),atol=1e-15)
+
 
 
 

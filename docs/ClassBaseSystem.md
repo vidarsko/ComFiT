@@ -378,7 +378,7 @@ This function is called by the evolvers discussed in the model chapter if the me
 `self.calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10**(-4))`.
 
 ### The fully non-linear limit
-It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e. the limit in which $\omega_{\mathfrak f} =0$, $N_{\mathfrak f} = \partial_t \psi \equiv \dot{\psi}_f$ and Eqs. (\ref{eq:ETD2RK_IF0_small_omega_limit}-\ref{eq:ETD2RK_IF2_small_omega_limit}) and (\ref{eq:ETD4RK_IF0_small_omega_limit}-\ref{eq:ETD4RK_IF5_small_omega_limit}) are exact. 
+It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e. the limit in which $\omega_{\mathfrak f} =0$, $N_{\mathfrak f} = \partial_t \psi \equiv \dot{\psi}_f$ and the small $\omega_{\mathfrak f}$ approximations are exact.
 For the ETD2RK scheme, we get 
 
 $$
@@ -427,6 +427,42 @@ $$
 $$
 
 This is an exact eqution, of course, so you may evolve this free particle solution to any time.
+
+## Testing 
+
+In order to test the numerical methods, we use the Quantum Mechanics model for which we know the exact solution to a free particle and a particle in a harmonic oscillator. 
+See [ClassQuantumMechanics](ClassQuantumMechanics.md).
+
+In general, we set $\hbar = m = 1$ and evolve the equation 
+
+$$
+\mathfrak i \partial_t \psi = \left [-\frac{1}{2} \nabla^2 + V \right ] \psi.
+$$
+
+### Linear case: A free Gaussian wave packet
+
+In the free case $V = 0$. 
+
+An initial condition of 
+
+$$
+\psi (\mathbf r, 0 ) = \left ( \frac{1}{\pi \sigma^2} \right )^{d/4} \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2}\right ) \exp (\mathfrak i \mathbf k \cdot \mathbf r),
+$$
+
+where $d$ is the dimension, $\sigma$ is the width of the Gaussian packet, $\mathbf r_0$ is the position of the initial wavepacket and $\mathbf k_0$ is the initial wave mathbftor.
+This initial condition will evolve in time to the following
+
+$$
+\psi (\mathbf r, t ) = \left ( \frac{1}{\pi \sigma^2} \right )^{d/4} \left ( 1+ \frac{\mathfrak i t}{ \sigma^2}\right )^{-d/2} \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2 \left ( 1+ \frac{\mathfrak i t}{ \sigma^2}\right )}\right ) \exp (\mathfrak i \mathbf k \cdot \mathbf r)
+$$
+
+## Non-linear case: A Gaussian wave packet in a harmonic potential
+
+Since $V$ is a spatially dependent function, the equation becomes non-linear.
+
+Unlike the linear case for the free wavepacket, a general solution to a wave packet in a harmonic potential does not exist. 
+However, when the initial width of the Gaussian matches the properties of the harmonic potential, exact numerical solutions exist.
+
 
 # Algorithms for tracking defects 
 
