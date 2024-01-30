@@ -193,6 +193,91 @@ class TestBaseSystem(unittest.TestCase):
 
 
 
+    def test_evolution_scheme(self):
+        """ Test evolution scheme """
+        
+        # Testing the wave equation in one dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(1, xRes=101, dx=1)
+
+        
+
+        def calc_omega_f(bs):
+            return -bs.calc_k2()
+
+        def calc_nonlinear_evolution_function_f(bs,T):
+            f = bs.A*(bs.T0-T)*np.exp(-(bs.x-bs.xmid)**2/(2*bs.sigma**2))
+            return sp.fft.fft(f)
+
+        bs.calc_omega_f = calc_omega_f.__get__(bs)
+        bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
+
+        def evolve(bs,number_of_steps, method = 'ETD2RK'):
+            omega_f = bs.calc_omega_f()
+
+            integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
+
+            for n in range(number_of_steps):
+                bs.T, bs.T_f = solver(integrating_factors_f,
+                                        bs.calc_nonlinear_evolution_function_f,
+                                        bs.T, bs.T_f)
+        
+        bs.evolve = evolve.__get__(bs)
+
+        bs.A = 0.1
+        bs.sigma = 5
+        bs.T0 = 20
+
+        end_time = 500
+
+        # Scipy benchmark with at time step of dt=1e-6
+        T_initial = np.zeros((bs.xRes))
+
+        # Forcing term function
+        def forcing_term(T):
+            return bs.A*(bs.T0-T)*np.exp(-(bs.x-bs.xmid)**2/(2*bs.sigma**2))
+        
+        # Function representing the discretized PDE
+        def heat_equation(t, T):
+            dTdx2 = np.roll(T, -1) - 2 * T + np.roll(T, 1)
+            dTdx2 /= bs.dx**2
+            return dTdx2 + forcing_term(T)
+
+        # Time span for the integration
+        t_span = (0, end_time)
+
+        # Solve the equation
+        T_benchmark = sp.integrate.solve_ivp(heat_equation, t_span, T_initial, method='RK45')
+        # print(T_benchmark.y.shape)
+
+        # ax = plt.subplot(111)
+        # ax.plot(bs.x, T_benchmark.y[:,-1], label='scipy')
+        # for dt in [10, 1, 0.1, 0.01]:
+            # print(f"dt={dt}")
+            # bs.dt = dt
+
+        # Initial condition
+        bs.T = np.zeros((bs.xRes))
+        bs.T_f = sp.fft.fft(bs.T)   
+
+        number_of_steps = int(end_time/bs.dt)
+        bs.evolve(number_of_steps)
+        # print(f"Accumulated error: {np.sum(np.abs(bs.T-T_benchmark.y[:,-1]))}")
+        # ax = bs.plot_field(bs.T,ax=ax)
+        # ax.plot(bs.x, np.log10(abs(bs.T-T_benchmark.y[:,-1])), label=f'dt={dt}')
+        # ax.plot(bs.x, bs.T, label=f'dt={dt}')
+
+        np.testing.assert_allclose(bs.T, T_benchmark.y[:,-1], atol=1e-2, rtol=1e-2)
+        # plt.legend()
+        # plt.show()
+        
+        
+        
+
+        
+
+
+        
 
 
 if __name__ == '__main__':

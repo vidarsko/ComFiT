@@ -430,38 +430,21 @@ This is an exact eqution, of course, so you may evolve this free particle soluti
 
 ## Testing 
 
-In order to test the numerical methods, we use the Quantum Mechanics model for which we know the exact solution to a free particle and a particle in a harmonic oscillator. 
-See [ClassQuantumMechanics](ClassQuantumMechanics.md).
-
-In general, we set $\hbar = m = 1$ and evolve the equation 
+In order to test the numerical methods, study the simplest model of a field equation with a (non-linear) forcing term, namely the heat equation
 
 $$
-\mathfrak i \partial_t \psi = \left [-\frac{1}{2} \nabla^2 + V \right ] \psi.
+\partial_t T = \nabla^2 T + f(\mathbf r),
 $$
 
-### Linear case: A free Gaussian wave packet
-
-In the free case $V = 0$. 
-
-An initial condition of 
+where $T$ is the temperature in celcius, and $f(\mathbf r)$ is a forcing term, which we model as
 
 $$
-\psi (\mathbf r, 0 ) = \left ( \frac{1}{\pi \sigma^2} \right )^{d/4} \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2}\right ) \exp (\mathfrak i \mathbf k \cdot \mathbf r),
+f(\mathbf r) = A (T_0-T) \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2}\right ), 
 $$
 
-where $d$ is the dimension, $\sigma$ is the width of the Gaussian packet, $\mathbf r_0$ is the position of the initial wavepacket and $\mathbf k_0$ is the initial wave mathbftor.
-This initial condition will evolve in time to the following
+which represents a heating element with temperature $T_0$ placed at $\mathbf r_0$.
 
-$$
-\psi (\mathbf r, t ) = \left ( \frac{1}{\pi \sigma^2} \right )^{d/4} \left ( 1+ \frac{\mathfrak i t}{ \sigma^2}\right )^{-d/2} \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2 \left ( 1+ \frac{\mathfrak i t}{ \sigma^2}\right )}\right ) \exp (\mathfrak i \mathbf k \cdot \mathbf r)
-$$
-
-## Non-linear case: A Gaussian wave packet in a harmonic potential
-
-Since $V$ is a spatially dependent function, the equation becomes non-linear.
-
-Unlike the linear case for the free wavepacket, a general solution to a wave packet in a harmonic potential does not exist. 
-However, when the initial width of the Gaussian matches the properties of the harmonic potential, exact numerical solutions exist.
+As a benchmark, we use the scipy
 
 
 # Algorithms for tracking defects 

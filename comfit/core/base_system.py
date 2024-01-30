@@ -1072,6 +1072,9 @@ class BaseSystem:
         """
 
 
+        if field.dtype == bool:
+            field = field.astype(float)
+
 
         if self.dim == 1:
             if ax == None:
@@ -1081,10 +1084,8 @@ class BaseSystem:
             ax.plot(self.x/self.a0, field)
             ax.set_xlabel('$x/a_0$')
             ax.grid(True)
+            return ax
 
-
-        if field.dtype == bool:
-            field = field.astype(float)
 
         if self.dim == 2:
 
