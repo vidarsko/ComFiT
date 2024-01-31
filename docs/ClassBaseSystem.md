@@ -255,7 +255,7 @@ I_{\mathfrak f 1} = \frac{1}{\omega_{\mathfrak f}} (e^{ \omega_{\mathfrak f} \De
 $$
 
 $$
-I_{\mathfrak f 2} = \frac{1}{\Delta t \omega_{\mathfrak f}^2} (e^{ \omega_{\mathfrak f} \Delta t} -1  -\omega_{\mathfrak f} \Delta t)
+I_{\mathfrak f 2} = \frac{1}{\omega_{\mathfrak f}^2 \Delta t} (e^{ \omega_{\mathfrak f} \Delta t} -1  -\omega_{\mathfrak f} \Delta t)
 $$
 
 ---
@@ -271,7 +271,7 @@ I_{\mathfrak f 1} \approx   \frac{1}{\omega_{\mathfrak f}} (1 + \omega_{\mathfra
 $$
 
 $$
-I_{\mathfrak f 2} \approx \frac{1}{\Delta t \omega_{\mathfrak f}^2}
+I_{\mathfrak f 2} \approx \frac{1}{\omega_{\mathfrak f}^2 \Delta t}
  \left ( 1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} ( \omega_{\mathfrak f} \Delta t )^2
  -1 - \omega_{\mathfrak f} \Delta t 
 \right ) = \frac{1}{2} \Delta t
@@ -304,7 +304,7 @@ I_{\mathfrak f 1} &= \frac{1}{\omega_{\mathfrak f}}
 ( e^{ \omega_{\mathfrak f} \Delta t/2} - 1) \\
 I_{\mathfrak f 2} &= e^{\omega_{\mathfrak f} \Delta t} \\
 I_{\mathfrak f 3} &= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
-\left ( -4 -  \Delta t \omega_{\mathfrak f} + e^{\omega_{\mathfrak f} \Delta t}(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )  \right ) \\
+\left ( -4 -  \omega_{\mathfrak f} \Delta t  + e^{\omega_{\mathfrak f} \Delta t}(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )  \right ) \\
 I_{\mathfrak f 4} &= \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left ( 2 + \omega_{\mathfrak f} \Delta t + e^{\omega_{\mathfrak f} \Delta t}(-2 + \omega_{\mathfrak f} \Delta t) \right ) \\
 I_{\mathfrak f 5} &= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
@@ -333,7 +333,7 @@ $$
 $$
 I_{\mathfrak f 3} \approx 
 \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times 
-\left ( -4 -  \Delta t \omega_{\mathfrak f} + (1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )
+\left ( -4 - \omega_{\mathfrak f} \Delta t + (1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )
 \right ) $$
 
 $$
