@@ -6,6 +6,7 @@ from comfit.tools.tool_math_functions import tool_multinom
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
+import matplotlib.tri as mtri
 import scipy as sp
 
 class BaseSystem:
@@ -760,25 +761,26 @@ class BaseSystem:
         If1 = integrating_factors_f[0]
 
         integrating_factors_f[1] = (If1 - 1) / omega_f
-        integrating_factors_f[1][np.abs(omega_f) < tol] = self.dt / 2
 
         integrating_factors_f[2] = np.exp(omega_f * self.dt)
+        If2 = integrating_factors_f[2]
 
-        integrating_factors_f[3] = 1 / (self.dt ** 2 * omega_f ** 3) \
-                                   * (-4 - self.dt * omega_f + If1 ** 2 * (
-                4 - 3 * self.dt * omega_f + self.dt ** 2 * omega_f ** 2))
+        integrating_factors_f[3] = 1 / ( omega_f ** 3 * self.dt ** 2) \
+                                   * (-4 - omega_f * self.dt + If2 * (
+                4 - 3 * omega_f * self.dt +  omega_f ** 2 * self.dt ** 2))
 
+        integrating_factors_f[4] = 2 / (omega_f ** 3 * self.dt ** 2) \
+                                   * (2 + omega_f*self.dt + If2 * (-2 + omega_f * self.dt))
+
+        integrating_factors_f[5] = 1 / (omega_f ** 3 * self.dt ** 2) \
+                                   * (-4 - 3 * omega_f * self.dt - omega_f ** 2 * self.dt ** 2 + If2 * (
+                4 - omega_f*self.dt))
+
+
+        #Small omega_f limits
+        integrating_factors_f[1][np.abs(omega_f) < tol] = self.dt / 2
         integrating_factors_f[3][np.abs(omega_f) < tol] = self.dt / 6
-
-        integrating_factors_f[4] = 1 / (self.dt ** 2 * omega_f ** 3) \
-                                   * (2 + self.dt * omega_f + If1 ** 2 * (-2 + self.dt * omega_f))
-
         integrating_factors_f[4][np.abs(omega_f) < tol] = self.dt / 3
-
-        integrating_factors_f[5] = 1 / (self.dt ** 2 * omega_f ** 3) \
-                                   * (-4 - 3 * self.dt * omega_f - self.dt ** 2 * omega_f ** 2 + If1 ** 2 * (
-                4 - self.dt * omega_f))
-
         integrating_factors_f[5][np.abs(omega_f) < tol] = self.dt / 6
 
         return integrating_factors_f
@@ -958,7 +960,7 @@ class BaseSystem:
         N_c = non_linear_evolution_function_f(c)
 
         field_f = field_f * integrating_factors_f[2] + N_0f * integrating_factors_f[3] \
-                  + 2 * (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
+                  + (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
 
         field = sp.fft.ifftn(field_f, axes=(range(-self.dim, 0)))
 
@@ -1182,23 +1184,28 @@ class BaseSystem:
             else:
                 layer_values = np.concatenate([[-np.inf], layer_values, [np.inf]])
 
-            # print(layer_values)
+            print("Layer values:", layer_values)
             if colormap is None:
                 cmap = plt.get_cmap('viridis')
+            elif colormap == 'bluewhitered':
+                cmap = tool_colormap_bluewhitered()
+                # Set symmetric if not specified otherwise
+                if cmap_symmetric is None:
+                    print("Setting the colormap to be symmetric with use of bluewhitered since not otherwiese specified.")
+                    cmap_symmetric = True
             else:
                 cmap = plt.get_cmap(colormap)
 
             if field_min < layer_values[1] < field_max:
                 verts, faces, _, _ = marching_cubes(field, layer_values[1])
                 ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                            color=cmap(layer_values[1] / field_max))
+                            color=cmap(layer_values[1] / cmax))
 
             for layer_value in layer_values[2:-1]:
-
                 if field_min < layer_value < field_max:
                     verts, faces, _, _ = marching_cubes(field, layer_value)
                     ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                color=cmap(layer_value / field_max))
+                                color=cmap(layer_value / cmax))
 
             ax.set_aspect('equal')
             if colorbar:
@@ -1437,7 +1444,7 @@ class BaseSystem:
             raise Exception("This plotting function not yet configured for other dimension")
 
     def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
-                            colorbar=True, colormap = 'winter'):
+                            colorbar=True, colormap = 'winter', clims = None):
         """
         Plots the field in a plane perpendicular to the given normal vector.
 
@@ -1541,14 +1548,20 @@ class BaseSystem:
         for i in range(3):
             R[i][points_to_exclude] = np.nan
 
-        cmin = np.nanmin(field_on_plane)
-        cmax = np.nanmax(field_on_plane)
+        if clims is None:
+            cmin = np.nanmin(field_on_plane)
+            cmax = np.nanmax(field_on_plane)
+        else:
+            cmin = clims[0]
+            cmax = clims[1]
 
         # Normalize the field data
         norm = mcolors.Normalize(vmin=cmin, vmax=cmax, clip=True)
 
         if colormap == 'angle':
             cmap = tool_colormap_angle()
+        elif colormap == 'bluewhitered':
+            cmap = tool_colormap_bluewhitered()
         else:
             cmap = plt.get_cmap(colormap)
 
@@ -1559,8 +1572,8 @@ class BaseSystem:
         field_on_plane_colors[np.isnan(field_on_plane)] = [0, 0, 0, 0]
 
         ax.plot_surface(R[0] / self.a0, R[1] / self.a0, R[2] / self.a0, facecolors=field_on_plane_colors,
-                        rstride=1,cstride=1)
-
+                        rstride=1,cstride=1, alpha=1)
+    
 
         ax.set_xlim3d(self.xmin/self.a0, (self.xmax - self.dx)/self.a0)
         ax.set_ylim3d(self.ymin/self.a0, (self.ymax - self.dy)/self.a0)

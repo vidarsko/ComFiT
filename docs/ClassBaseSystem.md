@@ -444,10 +444,15 @@ $$
 
 which represents a heating element with temperature $T_0$ placed at $\mathbf r_0$.
 
-
 As a benchmark, we use the `solve_ivp` of the scipy library `sp.integrate` to solve the equation using a finite difference method.
 The solutions match to a satisfactory degree, but a more thorough investigation into how the accuracy of the framework and integration methods scale with spatial and temporal resolution will be performed in the future. 
+Tests are included in `test_base_system.py`, but for visual examination, here are animations of the initial condition $T=0$ in all three dimensions
 
+![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_1D.gif)
+
+![Testing of the evolution code in 2 dimensions](images/base_system_evolution_test_2D.gif)
+
+![Testing of the evolution code in 3 dimensions](images/base_system_evolution_test_3D.gif)
 
 
 

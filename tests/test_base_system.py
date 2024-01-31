@@ -200,33 +200,6 @@ class TestBaseSystem(unittest.TestCase):
         # Initialize BaseSystem object
         bs = cf.BaseSystem(1, xRes=101, dx=1)
 
-        # Add linear and non-linear functions
-        def calc_omega_f(bs):
-            return -bs.calc_k2()
-
-        def calc_nonlinear_evolution_function_f(bs,T):
-            f = bs.A*(bs.T0-T)*np.exp(-(bs.x-bs.xmid)**2/(2*bs.sigma**2))
-            return sp.fft.fft(f)
-
-        # Add functions to BaseSystem object
-        bs.calc_omega_f = calc_omega_f.__get__(bs)
-        bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
-
-        # Define evolve function
-        def evolve(bs,number_of_steps, method = 'ETD2RK'):
-            omega_f = bs.calc_omega_f()
-
-            integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
-
-            for n in range(number_of_steps):
-                bs.T, bs.T_f = solver(integrating_factors_f,
-                                        bs.calc_nonlinear_evolution_function_f,
-                                        bs.T, bs.T_f)
-                bs.T = np.real(bs.T)
-        
-        # Add evolve function to BaseSystem object
-        bs.evolve = evolve.__get__(bs)
-
         # Set test parameters
         bs.A = 0.1
         bs.sigma = 5
@@ -234,16 +207,6 @@ class TestBaseSystem(unittest.TestCase):
 
         # Set end time
         end_time = 200
-
-        # ComFiT simulation
-
-        # Initial condition
-        bs.T = np.zeros((bs.xRes))
-        bs.T_f = sp.fft.fft(bs.T)   
-
-        # Evolve the system
-        number_of_steps = int(end_time/bs.dt)
-        bs.evolve(number_of_steps)
 
         # Scipy benchmark
 
@@ -266,11 +229,49 @@ class TestBaseSystem(unittest.TestCase):
         # Solve the equation
         T_benchmark = sp.integrate.solve_ivp(heat_equation, t_span, T_initial, method='RK45')
 
-        # Benchmark
+        # ComFiT simulation
 
-        # Check if the solution is close to the benchmark
-        np.testing.assert_allclose(bs.T, T_benchmark.y[:,-1], atol=1e-2, rtol=1e-2)
-        
+        for method in ['ETD2RK','ETD4RK']:
+            # ComFiT simulation
+
+            # Add linear and non-linear functions
+            def calc_omega_f(bs):
+                return -bs.calc_k2()
+
+            def calc_nonlinear_evolution_function_f(bs,T):
+                f = bs.A*(bs.T0-T)*np.exp(-(bs.x-bs.xmid)**2/(2*bs.sigma**2))
+                return sp.fft.fft(f)
+
+            # Add functions to BaseSystem object
+            bs.calc_omega_f = calc_omega_f.__get__(bs)
+            bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
+
+            # Define evolve function
+            def evolve(bs,number_of_steps, method = method):
+                omega_f = bs.calc_omega_f()
+
+                integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
+
+                for n in range(number_of_steps):
+                    bs.T, bs.T_f = solver(integrating_factors_f,
+                                            bs.calc_nonlinear_evolution_function_f,
+                                            bs.T, bs.T_f)
+                    bs.T = np.real(bs.T)
+            
+            # Add evolve function to BaseSystem object
+            bs.evolve = evolve.__get__(bs)
+
+            # Initial condition
+            bs.T = np.zeros((bs.xRes))
+            bs.T_f = sp.fft.fft(bs.T)   
+
+            # Evolve the system
+            number_of_steps = int(end_time/bs.dt)
+            bs.evolve(number_of_steps)
+
+            # Check if the solution is close to the benchmark
+            np.testing.assert_allclose(bs.T, T_benchmark.y[:,-1], atol=1e-2, rtol=1e-2)
+            
         
     def test_evolution_scheme_2d(self):
         """ Test 2D evolution scheme"""
@@ -279,33 +280,6 @@ class TestBaseSystem(unittest.TestCase):
         # Initialize BaseSystem object
         bs = cf.BaseSystem(2, xRes=51, dx=1, yRes=51, dy=1)
 
-        # Add linear and non-linear functions
-        def calc_omega_f(bs):
-            return -bs.calc_k2()
-
-        def calc_nonlinear_evolution_function_f(bs,T):
-            f = bs.A*(bs.T0-T)*np.exp(-((bs.x-bs.xmid)**2+(bs.y-bs.ymid)**2)/(2*bs.sigma**2))
-            return sp.fft.fft2(f)
-        
-        # Add functions to BaseSystem object
-        bs.calc_omega_f = calc_omega_f.__get__(bs)
-        bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
-
-        # Define evolve function
-        def evolve(bs,number_of_steps, method = 'ETD2RK'):
-            omega_f = bs.calc_omega_f()
-
-            integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
-
-            for n in range(number_of_steps):
-                bs.T, bs.T_f = solver(integrating_factors_f,
-                                        bs.calc_nonlinear_evolution_function_f,
-                                        bs.T, bs.T_f)
-                bs.T = np.real(bs.T)
-        
-        # Add evolve function to BaseSystem object
-        bs.evolve = evolve.__get__(bs)
-
         # Set test parameters
         bs.A = 0.1
         bs.sigma = 2
@@ -313,16 +287,6 @@ class TestBaseSystem(unittest.TestCase):
 
         # Set end time
         end_time = 100
-
-        # ComFiT simulation
-
-        # Initial condition
-        bs.T = np.zeros((bs.xRes,bs.yRes))
-        bs.T_f = sp.fft.fft2(bs.T)
-
-        # Evolve the system
-        number_of_steps = int(end_time/bs.dt)
-        bs.evolve(number_of_steps)
 
         # Scipy benchmark
 
@@ -351,10 +315,47 @@ class TestBaseSystem(unittest.TestCase):
         T_benchmark = sp.integrate.solve_ivp(heat_equation, t_span, T_initial, method='RK45')
         T_final_2D = T_benchmark.y[:, -1].reshape((bs.xRes, bs.yRes))
 
-        # Benchmark
+        # ComFiT simulation
 
-        # Check if the solution is close to the benchmark
-        np.testing.assert_allclose(bs.T, T_final_2D, atol=1e-2, rtol=1e-2)
+        for method in ['ETD2RK','ETD4RK']:
+
+            # Add linear and non-linear functions
+            def calc_omega_f(bs):
+                return -bs.calc_k2()
+
+            def calc_nonlinear_evolution_function_f(bs,T):
+                f = bs.A*(bs.T0-T)*np.exp(-((bs.x-bs.xmid)**2+(bs.y-bs.ymid)**2)/(2*bs.sigma**2))
+                return sp.fft.fft2(f)
+            
+            # Add functions to BaseSystem object
+            bs.calc_omega_f = calc_omega_f.__get__(bs)
+            bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
+
+            # Define evolve function
+            def evolve(bs,number_of_steps, method = method):
+                omega_f = bs.calc_omega_f()
+
+                integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
+
+                for n in range(number_of_steps):
+                    bs.T, bs.T_f = solver(integrating_factors_f,
+                                            bs.calc_nonlinear_evolution_function_f,
+                                            bs.T, bs.T_f)
+                    bs.T = np.real(bs.T)
+            
+            # Add evolve function to BaseSystem object
+            bs.evolve = evolve.__get__(bs)
+
+            # Initial condition
+            bs.T = np.zeros((bs.xRes,bs.yRes))
+            bs.T_f = sp.fft.fft2(bs.T)
+
+            # Evolve the system
+            number_of_steps = int(end_time/bs.dt)
+            bs.evolve(number_of_steps)
+
+            # Check if the solution is close to the benchmark
+            np.testing.assert_allclose(bs.T, T_final_2D, atol=1e-2, rtol=1e-2)
 
     def test_evolution_scheme_3d(self):
         """ Test 3D evolution scheme """
@@ -363,33 +364,6 @@ class TestBaseSystem(unittest.TestCase):
         # Initialize BaseSystem object
         bs = cf.BaseSystem(3, xRes=21, dx=1, yRes=21, dy=1, zRes=21, dz=1)
 
-        # Add linear and non-linear functions
-        def calc_omega_f(bs):
-            return -bs.calc_k2()
-
-        def calc_nonlinear_evolution_function_f(bs,T):
-            f = bs.A*(bs.T0-T)*np.exp(-((bs.x-bs.xmid)**2+(bs.y-bs.ymid)**2+(bs.z-bs.zmid)**2)/(2*bs.sigma**2))
-            return sp.fft.fftn(f)
-        
-        # Add functions to BaseSystem object
-        bs.calc_omega_f = calc_omega_f.__get__(bs)
-        bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
-
-        # Define evolve function
-        def evolve(bs,number_of_steps, method = 'ETD2RK'):
-            omega_f = bs.calc_omega_f()
-
-            integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
-
-            for n in range(number_of_steps):
-                bs.T, bs.T_f = solver(integrating_factors_f,
-                                        bs.calc_nonlinear_evolution_function_f,
-                                        bs.T, bs.T_f)
-                bs.T = np.real(bs.T)
-
-        # Add evolve function to BaseSystem object
-        bs.evolve = evolve.__get__(bs)
-
         # Set test parameters
         bs.A = 0.1
         bs.sigma = 2
@@ -397,16 +371,6 @@ class TestBaseSystem(unittest.TestCase):
 
         # Set end time
         end_time = 100
-
-        # ComFiT simulation
-
-        # Initial condition
-        bs.T = np.zeros((bs.xRes,bs.yRes,bs.zRes))
-        bs.T_f = sp.fft.fftn(bs.T)
-
-        # Evolve the system
-        number_of_steps = int(end_time/bs.dt)
-        bs.evolve(number_of_steps)
 
         # Scipy benchmark
 
@@ -437,10 +401,47 @@ class TestBaseSystem(unittest.TestCase):
         T_benchmark = sp.integrate.solve_ivp(heat_equation, t_span, T_initial, method='RK45')
         T_final_3D = T_benchmark.y[:, -1].reshape((bs.xRes, bs.yRes, bs.zRes))
 
-        # Benchmark
+        # ComFiT simulation
 
-        # Check if the solution is close to the benchmark
-        np.testing.assert_allclose(bs.T, T_final_3D, atol=1e-2, rtol=1e-2)
+        for method in ['ETD2RK','ETD4RK']:
+
+            # Add linear and non-linear functions
+            def calc_omega_f(bs):
+                return -bs.calc_k2()
+
+            def calc_nonlinear_evolution_function_f(bs,T):
+                f = bs.A*(bs.T0-T)*np.exp(-((bs.x-bs.xmid)**2+(bs.y-bs.ymid)**2+(bs.z-bs.zmid)**2)/(2*bs.sigma**2))
+                return sp.fft.fftn(f)
+            
+            # Add functions to BaseSystem object
+            bs.calc_omega_f = calc_omega_f.__get__(bs)
+            bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
+
+            # Define evolve function
+            def evolve(bs,number_of_steps, method = 'ETD2RK'):
+                omega_f = bs.calc_omega_f()
+
+                integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
+
+                for n in range(number_of_steps):
+                    bs.T, bs.T_f = solver(integrating_factors_f,
+                                            bs.calc_nonlinear_evolution_function_f,
+                                            bs.T, bs.T_f)
+                    bs.T = np.real(bs.T)
+
+            # Add evolve function to BaseSystem object
+            bs.evolve = evolve.__get__(bs)
+
+            # Initial condition
+            bs.T = np.zeros((bs.xRes,bs.yRes,bs.zRes))
+            bs.T_f = sp.fft.fftn(bs.T)
+
+            # Evolve the system
+            number_of_steps = int(end_time/bs.dt)
+            bs.evolve(number_of_steps)
+
+            # Check if the solution is close to the benchmark
+            np.testing.assert_allclose(bs.T, T_final_3D, atol=1e-2, rtol=1e-2)
 
         
 

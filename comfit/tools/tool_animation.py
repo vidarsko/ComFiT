@@ -81,5 +81,12 @@ def tool_make_animation_gif(counter, name=datetime.now().strftime("%y%m%d_%H%M")
         - fps (int, optional): The frames per second for the video. Defaults to 24.
     """
 
-    images = [f'plot_{counter}.png' for counter in range(counter+1)]
+    image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
+    images = []
+    for image_file in image_files:  
+        images.append(imageio.imread(image_file))
     imageio.mimsave(name, images, fps=fps) 
+
+    # Delete the png files
+    for file in image_files:
+        os.remove(file)
