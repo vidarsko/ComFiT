@@ -50,24 +50,19 @@ def tool_make_animation_movie(counter, name=datetime.now().strftime("%y%m%d_%H%M
 
 
     # List of saved plot filenames
-
     image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
 
 
     # Create the video clip from the image files
-
     video_clip = ImageSequenceClip(image_files, fps=fps)
 
 
     # Save the video
-
     video_clip.write_videofile(name)
 
 
     # Delete the png files
-
     for file in image_files:
-
         os.remove(file)
 
 
@@ -85,7 +80,7 @@ def tool_make_animation_gif(counter, name=datetime.now().strftime("%y%m%d_%H%M")
     images = []
     for image_file in image_files:  
         images.append(imageio.imread(image_file))
-    imageio.mimsave(name, images, fps=fps) 
+    imageio.mimsave(name, images, fps=fps, loop=0) 
 
     # Delete the png files
     for file in image_files:
