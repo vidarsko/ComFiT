@@ -193,15 +193,14 @@ class TestBaseSystem(unittest.TestCase):
 
 
 
-    def test_evolution_scheme(self):
-        """ Test evolution scheme """
+    def test_evolution_scheme_1d(self):
+        """ Test 1D evolution scheme """
         
         # Testing the wave equation in one dimensions
         # Initialize BaseSystem object
         bs = cf.BaseSystem(1, xRes=101, dx=1)
 
-        
-
+        # Add linear and non-linear functions
         def calc_omega_f(bs):
             return -bs.calc_k2()
 
@@ -209,9 +208,11 @@ class TestBaseSystem(unittest.TestCase):
             f = bs.A*(bs.T0-T)*np.exp(-(bs.x-bs.xmid)**2/(2*bs.sigma**2))
             return sp.fft.fft(f)
 
+        # Add functions to BaseSystem object
         bs.calc_omega_f = calc_omega_f.__get__(bs)
         bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
 
+        # Define evolve function
         def evolve(bs,number_of_steps, method = 'ETD2RK'):
             omega_f = bs.calc_omega_f()
 
@@ -221,16 +222,32 @@ class TestBaseSystem(unittest.TestCase):
                 bs.T, bs.T_f = solver(integrating_factors_f,
                                         bs.calc_nonlinear_evolution_function_f,
                                         bs.T, bs.T_f)
+                bs.T = np.real(bs.T)
         
+        # Add evolve function to BaseSystem object
         bs.evolve = evolve.__get__(bs)
 
+        # Set test parameters
         bs.A = 0.1
         bs.sigma = 5
         bs.T0 = 20
 
-        end_time = 500
+        # Set end time
+        end_time = 200
 
-        # Scipy benchmark with at time step of dt=1e-6
+        # ComFiT simulation
+
+        # Initial condition
+        bs.T = np.zeros((bs.xRes))
+        bs.T_f = sp.fft.fft(bs.T)   
+
+        # Evolve the system
+        number_of_steps = int(end_time/bs.dt)
+        bs.evolve(number_of_steps)
+
+        # Scipy benchmark
+
+        # Initial condition
         T_initial = np.zeros((bs.xRes))
 
         # Forcing term function
@@ -248,31 +265,182 @@ class TestBaseSystem(unittest.TestCase):
 
         # Solve the equation
         T_benchmark = sp.integrate.solve_ivp(heat_equation, t_span, T_initial, method='RK45')
-        # print(T_benchmark.y.shape)
 
-        # ax = plt.subplot(111)
-        # ax.plot(bs.x, T_benchmark.y[:,-1], label='scipy')
-        # for dt in [10, 1, 0.1, 0.01]:
-            # print(f"dt={dt}")
-            # bs.dt = dt
+        # Benchmark
+
+        # Check if the solution is close to the benchmark
+        np.testing.assert_allclose(bs.T, T_benchmark.y[:,-1], atol=1e-2, rtol=1e-2)
+        
+        
+    def test_evolution_scheme_2d(self):
+        """ Test 2D evolution scheme"""
+
+        # Testing the wave equation in two dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(2, xRes=51, dx=1, yRes=51, dy=1)
+
+        # Add linear and non-linear functions
+        def calc_omega_f(bs):
+            return -bs.calc_k2()
+
+        def calc_nonlinear_evolution_function_f(bs,T):
+            f = bs.A*(bs.T0-T)*np.exp(-((bs.x-bs.xmid)**2+(bs.y-bs.ymid)**2)/(2*bs.sigma**2))
+            return sp.fft.fft2(f)
+        
+        # Add functions to BaseSystem object
+        bs.calc_omega_f = calc_omega_f.__get__(bs)
+        bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
+
+        # Define evolve function
+        def evolve(bs,number_of_steps, method = 'ETD2RK'):
+            omega_f = bs.calc_omega_f()
+
+            integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
+
+            for n in range(number_of_steps):
+                bs.T, bs.T_f = solver(integrating_factors_f,
+                                        bs.calc_nonlinear_evolution_function_f,
+                                        bs.T, bs.T_f)
+                bs.T = np.real(bs.T)
+        
+        # Add evolve function to BaseSystem object
+        bs.evolve = evolve.__get__(bs)
+
+        # Set test parameters
+        bs.A = 0.1
+        bs.sigma = 2
+        bs.T0 = 20
+
+        # Set end time
+        end_time = 100
+
+        # ComFiT simulation
 
         # Initial condition
-        bs.T = np.zeros((bs.xRes))
-        bs.T_f = sp.fft.fft(bs.T)   
+        bs.T = np.zeros((bs.xRes,bs.yRes))
+        bs.T_f = sp.fft.fft2(bs.T)
 
+        # Evolve the system
         number_of_steps = int(end_time/bs.dt)
         bs.evolve(number_of_steps)
-        # print(f"Accumulated error: {np.sum(np.abs(bs.T-T_benchmark.y[:,-1]))}")
-        # ax = bs.plot_field(bs.T,ax=ax)
-        # ax.plot(bs.x, np.log10(abs(bs.T-T_benchmark.y[:,-1])), label=f'dt={dt}')
-        # ax.plot(bs.x, bs.T, label=f'dt={dt}')
 
-        np.testing.assert_allclose(bs.T, T_benchmark.y[:,-1], atol=1e-2, rtol=1e-2)
-        # plt.legend()
-        # plt.show()
+        # Scipy benchmark
+
+        # Initial condition
+        T_initial = np.zeros((bs.xRes,bs.yRes)).flatten()
+
+        # Forcing term function
+        def forcing_term(T_flat):
+            T = T_flat.reshape((bs.xRes, bs.yRes))
+            forcing = bs.A * (bs.T0 - T) * np.exp(-((bs.x - bs.xmid) ** 2 + (bs.y - bs.ymid) ** 2) / (2 * bs.sigma ** 2))
+            return forcing.flatten()
+
+        # Function representing the discretized PDE
+        def heat_equation(t,T_flat):
+            T = T_flat.reshape((bs.xRes, bs.yRes))
+            dTdx2 = np.roll(T, -1, axis=0) - 2 * T + np.roll(T, 1, axis=0)
+            dTdx2 /= bs.dx ** 2
+            dTdy2 = np.roll(T, -1, axis=1) - 2 * T + np.roll(T, 1, axis=1)
+            dTdy2 /= bs.dy ** 2
+            return dTdx2.flatten() + dTdy2.flatten() + forcing_term(T_flat)
         
+        # Time span for the integration
+        t_span = (0, end_time)
+
+        # Solve the equation
+        T_benchmark = sp.integrate.solve_ivp(heat_equation, t_span, T_initial, method='RK45')
+        T_final_2D = T_benchmark.y[:, -1].reshape((bs.xRes, bs.yRes))
+
+        # Benchmark
+
+        # Check if the solution is close to the benchmark
+        np.testing.assert_allclose(bs.T, T_final_2D, atol=1e-2, rtol=1e-2)
+
+    def test_evolution_scheme_3d(self):
+        """ Test 3D evolution scheme """
+
+        # Testing the wave equation in three dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(3, xRes=21, dx=1, yRes=21, dy=1, zRes=21, dz=1)
+
+        # Add linear and non-linear functions
+        def calc_omega_f(bs):
+            return -bs.calc_k2()
+
+        def calc_nonlinear_evolution_function_f(bs,T):
+            f = bs.A*(bs.T0-T)*np.exp(-((bs.x-bs.xmid)**2+(bs.y-bs.ymid)**2+(bs.z-bs.zmid)**2)/(2*bs.sigma**2))
+            return sp.fft.fftn(f)
         
+        # Add functions to BaseSystem object
+        bs.calc_omega_f = calc_omega_f.__get__(bs)
+        bs.calc_nonlinear_evolution_function_f = calc_nonlinear_evolution_function_f.__get__(bs)
+
+        # Define evolve function
+        def evolve(bs,number_of_steps, method = 'ETD2RK'):
+            omega_f = bs.calc_omega_f()
+
+            integrating_factors_f, solver = bs.calc_integrating_factors_f_and_solver(omega_f,method)
+
+            for n in range(number_of_steps):
+                bs.T, bs.T_f = solver(integrating_factors_f,
+                                        bs.calc_nonlinear_evolution_function_f,
+                                        bs.T, bs.T_f)
+                bs.T = np.real(bs.T)
+
+        # Add evolve function to BaseSystem object
+        bs.evolve = evolve.__get__(bs)
+
+        # Set test parameters
+        bs.A = 0.1
+        bs.sigma = 2
+        bs.T0 = 20
+
+        # Set end time
+        end_time = 100
+
+        # ComFiT simulation
+
+        # Initial condition
+        bs.T = np.zeros((bs.xRes,bs.yRes,bs.zRes))
+        bs.T_f = sp.fft.fftn(bs.T)
+
+        # Evolve the system
+        number_of_steps = int(end_time/bs.dt)
+        bs.evolve(number_of_steps)
+
+        # Scipy benchmark
+
+        # Initial condition
+        T_initial = np.zeros((bs.xRes,bs.yRes,bs.zRes)).flatten()
+
+        # Forcing term function
+        def forcing_term(T_flat):
+            T = T_flat.reshape((bs.xRes, bs.yRes, bs.zRes))
+            forcing = bs.A * (bs.T0 - T) * np.exp(-((bs.x - bs.xmid) ** 2 + (bs.y - bs.ymid) ** 2 + (bs.z - bs.zmid) ** 2) / (2 * bs.sigma ** 2))
+            return forcing.flatten()
         
+        # Function representing the discretized PDE
+        def heat_equation(t,T_flat):
+            T = T_flat.reshape((bs.xRes, bs.yRes, bs.zRes))
+            dTdx2 = np.roll(T, -1, axis=0) - 2 * T + np.roll(T, 1, axis=0)
+            dTdx2 /= bs.dx ** 2
+            dTdy2 = np.roll(T, -1, axis=1) - 2 * T + np.roll(T, 1, axis=1)
+            dTdy2 /= bs.dy ** 2
+            dTdz2 = np.roll(T, -1, axis=2) - 2 * T + np.roll(T, 1, axis=2)
+            dTdz2 /= bs.dz ** 2
+            return dTdx2.flatten() + dTdy2.flatten() + dTdz2.flatten() + forcing_term(T_flat)
+        
+        # Time span for the integration
+        t_span = (0, end_time)
+
+        # Solve the equation
+        T_benchmark = sp.integrate.solve_ivp(heat_equation, t_span, T_initial, method='RK45')
+        T_final_3D = T_benchmark.y[:, -1].reshape((bs.xRes, bs.yRes, bs.zRes))
+
+        # Benchmark
+
+        # Check if the solution is close to the benchmark
+        np.testing.assert_allclose(bs.T, T_final_3D, atol=1e-2, rtol=1e-2)
 
         
 

@@ -1145,9 +1145,9 @@ class BaseSystem:
             #TODO: Fix so that the automatic clims match the region to be plotted (Vidar 28.01.24)
             # Get limits to plot
             if xlim is None:
-                xlim = [self.xmin, self.xmax]
+                xlim = [self.xmin, self.xmax-self.dx]
             if ylim is None:
-                ylim = [self.ymin, self.ymax]
+                ylim = [self.ymin, self.ymax-self.dy]
 
             ax.set_xlim(xlim[0]/self.a0, xlim[1]/self.a0)
             ax.set_ylim(ylim[0]/self.a0, ylim[1]/self.a0)

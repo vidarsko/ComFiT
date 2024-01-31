@@ -444,7 +444,12 @@ $$
 
 which represents a heating element with temperature $T_0$ placed at $\mathbf r_0$.
 
-As a benchmark, we use the scipy
+
+As a benchmark, we use the `solve_ivp` of the scipy library `sp.integrate` to solve the equation using a finite difference method.
+The solutions match to a satisfactory degree, but a more thorough investigation into how the accuracy of the framework and integration methods scale with spatial and temporal resolution will be performed in the future. 
+
+
+
 
 
 # Algorithms for tracking defects 
