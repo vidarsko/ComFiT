@@ -67,7 +67,7 @@ bs.T_f = sp.fft.fft(bs.T)
 T_initial = np.zeros((bs.xRes))
 
 fig, axs = plt.subplots(1,2,figsize=(10,5))
-for n in range(200):
+for n in range(10):
     # Evolve the system
     bs.evolve(10)
 
@@ -95,5 +95,5 @@ for n in range(200):
     axs[1].grid()
     
     cf.tool_save_plot(n)
-cf.tool_make_animation()
+cf.tool_make_animation_gif(n)
 
