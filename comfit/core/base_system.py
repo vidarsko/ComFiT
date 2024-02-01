@@ -9,6 +9,7 @@ import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import scipy as sp
 
+
 class BaseSystem:
     def __init__(self, dimension,
                  xRes=101, dx=1.0, xmin=0,
@@ -1439,6 +1440,8 @@ class BaseSystem:
             ax.set_zlabel("$z/a_0$")
             ax.set_aspect('equal')
 
+            return ax
+
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
@@ -1585,6 +1588,87 @@ class BaseSystem:
 
         return ax
 
+    def plot_field_in_plane2(self, field, normal_vector=[0,1,0], position=None, ax=None,
+                         colorbar=True, colormap='winter', clims=None):
+        """
+        Plots the field in a plane perpendicular to the given normal vector using
+        scipy.interpolate.griddata and plt.plot_trisurf.
+
+        Input:
+            field (array-like): The field to be plotted.
+            normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
+            position (array-like, optional): The position of the plane. Default is the middle of the system.
+            ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
+            colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
+            colormap (str, optional): The colormap to use for the plot. Default is 'winter'.
+        
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
+        """
+
+        if self.dim != 3:
+            raise Exception("This plotting function not yet configured for other dimensions")
+
+        if position is None:
+            position = self.rmid
+
+        if ax is None:
+            plt.clf()
+            ax = plt.gcf().add_subplot(111, projection='3d')
+
+        if colormap == 'angle':
+            cmap = tool_colormap_angle()
+        elif colormap == 'bluewhitered':
+            cmap = tool_colormap_bluewhitered()
+        else:
+            cmap = plt.get_cmap(colormap)
+
+
+        normal_vector = np.array(normal_vector)/np.linalg.norm(normal_vector)
+        height_above_plane = (self.x-position[0])*normal_vector[0] + (self.y-position[1])*normal_vector[1] + (self.z-position[2])*normal_vector[2]
+
+        verts, faces, _, _ = marching_cubes(height_above_plane, 0)
+
+        # Calculate the centroids of each triangle
+        centroids = np.mean(verts[faces], axis=1)
+
+        # Assuming field is defined on the same grid as height_above_plane
+        x, y, z = np.mgrid[0:height_above_plane.shape[0], 0:height_above_plane.shape[1], 0:height_above_plane.shape[2]]
+
+        # Flatten the grid for interpolation
+        points = np.c_[x.ravel(), y.ravel(), z.ravel()]
+        field_values = field.ravel()
+
+        # Interpolate field at the vertices positions
+        field_verts = sp.interpolate.griddata(points, field_values, centroids, method='linear')
+
+        # Normalize field values for color mapping
+        field_normalized = (field_verts - np.min(field_verts)) / (np.max(field_verts) - np.min(field_verts))
+
+        # Map normalized field values to colors
+        colors = cmap(field_normalized)
+
+        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
+                        self.ymin+verts[:, 1]*self.dy,
+                        faces,
+                        self.zmin+verts[:, 2]*self.dz,
+                        facecolor=colors, antialiased=False)
+
+        ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+        ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+        ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+
+        ax.set_aspect('equal')
+
+        ax.set_xlabel("$x/a_0$")
+        ax.set_ylabel("$y/a_0$")
+        ax.set_zlabel("$z/a_0$")
+        ax.set_aspect('equal')
+
+        return ax
+
+
+
     def plot_angle_field_in_plane(self, angle_field, colorbar=True):
         """
         Plots the angle field in a plane.
@@ -1604,6 +1688,9 @@ class BaseSystem:
             cbar = plt.colorbar(sm, ax=ax)
             cbar.set_ticks(np.array([0, 1/6, 2/6, 3/6, 4/6, 5/6, 1]))
             cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+
+    
+        
 
     def plot_vector_field(self, vector_field, ax=None, step=None):
         """

@@ -72,39 +72,20 @@ bs.T_f = sp.fft.fftn(bs.T)
 # Initial condition
 T_initial = np.zeros((bs.xRes,bs.yRes,bs.zRes))
 
-fig, axs = plt.subplots(1,2,figsize=(10,5),subplot_kw={'projection': '3d'})
 
 colorbar_on = True
-for n in range(51):
-    print(n)
-    # Evolve the system
-    bs.evolve(100)
-    
-    axs[0].cla()
-    bs.plot_field_in_plane2(bs.T,ax=axs[0],colormap='bluewhitered',normal_vector=[1,-1,0],
-                clims=[0,bs.T0])
-    # bs.plot_field(bs.T,ax=axs[0],colormap='bluewhitered',cmap_symmetric=False,
-    #             clims=[0,bs.T0], colorbar=colorbar_on, number_of_layers=5)
-    axs[0].set_title(f'ComFiT, method=ETD2RK,\n dt={bs.dt},dx={bs.dx},dy = {bs.dy}')
 
-    # Time span for the integration
-    t_span = (0, 10)
 
-    # Solve the equation
-    T_benchmark = sp.integrate.solve_ivp(heat_equation, t_span, T_initial.flatten(), method='RK45')
-    T_initial = T_benchmark.y[:, -1].reshape((bs.xRes, bs.yRes, bs.zRes))
+# Evolve the system
+bs.evolve(1000)
 
-    axs[1].cla()
-    bs.plot_field_in_plane2(T_initial,ax=axs[1],colormap='bluewhitered',normal_vector=[1,-1,0],
-                clims=[0,bs.T0])
-    # bs.plot_field(T_initial,ax=axs[1],colormap='bluewhitered',cmap_symmetric=False,
-    #             clims=[0,bs.T0],colorbar=colorbar_on,number_of_layers=5)
-    axs[1].set_title(f'Scipy.integrate.solve_ivp,\n method=RK45, dx={bs.dx}, dy = {bs.dy}')
-    
-    fig.suptitle(f't={n*10}, sigma={bs.sigma}, A={bs.A}, T0={bs.T0}')
+# ax = bs.plot_field(bs.T,colormap='bluewhitered',cmap_symmetric=False,
+#             clims=[0,bs.T0], colorbar=colorbar_on, number_of_layers=5)
+ax = bs.plot_field_in_plane2(bs.T,normal_vector=[1,-1,0], colormap='winter')
+ax.set_title(f'ComFiT, method=ETD2RK,\n dt={bs.dt},dx={bs.dx},dy = {bs.dy}')
 
-    cf.tool_save_plot(n)
+# cf.tool_save_plot(n)
 
-    colorbar_on = False
-cf.tool_make_animation_gif(n)
+plt.show()
+# cf.tool_make_animation_gif(n)
 
