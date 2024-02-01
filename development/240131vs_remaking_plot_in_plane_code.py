@@ -79,9 +79,10 @@ colorbar_on = True
 # Evolve the system
 bs.evolve(1000)
 
-# ax = bs.plot_field(bs.T,colormap='bluewhitered',cmap_symmetric=False,
-#             clims=[0,bs.T0], colorbar=colorbar_on, number_of_layers=5)
-ax = bs.plot_field_in_plane2(bs.T,normal_vector=[1,-1,0], colormap='winter')
+
+ax = bs.plot_field_in_plane2(bs.T,normal_vector=[1,-1,0], colormap='bluewhitered',clims=[0,bs.T0])
+ax = bs.plot_field(bs.T,ax=ax,colormap='bluewhitered',cmap_symmetric=False,
+            clims=[0,bs.T0], colorbar=colorbar_on, number_of_layers=5)
 ax.set_title(f'ComFiT, method=ETD2RK,\n dt={bs.dt},dx={bs.dx},dy = {bs.dy}')
 
 # cf.tool_save_plot(n)
