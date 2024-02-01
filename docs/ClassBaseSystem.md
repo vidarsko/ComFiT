@@ -378,7 +378,7 @@ This function is called by the evolvers discussed in the model chapter if the me
 `self.calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10**(-4))`.
 
 ### The fully non-linear limit
-It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e. the limit in which $\omega_{\mathfrak f} =0$, $N_{\mathfrak f} = \partial_t \psi \equiv \dot{\psi}_f$ and the small $\omega_{\mathfrak f}$ approximations are exact.
+It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e., the limit in which $\omega_{\mathfrak f} =0$, $N_{\mathfrak f} = \partial_t \psi \equiv \dot{\psi}\_{\mathfrak f}$ and the small $\omega_{\mathfrak f}$ approximations are exact.
 For the ETD2RK scheme, we get 
 
 $$
@@ -386,7 +386,7 @@ $$
 $$
 
 $$
-\psi(t+\Delta t)_f = \psi_{\mathfrak f 0} + \dot{\psi}_{\mathfrak f 0} \frac{\Delta t}{2} + \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2},
+\psi(t+\Delta t)\_f = \psi_{\mathfrak f 0} + \dot{\psi}\_{\mathfrak f 0} \frac{\Delta t}{2} + \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2},
 $$
 
 which is a two-stage Runge-Kutta method called Heun's method.
@@ -402,11 +402,11 @@ $$
 $$
 
 $$
-\psi_{\mathfrak f c} = \psi_{\mathfrak f a} + ( 2 \dot{\psi}_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0}) \frac{\Delta t}{2}
+\psi_{\mathfrak f c} = \psi_{\mathfrak f a} + ( 2 \dot{\psi}\_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0}) \frac{\Delta t}{2}
 $$
 
 $$
-\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f 0} + \frac{1}{6} ( \dot{\psi}_{\mathfrak f 0} + 2 \dot{\psi}_{\mathfrak f a} + 2 \dot{\psi}_{\mathfrak f b} + \dot{\psi}_{\mathfrak f c} ) \Delta t.
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f 0} + \frac{1}{6} ( \dot{\psi}\_{\mathfrak f 0} + 2 \dot{\psi}\_{\mathfrak f a} + 2 \dot{\psi}\_{\mathfrak f b} + \dot{\psi}_{\mathfrak f c} ) \Delta t.
 $$
 
 Note that this is not the typical Runge-Kutta 4 method, due to the differences in calculating $\psi_{\mathfrak f c}$.
