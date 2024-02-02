@@ -8,7 +8,6 @@ from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import scipy as sp
-from mayavi import mlab
 
 
 class BaseSystem:

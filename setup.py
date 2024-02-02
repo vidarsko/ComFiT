@@ -11,7 +11,5 @@ setup(
                       'scikit-image',
                       'matplotlib',
                       'moviepy==1.0.3',
-                      'imageio',
-                      'mayavi',
-                      'PyQt5'],
+                      'imageio'],
 )
