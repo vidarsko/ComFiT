@@ -23,7 +23,7 @@ class TestNematicLiquidCrystal(unittest.TestCase):
         """Test the enm.evolve_nematic_no_flow"""
         nem = cf.NematicLiquidCrystal(2, xRes=13, yRes=4)
         nem.conf_initial_condition_disordered(noise_strength=2)
-        nem.evolve_nematic_no_flow(300)
+        nem.evolve_nematic_no_flow(500)
 
         # Set the tolerance for approximation
         tolerance = 0.01
