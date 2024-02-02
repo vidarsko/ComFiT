@@ -12,5 +12,6 @@ setup(
                       'matplotlib',
                       'moviepy==1.0.3',
                       'imageio',
-                      'mayavi'],
+                      'mayavi',
+                      'PyQt5'],
 )

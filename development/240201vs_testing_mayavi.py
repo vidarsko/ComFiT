@@ -1,14 +1,22 @@
-from mayavi import mlab
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import comfit as cf
 import numpy as np
+from mayavi import mlab
 
-x = np.linspace(-3, 3, 100)
-y = np.linspace(-3, 3, 100)
-x, y = np.meshgrid(x, y)
-z = np.sin(x**2 + y**2)
+bs = cf.BaseSystem(2, xRes=201, dx=0.05, yRes=201, dy=0.05)
 
-# Create a 3D surface plot
-mlab.figure(bgcolor=(1, 1, 1))
-surf = mlab.surf(x, y, z)
+z = np.sin(bs.x + bs.y)
 
-# Close the figure
+fig = mlab.figure(bgcolor=(1, 1, 1),fgcolor=(0.,0.,0.))
+s = mlab.surf(bs.x, bs.y, z, colormap='viridis', figure=fig)
+
+# Adding axes with labels
+axes = mlab.axes(xlabel='X', ylabel='Y', zlabel='Z', figure=fig)
+axes.label_text_property.font_family = 'times'
+axes.label_text_property.font_size = 10
+
+
+
 mlab.show()

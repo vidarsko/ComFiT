@@ -80,10 +80,12 @@ colorbar_on = True
 bs.evolve(1000)
 
 
-ax = bs.plot_field_in_plane2(bs.T,normal_vector=[1,-1,0], colormap='bluewhitered',clims=[0,bs.T0])
-ax = bs.plot_field(bs.T,ax=ax,colormap='bluewhitered',cmap_symmetric=False,
-            clims=[0,bs.T0], colorbar=colorbar_on, number_of_layers=5)
-ax.set_title(f'ComFiT, method=ETD2RK,\n dt={bs.dt},dx={bs.dx},dy = {bs.dy}')
+# ax = bs.plot_field_in_plane2(bs.T,normal_vector=[1,-1,0], colormap='bluewhitered',clims=[0,bs.T0])
+# ax = bs.plot_field(bs.T,ax=ax,colormap='bluewhitered',cmap_symmetric=False,
+            # clims=[0,bs.T0], colorbar=colorbar_on, number_of_layers=5)
+# ax.set_title(f'ComFiT, method=ETD2RK,\n dt={bs.dt},dx={bs.dx},dy = {bs.dy}')
+
+bs.plot_field_in_plane_with_mayavi(bs.T,normal_vector=[1,-1,0], colormap='bluewhitered')
 
 # cf.tool_save_plot(n)
 

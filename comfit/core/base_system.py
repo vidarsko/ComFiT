@@ -8,6 +8,7 @@ from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import scipy as sp
+from mayavi import mlab
 
 
 class BaseSystem:
@@ -1666,8 +1667,6 @@ class BaseSystem:
         ax.set_aspect('equal')
 
         return ax
-
-
 
     def plot_angle_field_in_plane(self, angle_field, colorbar=True):
         """
