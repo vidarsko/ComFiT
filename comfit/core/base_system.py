@@ -979,6 +979,279 @@ class BaseSystem:
 
     # PLOTTING FUNCTIONS
 
+    def plot_set_axis_properties(self, **kwargs):
+        """
+        Sets the properties of the axis for a plot.
+        
+        Input:
+            ax_or_scene: an axis or scene object
+            kwargs: keyword arguments for the axis properties
+        """
+
+        if self.dim == 1:
+            
+            if 'ax' in kwargs:
+                ax = kwargs['ax']
+            
+            if 'xlabel' in kwargs:
+                ax.set_xlabel(kwargs['xlabel'])
+            else:
+                ax.set_xlabel('$x/a_0$')
+
+            if 'ylabel' in kwargs:
+                ax.set_ylabel(kwargs['ylabel'])
+
+            if 'title' in kwargs:
+                ax.set_title(kwargs['title'])
+            
+            if 'grid' in kwargs:
+                ax.grid(kwargs['grid'])
+            else:
+                ax.grid(True)
+
+            return ax
+        
+        elif self.dim == 2:
+
+            if 'ax' in kwargs:
+                ax = kwargs['ax']
+
+            if 'xlabel' in kwargs:
+                ax.set_xlabel(kwargs['xlabel'])
+            else:
+                ax.set_xlabel('$x/a_0$')
+
+            if 'ylabel' in kwargs:
+                ax.set_ylabel(kwargs['ylabel'])
+            else:
+                ax.set_ylabel('$y/a_0$')
+            
+            if 'title' in kwargs:
+                ax.set_title(kwargs['title'])
+
+            #TODO: Check if I should instead include a fig object somewhere
+            if 'suptitle' in kwargs:
+                plt.suptitle(kwargs['suptitle'])
+
+            if 'grid' in kwargs:
+                ax.grid(kwargs['grid'])
+            else:
+                ax.grid(True)
+
+
+    def plot_field(self, field, **kwargs):
+        """
+        Plots the given field.
+
+        ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
+                   clim = None, xlim = None, ylim = None, zlim = None,
+                   number_of_layers=1, hold=False, vlim_symmetric=None, layer_values=None
+        
+        Input:
+            field (array-like): The field to be plotted.
+            ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
+            colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
+            colormap (Colormap, optional): The colormap to use for the plot. If None, a default colormap will be used.
+            cmax (float, optional): The maximum value for the colorbar. If None, the maximum value of the field will be used.
+            cmin (float, optional): The minimum value for the colorbar. If None, the minimum value of the field will be used.
+            number_of_layers (int, optional): The number of layers to plot for a 3D field. Default is 1.
+            hold (bool, optional): Whether to clear the axes before plotting. Default is False.
+            vlim_symmetric (bool, optional): Whether to make the colormap symmetric. Default is True.
+        
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
+        """
+
+
+        if field.dtype == bool:
+            field = field.astype(float)
+
+
+        if self.dim == 1:
+
+            if 'ax' in kwargs:
+                ax = kwargs['ax']
+            else:
+                plt.clf()
+                ax = plt.gca()
+
+            ax.plot(self.x/self.a0, field)
+
+            ax = self.plot_set_axis_properties(ax=ax, **kwargs)
+            
+            return ax
+
+
+        if self.dim == 2:
+
+            
+            if 'ax' in kwargs:
+                ax = kwargs['ax']
+            else:
+                plt.clf()
+                ax = plt.gca()
+
+            if 'colormap' in kwargs:
+                colormap = kwargs['colormap']
+                if colormap == 'bluewhitered':
+                    colormap = tool_colormap_bluewhitered()
+
+                elif colormap == 'sunburst':
+                    colormap = tool_colormap_sunburst()
+
+                else:
+                    colormap = plt.get_cmap(colormap)
+            else: 
+                colormap = plt.get_cmap('viridis')
+
+            if 'vlim_symmetric' in kwargs:
+                vlim_symmetric = kwargs['vlim_symmetric']
+            else:
+                vlim_symmetric = False
+
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+            pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
+
+            if 'clim' in kwargs: 
+                clim = kwargs['clim']
+                cmin = clim[0]
+                cmax = clim[1]
+            else:
+                cmin = np.min(field)
+                cmax = np.max(field)
+
+                if cmax-cmin < 1e-10:
+                    cmin = cmin-0.05
+                    cmax = cmax+0.05
+
+            pcm.set_clim(vmin=cmin)
+            pcm.set_clim(vmax=cmax)
+
+
+            if 'vlim_symmetric' in kwargs:
+                vlim_symmetric = kwargs['vlim_symmetric']
+                if vlim_symmetric:
+                    cmax = abs(field).max()
+                    cmin = -cmax
+                    pcm.set_clim(vmin=cmin, vmax=cmax)
+
+            
+            if 'colorbar' in kwargs:
+                colorbar = kwargs['colorbar']
+            else:
+                colorbar = True
+
+            if colorbar:
+                cbar = plt.colorbar(pcm, ax=ax)
+                
+
+            #TODO: Fix so that the automatic clim match the region to be plotted (Vidar 28.01.24)
+            # Get limits to plot
+            if 'xlim' in kwargs:
+                xlim = kwargs['xlim']
+            else:
+                xlim = [self.xmin, self.xmax-self.dx]
+            
+            if 'ylim' in kwargs:
+                ylim = kwargs['ylim']
+            else:
+                ylim = [self.ymin, self.ymax-self.dy]
+
+            ax.set_xlim(xlim[0]/self.a0, xlim[1]/self.a0)
+            ax.set_ylim(ylim[0]/self.a0, ylim[1]/self.a0)
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_aspect('equal')
+
+
+            return ax
+
+        elif self.dim == 3:
+
+            if 'ax' in kwargs:
+                ax = kwargs['ax']
+            else:
+                plt.clf()
+                ax = plt.gcf().add_subplot(111, projection='3d')
+
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
+            field_min = np.min(field)
+            field_max = np.max(field)
+
+            if 'number_of_layers' in kwargs:
+                number_of_layers = kwargs['number_of_layers']
+            else:
+                number_of_layers = 1
+            
+            if 'clim' in kwargs:
+                clim = kwargs['clim']
+                cmin = clim[0]
+                cmax = clim[1]
+            else:
+                cmin = field_min
+                cmax = field_max
+
+            if 'layer_values' in kwargs:
+                layer_values = np.concatenate([[-np.inf], kwargs['layer_values'], [np.inf]])
+            else: 
+                layer_values = np.linspace(cmin, cmax, number_of_layers + 2)
+
+            # print("Layer values:", layer_values)
+
+        
+
+            if 'colormap' in kwargs:
+                colormap = kwargs['colormap']
+                if colormap == 'bluewhitered':
+                    colormap = tool_colormap_bluewhitered()
+
+                elif colormap == 'sunburst':
+                    colormap = tool_colormap_sunburst()
+
+                else:
+                    colormap = plt.get_cmap(colormap)
+            else: 
+                colormap = plt.get_cmap('viridis')
+            
+
+            if field_min < layer_values[1] < field_max:
+                verts, faces, _, _ = marching_cubes(field, layer_values[1])
+                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                            color=colormap(layer_values[1] / cmax))
+
+            for layer_value in layer_values[2:-1]:
+                if field_min < layer_value < field_max:
+                    verts, faces, _, _ = marching_cubes(field, layer_value)
+                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                                color=colormap(layer_value / cmax))
+
+            ax.set_aspect('equal')
+
+            if 'colorbar' in kwargs:
+                colorbar = kwargs['colorbar']
+            else:
+                colorbar = True
+
+            if colorbar:
+                sm = plt.cm.ScalarMappable(cmap=colormap)
+                sm.set_clim(cmin, cmax)
+                plt.colorbar(sm, ax=ax)
+
+            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+            ax.set_aspect('equal')
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_zlabel('$z/a_0$')
+
+
+            return ax
+
+
+
     def plot_angle_field(self, field, ax=None, colorbar=True):
         """
         Plot the angle field.
@@ -1020,7 +1293,7 @@ class BaseSystem:
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-            cmap = tool_colormap_angle()
+            colormap = tool_colormap_angle()
 
             field_min = np.min(field)
             field_max = np.max(field)
@@ -1035,7 +1308,7 @@ class BaseSystem:
                     verts, faces, _, _ = marching_cubes(field_to_plot, angle)
 
                     ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                    color=cmap((angle + np.pi) / (2 * np.pi)))
+                                    color=colormap((angle + np.pi) / (2 * np.pi)))
 
             field = np.mod(field, 2 * np.pi)
 
@@ -1046,184 +1319,14 @@ class BaseSystem:
             verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
 
             ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                            color=cmap(0))
+                            color=colormap(0))
 
             ax.set_xlim3d(self.xmin, self.xmax-self.dx)
             ax.set_ylim3d(self.ymin, self.ymax-self.dy)
             ax.set_zlim3d(self.zmin, self.zmax-self.dz)
             ax.set_aspect('equal')
 
-    def plot_field(self, field, ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
-                   clims = None, xlim = None, ylim = None, zlim = None,
-                   number_of_layers=1, hold=False, cmap_symmetric=None, layer_values=None):
-        """
-        Plots the given field.
-        
-        Input:
-            field (array-like): The field to be plotted.
-            ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
-            colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
-            colormap (Colormap, optional): The colormap to use for the plot. If None, a default colormap will be used.
-            cmax (float, optional): The maximum value for the colorbar. If None, the maximum value of the field will be used.
-            cmin (float, optional): The minimum value for the colorbar. If None, the minimum value of the field will be used.
-            number_of_layers (int, optional): The number of layers to plot for a 3D field. Default is 1.
-            hold (bool, optional): Whether to clear the axes before plotting. Default is False.
-            cmap_symmetric (bool, optional): Whether to make the colormap symmetric. Default is True.
-        
-        Output:
-            matplotlib.axes.Axes: The axes containing the plot.
-        """
-
-
-        if field.dtype == bool:
-            field = field.astype(float)
-
-
-        if self.dim == 1:
-            if ax == None:
-                plt.clf()
-                ax = plt.gca()
-
-            ax.plot(self.x/self.a0, field)
-            ax.set_xlabel('$x/a_0$')
-            ax.grid(True)
-            return ax
-
-
-        if self.dim == 2:
-
-            if ax == None:
-                plt.clf()
-                ax = plt.gca()
-
-            if colormap is None:
-                cmap = plt.get_cmap('viridis')
-
-            elif colormap == 'bluewhitered':
-                cmap = tool_colormap_bluewhitered()
-                # Set symmetric if not specified otherwise
-                if cmap_symmetric is None:
-                    print("Setting the colormap to be symmetric with use of bluewhitered since not otherwiese specified.")
-                    cmap_symmetric = True
-
-            elif colormap == 'sunburst':
-                cmap = tool_colormap_sunburst()
-
-            else:
-                cmap = plt.get_cmap(colormap)
-
-            if cmap_symmetric is None:
-                cmap_symmetric = False
-
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-
-            pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=cmap)
-
-            if clims is not None:
-                cmin = clims[0]
-                cmax = clims[1]
-            else:
-                cmin = np.min(field)
-                cmax = np.max(field)
-
-                if cmax-cmin < 1e-10:
-                    cmin = cmin-0.05
-                    cmax = cmax+0.05
-
-
-            pcm.set_clim(vmin=cmin)
-            pcm.set_clim(vmax=cmax)
-
-            if cmap_symmetric:
-                cmax = abs(field).max()
-                cmin = -cmax
-                pcm.set_clim(vmin=cmin, vmax=cmax)
-
-            
-
-            if colorbar:
-                cbar = plt.colorbar(pcm, ax=ax)
-
-
-            #TODO: Fix so that the automatic clims match the region to be plotted (Vidar 28.01.24)
-            # Get limits to plot
-            if xlim is None:
-                xlim = [self.xmin, self.xmax-self.dx]
-            if ylim is None:
-                ylim = [self.ymin, self.ymax-self.dy]
-
-            ax.set_xlim(xlim[0]/self.a0, xlim[1]/self.a0)
-            ax.set_ylim(ylim[0]/self.a0, ylim[1]/self.a0)
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$y/a_0$')
-            ax.set_aspect('equal')
-
-
-            return ax
-
-        elif self.dim == 3:
-
-            if ax == None:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
-
-            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-
-            field_min = np.min(field)
-            field_max = np.max(field)
-
-            if clims is None:
-                cmin = field_min
-                cmax = field_max
-                
-            else:
-                cmin = clims[0]
-                cmax = clims[1]
-
-            if layer_values is None:
-                layer_values = np.linspace(cmin, cmax, number_of_layers + 2)
-            else:
-                layer_values = np.concatenate([[-np.inf], layer_values, [np.inf]])
-
-            print("Layer values:", layer_values)
-            if colormap is None:
-                cmap = plt.get_cmap('viridis')
-            elif colormap == 'bluewhitered':
-                cmap = tool_colormap_bluewhitered()
-                # Set symmetric if not specified otherwise
-                if cmap_symmetric is None:
-                    print("Setting the colormap to be symmetric with use of bluewhitered since not otherwiese specified.")
-                    cmap_symmetric = True
-            else:
-                cmap = plt.get_cmap(colormap)
-
-            if field_min < layer_values[1] < field_max:
-                verts, faces, _, _ = marching_cubes(field, layer_values[1])
-                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                            color=cmap(layer_values[1] / cmax))
-
-            for layer_value in layer_values[2:-1]:
-                if field_min < layer_value < field_max:
-                    verts, faces, _, _ = marching_cubes(field, layer_value)
-                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                color=cmap(layer_value / cmax))
-
-            ax.set_aspect('equal')
-            if colorbar:
-                sm = plt.cm.ScalarMappable(cmap=cmap)
-                sm.set_clim(cmin, cmax)
-                plt.colorbar(sm, ax=ax)
-
-            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
-            ax.set_aspect('equal')
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$y/a_0$')
-            ax.set_zlabel('$z/a_0$')
-
-
-            return ax
+    
 
     def plot_fourier_field(self, field_f, ax=None):
         """
@@ -1364,7 +1467,7 @@ class BaseSystem:
             rho_normalized = rho / np.max(rho)
             theta = np.angle(complex_field)
 
-            cmap = tool_colormap_angle()
+            colormap = tool_colormap_angle()
 
             if plot_method == 'phase_angle':
                 
@@ -1380,7 +1483,7 @@ class BaseSystem:
                         verts, faces, _, _ = marching_cubes(field_to_plot, angle)
 
                         ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                        color=cmap((angle + np.pi) / (2 * np.pi)))
+                                        color=colormap((angle + np.pi) / (2 * np.pi)))
 
                 theta = np.mod(theta, 2 * np.pi)
 
@@ -1394,7 +1497,7 @@ class BaseSystem:
                     verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
 
                     ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                color=cmap(0))
+                                color=colormap(0))
             
             elif plot_method == 'phase_blob':
 
@@ -1418,7 +1521,7 @@ class BaseSystem:
                     theta_normalized = (theta_verts + np.pi) / (2*np.pi)
 
                     # Map normalized theta values to colors
-                    colors = cmap(theta_normalized)
+                    colors = colormap(theta_normalized)
 
                     # print("Colors shape:", colors.shape)
                     # print(colors)
@@ -1447,7 +1550,7 @@ class BaseSystem:
             raise Exception("This plotting function not yet configured for other dimension")
 
     def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
-                            colorbar=True, colormap = 'winter', clims = None):
+                            colorbar=True, colormap = 'winter', clim = None):
         """
         Plots the field in a plane perpendicular to the given normal vector.
 
@@ -1551,25 +1654,25 @@ class BaseSystem:
         for i in range(3):
             R[i][points_to_exclude] = np.nan
 
-        if clims is None:
+        if clim is None:
             cmin = np.nanmin(field_on_plane)
             cmax = np.nanmax(field_on_plane)
         else:
-            cmin = clims[0]
-            cmax = clims[1]
+            cmin = clim[0]
+            cmax = clim[1]
 
         # Normalize the field data
         norm = mcolors.Normalize(vmin=cmin, vmax=cmax, clip=True)
 
         if colormap == 'angle':
-            cmap = tool_colormap_angle()
+            colormap = tool_colormap_angle()
         elif colormap == 'bluewhitered':
-            cmap = tool_colormap_bluewhitered()
+            colormap = tool_colormap_bluewhitered()
         else:
-            cmap = plt.get_cmap(colormap)
+            colormap = plt.get_cmap(colormap)
 
         # Apply the colormap to your field datav
-        field_on_plane_colors = cmap(norm(field_on_plane))
+        field_on_plane_colors = colormap(norm(field_on_plane))
 
         # Set NaNs to transparent
         field_on_plane_colors[np.isnan(field_on_plane)] = [0, 0, 0, 0]
@@ -1589,7 +1692,7 @@ class BaseSystem:
         return ax
 
     def plot_field_in_plane2(self, field, normal_vector=[0,1,0], position=None, ax=None,
-                         colorbar=True, colormap='winter', clims=None):
+                         colorbar=True, colormap='winter', clim=None):
         """
         Plots the field in a plane perpendicular to the given normal vector using
         scipy.interpolate.griddata and plt.plot_trisurf.
@@ -1617,11 +1720,11 @@ class BaseSystem:
             ax = plt.gcf().add_subplot(111, projection='3d')
 
         if colormap == 'angle':
-            cmap = tool_colormap_angle()
+            colormap = tool_colormap_angle()
         elif colormap == 'bluewhitered':
-            cmap = tool_colormap_bluewhitered()
+            colormap = tool_colormap_bluewhitered()
         else:
-            cmap = plt.get_cmap(colormap)
+            colormap = plt.get_cmap(colormap)
 
 
         normal_vector = np.array(normal_vector)/np.linalg.norm(normal_vector)
@@ -1646,7 +1749,7 @@ class BaseSystem:
         field_normalized = (field_verts - np.min(field_verts)) / (np.max(field_verts) - np.min(field_verts))
 
         # Map normalized field values to colors
-        colors = cmap(field_normalized)
+        colors = colormap(field_normalized)
 
         ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
                         self.ymin+verts[:, 1]*self.dy,

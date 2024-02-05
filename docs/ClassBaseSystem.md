@@ -489,15 +489,59 @@ optional input and give that as an optional output if not provided.
 Each class has a function called `plot`, which is our best idea of how
 to plot the current configuration of the field.
 
+## Plotting keywords
+
+The following list gives the keyword arguments that determine the layout of the resulting plot. 
+These keywords can be passed to any plot function. 
+`bs` refers to an instance of the `BaseSystem` class.
+
+| Keyword         | Definition         | Default value |
+| ------------------ | --------------- | ----------- |
+| `xlabel` | The label on the x-axis | $ x/a_0$|
+| `ylabel` | The label on the y-axis | $d=1$: None |
+| | | $d = 2$: $y/a_0$|
+| | | $d = 3$: $y/a_0$|
+| `zlabel` | The label on the z-axis | $d = 1$: None |
+| | | $d=2$: None |
+| | | $d=3$: $z/a_0$ |
+| `suptitle` | The figure title | None |
+| `title` | The axes title | None|
+| `xmin` | The lower limit on the x-axis | `bs.xmin` |
+| `xmax`| The upper limit on the x-axis | `bs.xmax - bs.dx` |
+| `xlim`| A list or tuple consisting of the lower and upper limit on the y-axis | None|
+| `ymin` | The lower limit on the x-axis | $d=1$:  None |
+| | | $d = 2$: `bs.ymin` |
+| | | $d = 3$: `bs.ymin` |
+| `ymax`| The upper limit on the x-axis | $d=1$: None |
+| | | $d = 2$: `bs.ymax-bs.dy` |
+| | | $d = 2$: `bs.ymax-bs.dy` |
+| `ylim`| A list or tuple consisting of the lower and upper limit on the z-axis | None |
+| `zmin` | The lower limit on the x-axis | $d=1$:  None |
+| | | $d = 2$: None |
+| | | $d = 3$: `bs.zmin` |
+| `zmax`| The upper limit on the x-axis | $d=1$: None |
+| | | $d = 2$: None |
+| | | $d = 2$: `bs.zmax-bs.dz` |
+| `zlim`| A list or tuple consisting of the lower and upper limit on the z-axis | None |
+| `vmin` | "Value minimum". The lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. |None|
+| `vmax` | "Value minimum". The upper limit on the field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
+| `vlim` | A list or tuple consisting of the lower and upper limit on the z-axis | None |
+| `vlim_symmetric` | A Boolean parameter specifying whether the value limits should be symmetric | `False` |
+| `colorbar` | A Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)| 
+| `colormap` | A string specifying the colormap to be used | Varies |
+| `grid` | Boolean parameter indicating whether or not to plot the axes grid | `True` |
+
+
+
+
+
+
 ## Predefined figure sizes
 
 Obviously, a lot of these plots are meant for publication. Therefore,
 there is a tool package that contains predefined and fitting sizes for
 the figures in question. $$TO BE ADDED$$
 
-## The plot in plane function
-
-(Essentially interpolation - need to look at the packag made for that and see if it is simpler)
 
 ## Animation
 
