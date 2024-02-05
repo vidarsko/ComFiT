@@ -508,28 +508,28 @@ These keywords can be passed to any plot function.
 | `title` | The axes title | None|
 | `xmin` | The lower limit on the x-axis | `bs.xmin` |
 | `xmax`| The upper limit on the x-axis | `bs.xmax - bs.dx` |
-| `xlim`| A list or tuple consisting of the lower and upper limit on the y-axis | None|
+| `xlim`| A list or tuple consisting of the lower and upper limit on the x-axis. If `xlim` is provided, it trumps any provided `xmin` or `xmax`. | None|
 | `ymin` | The lower limit on the x-axis | $d=1$:  None |
 | | | $d = 2$: `bs.ymin` |
 | | | $d = 3$: `bs.ymin` |
 | `ymax`| The upper limit on the x-axis | $d=1$: None |
 | | | $d = 2$: `bs.ymax-bs.dy` |
 | | | $d = 2$: `bs.ymax-bs.dy` |
-| `ylim`| A list or tuple consisting of the lower and upper limit on the z-axis | None |
+| `ylim`| A list or tuple consisting of the lower and upper limit on the y-axis. If `ylim` is provided, it trumps any provided `ymin` or `ymax`. | None |
 | `zmin` | The lower limit on the x-axis | $d=1$:  None |
 | | | $d = 2$: None |
 | | | $d = 3$: `bs.zmin` |
 | `zmax`| The upper limit on the x-axis | $d=1$: None |
 | | | $d = 2$: None |
 | | | $d = 2$: `bs.zmax-bs.dz` |
-| `zlim`| A list or tuple consisting of the lower and upper limit on the z-axis | None |
-| `vmin` | "Value minimum". The lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. |None|
-| `vmax` | "Value minimum". The upper limit on the field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
-| `vlim` | A list or tuple consisting of the lower and upper limit on the z-axis | None |
+| `zlim`| List or tuple consisting of the lower and upper limit on the z-axis. If `zlim` is provided, it trumps any provided `zmin` or `zmax`. | None |
+| `vmin` | Lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. |None|
+| `vmax` | Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
+| `vlim` | List or tuple consisting of the lower and upper limit of the value to be plotted. | None |
 | `vlim_symmetric` | A Boolean parameter specifying whether the value limits should be symmetric | `False` |
-| `colorbar` | A Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)| 
-| `colormap` | A string specifying the colormap to be used | Varies |
-| `grid` | Boolean parameter indicating whether or not to plot the axes grid | `True` |
+| `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)| 
+| `colormap` | String specifying the colormap to be used | Varies |
+| `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
 
 
 

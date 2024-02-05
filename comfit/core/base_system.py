@@ -990,20 +990,25 @@ class BaseSystem:
 
         if self.dim == 1:
             
+            # Check if an axis object is provided
             if 'ax' in kwargs:
                 ax = kwargs['ax']
             
+            # Set the xlabel
             if 'xlabel' in kwargs:
                 ax.set_xlabel(kwargs['xlabel'])
             else:
                 ax.set_xlabel('$x/a_0$')
 
+            # Set the ylabel
             if 'ylabel' in kwargs:
                 ax.set_ylabel(kwargs['ylabel'])
 
+            # Set the title
             if 'title' in kwargs:
                 ax.set_title(kwargs['title'])
             
+            # Set the grid
             if 'grid' in kwargs:
                 ax.grid(kwargs['grid'])
             else:
@@ -1029,7 +1034,7 @@ class BaseSystem:
             if 'title' in kwargs:
                 ax.set_title(kwargs['title'])
 
-            #TODO: Check if I should instead include a fig object somewhere
+            #TODO: Check if I should instead include a fig object somewhere (Vidar 05.02.24)
             if 'suptitle' in kwargs:
                 plt.suptitle(kwargs['suptitle'])
 
@@ -1037,6 +1042,24 @@ class BaseSystem:
                 ax.grid(kwargs['grid'])
             else:
                 ax.grid(True)
+
+            if 'xlim' in kwargs:
+                xlim = kwargs['xlim']
+            else:
+                xlim = [self.xmin, self.xmax-self.dx]
+            
+            if 'ylim' in kwargs:
+                ylim = kwargs['ylim']
+            else:
+                ylim = [self.ymin, self.ymax-self.dy]
+
+            ax.set_xlim(xlim[0]/self.a0, xlim[1]/self.a0)
+            ax.set_ylim(ylim[0]/self.a0, ylim[1]/self.a0)
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_aspect('equal')
+
+            return ax
 
 
     def plot_field(self, field, **kwargs):
@@ -1091,6 +1114,7 @@ class BaseSystem:
                 plt.clf()
                 ax = plt.gca()
 
+            # Set the colormap
             if 'colormap' in kwargs:
                 colormap = kwargs['colormap']
                 if colormap == 'bluewhitered':
@@ -1104,6 +1128,7 @@ class BaseSystem:
             else: 
                 colormap = plt.get_cmap('viridis')
 
+            # Set the value limits
             if 'vlim_symmetric' in kwargs:
                 vlim_symmetric = kwargs['vlim_symmetric']
             else:
@@ -1113,21 +1138,56 @@ class BaseSystem:
 
             pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
 
-            if 'clim' in kwargs: 
-                clim = kwargs['clim']
-                cmin = clim[0]
-                cmax = clim[1]
+            xlim = [self.xmin, self.xmax-self.dx]
+            ylim = [self.ymin, self.ymax-self.dy]
+
+
+            limits_provided = False
+            if 'xlim' in kwargs:
+                xlim = kwargs['xlim']
+                limits_provided = True
             else:
-                cmin = np.min(field)
-                cmax = np.max(field)
+                if 'xmin' in kwargs:
+                    xlim[0] = kwargs['xmin']
+                    limits_provided = True
+                
+                if 'xmax' in kwargs:
+                    xlim[1] = kwargs['xmax']
+                    limits_provided = True
 
-                if cmax-cmin < 1e-10:
-                    cmin = cmin-0.05
-                    cmax = cmax+0.05
+            if 'ylim' in kwargs:
+                ylim = kwargs['ylim']
+                limits_provided = True
+            else:
+                if 'ymin' in kwargs:
+                    ylim[0] = kwargs['ymin']
+                    limits_provided = True
+                    
+                if 'ymax' in kwargs:
+                    ylim[1] = kwargs['ymax']
+                    limits_provided = True
 
-            pcm.set_clim(vmin=cmin)
-            pcm.set_clim(vmax=cmax)
+            # If explicit limits are provided, use them to change the vlim ranges
+            if limits_provided:
+                region_to_plot = np.zeros(self.dims).astype(bool)
+                region_to_plot[(xlim[0] <= X)*(X <= xlim[1])*(ylim[0] <= Y)*(Y <= ylim[1])] = True
+                vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
+                print(vlim)
+            else:
+                vlim = [np.min(field), np.max(field)]
+            
+            if 'vlim' in kwargs:
+                vlim = kwargs['vlim']
+            else:
+                if 'vmin' in kwargs:
+                    vlim[0] = kwargs['vmin']
+                if 'vmax' in kwargs:
+                    vlim[1] = kwargs['vmax']
 
+            if vlim[1] - vlim[0] < 1e-10:
+                vlim = [vlim[0]-0.05, vlim[1]+0.05]
+
+            pcm.set_clim(vmin=vlim[0], vmax=vlim[1])
 
             if 'vlim_symmetric' in kwargs:
                 vlim_symmetric = kwargs['vlim_symmetric']
@@ -1148,21 +1208,8 @@ class BaseSystem:
 
             #TODO: Fix so that the automatic clim match the region to be plotted (Vidar 28.01.24)
             # Get limits to plot
-            if 'xlim' in kwargs:
-                xlim = kwargs['xlim']
-            else:
-                xlim = [self.xmin, self.xmax-self.dx]
-            
-            if 'ylim' in kwargs:
-                ylim = kwargs['ylim']
-            else:
-                ylim = [self.ymin, self.ymax-self.dy]
 
-            ax.set_xlim(xlim[0]/self.a0, xlim[1]/self.a0)
-            ax.set_ylim(ylim[0]/self.a0, ylim[1]/self.a0)
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$y/a_0$')
-            ax.set_aspect('equal')
+            ax = self.plot_set_axis_properties(ax=ax, **kwargs)
 
 
             return ax
@@ -1199,8 +1246,6 @@ class BaseSystem:
                 layer_values = np.linspace(cmin, cmax, number_of_layers + 2)
 
             # print("Layer values:", layer_values)
-
-        
 
             if 'colormap' in kwargs:
                 colormap = kwargs['colormap']
