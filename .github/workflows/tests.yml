@@ -107,22 +107,22 @@ jobs:
 
         if [ "$RUN_TEST_QUANTUM_MECHANICS" = true ] ; then
           echo "Running tests for quantum mechanics"
-          python -m unittest tests/test_quantum_mechanics.py
+          xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest tests/test_quantum_mechanics.py
         fi
 
         if [ "$RUN_TEST_BOSE_EINSTEIN_CONDENSATE" = true ] ; then
           echo "Running tests for Bose-Einstein Condensate"
-          python -m unittest tests/test_bose_einstein_condensate.py
+          xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest tests/test_bose_einstein_condensate.py
         fi
 
         if [ "$RUN_TEST_PHASE_FIELD_CRYSTAL" = true ] ; then
           echo "Running tests for Phase Field Crystal"
-          python -m unittest tests/test_phase_field_crystal.py
+          xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest tests/test_phase_field_crystal.py
         fi
 
         if [ "$RUN_TEST_NEMATIC_LIQUID_CRYSTAL" = true ] ; then
           echo "Running tests for Nematic Liquid Crystal"
-          python -m unittest tests/test_nematic_liquid_crystal.py
+          xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest tests/test_nematic_liquid_crystal.py
         fi
         
 
