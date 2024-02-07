@@ -9,7 +9,7 @@ import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import scipy as sp
 from mayavi import mlab
-#
+
 
 class BaseSystem:
     def __init__(self, dimension,

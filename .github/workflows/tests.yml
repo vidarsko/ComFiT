@@ -52,8 +52,8 @@ jobs:
         pip install mayavi==4.8.1
         python setup.py install  # Install dependencies from setup.py
 
-    - name: Configure Mayavi for offscreen rendering
-      run: export MAYAVI_OFFSCREEN=true
+    - name: Install xvfb
+      run: sudo apt-get install -y xvfb
 
     - name: Get changed files
       id: files
@@ -72,7 +72,7 @@ jobs:
         # Check for base_system.py changes and run all tests
         if echo "$FILES" | grep -q "comfit/core/base_system.py"; then
           echo "Changes in base_system.py detected. Running all tests."
-          python -m unittest discover tests/
+          xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest discover tests/
           exit 0
         fi
 
