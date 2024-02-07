@@ -1240,7 +1240,6 @@ class BaseSystem:
 
 
             if plotting_lib == 'mayavi':
-                
                 scene = kwargs.get('scene', mlab.figure())
 
                 mlab.contour3d(X, Y, Z, field, contours=layer_values.tolist(), opacity=0.5, colormap='viridis')
