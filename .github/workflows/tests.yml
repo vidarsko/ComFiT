@@ -52,6 +52,9 @@ jobs:
         pip install mayavi==4.8.1
         python setup.py install  # Install dependencies from setup.py
 
+    - name: Configure Mayavi for offscreen rendering
+      run: export MAYAVI_OFFSCREEN=true
+
     - name: Get changed files
       id: files
       uses: jitterbit/get-changed-files@v1
