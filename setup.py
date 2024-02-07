@@ -13,6 +13,6 @@ setup(
                       'moviepy==1.0.3',
                       'imageio',
                       'vtk==9.2.6',
-                      'PyQt5==5.12.2',
+                      'PyQt5',
                       'mayavi==4.8.1'],
 )

@@ -39,7 +39,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install apptools
+        pip install apptools # Required for mayavi
         pip install envisage
         pip install numpy
         pip install packaging
@@ -47,6 +47,7 @@ jobs:
         pip install pygments
         pip install traits
         pip install traitsui
+        pip install PyQt5
         pip install vtk==9.2.6
         pip install mayavi==4.8.1
         python setup.py install  # Install dependencies from setup.py
