@@ -7,7 +7,6 @@ sys.path.append(os.path.abspath('../'))
 import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
-#
 
 class TestBoseEinsteinCondensate(unittest.TestCase):
     def test_init_with_dimension(self):
