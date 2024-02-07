@@ -44,6 +44,7 @@ jobs:
         pip install traits
         pip install traitsui
         pip install vtk==9.2.6
+        pip install mayavi==4.8.0
         python setup.py install  # Install dependencies from setup.py
 
     - name: Get changed files
