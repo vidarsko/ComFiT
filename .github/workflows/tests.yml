@@ -27,6 +27,11 @@ jobs:
       with:
         python-version: '3.9'  # Specify your Python version here
 
+    - name: Create and activate virtual environment
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+
     - name: Install ffmpeg
       run: |
         sudo apt-get update
