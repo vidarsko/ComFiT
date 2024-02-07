@@ -13,5 +13,5 @@ setup(
                       'moviepy==1.0.3',
                       'imageio',
                       'vtk==9.2.6',
-                      'mayavi==4.8.0'],
+                      'mayavi==4.7.4'],
 )
