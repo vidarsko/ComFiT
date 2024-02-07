@@ -2,6 +2,8 @@ import unittest
 import sys
 import os
 
+#release
+
 # Adjust the path to import the comfit package
 sys.path.append(os.path.abspath('../'))
 import comfit as cf
