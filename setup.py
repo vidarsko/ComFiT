@@ -14,5 +14,5 @@ setup(
                       'imageio',
                       'vtk==9.2.6',
                       'PyQt5==5.12.2',
-                      'mayavi==4.7.1'],
+                      'mayavi==4.7.0'],
 )
