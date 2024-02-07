@@ -8,6 +8,7 @@ from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import scipy as sp
+from mayavi import mlab
 
 
 class BaseSystem:
@@ -1085,7 +1086,6 @@ class BaseSystem:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
-
         if field.dtype == bool:
             field = field.astype(float)
 
@@ -1216,26 +1216,19 @@ class BaseSystem:
 
         elif self.dim == 3:
 
-            if 'ax' in kwargs:
-                ax = kwargs['ax']
-            else:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
-
-            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-
             field_min = np.min(field)
             field_max = np.max(field)
 
-            if 'number_of_layers' in kwargs:
-                number_of_layers = kwargs['number_of_layers']
-            else:
-                number_of_layers = 1
+            plotting_lib = kwargs.get('plotting_lib', 'matplotlib')
+
+            X, Y, Z = np.meshgrid(self.x/self.a0, self.y/self.a0, self.z/self.a0, indexing='ij')
+
+            number_of_layers = kwargs.get('number_of_layers', 1)
             
             if 'clim' in kwargs:
-                clim = kwargs['clim']
-                cmin = clim[0]
-                cmax = clim[1]
+                    clim = kwargs['clim']
+                    cmin = clim[0]
+                    cmax = clim[1]
             else:
                 cmin = field_min
                 cmax = field_max
@@ -1245,55 +1238,69 @@ class BaseSystem:
             else: 
                 layer_values = np.linspace(cmin, cmax, number_of_layers + 2)
 
-            # print("Layer values:", layer_values)
 
-            if 'colormap' in kwargs:
-                colormap = kwargs['colormap']
-                if colormap == 'bluewhitered':
-                    colormap = tool_colormap_bluewhitered()
+            if plotting_lib == 'mayavi':
+                
+                scene = kwargs.get('scene', mlab.figure())
 
-                elif colormap == 'sunburst':
-                    colormap = tool_colormap_sunburst()
+                mlab.contour3d(X, Y, Z, field, contours=layer_values.tolist(), opacity=0.5, colormap='viridis')
+                axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', figure=scene, 
+                        nb_labels=5, ranges=(0, 5, 0, 5, -1, 1))
+                mlab.view(-135,60)
 
-                else:
-                    colormap = plt.get_cmap(colormap)
-            else: 
-                colormap = plt.get_cmap('viridis')
-            
+            elif plotting_lib == 'matplotlib':
 
-            if field_min < layer_values[1] < field_max:
-                verts, faces, _, _ = marching_cubes(field, layer_values[1])
-                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                            color=colormap(layer_values[1] / cmax))
+                ax = kwargs.get('ax', plt.gcf().add_subplot(111, projection='3d'))
+                
+                # print("Layer values:", layer_values)
 
-            for layer_value in layer_values[2:-1]:
-                if field_min < layer_value < field_max:
-                    verts, faces, _, _ = marching_cubes(field, layer_value)
+                if 'colormap' in kwargs:
+                    colormap = kwargs['colormap']
+                    if colormap == 'bluewhitered':
+                        colormap = tool_colormap_bluewhitered()
+
+                    elif colormap == 'sunburst':
+                        colormap = tool_colormap_sunburst()
+
+                    else:
+                        colormap = plt.get_cmap(colormap)
+                else: 
+                    colormap = plt.get_cmap('viridis')
+                
+
+                if field_min < layer_values[1] < field_max:
+                    verts, faces, _, _ = marching_cubes(field, layer_values[1])
                     ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                color=colormap(layer_value / cmax))
+                                color=colormap(layer_values[1] / cmax))
 
-            ax.set_aspect('equal')
+                for layer_value in layer_values[2:-1]:
+                    if field_min < layer_value < field_max:
+                        verts, faces, _, _ = marching_cubes(field, layer_value)
+                        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                                    color=colormap(layer_value / cmax))
 
-            if 'colorbar' in kwargs:
-                colorbar = kwargs['colorbar']
-            else:
-                colorbar = True
+                ax.set_aspect('equal')
 
-            if colorbar:
-                sm = plt.cm.ScalarMappable(cmap=colormap)
-                sm.set_clim(cmin, cmax)
-                plt.colorbar(sm, ax=ax)
+                if 'colorbar' in kwargs:
+                    colorbar = kwargs['colorbar']
+                else:
+                    colorbar = True
 
-            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
-            ax.set_aspect('equal')
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$y/a_0$')
-            ax.set_zlabel('$z/a_0$')
+                if colorbar:
+                    sm = plt.cm.ScalarMappable(cmap=colormap)
+                    sm.set_clim(cmin, cmax)
+                    plt.colorbar(sm, ax=ax)
+
+                ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+                ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+                ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+                ax.set_aspect('equal')
+                ax.set_xlabel('$x/a_0$')
+                ax.set_ylabel('$y/a_0$')
+                ax.set_zlabel('$z/a_0$')
 
 
-            return ax
+                return ax
 
 
 
