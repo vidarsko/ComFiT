@@ -848,8 +848,7 @@ class NematicLiquidCrystal(BaseSystem):
         Plots the nematic field in 3D using mayavi
 
         Input:
-            n (numpy.narray): the nematic field
-            scalar (numpy.narray, optional): the scalar field that we want to plot
+            scalar (numpy.narray, optional): the scalar field that we want to plot, S is ploted if None
             ax (Axes, optional): The axes to plot the field on. If not provided, a new subplot will be created.
             step (int, optional): The step size in the plot. Default is None.
             plane (list, optional): The plane that we want to plot the field on. Default is None.
@@ -867,17 +866,17 @@ class NematicLiquidCrystal(BaseSystem):
 
         scal = mlab.pipeline.scalar_field(X,Y,Z,Scalar)
 
-        mlab.pipeline.iso_surface(scal,contours = [Scalar.min() +0.3*Scalar.ptp()],opacity = 0.3)
-        mlab.pipeline.iso_surface(scal, contours=[Scalar.max() - 0.3 * Scalar.ptp()],opacity=0.1)
+        mlab.pipeline.iso_surface(scal,contours = [Scalar.min() +0.5*Scalar.ptp()],opacity = 0.3)
+        mlab.pipeline.iso_surface(scal, contours=[Scalar.max() - 0.5 * Scalar.ptp()],opacity=0.1)
         mlab.colorbar(orientation='vertical')
        # mlab.pipeline.scalar_cut_plane(scal, plane_orientation = 'z_axes')
 
         if director:
             vec = mlab.pipeline.vector_field(X,Y,Z,n[0],n[1],n[2])
-            mlab.pipeline.vectors(vec,mask_points =40,line_width =3, scale_factor = 2.0)
+            mlab.pipeline.vector_cut_plane(vec,mask_points =4,line_width =3, scale_factor = 4.0,plane_orientation= 'z_axes')
 
         if Flow:
-            mlab.flow(X,Y,Z,self.u[0],self.u[1],self.u[2],seed_scale =1,seed_resolution=5, integration_direction ='both')
+            mlab.flow(X,Y,Z,self.u[0],self.u[1],self.u[2],seed_scale =1,seed_resolution=10, integration_direction ='both')
 
 
 
