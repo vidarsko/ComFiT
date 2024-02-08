@@ -867,13 +867,17 @@ class NematicLiquidCrystal(BaseSystem):
 
         scal = mlab.pipeline.scalar_field(X,Y,Z,Scalar)
 
-        mlab.pipeline.iso_surface(scal,contours = [Scalar.min() +0.2*Scalar.ptp()])
-        mlab.pipeline.iso_surface(scal, contours=[Scalar.max() - 0.2 * Scalar.ptp()],opacity=0.1)
+        mlab.pipeline.iso_surface(scal,contours = [Scalar.min() +0.3*Scalar.ptp()],opacity = 0.3)
+        mlab.pipeline.iso_surface(scal, contours=[Scalar.max() - 0.3 * Scalar.ptp()],opacity=0.1)
+        mlab.colorbar(orientation='vertical')
        # mlab.pipeline.scalar_cut_plane(scal, plane_orientation = 'z_axes')
 
         if director:
             vec = mlab.pipeline.vector_field(X,Y,Z,n[0],n[1],n[2])
             mlab.pipeline.vectors(vec,mask_points =40,line_width =3, scale_factor = 2.0)
+
+        if Flow:
+            mlab.flow(X,Y,Z,self.u[0],self.u[1],self.u[2],seed_scale =1,seed_resolution=5, integration_direction ='both')
 
 
 
