@@ -1451,7 +1451,8 @@ class BaseSystem:
                 X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
                 custom_colormap = tool_colormap_angle()
-
+                rho = np.abs(complex_field)
+                theta = np.angle(complex_field)
                 # Get the colors from a colormap (e.g., hsv, but you can choose any other)
                 colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
 
