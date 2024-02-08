@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.cm as cm
 from matplotlib.colors import Normalize
+from mayavi import mlab
 
 class NematicLiquidCrystal(BaseSystem):
 
@@ -842,9 +843,9 @@ class NematicLiquidCrystal(BaseSystem):
 
 
 
-    def plot_nematic_3D(self,n,scalar = None,ax = None,step=None, plane = None  ,point=None, colormap = None):
+    def plot_nematic_3D(self,Scalar = None, director = False, Flow = False, Plane = None):
         """
-        Plots the nematic field in 3D
+        Plots the nematic field in 3D using mayavi
 
         Input:
             n (numpy.narray): the nematic field
@@ -858,75 +859,22 @@ class NematicLiquidCrystal(BaseSystem):
         Output:
             matplotlib.axes.Axes: The axes on which the nematic is plotted.
         """
-        
-        # TODO find a better way of plotting.
-        if self.dim != 3:
-            raise Exception("Dimension not allowed")
-        if ax == None:
-            ax = plt.gcf().add_subplot(111, projection='3d')
-
-        if step is None:
-            step = 2
-        if point is None:
-            point = self.rmid
-
-        if plane is None:
-            plane = [1,0,0]
-
-        plane = np.array(plane)
-
-        if scalar is None:
-            scalar = n[0]*plane[0] + n[1]*plane[1] + n[2]*plane[2]
-
-
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-        if np.abs(plane[0]) == 1:
-            x_coord = int((point[0] - self.xmin) /self.dx)
-            X_plot = X[x_coord, ::step, ::step]
-            Y_plot = Y[x_coord, ::step, ::step]
-            Z_plot = Z[x_coord, ::step, ::step]
-            U_plot = n[0][x_coord, ::step, ::step]
-            V_plot = n[1][x_coord, ::step, ::step]
-            W_plot = n[2][x_coord, ::step, ::step]
-            c = scalar[x_coord,::step,::step]
+        S, n = self.calc_order_and_director()
+        if Scalar is None:
+            Scalar = S
 
-        elif np.abs(plane[1]) == 1:
-            y_coord = int((point[1] - self.ymin) / self.dy)
-            X_plot = X[ ::step, y_coord, ::step]
-            Y_plot = Y[ ::step, y_coord, ::step]
-            Z_plot = Z[ ::step, y_coord, ::step]
-            U_plot = n[0][ ::step, y_coord, ::step]
-            V_plot = n[1][ ::step, y_coord, ::step]
-            W_plot = n[2][ ::step, y_coord, ::step]
-            c = scalar[ ::step, y_coord, ::step]
+        scal = mlab.pipeline.scalar_field(X,Y,Z,Scalar)
 
-        elif np.abs(plane[2]) == 1:
-            z_coord = int((point[2] - self.ymin) / self.dy)
-            X_plot = X[::step, ::step, z_coord]
-            Y_plot = Y[::step, ::step, z_coord]
-            Z_plot = Z[::step, ::step, z_coord]
-            U_plot = n[0][::step, ::step, z_coord]
-            V_plot = n[1][::step, ::step, z_coord]
-            W_plot = n[2][::step, ::step, z_coord]
-            c = scalar[::step, ::step, z_coord]
+        mlab.pipeline.iso_surface(scal,contours = [Scalar.min() +0.2*Scalar.ptp()])
+        mlab.pipeline.iso_surface(scal, contours=[Scalar.max() - 0.2 * Scalar.ptp()],opacity=0.1)
+       # mlab.pipeline.scalar_cut_plane(scal, plane_orientation = 'z_axes')
+
+        if director:
+            vec = mlab.pipeline.vector_field(X,Y,Z,n[0],n[1],n[2])
+            mlab.pipeline.vectors(vec,mask_points =40,line_width =3, scale_factor = 2.0)
 
 
-        c  = (c.ravel() - c.min()) / c.ptp()
-        c = np.concatenate((c, np.repeat(c, 2)))
-
-        c = plt.cm.hsv(c)
-
-
-        ax.quiver(X_plot, Y_plot, Z_plot, U_plot, V_plot, W_plot, arrow_length_ratio=0,pivot= "middle",colors=c)
-
-        ax.set_xlim(self.xmin,self.xmax)
-        ax.set_ylim(self.ymin, self.ymax)
-        ax.set_zlim(self.zmin, self.zmax)
-
-        ax.set_xlabel('$x/a_0$')
-        ax.set_ylabel('$y/a_0$')
-        ax.set_zlabel('$z/a_0$')
-        ax.set_aspect('equal')
 
 
