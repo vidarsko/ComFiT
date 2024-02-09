@@ -444,9 +444,55 @@ class TestBaseSystem(unittest.TestCase):
             np.testing.assert_allclose(bs.T, T_final_3D, atol=1e-2, rtol=1e-2)
 
         
+    def test_plot_field(self):
+        """ Test plotting of field """
 
+        # 1 dimension
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(1, xRes=32, dx=0.1)
+
+        # Create field
+        field = np.random.rand(bs.xRes)
+
+        # Plot field
+        try:
+            bs.plot_field(field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+        # 2 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(2, xRes=32, dx=0.1, yRes=32, dy=0.1)
+
+        # Create field
+        field = np.random.rand(bs.yRes, bs.xRes)
+
+        # Plot field
+        try:
+            bs.plot_field(field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+        # 3 dimensions
+        # Initialize BaseSystem object
+
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+
+        # Create field
+        field = np.random.rand(bs.zRes, bs.yRes, bs.xRes)
+
+        # Plot field
+        try:
+            bs.plot_field(field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+    
 
         
+
 
 
 if __name__ == '__main__':

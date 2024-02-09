@@ -1073,14 +1073,8 @@ class BaseSystem:
         
         Input:
             field (array-like): The field to be plotted.
-            ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
-            colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
-            colormap (Colormap, optional): The colormap to use for the plot. If None, a default colormap will be used.
-            cmax (float, optional): The maximum value for the colorbar. If None, the maximum value of the field will be used.
-            cmin (float, optional): The minimum value for the colorbar. If None, the minimum value of the field will be used.
-            number_of_layers (int, optional): The number of layers to plot for a 3D field. Default is 1.
-            hold (bool, optional): Whether to clear the axes before plotting. Default is False.
-            vlim_symmetric (bool, optional): Whether to make the colormap symmetric. Default is True.
+            **kwargs: Keyword arguments for the plot.
+                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md for a full list of keyword arguments.
         
         Output:
             matplotlib.axes.Axes: The axes containing the plot.
@@ -1092,11 +1086,7 @@ class BaseSystem:
 
         if self.dim == 1:
 
-            if 'ax' in kwargs:
-                ax = kwargs['ax']
-            else:
-                plt.clf()
-                ax = plt.gca()
+            ax = kwargs.get('ax', plt.gca())
 
             ax.plot(self.x/self.a0, field)
 
@@ -1107,32 +1097,22 @@ class BaseSystem:
 
         if self.dim == 2:
 
+            ax = kwargs.get('ax', plt.gca())
             
-            if 'ax' in kwargs:
-                ax = kwargs['ax']
-            else:
-                plt.clf()
-                ax = plt.gca()
-
             # Set the colormap
-            if 'colormap' in kwargs:
-                colormap = kwargs['colormap']
-                if colormap == 'bluewhitered':
-                    colormap = tool_colormap_bluewhitered()
+            colormap = kwargs.get('colormap', 'viridis')
 
-                elif colormap == 'sunburst':
-                    colormap = tool_colormap_sunburst()
 
-                else:
-                    colormap = plt.get_cmap(colormap)
-            else: 
-                colormap = plt.get_cmap('viridis')
+            if colormap == 'bluewhitered':
+                colormap = tool_colormap_bluewhitered()
 
-            # Set the value limits
-            if 'vlim_symmetric' in kwargs:
-                vlim_symmetric = kwargs['vlim_symmetric']
+            elif colormap == 'sunburst':
+                colormap = tool_colormap_sunburst()
             else:
-                vlim_symmetric = False
+                colormap = plt.get_cmap(colormap)
+
+            # Value limits symmetric
+            vlim_symmetric = kwargs.get('vlim_symmetric', False)
 
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
@@ -1140,7 +1120,6 @@ class BaseSystem:
 
             xlim = [self.xmin, self.xmax-self.dx]
             ylim = [self.ymin, self.ymax-self.dy]
-
 
             limits_provided = False
             if 'xlim' in kwargs:
@@ -1176,6 +1155,7 @@ class BaseSystem:
             else:
                 vlim = [np.min(field), np.max(field)]
             
+            # Set the value limits
             if 'vlim' in kwargs:
                 vlim = kwargs['vlim']
             else:
@@ -1196,21 +1176,13 @@ class BaseSystem:
                     cmin = -cmax
                     pcm.set_clim(vmin=cmin, vmax=cmax)
 
-            
-            if 'colorbar' in kwargs:
-                colorbar = kwargs['colorbar']
-            else:
-                colorbar = True
+            colorbar = kwargs.get('colorbar', True)
 
             if colorbar:
                 cbar = plt.colorbar(pcm, ax=ax)
                 
 
-            #TODO: Fix so that the automatic clim match the region to be plotted (Vidar 28.01.24)
-            # Get limits to plot
-
             ax = self.plot_set_axis_properties(ax=ax, **kwargs)
-
 
             return ax
 
