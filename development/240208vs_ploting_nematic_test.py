@@ -14,8 +14,8 @@ nem.conf_initial_condition_disordered(noise_strength=1.0)
 nem.evolve_nematic_no_flow(5,method="ETD4RK")
 
 
-nem.evolve_nematic(100,method="ETD4RK")
+nem.evolve_nematic(10,method="ETD4RK")
 
 S,n = nem.calc_order_and_director()
-nem.plot_nematic_3D(S,director=True)
+nem.plot_nematic_3D(S,director=True, Flow=True)
 mlab.show()
