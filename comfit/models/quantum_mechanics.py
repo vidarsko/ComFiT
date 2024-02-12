@@ -95,7 +95,7 @@ class QuantumMechanics(BaseSystem):
                                            +((self.z - self.zmid) ** 2) )
 
     ## Calculation functions
-    def calc_nonlinear_evolution_function_f(self,psi):
+    def calc_nonlinear_evolution_function_f(self,psi,t):
 
         return sp.fft.fftn((1j) * (-self.V_ext) * psi)
 

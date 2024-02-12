@@ -238,7 +238,7 @@ class TestBaseSystem(unittest.TestCase):
             def calc_omega_f(bs):
                 return -bs.calc_k2()
 
-            def calc_nonlinear_evolution_function_f(bs,T):
+            def calc_nonlinear_evolution_function_f(bs,T,t):
                 f = bs.A*(bs.T0-T)*np.exp(-(bs.x-bs.xmid)**2/(2*bs.sigma**2))
                 return sp.fft.fft(f)
 
@@ -323,7 +323,7 @@ class TestBaseSystem(unittest.TestCase):
             def calc_omega_f(bs):
                 return -bs.calc_k2()
 
-            def calc_nonlinear_evolution_function_f(bs,T):
+            def calc_nonlinear_evolution_function_f(bs,T,t):
                 f = bs.A*(bs.T0-T)*np.exp(-((bs.x-bs.xmid)**2+(bs.y-bs.ymid)**2)/(2*bs.sigma**2))
                 return sp.fft.fft2(f)
             
@@ -409,7 +409,7 @@ class TestBaseSystem(unittest.TestCase):
             def calc_omega_f(bs):
                 return -bs.calc_k2()
 
-            def calc_nonlinear_evolution_function_f(bs,T):
+            def calc_nonlinear_evolution_function_f(bs,T,t):
                 f = bs.A*(bs.T0-T)*np.exp(-((bs.x-bs.xmid)**2+(bs.y-bs.ymid)**2+(bs.z-bs.zmid)**2)/(2*bs.sigma**2))
                 return sp.fft.fftn(f)
             

@@ -171,7 +171,7 @@ class PhaseFieldCrystal(BaseSystem):
         # print("Chem pot shape", chemical_potential.shape)
         return free_energy_density, chemical_potential
 
-    def calc_nonlinear_hydrodynamic_evolution_function_f(self, field):
+    def calc_nonlinear_hydrodynamic_evolution_function_f(self, field, t):
 
         field_f = sp.fft.fftn(field, axes =( range ( - self . dim , 0) ))
 
@@ -184,7 +184,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         return np.array([N0_f] + [1/self.rho0*force_density_f[i] for i in range(self.dim)])
 
-    def calc_nonlinear_evolution_function_f(self, psi):
+    def calc_nonlinear_evolution_function_f(self, psi, t):
         return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
 
     def calc_displacement_field_to_equilibrium(self):

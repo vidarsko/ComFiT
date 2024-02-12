@@ -460,7 +460,7 @@ class NematicLiquidCrystal(BaseSystem):
         return E_f
 
 #### Calculation of non-linear evolution terms
-    def calc_nonlinear_evolution_function_f(self,Q):
+    def calc_nonlinear_evolution_function_f(self,Q,t):
         # TODO test and make sure that the passive stress works as intended (Jonas: 2023/11/14)
         #TODO make 3d compatible
         """
@@ -475,7 +475,7 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             self.conf_u(Q)
             Q_f = sp.fft.fftn(Q,axes=range(-self.dim,0))
-            N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
+            N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q,t)
             Omega =self.calc_vorticity_tensor()
             Antisym_Omega_Q = np.zeros_like(Q_f)
 
@@ -490,7 +490,7 @@ class NematicLiquidCrystal(BaseSystem):
             # TODO: check that antisym_omega is correct (18/01/24)
             self.conf_u(Q)
             Q_f = sp.fft.fftn(Q, axes=range(-self.dim, 0))
-            N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q)
+            N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q,t)
             Omega = self.calc_vorticity_tensor()
 
             advectiv_deriv = - np.sum(
@@ -509,7 +509,7 @@ class NematicLiquidCrystal(BaseSystem):
         else:
             raise Exception("This dimension is not implemented at the moment")
 
-    def calc_nonlinear_evolution_term_no_flow_f(self,Q):
+    def calc_nonlinear_evolution_term_no_flow_f(self,Q,t):
 
         """
         Calculates the non-linear evolution function for the nematic without the flow field

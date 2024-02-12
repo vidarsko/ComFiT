@@ -283,7 +283,7 @@ Note that all solvers defined in the  class \lstinline{BaseSystem} updates the t
 
 ### The ETD4RK scheme
 
-Following Ref. \cite{coxExponentialTimeDifferencing2002}, we may generalize the method to a fourth order Runge-Kutta as follows
+Following Ref. [coxExponentialTimeDifferencing2002](References.md), we may generalize the method to a fourth order Runge-Kutta as follows
 
 ---
 $$
@@ -373,7 +373,7 @@ Similar as for the EDT2RK case $I_{\mathfrak f 1}$, $I_{\mathfrak f 3}$, $I_{\ma
 We therfore replace these coeficients with their limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance. 
 This has been important in order to make the the code stable for some of the systems. 
 In the same way as the EDT2RK scheme this is implemented as the function
-`self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolutioN_{\mathfrak f}unctioN_{\mathfrak f}, field, field_f)`
+`self.evolve_ETD4RK_loop(self, integrating_factors_f, nonlinear_evolutioN_{\mathfrak f}unctioN_{\mathfrak f}, field, field_f)`
 This function is called by the evolvers discussed in the model chapter if the method is defined as ```method = "ETD4RK"```, the integrating factors are found with
 `self.calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10**(-4))`.
 

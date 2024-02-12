@@ -71,7 +71,7 @@ Fourier space.
 In this case, it could look like
 
 ```python
-def calc_non_linear_part(self,field):
+def calc_nonlinear_part(self,field):
     Something
 ```
 </div>

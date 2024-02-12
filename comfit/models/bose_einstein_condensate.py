@@ -323,7 +323,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
     # CALCULATION FUNCTIONS
 
-    def calc_nonlinear_evolution_function_f(self, psi):
+    def calc_nonlinear_evolution_function_f(self, psi, t):
         """
         Calculates the non-linear evolution term of the dGPE
         
@@ -336,7 +336,7 @@ class BoseEinsteinCondensate(BaseSystem):
         psi2 = np.abs(psi) ** 2
         return sp.fft.fftn((1j + self.gamma) * (-self.V_ext() - psi2) * psi)
 
-    def calc_nonlinear_evolution_term_comoving_f(self, psi):
+    def calc_nonlinear_evolution_term_comoving_f(self, psi, t):
         """
         Calculates the non-linear evolution term of the dGPE when gamma is not a constant.
         Relevant for example in the comoving frame when we have a dissipative frame around the edge.
