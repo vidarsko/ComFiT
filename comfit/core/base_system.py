@@ -1506,11 +1506,12 @@ class BaseSystem:
                     theta_normalized = (theta + np.pi) / (2 * np.pi)
 
                     # Plotting the surface
-                    surf = mlab.surf(X, Y, rho)
+                    surf = mlab.mesh(X/self.a0, Y/self.a0, 20*rho, scalars=theta_normalized, colormap='hsv')
 
-                    axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0',  
-                        nb_labels=5, ranges=(0, 5, 0, 5, -1, 1))
-                    mlab.view(-135,60)
+                    axes = mlab.axes(xlabel='x/a0', ylabel='y/a0',  
+                        nb_labels=5)
+                    mlab.view(-135,60,300)
+                    
 
                     # Setting the color range to match the normalized theta range
                     # surf.module_manager.scalar_lut_manager.data_range = np.array([0, 1])
@@ -1574,12 +1575,11 @@ class BaseSystem:
 
         elif self.dim == 3:
 
-            if plot_method is None:
-                plot_method = 'phase_blob'
-
-            if ax == None:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
+            plot_method = kwargs.get('plot_method', 'phase_blob')
+            plotting_lib = kwargs.get('plotting_lib', 'matplotlib')
+            
+            
+            
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
@@ -1589,6 +1589,13 @@ class BaseSystem:
 
             colormap = tool_colormap_angle()
 
+            if plotting_lib == 'matplotlib':
+                ax = kwargs.get('ax', None)
+
+                if ax == None:
+                    plt.clf()
+                    ax = plt.gcf().add_subplot(111, projection='3d')
+        
             if plot_method == 'phase_angle':
                 
 
@@ -1620,50 +1627,63 @@ class BaseSystem:
                                 color=colormap(0))
             
             elif plot_method == 'phase_blob':
+                
+                if plotting_lib == 'matplotlib':
 
-                if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
-                    verts, faces, _, _ = marching_cubes(rho_normalized, 0.5)
+                    if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
+                        verts, faces, _, _ = marching_cubes(rho_normalized, 0.5)
 
-                    # Calculate the centroids of each triangle
-                    centroids = np.mean(verts[faces], axis=1)
+                        # Calculate the centroids of each triangle
+                        centroids = np.mean(verts[faces], axis=1)
 
-                    # Assuming theta is defined on the same grid as rho
-                    x, y, z = np.mgrid[0:rho_normalized.shape[0], 0:rho_normalized.shape[1], 0:rho_normalized.shape[2]]
+                        # Assuming theta is defined on the same grid as rho
+                        x, y, z = np.mgrid[0:rho_normalized.shape[0], 0:rho_normalized.shape[1], 0:rho_normalized.shape[2]]
 
-                    # Flatten the grid for interpolation
-                    points = np.c_[x.ravel(), y.ravel(), z.ravel()]
-                    theta_values = theta.ravel()
+                        # Flatten the grid for interpolation
+                        points = np.c_[x.ravel(), y.ravel(), z.ravel()]
+                        theta_values = theta.ravel()
 
-                    # Interpolate theta at the vertices positions
-                    theta_verts = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
+                        # Interpolate theta at the vertices positions
+                        theta_verts = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
 
-                    # Normalize theta values for color mapping
-                    theta_normalized = (theta_verts + np.pi) / (2*np.pi)
+                        # Normalize theta values for color mapping
+                        theta_normalized = (theta_verts + np.pi) / (2*np.pi)
 
-                    # Map normalized theta values to colors
-                    colors = colormap(theta_normalized)
+                        # Map normalized theta values to colors
+                        colors = colormap(theta_normalized)
 
-                    # print("Colors shape:", colors.shape)
-                    # print(colors)
+                        # print("Colors shape:", colors.shape)
+                        # print(colors)
 
-                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, 
-                                    self.ymin+verts[:, 1]*self.dy, 
-                                    faces, 
-                                    self.zmin+verts[:, 2]*self.dz, 
-                                    facecolor=colors, antialiased=False)
+                        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, 
+                                        self.ymin+verts[:, 1]*self.dy, 
+                                        faces, 
+                                        self.zmin+verts[:, 2]*self.dz, 
+                                        facecolor=colors, antialiased=False)
 
-            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
 
-            ax.set_aspect('equal')
+                    elif plotting_lib == 'mayavi':
+                        mlab.contour3d(X,Y,Z,rho,contours=[0.5])
 
-            ax.set_xlabel("$x/a_0$")
-            ax.set_ylabel("$y/a_0$")
-            ax.set_zlabel("$z/a_0$")
-            ax.set_aspect('equal')
+                        axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', 
+                        nb_labels=5)
+                        mlab.view(-135,60)
 
-            return ax
+
+            if plotting_lib == 'matplotlib':
+
+                ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+                ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+                ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+
+                ax.set_aspect('equal')
+
+                ax.set_xlabel("$x/a_0$")
+                ax.set_ylabel("$y/a_0$")
+                ax.set_zlabel("$z/a_0$")
+                ax.set_aspect('equal')
+
+                return ax
 
 
         else:
