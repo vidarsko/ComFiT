@@ -265,11 +265,11 @@ I_{\mathfrak f 2} = \frac{1}{\omega_{\mathfrak f}^2 \Delta t} (e^{ \omega_{\math
 $$
 
 $$
-N_{\mathfrak f 0} = N(\psi(t),t)
+N_{\mathfrak f 0} = (N(\psi(t),t))_{\mathfrak f}
 $$
 
 $$
-N_{\mathfrak f a} = N(\psi_a,t+\Delta t)
+N_{\mathfrak f a} = (N(\psi_a,t+\Delta t))_{\mathfrak f}
 $$
 
 ---
