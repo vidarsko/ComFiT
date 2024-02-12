@@ -337,16 +337,16 @@ class PhaseFieldCrystal(BaseSystem):
         eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
                        dtype=complex)
 
-        gaussfilter_f = self.calc_gaussfilter_f()
+        Gaussian_filter_f = self.calc_Gaussian_filter_f()
 
         if self.dim == 2:
                 for n in range(self.number_of_primary_reciprocal_lattice_modes):
-                    eta[n] = sp.fft.ifftn(gaussfilter_f*sp.fft.fftn(self.psi*np.exp(
+                    eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(self.psi*np.exp(
                         -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y)))
 
         elif self.dim == 3:
             for n in range(self.number_of_primary_reciprocal_lattice_modes):
-                eta[n] = sp.fft.ifftn(gaussfilter_f*sp.fft.fftn(self.psi*np.exp(
+                eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(self.psi*np.exp(
                     -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y - 1j*self.q[n][2]*self.z  
                     )))
                 
@@ -733,7 +733,7 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         k2 = self.calc_k2()
 
         return np.array([
-            -2*self.calc_gaussfilter_f()*sp.fft.fftn(sum([
+            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(sum([
                 sp.fft.ifftn((1-k2)*self.dif[i]*field_f)*sp.fft.ifftn(self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
                 ]) + sp.fft.ifftn((1-k2)*field_f)*sp.fft.ifftn(self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
                 )

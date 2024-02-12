@@ -40,8 +40,7 @@ class BoseEinsteinCondensate(BaseSystem):
         # Default simulation parameters
         self.gamma = 0.1 if 'gamma' not in kwargs else kwargs['gamma']  # Dissipation (gamma)
 
-        self.V0 = 0
-        self.V_ext = lambda: self.V0  # External potential, note this is a function
+        self.V_ext = lambda t: 0  # External potential, note this is a function of t
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
@@ -83,18 +82,26 @@ class BoseEinsteinCondensate(BaseSystem):
         self.psi = noise_strength * self.psi
         self.psi_f = sp.fft.fftn(self.psi)
 
-
-    def conf_time_dependent_potential(self, Func):
+    def conf_external_potential(self, V_ext, additive=False):
         """
-        Set the potential to the function Func. Func has to use self.dt as the time variabel.
-        
+        Sets the external potential of the system.
         Input:
-            Func (function): the time-dependent potetnial that we want
-
+            V_ext (function or float): the external potential
+            additive (bool, optional): whether to add the new potential to the existing potential or not
         Output:
-            Set V_ext to Func
+            Modifies the value of self.V_ext
         """
-        self.V_ext = Func
+
+        if not callable(V_ext):
+            original_V_ext = V_ext  # Preserve the original value of V_ext
+            V_ext = lambda t: original_V_ext
+        
+        if additive:
+            self.V_ext = lambda t: self.V_ext(t) + V_ext(t)
+        else:
+            self.V_ext = V_ext
+
+
 
     def conf_initial_condition_Thomas_Fermi(self):
         """
@@ -107,7 +114,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Output: 
             sets the value of self.psi and self.psi_f
         """
-        V_0 = np.zeros(self.dims) + self.V_ext()
+        V_0 = np.zeros(self.dims) + self.V_ext(self.time)
         self.psi = np.emath.sqrt(1 - V_0)
 
         self.psi[V_0 > 1] = 0
@@ -333,8 +340,9 @@ class BoseEinsteinCondensate(BaseSystem):
         Output:
             (numpy.ndarray): the non-linear evolution term
         """
+        
         psi2 = np.abs(psi) ** 2
-        return sp.fft.fftn((1j + self.gamma) * (-self.V_ext() - psi2) * psi)
+        return sp.fft.fftn((1j + self.gamma) * (-self.V_ext(t) - psi2) * psi)
 
     def calc_nonlinear_evolution_term_comoving_f(self, psi, t):
         """
@@ -348,7 +356,7 @@ class BoseEinsteinCondensate(BaseSystem):
             (numpy.ndarray): the non-linear evolution term
         """
         psi2 = np.abs(psi) ** 2
-        term1 = sp.fft.fftn(-(1j + self.gamma) * (self.V_ext() + psi2) * psi)
+        term1 = sp.fft.fftn(-(1j + self.gamma) * (self.V_ext(t) + psi2) * psi)
         term2 = sp.fft.fftn(self.gamma * psi)
         term3 = 0.5 * sp.fft.fftn(self.gamma * sp.fft.ifftn(-self.calc_k2() * sp.fft.fftn(psi)))
         return (term1 + term2 + term3)
@@ -423,7 +431,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         k2 = self.calc_k2()
         interaction_term = 1/2*np.abs(self.psi)**4
-        potential_term = (self.V_ext() - 1 )* np.abs(self.psi)**2
+        potential_term = (self.V_ext(t) - 1 )* np.abs(self.psi)**2
         laplacian_term = -1/2 *np.real( np.conj(self.psi) * sp.fft.ifftn(-k2*self.psi_f))
         return laplacian_term +potential_term + interaction_term
 
@@ -496,7 +504,7 @@ class BoseEinsteinCondensate(BaseSystem):
             (numpy.ndarray) average force on the potential
         """
         Force =np.zeros(self.dim)
-        potential_f = sp.fft.ifftn(self.V_ext())
+        potential_f = sp.fft.ifftn(self.V_ext(t))
         for i in range(self.dim):
             Force_density = np.real(np.abs(self.psi)**2 * sp.fft.ifftn(1j*self.k[i]* potential_f))
             Force[i] = self.calc_integrate_field(Force_density)

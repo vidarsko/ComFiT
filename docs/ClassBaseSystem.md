@@ -73,14 +73,20 @@ $$
 This is why we have the following function
 
 ```python
-calc_gaussfilter_f
+calc_Gaussian_filter_f
 ```
 which calculates $\mathcal K_{\mathfrak f}$.
 
 Typically, a field is coarse-grained with a width using the following piece of code
 
 ```python
-field = sc.fft.ifftn(sc.fft.fftn(field) * self.calc_gaussfilter_f(width))
+field = sc.fft.ifftn(sc.fft.fftn(field) * self.calc_Gaussian_filter_f(width))
+```
+
+The Gaussian function is actually so useful that is given by can be calculated using
+
+```python
+Gaussian = bs.calc_Gaussian()
 ```
 
 ## Vortex fields
@@ -258,7 +264,18 @@ $$
 I_{\mathfrak f 2} = \frac{1}{\omega_{\mathfrak f}^2 \Delta t} (e^{ \omega_{\mathfrak f} \Delta t} -1  -\omega_{\mathfrak f} \Delta t)
 $$
 
+$$
+N_{\mathfrak f 0} = N(\psi(t),t)
+$$
+
+$$
+N_{\mathfrak f a} = N(\psi_a,t+\Delta t)
+$$
+
 ---
+
+Note that $N_{\mathfrak f}$ is a non-linear function of the field variable $\psi$, but can also be an explicit variable of time $t$, i.e. $N_{\mathfrak f}(\psi,t)$. 
+Therefore, in the code, it has to be encoded as a function of these two variables `calc_nonlinear_evolution_function_f(self, psi, t)`.
 
 For numerical purposes, it is useful to calculate the small $\omega_{\mathfrak f}$ limit. We expand the exponential in its Taylor series and keep the leading order term to get:
 
@@ -291,7 +308,7 @@ $$
 \psi_{\mathfrak f a} &= I_{\mathfrak f 0} \psi_{\mathfrak f 0} +  I_{\mathfrak f 1} N_{\mathfrak f 0} \\
 \psi_{\mathfrak f b} &= I_{\mathfrak f 0} \psi_{\mathfrak f 0} + I_{\mathfrak f 1} N_{\mathfrak f a} \\
 \psi_{\mathfrak f c} &= I_{\mathfrak f 0} \psi_{\mathfrak f a} + I_{\mathfrak f 1} (2 N_{\mathfrak f b} - N_{\mathfrak f 0}) \\
-\psi_{\mathfrak f} (t+\Delta t) &;= I_{\mathfrak f 2} \psi_{\mathfrak f 0} + I_{\mathfrak f 3} N_{\mathfrak f 0} + I_{\mathfrak f 4} (N_{\mathfrak f a} + N_{\mathfrak f b}) + I_{\mathfrak f 5} N_{\mathfrak f c}
+\psi_{\mathfrak f} (t+\Delta t) &= I_{\mathfrak f 2} \psi_{\mathfrak f 0} + I_{\mathfrak f 3} N_{\mathfrak f 0} + I_{\mathfrak f 4} (N_{\mathfrak f a} + N_{\mathfrak f b}) + I_{\mathfrak f 5} N_{\mathfrak f c}
 \end{aligned}
 $$
 
@@ -373,7 +390,7 @@ Similar as for the EDT2RK case $I_{\mathfrak f 1}$, $I_{\mathfrak f 3}$, $I_{\ma
 We therfore replace these coeficients with their limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance. 
 This has been important in order to make the the code stable for some of the systems. 
 In the same way as the EDT2RK scheme this is implemented as the function
-`self.evolve_ETD4RK_loop(self, integrating_factors_f, nonlinear_evolutioN_{\mathfrak f}unctioN_{\mathfrak f}, field, field_f)`
+`self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolutioN_{\mathfrak f}unctioN_{\mathfrak f}, field, field_f)`
 This function is called by the evolvers discussed in the model chapter if the method is defined as ```method = "ETD4RK"```, the integrating factors are found with
 `self.calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10**(-4))`.
 

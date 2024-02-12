@@ -324,7 +324,7 @@ class BaseSystem:
     def calc_k2(self):
         return sum([self.k[i] ** 2 for i in range(len(self.k))])
 
-    def calc_gaussfilter_f(self, a0=None):
+    def calc_Gaussian_filter_f(self, a0=None):
 
         if a0 is None:
             a0 = self.a0
@@ -587,6 +587,71 @@ class BaseSystem:
 
         else:
             raise Exception("Not valid for other dimensions.")
+
+    def calc_Gaussian(self, **kwargs):
+        """
+        Calculated the Gaussian function 
+        Input:
+            kwargs:
+            - position
+            - width
+            - top (the top of the Gaussian function)
+            - value (the value of the integrated Gaussian function)
+            If neither top nor value is provided, the function will be normalized to 1
+        """
+        position = kwargs.get('position',self.rmid)
+        width = kwargs.get('width',self.a0)
+
+        r2 = self.calc_distance_squared_to_point(position)
+        
+        if 'top' in kwargs:
+            return kwargs['top']*np.exp(-r2/(2*width**2))
+        else:
+            value = kwargs.get('value',1)
+            return value*(2*np.pi*width**2)**(-self.dim/2)*np.exp(-r2/(2*width**2))
+
+    def calc_distance_squared_to_point(self,position):
+        """
+        Calculates the distance to a point given
+        """
+        if self.dim == 1:
+            rx2m = (self.x - position[0] - self.xmax) ** 2
+            rx2 = (self.x - position[0]) ** 2
+            rx2p = (self.x - position[0] + self.xmax) ** 2
+            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes))
+
+            return rx2
+        
+        elif self.dim == 2:
+            rx2m = (self.x - position[0] - self.xmax) ** 2
+            rx2 = (self.x - position[0]) ** 2
+            rx2p = (self.x - position[0] + self.xmax) ** 2
+            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes, 1))
+
+            ry2m = (self.y - position[1] - self.ymax) ** 2
+            ry2 = (self.y - position[1]) ** 2
+            ry2p = (self.y - position[1] + self.ymax) ** 2
+            ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes))
+
+            return rx2 + ry2
+
+        elif self.dim == 3:
+            rx2m = (self.x - position[0] - self.xmax) ** 2
+            rx2 = (self.x - position[0]) ** 2
+            rx2p = (self.x - position[0] + self.xmax) ** 2
+            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes, 1, 1))
+
+            ry2m = (self.y - position[1] - self.ymax) ** 2
+            ry2 = (self.y - position[1]) ** 2
+            ry2p = (self.y - position[1] + self.ymax) ** 2
+            ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes, 1))
+
+            rz2m = (self.z - position[2] - self.zmax) ** 2
+            rz2 = (self.z - position[2]) ** 2
+            rz2p = (self.z - position[2] + self.zmax) ** 2
+            rz2 = np.min(np.stack((rz2m, rz2, rz2p)), axis=0).reshape((1, 1, self.zRes))
+
+            return rx2 + ry2 + rz2
 
     def calc_region_cylinder(self, position, radius, normal_vector, height):
         """
