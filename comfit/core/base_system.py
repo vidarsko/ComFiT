@@ -1448,9 +1448,11 @@ class BaseSystem:
             # plt.xlabel("X-axis")
             # plt.ylabel("Y-axis")
 
-    def plot_complex_field(self, complex_field, ax=None, plot_method=None, colorbar=False):
+    def plot_complex_field(self, complex_field, **kwargs):
         """
         Plot a complex field.
+
+        ax=None, plot_method=None, colorbar=False
 
         Input:
             complex_field (numpy.ndarray): The complex field to plot.
@@ -1467,23 +1469,61 @@ class BaseSystem:
 
 
         if self.dim == 2:
-            if plot_method is None:
-                plot_method = 'phase_angle'
+
+            plot_method = kwargs.get('plot_method', 'phase_angle')
+            plotting_lib = kwargs.get('plotting_lib', 'matplotlib')
 
             if plot_method == '3Dsurface':
-                if ax == None:
-                    ax = plt.gcf().add_subplot(111, projection='3d')
 
-                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+                if plotting_lib == 'matplotlib':
 
-                custom_colormap = tool_colormap_angle()
-                rho = np.abs(complex_field)
-                theta = np.angle(complex_field)
-                # Get the colors from a colormap (e.g., hsv, but you can choose any other)
-                colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+                    ax = kwargs.get('ax', None)
 
-                surf = ax.plot_surface(X, Y, rho, facecolors=colors)
+                    if ax == None:
+                        plt.clf()
+                        ax = plt.gcf().add_subplot(111, projection='3d')
+
+                    X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+                    custom_colormap = tool_colormap_angle()
+                    rho = np.abs(complex_field)
+                    theta = np.angle(complex_field)
+                    # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+                    colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+
+                    surf = ax.plot_surface(X, Y, rho, facecolors=colors)
+                    
+                    ax.set_xlabel("$x/a_0$")
+                    ax.set_ylabel("$y/a_0$")
+                    return ax
+                
+                elif plotting_lib == 'mayavi':
+                    X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+                    rho = np.abs(complex_field)
+                    theta = np.angle(complex_field)
+
+                    # Normalize theta for colormap application
+                    theta_normalized = (theta + np.pi) / (2 * np.pi)
+
+                    # Plotting the surface
+                    surf = mlab.surf(X, Y, rho)
+
+                    axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0',  
+                        nb_labels=5, ranges=(0, 5, 0, 5, -1, 1))
+                    mlab.view(-135,60)
+
+                    # Setting the color range to match the normalized theta range
+                    # surf.module_manager.scalar_lut_manager.data_range = np.array([0, 1])
+
+                    # Labels (Mayavi manages labels and axes differently than Matplotlib)
+                    # mlab.xlabel("$x/a_0$")
+                    # mlab.ylabel("$y/a_0$")
+
+
             elif plot_method == 'phase_angle':
+
+                ax = kwargs.get('ax', None)
+
                 if ax == None:
                     plt.clf()
                     ax = plt.gca()
@@ -1494,7 +1534,7 @@ class BaseSystem:
                 theta = np.angle(complex_field)
 
                 rho_normalized = rho / np.max(rho)
-                custom_colormap_phase = tool_colormap_angle()
+                custom_colormap = tool_colormap_angle()
 
 
                 # Create a new colormap for magnitudeW
@@ -1509,26 +1549,28 @@ class BaseSystem:
                 #colors = custom_colormap_phase(theta)
                 #colors[..., 3] = rho_normalized  # Set the alpha channel according to the magnitude
 
-                mesh = ax.pcolormesh(X, Y, theta, shading='auto', cmap=custom_colormap_phase, vmin=-np.pi, vmax=np.pi)
+                mesh = ax.pcolormesh(X, Y, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
                 mesh.set_alpha(rho_normalized)
                 
                 #mesh.set_array(None)  # Avoids warning
                 #mesh.set_edgecolor('face')
                 #mesh.set_facecolor(colors)  # Use the calculated colors
 
-            if colorbar:
-                mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
-                mappable.set_array([])
-                mappable.set_clim(-np.pi, np.pi)
-                cbar = plt.colorbar(mappable, ax=ax)
-                cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-                cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+                colorbar = kwargs.get('colorbar', True)
 
-            ax.set_xlabel("$x/a_0$")
-            ax.set_ylabel("$y/a_0$")
-            ax.set_aspect('equal')
+                if colorbar:
+                    mappable = plt.cm.ScalarMappable(cmap=custom_colormap)
+                    mappable.set_array([])
+                    mappable.set_clim(-np.pi, np.pi)
+                    cbar = plt.colorbar(mappable, ax=ax)
+                    cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+                    cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+
+                ax.set_xlabel("$x/a_0$")
+                ax.set_ylabel("$y/a_0$")
+                ax.set_aspect('equal')
             
-            return ax
+                return ax
 
         elif self.dim == 3:
 

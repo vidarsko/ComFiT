@@ -4,6 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
+from mayavi import mlab
 
 bec = cf.BoseEinsteinCondensate(2,gamma=0.1)
 
@@ -22,8 +23,9 @@ bec.conf_external_potential(V)
 
 for n in range(200):
     bec.evolve_dGPE(50)
-    bec.plot_complex_field(bec.psi)
-    plt.draw()
-    plt.pause(0.01)
-    cf.tool_save_plot(n)
-cf.tool_make_animation_gif(n)
+    bec.plot_complex_field(bec.psi,plot_method='3Dsurface',plotting_lib='mayavi')
+    # plt.draw()
+    # plt.pause(0.01)
+    mlab.show()
+    # cf.tool_save_plot(n)
+# cf.tool_make_animation_gif(n)
