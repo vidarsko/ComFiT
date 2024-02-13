@@ -1756,21 +1756,22 @@ class BaseSystem:
 
                 if plotting_lib == 'mayavi':
                     #TODO: Add exception handling (Vidar 13.02.24)
-                    print("theta_faces_normalized:", theta_faces_normalized)
-                    theta_faces_normalized = np.mod(theta_faces_normalized+0.5,1)
+                    if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
+                    # print("theta_faces_normalized:", theta_faces_normalized)
+                        theta_faces_normalized = np.mod(theta_faces_normalized+0.5,1)
 
-                    vertex_values = np.zeros(verts.shape[0])
-                    for i, face in enumerate(faces):
-                        for vert in face:
-                            vertex_values[vert] = theta_faces_normalized[i]
-                    
-                    # Now, create the mesh using mlab.triangular_mesh
-                    x, y, z = verts.T  # Transpose verts to get separate arrays
-                    mlab.figure(bgcolor=(0.5, 0.5, 0.5))  # Set background color to white for visibility
-                    mesh = mlab.triangular_mesh(x, y, z, faces, representation='surface', opacity=1,
-                                                scalars=vertex_values, colormap='hsv')
+                        vertex_values = np.zeros(verts.shape[0])
+                        for i, face in enumerate(faces):
+                            for vert in face:
+                                vertex_values[vert] = theta_faces_normalized[i]
+                        
+                        # Now, create the mesh using mlab.triangular_mesh
+                        x, y, z = verts.T  # Transpose verts to get separate arrays
+                        mlab.figure(bgcolor=(0.5, 0.5, 0.5))  # Set background color to white for visibility
+                        mesh = mlab.triangular_mesh(x, y, z, faces, representation='surface', opacity=1,
+                                                    scalars=vertex_values, colormap='hsv')
 
-                    self.plot_shadows(x=x,y=y,z=z,faces=faces,plotting_lib=plotting_lib)
+                        self.plot_shadows(x=x,y=y,z=z,faces=faces,plotting_lib=plotting_lib)
 
                     self.plot_set_scene_properties(**kwargs)
 
