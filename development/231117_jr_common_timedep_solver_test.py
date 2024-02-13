@@ -11,8 +11,8 @@ size =4
 strength = .9
 
 def V_t():
-    pos_x = bec.xmid + stirrer_radius * np.cos(freq * bec.t)
-    pos_y = bec.ymid + stirrer_radius * np.sin(freq * bec.t)
+    pos_x = bec.xmid + stirrer_radius * np.cos(freq * bec.time)
+    pos_y = bec.ymid + stirrer_radius * np.sin(freq * bec.time)
     pos_z = bec.zmid
     return  bec.calc_gaussian_stirring_potential(size, strength, [pos_x, pos_y,pos_z])
 
