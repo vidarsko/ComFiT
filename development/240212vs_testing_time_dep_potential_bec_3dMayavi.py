@@ -32,4 +32,7 @@ bec.plot_complex_field(bec.psi, plotting_lib='mayavi')
     # cf.tool_save_plot(n)
 # cf.tool_make_animation_gif(n)
 # plt.show()
+
+
+
 mlab.show()

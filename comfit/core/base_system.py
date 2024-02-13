@@ -1042,6 +1042,7 @@ class BaseSystem:
             ax_or_scene: an axis or scene object
             kwargs: keyword arguments for the axis properties
         """
+        
 
         if self.dim == 1:
             
@@ -1115,6 +1116,29 @@ class BaseSystem:
             ax.set_aspect('equal')
 
             return ax
+
+    def plot_set_scene_properties(self, **kwargs):
+        """
+        Sets the properties of the scene for a plot.
+        """
+        if self.dim == 3:
+            
+            Delta_x = (self.xmax - self.xmin)/5
+            Delta_y = (self.ymax - self.ymin)/5
+            Delta_z = (self.zmax - self.zmin)/5
+
+            # Define the range for the grid
+            x_range =np.array([self.xmin,self.xmin+Delta_x])
+            y_range =np.array([self.ymin,self.ymin+Delta_y])
+            x, y = np.meshgrid(x_range, y_range)
+
+            # Height of the grid (z-coordinates)
+            z = np.zeros_like(x)
+
+            # Plot the grid as a flat surface
+            grid_surf = mlab.mesh(x, y, z, representation='wireframe', color=(0, 0, 0))
+
+
 
 
     def plot_field(self, field, **kwargs):
@@ -1503,10 +1527,10 @@ class BaseSystem:
                     theta = np.angle(complex_field)
 
                     # Normalize theta for colormap application
-                    theta_normalized = (theta + np.pi) / (2 * np.pi)
+                    theta_faces_normalized = (theta + np.pi) / (2 * np.pi)
 
                     # Plotting the surface
-                    surf = mlab.mesh(X/self.a0, Y/self.a0, 20*rho, scalars=theta_normalized, colormap='hsv')
+                    surf = mlab.mesh(X/self.a0, Y/self.a0, 20*rho, scalars=theta_faces_normalized, colormap='hsv')
 
                     axes = mlab.axes(xlabel='x/a0', ylabel='y/a0',  
                         nb_labels=5)
@@ -1627,64 +1651,84 @@ class BaseSystem:
                                 color=colormap(0))
             
             elif plot_method == 'phase_blob':
+                if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
+                    print("Hello")
+                    verts, faces, _, _ = marching_cubes(rho_normalized, 0.5)
+
+                    print("verts shape:", verts.shape)
+                    print("faces shape:", faces.shape)
+
+                    # Calculate the centroids of each triangle
+                    centroids = np.mean(verts[faces], axis=1)
+
+                    # Assuming theta is defined on the same grid as rho
+                    x, y, z = np.mgrid[0:rho_normalized.shape[0], 0:rho_normalized.shape[1], 0:rho_normalized.shape[2]]
+
+                    # Flatten the grid for interpolation
+                    points = np.c_[x.ravel(), y.ravel(), z.ravel()]
+                    theta_values = theta.ravel()
+
+                    # Interpolate theta at the vertices positions
+                    theta_faces = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
+
+                    # Normalize theta values for color mapping
+                    theta_faces_normalized = (theta_faces + np.pi) / (2*np.pi)
+
+                    # Map normalized theta values to colors
+                    colors = colormap(theta_faces_normalized)
+
+                if plotting_lib == 'mayavi':
+                    #TODO: Add exception handling (Vidar 13.02.24)
+                    print("theta_faces_normalized:", theta_faces_normalized)
+                    theta_faces_normalized = np.mod(theta_faces_normalized+0.5,1)
+
+                    vertex_values = np.zeros(verts.shape[0])
+                    for i, face in enumerate(faces):
+                        for vert in face:
+                            vertex_values[vert] = theta_faces_normalized[i]
+                    
+                    # Now, create the mesh using mlab.triangular_mesh
+                    x, y, z = verts.T  # Transpose verts to get separate arrays
+                    mlab.figure(bgcolor=(0.5, 0.5, 0.5))  # Set background color to white for visibility
+                    mesh = mlab.triangular_mesh(x, y, z, faces, representation='surface', opacity=1,
+                                                scalars=vertex_values, colormap='hsv')
+
+                    
+                    # self.plot_set_scene_properties(**kwargs)
+
+                    axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', 
+                    nb_labels=5)
+                    
+                    mlab.view(-135,60)
+
+
+
+                    # mlab.gcf().scene.reset_zoom()
+
+                    # return scene
                 
-                if plotting_lib == 'matplotlib':
+                elif plotting_lib == 'matplotlib':
+                    # print("Colors shape:", colors.shape)
+                    # print(colors)
 
-                    if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
-                        verts, faces, _, _ = marching_cubes(rho_normalized, 0.5)
+                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, 
+                                    self.ymin+verts[:, 1]*self.dy, 
+                                    faces, 
+                                    self.zmin+verts[:, 2]*self.dz, 
+                                    facecolor=colors, antialiased=False)
 
-                        # Calculate the centroids of each triangle
-                        centroids = np.mean(verts[faces], axis=1)
+                    ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+                    ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+                    ax.set_zlim3d(self.zmin, self.zmax-self.dz)
 
-                        # Assuming theta is defined on the same grid as rho
-                        x, y, z = np.mgrid[0:rho_normalized.shape[0], 0:rho_normalized.shape[1], 0:rho_normalized.shape[2]]
+                    ax.set_aspect('equal')
 
-                        # Flatten the grid for interpolation
-                        points = np.c_[x.ravel(), y.ravel(), z.ravel()]
-                        theta_values = theta.ravel()
+                    ax.set_xlabel("$x/a_0$")
+                    ax.set_ylabel("$y/a_0$")
+                    ax.set_zlabel("$z/a_0$")
+                    ax.set_aspect('equal')
 
-                        # Interpolate theta at the vertices positions
-                        theta_verts = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
-
-                        # Normalize theta values for color mapping
-                        theta_normalized = (theta_verts + np.pi) / (2*np.pi)
-
-                        # Map normalized theta values to colors
-                        colors = colormap(theta_normalized)
-
-                        # print("Colors shape:", colors.shape)
-                        # print(colors)
-
-                        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, 
-                                        self.ymin+verts[:, 1]*self.dy, 
-                                        faces, 
-                                        self.zmin+verts[:, 2]*self.dz, 
-                                        facecolor=colors, antialiased=False)
-
-
-                    elif plotting_lib == 'mayavi':
-                        mlab.contour3d(X,Y,Z,rho,contours=[0.5])
-
-                        axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', 
-                        nb_labels=5)
-                        mlab.view(-135,60)
-
-
-            if plotting_lib == 'matplotlib':
-
-                ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-                ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-                ax.set_zlim3d(self.zmin, self.zmax-self.dz)
-
-                ax.set_aspect('equal')
-
-                ax.set_xlabel("$x/a_0$")
-                ax.set_ylabel("$y/a_0$")
-                ax.set_zlabel("$z/a_0$")
-                ax.set_aspect('equal')
-
-                return ax
-
+                    return ax
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
@@ -2005,5 +2049,7 @@ class BaseSystem:
             ax.set_zlim([0, self.zmax-self.dz])
 
         return ax
+
+
 
 
