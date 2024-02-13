@@ -292,11 +292,17 @@ class BoseEinsteinCondensate(BaseSystem):
 
         self.gamma = 1 - 1j
 
+        temp_V = self.V_ext
+
+        self.conf_external_potential(temp_V(temp_t))
+
         print("Relaxing the BoseEinsteinCondensate...")
         self.evolve_dGPE(number_of_steps, method)
 
         self.gamma = gamma0
         self.time = temp_t
+        
+        self.conf_external_potential(temp_V)
 
     def evolve_comoving_dGPE(self, number_of_steps, velx, method='ETD2RK'):
         '''
