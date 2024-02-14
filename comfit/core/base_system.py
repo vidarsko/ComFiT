@@ -1220,16 +1220,13 @@ class BaseSystem:
 
     def plot_field(self, field, **kwargs):
         """
-        Plots the given field.
-
-        ax=None, colorbar=True, colormap=None, cmax=None, cmin=None,
-                   clim = None, xlim = None, ylim = None, zlim = None,
-                   number_of_layers=1, hold=False, vlim_symmetric=None, layer_values=None
+        Plots the given (real) field.
         
         Input:
             field (array-like): The field to be plotted.
             **kwargs: Keyword arguments for the plot.
-                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md for a full list of keyword arguments.
+                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md 
+                for a full list of keyword arguments.
         
         Output:
             matplotlib.axes.Axes: The axes containing the plot.
@@ -1238,14 +1235,13 @@ class BaseSystem:
         if field.dtype == bool:
             field = field.astype(float)
 
-
         if self.dim == 1:
 
             ax = kwargs.get('ax', plt.gca())
 
             ax.plot(self.x/self.a0, field)
 
-            ax = self.plot_set_axis_properties(ax=ax, **kwargs)
+            ax = self.plot_set_axis_properties(ax=ax, **kwargs) 
             
             return ax
 
@@ -1256,7 +1252,6 @@ class BaseSystem:
             
             # Set the colormap
             colormap = kwargs.get('colormap', 'viridis')
-
 
             if colormap == 'bluewhitered':
                 colormap = tool_colormap_bluewhitered()
@@ -1336,7 +1331,6 @@ class BaseSystem:
             if colorbar:
                 cbar = plt.colorbar(pcm, ax=ax)
                 
-
             ax = self.plot_set_axis_properties(ax=ax, **kwargs)
 
             return ax

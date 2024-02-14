@@ -491,6 +491,66 @@ The package comes with a lot of plotting functions, so
 The default plot command is simply `plot()`, which will plot the current
 state of the system according to some arbitrarily chosen standard.
 
+ComFiT uses two plotting libraries: `matplotlib` and `mayavi`. 
+While the former is more widely used and documented, the latter is better for 3D visualizations.
+The libraries have different nomenclature for the objects that go into the plot functions, which is useful to learn in order to make the behaviour as expected. 
+The choice of plotting library can be specified with the function with the keyword argument `plotting_lib`. 
+
+Both `matplotlib` and `mayavi` uses `figure` to designate the interface on which the plot is drawn. 
+A new figure is produced by either of the following commands
+
+```python
+import matplotlib.pyplot as plt
+import mayavi.mlab as mlab
+
+fig1 = plt.fig()
+fig2 = mlab.fig()
+```
+
+One level under, we find `axes` handles in the case of `matplotlib`, or `scene` handles in the calse of `mayavi`. 
+A `matplotlib` figure can contain multiply different `axes` as in several subplots, and a `mayavi` figure can in principle contain many `scenes`, but for practical purposes, only one scene is used per `mayavi` figure.
+Therefore, there is no need to use the `scene` handle an only a figure object will be used for the mayavi library.
+The `axes` object is made as follows
+
+```python
+ax = fig.add_subplot(111)
+```
+
+If you are plotting a 3D object, then you will need to specify that
+
+```python 
+ax = fig.add_subplot(111, projection='3d')
+```
+
+which will construct a 3D `axes` object. 
+
+The standard is that when a plotting function is called without a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
+
+If a figure is provided by the keyword `fig` with matplotlib, then it will be cleared and the new plot will be plotted on it. 
+This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing. 
+
+If an axes object is provided by the keyword `ax`, then the new plot will be plotted on top of that axes object if not the keyword argument `hold=False` is also provided. 
+
+If a figure is provided by the keyword `fig` with mayavi, then the new plot will be plotted on top of that figure object if not the keyword argument `hold=False` is also provided. 
+
+To show the current plot, one writes
+
+```python
+plt.show()
+mlab.show()
+```
+
+which will pause the simulation untill the plot window has been closed. 
+In order to draw the image and continue the simulation, one needs to write
+
+```
+plt.draw()
+plt.pause(0.01)
+
+```
+
+
+
 ## Plotting with matplotlib
 
 It is useful to recap how plotting works with python briefly. Matplotlib
@@ -505,6 +565,10 @@ optional input and give that as an optional output if not provided.
 
 Each class has a function called `plot`, which is our best idea of how
 to plot the current configuration of the field.
+
+## Plotting with Mayavi
+
+The 
 
 ## Plotting keywords
 
@@ -547,6 +611,9 @@ These keywords can be passed to any plot function.
 | `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)| 
 | `colormap` | String specifying the colormap to be used | Varies |
 | `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
+| `fig` | `matplotlib` or `mayavi` figure handle | None |
+| `ax` | `matplotlib` axis handle | None| 
+
 
 
 
