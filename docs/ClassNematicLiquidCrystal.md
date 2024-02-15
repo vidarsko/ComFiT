@@ -1,6 +1,15 @@
-# Active Nematics
+# Class: Nematic Liquid Crystal
 
-## Variables
+A liquid crystal is a state of matter between a solid and a liquid.
+
+In this class, we simulate an active nematic liquid crystal using [framework]. 
+
+```python
+file: comfit/models/nematic_liquid_crystal.py 
+class: NematicLiquidCrystal
+```
+
+## Variables and parameters
 
 The primary variables are the symmetric traceless tensor $Q$ and the
 velocity field $\\vec{u}$

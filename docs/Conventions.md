@@ -1,4 +1,6 @@
-# Folders and file types
+# Conventions
+
+## Folders and file types
 
 * Documentation is written in markdown.
 * Tutorials are written in markdown.
@@ -54,24 +56,4 @@ $$
 
 # Programming notation conventions
 
-*  [PEP8](https://peps.python.org/pep-0008/) for python programming, and [PEP257](https://peps.python.org/pep-0257/)/[Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) for doc strings.
-
-# Plotting conventions 
-
-## Angle color scheme
-
-In many of the plotting functions, we are plotting angles, for example in plotting the phase
-of a complex number or the value of an order parameter on S1
-. In these cases, all values
-modulus 2π are eqvuivalent, but if one uses a regular color scheme, this equivalence is not
-readily visible. Therefore, when expressing angles, we use the color scheme shown in Fig. 1.1.
-This has the benefit of wrapping around itself at θ = ±π, stressing that these correspond
-
-![Angle color scheme](images/conventions_angle_colormap.png)
-
-*Angle color scheme.* The color scheme follows the hsv color circle going through  $\theta=0$ (Red), $\theta=\pi/3$ (Yellow), $\theta=2\pi/3$ (Lime), $\theta = \pm \pi$ (Aqua), $\theta = -2\pi/3$ (Blue), $\theta = -\pi/3$ (Fuchsia).
-
-
-## Plotting library
-
-The standard is matplotlib.
+* [PEP8](https://peps.python.org/pep-0008/) for python programming, and [PEP257](https://peps.python.org/pep-0257/)/[Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) for doc strings.

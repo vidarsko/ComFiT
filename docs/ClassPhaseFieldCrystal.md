@@ -1,4 +1,21 @@
-# Phase Field Crystal
+# Class: Phase Field Crystal
+
+A crystal is a peridic arrangement of atoms.
+
+In this class, we simulate a crystal using the phase-field crystal methodology.
+
+```python
+file: comfit/models/phase_field_crystal.py 
+class: PhaseFieldCrystal
+```
+
+## Variables and parameters
+
+The phase field $\psi$.
+
+```python
+pfc.psi
+```
 
 ## Basic model
 
@@ -35,8 +52,7 @@ dimension and target symmetry, listed below
 Default values of parameters are $\texttt r=\texttt v = 1$,
 $\texttt t=0$.
 
-Historical context: model presented in Ref.
-[@elderModelingElasticPlastic2004](References.md).
+Historical context: model presented in Ref.[^elderModelingElasticPlastic2004].
 
 The primary field is $\psi$, a real valued field
 
@@ -874,3 +890,5 @@ $$
 
 In the language of
 this
+
+[^elderModelingElasticPlastic2004]: Elder, K. R., & Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Phys. Rev. E, 70(5), 051605. https://doi.org/10.1103/PhysRevE.70.051605

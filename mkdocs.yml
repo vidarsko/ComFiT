@@ -27,6 +27,20 @@ theme:
     text: 'Roboto'
     code: 'Roboto Mono'
 
+nav:
+  - Home: index.md
+  - Base system: ClassBaseSystem.md
+  - Plotting: Plotting.md
+  - Topological Defects: TopologicalDefects.md
+  - "Class: Quantum Mechanics": ClassQuantumMechanics.md
+  - "Class: Bose-Einstein condensate": ClassBoseEinsteinCondensate.md
+  - "Class: Nematic liquid crystal": ClassNematicLiquidCrystal.md
+  - "Class: Phase-field crystal": ClassPhaseFieldCrystal.md
+  - "Creating your own model": CreatingYourOwnModel.md
+  - Conventions: Conventions.md
+  - Contributing: Contributing.md
+  - References: References.md
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
