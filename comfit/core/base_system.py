@@ -1308,7 +1308,7 @@ class BaseSystem:
             else:
                 vlim = [np.min(field), np.max(field)]
             
-            # Set the value limits
+            # Set the value limitses
             if 'vlim' in kwargs:
                 vlim = kwargs['vlim']
             else:
