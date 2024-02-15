@@ -1,6 +1,6 @@
-# Base system 
+# Class: Base system
 
-This class simply initiates a system, defines the grid and contains the basic functionality for evolving in time. 
+This class simply initiates a system, defines the grid and contains the basic functionality for evolving in time.
 
 ## General parameters
 
@@ -17,7 +17,6 @@ This class simply initiates a system, defines the grid and contains the basic fu
 
 *Default values are shown as the `=value` in the code column.*
 
-
 ## Types of functions
 
 There are five different types of functions:
@@ -33,40 +32,39 @@ There are five different types of functions:
 A common and useful method is that of coarse-graining, which is defined as
 
 $$
-\rho = \langle \tilde \rho \rangle 
-\equiv 
-\int d^d r' \mathcal K(\mathbf r-\mathbf r') 
+\rho = \langle \tilde \rho \rangle
+\equiv \int d^d r' \mathcal K(\mathbf r-\mathbf r')
 \tilde \rho(\mathbf r') ,
 $$
 
-where $\mathcal K(\mathbf r'-\mathbf r)$ is a Gaussian kernel given by 
+where $\mathcal K(\mathbf r'-\mathbf r)$ is a Gaussian kernel given by
 
 $$
 \mathcal K(\mathbf r- \mathbf r') = \frac{1}{(2\pi w^2)^{d/2}} \exp\left (-\frac{(\mathbf r-\mathbf r')^2}{2w^2}
 \right ),
 $$
 
-From a numerical point of view, this is done in Fourier space since, by the convolution theorem, 
+From a numerical point of view, this is done in Fourier space since, by the convolution theorem,
 
 $$
 \rho_{\mathfrak f} = \mathcal K_{\mathfrak f} \tilde \rho_{\mathfrak f}.
 $$
 
-Thus, we need the Fourier transform of $\mathcal K$, which is 
+Thus, we need the Fourier transform of $\mathcal K$, which is
 
 $$
 \mathcal K_{\mathfrak f} = \int d^d r e^{-i \mathbf k \cdot \mathbf r} \frac{1}{(2\pi w^2)^{d/2}} \exp\left (-\frac{\mathbf r^2}{2w^2} \right )
 $$
 $$
-= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} r_n^2 - \mathfrak i k_n r_n} 
+= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} r_n^2 - \mathfrak i k_n r_n}
 $$
 $$
 = \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} (r_n^2 + 2 \mathfrak i w^2 k_n r_n)}  
 $$
 $$
-= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d e^{-\frac{1}{2} w^2 k_n^2} \int dr_n e^{-\frac{1}{2 w^2} (r_n + \mathfrak i w^2 k_n)^2} 
+= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d e^{-\frac{1}{2} w^2 k_n^2} \int dr_n e^{-\frac{1}{2 w^2} (r_n + \mathfrak i w^2 k_n)^2}
 $$
-$$ 
+$$
 = e^{-\frac{1}{2} w^2 \mathbf k^2}.
 $$
 
@@ -75,12 +73,13 @@ This is why we have the following function
 ```python
 calc_Gaussian_filter_f
 ```
+
 which calculates $\mathcal K_{\mathfrak f}$.
 
 Typically, a field is coarse-grained with a width using the following piece of code
 
 ```python
-field = sc.fft.ifftn(sc.fft.fftn(field) * self.calc_Gaussian_filter_f(width))
+field = sp.fft.ifftn(sp.fft.fftn(field) * self.calc_Gaussian_filter_f(width))
 ```
 
 The Gaussian function is actually so useful that is given by can be calculated using
@@ -93,7 +92,7 @@ Gaussian = bs.calc_Gaussian()
 
 A general feature that will be reused is that of vortex fields.
 An angle field is a field where each point in space corresponds to an angle $\theta \in \mathcal S^n$.
-A vortex is a topological defect in an angle field, around which the circulation is some integer multiple of the covering of $\mathcal S^n$. 
+A vortex is a topological defect in an angle field, around which the circulation is some integer multiple of the covering of $\mathcal S^n$.
 
 ### Angle field of a single vortex in two dimensions
 
@@ -101,11 +100,11 @@ In two dimensions, the angle field takes values $\theta \in [-\pi,\pi \rangle$ a
 The angle field produced by the vortex has a circulation which is a multiple integer of $2\pi$, i.e.,
 
 $$
-\oint d\theta = 2\pi s_n, 
+\oint d\theta = 2\pi s_n,
 $$
 
-where $s_n$ is the integer charge of the vortex. 
-A possible angle field for a vortex positioned at $(x_0,y_0)$ is given by 
+where $s_n$ is the integer charge of the vortex.
+A possible angle field for a vortex positioned at $(x_0,y_0)$ is given by
 
 $$
 \theta_n = s_n \textrm{atan2}(y-y_0,x-x_0)
@@ -126,7 +125,7 @@ $$
 and then calculating
 
 $$
-\theta_1 = \textrm{atan2}\left (m_2,m_1+R\right ) 
+\theta_1 = \textrm{atan2}\left (m_2,m_1+R\right )
 $$
 
 $$
@@ -137,9 +136,9 @@ These expressions are based on the geometry depicted in the following figure.
 
 ![Vortex ring angle field explanation](images/base_system_vortex_ring_angle_field_explanation.png)
 
-*Vortex ring angle field explanation:* Geometry of a vortex ring in the plane given by $\vec n$. 
-$\mathcal N'$ is the plane normal to the tangent vector $\vec t'$ at $\vec r'$ upon which we impose a Cartesian coordinate system to determine the angles $\theta_1$, $\theta_2$ that are used to construct the (inset) initial angle field. 
-Figure reprinted from Ref. [skogvollPhaseFieldCrystal2022](References.md) with permission. 
+*Vortex ring angle field explanation:* Geometry of a vortex ring in the plane given by $\vec n$.
+$\mathcal N'$ is the plane normal to the tangent vector $\vec t'$ at $\vec r'$ upon which we impose a Cartesian coordinate system to determine the angles $\theta_1$, $\theta_2$ that are used to construct the (inset) initial angle field.
+Figure reprinted from Ref. [skogvollPhaseFieldCrystal2022](References.md) with permission.
 
 The angle field is then given by
 
@@ -147,7 +146,7 @@ $$
 \theta(\mathbf{r}) = \textrm{mod}(\theta_1+\theta_2,[-\pi,\pi \rangle)
 $$
 
-and is implemented in the function `calc_angle_field_vortex_ring`. 
+and is implemented in the function `calc_angle_field_vortex_ring`.
 
 ### Periodic boundary conditions: Numerical implementation of angle fields
 
@@ -155,8 +154,8 @@ Apart from the angle field of a single vortex, the other fields are compatible w
 
 ![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields.png)
 
-*Numerical implementaiton of periodic angle fields: *
-The angle field of panel (a) has been filtered by the field $F$ with $w=0.2x_{\textrm{max}}$ to produce the periodic field given in panel (c). 
+*Numerical implementaiton of periodic angle fields:*
+The angle field of panel (a) has been filtered by the field $F$ with $w=0.2x_{\textrm{max}}$ to produce the periodic field given in panel (c).
 This field is simply rolled to produce a different position for the dipole in panel (d).
 
 This field is not periodic on the domain. This typically causes the unintentional nucleation of vortices and strain on the boundary. We therefore seek to modify the fields so that they don't "see" the periodic boundary conditions.
@@ -164,7 +163,7 @@ This field is not periodic on the domain. This typically causes the unintentiona
 In order to produce a field that is periodic on the domain, we transform the field $\theta$ to a complex field $\eta = e^{i \theta}$. The argument of this complex field has the correct winding configuration of the vortex dipole. However, we want to smooth this field so that it goes to $1$ ($\theta=0)$ at the borders. To do so, we introduce the filter function
 
 $$
-F = \frac{1}{2} \left ( \tanh((r^2-R^2)/w^2) - 1 \right ), 
+F = \frac{1}{2} \left ( \tanh((r^2-R^2)/w^2) - 1 \right ),
 $$
 
 where $r^2 = (x-x_{\textrm{mid}})^2 + (y-y_{\textrm{mid}})^2$, which is a function that is zero in the center region and goes to $1$ at infinity over a width of $w$. The filtered field $\eta$ is then obtained by making a smooth function that goes from the previous angle field according to
@@ -177,7 +176,6 @@ $\tilde \eta$ is shown in Figure (c). The value of $w$ and $R$ can be adjusted a
 
 From this section, it is clear that the initial vortex dipole should not be too large. Thus, we have included a warning in case it is attempted to initiate a dipole with a larger distance than a certain threshold.
 
-
 ## Numerical integration scheme
 
 The systems of interest for this code are those that can be written on the form
@@ -186,7 +184,7 @@ $$
 \partial_t \psi = \omega \psi + N
 $$
 
-where $\omega$ is a linear differential operator and $N$ is a non-linear operator (function of $\psi$). 
+where $\omega$ is a linear differential operator and $N$ is a non-linear operator (function of $\psi$).
 The following table shows some examples from the models that we will discuss in the following chapters.
 
 | Model | $\omega$ | $\omega_{\mathfrak f}(\mathbf{k})$ | $N$ |
@@ -230,7 +228,7 @@ $$
 This is an exact result, however, the last integral is unknown. In order to calculate the last integral here, we approximate it by $N (t+\tau) \approx N_{\mathfrak f 0} +  \frac{\Delta N_{\mathfrak f}}{\Delta t} \tau$ where $N_{\mathfrak f 0} = (N(\psi(t))_{\mathfrak f}$ and $\Delta N_{\mathfrak f} = N_{\mathfrak f}(t+\Delta t)-N_{\mathfrak f}(t)$. We also change the integration limits from $\tau \in [t,t+\Delta t]$ to $\tau \in [0,\Delta t]$, which gives:
 
 $$
-\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f} (t) e^{ \omega_{\mathfrak f} \Delta t} 
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f} (t) e^{ \omega_{\mathfrak f} \Delta t}
 $$
 
 $$
@@ -274,7 +272,7 @@ $$
 
 ---
 
-Note that $N_{\mathfrak f}$ is a non-linear function of the field variable $\psi$, but can also be an explicit variable of time $t$, i.e. $N_{\mathfrak f}(\psi,t)$. 
+Note that $N_{\mathfrak f}$ is a non-linear function of the field variable $\psi$, but can also be an explicit variable of time $t$, i.e. $N_{\mathfrak f}(\psi,t)$.
 Therefore, in the code, it has to be encoded as a function of these two variables `calc_nonlinear_evolution_function_f(self, psi, t)`.
 
 For numerical purposes, it is useful to calculate the small $\omega_{\mathfrak f}$ limit. We expand the exponential in its Taylor series and keep the leading order term to get:
@@ -290,7 +288,7 @@ $$
 $$
 I_{\mathfrak f 2} \approx \frac{1}{\omega_{\mathfrak f}^2 \Delta t}
  \left ( 1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} ( \omega_{\mathfrak f} \Delta t )^2
- -1 - \omega_{\mathfrak f} \Delta t 
+ -1 - \omega_{\mathfrak f} \Delta t
 \right ) = \frac{1}{2} \Delta t
 $$
 
@@ -314,13 +312,13 @@ $$
 
 where
 
-$$ 
+$$
 \begin{aligned}
 I_{\mathfrak f 0} &= e^{\omega_{\mathfrak f} \Delta t/2} \\
 I_{\mathfrak f 1} &= \frac{1}{\omega_{\mathfrak f}}
 ( e^{ \omega_{\mathfrak f} \Delta t/2} - 1) \\
 I_{\mathfrak f 2} &= e^{\omega_{\mathfrak f} \Delta t} \\
-I_{\mathfrak f 3} &= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
+I_{\mathfrak f 3} &= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left ( -4 -  \omega_{\mathfrak f} \Delta t  + e^{\omega_{\mathfrak f} \Delta t}(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )  \right ) \\
 I_{\mathfrak f 4} &= \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left ( 2 + \omega_{\mathfrak f} \Delta t + e^{\omega_{\mathfrak f} \Delta t}(-2 + \omega_{\mathfrak f} \Delta t) \right ) \\
@@ -331,7 +329,7 @@ $$
 
 ---
 
-*Algorithm: The ETD4RK scheme*
+**Algorithm:** The ETD4RK scheme
 
 In the small $\omega_{\mathfrak f}$ limit, we have
 
@@ -348,22 +346,22 @@ I_{\mathfrak f 2} \approx 1
 $$
 
 $$
-I_{\mathfrak f 3} \approx 
-\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times 
+I_{\mathfrak f 3} \approx
+\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times
 \left ( -4 - \omega_{\mathfrak f} \Delta t + (1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )
 \right ) $$
 
 $$
-= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
+= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left ( \frac{4}{6} (\omega_{\mathfrak f} \Delta t)^3 - \frac{3}{2} (\omega_{\mathfrak f} \Delta t)^3 + (\omega_{\mathfrak f} \Delta t)^3
-\right ) 
+\right )
 = \frac{1}{6} \Delta t
 $$
 
 $$
 I_{\mathfrak f 4} \approx \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left (2 + \omega_{\mathfrak f} \Delta t +(1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(-2 + \omega_{\mathfrak f} \Delta t)
-\right ) 
+\right )
 $$
 
 $$
@@ -373,22 +371,22 @@ $$
 $$
 
 $$
-I_{\mathfrak f 5} = 
-\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times 
+I_{\mathfrak f 5} =
+\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times
 \left (
 -4 - 3 \omega_{\mathfrak f} \Delta t -  \omega_{\mathfrak f}^2 \Delta t^2 + (1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(4-\omega_{\mathfrak f} \Delta t)
 \right )  
 $$
 
 $$
-=\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} 
+=\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
 \left ( \frac{4}{6} (\omega_{\mathfrak f} \Delta t)^3 - \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^3
 \right ) = \frac{1}{6} \Delta t
 $$
 
 Similar as for the EDT2RK case $I_{\mathfrak f 1}$, $I_{\mathfrak f 3}$, $I_{\mathfrak f 4}$, and $I_{\mathfrak f 5}$ contains a division by $0$ when $\omega_{\mathfrak f} = 0$.  
-We therfore replace these coeficients with their limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance. 
-This has been important in order to make the the code stable for some of the systems. 
+We therfore replace these coeficients with their limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance.
+This has been important in order to make the the code stable for some of the systems.
 In the same way as the EDT2RK scheme this is implemented as the function
 `self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolutioN_{\mathfrak f}unctioN_{\mathfrak f}, field, field_f)`
 This function is called by the evolvers discussed in the model chapter if the method is defined as ```method = "ETD4RK"```, the integrating factors are found with
@@ -396,10 +394,10 @@ This function is called by the evolvers discussed in the model chapter if the me
 
 ### The fully non-linear limit
 It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e., the limit in which $\omega_{\mathfrak f} =0$, $N_{\mathfrak f} = \partial_t \psi \equiv \dot{\psi}\_{\mathfrak f}$ and the small $\omega_{\mathfrak f}$ approximations are exact.
-For the ETD2RK scheme, we get 
+For the ETD2RK scheme, we get
 
 $$
-\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} +  \dot{\psi}_{0_f} \Delta t 
+\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} +  \dot{\psi}_{0_f} \Delta t
 $$
 
 $$
@@ -411,11 +409,11 @@ which is a two-stage Runge-Kutta method called Heun's method.
 The ETD4RK scheme becomes
 
 $$
-\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f 0} \frac{\Delta t}{2} 
+\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f 0} \frac{\Delta t}{2}
 $$
 
 $$
-\psi_{\mathfrak f b} =  \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2} 
+\psi_{\mathfrak f b} =  \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2}
 $$
 
 $$
@@ -431,7 +429,7 @@ The reason is that a straight-forward generalization of the Runge-Kutta 4 method
 
 ### The fully linear limit
 
-If $N=0$, the evolution equation changes to 
+If $N=0$, the evolution equation changes to
 
 $$
 \psi_{\mathfrak f}(t+\Delta t) = e^{\omega_{\mathfrak f} \Delta t} \psi_{\mathfrak f}.
@@ -445,7 +443,7 @@ $$
 
 This is an exact eqution, of course, so you may evolve this free particle solution to any time.
 
-## Testing 
+## Testing
 
 In order to test the numerical methods, study the simplest model of a field equation with a (non-linear) forcing term, namely the heat equation
 
@@ -456,13 +454,13 @@ $$
 where $T$ is the temperature in celcius, and $f(\mathbf r)$ is a forcing term, which we model as
 
 $$
-f(\mathbf r) = A (T_0-T) \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2}\right ), 
+f(\mathbf r) = A (T_0-T) \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2}\right ),
 $$
 
 which represents a heating element with temperature $T_0$ placed at $\mathbf r_0$.
 
 As a benchmark, we use the `solve_ivp` of the scipy library `sp.integrate` to solve the equation using a finite difference method.
-The solutions match to a satisfactory degree, but a more thorough investigation into how the accuracy of the framework and integration methods scale with spatial and temporal resolution will be performed in the future. 
+The solutions match to a satisfactory degree, but a more thorough investigation into how the accuracy of the framework and integration methods scale with spatial and temporal resolution will be performed in the future.
 Tests are included in `test_base_system.py`, but for visual examination, here are animations of the initial condition $T=0$ in all three dimensions
 
 ![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_1D.gif)
@@ -471,10 +469,7 @@ Tests are included in `test_base_system.py`, but for visual examination, here ar
 
 ![Testing of the evolution code in 3 dimensions](images/base_system_evolution_test_3D.gif)
 
-
-
-
-# Algorithms for tracking defects 
+## Algorithms for tracking defects
 
 To be written
 
@@ -484,19 +479,19 @@ The equations for the velocity are taken from Ref.
 [@skogvollUnifiedFieldTheory2023](References.md), simplified using Mathematica and then
 substituted for python code using chatGPT.
 
-# Plotting
+## Plotting
 
 The package comes with a lot of plotting functions, so
 
 The default plot command is simply `plot()`, which will plot the current
 state of the system according to some arbitrarily chosen standard.
 
-ComFiT uses two plotting libraries: `matplotlib` and `mayavi`. 
+ComFiT uses two plotting libraries: `matplotlib` and `mayavi`.
 While the former is more widely used and documented, the latter is better for 3D visualizations.
-The libraries have different nomenclature for the objects that go into the plot functions, which is useful to learn in order to make the behaviour as expected. 
-The choice of plotting library can be specified with the function with the keyword argument `plotting_lib`. 
+The libraries have different nomenclature for the objects that go into the plot functions, which is useful to learn in order to make the behaviour as expected.
+The choice of plotting library can be specified with the function with the keyword argument `plotting_lib`.
 
-Both `matplotlib` and `mayavi` uses `figure` to designate the interface on which the plot is drawn. 
+Both `matplotlib` and `mayavi` uses `figure` to designate the interface on which the plot is drawn.
 A new figure is produced by either of the following commands
 
 ```python
@@ -506,10 +501,9 @@ import mayavi.mlab as mlab
 fig1 = plt.fig()
 fig2 = mlab.fig()
 ```
-
-One level under, we find `axes` handles in the case of `matplotlib`, or `scene` handles in the calse of `mayavi`. 
-A `matplotlib` figure can contain multiply different `axes` as in several subplots, and a `mayavi` figure can in principle contain many `scenes`, but for practical purposes, only one scene is used per `mayavi` figure.
-Therefore, there is no need to use the `scene` handle an only a figure object will be used for the mayavi library.
+In matplotlib, one level under, we find `axes` handle.
+A `matplotlib` figure can contain multiply different `axes` as in several subplots.
+In `mayavi`, there is no such option, at least in ComFiT, to have several subplots. 
 The `axes` object is made as follows
 
 ```python
@@ -518,20 +512,20 @@ ax = fig.add_subplot(111)
 
 If you are plotting a 3D object, then you will need to specify that
 
-```python 
+```python
 ax = fig.add_subplot(111, projection='3d')
 ```
 
-which will construct a 3D `axes` object. 
+which will construct a 3D `axes` object.
 
-The standard is that when a plotting function is called without a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
+The standard is that when a plotting function is called *without* a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
 
-If a figure is provided by the keyword `fig` with matplotlib, then it will be cleared and the new plot will be plotted on it. 
-This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing. 
+If a figure is provided by the keyword `fig` with matplotlib, then it will be cleared and the new plot will be plotted on it.
+This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
 
-If an axes object is provided by the keyword `ax`, then the new plot will be plotted on top of that axes object if not the keyword argument `hold=False` is also provided. 
+If an axes object is provided by the keyword `ax`, then the new plot will be plotted on top of that axes object if not the keyword argument `hold=False` is also provided.
 
-If a figure is provided by the keyword `fig` with mayavi, then the new plot will be plotted on top of that figure object if not the keyword argument `hold=False` is also provided. 
+If a figure is provided by the keyword `fig` with mayavi, then the new plot will be plotted on top of that figure object if not the keyword argument `hold=False` is also provided.
 
 To show the current plot, one writes
 
@@ -540,16 +534,13 @@ plt.show()
 mlab.show()
 ```
 
-which will pause the simulation untill the plot window has been closed. 
+which will pause the simulation untill the plot window has been closed.
 In order to draw the image and continue the simulation, one needs to write
 
-```
+```python
 plt.draw()
 plt.pause(0.01)
-
 ```
-
-
 
 ## Plotting with matplotlib
 
@@ -558,7 +549,7 @@ operates with three levels of plotting: *figures*, *axes* and
 *everything else*. The figure represents the plotting window that shows
 your plot, whereas axes are the individual plots represented on the
 figure. In the axes, you may place different things, like image
-instances, line2D objects or text. 
+instances, line2D objects or text.
 
 Therefore, the implemented plot functions will all take the ax as an
 optional input and give that as an optional output if not provided.
@@ -568,12 +559,12 @@ to plot the current configuration of the field.
 
 ## Plotting with Mayavi
 
-The 
+The
 
 ## Plotting keywords
 
-The following list gives the keyword arguments that determine the layout of the resulting plot. 
-These keywords can be passed to any plot function. 
+The following list gives the keyword arguments that determine the layout of the resulting plot.
+These keywords can be passed to any plot function.
 `bs` refers to an instance of the `BaseSystem` class.
 
 | Keyword         | Definition         | Default value |
@@ -608,17 +599,11 @@ These keywords can be passed to any plot function.
 | `vmax` | Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
 | `vlim` | List or tuple consisting of the lower and upper limit of the value to be plotted. | None |
 | `vlim_symmetric` | A Boolean parameter specifying whether the value limits should be symmetric | `False` |
-| `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)| 
+| `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)|
 | `colormap` | String specifying the colormap to be used | Varies |
 | `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
 | `fig` | `matplotlib` or `mayavi` figure handle | None |
-| `ax` | `matplotlib` axis handle | None| 
-
-
-
-
-
-
+| `ax` | `matplotlib` axis handle | None|
 
 ## Predefined figure sizes
 
@@ -626,9 +611,4 @@ Obviously, a lot of these plots are meant for publication. Therefore,
 there is a tool package that contains predefined and fitting sizes for
 the figures in question. $$TO BE ADDED$$
 
-
 ## Animation
-
-
-
-

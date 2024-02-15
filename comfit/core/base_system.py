@@ -9,6 +9,8 @@ import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import scipy as sp
 from mayavi import mlab
+from PyQt5.QtWidgets import QApplication
+
 
 
 class BaseSystem:
@@ -42,6 +44,7 @@ class BaseSystem:
         self.yRes = 1
         self.zRes = 1
         self.time = 0
+        
         if dimension > 1:
             self.yRes = yRes
 
@@ -1673,8 +1676,6 @@ class BaseSystem:
             plot_method = kwargs.get('plot_method', 'phase_blob')
             plotting_lib = kwargs.get('plotting_lib', 'matplotlib')
             
-            
-            
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
@@ -1723,11 +1724,7 @@ class BaseSystem:
             
             elif plot_method == 'phase_blob':
                 if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
-                    print("Hello")
                     verts, faces, _, _ = marching_cubes(rho_normalized, 0.5)
-
-                    print("verts shape:", verts.shape)
-                    print("faces shape:", faces.shape)
 
                     # Calculate the centroids of each triangle
                     centroids = np.mean(verts[faces], axis=1)
@@ -1749,7 +1746,15 @@ class BaseSystem:
                     colors = colormap(theta_faces_normalized)
 
                 if plotting_lib == 'mayavi':
-                    #TODO: Add exception handling (Vidar 13.02.24)
+
+                    fig = kwargs.get('fig', 
+                            mlab.gcf() if mlab.get_engine() else mlab.figure(bgcolor=(0.5, 0.5, 0.5)))
+                    
+                    # TODO: It might be faster to update the data sources for plotting with mayavi (Vidar 15.02.24)
+                    hold = kwargs.get('hold', False)
+                    if not hold:
+                        mlab.clf()
+
                     if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
                     # print("theta_faces_normalized:", theta_faces_normalized)
                         theta_faces_normalized = np.mod(theta_faces_normalized+0.5,1)
@@ -1761,7 +1766,7 @@ class BaseSystem:
                         
                         # Now, create the mesh using mlab.triangular_mesh
                         x, y, z = verts.T  # Transpose verts to get separate arrays
-                        mlab.figure(bgcolor=(0.5, 0.5, 0.5))  # Set background color to white for visibility
+                        
                         mesh = mlab.triangular_mesh(x, y, z, faces, representation='surface', opacity=1,
                                                     scalars=vertex_values, colormap='hsv')
 
@@ -1769,16 +1774,9 @@ class BaseSystem:
 
                     self.plot_set_scene_properties(**kwargs)
 
-                    # axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', 
-                    # nb_labels=5)
-                    
-                    # 
-
-
-
-                    # mlab.gcf().scene.reset_zoom()
-
-                    # return scene
+                    # Make sure the scene is rendered
+                    QApplication.processEvents()
+                    return fig
                 
                 elif plotting_lib == 'matplotlib':
                     # print("Colors shape:", colors.shape)
