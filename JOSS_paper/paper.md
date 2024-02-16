@@ -50,4 +50,4 @@ ComFiT encourages community involvement.
 The project's repository provides guidelines for code contributions, feature suggestions, and issue reporting, promoting collaborative development and continuous improvement.
 
 # References
-[^skogvoll2023Topological]: Skogvoll, V. & R{\o}nning, J. & Salvalaglio, M. & Angheluta, L. (2002). A unified field theory of topological defects and non-linear local excitations. npj Comput Mater, 9, 122. [https://doi.org/10.1006/jcph.2002.6995](https://doi.org/10.1038/s41524-023-01077-6)
+[^skogvoll2023Topological]: Skogvoll, V., Rønning, J., Salvalaglio, M., Angheluta, L. (2023). A unified field theory of topological defects and non-linear local excitations. npj Comput Mater, 9, 122. [https://doi.org/10.1038/s41524-023-01077-6](https://doi.org/10.1038/s41524-023-01077-6)
