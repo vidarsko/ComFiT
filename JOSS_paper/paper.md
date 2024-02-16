@@ -42,7 +42,7 @@ ComFiT has broad applications in academic research, particularly in the study of
 (Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.)
 COMFIT is based on code that has been developed during the authors PhD projects and has been used in a range of recent scholarly publications. 
 This includes simmulations of active matter in Ref. [^Ronning2023Polar],
-stirred Bose-Einstein condensates in Ref. [^Ronning2020Classical] and [^Ronning2023Precursory],
+stirred Bose-Einstein condensates in Ref. [^Ronning2020Classical], [^Ronning2023Precursory],
 Phasecrystalls in Ref. []
 and all of the above in Ref. [^skogvoll2023Topological]
 
