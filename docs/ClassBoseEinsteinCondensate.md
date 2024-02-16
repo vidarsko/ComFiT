@@ -173,7 +173,7 @@ A lot of the interesting dynamics of a BEC comes about when it is
 interacting with an external potential. This is included as the function
 
 ``` {.python language="Python"}
-bec.V_ext() 
+bec.V_ext(t) 
 ```
 
 As default this is assumed to be time independent and returns the field
@@ -182,11 +182,24 @@ As default this is assumed to be time independent and returns the field
 bec.V_0 
 ```
 
-When the potential is time independent, for example during a relaxation
-to the ground state, one should set $V_0$ directly. Two commonly used
-potentials are included in the library. This is the harmonic potential
-and the Gaussian potential.
+The potential can be changed by the function
 
+```{.python language="Python"}
+conf_external_potential(self, V_ext, additive=False)
+```
+which can be used both to set it as a function or to set it as a constant potential depending on wheter `V_ext` is a function, a constant or an numpy array.
+If `V_ext` is a function it need to have the form
+
+```{.python language="Python"}
+def V(t)
+     ...
+```
+
+The evolver will then evaluate it using the `bec.time` variable which is updated on the run.
+An example using a Gaussian stirring
+potential is provided in the example folder.
+
+To make life easier we have provided a couple of popular potentials. 
 The harmonic potential is provided in the function
 
 ``` {.python language="Python"}
@@ -219,11 +232,8 @@ time-dependent. For this one can define a function as
 
 and update the external potential to this function by calling
 
-    bec.set_time_dependent_potential(self,Func)
 
-Note that the time dependence of the function has to be through the
-classes time variable `bec.t`. An example using a Gaussian stirring
-potential is provided in the example folder.
+
 
 ## Hydrodynamics
 
