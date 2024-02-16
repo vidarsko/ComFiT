@@ -95,8 +95,7 @@ $$
 $$ 
 
 Here $2\Omega_{ij} = \partial_i u_j - \partial_j u_i$ is
-the vorticity tensor, $P$ is the pressure and we have the active stress
-$\sigma^a = \alpha Q$. The vorticity tensor is calculated by the
+the vorticity tensor, $P$ is the pressure, $\gamma$ is the rotational friction coefficient, $\sigma^p$ is the passive stress, $Gamma$ is friction with a substrate, $\eta$ is viscosity and the active stress is given by $\sigma^a = \alpha Q$. The vorticity tensor is calculated by the
 function
 
 ``` {.python language="Python"}
