@@ -68,7 +68,7 @@ This is taken care of in the function
 ``` {.python language="Python"}
 calc_order_and_director(self)
 ```
-
+Wich returns `S, n`, where `n` is the director field.
 Note that a nematic liquid crystall can be biaxial and given as
 
 $$
