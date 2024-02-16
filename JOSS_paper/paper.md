@@ -41,13 +41,14 @@ ComFiT has broad applications in academic research, particularly in the study of
 # Research projects 
 (Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.)
 COMFIT is based on code that has been developed during the authors PhD project and has been used in a range of recent scholarly publications. 
-This includes simmulations of active matter in ...
-Stirred Bose-Einstein condensates in ...
-Phasecrystalls in ...
-and all of the above in [^skogvoll2023Topological]
+This includes simmulations of active matter in Ref. [],
+stirred Bose-Einstein condensates in Ref. [],
+Phasecrystalls in Ref. []
+and all of the above in Ref. [^skogvoll2023Topological]
 
 ComFiT encourages community involvement. 
 The project's repository provides guidelines for code contributions, feature suggestions, and issue reporting, promoting collaborative development and continuous improvement.
 
 # References
+[^Ronning2023Polar]: Rønning, J., Renaud, J., Doostmohammadi, A. & Angheluta, L. (2023). Spontaneous flows and dynamics of full-integer topological defects in polar active matter. Soft Matter, 19, 7513-7527. [https://doi.org/10.1039/D3SM00316G](https://doi.org/10.1039/D3SM00316G)
 [^skogvoll2023Topological]: Skogvoll, V., Rønning, J., Salvalaglio, M., Angheluta, L. (2023). A unified field theory of topological defects and non-linear local excitations. npj Comput Mater, 9, 122. [https://doi.org/10.1038/s41524-023-01077-6](https://doi.org/10.1038/s41524-023-01077-6)
