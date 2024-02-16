@@ -25,8 +25,8 @@ $$
 Q_{ij} = S (n_i n_j - \frac{1}{d} \delta_{ij})
 $$ 
 
-in $d$ dimensions. For
-the current version only $d=2$ is implemented. To take advantage of its
+in $d$ dimensions.
+To take advantage of its
 symmetric nature we have saved $Q$ as a vector field, which in two and three
 dimensions takes the forms
 
