@@ -104,9 +104,8 @@ calc_vorticity_tensor(self)
 ```
 
 Note that the velocity has to be updated before this function is called.
-The calculation of the pressure and velocity is described in section
-[7.4](#sec:nem_vel){reference-type="ref" reference="sec:nem_vel"}. Since
-the active stress is simply proportional to $Q$ we have not included any
+The calculation of the pressure and velocity is described furhter down.
+Since the active stress is simply proportional to $Q$ we have not included any
 function to calculate it, but calculate the force directly with the function
 
 ``` {.python language="Python"}
