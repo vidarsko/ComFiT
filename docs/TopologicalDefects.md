@@ -14,6 +14,8 @@ As simulated in the class BoseEinsteinCondensate, the BEC i represented by a com
 The equilibrium condition of $|\psi|=\psi_0$ does not, however, determine the phase $\theta \equiv arg(\psi)$ of $\psi$.
 Thus the all states with psi0 are equilibrium states.
 The possible equilibrium values of $\theta$ define the _ground state manifold_ $\mathcal M$.
+Since the phase of a complex function is an angle between $0$ and $2\pi$, the ground state manifold is the circle.
+On top of the ground state manifold, one may define the 
 
 
 [^merminTopologicalTheoryDefects1979]: Mermin, N. D. (1979). The topological theory of defects in ordered media. Reviews of Modern Physics, 51(3), 591–648. [https://doi.org/10.1103/RevModPhys.51.591](https://doi.org/10.1103/RevModPhys.51.591)
