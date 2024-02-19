@@ -187,12 +187,13 @@ The potential can be changed by the function
 ```{.python language="Python"}
 conf_external_potential(self, V_ext, additive=False)
 ```
-which can be used both to set it as a function or to set it as a constant potential depending on wheter `V_ext` is a function, a constant or an numpy array.
-If `V_ext` is a function it need to have the form
+which can be used both to set it as a function or to set it as a constant potential depending on wheter `V_ext` is a function, a constant or an numpy array. If `additive =True` one add the constant `V_ext` to the allredy existing potential. 
+If `V_ext` is a function it need to be on the form
 
 ```{.python language="Python"}
 def V(t)
      ...
+     return ...
 ```
 
 The evolver will then evaluate it using the `bec.time` variable which is updated on the run.
