@@ -25,7 +25,7 @@ bec.psi
 ## Model
 
 The BEC is in the mean field regime described by the GPE
-[^dalfovo1999theory] [@kevrekidis2007emergent]. This is a non-linear
+[^dalfovo1999theory] [^kevrekidis2007emergent]. This is a non-linear
 Schrödinger equation which reads
 $$i\hbar \partial_t\psi = \left[-\frac{\hbar^2}{2m} \nabla^2+ V_{ext} -\mu +g|\psi|^2 \right]\psi.$$
 Here $\mu$ is the chemical potential, $m$ is the mass of the bosons, $g$
@@ -409,3 +409,4 @@ Here it is assumed that the boost is in the $x$-direction, and that the
 dissipative factor is spatially dependent.
 
 [^dalfovo1999theory]: Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. [https://doi.org/10.1103/RevModPhys.71.463](https://doi.org/10.1103/RevModPhys.71.463)
+[^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2007). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media Volume 45.
