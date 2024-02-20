@@ -25,7 +25,7 @@ bec.psi
 ## Model
 
 The BEC is in the mean field regime described by the GPE
-[^dalfovo1999theory; @kevrekidis2007emergent]. This is a non-linear
+[^dalfovo1999theory] [@kevrekidis2007emergent]. This is a non-linear
 Schrödinger equation which reads
 $$i\hbar \partial_t\psi = \left[-\frac{\hbar^2}{2m} \nabla^2+ V_{ext} -\mu +g|\psi|^2 \right]\psi.$$
 Here $\mu$ is the chemical potential, $m$ is the mass of the bosons, $g$
