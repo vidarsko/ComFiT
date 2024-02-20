@@ -2,7 +2,7 @@
 
 There are two types of particles in the world: femions and bosons.
 Whereas fermions can never occupy the same quantum state due to the Pauli Exclusion principle, the same is not true for bosons. 
-A Bose-Einstein condensate is a state of matter consisting of ultra-cold bosons which undergo a phase transition at a low critical temperature in which most bosons occupy the ground state of the system.
+A Bose-Einstein condensate (BEC) is a state of matter consisting of ultra-cold bosons which undergo a phase transition at a low critical temperature in which most bosons occupy the ground state of the system.
 It was theorized by Einstein and Bose in the 1920s as a new state of matter and produced for the first time in 1995 by Eric Cornell and Carl Wieman[^andersonObservationBoseEinsteinCondensation1995].
 
 [^andersonObservationBoseEinsteinCondensation1995]: Anderson, M. H., Ensher, J. R., Matthews, M. R., Wieman, C. E., & Cornell, E. A. (1995). Observation of Bose-Einstein Condensation in a Dilute Atomic Vapor. Science, 269(5221), 198–201. [https://doi.org/10.1126/science.269.5221.198](https://doi.org/10.1126/science.269.5221.198)
