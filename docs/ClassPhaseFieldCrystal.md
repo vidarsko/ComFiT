@@ -734,7 +734,7 @@ $$
 {u}_{\mathfrak f ~ i}^\delta = G_{\mathfrak f ~ ij} g_{\mathfrak f ~ j}^\psi,
 $$
 
-where the Greens function $G_{\mathfrak f ~ ij}$ is given in Ref. [dederichsElasticGreenFunction1969](References.md) as 
+where the Greens function $G_{\mathfrak f ~ ij}$ is given in Ref. [^dederichsElasticGreenFunction1969] as 
 
 ![](images/phase_field_crystal_elastic_greens_function.png)
 
@@ -899,4 +899,5 @@ this
 [^skogvollStressOrderedSystems2021]: Skogvoll, V., Skaugen, A. and Angheluta, L. (2021). Stress in Ordered Systems: Ginzburg-Landau-type Density Field Theory. Physical Review B. 103, 22, 224107. [https://doi.org/10.1103/PhysRevB.103.224107](https://doi.org/10.1103/PhysRevB.103.224107)
 [^skogvollHydrodynamicPhaseField2022]: Skogvoll, V., Salvalaglio, M. and Angheluta, L. (2022). Hydrodynamic Phase Field Crystal Approach to Interfaces, Dislocations and Multi-Grain Networks. Modelling and Simulation in Materials Science and Engineering. [https://doi.org/10.1088/1361-651X/ac9493](https://doi.org/10.1088/1361-651X/ac9493)
 [^skogvollPhaseFieldCrystal2022]: Skogvoll, V., Angheluta, L., Skaugen, A., Salvalaglio, M. and Viñals, J. (2022). A Phase Field Crystal Theory of the Kinematics of Dislocation Lines. Journal of the Mechanics and Physics of Solids. 166, 104932. [https://doi.org/10.1016/j.jmps.2022.104932](https://doi.org/10.1016/j.jmps.2022.104932)
+[^dederichsElasticGreenFunction1969]: Dederichs, P. H. and Leibfried, G. (1969). Elastic Green's function for anisotropic cubic crystals. Physical Review. 188, 3, 1175. [https://doi.org/10.1103/PhysRev.188.1175](https://doi.org/10.1103/PhysRev.188.1175)
 
