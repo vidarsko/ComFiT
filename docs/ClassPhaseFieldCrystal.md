@@ -117,11 +117,7 @@ been chosen so that the first $d$ primary LVs are primitive LVs which satisfy th
 
 ---
 
-<div style="overflow-x: auto;">
-  <div style="display: flex; width: max-content;">
-    <div style="flex: 50%; text-align: center;">
-
-<strong> 1D periodic </strong>
+### 1D periodic
 
 Lattice constant
 
@@ -141,9 +137,10 @@ $$
 \right \rbrace
 $$
 
-Primary RLVs
+Primary BLVs
 
-$$ \mathcal B_{\textrm{per}}^{(1)} =
+$$
+\mathcal B_{\textrm{per}}^{(1)} =
 \left \lbrace
 \begin{array}{l}
     a^{(1)} = a_0  \\
@@ -151,11 +148,9 @@ $$ \mathcal B_{\textrm{per}}^{(1)} =
 \end{array}
 \right \rbrace
 $$
-  </div>
-  <div style="flex: 50%; text-align: center;">
 
-<strong> 2D triangle </strong>
-<br>
+### 2D Triangular
+
 Lattice constant
 
 $$
@@ -190,10 +185,9 @@ $$
 \end{array}
 \right \rbrace }
 $$
-</div>
-<div style="flex: 50%; text-align: center;">
-<strong> 2D square </strong>
-<br>
+
+### 2D square
+
 Lattice constant
 $$
 a_0 = 2\pi
@@ -212,7 +206,7 @@ $$
 \right \rbrace}
 $$
 
-Primary BLVs
+Primary Bravais Lattice vectors
 
 $$
 \mathcal B_{\textrm{sq}}^{(1)} =
@@ -236,10 +230,8 @@ $$
 \right \rbrace
 $$
 
-</div>
-<div style="flex: 50%; text-align: center;">
-<strong> 3D body-centered cubic </strong>
-<br>
+### 3D body-centered cubic
+
 Lattice constant
 
 $$
@@ -282,10 +274,8 @@ $$
 }
 $$
 
-</div>
-<div style="flex: 50%; text-align: center;">
-<strong> 3D face-centered cubic </strong>
-<br>
+### 3D face-centered cubic
+
 Lattice constant
 
 $$
@@ -342,10 +332,8 @@ $$
 }
 $$
 
-</div>
-<div style="flex: 50%; text-align: center;">
-<strong> 3D simple cubic </strong>
-<br>
+### 3D simple cubic
+
 Lattice constant
 
 $$
@@ -414,9 +402,6 @@ $$\mathcal R_{\textrm{sc}}^{(3)} =
 \right \rbrace
 }
 $$
-</div>
-</div>
-</div>
 
 ## Initialization
 
