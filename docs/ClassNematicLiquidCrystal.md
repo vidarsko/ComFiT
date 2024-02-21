@@ -440,7 +440,7 @@ $$
 D_{33} = \frac{1}{2} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu).
 $$
 
-This is the same determinant as we would get using the coarse grain density of [skogvollUnifiedFieldTheory2023](References.md), only with $\psi_0$, so, the disclination density should be 
+This is the same determinant as we would get using the coarse grain density of [^skogvoll2023Topological], only with $\psi_0$, so, the disclination density should be 
 
 $$
 \rho_{\gamma i} = \frac{1}{\pi S_0^2} D_{\gamma i} 
@@ -494,4 +494,5 @@ and then simply impose an orientation field corresponding to an angle field on t
 [^nejad2020memory]: Nejad, M. R., Doostmohammadi, A. and Yeomans, J. M. (2021). Memory effects, arches and polar defect ordering at the cross-over from wet to dry active nematics. Soft Matter. 17, 9, 2500-2511. [https://doi.org/10.1039/D0SM01794A](https://doi.org/10.1039/D0SM01794A)
 [^angheluta2021role]:Angheluta, L., Chen, Z., Marchetti, M. C. and Bowick, Mark J. (2021). The role of fluid flow in the dynamics of active nematic defects. New Journal of Physics. 23, 3, 033009. [https://doi.org/10.1088/1367-2630/abe8a8](https://doi.org/10.1088/1367-2630/abe8a8)
 [^schimming2023kinematics]: Schimming, C. D. and Viñals, J. (2023). Kinematics and dynamics of disclination lines in three-dimensional nematics. Proceedings of the Royal Society A. 479, 2273, 20230042. [https://doi.org/10.1098/rspa.2023.0042](https://doi.org/10.1098/rspa.2023.0042)
+[^skogvoll2023Topological]: Skogvoll, V., Rønning, J., Salvalaglio, M., Angheluta, L. (2023). A unified field theory of topological defects and non-linear local excitations. npj Comput Mater, 9, 122. [https://doi.org/10.1038/s41524-023-01077-6](https://doi.org/10.1038/s41524-023-01077-6)
 
