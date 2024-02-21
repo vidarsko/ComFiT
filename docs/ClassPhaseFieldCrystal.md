@@ -759,7 +759,7 @@ Note that due to the asymmetry of the elastic constants, this method can only be
 
 ### Hydrodynamic PFC evolution
 
-In Ref. [@skogvollHydrodynamicPhaseField2022](References.md), a hydrodynamic approach
+In Ref. [^skogvollHydrodynamicPhaseField2022], a hydrodynamic approach
 was derived. A simplified two-parameter model was proposed
 
 ---
@@ -897,3 +897,4 @@ this
 [^wuPhasefieldcrystalModelFcc2010]:Wu, K. A., Adland, A. and Karma, A. (2010). Phase-Field-Crystal Model for Fcc Ordering. Physical Review E. 81, 6, 06101. [https://doi.org/10.1103/PhysRevE.81.061601](https://doi.org/10.1103/PhysRevE.81.061601)
 [^wuPhasefieldCrystalModeling2007]: Wu, K-A. and Karma, A. (2007). Phase-Field Crystal Modeling of Equilibrium Bcc-Liquid Interfaces. Physical Review B. 76, 18, 184107. [https://doi.org/10.1103/PhysRevB.76.184107](https://doi.org/10.1103/PhysRevB.76.184107)
 [^skogvollStressOrderedSystems2021]: Skogvoll, V., Skaugen, A. and Angheluta, L. (2021). Stress in Ordered Systems: Ginzburg-Landau-type Density Field Theory. Physical Review B. 103, 22, 224107. [https://doi.org/10.1103/PhysRevB.103.224107](https://doi.org/10.1103/PhysRevB.103.224107)
+[^skogvollHydrodynamicPhaseField2022]: Skogvoll, V., Salvalaglio, M. and Angheluta, L. (2022). Hydrodynamic Phase Field Crystal Approach to Interfaces, Dislocations and Multi-Grain Networks. Modelling and Simulation in Materials Science and Engineering. [https://doi.org/10.1088/1361-651X/ac9493](https://doi.org/10.1088/1361-651X/ac9493)
