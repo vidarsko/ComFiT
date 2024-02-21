@@ -165,7 +165,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             nx = np.cos(theta_rand)*np.sin(phi_rand)
             ny = np.sin(theta_rand)*np.sin(phi_rand)
-            nz = np.cos(theta_rand)
+            nz = np.cos(phi_rand)
 
             self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
             self.Q[0] = S0 *(nx*nx -1/3)
@@ -213,6 +213,49 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q[1] = np.imag(psi)
         self.Q_f = sp.fft.fft2(self.Q)
 
+    def conf_insert_disclination_line(self, position=None):
+
+        """
+        Sets the initial condition for a disclination line in a 3-dimensional system.
+        Line is pointing in the z-direction
+
+        Input:
+            position (list): the position of the vortex ring
+            radius (float): the radius of the vortex ring
+            normal_vector (list): the normal vector of the vortex ring
+
+        Output:
+            Sets the value of self.Q and self.Q_f
+        """
+        if not (self.dim == 3):
+            raise Exception("The dimension of the system must be 3 for a vortex ring configuration.")
+
+        if position is None:
+            position = self.rmid
+
+
+        theta = 1/2*np.arctan2((self.y-position[1]),(self.x-position[0]))
+
+
+
+        S0 = 1/8* self.C/self.A + 1/2 * np.sqrt(self.C**2 /(16*self.A**2) + 3*self.B)
+
+        nx =  np.cos(theta)
+        ny = np.sin(theta)
+        nz = np.zeros_like(nx)
+
+        self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
+        self.Q[0] = S0 * (nx * nx - 1 / 3)
+        self.Q[1] = S0 * (nx * ny)
+        self.Q[2] = S0 * (nx * nz)
+        self.Q[3] = S0 * (ny * ny - 1 / 3)
+        self.Q[4] = S0 * (ny * nz)
+
+        self.Q_f = sp.fft.fftn(self.Q, axes=(range(-self.dim, 0)))
+
+        self.k2 = self.calc_k2()  # k2
+        self.k2_press = self.calc_k2()
+        self.k2_press[0, 0, 0] = 1
 
 
     def conf_active_channel(self,width,d=7):
@@ -656,7 +699,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             eigvals, eigvectors = numpy.linalg.eigh(Q_eig)
             S = 3/2 *eigvals[:,:,:,2]
-            n = np.transpose(eigvectors[:,:,:,2], (3,0,1,2))
+            n = np.transpose(eigvectors[:,:,:,:,2], (3,0,1,2))
 
             return S, n
 
@@ -873,7 +916,8 @@ class NematicLiquidCrystal(BaseSystem):
 
         if director:
             vec = mlab.pipeline.vector_field(X,Y,Z,n[0],n[1],n[2])
-            mlab.pipeline.vector_cut_plane(vec,mask_points =4,line_width =3, scale_factor = 4.0,plane_orientation= 'z_axes')
+            mlab.pipeline.vector_cut_plane(vec,mask_points =4,line_width =1, scale_factor = 1.0,
+                                           plane_orientation= 'z_axes',mode = 'cylinder')
 
         if Flow:
             mlab.flow(X,Y,Z,self.u[0],self.u[1],self.u[2],seed_scale =1,seed_resolution=10, integration_direction ='both')

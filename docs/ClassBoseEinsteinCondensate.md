@@ -1,29 +1,38 @@
-# Bose Einstein Condensate
+# Class: Bose Einstein Condensate
 
-``` {.python language="Python"}
+There are two types of particles in the world: femions and bosons.
+Whereas fermions can never occupy the same quantum state due to the Pauli Exclusion principle, the same is not true for bosons. 
+A Bose-Einstein condensate (BEC) is a state of matter consisting of ultra-cold bosons which undergo a phase transition at a low critical temperature in which most bosons occupy the ground state of the system.
+It was theorized by Einstein and Bose in the 1920s as a new state of matter and produced for the first time in 1995 by Eric Cornell and Carl Wieman[^andersonObservationBoseEinsteinCondensation1995].
+
+
+
+In this class, we simulate a Bose-Einstein condensate in 1, 2 and 3 dimensions using the Gross-Pitaevski equation (GPE).
+
+```python
 file: comfit/models/bose_einstein_condensate.py 
-    class: BEC
+class: BoseEinsteinCondensate
 ```
 
 ## Variables and parameters
 
 The primary field is the complex wave function $\psi$
 
-``` {.python language="Python"}
+```python
 bec.psi 
 ```
 
 ## Model
 
 The BEC is in the mean field regime described by the GPE
-[@dalfovo1999theory; @kevrekidis2007emergent]. This is a non-linear
+[^dalfovo1999theory] [^kevrekidis2007emergent]. This is a non-linear
 Schrödinger equation which reads
 $$i\hbar \partial_t\psi = \left[-\frac{\hbar^2}{2m} \nabla^2+ V_{ext} -\mu +g|\psi|^2 \right]\psi.$$
 Here $\mu$ is the chemical potential, $m$ is the mass of the bosons, $g$
 is an interaction parameter and $\hbar$ is the Planc constant. $\psi$ is
 the wave function describing the condensate phase and $V_{ext}$ is an
 external potential. The GPE can be obtained from the varaitional
-principle [@kevrekidis2007emergent; @pitaevskiiBook]
+principle [^kevrekidis2007emergent][^pitaevskiiBook]
 
 $$
 \mathfrak i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}
@@ -41,7 +50,7 @@ to $\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi$, in addition we include a
 dissipative factor $\gamma$. 
 This results in the dGPE on dimensionless
 form as
-[@gardiner2003stochastic; @rooney2012stochastic; @bradley2012energy; @skaugenUnifiedPerspectiveTwodimensional2018]
+[^gardiner2003stochastic] [^rooney2012stochastic] [^bradley2012energy] [^skaugenUnifiedPerspectiveTwodimensional2018]
 $$i \partial_t \psi = (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
 $$\partial_t \psi =-i (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
 $$\partial_t \psi =-(\mathfrak i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
@@ -71,7 +80,7 @@ respectively.
 
 ## General form
 
-If we include longer range interactions, we get [steinbergExploringBifurcationsBose2022](References.md)
+If we include longer range interactions, we get [^steinberg2022exploring]
 
 $$
 \mathfrak{i} \partial_t \psi = (1-\mathfrak{i} \gamma) 
@@ -93,7 +102,7 @@ $$
 N = (\mathfrak{i} + \gamma) (-V_{\textrm{ext}}  - |\psi|^2 + g_2 \nabla^2 |\psi|^2-  g_4 \nabla^4 |\psi|^2)\psi,
 $$
 
-where $g_0$ in [steinbergExploringBifurcationsBose2022](References.md) has been set to $1$. 
+where $g_0$ in [^steinberg2022exploring] has been set to $1$. 
 
 ## Approximation of Ground States
 
@@ -101,14 +110,14 @@ When doing a simulation it is often convenient to start in a
 configuration that is close to the ground state. We can estimate this
 ground state by noticing that the GPE dissipates energy when it is
 evolved in imaginary time $t \rightarrow it$
-[@minguzzi2004numerical; @kevrekidis2007emergent]. Given an external
+[^minguzzi2004numerical] [^kevrekidis2007emergent]. Given an external
 potential $V_{ext}$ we can therefore find an approximation to the ground
 state by starting with a guess and then removing energy from the guessed
 state by evolving the equations in imaginary time.
 
 To get a guess of the ground state for a given potential $V_{ext}$ we
 use the Thomas-Fermi approximation
-[@dalfovo1999theory; @kevrekidis2007emergent], where we assume that
+[^dalfovo1999theory] [^kevrekidis2007emergent], where we assume that
 $\psi$ is slowly varying so that we can neglect the Laplacian term.
 Looking for stationary solutions to the dGPE we obtain the equation
 
@@ -164,7 +173,7 @@ A lot of the interesting dynamics of a BEC comes about when it is
 interacting with an external potential. This is included as the function
 
 ``` {.python language="Python"}
-bec.V_ext() 
+bec.V_ext(t) 
 ```
 
 As default this is assumed to be time independent and returns the field
@@ -173,18 +182,32 @@ As default this is assumed to be time independent and returns the field
 bec.V_0 
 ```
 
-When the potential is time independent, for example during a relaxation
-to the ground state, one should set $V_0$ directly. Two commonly used
-potentials are included in the library. This is the harmonic potential
-and the Gaussian potential.
+The potential can be changed by the function
 
+```{.python language="Python"}
+conf_external_potential(self, V_ext, additive=False)
+```
+which can be used both to set it as a function or to set it as a constant potential depending on wheter `V_ext` is a function, a constant or an numpy array. If `additive =True` one add the constant `V_ext` to the allredy existing potential. 
+If `V_ext` is a function it need to be on the form
+
+```{.python language="Python"}
+def V(t)
+     ...
+     return ...
+```
+
+The evolver will then evaluate it using the `bec.time` variable which is updated on the run.
+An example using a Gaussian stirring
+potential is provided in the example folder.
+
+To make life easier we have provided a couple of popular potentials. 
 The harmonic potential is provided in the function
 
 ``` {.python language="Python"}
 bec.set_harmonic_potential(self,R_tf)
 ```
 
-Here $R_{tf}$ is the Thomas-Fermi radius [@kevrekidis2007emergent], and
+Here $R_{tf}$ is the Thomas-Fermi radius [^kevrekidis2007emergent], and
 the harmonic potential takes the form $$V_H = \frac{r^2}{R_{tf}^2}.$$
 The Gaussian potential is provided through the function
 
@@ -210,18 +233,15 @@ time-dependent. For this one can define a function as
 
 and update the external potential to this function by calling
 
-    bec.set_time_dependent_potential(self,Func)
 
-Note that the time dependence of the function has to be through the
-classes time variable `bec.t`. An example using a Gaussian stirring
-potential is provided in the example folder.
+
 
 ## Hydrodynamics
 
 The dGPE can be transformed to a hydrodynamic description of the BEC.
 The first step in doing this is to introduce the Madelung transformation
 $\psi = \sqrt{\rho} e^{i\theta}$, where $\rho = |\psi|^2$ is
-the superfluid density [@kevrekidis2007emergent]. For $\gamma = 0$ this
+the superfluid density [^kevrekidis2007emergent]. For $\gamma = 0$ this
 density is conserved and satisfy the conservation equation
 
 $$
@@ -243,7 +263,7 @@ bec.calc_superfluid_current(self)
 ```
 
 We can also put the Madelung transformation into the Hamiltonian to get
-[@bradley2012energy; @nore1997kolmogorov]
+[^bradley2012energy] [^nore1997kolmogorov]
 
 $$
 K = \int d \mathbf r \left[\frac{1}{2}\rho v_s^2 +\frac{1}{8} \frac{|\nabla \rho|^2}{\rho} + (V_{ext}-1)\rho +\frac{1}{2}\rho^4 \right].
@@ -252,7 +272,7 @@ $$
 The first term here is the kinetic energy of the condensate. To
 calculate this it is convenient to introduce the density weighted
 velocity $\mathbf{u} = \sqrt{\rho}\mathbf{v}_s$
-[@bradley2012energy]. This have the advantage of not being singular at
+[^bradley2012energy]. This have the advantage of not being singular at
 the centre of the topological defects. Using this we can write the
 kinetic energy as $$E_k =\int d \mathbf r \frac{1}{2}u^2.$$ The density
 weighted velocity and the kinetic energy can be calculated by the
@@ -265,7 +285,7 @@ bec.calc_kinetic_energy(self)
 
 Further if we insert the Madelung transformation into the dGPE and do
 some work we can map it into the Navier-Stockes equations
-[@kevrekidis2007emergent; @bradley2012energy] 
+[^kevrekidis2007emergent] [^bradley2012energy] 
 
 $$
 \begin{aligned}
@@ -283,7 +303,7 @@ when $\gamma = 0$.
 To study how the BEC are interacting with impurities one can model the
 impurity as a Gaussian potential and measure the forces that are acting
 on it
-[@ronning2020classical; @astrakharchik2004motion; @pinsker2017gaussian].
+[^ronning2020classical] [^astrakharchik2004motion] [^pinsker2017gaussian].
 From the Erhenfest theorem the forces on the condensate from the stirrer
 is given as 
 
@@ -351,16 +371,16 @@ boost of the GPE is often accompanied by a phase shift of the wave
 function
 $\psi \rightarrow \psi \exp{(\mathfrak i\mathbf V_p \cdot \mathbf r + \frac i 2 V_p^2 t)}$
 which transforms the superfluid velocity to the new reference frame
-[@Pismen], leaving the GPE unchanged after the Gallilean transformation.
+[^Pismen], leaving the GPE unchanged after the Gallilean transformation.
 However the equation with $\gamma \neq 0$ is not Gallilean invariant and
 we therefore do not include the phase factor in the transformation. This
 have the consequence that the superfluid velocity obtained from $\psi$
 is measured in the lab frame and not the comoving frame
-[@ronning2020classical].
+[^ronning2020classical].
 
 To reduce the recycling of excitations into the incoming flow we
 introduce a buffer region around the computational domain where $\gamma$
-is large, similar to the one used in Ref. [@reeves2015identifying]. The
+is large, similar to the one used in Ref. [^reeves2015identifying]. The
 dissipative factor becomes a function of space and is given by
 $\gamma(\mathbf{r}) = 
 \max[\gamma_x(x),\gamma_y(y),\gamma_z(z)]$ in three dimensions and
@@ -387,3 +407,21 @@ bec.evolve_comoving_dGPE(self, number_of_steps, velx,method='ETD2RK')
 ```
 Here it is assumed that the boost is in the $x$-direction, and that the
 dissipative factor is spatially dependent.
+
+[^andersonObservationBoseEinsteinCondensation1995]: Anderson, M. H., Ensher, J. R., Matthews, M. R., Wieman, C. E., & Cornell, E. A. (1995). Observation of Bose-Einstein Condensation in a Dilute Atomic Vapor. Science, 269(5221), 198–201. [https://doi.org/10.1126/science.269.5221.198](https://doi.org/10.1126/science.269.5221.198)
+[^dalfovo1999theory]: Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. [https://doi.org/10.1103/RevModPhys.71.463](https://doi.org/10.1103/RevModPhys.71.463)
+[^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media. Berlin. 
+[^pitaevskiiBook]: Pitaevskii, L. and Stringari, S. (2016). Bose-Einstein Condensation and Superfluidity. Oxford University Press. [https://doi.org/10.1093/acprof:oso/9780198758884.001.0001](https://doi.org/10.1093/acprof:oso/9780198758884.001.0001})
+[^gardiner2003stochastic]: Gardiner, C. W. and Davis, M. J. (2003). The stochastic Gross-Pitaevskii equation: II. Journal of Physics B: Atomic, Molecular and Optical Physics. 36, 23, 4731. [https://doi.org/10.1088/0953-4075/36/23/010](https://doi.org/10.1088/0953-4075/36/23/010)
+[^rooney2012stochastic]: Rooney, S. J., Blakie, P. B. and Bradley, A. S. (2012). Stochastic projected Gross-Pitaevskii equation. Physical Review A. 86, 5, 053634. [https://doi.org/10.1103/PhysRevA.86.053634](https://doi.org/10.1103/PhysRevA.86.053634)
+[^bradley2012energy]: Bradley, A. S. and Anderson, B. P. (2012). Energy spectra of vortex distributions in two-dimensional quantum turbulence. Physical Review X. 2, 4, 041001 [https://doi.org/10.1103/PhysRevX.2.041001](https://doi.org/10.1103/PhysRevX.2.041001)
+[^skaugenUnifiedPerspectiveTwodimensional2018]: Skaugen, A. (2018). A Unified Perspective on Two-Dimensional Quantum Turbulence and Plasticity. PhD Thesis, University of Oslo. [http://urn.nb.no/URN:NBN:no-69394](http://urn.nb.no/URN:NBN:no-69394)
+[^minguzzi2004numerical]: Minguzzi, A., Succi, S., Toschi, F., Tosi, M. P. and Vignolo, P. (2004). Numerical methods for atomic quantum gases with applications to Bose-Einstein condensates and to ultracold fermions. Physics reports. 395, 4-5, 223-355. [https://doi.org/10.1016/j.physrep.2004.02.001](https://doi.org/10.1016/j.physrep.2004.02.001) 
+[^nore1997kolmogorov]: Nore, C., Abid, M. and Brachet, M. E. (1997). Kolmogorov turbulence in low-temperature superflows. Physical review letters. 78, 20, 3896. [https://doi.org/10.1103/PhysRevLett.78.3896](https://doi.org/10.1103/PhysRevLett.78.3896)
+[^ronning2020classical]: Rønning, J., Skaugen, A., Hernández-García, E., López, C. and Angheluta, L. (2020). Classical analogies for the force acting on an impurity in a Bose-Einstein condensate. New Journal of Physics. 22, 7, 073018. [https://doi.org/10.1088/1367-2630/ab95de](https://doi.org/10.1088/1367-2630/ab95de)
+[^astrakharchik2004motion]: Astrakharchik, G. E. and Pitaevskii, L. P. (2004). Motion of a heavy impurity through a {Bose-Einstein} condensate. Physical Review A. 70, 1, 013608. [https://doi.org/10.1103/PhysRevA.70.013608](https://doi.org/10.1103/PhysRevA.70.013608)
+[^pinsker2017gaussian]: Pinsker, F. (2017). Gaussian impurity moving through a {Bose-Einstein} superfluid. Physica B: Condensed Matter. 521, 36-42. [https://doi.org/10.1016/j.physb.2017.06.038](https://doi.org/10.1016/j.physb.2017.06.038)
+[^Pismen]: Pismen, L.M. (1999). Vortices in Nonlinear Fields: From Liquid Crystals to Superfluids, From Non-Equilibrium Patterns to Cosmic Strings. Oxford university press. Oxford 
+[^reeves2015identifying]: Reeves, M. T., Billam, T. P., Anderson, B. P. and Bradley, A. S. (2015). Identifying a superfluid Reynolds number via dynamical similarity. Physical Review Letters. 114, 15, 155302. [https://doi.org/10.1103/PhysRevLett.114.155302](https://doi.org/10.1103/PhysRevLett.114.155302)
+[^steinberg2022exploring]: Steinberg, A. B., Maucher, F., Gurevich, S. V. and Thiele, U. (2022). Exploring bifurcations in Bose--Einstein condensates via phase field crystal models. Chaos: An Interdisciplinary Journal of Nonlinear Science. 32, 11 [https://doi.org/10.1063/5.0101401](https://doi.org/10.1063/5.0101401) 
+

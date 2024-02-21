@@ -1,6 +1,6 @@
 # Contributing
 
-We welcome contributions. 
+We welcome contributions.
 
 ## Bug fixes
 

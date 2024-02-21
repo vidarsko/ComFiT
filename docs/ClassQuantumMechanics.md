@@ -1,4 +1,15 @@
-# Quantum Mechanics
+# Class: Quantum Mechanics
+
+Quantum mechanics is one of the most classic examples of field theories in physics. 
+
+In this class, we simulate quantum mechanics through the evolution of the Schrödinger equation.
+
+```python
+file: comfit/models/quantum_mechanics.py 
+class: QuantumMechanics
+```
+
+## The Schrödinger equation
 
 Evolving according to the Schrödinger equation with electron mass
 

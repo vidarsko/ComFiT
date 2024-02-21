@@ -1,6 +1,15 @@
-# Active Nematics
+# Class: Nematic Liquid Crystal
 
-## Variables
+A liquid crystal is a state of matter between a solid and a liquid.
+
+In this class, we simulate an active nematic liquid crystal using [framework]. 
+
+```python
+file: comfit/models/nematic_liquid_crystal.py 
+class: NematicLiquidCrystal
+```
+
+## Variables and parameters
 
 The primary variables are the symmetric traceless tensor $Q$ and the
 velocity field $\\vec{u}$
@@ -16,8 +25,8 @@ $$
 Q_{ij} = S (n_i n_j - \frac{1}{d} \delta_{ij})
 $$ 
 
-in $d$ dimensions. For
-the current version only $d=2$ is implemented. To take advantage of its
+in $d$ dimensions.
+To take advantage of its
 symmetric nature we have saved $Q$ as a vector field, which in two and three
 dimensions takes the forms
 
@@ -53,13 +62,13 @@ $$
 $$
 
 In order to calculate the director field $\vec n$ and the amount of order $S$ in two dimensions we use that we can map the orderparameter to the complex field $\psi = Q_{xx} +  iQ_{xy} =Se^{2i\theta}/2$, where $\theta$  is the angle of the director field. 
-In three dimensions we use that $S$ is given by the largest eigenvalue as $S = 3\lambda/2$ with the director being the coresponding eigenvector [schimmingKinematicsDynamicsDisclination2023](References.md). 
+In three dimensions we use that $S$ is given by the largest eigenvalue as $S = 3\lambda/2$ with the director being the coresponding eigenvector [^Schimming2022Thesis]. 
 This is taken care of in the function
 
 ``` {.python language="Python"}
 calc_order_and_director(self)
 ```
-
+Wich returns `S, n`, where `n` is the director field.
 Note that a nematic liquid crystall can be biaxial and given as
 
 $$
@@ -74,7 +83,7 @@ where $P$ is given by the difference between the smallest eigenvalues and $\vec 
 We model the active nematic using a set of coupled differential
 equations, namely the Edvard-Beris equation coupled to the Stokes
 equation
-[@marchetti2013hydrodynamics; @genkin2017topological; @nejad2020memory; @angheluta2021role]
+[^marchetti2013hydrodynamics] [^genkin2017topological] [^nejad2020memory] [^angheluta2021role]
 
 $$
 \begin{aligned}
@@ -86,8 +95,7 @@ $$
 $$ 
 
 Here $2\Omega_{ij} = \partial_i u_j - \partial_j u_i$ is
-the vorticity tensor, $P$ is the pressure and we have the active stress
-$\sigma^a = \alpha Q$. The vorticity tensor is calculated by the
+the vorticity tensor, $P$ is the pressure, $\gamma$ is the rotational friction coefficient, $\sigma^p$ is the passive stress, $\Gamma$ is friction with a substrate, $\eta$ is viscosity and the active stress is given by $\sigma^a = \alpha Q$. The vorticity tensor is calculated by the
 function
 
 ``` {.python language="Python"}
@@ -95,9 +103,8 @@ calc_vorticity_tensor(self)
 ```
 
 Note that the velocity has to be updated before this function is called.
-The calculation of the pressure and velocity is described in section
-[7.4](#sec:nem_vel){reference-type="ref" reference="sec:nem_vel"}. Since
-the active stress is simply proportional to $Q$ we have not included any
+The calculation of the pressure and velocity is described furhter down.
+Since the active stress is simply proportional to $Q$ we have not included any
 function to calculate it, but calculate the force directly with the function
 
 ``` {.python language="Python"}
@@ -149,7 +156,7 @@ given as
 $$
 \begin{aligned}
 \omega(\nabla) &= \frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma}, \\
-N(Q) &= - \mathbf u\cdot \nabla Q + Q \Omega -\Omega Q - \frac{2A}{\gamma}Q^2_{kk}Q +\begin{cases}
+N(Q,t) &= - \mathbf u\cdot \nabla Q + Q \Omega -\Omega Q - \frac{2A}{\gamma}Q^2_{kk}Q +\begin{cases}
   0, & \text{dim} = 2 \\
  C Q^2 - \frac{C}{3}Q^2_{kk} I, & \text{dim} = 3 
 \end{cases}
@@ -364,7 +371,7 @@ $$
 
 where $(\mathbf n, \mathbf m, \mathbf l )$ is an orthornmal triad. 
 It is five parameters: $S$, the two defining angles of $\mathbf n$, $P$ and the angle of $\mathbf m$ in the plane orthogonal to $\mathbf n$. 
-$S$ can always be determined from the highest eigenvalue $\lambda_{\textrm{max}}$ of $Q$ by [schimmingTheoreticalComputationalMethods2022](References.md)
+$S$ can always be determined from the highest eigenvalue $\lambda_{\textrm{max}}$ of $Q$ by [^Schimming2022Thesis]
 
 $$
 S = \frac{3}{2} \lambda_{\textrm{max}}
@@ -374,7 +381,7 @@ $$
 ## Topological defects
 
 Topological defects in nematic liquid crystals are called disclinations and are characterized the orientation of the rod-like particles having rotated after following a path around the dislocation. 
-From [schimmingKinematicsDynamicsDisclination2023](References.md),
+From [^schimming2023kinematics],
 
 $$
 D_{\gamma i} = \epsilon_{\gamma \mu \nu} \epsilon_{ikl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}.
@@ -433,7 +440,7 @@ $$
 D_{33} = \frac{1}{2} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu).
 $$
 
-This is the same determinant as we would get using the coarse grain density of [skogvollUnifiedFieldTheory2023](References.md), only with $\psi_0$, so, the disclination density should be 
+This is the same determinant as we would get using the coarse grain density of [^skogvoll2023Topological], only with $\psi_0$, so, the disclination density should be 
 
 $$
 \rho_{\gamma i} = \frac{1}{\pi S_0^2} D_{\gamma i} 
@@ -457,7 +464,7 @@ $$
 
 so $\sqrt{|\rho|^2}$ is the quantity we should integrate to find the nodes of the defects.
 
-From [schimmingKinematicsDynamicsDisclination2023](References.md), we have 
+From [^schimming2023kinematics], we have 
 
 $$
 t_i \delta^{(2)}(\mathbf r_{\perp}) = \delta^{(2)}(\mathbf Q_\perp) \Omega_\gamma D_{\gamma i}
@@ -480,3 +487,12 @@ Q_{ij} = S_0 \left (\frac{1}{2} n_i n_j - \frac{1}{d} \delta_{ij} \right ),
 $$
 
 and then simply impose an orientation field corresponding to an angle field on the $\mathbf n$ fields.
+
+[^Schimming2022Thesis]:Schimming, C. D. (2022). Theoretical and Computational Methods for Mesoscopic Textures in Nematic Liquid Crystals with Anisotropic Elasticity. PhD Thesis. The University of Minnesota. [https://hdl.handle.net/11299/241713](https://hdl.handle.net/11299/241713)
+[^marchetti2013hydrodynamics]: Marchetti, M. C., Joanny, J-F., Ramaswamy, S., Liverpool, T. B., Prost, J., and Rao, M. and Simha, R. A. (2013). Hydrodynamics of soft active matter. Reviews of Modern Physics. 85, 3, 1143. [https://doi.org/10.1103/RevModPhys.85.1143](https://doi.org/10.1103/RevModPhys.85.1143)
+[^genkin2017topological]: Genkin, M. M., Sokolov, A., Lavrentovich, O. D. and Aranson, I. S. (2017). Topological defects in a living nematic ensnare swimming bacteria. Physical Review X. 7, 1,011029. [https://doi.org/10.1103/PhysRevX.7.011029](https://doi.org/10.1103/PhysRevX.7.011029)
+[^nejad2020memory]: Nejad, M. R., Doostmohammadi, A. and Yeomans, J. M. (2021). Memory effects, arches and polar defect ordering at the cross-over from wet to dry active nematics. Soft Matter. 17, 9, 2500-2511. [https://doi.org/10.1039/D0SM01794A](https://doi.org/10.1039/D0SM01794A)
+[^angheluta2021role]:Angheluta, L., Chen, Z., Marchetti, M. C. and Bowick, Mark J. (2021). The role of fluid flow in the dynamics of active nematic defects. New Journal of Physics. 23, 3, 033009. [https://doi.org/10.1088/1367-2630/abe8a8](https://doi.org/10.1088/1367-2630/abe8a8)
+[^schimming2023kinematics]: Schimming, C. D. and Viñals, J. (2023). Kinematics and dynamics of disclination lines in three-dimensional nematics. Proceedings of the Royal Society A. 479, 2273, 20230042. [https://doi.org/10.1098/rspa.2023.0042](https://doi.org/10.1098/rspa.2023.0042)
+[^skogvoll2023Topological]: Skogvoll, V., Rønning, J., Salvalaglio, M., Angheluta, L. (2023). A unified field theory of topological defects and non-linear local excitations. npj Comput Mater, 9, 122. [https://doi.org/10.1038/s41524-023-01077-6](https://doi.org/10.1038/s41524-023-01077-6)
+

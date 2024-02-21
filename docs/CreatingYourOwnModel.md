@@ -1,4 +1,6 @@
-# How to create your own model
+# Creating your own model
+
+Using ComFiT to create your own model is easy.
 
 ## Level 1: Get it up and running
 Creating your own class with this framework is easy. Here is a
@@ -71,7 +73,7 @@ Fourier space.
 In this case, it could look like
 
 ```python
-def calc_nonlinear_part(self,field):
+def calc_nonlinear_part(self,field,t):
     Something
 ```
 </div>
