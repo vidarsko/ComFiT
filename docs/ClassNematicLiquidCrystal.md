@@ -371,7 +371,7 @@ $$
 
 where $(\mathbf n, \mathbf m, \mathbf l )$ is an orthornmal triad. 
 It is five parameters: $S$, the two defining angles of $\mathbf n$, $P$ and the angle of $\mathbf m$ in the plane orthogonal to $\mathbf n$. 
-$S$ can always be determined from the highest eigenvalue $\lambda_{\textrm{max}}$ of $Q$ by [schimmingTheoreticalComputationalMethods2022](References.md)
+$S$ can always be determined from the highest eigenvalue $\lambda_{\textrm{max}}$ of $Q$ by [^Schimming2022Thesis]
 
 $$
 S = \frac{3}{2} \lambda_{\textrm{max}}
