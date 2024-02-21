@@ -380,7 +380,7 @@ is measured in the lab frame and not the comoving frame
 
 To reduce the recycling of excitations into the incoming flow we
 introduce a buffer region around the computational domain where $\gamma$
-is large, similar to the one used in Ref. [@reeves2015identifying]. The
+is large, similar to the one used in Ref. [^reeves2015identifying]. The
 dissipative factor becomes a function of space and is given by
 $\gamma(\mathbf{r}) = 
 \max[\gamma_x(x),\gamma_y(y),\gamma_z(z)]$ in three dimensions and
@@ -422,4 +422,5 @@ dissipative factor is spatially dependent.
 [^astrakharchik2004motion]: Astrakharchik, G. E. and Pitaevskii, L. P. (2004). Motion of a heavy impurity through a {Bose-Einstein} condensate. Physical Review A. 70, 1, 013608. [https://doi.org/10.1103/PhysRevA.70.013608](https://doi.org/10.1103/PhysRevA.70.013608)
 [^pinsker2017gaussian]: Pinsker, F. (2017). Gaussian impurity moving through a {Bose-Einstein} superfluid. Physica B: Condensed Matter. 521, 36-42. [https://doi.org/10.1016/j.physb.2017.06.038](https://doi.org/10.1016/j.physb.2017.06.038)
 [^Pismen]: Pismen, L.M. (1999). Vortices in Nonlinear Fields: From Liquid Crystals to Superfluids, From Non-Equilibrium Patterns to Cosmic Strings. Oxford university press. Oxford 
+[^reeves2015identifying]: Reeves, M. T., Billam, T. P., Anderson, B. P. and Bradley, A. S. (2015). Identifying a superfluid Reynolds number via dynamical similarity. Physical Review Letters. 114, 15, 155302. [https://doi.org/10.1103/PhysRevLett.114.155302](https://doi.org/10.1103/PhysRevLett.114.155302)
 
