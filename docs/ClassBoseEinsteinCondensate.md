@@ -80,7 +80,7 @@ respectively.
 
 ## General form
 
-If we include longer range interactions, we get [steinbergExploringBifurcationsBose2022](References.md)
+If we include longer range interactions, we get [^steinberg2022exploring]
 
 $$
 \mathfrak{i} \partial_t \psi = (1-\mathfrak{i} \gamma) 
@@ -102,7 +102,7 @@ $$
 N = (\mathfrak{i} + \gamma) (-V_{\textrm{ext}}  - |\psi|^2 + g_2 \nabla^2 |\psi|^2-  g_4 \nabla^4 |\psi|^2)\psi,
 $$
 
-where $g_0$ in [steinbergExploringBifurcationsBose2022](References.md) has been set to $1$. 
+where $g_0$ in [^steinberg2022exploring] has been set to $1$. 
 
 ## Approximation of Ground States
 
@@ -423,4 +423,5 @@ dissipative factor is spatially dependent.
 [^pinsker2017gaussian]: Pinsker, F. (2017). Gaussian impurity moving through a {Bose-Einstein} superfluid. Physica B: Condensed Matter. 521, 36-42. [https://doi.org/10.1016/j.physb.2017.06.038](https://doi.org/10.1016/j.physb.2017.06.038)
 [^Pismen]: Pismen, L.M. (1999). Vortices in Nonlinear Fields: From Liquid Crystals to Superfluids, From Non-Equilibrium Patterns to Cosmic Strings. Oxford university press. Oxford 
 [^reeves2015identifying]: Reeves, M. T., Billam, T. P., Anderson, B. P. and Bradley, A. S. (2015). Identifying a superfluid Reynolds number via dynamical similarity. Physical Review Letters. 114, 15, 155302. [https://doi.org/10.1103/PhysRevLett.114.155302](https://doi.org/10.1103/PhysRevLett.114.155302)
+[^steinberg2022exploring]: Steinberg, A. B., Maucher, F., Gurevich, S. V. and Thiele, U. (2022). Exploring bifurcations in Bose--Einstein condensates via phase field crystal models. Chaos: An Interdisciplinary Journal of Nonlinear Science. 32, 11 [https://doi.org/10.1063/5.0101401](https://doi.org/10.1063/5.0101401) 
 
