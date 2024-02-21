@@ -873,7 +873,8 @@ class NematicLiquidCrystal(BaseSystem):
 
         if director:
             vec = mlab.pipeline.vector_field(X,Y,Z,n[0],n[1],n[2])
-            mlab.pipeline.vector_cut_plane(vec,mask_points =4,line_width =3, scale_factor = 4.0,plane_orientation= 'z_axes')
+            mlab.pipeline.vector_cut_plane(vec,mask_points =4,line_width =1, scale_factor = 1.0,
+                                           plane_orientation= 'z_axes',mode = 'cylinder')
 
         if Flow:
             mlab.flow(X,Y,Z,self.u[0],self.u[1],self.u[2],seed_scale =1,seed_resolution=10, integration_direction ='both')
