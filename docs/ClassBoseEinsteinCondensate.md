@@ -5,7 +5,7 @@ Whereas fermions can never occupy the same quantum state due to the Pauli Exclus
 A Bose-Einstein condensate (BEC) is a state of matter consisting of ultra-cold bosons which undergo a phase transition at a low critical temperature in which most bosons occupy the ground state of the system.
 It was theorized by Einstein and Bose in the 1920s as a new state of matter and produced for the first time in 1995 by Eric Cornell and Carl Wieman[^andersonObservationBoseEinsteinCondensation1995].
 
-[^andersonObservationBoseEinsteinCondensation1995]: Anderson, M. H., Ensher, J. R., Matthews, M. R., Wieman, C. E., & Cornell, E. A. (1995). Observation of Bose-Einstein Condensation in a Dilute Atomic Vapor. Science, 269(5221), 198–201. [https://doi.org/10.1126/science.269.5221.198](https://doi.org/10.1126/science.269.5221.198)
+
 
 In this class, we simulate a Bose-Einstein condensate in 1, 2 and 3 dimensions using the Gross-Pitaevski equation (GPE).
 
@@ -408,6 +408,7 @@ bec.evolve_comoving_dGPE(self, number_of_steps, velx,method='ETD2RK')
 Here it is assumed that the boost is in the $x$-direction, and that the
 dissipative factor is spatially dependent.
 
+[^andersonObservationBoseEinsteinCondensation1995]: Anderson, M. H., Ensher, J. R., Matthews, M. R., Wieman, C. E., & Cornell, E. A. (1995). Observation of Bose-Einstein Condensation in a Dilute Atomic Vapor. Science, 269(5221), 198–201. [https://doi.org/10.1126/science.269.5221.198](https://doi.org/10.1126/science.269.5221.198)
 [^dalfovo1999theory]: Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. [https://doi.org/10.1103/RevModPhys.71.463](https://doi.org/10.1103/RevModPhys.71.463)
 [^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media. Berlin. 
 [^pitaevskiiBook]: Pitaevskii, L. and Stringari, S. (2016). Bose-Einstein Condensation and Superfluidity. Oxford University Press. [https://doi.org/10.1093/acprof:oso/9780198758884.001.0001](https://doi.org/10.1093/acprof:oso/9780198758884.001.0001})
