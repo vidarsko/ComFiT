@@ -22,7 +22,7 @@ fig2 = mlab.fig()
 ```
 In matplotlib, one level under, we find `axes` handle.
 A `matplotlib` figure can contain multiply different `axes` as in several subplots.
-In `mayavi`, there is no such option, at least in ComFiT, to have several subplots. 
+In `mayavi`, there is no such option, at least in ComFiT, to have several subplots.
 The `axes` object is made as follows
 
 ```python
@@ -61,24 +61,6 @@ plt.draw()
 plt.pause(0.01)
 ```
 
-## Plotting with matplotlib
-
-It is useful to recap how plotting works with python briefly. Matplotlib
-operates with three levels of plotting: *figures*, *axes* and
-*everything else*. The figure represents the plotting window that shows
-your plot, whereas axes are the individual plots represented on the
-figure. In the axes, you may place different things, like image
-instances, line2D objects or text.
-
-Therefore, the implemented plot functions will all take the ax as an
-optional input and give that as an optional output if not provided.
-
-Each class has a function called `plot`, which is our best idea of how
-to plot the current configuration of the field.
-
-## Plotting with Mayavi
-
-The
 
 ## Plotting keywords
 
@@ -121,6 +103,7 @@ These keywords can be passed to any plot function.
 | `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)|
 | `colormap` | String specifying the colormap to be used | Varies |
 | `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
+| `plotting_lib` | String specifying the plotting library to be used for visualization. | `matplotlib` |
 | `fig` | `matplotlib` or `mayavi` figure handle | None |
 | `ax` | `matplotlib` axis handle | None|
 

@@ -196,19 +196,6 @@ $$
 Primary RLVs
 
 $$
-\mathcal R_{\textrm{sq}}^{(1)} = {
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(1)} = (1,0)  \\
-    \mathbf q^{(2)} = (0,1) \\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2} \\
-\end{array}
-\right \rbrace}
-$$
-
-Primary Bravais Lattice vectors
-
-$$
 \mathcal B_{\textrm{sq}}^{(1)} =
 \left \lbrace
 \begin{array}{l}
@@ -217,6 +204,19 @@ $$
     \mathbf a^{(-1)},\mathbf a^{(-2)}
 \end{array}
 \right \rbrace
+$$
+
+Primary Bravais Lattice vectors
+
+$$
+\mathcal R_{\textrm{sq}}^{(1)} = {
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(1)} = (1,0)  \\
+    \mathbf q^{(2)} = (0,1) \\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2} \\
+\end{array}
+\right \rbrace}
 $$
 
 $$
