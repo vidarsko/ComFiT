@@ -110,14 +110,14 @@ When doing a simulation it is often convenient to start in a
 configuration that is close to the ground state. We can estimate this
 ground state by noticing that the GPE dissipates energy when it is
 evolved in imaginary time $t \rightarrow it$
-[@minguzzi2004numerical; @kevrekidis2007emergent]. Given an external
+[^minguzzi2004numerical] [^kevrekidis2007emergent]. Given an external
 potential $V_{ext}$ we can therefore find an approximation to the ground
 state by starting with a guess and then removing energy from the guessed
 state by evolving the equations in imaginary time.
 
 To get a guess of the ground state for a given potential $V_{ext}$ we
 use the Thomas-Fermi approximation
-[@dalfovo1999theory; @kevrekidis2007emergent], where we assume that
+[^dalfovo1999theory] [^kevrekidis2007emergent], where we assume that
 $\psi$ is slowly varying so that we can neglect the Laplacian term.
 Looking for stationary solutions to the dGPE we obtain the equation
 
@@ -415,3 +415,4 @@ dissipative factor is spatially dependent.
 [^rooney2012stochastic]: Rooney, S. J., Blakie, P. B. and Bradley, A. S. (2012). Stochastic projected Gross-Pitaevskii equation. Physical Review A. 86, 5, 053634. [https://doi.org/10.1103/PhysRevA.86.053634](https://doi.org/10.1103/PhysRevA.86.053634)
 [^bradley2012energy]: Bradley, A. S. and Anderson, B. P. (2012). Energy spectra of vortex distributions in two-dimensional quantum turbulence. Physical Review X. 2, 4, 041001 [https://doi.org/10.1103/PhysRevX.2.041001](https://doi.org/10.1103/PhysRevX.2.041001)
 [^skaugenUnifiedPerspectiveTwodimensional2018]: Skaugen, A. (2018). A Unified Perspective on Two-Dimensional Quantum Turbulence and Plasticity. PhD Thesis, University of Oslo. [http://urn.nb.no/URN:NBN:no-69394](http://urn.nb.no/URN:NBN:no-69394)
+[^minguzzi2004numerical]: Minguzzi, A., Succi, S., Toschi, F., Tosi, M. P. and Vignolo, P. (2004). Numerical methods for atomic quantum gases with applications to Bose-Einstein condensates and to ultracold fermions. Physics reports. 395, 4-5, 223-355. [https://doi.org/10.1016/j.physrep.2004.02.001](https://doi.org/10.1016/j.physrep.2004.02.001) 
