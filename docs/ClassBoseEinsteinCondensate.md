@@ -207,7 +207,7 @@ The harmonic potential is provided in the function
 bec.set_harmonic_potential(self,R_tf)
 ```
 
-Here $R_{tf}$ is the Thomas-Fermi radius [@kevrekidis2007emergent], and
+Here $R_{tf}$ is the Thomas-Fermi radius [^kevrekidis2007emergent], and
 the harmonic potential takes the form $$V_H = \frac{r^2}{R_{tf}^2}.$$
 The Gaussian potential is provided through the function
 
@@ -241,7 +241,7 @@ and update the external potential to this function by calling
 The dGPE can be transformed to a hydrodynamic description of the BEC.
 The first step in doing this is to introduce the Madelung transformation
 $\psi = \sqrt{\rho} e^{i\theta}$, where $\rho = |\psi|^2$ is
-the superfluid density [@kevrekidis2007emergent]. For $\gamma = 0$ this
+the superfluid density [^kevrekidis2007emergent]. For $\gamma = 0$ this
 density is conserved and satisfy the conservation equation
 
 $$
@@ -263,7 +263,7 @@ bec.calc_superfluid_current(self)
 ```
 
 We can also put the Madelung transformation into the Hamiltonian to get
-[@bradley2012energy; @nore1997kolmogorov]
+[^bradley2012energy] [^nore1997kolmogorov]
 
 $$
 K = \int d \mathbf r \left[\frac{1}{2}\rho v_s^2 +\frac{1}{8} \frac{|\nabla \rho|^2}{\rho} + (V_{ext}-1)\rho +\frac{1}{2}\rho^4 \right].
@@ -272,7 +272,7 @@ $$
 The first term here is the kinetic energy of the condensate. To
 calculate this it is convenient to introduce the density weighted
 velocity $\mathbf{u} = \sqrt{\rho}\mathbf{v}_s$
-[@bradley2012energy]. This have the advantage of not being singular at
+[^bradley2012energy]. This have the advantage of not being singular at
 the centre of the topological defects. Using this we can write the
 kinetic energy as $$E_k =\int d \mathbf r \frac{1}{2}u^2.$$ The density
 weighted velocity and the kinetic energy can be calculated by the
@@ -285,7 +285,7 @@ bec.calc_kinetic_energy(self)
 
 Further if we insert the Madelung transformation into the dGPE and do
 some work we can map it into the Navier-Stockes equations
-[@kevrekidis2007emergent; @bradley2012energy] 
+[^kevrekidis2007emergent] [^bradley2012energy] 
 
 $$
 \begin{aligned}
@@ -416,3 +416,4 @@ dissipative factor is spatially dependent.
 [^bradley2012energy]: Bradley, A. S. and Anderson, B. P. (2012). Energy spectra of vortex distributions in two-dimensional quantum turbulence. Physical Review X. 2, 4, 041001 [https://doi.org/10.1103/PhysRevX.2.041001](https://doi.org/10.1103/PhysRevX.2.041001)
 [^skaugenUnifiedPerspectiveTwodimensional2018]: Skaugen, A. (2018). A Unified Perspective on Two-Dimensional Quantum Turbulence and Plasticity. PhD Thesis, University of Oslo. [http://urn.nb.no/URN:NBN:no-69394](http://urn.nb.no/URN:NBN:no-69394)
 [^minguzzi2004numerical]: Minguzzi, A., Succi, S., Toschi, F., Tosi, M. P. and Vignolo, P. (2004). Numerical methods for atomic quantum gases with applications to Bose-Einstein condensates and to ultracold fermions. Physics reports. 395, 4-5, 223-355. [https://doi.org/10.1016/j.physrep.2004.02.001](https://doi.org/10.1016/j.physrep.2004.02.001) 
+[^nore1997kolmogorov]: Nore, C., Abid, M. and Brachet, M. E. (1997). Kolmogorov turbulence in low-temperature superflows. Physical review letters. 78, 20, 3896. [https://doi.org/10.1103/PhysRevLett.78.3896](https://doi.org/10.1103/PhysRevLett.78.3896)
