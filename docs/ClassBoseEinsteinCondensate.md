@@ -418,5 +418,5 @@ dissipative factor is spatially dependent.
 [^minguzzi2004numerical]: Minguzzi, A., Succi, S., Toschi, F., Tosi, M. P. and Vignolo, P. (2004). Numerical methods for atomic quantum gases with applications to Bose-Einstein condensates and to ultracold fermions. Physics reports. 395, 4-5, 223-355. [https://doi.org/10.1016/j.physrep.2004.02.001](https://doi.org/10.1016/j.physrep.2004.02.001) 
 [^nore1997kolmogorov]: Nore, C., Abid, M. and Brachet, M. E. (1997). Kolmogorov turbulence in low-temperature superflows. Physical review letters. 78, 20, 3896. [https://doi.org/10.1103/PhysRevLett.78.3896](https://doi.org/10.1103/PhysRevLett.78.3896)
 [^ronning2020classical]: Rønning, J., Skaugen, A., Hernández-García, E., López, C. and Angheluta, L. (2020). Classical analogies for the force acting on an impurity in a Bose-Einstein condensate. New Journal of Physics. 22, 7, 073018. [https://doi.org/10.1088/1367-2630/ab95de](https://doi.org/10.1088/1367-2630/ab95de)
-[^astrakharchik2004motion]
-[^pinsker2017gaussian]
+[^astrakharchik2004motion]: Astrakharchik, G. E. and Pitaevskii, L. P. (2004). Motion of a heavy impurity through a {Bose-Einstein} condensate. Physical Review A. 70, 1, 013608. [https://doi.org/10.1103/PhysRevA.70.013608](https://doi.org/10.1103/PhysRevA.70.013608)
+[^pinsker2017gaussian]: Pinsker, F. (2017). Gaussian impurity moving through a {Bose-Einstein} superfluid. Physica B: Condensed Matter. 521, 36-42. [https://doi.org/10.1016/j.physb.2017.06.038](https://doi.org/10.1016/j.physb.2017.06.038)
