@@ -6,7 +6,8 @@ Using ComFiT to create your own model is easy.
 Creating your own class with this framework is easy. Here is a
 step-by-step instruction on how to do it.
 
-Consider as an instructive example, the Landau theory of the Bragg-Williams theory [chaikinPrinciplesCondensedMatter1995](References.md)
+Consider as an instructive example, the Landau theory of the Bragg-Williams theory [^chaikinPrinciplesCondensedMatter1995]
+
 <div style="border:2px solid black; padding:10px; margin:10px;">
 
 $$
@@ -122,3 +123,6 @@ If you want to contribute to the source code with your model (which is highly ap
 * Write documentation for the code, explaining the mathematics of the model. Remember to follow the [mathematical notation convention](Conventions.md#mathematical-notation-convention).
 * Make tests for the model.
 * [optional] Create tutorials showcasing how to use you code.
+
+
+[^chaikinPrinciplesCondensedMatter1995]: 

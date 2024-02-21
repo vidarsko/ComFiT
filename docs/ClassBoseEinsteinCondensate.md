@@ -1,11 +1,9 @@
 # Class: Bose Einstein Condensate
 
 There are two types of particles in the world: femions and bosons.
-Whereas fermions can never occupy the same quantum state due to the Pauli Exclusion principle, the same is not true for bosons. 
+Whereas fermions can never occupy the same quantum state due to the Pauli Exclusion principle, the same is not true for bosons.
 A Bose-Einstein condensate (BEC) is a state of matter consisting of ultra-cold bosons which undergo a phase transition at a low critical temperature in which most bosons occupy the ground state of the system.
 It was theorized by Einstein and Bose in the 1920s as a new state of matter and produced for the first time in 1995 by Eric Cornell and Carl Wieman[^andersonObservationBoseEinsteinCondensation1995].
-
-
 
 In this class, we simulate a Bose-Einstein condensate in 1, 2 and 3 dimensions using the Gross-Pitaevski equation (GPE).
 
@@ -36,7 +34,7 @@ principle [^kevrekidis2007emergent][^pitaevskiiBook]
 
 $$
 \mathfrak i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}
-$$ 
+$$
 
 with the Hamiltonian
 
@@ -47,7 +45,7 @@ $$
 We introduce dimensionless units for length $\xi = \hbar/\sqrt{m\mu}$,
 time $\tau = \xi/c$ and energy $E=\eta$ and rescaling the wave function
 to $\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi$, in addition we include a
-dissipative factor $\gamma$. 
+dissipative factor $\gamma$.
 This results in the dGPE on dimensionless
 form as
 [^gardiner2003stochastic] [^rooney2012stochastic] [^bradley2012energy] [^skaugenUnifiedPerspectiveTwodimensional2018]
@@ -58,7 +56,7 @@ $$\partial_t \psi =(\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathfra
 In other words
 
 $$
-\omega = (\mathfrak{i}+\gamma) (1 + \frac{1}{2}\nabla^2), \quad \omega_{f} =  (\mathfrak{i}+\gamma) (1-\frac{1}{2}\mathbf{k}^2), \quad N = - (\mathfrak{i} + \gamma) (V_{ext} + |\psi|^2)\psi 
+\omega = (\mathfrak{i}+\gamma) (1 + \frac{1}{2}\nabla^2), \quad \omega_{f} =  (\mathfrak{i}+\gamma) (1-\frac{1}{2}\mathbf{k}^2), \quad N = - (\mathfrak{i} + \gamma) (V_{ext} + |\psi|^2)\psi
 $$
 
 The evolution of the wave function is included through the function
@@ -83,12 +81,12 @@ respectively.
 If we include longer range interactions, we get [^steinberg2022exploring]
 
 $$
-\mathfrak{i} \partial_t \psi = (1-\mathfrak{i} \gamma) 
+\mathfrak{i} \partial_t \psi = (1-\mathfrak{i} \gamma)
 \left[-\frac{1}{2} \nabla^2 + V_{\textrm{ext}}-1 + |\psi|^2 - g_2 \nabla^2 |\psi|^2 +  g_4 \nabla^4 |\psi|^2\right] \psi.
 $$
 
 $$
-\partial_t \psi = (\mathfrak{i} + \gamma) 
+\partial_t \psi = (\mathfrak{i} + \gamma)
 \left[\frac{1}{2} \nabla^2 - V_{\textrm{ext}} + 1 -  |\psi|^2 + g_2 \nabla^2 |\psi|^2- g_4 \nabla^4 |\psi|^2 \right] \psi
 $$
 
@@ -102,7 +100,7 @@ $$
 N = (\mathfrak{i} + \gamma) (-V_{\textrm{ext}}  - |\psi|^2 + g_2 \nabla^2 |\psi|^2-  g_4 \nabla^4 |\psi|^2)\psi,
 $$
 
-where $g_0$ in [^steinberg2022exploring] has been set to $1$. 
+where $g_0$ in [^steinberg2022exploring] has been set to $1$.
 
 ## Approximation of Ground States
 
@@ -126,7 +124,7 @@ $$
 $$
 
 This has two solutions, $\psi = 0$
-and 
+and
 
 $$
 |\psi|^2 = 1-V_{ext}.
@@ -148,7 +146,7 @@ therefore conclude that the Thomas-Fermi ground state is given as
 $$
 \psi = \begin{cases}
      0 & \text{if} \quad V_{ext}  > 1 \\
-     \sqrt{1 -V_{ext}}  & \text{if}\quad V_{ext}  < 1 
+     \sqrt{1 -V_{ext}}  & \text{if}\quad V_{ext}  < 1
     \end{cases}
 $$
 
@@ -187,7 +185,8 @@ The potential can be changed by the function
 ```{.python language="Python"}
 conf_external_potential(self, V_ext, additive=False)
 ```
-which can be used both to set it as a function or to set it as a constant potential depending on wheter `V_ext` is a function, a constant or an numpy array. If `additive =True` one add the constant `V_ext` to the allredy existing potential. 
+
+which can be used both to set it as a function or to set it as a constant potential depending on wheter `V_ext` is a function, a constant or an numpy array. If `additive =True` one add the constant `V_ext` to the allredy existing potential.
 If `V_ext` is a function it need to be on the form
 
 ```{.python language="Python"}
@@ -200,7 +199,7 @@ The evolver will then evaluate it using the `bec.time` variable which is updated
 An example using a Gaussian stirring
 potential is provided in the example folder.
 
-To make life easier we have provided a couple of popular potentials. 
+To make life easier we have provided a couple of popular potentials.
 The harmonic potential is provided in the function
 
 ``` {.python language="Python"}
@@ -219,7 +218,7 @@ Giving the potential
 
 $$
 V_g = g e^{-|\mathbf{r} - \mathbf{r}_p|^2/\sigma^2}.
-$$ 
+$$
 
 Here
 $g$ is the strength, $\sigma$ is the size and $\mathbf{r}_p$ is the
@@ -228,13 +227,12 @@ position.
 Much of the interesting physics happens when the potential is
 time-dependent. For this one can define a function as
 
-    def Func():
-        ...
+```python
+def Func():
+    ...
+```
 
 and update the external potential to this function by calling
-
-
-
 
 ## Hydrodynamics
 
@@ -246,7 +244,7 @@ density is conserved and satisfy the conservation equation
 
 $$
 \partial_t \rho + \nabla\cdot \mathbf{J}_s = 0,
-$$ 
+$$
 
 with the superfluid current given as
 
@@ -285,7 +283,7 @@ bec.calc_kinetic_energy(self)
 
 Further if we insert the Madelung transformation into the dGPE and do
 some work we can map it into the Navier-Stockes equations
-[^kevrekidis2007emergent] [^bradley2012energy] 
+[^kevrekidis2007emergent] [^bradley2012energy]
 
 $$
 \begin{aligned}
@@ -305,11 +303,11 @@ impurity as a Gaussian potential and measure the forces that are acting
 on it
 [^ronning2020classical] [^astrakharchik2004motion] [^pinsker2017gaussian].
 From the Erhenfest theorem the forces on the condensate from the stirrer
-is given as 
+is given as
 
 $$
 \mathbf{F} = -\langle \nabla V_{ext}\rangle.
-$$ 
+$$
 
 Which
 means that the force acting on the stirrer is
@@ -317,7 +315,7 @@ $\mathbf{F} = \langle \nabla V_{ext}\rangle$. Written explicitly
 this is
 
 $$
-\mathbf{F} = \int d\mathbf r |\psi^2| \nabla V_{ext} = -\int d\mathbf r V_{ext}\nabla|\psi^2|   
+\mathbf{F} = \int d\mathbf r |\psi^2| \nabla V_{ext} = -\int d\mathbf r V_{ext}\nabla|\psi^2|
 .
 $$
 
@@ -339,7 +337,7 @@ circulation
 $$\Gamma = \oint d\mathbf{l} \cdot \mathbf{v} = \oint d\mathbf{l} \cdot \nabla \theta = \int d\theta$$
 is quantized in units of $2\pi$, since the field $\psi$ is single
 valued. In two dimensions this vortex is a point defect, while in three
-dimensions it is a line defect. 
+dimensions it is a line defect.
 For the BEC this method is given
 by the function
 
@@ -382,9 +380,9 @@ To reduce the recycling of excitations into the incoming flow we
 introduce a buffer region around the computational domain where $\gamma$
 is large, similar to the one used in Ref. [^reeves2015identifying]. The
 dissipative factor becomes a function of space and is given by
-$\gamma(\mathbf{r}) = 
+$\gamma(\mathbf{r}) =
 \max[\gamma_x(x),\gamma_y(y),\gamma_z(z)]$ in three dimensions and
-$\gamma(\mathbf{r}) = 
+$\gamma(\mathbf{r}) =
 \max[\gamma_x(x),\gamma_y(y)$ in two dimensions. Here
 
 $$
@@ -405,23 +403,23 @@ non-linear part. This is taken care of in the evolver
 ```python
 bec.evolve_comoving_dGPE(self, number_of_steps, velx,method='ETD2RK')
 ```
+
 Here it is assumed that the boost is in the $x$-direction, and that the
 dissipative factor is spatially dependent.
 
 [^andersonObservationBoseEinsteinCondensation1995]: Anderson, M. H., Ensher, J. R., Matthews, M. R., Wieman, C. E., & Cornell, E. A. (1995). Observation of Bose-Einstein Condensation in a Dilute Atomic Vapor. Science, 269(5221), 198–201. [https://doi.org/10.1126/science.269.5221.198](https://doi.org/10.1126/science.269.5221.198)
 [^dalfovo1999theory]: Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. [https://doi.org/10.1103/RevModPhys.71.463](https://doi.org/10.1103/RevModPhys.71.463)
-[^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media. Berlin. 
+[^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media. Berlin.
 [^pitaevskiiBook]: Pitaevskii, L. and Stringari, S. (2016). Bose-Einstein Condensation and Superfluidity. Oxford University Press. [https://doi.org/10.1093/acprof:oso/9780198758884.001.0001](https://doi.org/10.1093/acprof:oso/9780198758884.001.0001})
 [^gardiner2003stochastic]: Gardiner, C. W. and Davis, M. J. (2003). The stochastic Gross-Pitaevskii equation: II. Journal of Physics B: Atomic, Molecular and Optical Physics. 36, 23, 4731. [https://doi.org/10.1088/0953-4075/36/23/010](https://doi.org/10.1088/0953-4075/36/23/010)
 [^rooney2012stochastic]: Rooney, S. J., Blakie, P. B. and Bradley, A. S. (2012). Stochastic projected Gross-Pitaevskii equation. Physical Review A. 86, 5, 053634. [https://doi.org/10.1103/PhysRevA.86.053634](https://doi.org/10.1103/PhysRevA.86.053634)
 [^bradley2012energy]: Bradley, A. S. and Anderson, B. P. (2012). Energy spectra of vortex distributions in two-dimensional quantum turbulence. Physical Review X. 2, 4, 041001 [https://doi.org/10.1103/PhysRevX.2.041001](https://doi.org/10.1103/PhysRevX.2.041001)
 [^skaugenUnifiedPerspectiveTwodimensional2018]: Skaugen, A. (2018). A Unified Perspective on Two-Dimensional Quantum Turbulence and Plasticity. PhD Thesis, University of Oslo. [http://urn.nb.no/URN:NBN:no-69394](http://urn.nb.no/URN:NBN:no-69394)
-[^minguzzi2004numerical]: Minguzzi, A., Succi, S., Toschi, F., Tosi, M. P. and Vignolo, P. (2004). Numerical methods for atomic quantum gases with applications to Bose-Einstein condensates and to ultracold fermions. Physics reports. 395, 4-5, 223-355. [https://doi.org/10.1016/j.physrep.2004.02.001](https://doi.org/10.1016/j.physrep.2004.02.001) 
+[^minguzzi2004numerical]: Minguzzi, A., Succi, S., Toschi, F., Tosi, M. P. and Vignolo, P. (2004). Numerical methods for atomic quantum gases with applications to Bose-Einstein condensates and to ultracold fermions. Physics reports. 395, 4-5, 223-355. [https://doi.org/10.1016/j.physrep.2004.02.001](https://doi.org/10.1016/j.physrep.2004.02.001)
 [^nore1997kolmogorov]: Nore, C., Abid, M. and Brachet, M. E. (1997). Kolmogorov turbulence in low-temperature superflows. Physical review letters. 78, 20, 3896. [https://doi.org/10.1103/PhysRevLett.78.3896](https://doi.org/10.1103/PhysRevLett.78.3896)
 [^ronning2020classical]: Rønning, J., Skaugen, A., Hernández-García, E., López, C. and Angheluta, L. (2020). Classical analogies for the force acting on an impurity in a Bose-Einstein condensate. New Journal of Physics. 22, 7, 073018. [https://doi.org/10.1088/1367-2630/ab95de](https://doi.org/10.1088/1367-2630/ab95de)
 [^astrakharchik2004motion]: Astrakharchik, G. E. and Pitaevskii, L. P. (2004). Motion of a heavy impurity through a {Bose-Einstein} condensate. Physical Review A. 70, 1, 013608. [https://doi.org/10.1103/PhysRevA.70.013608](https://doi.org/10.1103/PhysRevA.70.013608)
 [^pinsker2017gaussian]: Pinsker, F. (2017). Gaussian impurity moving through a {Bose-Einstein} superfluid. Physica B: Condensed Matter. 521, 36-42. [https://doi.org/10.1016/j.physb.2017.06.038](https://doi.org/10.1016/j.physb.2017.06.038)
-[^Pismen]: Pismen, L.M. (1999). Vortices in Nonlinear Fields: From Liquid Crystals to Superfluids, From Non-Equilibrium Patterns to Cosmic Strings. Oxford university press. Oxford 
+[^Pismen]: Pismen, L.M. (1999). Vortices in Nonlinear Fields: From Liquid Crystals to Superfluids, From Non-Equilibrium Patterns to Cosmic Strings. Oxford university press. Oxford
 [^reeves2015identifying]: Reeves, M. T., Billam, T. P., Anderson, B. P. and Bradley, A. S. (2015). Identifying a superfluid Reynolds number via dynamical similarity. Physical Review Letters. 114, 15, 155302. [https://doi.org/10.1103/PhysRevLett.114.155302](https://doi.org/10.1103/PhysRevLett.114.155302)
-[^steinberg2022exploring]: Steinberg, A. B., Maucher, F., Gurevich, S. V. and Thiele, U. (2022). Exploring bifurcations in Bose--Einstein condensates via phase field crystal models. Chaos: An Interdisciplinary Journal of Nonlinear Science. 32, 11 [https://doi.org/10.1063/5.0101401](https://doi.org/10.1063/5.0101401) 
-
+[^steinberg2022exploring]: Steinberg, A. B., Maucher, F., Gurevich, S. V. and Thiele, U. (2022). Exploring bifurcations in Bose--Einstein condensates via phase field crystal models. Chaos: An Interdisciplinary Journal of Nonlinear Science. 32, 11 [https://doi.org/10.1063/5.0101401](https://doi.org/10.1063/5.0101401)

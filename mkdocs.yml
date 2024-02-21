@@ -39,7 +39,6 @@ nav:
   - "Creating your own model": CreatingYourOwnModel.md
   - Conventions: Conventions.md
   - Contributing: Contributing.md
-  - References: References.md
 
 markdown_extensions:
   - pymdownx.highlight:
