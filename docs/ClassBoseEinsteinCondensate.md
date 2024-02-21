@@ -303,7 +303,7 @@ when $\gamma = 0$.
 To study how the BEC are interacting with impurities one can model the
 impurity as a Gaussian potential and measure the forces that are acting
 on it
-[@ronning2020classical; @astrakharchik2004motion; @pinsker2017gaussian].
+[^ronning2020classical] [^astrakharchik2004motion] [^pinsker2017gaussian].
 From the Erhenfest theorem the forces on the condensate from the stirrer
 is given as 
 
@@ -417,3 +417,6 @@ dissipative factor is spatially dependent.
 [^skaugenUnifiedPerspectiveTwodimensional2018]: Skaugen, A. (2018). A Unified Perspective on Two-Dimensional Quantum Turbulence and Plasticity. PhD Thesis, University of Oslo. [http://urn.nb.no/URN:NBN:no-69394](http://urn.nb.no/URN:NBN:no-69394)
 [^minguzzi2004numerical]: Minguzzi, A., Succi, S., Toschi, F., Tosi, M. P. and Vignolo, P. (2004). Numerical methods for atomic quantum gases with applications to Bose-Einstein condensates and to ultracold fermions. Physics reports. 395, 4-5, 223-355. [https://doi.org/10.1016/j.physrep.2004.02.001](https://doi.org/10.1016/j.physrep.2004.02.001) 
 [^nore1997kolmogorov]: Nore, C., Abid, M. and Brachet, M. E. (1997). Kolmogorov turbulence in low-temperature superflows. Physical review letters. 78, 20, 3896. [https://doi.org/10.1103/PhysRevLett.78.3896](https://doi.org/10.1103/PhysRevLett.78.3896)
+[^ronning2020classical]: Rønning, J., Skaugen, A., Hernández-García, E., López, C. and Angheluta, L. (2020). Classical analogies for the force acting on an impurity in a Bose-Einstein condensate. New Journal of Physics. 22, 7, 073018. [https://doi.org/10.1088/1367-2630/ab95de](https://doi.org/10.1088/1367-2630/ab95de)
+[^astrakharchik2004motion]
+[^pinsker2017gaussian]
