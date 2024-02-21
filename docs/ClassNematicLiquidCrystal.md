@@ -381,7 +381,7 @@ $$
 ## Topological defects
 
 Topological defects in nematic liquid crystals are called disclinations and are characterized the orientation of the rod-like particles having rotated after following a path around the dislocation. 
-From [schimmingKinematicsDynamicsDisclination2023](References.md),
+From [^schimming2023kinematics],
 
 $$
 D_{\gamma i} = \epsilon_{\gamma \mu \nu} \epsilon_{ikl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}.
@@ -464,7 +464,7 @@ $$
 
 so $\sqrt{|\rho|^2}$ is the quantity we should integrate to find the nodes of the defects.
 
-From [schimmingKinematicsDynamicsDisclination2023](References.md), we have 
+From [^schimming2023kinematics], we have 
 
 $$
 t_i \delta^{(2)}(\mathbf r_{\perp}) = \delta^{(2)}(\mathbf Q_\perp) \Omega_\gamma D_{\gamma i}
@@ -493,4 +493,5 @@ and then simply impose an orientation field corresponding to an angle field on t
 [^genkin2017topological]: Genkin, M. M., Sokolov, A., Lavrentovich, O. D. and Aranson, I. S. (2017). Topological defects in a living nematic ensnare swimming bacteria. Physical Review X. 7, 1,011029. [https://doi.org/10.1103/PhysRevX.7.011029](https://doi.org/10.1103/PhysRevX.7.011029)
 [^nejad2020memory]: Nejad, M. R., Doostmohammadi, A. and Yeomans, J. M. (2021). Memory effects, arches and polar defect ordering at the cross-over from wet to dry active nematics. Soft Matter. 17, 9, 2500-2511. [https://doi.org/10.1039/D0SM01794A](https://doi.org/10.1039/D0SM01794A)
 [^angheluta2021role]:Angheluta, L., Chen, Z., Marchetti, M. C. and Bowick, Mark J. (2021). The role of fluid flow in the dynamics of active nematic defects. New Journal of Physics. 23, 3, 033009. [https://doi.org/10.1088/1367-2630/abe8a8](https://doi.org/10.1088/1367-2630/abe8a8)
+[^schimming2023kinematics]: Schimming, C. D. and Viñals, J. (2023). Kinematics and dynamics of disclination lines in three-dimensional nematics. Proceedings of the Royal Society A. 479, 2273, 20230042. [https://doi.org/10.1098/rspa.2023.0042](https://doi.org/10.1098/rspa.2023.0042)
 
