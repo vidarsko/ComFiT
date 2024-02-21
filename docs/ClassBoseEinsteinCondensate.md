@@ -32,7 +32,7 @@ Here $\mu$ is the chemical potential, $m$ is the mass of the bosons, $g$
 is an interaction parameter and $\hbar$ is the Planc constant. $\psi$ is
 the wave function describing the condensate phase and $V_{ext}$ is an
 external potential. The GPE can be obtained from the varaitional
-principle [@kevrekidis2007emergent; @pitaevskiiBook]
+principle [^kevrekidis2007emergent][^pitaevskiiBook]
 
 $$
 \mathfrak i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}
@@ -409,4 +409,5 @@ Here it is assumed that the boost is in the $x$-direction, and that the
 dissipative factor is spatially dependent.
 
 [^dalfovo1999theory]: Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. [https://doi.org/10.1103/RevModPhys.71.463](https://doi.org/10.1103/RevModPhys.71.463)
-[^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2007). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media Volume 45.
+[^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media Volume 45.
+[^pitaevskiiBook]: Pitaevskii, L. and Stringari, S. (2016). Bose-Einstein Condensation and Superfluidity. Oxford University Press. [https://doi.org/10.1093/acprof:oso/9780198758884.001.0001](https://doi.org/10.1093/acprof:oso/9780198758884.001.0001})
