@@ -213,7 +213,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q[1] = np.imag(psi)
         self.Q_f = sp.fft.fft2(self.Q)
 
-    def conf_insert_disclination(self, position=None):
+    def conf_insert_disclination_line(self, position=None):
         """
         Sets the initial condition for a disclination line in a 3-dimensional system.
         Line is pointing in the z-direction
@@ -236,6 +236,7 @@ class NematicLiquidCrystal(BaseSystem):
         theta = np.arctan2((self.y-position[1]),(self.x-position[0]))
 
         S0 = 1/8* self.C/self.A + 1/2 * np.sqrt(self.C**2 /(16*self.A**2) + 3*self.B)
+
         nx =  np.cos(theta/2)
         ny = -np.sin(theta/2)
         nz = np.zeros_like(nx)
