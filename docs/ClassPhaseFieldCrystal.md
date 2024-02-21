@@ -470,7 +470,7 @@ Default resolution: $[7,7,7]^{-1}a_0$
 
 Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
 
-Equilibrium amplitude equations [wuPhasefieldCrystalModeling2007](References.md)
+Equilibrium amplitude equations [^wuPhasefieldCrystalModeling2007]
 
 $$
 \left \lbrace A = -\frac{2}{15}\psi_0 + \frac{1}{15} \sqrt{-5r - 11 \psi_0^2} \right \rbrace
@@ -895,4 +895,4 @@ this
 [^Skogvoll2023SymmetryTopology]: Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo [https://www.duo.uio.no/handle/10852/102731](https://www.duo.uio.no/handle/10852/102731)
 [^emdadiRevisitingPhaseDiagrams2016]: Emdadi, A., Asle Z., Mohsen and Asadi, E. (2016). Revisiting Phase Diagrams of Two-Mode Phase-Field Crystal Models. Computational Materials Science. 123, 139-147. [https://doi.org/10.1016/j.commatsci.2016.06.018](https://doi.org/10.1016/j.commatsci.2016.06.018)
 [^wuPhasefieldcrystalModelFcc2010]:Wu, K. A., Adland, A. and Karma, A. (2010). Phase-Field-Crystal Model for Fcc Ordering. Physical Review E. 81, 6, 06101. [https://doi.org/10.1103/PhysRevE.81.061601](https://doi.org/10.1103/PhysRevE.81.061601)
-
+[^wuPhasefieldCrystalModeling2007]: Wu, K-A. and Karma, A. (2007). Phase-Field Crystal Modeling of Equilibrium Bcc-Liquid Interfaces. Physical Review B. 76, 18, 184107. [https://doi.org/10.1103/PhysRevB.76.184107](https://doi.org/10.1103/PhysRevB.76.184107)
