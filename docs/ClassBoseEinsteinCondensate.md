@@ -50,7 +50,7 @@ to $\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi$, in addition we include a
 dissipative factor $\gamma$. 
 This results in the dGPE on dimensionless
 form as
-[@gardiner2003stochastic; @rooney2012stochastic; @bradley2012energy; @skaugenUnifiedPerspectiveTwodimensional2018]
+[^gardiner2003stochastic] [^rooney2012stochastic] [^bradley2012energy] [^skaugenUnifiedPerspectiveTwodimensional2018]
 $$i \partial_t \psi = (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
 $$\partial_t \psi =-i (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
 $$\partial_t \psi =-(\mathfrak i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.$$
@@ -411,3 +411,4 @@ dissipative factor is spatially dependent.
 [^dalfovo1999theory]: Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. [https://doi.org/10.1103/RevModPhys.71.463](https://doi.org/10.1103/RevModPhys.71.463)
 [^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media Volume 45.
 [^pitaevskiiBook]: Pitaevskii, L. and Stringari, S. (2016). Bose-Einstein Condensation and Superfluidity. Oxford University Press. [https://doi.org/10.1093/acprof:oso/9780198758884.001.0001](https://doi.org/10.1093/acprof:oso/9780198758884.001.0001})
+[^gardiner2003stochastic]: Gardiner, C. W. and Davis, M. J. (2003). The stochastic Gross-Pitaevskii equation: II. Journal of Physics B: Atomic, Molecular and Optical Physics. 36, 23, 4731. [https://doi.org/10.1088/0953-4075/36/23/010](https://doi.org/10.1088/0953-4075/36/23/010)
