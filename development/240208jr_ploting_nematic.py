@@ -7,11 +7,12 @@ nem = cf.NematicLiquidCrystal(3,xRes=31,yRes=31,zRes = 31,dx=1,dy=1,dt=0.1,alpha
 
 
 
-nem.conf_initial_condition_disordered(noise_strength=1.0)
-nem.evolve_nematic_no_flow(5,method="ETD4RK")
+nem.conf_insert_disclination()
+
+nem.evolve_nematic_no_flow(100,method="ETD4RK")
 
 
-nem.evolve_nematic(100,method="ETD4RK")
+#nem.evolve_nematic(800,method="ETD4RK")
 
 S,n = nem.calc_order_and_director()
 nem.plot_nematic_3D(S,director=True)

@@ -437,7 +437,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         k2 = self.calc_k2()
         interaction_term = 1/2*np.abs(self.psi)**4
-        potential_term = (self.V_ext(t) - 1 )* np.abs(self.psi)**2
+        potential_term = (self.V_ext(self.time) - 1 )* np.abs(self.psi)**2
         laplacian_term = -1/2 *np.real( np.conj(self.psi) * sp.fft.ifftn(-k2*self.psi_f))
         return laplacian_term +potential_term + interaction_term
 
@@ -510,7 +510,7 @@ class BoseEinsteinCondensate(BaseSystem):
             (numpy.ndarray) average force on the potential
         """
         Force =np.zeros(self.dim)
-        potential_f = sp.fft.ifftn(self.V_ext(t))
+        potential_f = sp.fft.ifftn(self.V_ext(self.time))
         for i in range(self.dim):
             Force_density = np.real(np.abs(self.psi)**2 * sp.fft.ifftn(1j*self.k[i]* potential_f))
             Force[i] = self.calc_integrate_field(Force_density)

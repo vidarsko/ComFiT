@@ -165,7 +165,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             nx = np.cos(theta_rand)*np.sin(phi_rand)
             ny = np.sin(theta_rand)*np.sin(phi_rand)
-            nz = np.cos(theta_rand)
+            nz = np.cos(phi_rand)
 
             self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
             self.Q[0] = S0 *(nx*nx -1/3)
@@ -213,6 +213,45 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q[1] = np.imag(psi)
         self.Q_f = sp.fft.fft2(self.Q)
 
+    def conf_insert_disclination(self, position=None):
+        """
+        Sets the initial condition for a disclination line in a 3-dimensional system.
+        Line is pointing in the z-direction
+
+        Input:
+            position (list): the position of the vortex ring
+            radius (float): the radius of the vortex ring
+            normal_vector (list): the normal vector of the vortex ring
+
+        Output:
+            Sets the value of self.Q and self.Q_f
+        """
+        if not (self.dim == 3):
+            raise Exception("The dimension of the system must be 3 for a vortex ring configuration.")
+
+        if position is None:
+            position = self.rmid
+
+
+        theta = np.arctan2((self.y-position[1]),(self.x-position[0]))
+
+        S0 = 1/8* self.C/self.A + 1/2 * np.sqrt(self.C**2 /(16*self.A**2) + 3*self.B)
+        nx =  np.cos(theta/2)
+        ny = -np.sin(theta/2)
+        nz = np.zeros_like(nx)
+
+        self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
+        self.Q[0] = S0 * (nx * nx - 1 / 3)
+        self.Q[1] = S0 * (nx * ny)
+        self.Q[2] = S0 * (nx * nz)
+        self.Q[3] = S0 * (ny * ny - 1 / 3)
+        self.Q[4] = S0 * (ny * nz)
+
+        self.Q_f = sp.fft.fftn(self.Q, axes=(range(-self.dim, 0)))
+
+        self.k2 = self.calc_k2()  # k2
+        self.k2_press = self.calc_k2()
+        self.k2_press[0, 0, 0] = 1
 
 
     def conf_active_channel(self,width,d=7):
