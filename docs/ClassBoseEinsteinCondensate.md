@@ -371,12 +371,12 @@ boost of the GPE is often accompanied by a phase shift of the wave
 function
 $\psi \rightarrow \psi \exp{(\mathfrak i\mathbf V_p \cdot \mathbf r + \frac i 2 V_p^2 t)}$
 which transforms the superfluid velocity to the new reference frame
-[@Pismen], leaving the GPE unchanged after the Gallilean transformation.
+[^Pismen], leaving the GPE unchanged after the Gallilean transformation.
 However the equation with $\gamma \neq 0$ is not Gallilean invariant and
 we therefore do not include the phase factor in the transformation. This
 have the consequence that the superfluid velocity obtained from $\psi$
 is measured in the lab frame and not the comoving frame
-[@ronning2020classical].
+[^ronning2020classical].
 
 To reduce the recycling of excitations into the incoming flow we
 introduce a buffer region around the computational domain where $\gamma$
@@ -409,7 +409,7 @@ Here it is assumed that the boost is in the $x$-direction, and that the
 dissipative factor is spatially dependent.
 
 [^dalfovo1999theory]: Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. [https://doi.org/10.1103/RevModPhys.71.463](https://doi.org/10.1103/RevModPhys.71.463)
-[^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media Volume 45.
+[^kevrekidis2007emergent]: Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science & Business Media. Berlin. 
 [^pitaevskiiBook]: Pitaevskii, L. and Stringari, S. (2016). Bose-Einstein Condensation and Superfluidity. Oxford University Press. [https://doi.org/10.1093/acprof:oso/9780198758884.001.0001](https://doi.org/10.1093/acprof:oso/9780198758884.001.0001})
 [^gardiner2003stochastic]: Gardiner, C. W. and Davis, M. J. (2003). The stochastic Gross-Pitaevskii equation: II. Journal of Physics B: Atomic, Molecular and Optical Physics. 36, 23, 4731. [https://doi.org/10.1088/0953-4075/36/23/010](https://doi.org/10.1088/0953-4075/36/23/010)
 [^rooney2012stochastic]: Rooney, S. J., Blakie, P. B. and Bradley, A. S. (2012). Stochastic projected Gross-Pitaevskii equation. Physical Review A. 86, 5, 053634. [https://doi.org/10.1103/PhysRevA.86.053634](https://doi.org/10.1103/PhysRevA.86.053634)
@@ -420,3 +420,5 @@ dissipative factor is spatially dependent.
 [^ronning2020classical]: Rønning, J., Skaugen, A., Hernández-García, E., López, C. and Angheluta, L. (2020). Classical analogies for the force acting on an impurity in a Bose-Einstein condensate. New Journal of Physics. 22, 7, 073018. [https://doi.org/10.1088/1367-2630/ab95de](https://doi.org/10.1088/1367-2630/ab95de)
 [^astrakharchik2004motion]: Astrakharchik, G. E. and Pitaevskii, L. P. (2004). Motion of a heavy impurity through a {Bose-Einstein} condensate. Physical Review A. 70, 1, 013608. [https://doi.org/10.1103/PhysRevA.70.013608](https://doi.org/10.1103/PhysRevA.70.013608)
 [^pinsker2017gaussian]: Pinsker, F. (2017). Gaussian impurity moving through a {Bose-Einstein} superfluid. Physica B: Condensed Matter. 521, 36-42. [https://doi.org/10.1016/j.physb.2017.06.038](https://doi.org/10.1016/j.physb.2017.06.038)
+[^Pismen]: Pismen, L.M. (1999). Vortices in Nonlinear Fields: From Liquid Crystals to Superfluids, From Non-Equilibrium Patterns to Cosmic Strings. Oxford university press. Oxford 
+
