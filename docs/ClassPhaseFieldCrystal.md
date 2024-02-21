@@ -503,7 +503,7 @@ Default resolution: $[5,5,5]^{-1}a_0$
  
 Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
 
-Equilibrium amplitude equations [skogvollStressOrderedSystems2021](References.md)
+Equilibrium amplitude equations [^skogvollStressOrderedSystems2021]
 
 $$
 \left \lbrace
@@ -544,7 +544,7 @@ pfc.el_nu
 ```
 
 The equations for calculating the stress tensor are found in Ref.
-[@skogvollStressOrderedSystems2021], but we list them below, together
+[^skogvollStressOrderedSystems2021], but we list them below, together
 wtih the elastic constants for each of the models.
 The stress tensor $h_{ij}$ and its associated elastic constants interms of amplitudes ($A,B,C$) of the mode expansion for different PFCmodels. Here, $\mathcal L_X = X+\nabla^2$. The elastic constants canbe expressed in Voigt notation by $C_{11} = \lambda+2\mu+\gamma$,$C_{12} = \lambda$, $C_{44}=\mu$.
 
@@ -896,3 +896,4 @@ this
 [^emdadiRevisitingPhaseDiagrams2016]: Emdadi, A., Asle Z., Mohsen and Asadi, E. (2016). Revisiting Phase Diagrams of Two-Mode Phase-Field Crystal Models. Computational Materials Science. 123, 139-147. [https://doi.org/10.1016/j.commatsci.2016.06.018](https://doi.org/10.1016/j.commatsci.2016.06.018)
 [^wuPhasefieldcrystalModelFcc2010]:Wu, K. A., Adland, A. and Karma, A. (2010). Phase-Field-Crystal Model for Fcc Ordering. Physical Review E. 81, 6, 06101. [https://doi.org/10.1103/PhysRevE.81.061601](https://doi.org/10.1103/PhysRevE.81.061601)
 [^wuPhasefieldCrystalModeling2007]: Wu, K-A. and Karma, A. (2007). Phase-Field Crystal Modeling of Equilibrium Bcc-Liquid Interfaces. Physical Review B. 76, 18, 184107. [https://doi.org/10.1103/PhysRevB.76.184107](https://doi.org/10.1103/PhysRevB.76.184107)
+[^skogvollStressOrderedSystems2021]: Skogvoll, V., Skaugen, A. and Angheluta, L. (2021). Stress in Ordered Systems: Ginzburg-Landau-type Density Field Theory. Physical Review B. 103, 22, 224107. [https://doi.org/10.1103/PhysRevB.103.224107](https://doi.org/10.1103/PhysRevB.103.224107)
