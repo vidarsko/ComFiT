@@ -872,7 +872,7 @@ $\mathbf a^{(3)} = a_0(0,0,1)$ | $0$ | $0$ | $\color{red} 1$ | | $\color{red} 1$
 ## The dislocation density tensor
 
 Given a PFC configuration, the dislocation density tensor may be
-calculated as [skogvollPhaseFieldCrystal2022](References.md)
+calculated as [^skogvollPhaseFieldCrystal2022]
 
 $$
 \alpha_{ij} = \frac{2d}{N\eta_0^2} \sum_{n=1}^N D_i^{(n)} q_j^{(n)}
@@ -898,3 +898,5 @@ this
 [^wuPhasefieldCrystalModeling2007]: Wu, K-A. and Karma, A. (2007). Phase-Field Crystal Modeling of Equilibrium Bcc-Liquid Interfaces. Physical Review B. 76, 18, 184107. [https://doi.org/10.1103/PhysRevB.76.184107](https://doi.org/10.1103/PhysRevB.76.184107)
 [^skogvollStressOrderedSystems2021]: Skogvoll, V., Skaugen, A. and Angheluta, L. (2021). Stress in Ordered Systems: Ginzburg-Landau-type Density Field Theory. Physical Review B. 103, 22, 224107. [https://doi.org/10.1103/PhysRevB.103.224107](https://doi.org/10.1103/PhysRevB.103.224107)
 [^skogvollHydrodynamicPhaseField2022]: Skogvoll, V., Salvalaglio, M. and Angheluta, L. (2022). Hydrodynamic Phase Field Crystal Approach to Interfaces, Dislocations and Multi-Grain Networks. Modelling and Simulation in Materials Science and Engineering. [https://doi.org/10.1088/1361-651X/ac9493](https://doi.org/10.1088/1361-651X/ac9493)
+[^skogvollPhaseFieldCrystal2022]: Skogvoll, V., Angheluta, L., Skaugen, A., Salvalaglio, M. and Viñals, J. (2022). A Phase Field Crystal Theory of the Kinematics of Dislocation Lines. Journal of the Mechanics and Physics of Solids. 166, 104932. [https://doi.org/10.1016/j.jmps.2022.104932](https://doi.org/10.1016/j.jmps.2022.104932)
+
