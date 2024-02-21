@@ -62,7 +62,7 @@ $$
 $$
 
 In order to calculate the director field $\vec n$ and the amount of order $S$ in two dimensions we use that we can map the orderparameter to the complex field $\psi = Q_{xx} +  iQ_{xy} =Se^{2i\theta}/2$, where $\theta$  is the angle of the director field. 
-In three dimensions we use that $S$ is given by the largest eigenvalue as $S = 3\lambda/2$ with the director being the coresponding eigenvector [schimmingKinematicsDynamicsDisclination2023](References.md). 
+In three dimensions we use that $S$ is given by the largest eigenvalue as $S = 3\lambda/2$ with the director being the coresponding eigenvector [^Schimming2022Thesis]. 
 This is taken care of in the function
 
 ``` {.python language="Python"}
@@ -487,3 +487,6 @@ Q_{ij} = S_0 \left (\frac{1}{2} n_i n_j - \frac{1}{d} \delta_{ij} \right ),
 $$
 
 and then simply impose an orientation field corresponding to an angle field on the $\mathbf n$ fields.
+
+[^Schimming2022Thesis]:Schimming, C. D. (2022). Theoretical and Computational Methods for Mesoscopic Textures in Nematic Liquid Crystals with Anisotropic Elasticity. PhD Thesis. The University of Minnesota. [https://hdl.handle.net/11299/241713](https://hdl.handle.net/11299/241713)
+
