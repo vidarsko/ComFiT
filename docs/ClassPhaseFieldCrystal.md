@@ -437,7 +437,7 @@ Default resolution: $[7,12]^{-1}a_0$
 
 Default model parameters $(r,\psi_0)$: $(-0.3,-0.3)$
 
-Equilibrium amplitude equation [elderModelingElasticPlastic2004](References.md)
+Equilibrium amplitude equation [^elderModelingElasticPlastic2004]
 
 $$
 \left \lbrace A= -\frac{1}{5} \psi_0 + \frac{1}{15}\sqrt{- 15r - 36\psi_0^2} \right \rbrace
@@ -649,7 +649,7 @@ $$\gamma = 32 A^2 - 16 B^2 - 256 C^2$$
 ### Conserved evolution
 
 The basic equation motion presented in Ref.
-[@elderModelingElasticPlastic2004] can be derived by postulating a
+[^elderModelingElasticPlastic2004] can be derived by postulating a
 simple mechanism for free energy minimzation under the constraint of
 mass conservation.
 
@@ -806,7 +806,7 @@ dislocation,
 ![](images/phase_field_crystal_burgers_vector_definition.png)
 *Burgers vector definition:* (a) The one-body density of a crystalline solid containing an edge dislocation in a 2D square lattice (superimposed), (b) a 3D simple cubic lattice with an edge dislocation ($\vec b \perp \vec t$), and (c) a 3D simple cubic lattice with a screw dislocation ($\vec b \parallel \vec t)$.   
 In all cases, a circulation (green) that is right-handed with respect to the tangent vector $\vec t$, i.e., following a path around the dislocation, gives rise to a connection error: the Burgers vector $\vec b$.  
-Reprinted from Ref. [skogvollSymmetryTopologyCrystal2023](References.md) with permission.
+Reprinted from Ref. [^Skogvoll2023SymmetryTopology] with permission.
 
 In three dimensions, the path defining the dislocation is given by the
 direction of the dislocation line tangent $\boldsymbol{t}$. Multiplying
