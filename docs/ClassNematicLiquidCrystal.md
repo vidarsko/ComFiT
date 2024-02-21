@@ -83,7 +83,7 @@ where $P$ is given by the difference between the smallest eigenvalues and $\vec 
 We model the active nematic using a set of coupled differential
 equations, namely the Edvard-Beris equation coupled to the Stokes
 equation
-[@marchetti2013hydrodynamics; @genkin2017topological; @nejad2020memory; @angheluta2021role]
+[^marchetti2013hydrodynamics] [^genkin2017topological] [^nejad2020memory] [^angheluta2021role]
 
 $$
 \begin{aligned}
@@ -489,4 +489,8 @@ $$
 and then simply impose an orientation field corresponding to an angle field on the $\mathbf n$ fields.
 
 [^Schimming2022Thesis]:Schimming, C. D. (2022). Theoretical and Computational Methods for Mesoscopic Textures in Nematic Liquid Crystals with Anisotropic Elasticity. PhD Thesis. The University of Minnesota. [https://hdl.handle.net/11299/241713](https://hdl.handle.net/11299/241713)
+[^marchetti2013hydrodynamics]: Marchetti, M. C., Joanny, J-F., Ramaswamy, S., Liverpool, T. B., Prost, J., and Rao, M. and Simha, R. A. (2013). Hydrodynamics of soft active matter. Reviews of Modern Physics. 85, 3, 1143. [https://doi.org/10.1103/RevModPhys.85.1143](https://doi.org/10.1103/RevModPhys.85.1143)
+[^genkin2017topological]: Genkin, M. M., Sokolov, A., Lavrentovich, O. D. and Aranson, I. S. (2017). Topological defects in a living nematic ensnare swimming bacteria. Physical Review X. 7, 1,011029. [https://doi.org/10.1103/PhysRevX.7.011029](https://doi.org/10.1103/PhysRevX.7.011029)
+[^nejad2020memory]: Nejad, M. R., Doostmohammadi, A. and Yeomans, J. M. (2021). Memory effects, arches and polar defect ordering at the cross-over from wet to dry active nematics. Soft Matter. 17, 9, 2500-2511. [https://doi.org/10.1039/D0SM01794A](https://doi.org/10.1039/D0SM01794A)
+[^angheluta2021role]:Angheluta, L., Chen, Z., Marchetti, M. C. and Bowick, Mark J. (2021). The role of fluid flow in the dynamics of active nematic defects. New Journal of Physics. 23, 3, 033009. [https://doi.org/10.1088/1367-2630/abe8a8](https://doi.org/10.1088/1367-2630/abe8a8)
 
