@@ -484,7 +484,7 @@ Default resolution: $[11,11,11]^{-1}a_0$
 
 Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
 
-Equilibrium amplitude equations [^wuPhasefieldcrystalModelFcc2010](References.md)
+Equilibrium amplitude equations [^wuPhasefieldcrystalModelFcc2010]
 
 $$
          \left \lbrace
