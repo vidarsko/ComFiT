@@ -233,12 +233,13 @@ class NematicLiquidCrystal(BaseSystem):
             position = self.rmid
 
 
-        theta = np.arctan2((self.y-position[1]),(self.x-position[0]))
+        theta_0 = np.arctan2((self.y-position[1]),(self.x-position[0]))
+        theta = np.mod(theta_0 + np.pi, 2 * np.pi) - np.pi
 
         S0 = 1/8* self.C/self.A + 1/2 * np.sqrt(self.C**2 /(16*self.A**2) + 3*self.B)
 
         nx =  np.cos(theta/2)
-        ny = -np.sin(theta/2)
+        ny = np.sin(theta/2)
         nz = np.zeros_like(nx)
 
         self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
@@ -696,7 +697,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             eigvals, eigvectors = numpy.linalg.eigh(Q_eig)
             S = 3/2 *eigvals[:,:,:,2]
-            n = np.transpose(eigvectors[:,:,:,2], (3,0,1,2))
+            n = np.transpose(eigvectors[:,:,:,:,2], (3,0,1,2))
 
             return S, n
 
