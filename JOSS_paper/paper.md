@@ -40,12 +40,12 @@ ComFiT has broad applications in academic research, particularly in the study of
 
 # Research projects 
 (Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.)
-ComFiT is based on code that has been developed during the authors master and PhD projects, Ref. [^Ronnin2023DefectsAndFlow], [^Skogvoll2023SymmetryTopology].
+ComFiT is based on code that has been developed during the authors PhD projects, Ref. [^Ronnin2023DefectsAndFlow], [^Skogvoll2023SymmetryTopology].
 It have been used in a range of recent scholarly publications,
 including simmulations of active matter in Ref. [^Ronning2023Polar],
 stirred Bose-Einstein condensates in Ref. [^Ronning2020Classical], [^Ronning2023Precursory],
 phase field crystalls in Ref. []
-and all of the above in Ref. [^skogvoll2023Topological]
+and all of the above in Ref. [^skogvoll2023Topological]. 
 
 ComFiT encourages community involvement. 
 The project's repository provides guidelines for code contributions, feature suggestions, and issue reporting, promoting collaborative development and continuous improvement.
