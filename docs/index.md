@@ -10,12 +10,12 @@ Below, we see the simulation of an initial Guassian wave function in a harmonic 
 ![Oscillating 2D Gaussian wave packet in a harmonic oscillator](images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif)
 
 *Figure: Oscillating 2D Gaussian wave packet in a harmonic oscillator* A 2D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
-The amplitude of the wavefunciton is shown by the color intensity (i.e., $1-\textrm{transparancy}$) and the argument by the angle color scheme (see [plotting](Plotting.md)).
+The amplitude of the wavefunciton is shown by the color intensity (i.e., $1-\textrm{transparency}$) and the argument by the angle color scheme (see [plotting](Plotting.md)).
 
 ![Orbiting 2D Gaussian wave packet in a harmonic oscillator](images/index_2D_Quantum_mechanics_Gaussian_circular_orbit.gif)
 
 *Figure: Orbiting 2D Gaussian wave packet in a harmonic oscillator* A 2D simulation of the Schrödinger equation with a Gaussian initial condition with a non-zero initial velocity in a Harmonic oscillator potential.
-The amplitude of the wavefunciton is shown by the color intensity (i.e., $1-\textrm{transparancy}$) and the argument by the angle color scheme (see [plotting](Plotting.md)).
+The amplitude of the wavefunciton is shown by the color intensity (i.e., $1-\textrm{transparency}$) and the argument by the angle color scheme (see [plotting](Plotting.md)).
 
 ![Oscillating 3D Gaussian wave packet in a harmonic oscillator](images/index_3D_Quantum_Mechanics_Gaussian.gif)
 
