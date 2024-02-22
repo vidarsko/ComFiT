@@ -569,20 +569,36 @@ As you see, the x-array is stored as a
  array, while the y-array is stored as 
 . When doing calculations with arrays in this way, it is not necessary to create a meshgrid to produce a 2D matrix.
 
-## Exercise 1
-Plot the function 
+### Exercise 1
+Plot the function
+
 $$
 f(x,y) = \sin(x+y)
 $$
 
- 
-## Exercise 2
-Plot the function 
-$$
-f(x,y,z) = exp(-(x^2 + y^2 + z^2))
-$$
- 
+??? note "Solution"
+    Solution
 
+### Exercise 2
+Plot the function
+
+$$
+f(x,y,z) = \exp(-(x^2 + y^2 + z^2))
+$$
+
+??? note "Solution"
+    ```python
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import comfit as cf
+
+    sys3 = cf.BaseSystem(3,
+                        xRes=21,dx=0.1, xmin=-1,
+                        yRes=21,dy=0.1, ymin=-1,
+                        zRes=21,dz=0.1, zmin=-1)
+    f = np.exp(-sys3.x**2 - sys3.y**2 - sys3.z**2)
+    sys3.plot_field(f,number_of_layers=3)
+    ```
 
 [^coxExponentialTimeDifferencing2002]: Cox, S. M., & Matthews, P. C. (2002). Exponential Time Differencing for Stiff Systems. Journal of Computational Physics, 176(2), 430–455. [https://doi.org/10.1006/jcph.2002.6995](https://doi.org/10.1006/jcph.2002.6995)
 
