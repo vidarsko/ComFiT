@@ -213,16 +213,16 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q[1] = np.imag(psi)
         self.Q_f = sp.fft.fft2(self.Q)
 
-    def conf_insert_disclination_line(self, position=None):
+    def conf_insert_disclination_line(self, position=None,angle=np.pi/2,sign = 1):
 
         """
         Sets the initial condition for a disclination line in a 3-dimensional system.
-        Line is pointing in the z-direction
+        The dislocation is parralell to the z-axis
 
         Input:
-            position (list): the position of the vortex ring
-            radius (float): the radius of the vortex ring
-            normal_vector (list): the normal vector of the vortex ring
+            position (list): the position of the dislocation. Only the position in the xy plane is used
+            angle (float): the angle between the director and the z axis.
+            sign (float): +1 or -1. Charge of the dislocation in the xy-plain
 
         Output:
             Sets the value of self.Q and self.Q_f
@@ -240,9 +240,9 @@ class NematicLiquidCrystal(BaseSystem):
 
         S0 = 1/8* self.C/self.A + 1/2 * np.sqrt(self.C**2 /(16*self.A**2) + 3*self.B)
 
-        nx =  np.cos(theta)
-        ny = np.sin(theta)
-        nz = np.zeros_like(nx)
+        nx =  np.cos(np.sign(sign)*theta)*np.sin(angle)
+        ny = np.sin(np.sign(sign)*theta)*np.sin(angle)
+        nz = np.cos(angle)*np.ones_like(nx)
 
         self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
         self.Q[0] = S0 * (nx * nx - 1 / 3)
@@ -920,6 +920,7 @@ class NematicLiquidCrystal(BaseSystem):
                                            plane_orientation= 'z_axes',mode = 'cylinder')
 
         if Flow:
+            self.conf_u(self.Q)
             mlab.flow(X,Y,Z,self.u[0],self.u[1],self.u[2],seed_scale =1,seed_resolution=10, integration_direction ='both')
 
 

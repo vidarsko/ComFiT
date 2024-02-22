@@ -7,9 +7,9 @@ nem = cf.NematicLiquidCrystal(3,xRes=31,yRes=31,zRes = 31,dx=1,dy=1,dt=0.1,alpha
 
 
 
-nem.conf_insert_disclination_line()
+nem.conf_insert_disclination_line(angle = 1)
 
-nem.evolve_nematic_no_flow(10,method="ETD4RK")
+nem.evolve_nematic_no_flow(50,method="ETD4RK")
 
 
 #nem.evolve_nematic(800,method="ETD4RK")
