@@ -483,6 +483,107 @@ To be written
 The equations for the velocity are taken from Ref.[^skogvollUnifiedFieldTheory2023], simplified using Mathematica and then
 substituted for python code using chatGPT.
 
+
+## Tutorial: Basic framework
+
+This tutorial is meant to introduce the very basic functionality of the comfit Python package.
+
+The class underlying everything is the class called `BaseSystem`. Every other model (classes located in the `./models/` folder) are subclasses of BaseSystem.
+
+Let's start by importing the package
+
+```python
+import comfit as cf
+```
+
+Now we can define a system with a given dimension and resolution
+
+```python
+sys1 = cf.BaseSystem(1,xRes=11)
+```
+
+`sys1` now contains a number of useful parameters and functions, lets print some of them.
+
+```python
+print(sys1.x)
+```
+
+```python
+print(sys1.dx, sys1.dt)
+```
+
+Even though the system is one-dimensional in this case, it still contains some dummy variables related to y and z.
+
+```python
+print(sys1.y,sys1.dy,sys1.z,sys1.dz)
+```
+
+Of particular interest, perhaps, is the length scale parameter 
+
+```python
+print(sys1.a0)
+```
+
+Now, we can try to do some basic calculating and plotting
+
+```python
+import numpy as np
+y = np.sin(sys1.x)
+sys1.plot_field(y)
+```
+
+By changing the length scale to $a_0=2\pi$, we get something that clearly shows the periodicity.
+
+```pyhthon
+sys1.a0 = 2* np.pi
+sys1.plot_field(y)
+```
+
+The function looks quite jagged, which we can fix by increasing the resolution and decreasing the interspacing dx
+
+```python
+sys2 = cf.BaseSystem(1,xRes=101,dx=0.1)
+y2 = np.sin(sys2.x)
+sys2.plot_field(y2)
+```
+
+Lets have a look at a 2D system and plot a 2D function
+
+```py
+sys2 = cf.BaseSystem(2,xRes=101,dx=0.1,yRes=101,dy=0.1)
+field = sys2.x-1 + 0.7*sys2.y-5
+sys2.plot_field(field)
+```
+
+Now, the very attentive python reader will have noticed something strange about the previous cell. Namely how is it possible that by adding two 1D arrays 
+ and 
+ do we produce a 2D array. The key lies in the way that these are stored. Let's look at them.
+
+```python
+print("x:\n",sys2.x)
+```
+```python
+print("y:\n",sys2.y)
+```
+As you see, the x-array is stored as a 
+ array, while the y-array is stored as 
+. When doing calculations with arrays in this way, it is not necessary to create a meshgrid to produce a 2D matrix.
+
+## Exercise 1
+Plot the function 
+$$
+f(x,y) = \sin(x+y)
+$$
+
+ 
+## Exercise 2
+Plot the function 
+$$
+f(x,y,z) = exp(-(x^2 + y^2 + z^2))
+$$
+ 
+
+
 [^coxExponentialTimeDifferencing2002]: Cox, S. M., & Matthews, P. C. (2002). Exponential Time Differencing for Stiff Systems. Journal of Computational Physics, 176(2), 430–455. [https://doi.org/10.1006/jcph.2002.6995](https://doi.org/10.1006/jcph.2002.6995)
 
 [^skogvollUnifiedFieldTheory2023]: Skogvoll, V., Rønning, J., Salvalaglio, M., & Angheluta, L. (2023). A unified field theory of topological defects and non-linear local excitations. Npj Computational Materials, 9(1), Article 1. [https://doi.org/10.1038/s41524-023-01077-6](https://doi.org/10.1038/s41524-023-01077-6)

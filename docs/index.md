@@ -1,6 +1,27 @@
 # Home
 
-ComFiT is a versatile python library for simulating field theories in an object-oriented manner.
+ComFiT ([github repository](https://github.com/vidarsko/ComFiT))is a versatile python library for simulating field theories, including plotting and animation in an object-oriented manner.
+Below, we see the simulation of an initial Guassian wave function in a harmonic oscillator trap under the time evolution imposed by the Schrödinger equation.
+
+![Oscillating 1D Gaussian wave packet in a harmonic oscillator](images/index_1D_Quantum_Mechanics_Gaussian.gif)
+
+*Figure: Oscillating 1D Gaussian wave packet in a harmonic oscillator* A 1D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
+
+![Oscillating 2D Gaussian wave packet in a harmonic oscillator](images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif)
+
+*Figure: Oscillating 2D Gaussian wave packet in a harmonic oscillator* A 2D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
+The amplitude of the wavefunciton is shown by the color intensity (i.e., $1-\textrm{transparancy}$) and the argument by the angle color scheme (see [plotting](Plotting.md)).
+
+![Orbiting 2D Gaussian wave packet in a harmonic oscillator](images/index_2D_Quantum_mechanics_Gaussian_circular_orbit.gif)
+
+*Figure: Orbiting 2D Gaussian wave packet in a harmonic oscillator* A 2D simulation of the Schrödinger equation with a Gaussian initial condition with a non-zero initial velocity in a Harmonic oscillator potential.
+The amplitude of the wavefunciton is shown by the color intensity (i.e., $1-\textrm{transparancy}$) and the argument by the angle color scheme (see [plotting](Plotting.md)).
+
+![Oscillating 3D Gaussian wave packet in a harmonic oscillator](images/index_3D_Quantum_Mechanics_Gaussian.gif)
+
+*Figure: Oscillating 3D Gaussian wave packet in a harmonic oscillator* A 3D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
+The amplitude of the wavefunciton is shown as an isosurface at $50\%$ its maximal value and the argument by the angle color scheme (see [plotting](Plotting.md)).
+
 The library contains a `BaseSystem` class which defines the basic parameters of a field theory, including the dimension, resolution, and generic functions.
 Upon this class, one may define ones own system of interest, or experiment with the predefined systems constained in `QuantumMechanics`, `BoseEinsteinCondensate`, `NematicLiquidCrystal` or `PhaseFieldCrystal`.
 
