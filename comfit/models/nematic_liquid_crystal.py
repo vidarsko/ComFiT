@@ -208,13 +208,12 @@ class NematicLiquidCrystal(BaseSystem):
         if dipole_position is None:
             dipole_position = self.rmid
 
-        psi = self.Q[0] * np.exp(1j * self.calc_angle_field_vortex_dipole(dipole_vector, dipole_position))
+        psi = (self.Q[0] + 1j*self.Q[1]) * np.exp(1j * self.calc_angle_field_vortex_dipole(dipole_vector, dipole_position))
         self.Q[0] = np.real(psi)
         self.Q[1] = np.imag(psi)
         self.Q_f = sp.fft.fft2(self.Q)
 
-    def conf_insert_disclination_line(self, position=None,angle=np.pi/2,sign = 1):
-
+    def conf_initial_disclination_line(self, position=None,angle=np.pi/2,sign = 1):
         """
         Sets the initial condition for a disclination line in a 3-dimensional system.
         The dislocation is parralell to the z-axis
@@ -256,6 +255,8 @@ class NematicLiquidCrystal(BaseSystem):
         self.k2 = self.calc_k2()  # k2
         self.k2_press = self.calc_k2()
         self.k2_press[0, 0, 0] = 1
+
+
 
 
     def conf_active_channel(self,width,d=7):
@@ -393,7 +394,7 @@ class NematicLiquidCrystal(BaseSystem):
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
     def calc_trace_Q2(self,Q):
-        #TODO check
+
         if self.dim == 2:
             return 2*( Q[0]**2 + Q[1]**2)
         elif self.dim == 3:
