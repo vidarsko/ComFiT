@@ -83,13 +83,13 @@ class BaseSystem:
         self.a0 = 1  # System length scale
 
         # Helpful midpoints and their indices
-        self.xmidi = (1 + self.xRes) // 2 - 1
+        self.xmidi = (self.xRes) // 2 
         self.xmid = self.x[self.xmidi]
 
-        self.ymidi = (1 + self.yRes) // 2 - 1
+        self.ymidi = (self.yRes) // 2 
         self.ymid = self.y[self.ymidi]
 
-        self.zmidi = (1 + self.zRes) // 2 - 1
+        self.zmidi = (self.zRes) // 2 
         self.zmid = self.z[self.zmidi]
 
         self.midi = self.xRes * self.yRes * (self.zmidi - 1) + self.yRes * (self.xmidi - 1) + self.ymidi

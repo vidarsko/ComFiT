@@ -1,21 +1,56 @@
-# Base system
+# Class: Base system
 
 This class simply initiates a system, defines the grid and contains the basic functionality for evolving in time.
 
-## General parameters
+## General keywords and parameters
 
-| Definition         | Code            | Description |
-| ------------------ | --------------- | ----------- |
-| $a_0$              | `a_0 = 1`       | A length scale associated with the system, in units of which all plots will be scaled. |
-| $x_{\textrm{Res}}$ | `xRes = 101`    | The resolution in the x-direction. Similarly for $y_{\textrm{Res}}$, $z_{\textrm{Res}}$. |
-| $\Delta x$         | `dx = 1`        | The discretization step in the x-direction. Similarly for $\Delta y$, $\Delta z$. |
-| $x$                | `x`             | A $x_{\textrm{Res}}$ long array consisting of the positions. Similarly for $y$, $z$. |
-| $x_{\textrm{mid}}$            | `xmid`          | The mid x-value. Similarly for $y_{\textrm{mid}}$, $z_{\textrm{mid}}$. |
-| $x_{\textrm{max}}$            | `xmax`          | The size of the domain in the x-direction. Note that `xmax = x[-1] + dx`. Similarly for $y_{max}$,  $z_{max}$. |
-| $\mathbf r_{\textrm{mid}}$ | `rmid`      | |
-| $\Delta  t$        | `dt = 0.1`      | The time step. |
+The only required input argument to the BaseSystem class is the `dim` argument, which specifies the dimension of the system.
+In some cases, default values of other parameter depend on the value of `dim`, and are represented by curly brackets:
 
-*Default values are shown as the `=value` in the code column.*
+$$
+\left \lbrace \begin{array}{l} \textrm{default value if } \texttt{dim }= 1 \\ \textrm{default value if } \texttt{dim }= 2  \\ \textrm{default value if } \texttt{dim }= 3  \\ \end{array} \right \rbrace
+$$
+
+These are the optional keywords for the `BaseSystem` class.
+
+| Keyword | Definition | Default value|
+|---------|------------|--------------|
+| `xmin`  | Minimum value of $x$ of the simulation domain | $0$ |
+| `ymin`  | Minimum value of $y$ of the simulation domain | $0$ |
+| `zmin`  | Minimum value of $z$ of the simulation domain | $0$ |
+| `xmax`  | Maximum value of $x$ of the simulation domain. | $100$ |
+| `ymax`  | Maximum value of $y$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 100 \\ 100 \\ \end{array} \right \rbrace$ |
+| `zmax`  | Maximum value of $z$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  100 \\ \end{array} \right \rbrace$ |
+| `xRes`  | Resolution of the $x$ axis | $101$ |
+| `yRes`  | Resolution of the $y$ axis | $\left \lbrace \begin{array}{c} 1 \\ 101 \\  101 \\ \end{array} \right \rbrace$ |
+| `zRes`  | Resolution of the $z$ axis | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  101 \\ \end{array} \right \rbrace$ |
+| `dx`    | Spacing between points on the $x$-axis. Trumps `xRes` if provided. | $\frac{\texttt{xmax}-\texttt{xmin}}{\texttt{xRes}} = 1$ |
+| `dy`    | Spacing between points on the $y$-axis. Trumps `yRes` if provided. | $\frac{\texttt{ymax}-\texttt{ymin}}{\texttt{yRes}} = 1$ |
+| `dz`    | Spacing between points on the $x$-axis. Trumps `zRes` if provided. | $\frac{\texttt{zmax}-\texttt{zmin}}{\texttt{zRes}} = 1$ |
+| `xlim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $x$-direction. Trumps `xmin` and `xmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = (0,101)$ |
+| `ylim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $y$-direction. Trumps `ymin` and `ymax` if provided. | $(\texttt{ymin},\texttt{ymax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,101) \\  (0,101) \\ \end{array} \right \rbrace$|
+| `zlim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $z$-direction. Trumps `zmin` and `zmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,1) \\  (0,101) \\ \end{array} \right \rbrace$|
+| `a0` | Characteristic length scale associated with the system, in units of which all plots will be scaled. This is also the default width used with the coarse-graining operation. | $1$ |
+
+From these keywords, a number of useful parameters are constructed, given in the table below.
+
+| Parameter      | Definition   |
+| -------------- | --------------|
+| `x`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} \texttt{xRes} \\ \texttt{xRes}\times 1  \\ \texttt{xRes}\times 1 \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `xmin` to (including) `xmax-dx`. |
+| `y`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1 \times \texttt{yRes}  \\ 1 \times \texttt{yRes} \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `ymin` to (including) `ymax-dy`. |
+| `z`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1  \\ 1 \times 1 \times \texttt{zRes} \\ \end{array} \right \rbrace$ consisting of the grid points from `zmin` to (including) `zmax-dz`. |
+| `xmidi`        | Index of the mid $x$-value. In the case of an odd `xRes`, this midpoint index will not hit the middle exactly but undershoot by `dx/2`. |
+| `xmid`         | The $x$ value given by `xmidi`. |
+| `ymidi`        | Index of the mid $y$-value. In the case of an odd `yRes`, this midpoint index will not hit the middle exactly but undershoot by `dy/2`. |
+| `ymid`         | The $y$ value given by `ymidi`. |
+| `zmidi`        | Index of the mid $z$-value. In the case of an odd `zRes`, this midpoint index will not hit the middle exactly but undershoot by `dz/2`. |
+| `zmid`         | The $z$ value given by `zmidi`. |
+
+Note that even though variables like `yRes`, `zRes` etc. are defined in cases where they are not relevant, such as for a $1$-dimensional system, they play no significant role in any calculations in such situations.
+
+![](images/base_system_x_axis_illustration.png)
+
+Periodic boundary conditions means that `xmax` and `xmin` are identified as the same point. 
 
 ## Types of functions
 

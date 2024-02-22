@@ -29,7 +29,7 @@ theme:
 
 nav:
   - Home: index.md
-  - Base system: ClassBaseSystem.md
+  - "Class: Base system": ClassBaseSystem.md
   - Plotting: Plotting.md
   - Topological Defects: TopologicalDefects.md
   - "Class: Quantum Mechanics": ClassQuantumMechanics.md
