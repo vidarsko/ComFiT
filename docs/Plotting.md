@@ -5,24 +5,19 @@ The package comes with a lot of plotting functions, so a general exposition is a
 The default plot command is simply `plot()`, which will plot the current
 state of the system according to some arbitrarily chosen standard.
 
-ComFiT uses two plotting libraries: `matplotlib` and `mayavi`.
 While the former is more widely used and documented, the latter is better for 3D visualizations.
 The libraries have different nomenclature for the objects that go into the plot functions, which is useful to learn in order to make the behaviour as expected.
-The choice of plotting library can be specified with the function with the keyword argument `plotting_lib`.
 
-Both `matplotlib` and `mayavi` uses `figure` to designate the interface on which the plot is drawn.
+Both `matplotlib` uses `figure` to designate the interface on which the plot is drawn.
 A new figure is produced by either of the following commands
 
 ```python
 import matplotlib.pyplot as plt
-import mayavi.mlab as mlab
 
 fig1 = plt.fig()
-fig2 = mlab.fig()
 ```
 In matplotlib, one level under, we find `axes` handle.
 A `matplotlib` figure can contain multiply different `axes` as in several subplots.
-In `mayavi`, there is no such option, at least in ComFiT, to have several subplots.
 The `axes` object is made as follows
 
 ```python
@@ -44,13 +39,10 @@ This is because with no reference to which axes the plot is meant to go ontop, t
 
 If an axes object is provided by the keyword `ax`, then the new plot will be plotted on top of that axes object if not the keyword argument `hold=False` is also provided.
 
-If a figure is provided by the keyword `fig` with mayavi, then the new plot will be plotted on top of that figure object if not the keyword argument `hold=False` is also provided.
-
 To show the current plot, one writes
 
 ```python
 plt.show()
-mlab.show()
 ```
 
 which will pause the simulation untill the plot window has been closed.
@@ -104,7 +96,6 @@ These keywords can be passed to any plot function.
 | `colormap` | String specifying the colormap to be used | Varies |
 | `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
 | `plotting_lib` | String specifying the plotting library to be used for visualization. | `matplotlib` |
-| `fig` | `matplotlib` or `mayavi` figure handle | None |
 | `ax` | `matplotlib` axis handle | None|
 
 ## Predefined figure sizes

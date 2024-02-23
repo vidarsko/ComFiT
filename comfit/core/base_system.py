@@ -8,9 +8,6 @@ from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import scipy as sp
-from mayavi import mlab
-from PyQt5.QtWidgets import QApplication
-
 
 
 class BaseSystem:
@@ -1204,109 +1201,11 @@ class BaseSystem:
 
             return ax
 
-    def plot_set_scene_properties(self, **kwargs):
-        """
-        Sets the properties of the scene for a plot.
-        """
-        if self.dim == 3:
-            
-            Delta_x = (self.xmax - self.xmin)/5
-            Delta_y = (self.ymax - self.ymin)/5
-            Delta_z = (self.zmax - self.zmin)/5
-
-            color = (0.764,0.922,0.969)
-            opacity = 0.5
-
-            for i in range(5):
-                for j in range(5):
-                    # Define the range for the grid
-                    x_range =np.array([self.xmin+i*Delta_x+self.dx,self.xmin+(i+1)*Delta_x-self.dx])
-                    y_range =np.array([self.ymin+j*Delta_y+self.dy,self.ymin+(j+1)*Delta_y-self.dy])
-                    x, y = np.meshgrid(x_range, y_range)
-
-                    # Height of the grid (z-coordinates)
-                    z = np.zeros_like(x)+self.zmin
-
-                    # Plot the grid as a flat surface
-                    grid_surf = mlab.mesh(x, y, z, color=color,opacity=opacity)
-
-            for i in range(5):
-                for j in range(5):
-                    # Define the range for the grid
-                    x_range =np.array([self.xmin+i*Delta_x+self.dx,self.xmin+(i+1)*Delta_x-self.dx])
-                    z_range =np.array([self.zmin+j*Delta_z+self.dz,self.zmin+(j+1)*Delta_z-self.dz])
-
-                    x, z = np.meshgrid(x_range, z_range)
-
-                    # Height of the grid (z-coordinates)
-                    y = np.zeros_like(x) + self.ymax
-
-                    # Plot the grid as a flat surface
-                    grid_surf = mlab.mesh(x, y, z, color=color,opacity=opacity)
-
-            for i in range(5):
-                for j in range(5):
-                    # Define the range for the grid
-                    y_range =np.array([self.ymin+i*Delta_y+self.dy,self.ymin+(i+1)*Delta_y-self.dy])
-                    z_range =np.array([self.zmin+j*Delta_z+self.dz,self.zmin+(j+1)*Delta_z-self.dz])
-
-                    y, z = np.meshgrid(y_range, z_range)
-
-                    # Height of the grid (z-coordinates)
-                    x = np.zeros_like(y) + self.zmin
-
-                    # Plot the grid as a flat surface
-                    grid_surf = mlab.mesh(x, y, z, color=color,opacity=opacity)
-            
-            #Create axes:
-            # Define the vertices of the cube
-            vertices = np.array([self.xmin, self.ymin, self.zmin]) \
-                            +np.array([[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0],
-                                [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]])\
-                                    *np.array([self.xmax-self.xmin, self.ymax-self.ymin, self.zmax-self.zmin])
-
-            # Define the triangles that make up the six faces of the cube
-            # Each face is made up of 2 triangles
-            faces = np.array([[0, 1, 2], [0, 2, 3],  # Bottom
-                                [4, 5, 6], [4, 6, 7],  # Top
-                                [0, 1, 5], [0, 5, 4],  # Side
-                                [2, 3, 7], [2, 7, 6],  # Opposite side
-                                [0, 3, 7], [0, 7, 4],  # Front
-                                [1, 2, 6], [1, 6, 5]]) # Back
-
-            # Extract the x, y, z coordinates from vertices
-            x, y, z = vertices.T
-
-            # Use mlab.triangular_mesh to plot the triangles
-            cube = mlab.triangular_mesh(x, y, z, faces, opacity=0)
-            axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', 
-                    nb_labels=6)
-
-            mlab.view(-45,60)
-            mlab.gcf().scene.reset_zoom()
-
     def plot_shadows(self, **kwargs):
-        
-        if kwargs['plotting_lib'] == 'mayavi':
-            if self.dim == 3:
-                x = kwargs['x']
-                y = kwargs['y']
-                z = kwargs['z']
-                faces = kwargs['faces']
-
-                #Make xy-shadow:
-                mesh = mlab.triangular_mesh(x, y, z*0+self.dx/2, faces, opacity=1, color=(0,0,0))
-
-                #Make xz-shadow:
-                mesh = mlab.triangular_mesh(x, y*0+self.ymax-self.dy/2, z, faces, opacity=1, color=(0,0,0))
-
-                #Make yz-shadow:
-                mesh = mlab.triangular_mesh(x*0+self.dx/2, y, z, faces, opacity=1, color=(0,0,0))
-            else:
-                raise Exception("Shadows are only implemented for 3D systems.")
-
+        pass #TODO: To be implemented (Vidar 23.02.24)
         
 
+    
     def plot_field(self, field, **kwargs):
         """
         Plots the given (real) field.
@@ -1429,8 +1328,6 @@ class BaseSystem:
             field_min = np.min(field)
             field_max = np.max(field)
 
-            plotting_lib = kwargs.get('plotting_lib', 'matplotlib')
-
             X, Y, Z = np.meshgrid(self.x/self.a0, self.y/self.a0, self.z/self.a0, indexing='ij')
 
             number_of_layers = kwargs.get('number_of_layers', 1)
@@ -1449,61 +1346,57 @@ class BaseSystem:
                 layer_values = np.linspace(cmin, cmax, number_of_layers + 2)
 
 
+            ax = kwargs.get('ax', plt.gcf().add_subplot(111, projection='3d'))
+            
+            # print("Layer values:", layer_values)
+
+            if 'colormap' in kwargs:
+                colormap = kwargs['colormap']
+                if colormap == 'bluewhitered':
+                    colormap = tool_colormap_bluewhitered()
+
+                elif colormap == 'sunburst':
+                    colormap = tool_colormap_sunburst()
+
+                else:
+                    colormap = plt.get_cmap(colormap)
+            else: 
+                colormap = plt.get_cmap('viridis')
             
 
-            elif plotting_lib == 'matplotlib':
+            if field_min < layer_values[1] < field_max:
+                verts, faces, _, _ = marching_cubes(field, layer_values[1])
+                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                            color=colormap(layer_values[1] / cmax))
 
-                ax = kwargs.get('ax', plt.gcf().add_subplot(111, projection='3d'))
-                
-                # print("Layer values:", layer_values)
-
-                if 'colormap' in kwargs:
-                    colormap = kwargs['colormap']
-                    if colormap == 'bluewhitered':
-                        colormap = tool_colormap_bluewhitered()
-
-                    elif colormap == 'sunburst':
-                        colormap = tool_colormap_sunburst()
-
-                    else:
-                        colormap = plt.get_cmap(colormap)
-                else: 
-                    colormap = plt.get_cmap('viridis')
-                
-
-                if field_min < layer_values[1] < field_max:
-                    verts, faces, _, _ = marching_cubes(field, layer_values[1])
+            for layer_value in layer_values[2:-1]:
+                if field_min < layer_value < field_max:
+                    verts, faces, _, _ = marching_cubes(field, layer_value)
                     ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                color=colormap(layer_values[1] / cmax))
+                                color=colormap(layer_value / cmax))
 
-                for layer_value in layer_values[2:-1]:
-                    if field_min < layer_value < field_max:
-                        verts, faces, _, _ = marching_cubes(field, layer_value)
-                        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                    color=colormap(layer_value / cmax))
+            ax.set_aspect('equal')
 
-                ax.set_aspect('equal')
+            if 'colorbar' in kwargs:
+                colorbar = kwargs['colorbar']
+            else:
+                colorbar = True
 
-                if 'colorbar' in kwargs:
-                    colorbar = kwargs['colorbar']
-                else:
-                    colorbar = True
+            if colorbar:
+                sm = plt.cm.ScalarMappable(cmap=colormap)
+                sm.set_clim(cmin, cmax)
+                plt.colorbar(sm, ax=ax)
 
-                if colorbar:
-                    sm = plt.cm.ScalarMappable(cmap=colormap)
-                    sm.set_clim(cmin, cmax)
-                    plt.colorbar(sm, ax=ax)
-
-                ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-                ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-                ax.set_zlim3d(self.zmin, self.zmax-self.dz)
-                ax.set_aspect('equal')
-                ax.set_xlabel('$x/a_0$')
-                ax.set_ylabel('$y/a_0$')
-                ax.set_zlabel('$z/a_0$')
+            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+            ax.set_aspect('equal')
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_zlabel('$z/a_0$')
 
 
-                return ax
+            return ax
 
 
 
@@ -1653,51 +1546,27 @@ class BaseSystem:
 
             if plot_method == '3Dsurface':
 
-                if plotting_lib == 'matplotlib':
-
-                    ax = kwargs.get('ax', None)
-
-                    if ax == None:
-                        plt.clf()
-                        ax = plt.gcf().add_subplot(111, projection='3d')
-
-                    X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-
-                    custom_colormap = tool_colormap_angle()
-                    rho = np.abs(complex_field)
-                    theta = np.angle(complex_field)
-                    # Get the colors from a colormap (e.g., hsv, but you can choose any other)
-                    colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
-
-                    surf = ax.plot_surface(X, Y, rho, facecolors=colors)
-                    
-                    ax.set_xlabel("$x/a_0$")
-                    ax.set_ylabel("$y/a_0$")
-                    return ax
                 
-                elif plotting_lib == 'mayavi':
-                    X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-                    rho = np.abs(complex_field)
-                    theta = np.angle(complex_field)
 
-                    # Normalize theta for colormap application
-                    theta_faces_normalized = (theta + np.pi) / (2 * np.pi)
+                ax = kwargs.get('ax', None)
 
-                    # Plotting the surface
-                    surf = mlab.mesh(X/self.a0, Y/self.a0, 20*rho, scalars=theta_faces_normalized, colormap='hsv')
+                if ax == None:
+                    plt.clf()
+                    ax = plt.gcf().add_subplot(111, projection='3d')
 
-                    axes = mlab.axes(xlabel='x/a0', ylabel='y/a0',  
-                        nb_labels=5)
-                    mlab.view(-135,60,300)
-                    
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-                    # Setting the color range to match the normalized theta range
-                    # surf.module_manager.scalar_lut_manager.data_range = np.array([0, 1])
+                custom_colormap = tool_colormap_angle()
+                rho = np.abs(complex_field)
+                theta = np.angle(complex_field)
+                # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+                colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
 
-                    # Labels (Mayavi manages labels and axes differently than Matplotlib)
-                    # mlab.xlabel("$x/a_0$")
-                    # mlab.ylabel("$y/a_0$")
-
+                surf = ax.plot_surface(X, Y, rho, facecolors=colors)
+                
+                ax.set_xlabel("$x/a_0$")
+                ax.set_ylabel("$y/a_0$")
+                return ax
 
             elif plot_method == 'phase_angle':
 
@@ -1714,7 +1583,6 @@ class BaseSystem:
 
                 rho_normalized = rho / np.max(rho)
                 custom_colormap = tool_colormap_angle()
-
 
                 # Create a new colormap for magnitudeW
                 # Starting from white (for zero magnitude) to the full color of the phase
@@ -1754,9 +1622,7 @@ class BaseSystem:
         elif self.dim == 3:
 
             plot_method = kwargs.get('plot_method', 'phase_blob')
-            plotting_lib = kwargs.get('plotting_lib', 'matplotlib')
             
-
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
             rho = np.abs(complex_field)
@@ -1828,39 +1694,6 @@ class BaseSystem:
                     # Map normalized theta values to colors
                     colors = colormap(theta_faces_normalized)
 
-                if plotting_lib == 'mayavi':
-
-                    fig = kwargs.get('fig', 
-                            mlab.gcf() if mlab.get_engine() else mlab.figure(bgcolor=(0.5, 0.5, 0.5)))
-                    
-                    # TODO: It might be faster to update the data sources for plotting with mayavi (Vidar 15.02.24)
-                    hold = kwargs.get('hold', False)
-                    if not hold:
-                        mlab.clf()
-
-                    if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
-                    # print("theta_faces_normalized:", theta_faces_normalized)
-                        theta_faces_normalized = np.mod(theta_faces_normalized+0.5,1)
-
-                        vertex_values = np.zeros(verts.shape[0])
-                        for i, face in enumerate(faces):
-                            for vert in face:
-                                vertex_values[vert] = theta_faces_normalized[i]
-                        
-                        # Now, create the mesh using mlab.triangular_mesh
-                        x, y, z = verts.T  # Transpose verts to get separate arrays
-                        
-                        mesh = mlab.triangular_mesh(x, y, z, faces, representation='surface', opacity=1,
-                                                    scalars=vertex_values, colormap='hsv')
-
-                        self.plot_shadows(x=x,y=y,z=z,faces=faces,plotting_lib=plotting_lib)
-
-                    self.plot_set_scene_properties(**kwargs)
-
-                    # Make sure the scene is rendered
-                    QApplication.processEvents()
-                    return fig
-                
                 elif plotting_lib == 'matplotlib':
                     # print("Colors shape:", colors.shape)
                     # print(colors)
@@ -1949,64 +1782,30 @@ class BaseSystem:
         colors = colormap(field_normalized)
 
 
-        if plotting_lib == 'matplotlib':
+    
+        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
+                        self.ymin+verts[:, 1]*self.dy,
+                        faces,
+                        self.zmin+verts[:, 2]*self.dz,
+                        facecolor=colors, antialiased=False)
 
-            ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
-                            self.ymin+verts[:, 1]*self.dy,
-                            faces,
-                            self.zmin+verts[:, 2]*self.dz,
-                            facecolor=colors, antialiased=False)
+        if colorbar:
+            sm = plt.cm.ScalarMappable(cmap=colormap)    
+            cbar = plt.colorbar(sm, ax=ax)
 
-            if colorbar:
-                sm = plt.cm.ScalarMappable(cmap=colormap)    
-                cbar = plt.colorbar(sm, ax=ax)
+        ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+        ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+        ax.set_zlim3d(self.zmin, self.zmax-self.dz)
 
-            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+        ax.set_aspect('equal')
 
-            ax.set_aspect('equal')
+        ax.set_xlabel("$x/a_0$")
+        ax.set_ylabel("$y/a_0$")
+        ax.set_zlabel("$z/a_0$")
+        ax.set_aspect('equal')
 
-            ax.set_xlabel("$x/a_0$")
-            ax.set_ylabel("$y/a_0$")
-            ax.set_zlabel("$z/a_0$")
-            ax.set_aspect('equal')
-
-            return ax
+        return ax
         
-        elif plotting_lib == 'mayavi':
-            fig = kwargs.get('fig', 
-                            mlab.gcf() if mlab.get_engine() else mlab.figure(bgcolor=(0.5, 0.5, 0.5)))
-                    
-            # TODO: It might be faster to update the data sources for plotting with mayavi (Vidar 15.02.24)
-            hold = kwargs.get('hold', False)
-            if not hold:
-                mlab.clf()
-
-            vertex_values = np.zeros(verts.shape[0])
-            for i, face in enumerate(faces):
-                for vert in face:
-                    vertex_values[vert] = field_normalized[i]
-            
-            # Now, create the mesh using mlab.triangular_mesh
-            x, y, z = verts.T  # Transpose verts to get separate arrays
-            x = self.xmin+x*self.dx
-            y = self.ymin+y*self.dy
-            z = self.zmin+z*self.dz
-            
-            mesh = mlab.triangular_mesh(x, y, z, faces, representation='surface', opacity=1,
-                                        scalars=vertex_values, colormap='viridis')
-
-            self.plot_set_scene_properties(**kwargs)
-
-            colorbar = kwargs.get('colorbar', True)
-            if colorbar:
-                cb = mlab.colorbar(object=mesh, nb_labels=5)
-
-            # Make sure the scene is rendered
-            QApplication.processEvents()
-            return fig
-
     def plot_angle_field_in_plane(self, angle_field, colorbar=True):
         """
         Plots the angle field in a plane.
@@ -2018,6 +1817,7 @@ class BaseSystem:
         Output:
             matplotlib.axes.Axes: The axes containing the plot.
         """
+
         self.plot_field_in_plane(angle_field, colorbar=False)
 
         if colorbar:
@@ -2027,8 +1827,6 @@ class BaseSystem:
             cbar.set_ticks(np.array([0, 1/6, 2/6, 3/6, 4/6, 5/6, 1]))
             cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
-    
-        
 
     def plot_vector_field(self, vector_field, ax=None, step=None):
         """
@@ -2102,7 +1900,4 @@ class BaseSystem:
             ax.set_zlim([0, self.zmax-self.dz])
 
         return ax
-
-
-
 

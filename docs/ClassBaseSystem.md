@@ -647,21 +647,7 @@ for $x \in [-3,3]$, $y \in [-3,3]$ and $z \in [-3,3]$.
     plt.show()
     ```
 
-Now do the same, using the plotting library `mayavi`.
-
-??? note "Solution"
-    ```python
-    import comfit as cf
-    import numpy as np
-    import mayavi.mlab as mlab
-
-    bs = cf.BaseSystem(3, xlim=[-3,3], ylim=[-3,3], zlim=[-3,3])
-    f = np.exp(-(bs.x**2+bs.y**2+bs.z**2))
-    bs.plot_field(f,plotting_lib='mayavi', number_of_layers=3)
-    mlab.show()
-    ```
-
-Now, plot the funciton in the plane through $(0,0,0)$ given by the normal vector $[1,1,1]$ using `matplotlib`.
+Now, plot the funciton in the plane through $(0,0,0)$ given by the normal vector $[1,1,1]$ 
 
 ??? note "Solution"
     ```python
@@ -675,19 +661,6 @@ Now, plot the funciton in the plane through $(0,0,0)$ given by the normal vector
     plt.show()
     ```
 
-Now do the same, only using the `mayavi` plotting library. 
-
-??? note "Solution"
-    ```python
-    import comfit as cf
-    import numpy as np
-    import mayavi.mlab as mlab
-
-    bs = cf.BaseSystem(3, xlim=[-3,3], ylim=[-3,3], zlim=[-3,3])
-    f = np.exp(-(bs.x**2+bs.y**2+bs.z**2))
-    bs.plot_field_in_plane(f, position=[0,0,0], normal_vector=[1,1,1],plotting_lib='mayavi')
-    mlab.show()
-    ```
 
 
 [^coxExponentialTimeDifferencing2002]: Cox, S. M., & Matthews, P. C. (2002). Exponential Time Differencing for Stiff Systems. Journal of Computational Physics, 176(2), 430–455. [https://doi.org/10.1006/jcph.2002.6995](https://doi.org/10.1006/jcph.2002.6995)

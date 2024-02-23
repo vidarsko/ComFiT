@@ -42,10 +42,7 @@ pip install comfit in your terminal or command prompt.
 
 ## Virtual environnement
 
-Using a virtual environnement when using ComFiT is highly encouraged for several reasons.
-
-* Even though we try to write robust code, it is still a library under development, so previously written simulations may break. By keeping your simulations together with the specific version of ComFiT, you make sure that your simulations will not break due to coming updates.
-* Some of the plotting functionality relies on the plotting library `mayavi`, which is very powerful, but somewhat sensitive to exactly which versions of `numpy`, `vtk` etc. are used. The compatible versions are given in the install file associated with the package and therefore, running a clean installation within a virtual environnement will make sure that ComFiT runs as wanted.
+Using a virtual environnement when using ComFiT is highly encouraged for because even though we try to write robust code, it is still a library under development, so previously written simulations may break. By keeping your simulations together with the specific version of ComFiT, you make sure that your simulations will not break due to coming updates.
 
 To create a virtual environnement, run the following command in your terminal after having navigated to the root folder of your exploration project
 
