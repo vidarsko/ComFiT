@@ -2,6 +2,8 @@
 
 ComFiT is a versatile python library for simulating field theories, including plotting and animation in an object-oriented manner.
 
+The best way to get to know 
+
 [Link to github repository](https://github.com/vidarsko/ComFiT).
 
 Below, we see the simulation of an initial Guassian wave function in a harmonic oscillator trap under the time evolution imposed by the Schrödinger equation.
