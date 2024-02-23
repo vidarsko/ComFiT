@@ -437,7 +437,7 @@ In the module the wave vectors k is given as the variable bec.k, and the x-compo
 
 
 ```python
-#### task 1: Find the paritial derivative of psi wrt x by differentiating in fourier space
+#### task 1: Find the partial derivative of psi wrt x by differentiating in fourier space
 #    (hint: use np.fft.ifft2() and bec.psi_f)
 
 ```
@@ -463,7 +463,7 @@ bec.evolve_dGPE( number_of_steps, method='ETD2RK') evolves using the damped Gros
 
 bec.evolve_comoving_dGPE(number_of_steps, velx, method='ETD2RK') evolves the system in the frame moving at speed velx in the x direction (relative to the labframe). This solver allowes for gamma to be spatialy dependent.
 
-All the evolvers allowes you to choose which solver you want to use. The default is ETD2RK which is a second order solver. The other implemented choise is ETD4RK which is fourt order. For details see the documentation or bully Vidar. 
+All the evolvers allows you to choose which solver you want to use. The default is ETD2RK which is a second order solver. The other implemented choise is ETD4RK which is fourt order. For details see the documentation or bully Vidar. 
 
 
 
@@ -900,7 +900,7 @@ plt.show()
 Now we set the potential to be time independent and run the system again. The non-zero bec.gamma are going to relax the system.
 
 
-When working with a time dependent sysytem it is nice to make some movies. To do this one needs to use two functions. The first one is cf.tool_save_plot(n) wich saves the plot and label it as n. When all the plots is saved you can cal cf.tool_make_animation(N-1) which takes the figures labeled 0 - (N-1) and makes a plot. It also deletes the figures. The procedure for making a movie is therefore
+When working with a time dependent system it is nice to make some movies. To do this one needs to use two functions. The first one is cf.tool_save_plot(n) wich saves the plot and label it as n. When all the plots is saved you can cal cf.tool_make_animation(N-1) which takes the figures labeled 0 - (N-1) and makes a plot. It also deletes the figures. The procedure for making a movie is therefore
 
 for i in range(N):
 
