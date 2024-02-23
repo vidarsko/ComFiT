@@ -183,7 +183,7 @@ bec.V_0
 The potential can be changed by the function
 
 ```{.python language="Python"}
-conf_external_potential(self, V_ext, additive=False)
+bec.conf_external_potential(self, V_ext, additive=False)
 ```
 
 which can be used both to set it as a function or to set it as a constant potential depending on wheter `V_ext` is a function, a constant or an numpy array. If `additive =True` one add the constant `V_ext` to the allredy existing potential.
@@ -429,9 +429,9 @@ Here gamma is a dissipative factor that is removing energy from the system. The 
 
 Since the system have periodic boundary conditions we can calculate derivatives in fourier space. We have
 
-d f(r)/dx -> i k_x f_f(k). 
+$$ \partial_x f(r) -> i k_x f_f(k). $$ 
 
-In the module the wave vectors k is given as the variable bec.k, and the x-compinent is bec.k[x]. The combination 1j * bec.k is provided in the bec.dif list. You can therefore find the x derivative of the field f in fourier space by running bec.dif[0]*f_f 
+In the module the wave vectors k is given as the variable bec.k, and the x-component is bec.k[0]. The combination 1j * bec.k is provided in the bec.dif list. You can therefore find the x derivative of the field f in fourier space by running bec.dif[0]*f_f 
 
 
 
@@ -442,12 +442,12 @@ In the module the wave vectors k is given as the variable bec.k, and the x-compi
 
 ```
 
-The module contains functions for ploting different types of fields (see previous notebook), like plot_field(...) and plot_complex_field(...). 
+The module contains functions for plotting different types of fields (see previous notebook), like plot_field(...) and plot_complex_field(...). 
 
 Here is an example of how to cal a plotting function.
 bec.plot_field(np.abs(bec.psi)**2,cmap_symmetric=False,colormap = 'winter')
-Remember to set cmap_symmetric = False when ploting
-something that is not symetric around 0.
+Remember to set cmap_symmetric = False when plotting
+something that is not symmetric around 0.
 
 
 ```python
@@ -488,7 +488,7 @@ We now want to look at how to initialise and track topological defects (vortices
 
 Tracking of defects can be done using the function calc_vortex_nodes(self, dt_psi=None) that finds the position and charge of the defects. If dt_psi is provided it will also find the defects' velocity. The output of this function is an array of vortex dictionaries.
 
-In the vortex dictionary the vortx's position is saved under the key word 'position', the charge under 'charge' and the velocity under 'velocity'. 
+In the vortex dictionary the vortex's position is saved under the key word 'position', the charge under 'charge' and the velocity under 'velocity'. 
 
 Once this array is found the vortices can be ploted using the function 
 plot_vortex_nodes(self, vortex_nodes, ax=None), where vortex_nodes is the array of dictionaries that where found with calc_vortex_nodes(self, dt_psi=None) 
@@ -518,7 +518,7 @@ bec.calc_hamiltonian_density() - returns the hamiltonian density
 
 bec.calc_hamiltonian() - returns the total energy
 
-bec.calc_kinetic_energy() - returns the total kinetic energy ($\frac{1}{2}\int d\vec r \rho v_s^2 $)
+bec.calc_kinetic_energy() - returns the total kinetic energy ($\frac{1}{2}\int d\vec r \rho v_s^2$)
 
 bec.calc_force_on_external_potential()- returns the total force that the condensate is exerting on the external potential. Relevant if you want to find the drag on a stirring potential. 
 
@@ -680,7 +680,7 @@ bec = cf.BoseEinsteinCondensate(2,xRes=256,yRes=128,gamma=0,dt=0.1)
 
 ### task 1: Set the potiential to a constant gaussian at this position [bec.xmid+50,bec.ymid] with size = 5 and
 # strength = 4
-#bec.V0 = ...
+# sjekk documentation
 
 
 
@@ -1066,7 +1066,7 @@ import comfit as cf
 
 
 ### task 2. set the potential to a gaussian placed at the centre with size = 2 and strenght = 4. Initialise the
-# wave function using the thomas-fermi groundstate and relax the system for 100 time steps. Plot the result
+# wave function using the thomas-fermi ground-state and relax the system for 100 time steps. Plot the result
 
 ```
 
@@ -1081,7 +1081,7 @@ import comfit as cf
 
     pot= bec.calc_gaussian_stirring_potential(2,4,[bec.xmid,bec.ymid,bec.zmid])
     
-    bec.conf_external_potential(const_pot, additive=False)
+    bec.conf_external_potential(pot, additive=False)
     
     bec.conf_initial_condition_Thomas_Fermi()
     bec.evolve_relax(100)
