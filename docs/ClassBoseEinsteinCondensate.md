@@ -1057,7 +1057,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import comfit as cf
 
-### task 1. Initialise a BoseEinsteinCondensate in 3 dimensions with resolution 64x64x64. Sett gamma = 0 and dt =0.1
+### task 1. Initialise a BoseEinsteinCondensate in 3 dimensions with resolution 64x64x64 (or something else). Sett gamma = 0 and dt =0.1
 
 
 ### task 2. set the potential to a gaussian placed at the centre with size = 2 and strenght = 4. Initialise the
@@ -1096,6 +1096,7 @@ import comfit as cf
 
 
     ```python
+    ## add noise to break symmetry
     bec.psi += (0.01*np.random.randn(bec.xRes,bec.yRes,bec.zRes)+ 0.01*np.random.randn(bec.xRes,bec.yRes,bec.zRes)*(1j))*np.abs(bec.psi)**2
     bec.psi_f = np.fft.fftn(bec.psi)
     vel_x = 0.8
