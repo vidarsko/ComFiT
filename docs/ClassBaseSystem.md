@@ -24,12 +24,13 @@ These are the optional keywords for the `BaseSystem` class.
 | `xRes`  | Resolution of the $x$ axis | $101$ |
 | `yRes`  | Resolution of the $y$ axis | $\left \lbrace \begin{array}{c} 1 \\ 101 \\  101 \\ \end{array} \right \rbrace$ |
 | `zRes`  | Resolution of the $z$ axis | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  101 \\ \end{array} \right \rbrace$ |
-| `dx`    | Spacing between points on the $x$-axis. Trumps `xRes` if provided. | $\frac{\texttt{xmax}-\texttt{xmin}}{\texttt{xRes}} = 1$ |
+| `dx`    | Spacing between points on the $x$-axis. Trumps `xRes` if provided. `xmax` will be modified to match. | $\frac{\texttt{xmax}-\texttt{xmin}}{\texttt{xRes}} = 1$ |
 | `dy`    | Spacing between points on the $y$-axis. Trumps `yRes` if provided. | $\frac{\texttt{ymax}-\texttt{ymin}}{\texttt{yRes}} = 1$ |
 | `dz`    | Spacing between points on the $x$-axis. Trumps `zRes` if provided. | $\frac{\texttt{zmax}-\texttt{zmin}}{\texttt{zRes}} = 1$ |
 | `xlim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $x$-direction. Trumps `xmin` and `xmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = (0,101)$ |
 | `ylim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $y$-direction. Trumps `ymin` and `ymax` if provided. | $(\texttt{ymin},\texttt{ymax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,101) \\  (0,101) \\ \end{array} \right \rbrace$|
 | `zlim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $z$-direction. Trumps `zmin` and `zmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,1) \\  (0,101) \\ \end{array} \right \rbrace$|
+| `time` | Float specifying the time of initialization | $0$ |
 | `a0` | Characteristic length scale associated with the system, in units of which all plots will be scaled. This is also the default width used with the coarse-graining operation. | $1$ |
 
 From these keywords, a number of useful parameters are constructed, given in the table below.

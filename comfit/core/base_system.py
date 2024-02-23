@@ -14,24 +14,14 @@ from PyQt5.QtWidgets import QApplication
 
 
 class BaseSystem:
-    def __init__(self, dimension,
-                 xRes=101, dx=1.0, xmin=0,
-                 yRes=101, dy=1.0, ymin=0,
-                 zRes=101, dz=1.0, zmin=0,
-                 dt=0.1, **kwargs):
+    def __init__(self, dim, **kwargs):
         """
         Initialize the class with the given parameters.
 
         Input:
             dimension (int): The dimension of the system. Must be 1, 2, or 3.
-            xRes (int): The resolution of the x-axis.
-            dx (float): The spacing between points on the x-axis.
-            yRes (int): The resolution of the y-axis.
-            dy (float): The spacing between points on the y-axis.
-            zRes (int): The resolution of the z-axis.
-            dz (float): The spacing between points on the z-axis.
-            dt (float): The time step.
-            **kwargs: Additional keyword arguments.
+            **kwargs: Additional keyword arguments, see 
+            https://vidarsko.github.io/ComFiT/ClassBaseSystem/
 
         Output:
             None
@@ -39,35 +29,101 @@ class BaseSystem:
         Raises:
             ValueError: If the dimension is not 1, 2, or 3.
         """
-        self.dim = dimension
-        self.xRes = xRes
-        self.yRes = 1
-        self.zRes = 1
-        self.time = 0
-        
-        if dimension > 1:
-            self.yRes = yRes
-
-        if dimension > 2:
-            self.zRes = zRes
-
-        self.dx = dx
-        self.dy = dy
-        self.dz = dz
-        self.dt = dt
-
-        self.xmin = xmin
-        self.xmax = xmin + self.xRes * self.dx
-
-        self.ymin = ymin
-        self.ymax = ymin + self.yRes * self.dy
-
-        self.zmin = zmin
-        self.zmax = zmin + self.zRes* self.dz
-
-        if self.dim not in [1, 2, 3]:
+        if dim not in [1, 2, 3]:
             raise ValueError('Dimension must be 1, 2, or 3.')
 
+        self.dim = dim
+
+        if 'xlim' in kwargs:
+            # Providing xlim trumps providing xmin and xmax
+            self.xmin = kwargs['xlim'][0]
+            self.xmax = kwargs['xlim'][1]
+            
+            self.xRes = kwargs.get('xRes', 101)
+            self.dx = (self.xmax - self.xmin) / self.xRes
+        
+        else:
+            self.xmin = kwargs.get('xmin', 0)
+            self.xRes = kwargs.get('xRes', 101)
+
+            self.dx = kwargs.get('dx', 1.0)
+
+            if 'xmax' in kwargs:
+                self.xmax = kwargs['xmax']
+            else:
+                self.xmax = self.xmin + self.xRes * self.dx
+
+        self.xlim = [self.xmin, self.xmax]
+
+        # Providing dx trumps providing xRes
+        if 'dx' in kwargs:
+            self.dx = kwargs['dx']
+            self.xRes = int((self.xmax - self.xmin) / self.dx)
+
+        # Setting default values for y and z for 1 dimensional systems
+        self.ymin = kwargs.get('ymin', 0)
+        self.zmin = kwargs.get('zmin', 0)
+        
+        self.dy = kwargs.get('dy', 1.0)
+        self.dz = kwargs.get('dz', 1.0)
+
+        self.ymax = kwargs.get('ymax',1)
+        self.zmax = kwargs.get('zmax',1)
+
+        self.yRes = kwargs.get('yRes', 1)
+        self.zRes = kwargs.get('zRes', 1)
+
+        if self.dim > 1:
+            if 'ylim' in kwargs:
+                self.ymin = kwargs['ylim'][0]
+                self.ymax = kwargs['ylim'][1]
+                
+                self.yRes = kwargs.get('yRes', 101)
+                self.dy = (self.ymax - self.ymin) / self.yRes
+            
+            else:
+                self.ymin = kwargs.get('ymin', 0)
+                self.yRes = kwargs.get('yRes', 101)
+                self.dy = kwargs.get('dy', 1.0)
+
+                if 'ymax' in kwargs:
+                    self.ymax = kwargs['ymax']
+                else:
+                    self.ymax = self.ymin + self.yRes * self.dy
+
+            # Providing dy trumps providing yRes
+            if 'dy' in kwargs:
+                self.dy = kwargs['dy']
+                self.yRes = int((self.ymax - self.ymin) / self.dy)
+        
+        if self.dim > 2:
+            if 'zlim' in kwargs:
+                self.zmin = kwargs['zlim'][0]
+                self.zmax = kwargs['zlim'][1]
+                
+                self.zRes = kwargs.get('zRes', 101)
+                self.dz = (self.zmax - self.zmin) / self.zRes
+
+            else:
+                self.zmin = kwargs.get('zmin', 0)
+                self.zRes = kwargs.get('zRes', 101)
+                self.dz = kwargs.get('dz', 1.0)
+
+                if 'zmax' in kwargs:
+                    self.zmax = kwargs['zmax']
+                else:
+                    self.zmax = self.zmin + self.zRes * self.dz
+
+            # Providing dz trumps providing zRes
+            if 'dz' in kwargs:
+                self.dz = kwargs['dz']
+                self.zRes = int((self.zmax - self.zmin) / self.dz)
+
+        #  Setting default value of time
+        self.time = kwargs.get('time', 0)
+        self.dt = kwargs.get('dt', 0.1)
+
+        # Construct parameters
         self.x = np.linspace(self.xmin, self.xmax-self.dx, self.xRes)
         self.y = np.linspace(self.ymin, self.ymax-self.dy, self.yRes)
         self.z = np.linspace(self.zmin, self.zmax-self.dz, self.zRes)
