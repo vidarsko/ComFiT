@@ -1202,7 +1202,7 @@ class BaseSystem:
             return ax
 
     def plot_shadows(self, **kwargs):
-        pass #TODO: To be implemented (Vidar 23.02.24)
+        pass #TODO: To be implemented soon (Vidar 23.02.24)
         
     def plot_field(self, field, **kwargs):
         """
