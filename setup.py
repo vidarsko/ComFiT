@@ -8,7 +8,6 @@ setup(
     author='Vidar Skogvoll and Jonas Rønning',
     install_requires=['numpy',
                       'scipy',
-                      'scikit-image',
                       'matplotlib',
                       'moviepy==1.0.3',
                       'imageio'],
