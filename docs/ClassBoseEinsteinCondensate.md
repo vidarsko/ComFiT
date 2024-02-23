@@ -183,7 +183,7 @@ bec.V_0
 The potential can be changed by the function
 
 ```{.python language="Python"}
-conf_external_potential(self, V_ext, additive=False)
+bec.conf_external_potential(self, V_ext, additive=False)
 ```
 
 which can be used both to set it as a function or to set it as a constant potential depending on wheter `V_ext` is a function, a constant or an numpy array. If `additive =True` one add the constant `V_ext` to the allredy existing potential.
@@ -429,25 +429,25 @@ Here gamma is a dissipative factor that is removing energy from the system. The 
 
 Since the system have periodic boundary conditions we can calculate derivatives in fourier space. We have
 
-d f(r)/dx -> i k_x f_f(k). 
+$$ \partial_x f(r) -> i k_x f_f(k). $$ 
 
-In the module the wave vectors k is given as the variable bec.k, and the x-compinent is bec.k[x]. The combination 1j * bec.k is provided in the bec.dif list. You can therefore find the x derivative of the field f in fourier space by running bec.dif[0]*f_f 
+In the module the wave vectors k is given as the variable bec.k, and the x-component is bec.k[0]. The combination 1j * bec.k is provided in the bec.dif list. You can therefore find the x derivative of the field f in fourier space by running bec.dif[0]*f_f 
 
 
 
 
 ```python
-#### task 1: Find the paritial derivative of psi wrt x by differentiating in fourier space
+#### task 1: Find the partial derivative of psi wrt x by differentiating in fourier space
 #    (hint: use np.fft.ifft2() and bec.psi_f)
 
 ```
 
-The module contains functions for ploting different types of fields (see previous notebook), like plot_field(...) and plot_complex_field(...). 
+The module contains functions for plotting different types of fields (see previous notebook), like plot_field(...) and plot_complex_field(...). 
 
 Here is an example of how to cal a plotting function.
 bec.plot_field(np.abs(bec.psi)**2,cmap_symmetric=False,colormap = 'winter')
-Remember to set cmap_symmetric = False when ploting
-something that is not symetric around 0.
+Remember to set cmap_symmetric = False when plotting
+something that is not symmetric around 0.
 
 
 ```python
@@ -463,7 +463,7 @@ bec.evolve_dGPE( number_of_steps, method='ETD2RK') evolves using the damped Gros
 
 bec.evolve_comoving_dGPE(number_of_steps, velx, method='ETD2RK') evolves the system in the frame moving at speed velx in the x direction (relative to the labframe). This solver allowes for gamma to be spatialy dependent.
 
-All the evolvers allowes you to choose which solver you want to use. The default is ETD2RK which is a second order solver. The other implemented choise is ETD4RK which is fourt order. For details see the documentation or bully Vidar. 
+All the evolvers allows you to choose which solver you want to use. The default is ETD2RK which is a second order solver. The other implemented choise is ETD4RK which is fourt order. For details see the documentation or bully Vidar. 
 
 
 
@@ -488,7 +488,7 @@ We now want to look at how to initialise and track topological defects (vortices
 
 Tracking of defects can be done using the function calc_vortex_nodes(self, dt_psi=None) that finds the position and charge of the defects. If dt_psi is provided it will also find the defects' velocity. The output of this function is an array of vortex dictionaries.
 
-In the vortex dictionary the vortx's position is saved under the key word 'position', the charge under 'charge' and the velocity under 'velocity'. 
+In the vortex dictionary the vortex's position is saved under the key word 'position', the charge under 'charge' and the velocity under 'velocity'. 
 
 Once this array is found the vortices can be ploted using the function 
 plot_vortex_nodes(self, vortex_nodes, ax=None), where vortex_nodes is the array of dictionaries that where found with calc_vortex_nodes(self, dt_psi=None) 
@@ -518,7 +518,7 @@ bec.calc_hamiltonian_density() - returns the hamiltonian density
 
 bec.calc_hamiltonian() - returns the total energy
 
-bec.calc_kinetic_energy() - returns the total kinetic energy ($\frac{1}{2}\int d\vec r \rho v_s^2 $)
+bec.calc_kinetic_energy() - returns the total kinetic energy ($\frac{1}{2}\int d\vec r \rho v_s^2$)
 
 bec.calc_force_on_external_potential()- returns the total force that the condensate is exerting on the external potential. Relevant if you want to find the drag on a stirring potential. 
 
@@ -680,7 +680,7 @@ bec = cf.BoseEinsteinCondensate(2,xRes=256,yRes=128,gamma=0,dt=0.1)
 
 ### task 1: Set the potiential to a constant gaussian at this position [bec.xmid+50,bec.ymid] with size = 5 and
 # strength = 4
-#bec.V0 = ...
+# sjekk documentation
 
 
 
@@ -770,7 +770,8 @@ plt.show()
     ### task 1 and 2
 
 
-    bec.V0 = bec.calc_gaussian_stirring_potential(5, 4, [bec.xmid+50,bec.ymid] )
+    pot = bec.calc_gaussian_stirring_potential(5, 4, [bec.xmid+50,bec.ymid] )
+    bec.conf_external_potential(pot, additive=False)
 
     bec.conf_initial_condition_Thomas_Fermi()
 
@@ -843,9 +844,7 @@ Now we need to initialize the wavefunction. Before we do that we need to specify
 
 self.V_ext = lambda: self.V0
 
-If you want a potential that is constant in time you can change V0 to the desired value (defult is 0) as we did in the previous notebook.  Now we will discuss how to set a time dependent potential, using the example of a harmonic potential with a Gaussian stirrer. First we have to initialise the wavefunction close to the ground-state and relax it using the fucntion bec.evolve_relax(). 
-
-Important! the potential has to be a constant during the relaxation!!!!!!!!!!!!!!!!! (at least if you are interested in finding the ground state)
+The potential can be changed by using the function bec.conf_external_potential(pot, additive=False). Here pot could be either a function or a constant
 
 
 
@@ -876,7 +875,7 @@ def V_t(t):
 ### Task 2: Set the potential to the time dependent one value, initialise the Thomas Fermi 
 # ground state and relax the system using the  evolve_relax(...) solver for 20 time steps
 
-# bec.V0 = ...
+# 
 
 
 
@@ -884,20 +883,16 @@ bec.plot_field(np.abs(bec.psi)**2,cmap_symmetric=False,colormap = 'winter')
 plt.show()
 ```
 
-After the initial relaxation we can set the potential to be time-dependent using the function bec.conf_time_dependent_potential(V_t)
-
-Notize that in V_t() the time dependence has to be through the variable bec.t which is updated in the evolve functions (this is also why the potential has to be set as a constant before the relaxation step). 
-
 
 ```python
 
-### Task 3: Updating the potential to the time-dependent function V_t() that we definded above
 
 
-### Task 4: Evolve the system with the time-dependent potential using the ETD4RK scheme
+
+### Task 3: Evolve the system with the time-dependent potential using the ETD4RK scheme
 
 
-### Task 5: Track the defects and their velocity and plot the result 
+### Task 4: Track the defects and their velocity and plot the result 
 
 
 ```
@@ -905,7 +900,7 @@ Notize that in V_t() the time dependence has to be through the variable bec.t wh
 Now we set the potential to be time independent and run the system again. The non-zero bec.gamma are going to relax the system.
 
 
-When working with a time dependent sysytem it is nice to make some movies. To do this one needs to use two functions. The first one is cf.tool_save_plot(n) wich saves the plot and label it as n. When all the plots is saved you can cal cf.tool_make_animation(N-1) which takes the figures labeled 0 - (N-1) and makes a plot. It also deletes the figures. The procedure for making a movie is therefore
+When working with a time dependent system it is nice to make some movies. To do this one needs to use two functions. The first one is cf.tool_save_plot(n) wich saves the plot and label it as n. When all the plots is saved you can cal cf.tool_make_animation(N-1) which takes the figures labeled 0 - (N-1) and makes a plot. It also deletes the figures. The procedure for making a movie is therefore
 
 for i in range(N):
 
@@ -921,7 +916,7 @@ cf.tool_make_animation(i) (notice indent)
 
 
 ```python
-#### task 6. make an animation of the stirring potential. Evolve 10 or 20 timesteps between each frame for a total 
+#### task 5. make an animation of the stirring potential. Evolve 10 or 20 timesteps between each frame for a total 
 #### of 3000 or more timesteps.
 #### Display both the absolute value squared of the wavefunction and track the vortices.  Notice that in
 ###  order to make the plots apear in the same axes you need to use:
@@ -947,7 +942,7 @@ bec.plot_field(np.abs(bec.psi)**2,cmap_symmetric=False,colormap = 'winter')
 plt.show()
 ```
 
-Task 7 (optional): Do the task again, but implement your own time-dependent potential.  
+Task 6 (optional): Do the task again, but implement your own time-dependent potential.  
 
 
 ```python
@@ -1002,7 +997,7 @@ Task 7 (optional): Do the task again, but implement your own time-dependent pote
 
 
     ```python
-    #### task 3, 4 and 5
+    #### task  3, 4 and 5
 
 
     bec.evolve_dGPE( 30, method='ETD4RK') 
@@ -1062,11 +1057,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import comfit as cf
 
-### task 1. Initialise a BoseEinsteinCondensate in 3 dimensions with resolution 64x64x64. Sett gamma = 0 and dt =0.1
+### task 1. Initialise a BoseEinsteinCondensate in 3 dimensions with resolution 64x64x64 (or something else). Sett gamma = 0 and dt =0.1
 
 
 ### task 2. set the potential to a gaussian placed at the centre with size = 2 and strenght = 4. Initialise the
-# wave function using the thomas-fermi groundstate and relax the system for 100 time steps. Plot the result
+# wave function using the thomas-fermi ground-state and relax the system for 100 time steps. Plot the result
 
 ```
 
@@ -1081,7 +1076,7 @@ import comfit as cf
 
     pot= bec.calc_gaussian_stirring_potential(2,4,[bec.xmid,bec.ymid,bec.zmid])
     
-    bec.conf_external_potential(const_pot, additive=False)
+    bec.conf_external_potential(pot, additive=False)
     
     bec.conf_initial_condition_Thomas_Fermi()
     bec.evolve_relax(100)
@@ -1101,6 +1096,7 @@ import comfit as cf
 
 
     ```python
+    ## add noise to break symmetry
     bec.psi += (0.01*np.random.randn(bec.xRes,bec.yRes,bec.zRes)+ 0.01*np.random.randn(bec.xRes,bec.yRes,bec.zRes)*(1j))*np.abs(bec.psi)**2
     bec.psi_f = np.fft.fftn(bec.psi)
     vel_x = 0.8
