@@ -844,9 +844,7 @@ Now we need to initialize the wavefunction. Before we do that we need to specify
 
 self.V_ext = lambda: self.V0
 
-If you want a potential that is constant in time you can change V0 to the desired value (defult is 0) as we did in the previous notebook.  Now we will discuss how to set a time dependent potential, using the example of a harmonic potential with a Gaussian stirrer. First we have to initialise the wavefunction close to the ground-state and relax it using the fucntion bec.evolve_relax(). 
-
-Important! the potential has to be a constant during the relaxation!!!!!!!!!!!!!!!!! (at least if you are interested in finding the ground state)
+The potential can be changed by using the function bec.conf_external_potential(pot, additive=False). Here pot could be either a function or a constant
 
 
 
@@ -885,20 +883,16 @@ bec.plot_field(np.abs(bec.psi)**2,cmap_symmetric=False,colormap = 'winter')
 plt.show()
 ```
 
-After the initial relaxation we can set the potential to be time-dependent using the function bec.conf_time_dependent_potential(V_t)
-
-Notize that in V_t() the time dependence has to be through the variable bec.t which is updated in the evolve functions (this is also why the potential has to be set as a constant before the relaxation step). 
-
 
 ```python
 
-### Task 3: Updating the potential to the time-dependent function V_t() that we definded above
 
 
-### Task 4: Evolve the system with the time-dependent potential using the ETD4RK scheme
+
+### Task 3: Evolve the system with the time-dependent potential using the ETD4RK scheme
 
 
-### Task 5: Track the defects and their velocity and plot the result 
+### Task 4: Track the defects and their velocity and plot the result 
 
 
 ```
@@ -922,7 +916,7 @@ cf.tool_make_animation(i) (notice indent)
 
 
 ```python
-#### task 6. make an animation of the stirring potential. Evolve 10 or 20 timesteps between each frame for a total 
+#### task 5. make an animation of the stirring potential. Evolve 10 or 20 timesteps between each frame for a total 
 #### of 3000 or more timesteps.
 #### Display both the absolute value squared of the wavefunction and track the vortices.  Notice that in
 ###  order to make the plots apear in the same axes you need to use:
@@ -948,7 +942,7 @@ bec.plot_field(np.abs(bec.psi)**2,cmap_symmetric=False,colormap = 'winter')
 plt.show()
 ```
 
-Task 7 (optional): Do the task again, but implement your own time-dependent potential.  
+Task 6 (optional): Do the task again, but implement your own time-dependent potential.  
 
 
 ```python
@@ -1003,7 +997,7 @@ Task 7 (optional): Do the task again, but implement your own time-dependent pote
 
 
     ```python
-    #### task 3, 4 and 5
+    #### task  3, 4 and 5
 
 
     bec.evolve_dGPE( 30, method='ETD4RK') 
