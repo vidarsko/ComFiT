@@ -882,6 +882,55 @@ $$
 In the language of
 this
 
+
+## Tutorial 1: Getting to know the triangular PFC
+
+Initiate a $(n_x,n_y) = (30,20)$ PFC without any defects.
+
+??? note "Solution"
+    ```python
+    import comfit as cf
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    pfc = cf.PhaseFieldCrystal2DTriangular(30,20)
+    pfc.conf_PFC_from_amplitudes()
+    pfc.plot_field(pfc.psi, grid=False)
+    plt.show()
+    ```
+
+Now create a the same PFC containing two defects.
+
+??? note "Solution"
+    ```python
+    pfc = cf.PhaseFieldCrystal2DTriangular(30,20)
+    eta = pfc.calc_amplitudes_with_dislocation_dipole()
+    pfc.conf_PFC_from_amplitudes(eta)
+    pfc.plot_field(pfc.psi, grid=False)
+    plt.show()
+    ```
+
+Create an animation of the dislocations annihilating under standard PFC dynamics.
+
+??? note "Solution"
+    ```python
+    pfc = cf.PhaseFieldCrystal2DTriangular(30,20)
+    eta = pfc.calc_amplitudes_with_dislocation_dipole()
+    pfc.conf_PFC_from_amplitudes(eta)
+
+    for n in range(100):
+        pfc.evolve_PFC(100)
+        pfc.plot_field(pfc.psi, grid=False, colorbar=False)
+        cf.tool_save_plot(n)
+
+    cf.tool_make_animation_gif(n)
+    ```
+
+
+
+
+
+
 [^elderModelingElasticPlastic2004]: Elder, K. R., & Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Physical Review E, 70(5), 051605. [https://doi.org/10.1103/PhysRevE.70.051605](https://doi.org/10.1103/PhysRevE.70.051605)
 [^Skogvoll2023SymmetryTopology]: Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo [https://www.duo.uio.no/handle/10852/102731](https://www.duo.uio.no/handle/10852/102731)
 [^emdadiRevisitingPhaseDiagrams2016]: Emdadi, A., Asle Z., Mohsen and Asadi, E. (2016). Revisiting Phase Diagrams of Two-Mode Phase-Field Crystal Models. Computational Materials Science. 123, 139-147. [https://doi.org/10.1016/j.commatsci.2016.06.018](https://doi.org/10.1016/j.commatsci.2016.06.018)

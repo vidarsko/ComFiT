@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+Full documentation can be found here: [https://vidarsko.github.io/ComFiT/](https://vidarsko.github.io/ComFiT/).
+
+## [1.2.0] - 2024-02-24
+- Bug fixes and stability imrpovements.
+- Included the Mayavi package fro 3D plotting. 
 
 ## [1.1.0] - 2023-12-07
 ### Fixed

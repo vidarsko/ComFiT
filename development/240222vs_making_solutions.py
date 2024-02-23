@@ -5,18 +5,35 @@ import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
 
-qm = cf.QuantumMechanics(1,xlim=[-10,10])
 
-qm.conf_initial_condition_Gaussian(position=0,width=1,initial_velocity=1)
 
-ymax = np.max(np.abs(qm.psi)**2)
+pfc = cf.PhaseFieldCrystal2DTriangular(30,20)
+eta = pfc.calc_amplitudes_with_dislocation_dipole()
+pfc.conf_PFC_from_amplitudes(eta)
 
-for n in range(50):
-    qm.plot(ylim=ymax)
+for n in range(100):
+    pfc.evolve_PFC(100)
+    pfc.plot_field(pfc.psi, grid=False, colorbar=False)
     cf.tool_save_plot(n)
-    qm.evolve_schrodinger(1)
 
 cf.tool_make_animation_gif(n)
+
+
+
+# qm = cf.QuantumMechanics(1,xlim=[-10,100],dx=0.1)
+
+# qm.V_ext = qm.calc_Gaussian(position=30,width=10,top=1)
+
+# qm.conf_initial_condition_Gaussian(position=0,width=1,initial_velocity=1)
+
+# ymax = np.max(np.abs(qm.psi)**2)
+
+# for n in range(100):
+#     qm.plot(ylim=ymax)
+#     cf.tool_save_plot(n)
+#     qm.evolve_schrodinger(5)
+
+# cf.tool_make_animation_gif(n)
 
 
 

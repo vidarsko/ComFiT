@@ -170,7 +170,64 @@ Make an animation of the evolution of the particle with an initial velocity.
     cf.tool_make_animation_gif(n)
     ```
 
-Now generalize these ideas to two and three dimensions. 
+Now generalize these ideas to two and three dimensions.
 
 ??? note "Solution"
     Not yet written.
+
+
+## Tutorial 2: Gaussian wave packet with external potentials
+
+Initiate the same Gaussian wave packet with the initial velocity as in the previous tutorial, but add an external potential `V_ext` given by $V_{\textrm{ext}}=0.05 x^2$.
+Make an animation.
+
+??? note "Solution"
+    ```python
+    import comfit as cf
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    qm = cf.QuantumMechanics(1,xlim=[-10,10])
+
+    qm.V_ext = 0.05*qm.x**2
+
+    qm.conf_initial_condition_Gaussian(position=0,width=1,initial_velocity=1)
+
+    ymax = np.max(np.abs(qm.psi)**2)
+
+    for n in range(200):
+        qm.plot(ylim=ymax)
+        cf.tool_save_plot(n)
+        qm.evolve_schrodinger(5)
+        plt.pause(0.01)
+
+    cf.tool_make_animation_gif(n)
+    ```
+
+Now extend the system so that it goes from $x \in [-10,100]$ and decrease `dx` to $0.1$.
+Create a Gaussian potential barrier centered at $x=30$ with a top value of $1$ and a width of $5$. 
+Run the simulation. What happens?
+
+??? note "Solution"
+    ```python
+    import comfit as cf
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    qm = cf.QuantumMechanics(1,xlim=[-10,100],dx=0.1)
+
+    qm.V_ext = qm.calc_Gaussian(position=30,width=10,top=1)
+
+    qm.conf_initial_condition_Gaussian(position=0,width=1,initial_velocity=1)
+
+    ymax = np.max(np.abs(qm.psi)**2)
+
+    for n in range(100):
+        qm.plot(ylim=ymax)
+        cf.tool_save_plot(n)
+        qm.evolve_schrodinger(5)
+
+    cf.tool_make_animation_gif(n)
+    ```
+
+    Quantum tunneling. 
