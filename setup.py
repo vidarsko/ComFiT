@@ -9,6 +9,7 @@ setup(
     install_requires=['numpy',
                       'scipy',
                       'matplotlib',
+                      'scikit-image',
                       'moviepy',
                       'imageio'],
 )
