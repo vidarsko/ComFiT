@@ -1,10 +1,46 @@
 # Home
 
-ComFiT is a versatile python library for simulating field theories, including plotting and animation in an object-oriented manner.
+[ComFiT](https://github.com/vidarsko/ComFiT) is a versatile python library for simulating field theories, including plotting and animation in an object-oriented manner.
+The best way to get to know ComFiT is by using it in one of the following tutorials.
 
-The best way to get to know 
+## Base System 
 
-[Link to github repository](https://github.com/vidarsko/ComFiT).
+<div class="grid cards" markdown>
+-   :material-clock-fast:{ .lg .middle } __[Basic Framework](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BaseClass%20-%20Basic%20framework.ipynb)__
+
+    ---
+    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
+
+-   :material-clock-fast:{ .lg .middle } __[How to make your own model]()__
+
+    ---
+    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
+
+</div>
+
+## Bose Einstein Condensates
+
+<div class="grid cards" markdown>
+-   :material-clock-fast:{ .lg .middle } __[Basic Framework](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BoseEinsteinCondensate%20-%20Basic%20framework.ipynb)__
+
+    ---
+    Understand the basics of the Bose Einstein Condensate model.
+
+-   :material-clock-fast:{ .lg .middle } __[Time-dependent potentials](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BoseEinsteinCondensate%20-%2Time%20Dependent%20potentials.ipynb)__
+
+    ---
+    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
+
+-   :material-clock-fast:{ .lg .middle } __[Comoving frame and defect tracking](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BoseEinsteinCondensate%2BEC%20coming%20frame%20and%20defect%20tracking.ipynb)__
+
+    ---
+    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
+
+-   :material-clock-fast:{ .lg .middle } __[3D BEC in comoving frame](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BoseEinsteinCondensate%20-%203D-BEC%20in%20comoving%20frame.ipynb)__
+
+    ---
+    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
+</div>
 
 Below, we see the simulation of an initial Guassian wave function in a harmonic oscillator trap under the time evolution imposed by the Schrödinger equation.
 
