@@ -5,7 +5,7 @@ import comfit as cf
 import matplotlib.pyplot as plt
 
 qm = cf.QuantumMechanics(2, xRes=201, yRes=201)
-qm.conf_initial_condition_gaussian(position=[0.5*qm.xmax,0.3*qm.ymax],width=10)
+qm.conf_initial_condition_Gaussian(position=[0.5*qm.xmax,0.3*qm.ymax],width=10)
 qm.V_ext = qm.conf_harmonic_potential(0.0001)
 
 

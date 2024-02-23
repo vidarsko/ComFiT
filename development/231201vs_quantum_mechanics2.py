@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 qm = cf.QuantumMechanics(1,xRes=101,dx=1)
 
 
-qm.conf_initial_condition_gaussian(position=30,width=5)
+qm.conf_initial_condition_Gaussian(position=30,width=5)
 
 qm.V_ext = qm.conf_harmonic_potential(0.0001)
 

@@ -32,44 +32,26 @@ class QuantumMechanics(BaseSystem):
         """
         return 'QuantumMechanics'
 
-    def conf_initial_condition_gaussian(self,position=None,width=None):
+    def conf_initial_condition_Gaussian(self,position=None,width=None, initial_velocity=None):
 
-        if self.dim == 1:
-            if position == None:
-                position = self.xmid
-            if width == None:
-                width = 5
-
-            self.psi = np.sqrt(1/np.sqrt(2*np.pi*width**2)*np.exp(-(self.x-position)**2/(2*width**2)))
-            self.psi_f = sp.fft.fftn(self.psi)
+        self.psi = np.sqrt(self.calc_Gaussian(position=position,width=width))
         
-        elif self.dim == 2:
-            if position == None:
-                position = self.rmid
-            if width == None:
-                width = 5
+        if initial_velocity != None:
+            if self.dim == 1:
+                v0 = initial_velocity
+                self.psi = self.psi * np.exp(1j * v0 * self.x)
 
-            self.psi = np.sqrt(1/(2*np.pi*width**2)*np.exp(-((self.x-position[0])**2+(self.y-position[1])**2)/(2*width**2)))
-            
-            #Initial velocity
-            #TODO: Formalize this notion of initial velocity, de brogle whatever. (Vidar 03.01.24)
-            self.psi = self.psi * np.exp(4*1j*self.x/width)
+            elif self.dim == 2:
+                v0 = initial_velocity
+                self.psi = self.psi * np.exp(1j * (v0[0] * self.x + v0[1]*self.y))
 
-            self.psi_f = sp.fft.fftn(self.psi)
+            elif self.dim == 3:
+                v0 = initial_velocity
+                self.psi = self.psi * np.exp(1j * (v0[0] * self.x + v0[1]*self.y + v0[2]*self.z))
+        
+        self.psi_f = sp.fft.fftn(self.psi)
 
-        elif self.dim == 3:
-            if position == None:
-                position = self.rmid
-            if width == None:
-                width = 5
 
-            self.psi = np.sqrt(1/(2*np.pi*width**2)**(3/2)*np.exp(-((self.x-position[0])**2+(self.y-position[1])**2+(self.z-position[2])**2)/(2*width**2)))
-            
-            #Initial velocity
-            #TODO: Formalize this notion of initial velocity, de brogle whatever. (Vidar 03.01.24)
-            self.psi = self.psi * np.exp(4*1j*self.x/width)
-
-            self.psi_f = sp.fft.fftn(self.psi)
         
 
 

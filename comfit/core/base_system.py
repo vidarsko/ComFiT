@@ -192,13 +192,25 @@ class BaseSystem:
         self.rmax = [self.xmax, self.ymax, self.zmax]
 
     def __str__(self):
-        """
-        Outputs a string representation of the class.
+        description = f"BaseSystem instance\n"
+        # Start with the dimension of the system
+        description = f"System Dimension: {self.dim}\n"
 
-        Output:
-            str: A string representation of the class.
-        """
-        return "BaseSystem"
+        # Add x-axis properties
+        description += f"X-Axis Limits: [{self.xmin}, {self.xmax}], Resolution: {self.xRes}, Delta: {self.dx}\n"
+
+        # Add y-axis properties if dim > 1
+        if self.dim > 1:
+            description += f"Y-Axis Limits: [{self.ymin}, {self.ymax}], Resolution: {self.yRes}, Delta: {self.dy}\n"
+
+        # Add z-axis properties if dim > 2
+        if self.dim > 2:
+            description += f"Z-Axis Limits: [{self.zmin}, {self.zmax}], Resolution: {self.zRes}, Delta: {self.dz}\n"
+
+        # Add time properties
+        description += f"Current Time: {self.time}, Time Step: {self.dt}"
+
+        return description
 
     # CALCULATION FUNCTIONS
 
@@ -587,6 +599,26 @@ class BaseSystem:
                 psi2 = psi[0] ** 2 + psi[1] ** 2
                 return 1 / (2 * np.pi * width ** 2) * np.exp(-psi2 / (2 * width ** 2))
 
+    def calc_region_interval(self,a,b):
+        """
+        Calculates a boolean array indicating whether a point is within an interval.
+        
+        Input:
+            a: The lower bound of the interval
+            b: The upper bound of the interval
+        
+        Output:
+            np.ndarray: A boolean array indicating whether a point is within the interval
+        """
+        if not (a <= b):
+            raise Exception("The lower bound must be less than or equal to the upper bound.")
+        
+        if not (self.dim == 1):
+            raise Exception("This function is only valid for 1D systems.")
+        
+        return (a <= self.x) & (self.x <= b)
+        
+
     def calc_region_disk(self, position, radius):
         """
         Calculates a boolean array indicating whether a point is within a disk of a given radius.
@@ -673,44 +705,40 @@ class BaseSystem:
         """
         Calculates the distance to a point given
         """
+
         if self.dim == 1:
-            rx2m = (self.x - position[0] - self.xmax) ** 2
-            rx2 = (self.x - position[0]) ** 2
-            rx2p = (self.x - position[0] + self.xmax) ** 2
-            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes))
-
-            return rx2
+            position = [position]
         
-        elif self.dim == 2:
-            rx2m = (self.x - position[0] - self.xmax) ** 2
-            rx2 = (self.x - position[0]) ** 2
-            rx2p = (self.x - position[0] + self.xmax) ** 2
-            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes, 1))
+        delta_x = self.xmax-self.xmin
+        rx2m = (self.x - position[0] - delta_x) ** 2
+        rx2 = (self.x - position[0]) ** 2
+        rx2p = (self.x - position[0] + delta_x) ** 2
 
-            ry2m = (self.y - position[1] - self.ymax) ** 2
+        r2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes))
+
+        if self.dim > 1:
+            r2 = r2.reshape((self.xRes, 1))
+
+            delta_y = self.ymax-self.ymin
+            ry2m = (self.y - position[1] - delta_y) ** 2
             ry2 = (self.y - position[1]) ** 2
-            ry2p = (self.y - position[1] + self.ymax) ** 2
+            ry2p = (self.y - position[1] + delta_y) ** 2
             ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes))
 
-            return rx2 + ry2
-
-        elif self.dim == 3:
-            rx2m = (self.x - position[0] - self.xmax) ** 2
-            rx2 = (self.x - position[0]) ** 2
-            rx2p = (self.x - position[0] + self.xmax) ** 2
-            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes, 1, 1))
-
-            ry2m = (self.y - position[1] - self.ymax) ** 2
-            ry2 = (self.y - position[1]) ** 2
-            ry2p = (self.y - position[1] + self.ymax) ** 2
-            ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes, 1))
-
-            rz2m = (self.z - position[2] - self.zmax) ** 2
+            r2 += ry2
+        
+        if self.dim > 2:
+            r2 = r2.reshape((self.xRes, self.yRes, 1))
+            
+            delta_z = self.zmax-self.zmin
+            rz2m = (self.z - position[2] - delta_z) ** 2
             rz2 = (self.z - position[2]) ** 2
-            rz2p = (self.z - position[2] + self.zmax) ** 2
+            rz2p = (self.z - position[2] + delta_z) ** 2
             rz2 = np.min(np.stack((rz2m, rz2, rz2p)), axis=0).reshape((1, 1, self.zRes))
 
-            return rx2 + ry2 + rz2
+            r2 += rz2
+
+        return r2
 
     def calc_region_cylinder(self, position, radius, normal_vector, height):
         """
@@ -1197,7 +1225,7 @@ class BaseSystem:
                     x, y = np.meshgrid(x_range, y_range)
 
                     # Height of the grid (z-coordinates)
-                    z = np.zeros_like(x)
+                    z = np.zeros_like(x)+self.zmin
 
                     # Plot the grid as a flat surface
                     grid_surf = mlab.mesh(x, y, z, color=color,opacity=opacity)
@@ -1225,15 +1253,17 @@ class BaseSystem:
                     y, z = np.meshgrid(y_range, z_range)
 
                     # Height of the grid (z-coordinates)
-                    x = np.zeros_like(y) 
+                    x = np.zeros_like(y) + self.zmin
 
                     # Plot the grid as a flat surface
                     grid_surf = mlab.mesh(x, y, z, color=color,opacity=opacity)
             
             #Create axes:
             # Define the vertices of the cube
-            vertices = np.array([[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0],
-                                [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]])*np.array([self.xmax, self.ymax, self.zmax])
+            vertices = np.array([self.xmin, self.ymin, self.zmin]) \
+                            +np.array([[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0],
+                                [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]])\
+                                    *np.array([self.xmax-self.xmin, self.ymax-self.ymin, self.zmax-self.zmin])
 
             # Define the triangles that make up the six faces of the cube
             # Each face is made up of 2 triangles
@@ -1422,9 +1452,18 @@ class BaseSystem:
             if plotting_lib == 'mayavi':
                 scene = kwargs.get('scene', mlab.figure())
 
-                mlab.contour3d(X, Y, Z, field, contours=layer_values.tolist(), opacity=0.5, colormap='viridis')
-                axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', figure=scene, 
-                        nb_labels=5, ranges=(0, 5, 0, 5, -1, 1))
+                contour = mlab.contour3d(X, Y, Z, field, contours=layer_values.tolist(), opacity=0.5, colormap='viridis')
+                # axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', figure=scene, 
+                #         nb_labels=5, ranges=(0, 5, 0, 5, -1, 1))
+
+                self.plot_set_scene_properties(**kwargs)
+
+                colorbar = kwargs.get('colorbar', True)
+                if colorbar:
+                    cb = mlab.colorbar(object=contour, nb_labels=5)
+
+
+
                 mlab.view(-135,60)
 
             elif plotting_lib == 'matplotlib':
@@ -1787,6 +1826,9 @@ class BaseSystem:
 
                     # Assuming theta is defined on the same grid as rho
                     x, y, z = np.mgrid[0:rho_normalized.shape[0], 0:rho_normalized.shape[1], 0:rho_normalized.shape[2]]
+                    x = self.xmin+x*self.dx
+                    y = self.ymin+y*self.dy
+                    z = self.zmin+z*self.dz
 
                     # Flatten the grid for interpolation
                     points = np.c_[x.ravel(), y.ravel(), z.ravel()]
@@ -1861,149 +1903,8 @@ class BaseSystem:
             raise Exception("This plotting function not yet configured for other dimension")
 
     def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
-                            colorbar=True, colormap = 'winter', clim = None):
-        """
-        Plots the field in a plane perpendicular to the given normal vector.
-
-        Input:
-            field (array-like): The field to be plotted.
-            normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
-            position (array-like, optional): The position of the plane. Default is the middle of the system.
-            ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
-            colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
-            colormap (str, optional): The colormap to use for the plot. Default is 'winter'.
-        
-        Output:
-            matplotlib.axes.Axes: The axes containing the plot.
-        """
-
-        if self.dim != 3:
-            raise Exception("This plotting function not yet configured for other dimensions")
-
-        if position is None:
-            position = self.rmid
-
-        if ax is None:
-            plt.clf()
-            ax = plt.gcf().add_subplot(111, projection='3d')
-
-        unit_vector1, unit_vector2, t = tool_create_orthonormal_triad(normal_vector)
-
-        sizes = [self.xmax-self.xmin-self.dx,
-                 self.ymax-self.ymin-self.dy,
-                 self.zmax-self.zmin-self.dz]
-        max_size = max(sizes)
-        dr = [self.dx, self.dy, self.dz]
-        min_step = min(dr)
-        linear_mesh = np.arange(-1*max_size,1*max_size, min_step)
-
-        #Mesh containing x- and y-coordinates on the plane
-        [X0,Y0] = np.meshgrid(linear_mesh, linear_mesh, indexing='ij')
-
-        #Mesh containing the true x-, y- and z-coordinates on the plane
-        R = [position[i] + unit_vector1[i] * X0 + unit_vector2[i] * Y0 for i in range(3)]
-
-        #Remove excess points from R outside of the domain
-        points_to_exclude = np.zeros_like(X0)
-        points_to_exclude += (R[0] > (self.xmax-self.dx)) + (R[0] < self.xmin)
-        points_to_exclude += (R[1] > (self.ymax-self.dy)) + (R[1] < self.ymin)
-        points_to_exclude += (R[2] > (self.zmax-self.dz)) + (R[2] < self.zmin)
-        points_to_exclude = points_to_exclude.astype(bool)
-
-        # print("xmin:", self.xmin)
-        # print("Lmax:", self.xmax-self.dx)
-        # print("ymin:", self.ymin)
-        # print("Lmax:", self.ymax-self.dy)
-        # print("zmin:", self.zmin)
-        # print("Lmax:", self.zmax-self.dz)
-        for i in range(3):
-            R[i][points_to_exclude] = 0
-
-        #For each point in R, find:
-        #   1. The true index (float) of the point in the matrix closest to the point in R
-        rmin = [self.xmin, self.ymin, self.zmin]
-        Ri = [(R[i]-rmin[i])/dr[i] for i in range(3)]
-
-        # 2. The lower and upper limit of the integer index of the point in the matrix closest to the point in R
-        RiLH = []
-        Res = [self.xRes,self.yRes,self.zRes]
-        for i in range(3):
-            Ri_floor = np.floor(Ri[i])
-
-            Ri_ceil = np.ceil(Ri[i])
-
-            # Adjusting floor and ceil for integer values of Ri
-            is_integer = Ri[i] == Ri[i].astype(int)
-            # print(is_integer)
-            # Decrease floor by 1 if Ri is not at lower boundary
-            Ri_floor[is_integer & (Ri[i] > 0)] -= 1
-
-            # Increase ceil by 1 if Ri is not at upper boundary
-            Ri_ceil[is_integer & (Ri[i] == 0)] += 1
-
-            RiLH.append([Ri_floor, Ri_ceil])
-
-
-        # 3. The index distances between the point in R and the point in the matrix closest to it
-        dRi = [[Ri[i] - RiLH[i][0], RiLH[i][1] - Ri[i]] for i in range(3)]
-
-        field_on_plane = np.zeros_like(X0)
-        resolution_on_plane = len(linear_mesh)
-
-        for ix in [0, 1]:
-            for iy in [0, 1]:
-                for iz in [0, 1]:
-                    field_on_plane= field_on_plane \
-                                           + field[RiLH[0][ix].astype(int),
-                                                    RiLH[1][iy].astype(int),
-                                                    RiLH[2][iz].astype(int)] * \
-                                               (1 - dRi[0][ix]) * \
-                                               (1 - dRi[1][iy]) * \
-                                               (1 - dRi[2][iz])
-
-        # field_on_plane[points_to_exclude] = np.nan
-        for i in range(3):
-            R[i][points_to_exclude] = np.nan
-
-        if clim is None:
-            cmin = np.nanmin(field_on_plane)
-            cmax = np.nanmax(field_on_plane)
-        else:
-            cmin = clim[0]
-            cmax = clim[1]
-
-        # Normalize the field data
-        norm = mcolors.Normalize(vmin=cmin, vmax=cmax, clip=True)
-
-        if colormap == 'angle':
-            colormap = tool_colormap_angle()
-        elif colormap == 'bluewhitered':
-            colormap = tool_colormap_bluewhitered()
-        else:
-            colormap = plt.get_cmap(colormap)
-
-        # Apply the colormap to your field datav
-        field_on_plane_colors = colormap(norm(field_on_plane))
-
-        # Set NaNs to transparent
-        field_on_plane_colors[np.isnan(field_on_plane)] = [0, 0, 0, 0]
-
-        ax.plot_surface(R[0] / self.a0, R[1] / self.a0, R[2] / self.a0, facecolors=field_on_plane_colors,
-                        rstride=1,cstride=1, alpha=1)
-    
-
-        ax.set_xlim3d(self.xmin/self.a0, (self.xmax - self.dx)/self.a0)
-        ax.set_ylim3d(self.ymin/self.a0, (self.ymax - self.dy)/self.a0)
-        ax.set_zlim3d(self.zmin/self.a0, (self.zmax - self.dz)/self.a0)
-        ax.set_aspect('equal')
-        ax.set_xlabel('$x/a_0$')
-        ax.set_ylabel('$y/a_0$')
-        ax.set_zlabel('$z/a_0$')
-
-        return ax
-
-    def plot_field_in_plane2(self, field, normal_vector=[0,1,0], position=None, ax=None,
-                         colorbar=True, colormap='winter', clim=None):
+                         colorbar=True, colormap='viridis', clim=None, plotting_lib='matplotlib',
+                         **kwargs):
         """
         Plots the field in a plane perpendicular to the given normal vector using
         scipy.interpolate.griddata and plt.plot_trisurf.
@@ -2014,7 +1915,7 @@ class BaseSystem:
             position (array-like, optional): The position of the plane. Default is the middle of the system.
             ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
             colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
-            colormap (str, optional): The colormap to use for the plot. Default is 'winter'.
+            colormap (str, optional): The colormap to use for the plot. 
         
         Output:
             matplotlib.axes.Axes: The axes containing the plot.
@@ -2054,7 +1955,7 @@ class BaseSystem:
         field_values = field.ravel()
 
         # Interpolate field at the vertices positions
-        field_verts = sp.interpolate.griddata(points, field_values, centroids, method='linear')
+        field_verts = sp.interpolate.griddata(points, field_values, centroids, method='nearest')
 
         # Normalize field values for color mapping
         field_normalized = (field_verts - np.min(field_verts)) / (np.max(field_verts) - np.min(field_verts))
@@ -2062,24 +1963,64 @@ class BaseSystem:
         # Map normalized field values to colors
         colors = colormap(field_normalized)
 
-        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
-                        self.ymin+verts[:, 1]*self.dy,
-                        faces,
-                        self.zmin+verts[:, 2]*self.dz,
-                        facecolor=colors, antialiased=False)
 
-        ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-        ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-        ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+        if plotting_lib == 'matplotlib':
 
-        ax.set_aspect('equal')
+            ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
+                            self.ymin+verts[:, 1]*self.dy,
+                            faces,
+                            self.zmin+verts[:, 2]*self.dz,
+                            facecolor=colors, antialiased=False)
 
-        ax.set_xlabel("$x/a_0$")
-        ax.set_ylabel("$y/a_0$")
-        ax.set_zlabel("$z/a_0$")
-        ax.set_aspect('equal')
+            if colorbar:
+                sm = plt.cm.ScalarMappable(cmap=colormap)    
+                cbar = plt.colorbar(sm, ax=ax)
 
-        return ax
+            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
+            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
+            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+
+            ax.set_aspect('equal')
+
+            ax.set_xlabel("$x/a_0$")
+            ax.set_ylabel("$y/a_0$")
+            ax.set_zlabel("$z/a_0$")
+            ax.set_aspect('equal')
+
+            return ax
+        
+        elif plotting_lib == 'mayavi':
+            fig = kwargs.get('fig', 
+                            mlab.gcf() if mlab.get_engine() else mlab.figure(bgcolor=(0.5, 0.5, 0.5)))
+                    
+            # TODO: It might be faster to update the data sources for plotting with mayavi (Vidar 15.02.24)
+            hold = kwargs.get('hold', False)
+            if not hold:
+                mlab.clf()
+
+            vertex_values = np.zeros(verts.shape[0])
+            for i, face in enumerate(faces):
+                for vert in face:
+                    vertex_values[vert] = field_normalized[i]
+            
+            # Now, create the mesh using mlab.triangular_mesh
+            x, y, z = verts.T  # Transpose verts to get separate arrays
+            x = self.xmin+x*self.dx
+            y = self.ymin+y*self.dy
+            z = self.zmin+z*self.dz
+            
+            mesh = mlab.triangular_mesh(x, y, z, faces, representation='surface', opacity=1,
+                                        scalars=vertex_values, colormap='viridis')
+
+            self.plot_set_scene_properties(**kwargs)
+
+            colorbar = kwargs.get('colorbar', True)
+            if colorbar:
+                cb = mlab.colorbar(object=mesh, nb_labels=5)
+
+            # Make sure the scene is rendered
+            QApplication.processEvents()
+            return fig
 
     def plot_angle_field_in_plane(self, angle_field, colorbar=True):
         """
