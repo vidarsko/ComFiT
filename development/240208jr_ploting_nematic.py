@@ -15,15 +15,15 @@ nem.evolve_nematic_no_flow(5,method="ETD4RK")
 
 
 
-for i in range(600):
+#for i in range(600):
 
-    nem.evolve_nematic(10)
-    S,n = nem.calc_order_and_director()
-    nem.plot_field(S,number_of_layers=2,vlim_symmetric=False)
-    plt.draw()
-    plt.pause(0.01)
-    cf.tool_save_plot(i)
-    plt.clf()
-cf.tool_make_animation_gif(i)
+#    nem.evolve_nematic(10)
+#    S,n = nem.calc_order_and_director()
+#    nem.plot_field(S,number_of_layers=2,vlim_symmetric=False)
+#    plt.draw()
+#    plt.pause(0.01)
+#    cf.tool_save_plot(i)
+#    plt.clf()
+cf.tool_make_animation_gif(539)
 
 plt.show()

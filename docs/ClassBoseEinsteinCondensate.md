@@ -861,9 +861,9 @@ size =4
 strength = .9
 
 ### Defining the function for the time-dependent potential
-def V_t():
-    pos_x = bec.xmid + stirrer_radius * np.cos(freq * bec.t)
-    pos_y = bec.ymid + stirrer_radius * np.sin(freq * bec.t)
+def V_t(t):
+    pos_x = bec.xmid + stirrer_radius * np.cos(freq * t)
+    pos_y = bec.ymid + stirrer_radius * np.sin(freq * t)
     stirrer = bec.calc_gaussian_stirring_potential(size, strength, [pos_x, pos_y])
     harmonic = bec.calc_harmonic_potential(R_tf)
     return   harmonic + stirrer
@@ -873,7 +873,7 @@ def V_t():
 
 
 ```python
-### Task 2: Set the potential to the bec.t=0 value of the above function, initialise the Thomas Fermi 
+### Task 2: Set the potential to the time dependent one value, initialise the Thomas Fermi 
 # ground state and relax the system using the  evolve_relax(...) solver for 20 time steps
 
 # bec.V0 = ...
@@ -931,10 +931,10 @@ cf.tool_make_animation(i) (notice indent)
 
 
 ```python
-bec.V0 = V_t()
+const_pot = V_t(bec.time)
 
 
-bec.V_ext = lambda: bec.V0
+bec.conf_external_potential(const_pot, additive=False)
 ```
 
 
@@ -974,9 +974,9 @@ Task 7 (optional): Do the task again, but implement your own time-dependent pote
     strength = .9
 
     ### Defining the function for the time-dependent potential
-    def V_t():
-        pos_x = bec.xmid + stirrer_radius * np.cos(freq * bec.t)
-        pos_y = bec.ymid + stirrer_radius * np.sin(freq * bec.t)
+    def V_t(t):
+        pos_x = bec.xmid + stirrer_radius * np.cos(freq * t)
+        pos_y = bec.ymid + stirrer_radius * np.sin(freq * t)
         stirrer = bec.calc_gaussian_stirring_potential(size, strength, [pos_x, pos_y])
         harmonic = bec.calc_harmonic_potential(R_tf)
         return   harmonic + stirrer
@@ -990,7 +990,7 @@ Task 7 (optional): Do the task again, but implement your own time-dependent pote
 
     ```python
     ######## task 2 #########
-    bec.V0 = V_t()
+    bec.conf_external_potential(V_t, additive=False)
 
     bec.conf_initial_condition_Thomas_Fermi()
 
@@ -1004,7 +1004,6 @@ Task 7 (optional): Do the task again, but implement your own time-dependent pote
     ```python
     #### task 3, 4 and 5
 
-    bec.conf_time_dependent_potential(V_t)
 
     bec.evolve_dGPE( 30, method='ETD4RK') 
 
@@ -1033,10 +1032,10 @@ Task 7 (optional): Do the task again, but implement your own time-dependent pote
 
 
     ```python
-    bec.V0 = V_t()
+    const_pot = V_t(bec.time)
 
 
-    bec.V_ext = lambda: bec.V0
+    bec.conf_external_potential(const_pot, additive=False)
 
     timesteps = int(200/bec.dt)
     bec.evolve_dGPE(timesteps,'ETD4RK')
@@ -1080,8 +1079,10 @@ import comfit as cf
 
     bec = cf.BoseEinsteinCondensate(3,xRes=64,yRes=64,zRes=64,gamma=0,dt=0.1)
 
-    bec.V0 = bec.calc_gaussian_stirring_potential(2,4,[bec.xmid,bec.ymid,bec.zmid])
-
+    pot= bec.calc_gaussian_stirring_potential(2,4,[bec.xmid,bec.ymid,bec.zmid])
+    
+    bec.conf_external_potential(const_pot, additive=False)
+    
     bec.conf_initial_condition_Thomas_Fermi()
     bec.evolve_relax(100)
 
