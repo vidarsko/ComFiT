@@ -491,10 +491,6 @@ class TestBaseSystem(unittest.TestCase):
             self.fail(f"Plotting failed: {e}")
     
 
-
-        
-
-
 if __name__ == '__main__':
     unittest.main()
 

@@ -117,291 +117,291 @@ been chosen so that the first $d$ primary LVs are primitive LVs which satisfy th
 
 ---
 
-### 1D periodic
+=== "1D periodic"
 
-Lattice constant
+    Lattice constant
 
-$$
-a_0 = 2\pi
-$$
+    $$
+    a_0 = 2\pi
+    $$
 
-Primary RLVs
+    Primary RLVs
 
-$$
-\mathcal R_{\textrm{per}}^{(1)} =
-\left \lbrace
-\begin{array}{l}
-    q^{(1)} = 1  \\
-    q^{(-1)}= - q^{(1)}
-\end{array}
-\right \rbrace
-$$
+    $$
+    \mathcal R_{\textrm{per}}^{(1)} =
+    \left \lbrace
+    \begin{array}{l}
+        q^{(1)} = 1  \\
+        q^{(-1)}= - q^{(1)}
+    \end{array}
+    \right \rbrace
+    $$
 
-Primary BLVs
+    Primary BLVs
 
-$$
-\mathcal B_{\textrm{per}}^{(1)} =
-\left \lbrace
-\begin{array}{l}
-    a^{(1)} = a_0  \\
-    a^{(-1)} = -\mathbf a^{(1)}
-\end{array}
-\right \rbrace
-$$
+    $$
+    \mathcal B_{\textrm{per}}^{(1)} =
+    \left \lbrace
+    \begin{array}{l}
+        a^{(1)} = a_0  \\
+        a^{(-1)} = -\mathbf a^{(1)}
+    \end{array}
+    \right \rbrace
+    $$
 
-### 2D Triangular
+=== "2D Triangular"
 
-Lattice constant
+    Lattice constant
 
-$$
-a_0 = \frac{4\pi}{\sqrt 3}
-$$
+    $$
+    a_0 = \frac{4\pi}{\sqrt 3}
+    $$
 
-Primary RLVs
+    Primary RLVs
 
-$$
-\mathcal R_{\textrm{tri}}^{(1)} = {
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(1)} = (\sqrt 3/2,-1/2)  \\
-    \mathbf q^{(2)} = (0,1) \\
-    \mathbf q^{(3)} = (-\sqrt 3/2,-1/2) \\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,2,3} \\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal R_{\textrm{tri}}^{(1)} = {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(1)} = (\sqrt 3/2,-1/2)  \\
+        \mathbf q^{(2)} = (0,1) \\
+        \mathbf q^{(3)} = (-\sqrt 3/2,-1/2) \\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,2,3} \\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-Primary BLVs
+    Primary BLVs
 
-$$
-\mathcal B_{\textrm{tri}}^{(1)} = {
-\left \lbrace
-\begin{array}{l}
-    \mathbf a^{(1)} = a_0(1,0)  \\
-    \mathbf a^{(2)} = a_0(1/2,\sqrt 3/2) \\
-    \mathbf a^{(3)} = a_0(1/2,-\sqrt 3/2) \\
-    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,2,3}  \\
-\end{array}
-\right \rbrace }
-$$
+    $$
+    \mathcal B_{\textrm{tri}}^{(1)} = {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf a^{(1)} = a_0(1,0)  \\
+        \mathbf a^{(2)} = a_0(1/2,\sqrt 3/2) \\
+        \mathbf a^{(3)} = a_0(1/2,-\sqrt 3/2) \\
+        \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,2,3}  \\
+    \end{array}
+    \right \rbrace }
+    $$
 
-### 2D square
+=== "2D square"
 
-Lattice constant
-$$
-a_0 = 2\pi
-$$
+    Lattice constant
+    $$
+    a_0 = 2\pi
+    $$
 
-Primary RLVs
+    Primary RLVs
 
-$$
-\mathcal B_{\textrm{sq}}^{(1)} =
-\left \lbrace
-\begin{array}{l}
-    \mathbf a^{(1)} = a_0(1,0)  \\
-    \mathbf a^{(2)} = a_0(0,1)  \\
-    \mathbf a^{(-1)},\mathbf a^{(-2)}
-\end{array}
-\right \rbrace
-$$
+    $$
+    \mathcal B_{\textrm{sq}}^{(1)} =
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf a^{(1)} = a_0(1,0)  \\
+        \mathbf a^{(2)} = a_0(0,1)  \\
+        \mathbf a^{(-1)},\mathbf a^{(-2)}
+    \end{array}
+    \right \rbrace
+    $$
 
-Primary Bravais Lattice vectors
+    Primary Bravais Lattice vectors
 
-$$
-\mathcal R_{\textrm{sq}}^{(1)} = {
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(1)} = (1,0)  \\
-    \mathbf q^{(2)} = (0,1) \\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2} \\
-\end{array}
-\right \rbrace}
-$$
+    $$
+    \mathcal R_{\textrm{sq}}^{(1)} = {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(1)} = (1,0)  \\
+        \mathbf q^{(2)} = (0,1) \\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2} \\
+    \end{array}
+    \right \rbrace}
+    $$
 
-$$
-\mathcal R_{\textrm{sq}}^{(2)} =
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(3)} = (1,-1)  \\
-    \mathbf q^{(4)} = (1,1) \\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=3,4} \\
-\end{array}
-\right \rbrace
-$$
+    $$
+    \mathcal R_{\textrm{sq}}^{(2)} =
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(3)} = (1,-1)  \\
+        \mathbf q^{(4)} = (1,1) \\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=3,4} \\
+    \end{array}
+    \right \rbrace
+    $$
 
-### 3D body-centered cubic
+=== "3D body-centered cubic"
 
-Lattice constant
+    Lattice constant
 
-$$
-a_0 = 2\pi \sqrt {2}
-$$
+    $$
+    a_0 = 2\pi \sqrt {2}
+    $$
 
-Primary BLVs
+    Primary BLVs
 
-$$
-\mathcal B_{\textrm{bcc}}^{(1)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf a^{(1)} = a_0(-1,1,1)/2  \\
-    \mathbf a^{(2)} = a_0(1,-1,1)/2 \\
-    \mathbf a^{(3)} = a_0(1,1,-1)/2\\
-    \mathbf a^{(4)} = a_0(1,1,1)/2\\
-    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,...,4} \\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal B_{\textrm{bcc}}^{(1)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf a^{(1)} = a_0(-1,1,1)/2  \\
+        \mathbf a^{(2)} = a_0(1,-1,1)/2 \\
+        \mathbf a^{(3)} = a_0(1,1,-1)/2\\
+        \mathbf a^{(4)} = a_0(1,1,1)/2\\
+        \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,...,4} \\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-Primary RLVs
+    Primary RLVs
 
-$$
-\mathcal R_{\textrm{bcc}}^{(1)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(1)} = (0,1,1)/\sqrt 2  \\
-    \mathbf q^{(2)} = (1,0,1)/\sqrt 2 \\
-    \mathbf q^{(3)} = (1,1,0)/\sqrt 2\\
-    \mathbf q^{(4)} = (0,-1,1)/\sqrt 2\\
-    \mathbf q^{(5)} = (-1,0,1)/\sqrt 2\\
-    \mathbf q^{(6)} = (-1,1,0)/\sqrt 2\\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,...6} \\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal R_{\textrm{bcc}}^{(1)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(1)} = (0,1,1)/\sqrt 2  \\
+        \mathbf q^{(2)} = (1,0,1)/\sqrt 2 \\
+        \mathbf q^{(3)} = (1,1,0)/\sqrt 2\\
+        \mathbf q^{(4)} = (0,-1,1)/\sqrt 2\\
+        \mathbf q^{(5)} = (-1,0,1)/\sqrt 2\\
+        \mathbf q^{(6)} = (-1,1,0)/\sqrt 2\\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,...6} \\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-### 3D face-centered cubic
+=== "3D face-centered cubic"
 
-Lattice constant
+    Lattice constant
 
-$$
-a_0 = 2\pi \sqrt 3
-$$
+    $$
+    a_0 = 2\pi \sqrt 3
+    $$
 
-Primary BLVs
+    Primary BLVs
 
-$$
-\mathcal B_{\textrm{fcc}}^{(1)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf a^{(1)} = a_0(0,1,1)/2  \\
-    \mathbf a^{(2)} = a_0(1,0,1)/2 \\
-    \mathbf a^{(3)} = a_0(1,1,0)/2\\
-    \mathbf a^{(4)} = a_0(0,-1,1)/2\\
-    \mathbf a^{(5)} = a_0(-1,0,1)/2\\
-    \mathbf a^{(6)} = a_0(-1,1,0)/2\\
-    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,...,6} \\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal B_{\textrm{fcc}}^{(1)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf a^{(1)} = a_0(0,1,1)/2  \\
+        \mathbf a^{(2)} = a_0(1,0,1)/2 \\
+        \mathbf a^{(3)} = a_0(1,1,0)/2\\
+        \mathbf a^{(4)} = a_0(0,-1,1)/2\\
+        \mathbf a^{(5)} = a_0(-1,0,1)/2\\
+        \mathbf a^{(6)} = a_0(-1,1,0)/2\\
+        \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,...,6} \\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-Primary RLVs
+    Primary RLVs
 
-$$
-\mathcal R_{\textrm{fcc}}^{(1)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(1)} = (-1,1,1)/\sqrt 3  \\
-    \mathbf q^{(2)} = (1,-1,1)/\sqrt 3 \\
-    \mathbf q^{(3)} = (1,1,-1)/\sqrt 3\\
-    \mathbf q^{(4)} = (1,1,1)/\sqrt 3\\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,...,4}\\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal R_{\textrm{fcc}}^{(1)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(1)} = (-1,1,1)/\sqrt 3  \\
+        \mathbf q^{(2)} = (1,-1,1)/\sqrt 3 \\
+        \mathbf q^{(3)} = (1,1,-1)/\sqrt 3\\
+        \mathbf q^{(4)} = (1,1,1)/\sqrt 3\\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,...,4}\\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-$$
-\mathcal R_{\textrm{fcc}}^{(4/3)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(5)} = (2,0,0)/\sqrt 3  \\
-    \mathbf q^{(6)} = (0,2,0)/\sqrt 3 \\
-    \mathbf q^{(7)} = (0,0,2)/\sqrt 3\\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=5,6,7} \\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal R_{\textrm{fcc}}^{(4/3)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(5)} = (2,0,0)/\sqrt 3  \\
+        \mathbf q^{(6)} = (0,2,0)/\sqrt 3 \\
+        \mathbf q^{(7)} = (0,0,2)/\sqrt 3\\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=5,6,7} \\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-### 3D simple cubic
+=== "3D simple cubic"
 
-Lattice constant
+    Lattice constant
 
-$$
-a_0 = 2\pi
-$$
+    $$
+    a_0 = 2\pi
+    $$
 
-Primary BLVs
+    Primary BLVs
 
-$$
-\mathcal B_{\textrm{sc}}^{(1)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf a^{(1)} = a_0(1,0,0)  \\
-    \mathbf a^{(2)} = a_0(0,1,0) \\
-    \mathbf a^{(3)} = a_0(0,0,1)\\
-    \mathbf a^{(-n)} = - \mathbf a^{(n)}|_{n=1,2,3} \\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal B_{\textrm{sc}}^{(1)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf a^{(1)} = a_0(1,0,0)  \\
+        \mathbf a^{(2)} = a_0(0,1,0) \\
+        \mathbf a^{(3)} = a_0(0,0,1)\\
+        \mathbf a^{(-n)} = - \mathbf a^{(n)}|_{n=1,2,3} \\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-Primary RLVs
+    Primary RLVs
 
-$$
-\mathcal R_{\textrm{sc}}^{(1)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(1)} = (1,0,0)  \\
-    \mathbf q^{(2)} = (0,1,0) \\
-    \mathbf q^{(3)} = (0,0,1)\\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2,3}\\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal R_{\textrm{sc}}^{(1)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(1)} = (1,0,0)  \\
+        \mathbf q^{(2)} = (0,1,0) \\
+        \mathbf q^{(3)} = (0,0,1)\\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2,3}\\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-$$
-\mathcal R_{\textrm{sc}}^{(2)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(4)} = (0,1,1)  \\
-    \mathbf q^{(5)} = (1,0,1) \\
-    \mathbf q^{(6)} = (1,1,0)\\
-    \mathbf q^{(7)} = (0,-1,1)  \\
-    \mathbf q^{(8)} = (-1,0,1) \\
-    \mathbf q^{(9)} = (-1,1,0)\\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=4,...,9} \\\\
-\end{array}
-\right \rbrace
-}
-$$
+    $$
+    \mathcal R_{\textrm{sc}}^{(2)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(4)} = (0,1,1)  \\
+        \mathbf q^{(5)} = (1,0,1) \\
+        \mathbf q^{(6)} = (1,1,0)\\
+        \mathbf q^{(7)} = (0,-1,1)  \\
+        \mathbf q^{(8)} = (-1,0,1) \\
+        \mathbf q^{(9)} = (-1,1,0)\\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=4,...,9} \\\\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
-$$\mathcal R_{\textrm{sc}}^{(3)} =
-{
-\left \lbrace
-\begin{array}{l}
-    \mathbf q^{(10)} = (-1,1,1)  \\
-    \mathbf q^{(11)} = (1,-1,1) \\
-    \mathbf q^{(12)} = (1,1,-1)\\
-    \mathbf q^{(13)} = (1,1,1)\\
-    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=10,...,13} \\
-\end{array}
-\right \rbrace
-}
-$$
+    $$\mathcal R_{\textrm{sc}}^{(3)} =
+    {
+    \left \lbrace
+    \begin{array}{l}
+        \mathbf q^{(10)} = (-1,1,1)  \\
+        \mathbf q^{(11)} = (1,-1,1) \\
+        \mathbf q^{(12)} = (1,1,-1)\\
+        \mathbf q^{(13)} = (1,1,1)\\
+        \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=10,...,13} \\
+    \end{array}
+    \right \rbrace
+    }
+    $$
 
 ## Initialization
 
@@ -411,95 +411,95 @@ consists of the equilibrium values of the amplitudes to begin with.
 The elastic constants are defined and saved as
 `el_mu, el_lambda, el_gamma`.
 
-### 1D periodic
+=== "1D periodic"
 
-Default resolution
+    Default resolution
 
-Default model parameters $(r,\psi_0)$:
+    Default model parameters $(r,\psi_0)$:
 
-Equilibrium amplitude equations
+    Equilibrium amplitude equations
 
-### 2D triangular
+=== "2D triangular"
 
-Default resolution: $[7,12]^{-1}a_0$
+    Default resolution: $[7,12]^{-1}a_0$
 
-Default model parameters $(r,\psi_0)$: $(-0.3,-0.3)$
+    Default model parameters $(r,\psi_0)$: $(-0.3,-0.3)$
 
-Equilibrium amplitude equation [^elderModelingElasticPlastic2004]
+    Equilibrium amplitude equation [^elderModelingElasticPlastic2004]
 
-$$
-\left \lbrace A= -\frac{1}{5} \psi_0 + \frac{1}{15}\sqrt{- 15r - 36\psi_0^2} \right \rbrace
-$$
+    $$
+    \left \lbrace A= -\frac{1}{5} \psi_0 + \frac{1}{15}\sqrt{- 15r - 36\psi_0^2} \right \rbrace
+    $$
 
-### 2D square
+=== "2D square"
 
-Default resolution: $[7,7]^{-1}a_0$
+    Default resolution: $[7,7]^{-1}a_0$
 
-Default model parameters $(r,\psi_0)$: $(-0.3,-0.3)$
+    Default model parameters $(r,\psi_0)$: $(-0.3,-0.3)$
 
-Equilibrium amplitude equations [^emdadiRevisitingPhaseDiagrams2016]
+    Equilibrium amplitude equations [^emdadiRevisitingPhaseDiagrams2016]
 
-$$
-\left \lbrace
-         \begin{array}{rl}
-         12 \psi_0^2 A + 48 \psi_0 A B + 36 A^3 + 72 A B^2 + 4A r &=0 \\
-         12 \psi_0^2 B + 24 \psi_0 A^2 + 36 B^3 + 72 A^2 B + 4Br  &= 0\\
-         \end{array}
-\right \rbrace
-$$
+    $$
+    \left \lbrace
+            \begin{array}{rl}
+            12 \psi_0^2 A + 48 \psi_0 A B + 36 A^3 + 72 A B^2 + 4A r &=0 \\
+            12 \psi_0^2 B + 24 \psi_0 A^2 + 36 B^3 + 72 A^2 B + 4Br  &= 0\\
+            \end{array}
+    \right \rbrace
+    $$
 
-### 3D body-centered cubic
+=== "3D body-centered cubic"
 
-Default resolution: $[7,7,7]^{-1}a_0$
+    Default resolution: $[7,7,7]^{-1}a_0$
 
-Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
+    Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
 
-Equilibrium amplitude equations [^wuPhasefieldCrystalModeling2007]
+    Equilibrium amplitude equations [^wuPhasefieldCrystalModeling2007]
 
-$$
-\left \lbrace A = -\frac{2}{15}\psi_0 + \frac{1}{15} \sqrt{-5r - 11 \psi_0^2} \right \rbrace
-$$
+    $$
+    \left \lbrace A = -\frac{2}{15}\psi_0 + \frac{1}{15} \sqrt{-5r - 11 \psi_0^2} \right \rbrace
+    $$
 
-### 3D face-centered cubic
+=== "3D face-centered cubic"
 
-Default resolution: $[11,11,11]^{-1}a_0$
+    Default resolution: $[11,11,11]^{-1}a_0$
 
-Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
+    Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
 
-Equilibrium amplitude equations [^wuPhasefieldcrystalModelFcc2010]
+    Equilibrium amplitude equations [^wuPhasefieldcrystalModelFcc2010]
 
-$$
-         \left \lbrace
-         \begin{array}{rl}
-          27 A^2 + 36 B^2 + 18 B \psi_0 + 3 \psi_0^2 + r &=0 \\
-          72 A^2 (4 B + \psi_0) + 90 B^3 + 18 B \psi_0^2 + 6 B r &=0\\
-          \end{array}
-          \right \rbrace
-$$
+    $$
+    \left \lbrace
+    \begin{array}{rl}
+    27 A^2 + 36 B^2 + 18 B \psi_0 + 3 \psi_0^2 + r &=0 \\
+    72 A^2 (4 B + \psi_0) + 90 B^3 + 18 B \psi_0^2 + 6 B r &=0\\
+    \end{array}
+    \right \rbrace
+    $$
 
-### 3D simple cubic
+=== "3D simple cubic"
 
-Default resolution: $[5,5,5]^{-1}a_0$
+    Default resolution: $[5,5,5]^{-1}a_0$
 
-Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
+    Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
 
-Equilibrium amplitude equations [^skogvollStressOrderedSystems2021]
+    Equilibrium amplitude equations [^skogvollStressOrderedSystems2021]
 
-$$
-\left \lbrace
-         \begin{array}{rl}
-         15 A^3 + 24 A^2 C + 24 B C (3 B + \psi_0)
-         + 96 AB^2 + 36 AC^2 + 24 AB \psi_0
-         + 3A \psi_0^2 + Ar &= 0, \\
-        12 A C (6 B + \psi_0) + 6 A^2 (8 B + \psi_0)
-        +  45 B^3 + 54 BC^2 + 12 B^2 \psi_0
-        + 3B \psi_0^2 + Br &=0  \\
-        6 A^3 + 27 A^2 C + 18 A B (3 B + \psi_0)
-        +   81 B^2C + 27 C^3  
-        + 3 C \psi_0^2 + Cr &=0 \\
-        \end{array}
-          \right \rbrace
-$$
+    $$
+    \left \lbrace
+    \begin{array}{rl}
+    15 A^3 + 24 A^2 C + 24 B C (3 B + \psi_0)
+    + 96 AB^2 + 36 AC^2 + 24 AB \psi_0
+    + 3A \psi_0^2 + Ar &= 0, \\
+    12 A C (6 B + \psi_0) + 6 A^2 (8 B + \psi_0)
+    +  45 B^3 + 54 BC^2 + 12 B^2 \psi_0
+    + 3B \psi_0^2 + Br &=0  \\
+    6 A^3 + 27 A^2 C + 18 A B (3 B + \psi_0)
+    +   81 B^2C + 27 C^3  
+    + 3 C \psi_0^2 + Cr &=0 \\
+    \end{array}
+    \right \rbrace
+    $$
 
 ## Demodulation
 
@@ -531,94 +531,94 @@ $$
 \left \langle \tilde \mu_c \nabla \psi - \nabla \tilde f \right \rangle
 $$
 
-### 1D periodic
+=== "1D periodic"
 
-Stress tensor
+    Stress tensor
 
-Elastic constants
+    Elastic constants
 
-$$
-\lambda =
-$$
+    $$
+    \lambda =
+    $$
 
-$$
-\mu =
-$$
+    $$
+    \mu =
+    $$
 
-$$
-\gamma =
-$$
+    $$
+    \gamma =
+    $$
 
-### 2D triangular
+=== "2D triangular"
 
-Stress tensor
+    Stress tensor
 
-$$
-h_{ij} = -2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle
-$$
+    $$
+    h_{ij} = -2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle
+    $$
 
-Elastic constants
+    Elastic constants
 
-$$\lambda = 3A^2$$
+    $$\lambda = 3A^2$$
 
-$$\mu = 3A^2$$
+    $$\mu = 3A^2$$
 
-$$\gamma = 0$$
+    $$\gamma = 0$$
 
-### 2D square
+=== "2D square"
 
-Stress tensor
-$$ h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_2 \psi)(\mathcal L_1 + \mathcal L_2) \partial_{ij} \psi \right \rangle$$
+    Stress tensor
+    $$ h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_2 \psi)(\mathcal L_1 + \mathcal L_2) \partial_{ij} \psi \right \rangle$$
 
-Elastic constants
+    Elastic constants
 
-$$\lambda = 16B^2$$
+    $$\lambda = 16B^2$$
 
-$$\mu = 16B^2$$
+    $$\mu = 16B^2$$
 
-$$\gamma = 8A^2-32B^2$$
+    $$\gamma = 8A^2-32B^2$$
 
-### 3D body-centered cubic
+=== "3D body-centered cubic"
 
-Stress tensor
+    Stress tensor
 
-$$h_{ij} = -2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle$$
+    $$h_{ij} = -2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle$$
 
-Elastic constants
+    Elastic constants
 
-$$\lambda = 4 A^2$$
+    $$\lambda = 4 A^2$$
 
-$$\mu = 4 A^2$$
+    $$\mu = 4 A^2$$
 
-$$\gamma = -4A^2$$
+    $$\gamma = -4A^2$$
 
-### 3D face-centered cubic
+=== "3D face-centered cubic"
 
-Stress tensor
+    Stress tensor
 
-$$h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_{\frac 4 3} \psi)(\mathcal L_1 + \mathcal L_{\frac 4 3}) \partial_{ij} \psi \right \rangle$$
+    $$h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_{\frac 4 3} \psi)(\mathcal L_1 + \mathcal L_{\frac 4 3}) \partial_{ij} \psi \right \rangle$$
 
-Elastic constants
+    Elastic constants
 
-$$\lambda = \frac{32}{81} A^2$$
+    $$\lambda = \frac{32}{81} A^2$$
 
-$$\mu = \frac{32}{81} A^2$$
+    $$\mu = \frac{32}{81} A^2$$
 
-$$\gamma = \frac{32}{81} (2B^2 - A^2)$$
+    $$\gamma = \frac{32}{81} (2B^2 - A^2)$$
 
-### 3D simple cubic
+=== "3D simple cubic"
 
-Stress tensor
+    Stress tensor
 
-$$h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_2 \mathcal L_3 \psi)(\mathcal L_2 \mathcal L_3 + \mathcal L_1 \mathcal L_3 + \mathcal L_1 \mathcal L_2) \partial_{ij} \psi \right \rangle$$
+    $$h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_2 \mathcal L_3 \psi)(\mathcal L_2 \mathcal L_3 + \mathcal L_1 \mathcal L_3 + \mathcal L_1 \mathcal L_2) \partial_{ij} \psi \right \rangle$$
 
-Elastic constants
+    Elastic constants
 
-$$\lambda = 16 B^2 + 128 C^2$$
+    $$\lambda = 16 B^2 + 128 C^2$$
 
-$$\mu = 16 B^2 + 128 C^2$$
+    $$\mu = 16 B^2 + 128 C^2$$
 
-$$\gamma = 32 A^2 - 16 B^2 - 256 C^2$$
+    $$\gamma = 32 A^2 - 16 B^2 - 256 C^2$$
 
 ## Equations of motion
 
@@ -817,7 +817,7 @@ Dislocation charge
 
 Using the primary BLVs we get the charges summarized below
 
-### 2D triangular
+=== "2D triangular"
 
 |Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | $s_3$ |
 |------------------------| ----- | ----- | ----- |
@@ -825,14 +825,14 @@ Using the primary BLVs we get the charges summarized below
 |$\mathbf a^{(2)} = a_0 (1/2,\sqrt 3/2)$     | $0$ | $\color{red} 1$ | $\color{blue}-1$|
 |$\mathbf a^{(3)} = a_0 (1/2,-\sqrt 3/2)$    | $\color{red} 1$ | $\color{blue}-1$ | $0$|
 
-### 2D square
+=== "2D square"
 
 |Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | | $s_3$ | $s_4$ |
 |------------------------| ----- | ----- |-| ----- | ----- |
 |$\mathbf a^{(1)} = a_0 (1,0)$ | $\color{red} 1$ | $0$ | |$\color{red} 1$ | $\color{red} 1$|
 |$\mathbf a^{(2)} = a_0(0,1)$ | $0$ | $\color{red} 1$ | | $\color{blue}-1$ | $\color{red} 1$|
 
-### 3D body-centered cubic
+=== "3D body-centered cubic"
 
 |Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | $s_3$ | $s_4$ | $s_5$ | $s_6$ |
 |------------------------| ----- | ----- | ----- | ----- | ----- | ----- |
@@ -841,7 +841,7 @@ Using the primary BLVs we get the charges summarized below
 |$\mathbf a^{(3)} = a_0/2 (1,1,-1)$ | $0$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{blue}-1$ | $0$|
 |$\mathbf a^{(4)} = a_0/2 (1,1,1)$ | $\color{red} 1$ | $\color{red} 1$ | $\color{red} 1$ | $0$ | $0$ | $0$|
 
-### 3D face-centered cubic
+=== "3D face-centered cubic"
 
 |Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | $s_3$ | $s_4$ | | $s_5$ | $s_6$ | $s_7$ |
 |------------------------| ----- | ----- | ----- | ----- |-| ----- | ----- | ----- |
@@ -852,7 +852,7 @@ Using the primary BLVs we get the charges summarized below
 |$\mathbf a^{(5)} = a_0/2 (-1,0,1)$ | $\color{red} 1$ | $0$ | $\color{blue}-1$ | $0$ | |$\color{blue}-1$ | $0$ | $\color{red} 1$|
 |$\mathbf a^{(6)} = a_0/2(-1,1,0)$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | $0$ | |$\color{blue}-1$| $\color{red} 1$ | $0$|
 
-### 3D simple cubic
+=== "3D simple cubic"
 
 | Burgers vector $\mathbf b$ | $s_1$ | $s_2$ | $s_3$ | | $s_4$ | $s_5$ | $s_6$ | $s_7$ | $s_8$ | $s_9$ | | $s_{10}$  | $s_{11}$ | $s_{12}$ | $s_{13}$ |
 |-------------------------|-------|-------|-------|-|-------|-------|-------|-------|-------|-------|-| ----------|----------|----------|----------|

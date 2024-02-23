@@ -10,6 +10,7 @@ theme:
     - search.highlight
     - content.code.annotation
     - content.code.copy
+    - content.tabs
   palette:
     - scheme: default
       toggle:
@@ -51,6 +52,8 @@ markdown_extensions:
   - footnotes
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.mark
   - attr_list
 
