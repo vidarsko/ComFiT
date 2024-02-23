@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://vidarsko.github.io/ComFiT/](https://vidarsko.github.io/ComFiT/).
 
+## [1.3.0] - 2024-02-24
+- All mayavi functionality removed and placed in optional extension (ComFiT-mayavi)
+
+## [1.2.2] - 2024-02-24
+- Relaxed vtk requirement
+
+## [1.2.1] - 2024-02-24
+- Made a wheel for the distribution
+
 ## [1.2.0] - 2024-02-24
 - Bug fixes and stability imrpovements.
 - Included the Mayavi package fro 3D plotting. 

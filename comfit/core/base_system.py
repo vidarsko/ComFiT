@@ -1449,22 +1449,7 @@ class BaseSystem:
                 layer_values = np.linspace(cmin, cmax, number_of_layers + 2)
 
 
-            if plotting_lib == 'mayavi':
-                scene = kwargs.get('scene', mlab.figure())
-
-                contour = mlab.contour3d(X, Y, Z, field, contours=layer_values.tolist(), opacity=0.5, colormap='viridis')
-                # axes = mlab.axes(xlabel='x/a0', ylabel='y/a0', zlabel='z/a0', figure=scene, 
-                #         nb_labels=5, ranges=(0, 5, 0, 5, -1, 1))
-
-                self.plot_set_scene_properties(**kwargs)
-
-                colorbar = kwargs.get('colorbar', True)
-                if colorbar:
-                    cb = mlab.colorbar(object=contour, nb_labels=5)
-
-
-
-                mlab.view(-135,60)
+            
 
             elif plotting_lib == 'matplotlib':
 
