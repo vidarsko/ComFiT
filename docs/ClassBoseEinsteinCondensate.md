@@ -770,7 +770,8 @@ plt.show()
     ### task 1 and 2
 
 
-    bec.V0 = bec.calc_gaussian_stirring_potential(5, 4, [bec.xmid+50,bec.ymid] )
+    pot = bec.calc_gaussian_stirring_potential(5, 4, [bec.xmid+50,bec.ymid] )
+    bec.conf_external_potential(pot, additive=False)
 
     bec.conf_initial_condition_Thomas_Fermi()
 
@@ -876,7 +877,7 @@ def V_t(t):
 ### Task 2: Set the potential to the time dependent one value, initialise the Thomas Fermi 
 # ground state and relax the system using the  evolve_relax(...) solver for 20 time steps
 
-# bec.V0 = ...
+# 
 
 
 
