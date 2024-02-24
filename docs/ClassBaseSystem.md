@@ -49,7 +49,9 @@ From these keywords, a number of useful parameters are constructed, given in the
 
 Note that even though variables like `yRes`, `zRes` etc. are defined in cases where they are not relevant, such as for a $1$-dimensional system, they play no significant role in any calculations in such situations.
 
-![](images/base_system_x_axis_illustration.png)
+![](images/base_system_x_axis_illustration.png#only-light)
+![](images/base_system_x_axis_illustration-colorinverted.png#only-dark)
+
 
 Periodic boundary conditions means that `xmax` and `xmin` are identified as the same point. 
 
@@ -174,7 +176,9 @@ $$
 
 These expressions are based on the geometry depicted in the following figure.
 
-![Vortex ring angle field explanation](images/base_system_vortex_ring_angle_field_explanation.png)
+![Vortex ring angle field explanation](images/base_system_vortex_ring_angle_field_explanation.png#only-light)
+![Vortex ring angle field explanation](images/base_system_vortex_ring_angle_field_explanation-colorinverted.png#only-dark)
+
 
 *Vortex ring angle field explanation:* Geometry of a vortex ring in the plane given by $\vec n$.
 $\mathcal N'$ is the plane normal to the tangent vector $\vec t'$ at $\vec r'$ upon which we impose a Cartesian coordinate system to determine the angles $\theta_1$, $\theta_2$ that are used to construct the (inset) initial angle field.
@@ -192,7 +196,9 @@ and is implemented in the function `calc_angle_field_vortex_ring`.
 
 Apart from the angle field of a single vortex, the other fields are compatible with periodic boundary conditions. The expressions for these fields, however, are really only valid for an infinite region. When this is imposed on periodic boundary conditions, it results in spurious boundary effects, especially if either of the vortices is placed near the edge of the simulation domain. By simply inserting the vortices directly, we get what is shown in the following figure (a).
 
-![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields.png)
+![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields.png#only-light)
+![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields-colorinverted.png#only-light)
+
 
 *Numerical implementaiton of periodic angle fields:*
 The angle field of panel (a) has been filtered by the field $F$ with $w=0.2x_{\textrm{max}}$ to produce the periodic field given in panel (c).
@@ -339,7 +345,7 @@ Note that all solvers defined in the  class \lstinline{BaseSystem} updates the t
 
 ### The ETD4RK scheme
 
-Following Ref. [^coxExponentialTimeDifferencing2002], we may generalize the method to a fourth order Runge-Kutta as follows
+Following Ref.[^coxExponentialTimeDifferencing2002], we may generalize the method to a fourth order Runge-Kutta as follows
 
 ---
 $$
@@ -429,7 +435,7 @@ Similar as for the EDT2RK case $I_{\mathfrak f 1}$, $I_{\mathfrak f 3}$, $I_{\ma
 We therfore replace these coeficients with their limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance.
 This has been important in order to make the the code stable for some of the systems.
 In the same way as the EDT2RK scheme this is implemented as the function
-`self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolutioN_{\mathfrak f}unctioN_{\mathfrak f}, field, field_f)`
+`self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolution_function, field, field_f)`
 This function is called by the evolvers discussed in the model chapter if the method is defined as ```method = "ETD4RK"```, the integrating factors are found with
 `self.calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10**(-4))`.
 
@@ -504,11 +510,14 @@ As a benchmark, we use the `solve_ivp` of the scipy library `sp.integrate` to so
 The solutions match to a satisfactory degree, but a more thorough investigation into how the accuracy of the framework and integration methods scale with spatial and temporal resolution will be performed in the future.
 Tests are included in `test_base_system.py`, but for visual examination, here are animations of the initial condition $T=0$ in all three dimensions
 
-![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_1D.gif)
+![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_1D.gif#only-light)
+![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_1D-colorinverted.gif#only-dark)
 
-![Testing of the evolution code in 2 dimensions](images/base_system_evolution_test_2D.gif)
+![Testing of the evolution code in 2 dimensions](images/base_system_evolution_test_2D.gif#only-light)
+![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_2D-colorinverted.gif#only-dark)
 
-![Testing of the evolution code in 3 dimensions](images/base_system_evolution_test_3D.gif)
+![Testing of the evolution code in 3 dimensions](images/base_system_evolution_test_3D.gif#only-light)
+![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_3D-colorinverted.gif#only-dark)
 
 ## Algorithms for tracking defects
 
@@ -660,8 +669,6 @@ Now, plot the funciton in the plane through $(0,0,0)$ given by the normal vector
     bs.plot_field_in_plane(f, position=[0,0,0], normal_vector=[1,1,1],plotting_lib='matplotlib')
     plt.show()
     ```
-
-
 
 [^coxExponentialTimeDifferencing2002]: Cox, S. M., & Matthews, P. C. (2002). Exponential Time Differencing for Stiff Systems. Journal of Computational Physics, 176(2), 430–455. [https://doi.org/10.1006/jcph.2002.6995](https://doi.org/10.1006/jcph.2002.6995)
 

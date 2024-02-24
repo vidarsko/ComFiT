@@ -115,6 +115,7 @@ modulus 2π are eqvuivalent, but if one uses a regular color scheme, this equiva
 readily visible. Therefore, when expressing angles, we use the color scheme shown in Fig. 1.1.
 This has the benefit of wrapping around itself at θ = ±π, stressing that these correspond
 
-![Angle color scheme](images/conventions_angle_colormap.png)
+![Angle color scheme](images/conventions_angle_colormap.png#only-light)
+![Angle color scheme](images/conventions_angle_colormap-colorinverted.png#only-dark)
 
 *Angle color scheme.* The color scheme follows the hsv color circle going through  $\theta=0$ (Red), $\theta=\pi/3$ (Yellow), $\theta=2\pi/3$ (Lime), $\theta = \pm \pi$ (Aqua), $\theta = -2\pi/3$ (Blue), $\theta = -\pi/3$ (Fuchsia).

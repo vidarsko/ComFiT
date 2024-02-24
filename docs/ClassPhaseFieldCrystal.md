@@ -67,7 +67,8 @@ these peaks and throughs. Six such symmetries are implemented in the
 code, which are given by the primary Bravais lattice vectors (BLVs),
 which define the lattice, see this figure
 
-![PFC Bravais and reciprocal lattice vectors](images/phase_field_crystal_bravais_and_reciprocal_lattices.png)
+![PFC Bravais and reciprocal lattice vectors](images/phase_field_crystal_bravais_and_reciprocal_lattices.png#only-light)
+![PFC Bravais and reciprocal lattice vectors](images/phase_field_crystal_bravais_and_reciprocal_lattices-colorinverted.png#only-dark)
 
 *PFC Bravais and reciprocal lattice vectors:* Bravais lattices $\mathcal B$ and their reciprocal lattices $\mathcal R$ for square and triangular symmetry.
 In each case, $\{\vec a^{(n)}\}_{n=1}^2$ are primitive lattice vectors and $\{ \vec q^{(n)}\}_{n=1}^2$ primitive reciprocal lattice vectors that satisfy $\vec a^{(n)} \cdot \vec q^{(m)} = 2\pi \delta_{nm}$.
@@ -794,7 +795,8 @@ Burgers vector to be the disconnection error from the *ending* point to
 the *starting* point, when going an oriented path around the
 dislocation,
 
-![Burgers vector definition](images/phase_field_crystal_burgers_vector_definition.png)
+![Burgers vector definition](images/phase_field_crystal_burgers_vector_definition.png#only-light)
+![Burgers vector definition](images/phase_field_crystal_burgers_vector_definition-colorinverted.png#only-dark)
 
 *Burgers vector definition:* (a) The one-body density of a crystalline solid containing an edge dislocation in a 2D square lattice (superimposed), (b) a 3D simple cubic lattice with an edge dislocation ($\vec b \perp \vec t$), and (c) a 3D simple cubic lattice with a screw dislocation ($\vec b \parallel \vec t)$.
 In all cases, a circulation (green) that is right-handed with respect to the tangent vector $\vec t$, i.e., following a path around the dislocation, gives rise to a connection error: the Burgers vector $\vec b$.  
@@ -885,19 +887,6 @@ this
 
 ## Tutorial 1: Getting to know the triangular PFC
 
-Initiate a $(n_x,n_y) = (30,20)$ PFC without any defects.
-
-??? note "Solution"
-    ```python
-    import comfit as cf
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    pfc = cf.PhaseFieldCrystal2DTriangular(30,20)
-    pfc.conf_PFC_from_amplitudes()
-    pfc.plot_field(pfc.psi, grid=False)
-    plt.show()
-    ```
 
 Now create a the same PFC containing two defects.
 
@@ -925,11 +914,6 @@ Create an animation of the dislocations annihilating under standard PFC dynamics
 
     cf.tool_make_animation_gif(n)
     ```
-
-
-
-
-
 
 [^elderModelingElasticPlastic2004]: Elder, K. R., & Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Physical Review E, 70(5), 051605. [https://doi.org/10.1103/PhysRevE.70.051605](https://doi.org/10.1103/PhysRevE.70.051605)
 [^Skogvoll2023SymmetryTopology]: Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo [https://www.duo.uio.no/handle/10852/102731](https://www.duo.uio.no/handle/10852/102731)

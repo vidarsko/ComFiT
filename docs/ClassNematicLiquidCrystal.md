@@ -277,7 +277,8 @@ numbers $$k = \int_C \nabla \theta \cdot d\\mathbf{l} = 2\pi q$$ with
 $q$ being a half-integer. The defects of lowest absolute charge is the
 $\pm 1/2$ defects, which are depicted below.
 
-![Liquid crystal disclination dipole](images/nematic_liquid_crystal_disclination_dipole.png)
+![Liquid crystal disclination dipole](images/nematic_liquid_crystal_disclination_dipole.png#only-light)
+![Liquid crystal disclination dipole](images/nematic_liquid_crystal_disclination_dipole-colorinverted.png#only-dark)
 
 *Liquid crystal disclination dipole:* The nematic director (head-less vectors) around a defect dipole. The $+1/2$ defect is marked with red, while the $-1/2$ defect is in blue.
 
@@ -333,7 +334,8 @@ it can be used to insert a dipole into an already existing nematic.
 The activity $\alpha$ is can be spatially varying. This can be used to
 make active channels as shown in the following figure.
 
-![Nematic liquid crystal active channel](images/nematic_liquid_crystal_active_channel.png)
+![Nematic liquid crystal active channel](images/nematic_liquid_crystal_active_channel.png#only-light)
+![Nematic liquid crystal active channel](images/nematic_liquid_crystal_active_channel-colorinverted.png#only-dark)
 
 *Nematic liquid crystal active channel:* Illustration of an active channel. `width= 20` and $d = 2$.
 

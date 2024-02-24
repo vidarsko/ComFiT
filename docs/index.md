@@ -131,6 +131,31 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
 
 ## Phase-field crystal
 
+<div class="grid cards">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/phase_field_crystal_basic_framework.ipynb" class="card">
+    <div> <strong> Basic framework </strong></div>
+    <hr>
+    <p>
+    <img src="/images/index_PFC_basic_framework.png#only-light">
+    <img src="/images/index_PFC_basic_framework-colorinverted.png#only-dark">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Get to know the basic of the PFC framework, including how to insert dislocations, plot them, and evolve the PFC. 
+    </p>
+</a>
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/file_name.ipynb" class="card">
+    <div> <strong>Heading 2</strong></div>
+    <hr>
+    <p>
+    <img src="_link_to_light_theme_image_#only-light">
+    <img src="_link_to_dark_theme_image_#only-dark">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Description 2
+    </p>
+</a>
+</div>
+
 
 For the time being, ComFiT is limited to periodic boundary conditions, but this may change in the future.
 
