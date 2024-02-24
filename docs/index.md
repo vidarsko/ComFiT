@@ -5,7 +5,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 
 ## Base System 
 
-<div class="grid cards">
+<div class="grid cards" style="display: grid; grid-template-columns: repeat(4, 1fr);">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card">
         <div> <strong> Basic Framework</strong></div>
         <hr>
@@ -31,7 +31,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 
 Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
 
-<div class="grid cards">
+<div class="grid cards" style="display: grid; grid-template-columns: repeat(4, 1fr);">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_introduction.ipynb" class="card">
         <div> <strong> Quantum Mechanics in 1 dimension </strong></div>
         <hr>
@@ -80,7 +80,7 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
 
 ## Bose Einstein Condensates
 
-<div class="grid cards">
+<div class="grid cards" style="display: grid; grid-template-columns: repeat(4, 1fr);">
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card">
     <div> <strong> Basic Framework </strong></div>
     <hr>
@@ -131,7 +131,7 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
 
 ## Phase-field crystal
 
-<div class="grid cards">
+<div class="grid cards" style="display: grid; grid-template-columns: repeat(4, 1fr);">
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/phase_field_crystal_basic_framework.ipynb" class="card">
     <div> <strong> Basic framework </strong></div>
     <hr>
