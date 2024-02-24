@@ -1,4 +1,4 @@
-from PIL import Image, ImageOps, ImageSequence
+from PIL import Image, ImageOps, ImageSequence, ImageChops
 import os
 
 def delete_previous_conversions(folder_path, suffix='-colorinverted'):
@@ -20,17 +20,33 @@ def invert_colors(image):
     else:
         return ImageOps.invert(image)
 
-def invert_image_colors(image_path, output_path):
+def change_black_to_color(image, new_color):
+    data = image.getdata()
+    
+    newData = []
+    for item in data:
+        # Change black (also nearly black shades) to new_color
+        if item[0] <= 5 and item[1] <= 5 and item[2] <= 5:
+            newData.append(new_color)  # Changing black to new_color
+        else:
+            newData.append(item)
+
+    image.putdata(newData)
+    return image
+
+def invert_image_colors(image_path, output_path, new_color=(30,33,41)):  # Default new color is blue
     with Image.open(image_path) as img:
         if img.format == 'GIF':
             frames = []
             for frame in ImageSequence.Iterator(img):
                 inverted_frame = invert_colors(frame)
-                frames.append(inverted_frame.convert('P', palette=Image.ADAPTIVE))  # Convert back to P mode with an adaptive palette
+                color_changed_frame = change_black_to_color(inverted_frame, new_color)
+                frames.append(color_changed_frame.convert('P', palette=Image.ADAPTIVE))
             frames[0].save(output_path, save_all=True, append_images=frames[1:], loop=0, duration=img.info.get('duration', 100), optimize=False)
         else:
             inverted_image = invert_colors(img)
-            inverted_image.save(output_path)
+            color_changed_image = change_black_to_color(inverted_image, new_color)
+            color_changed_image.save(output_path)
 
 def process_folder(folder_path):
     delete_previous_conversions(folder_path)
