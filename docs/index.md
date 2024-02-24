@@ -32,7 +32,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
 
 <div class="grid cards">
-    <a href="your-link-for-heading-1.html" class="card">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_introduction.ipynb" class="card">
         <div> <strong> Quantum Mechanics in 1 dimension </strong></div>
         <hr>
         <p>
@@ -43,7 +43,7 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
         Understand the basics of the Quantum Mechanics model.
         </p>
     </a>
-    <a href="your-link-for-heading-1.html" class="card">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_2D_introduction.ipynb" class="card">
         <div> <strong>Quantum Mechanics in 2 dimensions</strong></div>
         <hr>
         <p>
@@ -54,7 +54,7 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
         Understand how to plot a quantum mechanical system in 2 dimensions.
         </p>
 </a>
-<a href="your-link-for-heading-1.html" class="card">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_3D_introduction.ipynb" class="card">
     <div> <strong> Quantum Mechanics in 3 dimensions </strong></div>
     <hr>
     <p>
@@ -65,7 +65,7 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
     Understand how to plot a quantum mechanical system in 3 dimensions.
     </p>
 </a>
-<a href="your-link-for-heading-1.html" class="card">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_the_hydrogen_atom.ipynb" class="card">
     <div> <strong> The hydrogen atom </strong></div>
     <hr>
     <p>

@@ -1540,7 +1540,6 @@ class BaseSystem:
         if self.dim == 2:
 
             plot_method = kwargs.get('plot_method', 'phase_angle')
-            plotting_lib = kwargs.get('plotting_lib', 'matplotlib')
 
             if plot_method == '3Dsurface':
 
@@ -1629,12 +1628,11 @@ class BaseSystem:
 
             colormap = tool_colormap_angle()
 
-            if plotting_lib == 'matplotlib':
-                ax = kwargs.get('ax', None)
+            ax = kwargs.get('ax', None)
 
-                if ax == None:
-                    plt.clf()
-                    ax = plt.gcf().add_subplot(111, projection='3d')
+            if ax == None:
+                plt.clf()
+                ax = plt.gcf().add_subplot(111, projection='3d')
         
             if plot_method == 'phase_angle':
                 
@@ -1692,7 +1690,7 @@ class BaseSystem:
                     # Map normalized theta values to colors
                     colors = colormap(theta_faces_normalized)
 
-                elif plotting_lib == 'matplotlib':
+
                     # print("Colors shape:", colors.shape)
                     # print(colors)
 
@@ -1713,13 +1711,13 @@ class BaseSystem:
                     ax.set_zlabel("$z/a_0$")
                     ax.set_aspect('equal')
 
-                    return ax
+                return ax
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
 
     def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
-                         colorbar=True, colormap='viridis', clim=None, plotting_lib='matplotlib',
+                         colorbar=True, colormap='viridis', clim=None,
                          **kwargs):
         """
         Plots the field in a plane perpendicular to the given normal vector using
