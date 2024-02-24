@@ -29,7 +29,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 
 ## Quantum Mechanics
 
-Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
+Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_introduction.ipynb" class="card" style="min-width: 200px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -69,8 +69,8 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> The hydrogen atom </strong></div>
     <hr>
     <p>
-    <img src="_link_to_light_theme_image_#only-light">
-    <img src="_link_to_dark_theme_image_-colorinverted#only-dark">
+    <img src="images/quantum_mechanics_hydrogen_atom.png#only-light">
+    <img src="images/quantum_mechanics_hydrogen_atom.png-colorinverted#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the hydrogen atom.
@@ -85,8 +85,8 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> Basic Framework </strong></div>
     <hr>
     <p>
-    <img src="_link_to_dark_theme_image_#only-dark">
-    <img src="_link_to_light_theme_image_#only-light">
+    <img src="/images/bose_einstein_condensate_concentric_loops-colorinverted.gif#only-dark">
+    <img src="/images/bose_einstein_condensate_concentric_loops.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Understand the basics of the Bose Einstein Condensate model.
@@ -96,33 +96,33 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong>Time-dependent potentials</strong></div>
     <hr>
     <p>
-    <img src="_link_to_dark_theme_image_#only-dark">
-    <img src="_link_to_light_theme_image_#only-light">
+    <img src="/images/bose_einstein_condensate_2D_stirrer_v2-colorinverted.gif#only-dark">
+    <img src="/images/bose_einstein_condensate_2D_stirrer_v2.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
-    Description 2
+    Learn how to create time-dependent potentials to stir the Bose Einstein Condensate model.
     </p>
 </a>
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_comoving_frame_and_defect_tracking.ipynb" class="card" style="min-width: 200px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong>Comoving frame and defect tracking</strong></div>
     <hr>
     <p>
-    <img src="_link_to_dark_theme_image_#only-dark">
-    <img src="_link_to_light_theme_image_#only-light">
+    <img src="/images/bose_einstein_condensate_defect_tracking-colorinverted.png#only-dark">
+    <img src="/images/bose_einstein_condensate_defect_tracking.png#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
-    Description 2
+    Learn how to track defects and study defects made by an obstacle.
     </p>
 </a>
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_3D_comoving_frame.ipynb" class="card" style="min-width: 200px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong>3D and comoving frame </strong></div>
     <hr>
     <p>
-    <img src="_link_to_dark_theme_image_#only-dark">
-    <img src="_link_to_light_theme_image_#only-light">
+    <img src="/images/bose_einstein_condensate_3D_stirrer-colorinverted.gif#only-dark">
+    <img src="/images/bose_einstein_condensate_3D_stirrer.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
-    Description 2
+    Learn how to use the Bose Einstein Condensate model in 3 dimensions and in a comoving frame.
     </p>
 </a>
 </div>
@@ -140,18 +140,7 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
     <img src="/images/index_PFC_basic_framework-colorinverted.png#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
-    Get to know the basic of the PFC framework, including how to insert dislocations, plot them, and evolve the PFC. 
-    </p>
-</a>
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/file_name.ipynb" class="card" style="min-width: 200px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
-    <div> <strong>Heading 2</strong></div>
-    <hr>
-    <p>
-    <img src="_link_to_light_theme_image_#only-light">
-    <img src="_link_to_dark_theme_image_#only-dark">
-    </p>
-    <p style="color: var(--md-default-fg-color)">
-    Description 2
+    Get to know the basic of the PFC framework, including how to insert dislocations, plot them, and evolve the PFC.
     </p>
 </a>
 </div>
