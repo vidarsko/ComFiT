@@ -10,8 +10,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong> Basic Framework</strong></div>
         <hr>
         <p>
-        <img src="images/index_3D_plot.png#only-dark">
         <img src="images/index_3D_plot.png#only-light">
+        <img src="images/index_3D_plot-colorinverted.png#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)">Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. </p>
     </a>
@@ -19,10 +19,10 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong>How to make your own model</strong></div>
         <hr>
         <p>
-        <img src="images/base_system_evolution_test_2D.gif#only-dark">
         <img src="images/base_system_evolution_test_2D.gif#only-light">
+        <img src="images/base_system_evolution_test_2D-colorinverted.gif#only-dark">
         </p>
-        <p>Learn how to implement, solve and animate your own partial differential equation.</p>
+        <p style="color: var(--md-default-fg-color)">Learn how to implement, solve and animate your own partial differential equation.</p>
 </a>
 </div>
 
@@ -36,8 +36,8 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
         <div> <strong> Quantum Mechanics in 1 dimension </strong></div>
         <hr>
         <p>
-        <img src="images/index_1D_Quantum_Mechanics_Gaussian.gif#only-dark">
         <img src="images/index_1D_Quantum_Mechanics_Gaussian.gif#only-light">
+        <img src="images/index_1D_Quantum_Mechanics_Gaussian-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)">
         Understand the basics of the Quantum Mechanics model.
@@ -47,8 +47,8 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
         <div> <strong>Quantum Mechanics in 2 dimensions</strong></div>
         <hr>
         <p>
-        <img src="images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif#only-dark">
         <img src="images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif#only-light">
+        <img src="images/index_2D_Quantum_mechanics_Gaussian_oscillating-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)">
         Understand how to plot a quantum mechanical system in 2 dimensions.
@@ -58,8 +58,8 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> Quantum Mechanics in 3 dimensions </strong></div>
     <hr>
     <p>
-    <img src="images/index_3D_Quantum_Mechanics_Gaussian.gif#only-dark">
     <img src="images/index_3D_Quantum_Mechanics_Gaussian.gif#only-light">
+    <img src="images/index_3D_Quantum_Mechanics_Gaussian-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Understand how to plot a quantum mechanical system in 3 dimensions.
@@ -69,8 +69,8 @@ Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> The hydrogen atom </strong></div>
     <hr>
     <p>
-    <img src="_link_to_dark_theme_image_#only-dark">
     <img src="_link_to_light_theme_image_#only-light">
+    <img src="_link_to_dark_theme_image_-colorinverted#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the hydrogen atom.

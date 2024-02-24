@@ -5,8 +5,8 @@ Card template:
     <div> <strong> Heading 1</strong></div>
     <hr>
     <p>
-    <img src="_link_to_dark_theme_image_#only-dark">
     <img src="_link_to_light_theme_image_#only-light">
+    <img src="_link_to_dark_theme_image_#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Description 1
@@ -16,8 +16,8 @@ Card template:
     <div> <strong>Heading 2</strong></div>
     <hr>
     <p>
-    <img src="_link_to_dark_theme_image_#only-dark">
     <img src="_link_to_light_theme_image_#only-light">
+    <img src="_link_to_dark_theme_image_#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Description 2
