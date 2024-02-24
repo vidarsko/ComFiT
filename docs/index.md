@@ -70,7 +70,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <hr>
     <p>
     <img src="images/quantum_mechanics_hydrogen_atom.png#only-light">
-    <img src="images/quantum_mechanics_hydrogen_atom.png-colorinverted#only-dark">
+    <img src="images/quantum_mechanics_hydrogen_atom-colorinverted.pngd#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the hydrogen atom.
@@ -85,8 +85,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> Basic Framework </strong></div>
     <hr>
     <p>
-    <img src="/images/bose_einstein_condensate_concentric_loops-colorinverted.gif#only-dark">
-    <img src="/images/bose_einstein_condensate_concentric_loops.gif#only-light">
+    <img src="images/bose_einstein_condensate_concentric_loops-colorinverted.gif#only-dark">
+    <img src="images/bose_einstein_condensate_concentric_loops.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Understand the basics of the Bose Einstein Condensate model.
@@ -96,8 +96,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong>Time-dependent potentials</strong></div>
     <hr>
     <p>
-    <img src="/images/bose_einstein_condensate_2D_stirrer_v2-colorinverted.gif#only-dark">
-    <img src="/images/bose_einstein_condensate_2D_stirrer_v2.gif#only-light">
+    <img src="images/bose_einstein_condensate_2D_stirrer_v2-colorinverted.gif#only-dark">
+    <img src="images/bose_einstein_condensate_2D_stirrer_v2.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to create time-dependent potentials to stir the Bose Einstein Condensate model.
@@ -107,8 +107,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong>Comoving frame and defect tracking</strong></div>
     <hr>
     <p>
-    <img src="/images/bose_einstein_condensate_defect_tracking-colorinverted.png#only-dark">
-    <img src="/images/bose_einstein_condensate_defect_tracking.png#only-light">
+    <img src="images/bose_einstein_condensate_defect_tracking-colorinverted.png#only-dark">
+    <img src="images/bose_einstein_condensate_defect_tracking.png#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to track defects and study defects made by an obstacle.
@@ -118,8 +118,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong>3D and comoving frame </strong></div>
     <hr>
     <p>
-    <img src="/images/bose_einstein_condensate_3D_stirrer-colorinverted.gif#only-dark">
-    <img src="/images/bose_einstein_condensate_3D_stirrer.gif#only-light">
+    <img src="images/bose_einstein_condensate_3D_stirrer-colorinverted.gif#only-dark">
+    <img src="images/bose_einstein_condensate_3D_stirrer.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to use the Bose Einstein Condensate model in 3 dimensions and in a comoving frame.
@@ -136,8 +136,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> Basic framework </strong></div>
     <hr>
     <p>
-    <img src="/images/index_PFC_basic_framework.png#only-light">
-    <img src="/images/index_PFC_basic_framework-colorinverted.png#only-dark">
+    <img src="images/index_PFC_basic_framework.png#only-light">
+    <img src="images/index_PFC_basic_framework-colorinverted.png#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the basic of the PFC framework, including how to insert dislocations, plot them, and evolve the PFC.
