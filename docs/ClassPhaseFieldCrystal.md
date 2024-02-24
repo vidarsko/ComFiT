@@ -2,7 +2,11 @@
 
 A crystal is a peridic arrangement of atoms.
 
-In this class, we simulate a crystal using the phase-field crystal methodology.
+In this class, we simulate a crystal using the phase-field crystal methodology. 
+The phase-field crystal (PFC) model is a mesoscopic model that describes the dynamics of a crystal.
+The model is based on a free energy functional, which is minimized to find the equilibrium state of the system.
+The free energy functional is a function of the phase field $\psi$, which is a real-valued field that describes the local density of the crystal.
+The PFC model is a powerful tool for studying the dynamics of crystals, and it has been used to study a wide range of phenomena, including the formation of defects, the dynamics of grain boundaries, and the growth of crystals.
 
 ```python
 file: comfit/models/phase_field_crystal.py 

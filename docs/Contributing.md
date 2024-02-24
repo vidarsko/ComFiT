@@ -1,6 +1,6 @@
 # Contributing
 
-We welcome contributions.
+We welcome contributions. Please read our guide to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to ComFiT.
 
 ## Bug fixes
 

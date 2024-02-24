@@ -1,5 +1,7 @@
 # Conventions
 
+In this section, we will describe the conventions used in the documentation and code.
+
 ## Folders and file types
 
 * Documentation is written in markdown.

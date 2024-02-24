@@ -6,7 +6,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 ## Base System 
 
 <div class="grid cards">
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BaseClass%20-%20Basic%20framework.ipynb" class="card">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card">
         <div> <strong> Basic Framework</strong></div>
         <hr>
         <p>
@@ -15,7 +15,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         </p>
         <p style="color: var(--md-default-fg-color)">Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. </p>
     </a>
-    <a href="your-link-for-heading-1.html" class="card">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_creating_your_own_model.ipynb" class="card">
         <div> <strong>How to make your own model</strong></div>
         <hr>
         <p>

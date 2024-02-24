@@ -1,6 +1,10 @@
 # Class: Nematic Liquid Crystal
 
-A liquid crystal is a state of matter between a solid and a liquid.
+A liquid crystal is a state of matter between a solid and a liquid. 
+It is characterized by the orientation of the molecules, which is ordered, but not the position. 
+The molecules are rod-like and the orientation is described by a unit vector, the nematic director. 
+The nematic liquid crystal is the simplest form of liquid crystal, and is characterized by the nematic director being the only order parameter. 
+The nematic liquid crystal is used to describe the behavior of many biological systems, such as the cytoskeleton, and is also used in many technological applications, such as in liquid crystal displays.
 
 In this class, we simulate an active nematic liquid crystal using [framework].
 

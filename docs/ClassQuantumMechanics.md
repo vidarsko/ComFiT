@@ -1,6 +1,7 @@
 # Class: Quantum Mechanics
 
-Quantum mechanics is one of the most classic examples of field theories in physics. 
+Quantum mechanics is one of the most classic examples of field theories in physics.
+The Schrödinger equation is a partial differential equation that describes how the quantum state of a physical system changes over time.
 
 In this class, we simulate quantum mechanics through the evolution of the Schrödinger equation.
 
