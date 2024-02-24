@@ -5,66 +5,132 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 
 ## Base System 
 
-<div class="grid cards" markdown>
--   :material-clock-fast:{ .lg .middle } __[Basic Framework](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BaseClass%20-%20Basic%20framework.ipynb)__
+<div class="grid cards">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BaseClass%20-%20Basic%20framework.ipynb" class="card">
+        <div> <strong> Basic Framework</strong></div>
+        <hr>
+        <p>
+        <img src="images/index_3D_plot.png#only-dark">
+        <img src="images/index_3D_plot.png#only-light">
+        </p>
+        <p style="color: var(--md-default-fg-color)">Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. </p>
+    </a>
+    <a href="your-link-for-heading-1.html" class="card">
+        <div> <strong>How to make your own model</strong></div>
+        <hr>
+        <p>
+        <img src="images/base_system_evolution_test_2D.gif#only-dark">
+        <img src="images/base_system_evolution_test_2D.gif#only-light">
+        </p>
+        <p>Learn how to implement, solve and animate your own partial differential equation.</p>
+</a>
+</div>
 
-    ---
-    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
 
--   :material-clock-fast:{ .lg .middle } __[How to make your own model]()__
+## Quantum Mechanics
 
-    ---
-    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
+Explore the Shcrödinger equation in 1, 2 and 3 dimensions.
 
+<div class="grid cards">
+    <a href="your-link-for-heading-1.html" class="card">
+        <div> <strong> Quantum Mechanics in 1 dimension </strong></div>
+        <hr>
+        <p>
+        <img src="images/index_1D_Quantum_Mechanics_Gaussian.gif#only-dark">
+        <img src="images/index_1D_Quantum_Mechanics_Gaussian.gif#only-light">
+        </p>
+        <p style="color: var(--md-default-fg-color)">
+        Understand the basics of the Quantum Mechanics model.
+        </p>
+    </a>
+    <a href="your-link-for-heading-1.html" class="card">
+        <div> <strong>Quantum Mechanics in 2 dimensions</strong></div>
+        <hr>
+        <p>
+        <img src="images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif#only-dark">
+        <img src="images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif#only-light">
+        </p>
+        <p style="color: var(--md-default-fg-color)">
+        Understand how to plot a quantum mechanical system in 2 dimensions.
+        </p>
+</a>
+<a href="your-link-for-heading-1.html" class="card">
+    <div> <strong> Quantum Mechanics in 3 dimensions </strong></div>
+    <hr>
+    <p>
+    <img src="images/index_3D_Quantum_Mechanics_Gaussian.gif#only-dark">
+    <img src="images/index_3D_Quantum_Mechanics_Gaussian.gif#only-light">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Understand how to plot a quantum mechanical system in 3 dimensions.
+    </p>
+</a>
+<a href="your-link-for-heading-1.html" class="card">
+    <div> <strong> The hydrogen atom </strong></div>
+    <hr>
+    <p>
+    <img src="_link_to_dark_theme_image_#only-dark">
+    <img src="_link_to_light_theme_image_#only-light">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Get to know the hydrogen atom.
+    </p>
+</a>
 </div>
 
 ## Bose Einstein Condensates
 
-<div class="grid cards" markdown>
--   :material-clock-fast:{ .lg .middle } __[Basic Framework](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BoseEinsteinCondensate%20-%20Basic%20framework.ipynb)__
-
-    ---
+<div class="grid cards">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card">
+    <div> <strong> Basic Framework </strong></div>
+    <hr>
+    <p>
+    <img src="_link_to_dark_theme_image_#only-dark">
+    <img src="_link_to_light_theme_image_#only-light">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
     Understand the basics of the Bose Einstein Condensate model.
-
--   :material-clock-fast:{ .lg .middle } __[Time-dependent potentials](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BoseEinsteinCondensate%20-%2Time%20Dependent%20potentials.ipynb)__
-
-    ---
-    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
-
--   :material-clock-fast:{ .lg .middle } __[Comoving frame and defect tracking](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BoseEinsteinCondensate%2BEC%20coming%20frame%20and%20defect%20tracking.ipynb)__
-
-    ---
-    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
-
--   :material-clock-fast:{ .lg .middle } __[3D BEC in comoving frame](https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/BoseEinsteinCondensate%20-%203D-BEC%20in%20comoving%20frame.ipynb)__
-
-    ---
-    Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. 
+    </p>
+</a>
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_time_dependenent_potentials.ipynb" class="card">
+    <div> <strong>Time-dependent potentials</strong></div>
+    <hr>
+    <p>
+    <img src="_link_to_dark_theme_image_#only-dark">
+    <img src="_link_to_light_theme_image_#only-light">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Description 2
+    </p>
+</a>
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_comoving_frame_and_defect_tracking.ipynb" class="card">
+    <div> <strong>Comoving frame and defect tracking</strong></div>
+    <hr>
+    <p>
+    <img src="_link_to_dark_theme_image_#only-dark">
+    <img src="_link_to_light_theme_image_#only-light">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Description 2
+    </p>
+</a>
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_3D_comoving_frame.ipynb" class="card">
+    <div> <strong>3D and comoving frame </strong></div>
+    <hr>
+    <p>
+    <img src="_link_to_dark_theme_image_#only-dark">
+    <img src="_link_to_light_theme_image_#only-light">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Description 2
+    </p>
+</a>
 </div>
 
-Below, we see the simulation of an initial Guassian wave function in a harmonic oscillator trap under the time evolution imposed by the Schrödinger equation.
+## Nematic Liquid Crystal
 
-![Oscillating 1D Gaussian wave packet in a harmonic oscillator](images/index_1D_Quantum_Mechanics_Gaussian.gif)
+## Phase-field crystal
 
-*Figure: Oscillating 1D Gaussian wave packet in a harmonic oscillator* A 1D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
-
-![Oscillating 2D Gaussian wave packet in a harmonic oscillator](images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif)
-
-*Figure: Oscillating 2D Gaussian wave packet in a harmonic oscillator* A 2D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
-The amplitude of the wavefunciton is shown by the color intensity (i.e., $1-\textrm{transparency}$) and the argument by the angle color scheme (see [plotting](Plotting.md)).
-
-![Orbiting 2D Gaussian wave packet in a harmonic oscillator](images/index_2D_Quantum_mechanics_Gaussian_circular_orbit.gif)
-
-*Figure: Orbiting 2D Gaussian wave packet in a harmonic oscillator* A 2D simulation of the Schrödinger equation with a Gaussian initial condition with a non-zero initial velocity in a Harmonic oscillator potential.
-The amplitude of the wavefunciton is shown by the color intensity (i.e., $1-\textrm{transparency}$) and the argument by the angle color scheme (see [plotting](Plotting.md)).
-
-![Oscillating 3D Gaussian wave packet in a harmonic oscillator](images/index_3D_Quantum_Mechanics_Gaussian.gif)
-
-*Figure: Oscillating 3D Gaussian wave packet in a harmonic oscillator* A 3D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
-The amplitude of the wavefunciton is shown as an isosurface at $50\%$ its maximal value and the argument by the angle color scheme (see [plotting](Plotting.md)).
-
-The library contains a `BaseSystem` class which defines the basic parameters of a field theory, including the dimension, resolution, and generic functions.
-Upon this class, one may define ones own system of interest, or experiment with the predefined systems constained in `QuantumMechanics`, `BoseEinsteinCondensate`, `NematicLiquidCrystal` or `PhaseFieldCrystal`.
 
 For the time being, ComFiT is limited to periodic boundary conditions, but this may change in the future.
 
