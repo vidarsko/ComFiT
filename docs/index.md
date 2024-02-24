@@ -70,7 +70,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <hr>
     <p>
     <img src="images/quantum_mechanics_hydrogen_atom.png#only-light">
-    <img src="images/quantum_mechanics_hydrogen_atom-colorinverted.pngd#only-dark">
+    <img src="images/quantum_mechanics_hydrogen_atom-colorinverted.png#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the hydrogen atom.
