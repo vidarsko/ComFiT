@@ -6,7 +6,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 ## Base System 
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card" style="flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card" style="flex: 0 1 calc(20.00% - 20px); margin: 5px;">
         <div> <strong> Basic Framework</strong></div>
         <hr>
         <p>
