@@ -1,6 +1,12 @@
 from PIL import Image, ImageOps, ImageSequence
 import os
 
+def delete_previous_conversions(folder_path, suffix='-colorinverted'):
+    for filename in os.listdir(folder_path):
+        if filename.lower().endswith(('.png', '.gif')) and suffix in filename.lower():
+            os.remove(os.path.join(folder_path, filename))
+            print(f"Deleted {filename}")
+
 def invert_colors(image):
     if image.mode == 'RGBA':
         r,g,b,a = image.split()
@@ -27,6 +33,7 @@ def invert_image_colors(image_path, output_path):
             inverted_image.save(output_path)
 
 def process_folder(folder_path):
+    delete_previous_conversions(folder_path)
     for filename in os.listdir(folder_path):
         if filename.lower().endswith(('.png', '.gif')):
             base_name, extension = os.path.splitext(filename)
