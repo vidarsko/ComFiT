@@ -728,7 +728,7 @@ class NematicLiquidCrystal(BaseSystem):
         ey = np.real(sp.fft.ifftn(1j * self.k[0] * self.Q_f[1] - 1j * self.k[1] * self.Q_f[0]))
         return np.array([ex,ey])
 
-    def calc_disclination_nodes_nem(self, dt_Q=None,polarization = None):
+    def calc_disclination_nodes_nem(self, dt_Q=None,polarization = None,charge_tolerance=None):
         """
         Calculate the positions and charges of vortex nodes based on the defect density.
         
