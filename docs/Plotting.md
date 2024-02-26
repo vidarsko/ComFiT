@@ -1,29 +1,25 @@
 # Plotting
 
-The package comes with a lot of plotting functions, so a general exposition is a good idea.
+The `ComFiT` package uses `matplotlib` as the default plotting library.
+This is because `matplotlib` is a very versatile and well-documented library that is widely used in the scientific community.
+In order to master the use of `matplotlib`, one needs to understand the basic structure of the library.
 
-The default plot command is simply `plot()`, which will plot the current
-state of the system according to some arbitrarily chosen standard.
-
-While the former is more widely used and documented, the latter is better for 3D visualizations.
-The libraries have different nomenclature for the objects that go into the plot functions, which is useful to learn in order to make the behaviour as expected.
-
-Both `matplotlib` uses `figure` to designate the interface on which the plot is drawn.
-A new figure is produced by either of the following commands
+The basic structure of `matplotlib` is that it has a `figure` object that contains `axes` objects.
+One can think of the `figure` object as the window in which the plot is drawn, and the `axes` object as the plot itself.
+A new figure is made as follows
 
 ```python
 import matplotlib.pyplot as plt
 
-fig1 = plt.fig()
+fig1 = plt.figure()
 ```
-In matplotlib, one level under, we find `axes` handle.
-A `matplotlib` figure can contain multiply different `axes` as in several subplots.
-The `axes` object is made as follows
+
+Given a figure object, one may define a new `axes` object on it as follows
 
 ```python
 ax = fig.add_subplot(111)
 ```
-
+The `111` is a shorthand for `1,1,1` and means that the 
 If you are plotting a 3D object, then you will need to specify that
 
 ```python
@@ -32,12 +28,13 @@ ax = fig.add_subplot(111, projection='3d')
 
 which will construct a 3D `axes` object.
 
-The standard is that when a plotting function is called *without* a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
+The convention followed in `ComFiT` are as follows:
 
-If a figure is provided by the keyword `fig` with matplotlib, then it will be cleared and the new plot will be plotted on it.
+* When a plotting function is called *without* a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
 This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
-
-If an axes object is provided by the keyword `ax`, then the new plot will be plotted on top of that axes object if not the keyword argument `hold=False` is also provided.
+* If a figure is provided by the keyword `fig=myfig` with, then it will be cleared and the new plot will be plotted on `myfig`.
+This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
+* If an axes object is provided by the keyword `ax`, then the `ax` instance will be cleared and the new plot will be plotted on `ax`, unless the keyword `hold=True` is provided, in which case the new plot will be plotted ontop of the old plot.
 
 To show the current plot, one writes
 
@@ -45,11 +42,10 @@ To show the current plot, one writes
 plt.show()
 ```
 
-which will pause the simulation untill the plot window has been closed.
-In order to draw the image and continue the simulation, one needs to write
+which will pause the simulation until the plot window has been closed.
+In order to draw the image and continue the simulation, as for instance when viewing a simulation live, one needs to write
 
 ```python
-plt.draw()
 plt.pause(0.01)
 ```
 
@@ -59,34 +55,27 @@ plt.pause(0.01)
 The following list gives the keyword arguments that determine the layout of the resulting plot.
 These keywords can be passed to any plot function.
 `bs` refers to an instance of the `BaseSystem` class.
+In some cases, default values of other parameter depend on the value of `dim`, and are represented by curly brackets:
+
+$$
+\left \lbrace \begin{array}{l} \textrm{default value if } \texttt{dim }= 1 \\ \textrm{default value if } \texttt{dim }= 2  \\ \textrm{default value if } \texttt{dim }= 3  \\ \end{array} \right \rbrace
+$$
 
 | Keyword         | Definition         | Default value |
 | ------------------ | --------------- | ----------- |
-| `xlabel` | The label on the x-axis | $ x/a_0$|
-| `ylabel` | The label on the y-axis | $d=1$: None |
-| | | $d = 2$: $y/a_0$|
-| | | $d = 3$: $y/a_0$|
-| `zlabel` | The label on the z-axis | $d = 1$: None |
-| | | $d=2$: None |
-| | | $d=3$: $z/a_0$ |
+| `xlabel` | The label on the x-axis | $x/a_0$|
+| `ylabel` | The label on the y-axis |  $\left \lbrace \begin{array}{c} \texttt{none} \\ y/a_0 \\  y/a_0 \\ \end{array} \right \rbrace$  |
+| `zlabel` | The label on the z-axis |  $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  z/a_0 \\ \end{array} \right \rbrace$  |
 | `suptitle` | The figure title | None |
 | `title` | The axes title | None|
 | `xmin` | The lower limit on the x-axis | `bs.xmin` |
 | `xmax`| The upper limit on the x-axis | `bs.xmax - bs.dx` |
 | `xlim`| A list or tuple consisting of the lower and upper limit on the x-axis. If `xlim` is provided, it trumps any provided `xmin` or `xmax`. | None|
-| `ymin` | The lower limit on the x-axis | $d=1$:  None |
-| | | $d = 2$: `bs.ymin` |
-| | | $d = 3$: `bs.ymin` |
-| `ymax`| The upper limit on the x-axis | $d=1$: None |
-| | | $d = 2$: `bs.ymax-bs.dy` |
-| | | $d = 2$: `bs.ymax-bs.dy` |
+| `ymin` | The lower limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymin} \\  \texttt{bs.ymin} \\ \end{array} \right \rbrace$ |
+| `ymax`| The upper limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymax-bs.dy} \\  \texttt{bs.ymax-bs.dy} \\ \end{array} \right \rbrace$ |
 | `ylim`| A list or tuple consisting of the lower and upper limit on the y-axis. If `ylim` is provided, it trumps any provided `ymin` or `ymax`. | None |
-| `zmin` | The lower limit on the x-axis | $d=1$:  None |
-| | | $d = 2$: None |
-| | | $d = 3$: `bs.zmin` |
-| `zmax`| The upper limit on the x-axis | $d=1$: None |
-| | | $d = 2$: None |
-| | | $d = 2$: `bs.zmax-bs.dz` |
+| `zmin` | The lower limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmin} \\ \end{array} \right \rbrace$ |
+| `zmax`| The upper limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmax-bs.dz} \\ \end{array} \right \rbrace$ |
 | `zlim`| List or tuple consisting of the lower and upper limit on the z-axis. If `zlim` is provided, it trumps any provided `zmin` or `zmax`. | None |
 | `vmin` | Lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. |None|
 | `vmax` | Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
