@@ -79,19 +79,96 @@ $$
 | `zlim`| List or tuple consisting of the lower and upper limit on the z-axis. If `zlim` is provided, it trumps any provided `zmin` or `zmax`. | None |
 | `vmin` | Lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. |None|
 | `vmax` | Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
-| `vlim` | List or tuple consisting of the lower and upper limit of the value to be plotted. | None |
-| `vlim_symmetric` | A Boolean parameter specifying whether the value limits should be symmetric | `False` |
+| `vlim` | List or tuple consisting of the lower and upper limit of the value to be plotted. Only relevant for `plot_field`. | None |
+| `vlim_symmetric` | A Boolean parameter specifying whether the value limits should be symmetric. Only relevant for `plot_field`. | `False` |
 | `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)|
 | `colormap` | String specifying the colormap to be used | Varies |
 | `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
-| `plotting_lib` | String specifying the plotting library to be used for visualization. | `matplotlib` |
+| `hold` | Boolean parameter indicating whether or not to hold the current plot | `False` |
+| `plot_shadows` | Boolean parameter indicating whether or not to plot the shadows of the objects. Only applicable for `plot_complex_field`. | `True` |
+| `fig` | `matplotlib` figure handle | None|
 | `ax` | `matplotlib` axis handle | None|
 
-## Predefined figure sizes
 
-Obviously, a lot of these plots are meant for publication. Therefore,
-there is a tool package that contains predefined and fitting sizes for
-the figures in question. $$TO BE ADDED$$
+## Plotting functions
+
+### `plot_field` - plotting a real field
+
+The `plot_field` function is used to plot a real field.
+
+??? note "Example"
+
+    ```python
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(131)
+    bs = cf.BaseSystem(1,xRes=31)
+    field = bs.x**2
+    bs.plot_field(field,ax=ax1)
+
+    ax2 = fig.add_subplot(132)
+    bs = cf.BaseSystem(2,xRes=31,yRes=31)
+    field = bs.x**2 + bs.y**2
+    bs.plot_field(field,ax=ax2)
+
+    ax3 = fig.add_subplot(133, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    field = bs.x**2 + bs.y**2 + bs.z**2
+    bs.plot_field(field,ax=ax3)
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_field_demo.png#only-light)
+    ![](images/plotting_plot_field_demo-colorinverted.png#only-dark)
+
+### `plot_complex_field` - plotting a complex field
+
+The `plot_complex_field` function is used to plot a complex field.
+
+??? note "Example"
+
+    ```python
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(231)
+    bs = cf.BaseSystem(1,xRes=31)
+    field = bs.x**2*np.exp(1j*bs.x/3)
+    bs.plot_complex_field(field,ax=ax1)
+
+    ax2 = fig.add_subplot(232)
+    bs = cf.BaseSystem(2,xRes=31,yRes=31)
+    field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
+    bs.plot_complex_field(field,ax=ax2,plot_method='phase_angle')
+
+    ax3 = fig.add_subplot(233, projection='3d')
+    bs = cf.BaseSystem(2,xRes=31,yRes=31)
+    field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
+    bs.plot_complex_field(field,ax=ax3,plot_method='3Dsurface')
+
+    ax5 = fig.add_subplot(235, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
+    bs.plot_complex_field(field,ax=ax5,plot_method='phase_angle')
+
+    ax6 = fig.add_subplot(236, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
+    bs.plot_complex_field(field,ax=ax6,plot_method='phase_blob')
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_complex_field_demo.png#only-light)
+    ![](images/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
 
 ## Animation
 
