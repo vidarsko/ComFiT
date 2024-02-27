@@ -12,19 +12,19 @@ nem.evolve_nematic_no_flow(5,method="ETD4RK")
 
 
 
-#for i in range(500):
+for i in range(500):
 
-   # nem.evolve_nematic(10,method="ETD4RK")
-   # S,n = nem.calc_order_and_director()
-   # D = nem.calc_defect_density_nematic()
-   # disclination_nodes = nem.calc_disclination_nodes_nem(charge_tolerance=0.0005)
-   # ax =nem.plot_field(S, vlim_symmetric=False,colormap='gray')
-   # nem.plot_disclination_nodes(disclination_nodes,ax=ax)
-   # plt.draw()
-   # plt.pause(0.01)
-   # cf.tool_save_plot(i)
-   # plt.clf()
+    nem.evolve_nematic(10,method="ETD4RK")
+    S,n = nem.calc_order_and_director()
+    D = nem.calc_defect_density_nematic()
+    disclination_nodes = nem.calc_disclination_nodes_nem(charge_tolerance=0.0005)
+    ax =nem.plot_field(S, vlim_symmetric=False,colormap='winter')
+  #  nem.plot_disclination_nodes(disclination_nodes,ax=ax)
+    plt.draw()
+    plt.pause(0.01)
+    cf.tool_save_plot(i)
+    plt.clf()
 
-cf.tool_make_animation_gif(44)
+cf.tool_make_animation_gif(i)
 
 plt.show()
