@@ -1745,8 +1745,6 @@ class BaseSystem:
         self.plot_set_axis_properties(ax=ax, grid=grid, **kwargs)
         return fig, ax
 
-
-
     def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
                          colorbar=True, colormap='viridis', clim=None,
                          **kwargs):
