@@ -826,6 +826,19 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2*(2-k2)**2)
 
+    def calc_stress_divergence_f(self, field_f = None):
+        
+        if field_f is None:
+            field_f = self.psi_f
+        
+        k2 = self.calc_k2()
+
+        return np.array([
+            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(sum([
+                sp.fft.ifftn((1-k2)*(2-k2)*self.dif[i]*field_f)*sp.fft.ifftn((3-2*k2)*self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
+                ]) + sp.fft.ifftn((1-k2)*(2-k2)*field_f)*sp.fft.ifftn((3-2*k2)*self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
+                )
+            #TODO: Needs double checking (Vidar 27.02.24)
 
 
 class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
@@ -909,6 +922,20 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
     def calc_omega_f(self):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2)
+
+    def calc_stress_divergence_f(self, field_f = None):
+        
+        if field_f is None:
+            field_f = self.psi_f
+        
+        k2 = self.calc_k2()
+
+        return np.array([
+            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(sum([
+                sp.fft.ifftn((1-k2)*self.dif[i]*field_f)*sp.fft.ifftn(self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
+                ]) + sp.fft.ifftn((1-k2)*field_f)*sp.fft.ifftn(self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
+                )
+                #TODO: Needs double checking (Vidar 27.02.24)
 
 class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
@@ -1009,6 +1036,19 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
     def calc_omega_f(self):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2*(4/3-k2)**2)
+
+    def calc_stress_divergence_f(self, field_f = None):
+        
+        if field_f is None:
+            field_f = self.psi_f
+        
+        k2 = self.calc_k2()
+
+        return np.array([
+            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(sum([
+                sp.fft.ifftn((1-k2)*(4/3-k2)*self.dif[i]*field_f)*sp.fft.ifftn((7/3 - 2*k2)*self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
+                ]) + sp.fft.ifftn((1-k2)*(4/3-k2)*field_f)*sp.fft.ifftn(7/3 - 2*k2)*self.dif[j]*(-k2)*field_f) for j in range(self.dim)])
+                #TODO: Needs double checking (Vidar 27.02.24)
 
 
 class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
@@ -1126,3 +1166,17 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
     def calc_omega_f(self):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2*(2-k2)**2*(3-k2)**2)
+
+    def calc_stress_divergence_f(self, field_f = None):
+        
+        if field_f is None:
+            field_f = self.psi_f
+        
+        k2 = self.calc_k2()
+
+        return np.array([
+            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(sum([
+                sp.fft.ifftn((1-k2)*(2-k2)*(3-k2)*self.dif[i]*field_f)*sp.fft.ifftn((11-12*k2+3*k2**2)*self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
+                ]) + sp.fft.ifftn((1-k2)*(2-k2)*(3-k2)*field_f)*sp.fft.ifftn((11-12*k2+3*k2**2)*self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
+                )
+        #TODO: Needs double checking (Vidar 27.02.24)
