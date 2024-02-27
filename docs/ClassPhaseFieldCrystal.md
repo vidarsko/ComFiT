@@ -102,7 +102,7 @@ These values are encoded in the instance properties `a,q`, e.g.,
 ```python
 import comfit as cf
 
-pfc = cf.PFCtri(1,1)
+pfc = cf.PhaseFieldCrystal2DTriangular(1,1)
 print(pfc.a)
 print(pfc.q)
 >> 
