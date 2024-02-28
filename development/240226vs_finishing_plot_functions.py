@@ -1,39 +1,76 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
 import comfit as cf
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 fig = plt.figure()
 
-ax1 = fig.add_subplot(231)
-bs = cf.BaseSystem(1,xRes=31)
-field = bs.x**2*np.exp(1j*bs.x/3)
-bs.plot_complex_field(field,ax=ax1)
-
-ax2 = fig.add_subplot(232)
-bs = cf.BaseSystem(2,xRes=31,yRes=31)
-field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
-bs.plot_complex_field(field,ax=ax2,plot_method='phase_angle')
-
-ax3 = fig.add_subplot(233, projection='3d')
-bs = cf.BaseSystem(2,xRes=31,yRes=31)
-field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
-bs.plot_complex_field(field,ax=ax3,plot_method='3Dsurface')
-
-ax5 = fig.add_subplot(235, projection='3d')
+ax1 = fig.add_subplot(121, projection='3d')
 bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
-bs.plot_complex_field(field,ax=ax5,plot_method='phase_angle')
+angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
+bs.plot_angle_field_in_plane(angle_field, ax=ax1)
 
-ax6 = fig.add_subplot(236, projection='3d')
-bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
-bs.plot_complex_field(field,ax=ax6,plot_method='phase_blob')
+ax2 = fig.add_subplot(122, projection='3d')
+bs.plot_angle_field_in_plane(angle_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
 
 plt.show()
+
+# import comfit as cf
+# import matplotlib.pyplot as plt
+# import numpy as np
+
+# fig = plt.figure()
+
+# ax1 = fig.add_subplot(131)
+# bs = cf.BaseSystem(1,xRes=31)
+# angle_field = np.mod((bs.x)/5,2*np.pi)-np.pi
+# bs.plot_angle_field(angle_field,ax=ax1)
+
+# ax2 = fig.add_subplot(132)
+# bs = cf.BaseSystem(2,xRes=31,yRes=31)
+# angle_field = np.mod((bs.x + 2*bs.y)/5,2*np.pi)-np.pi
+# bs.plot_angle_field(angle_field,ax=ax2)
+
+# ax3 = fig.add_subplot(133, projection='3d')
+# bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+# angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
+# bs.plot_angle_field(angle_field,ax=ax3)
+
+# plt.show()
+
+
+# fig = plt.figure()
+
+# ax1 = fig.add_subplot(231)
+# bs = cf.BaseSystem(1,xRes=31)
+# field = bs.x**2*np.exp(1j*bs.x/3)
+# bs.plot_complex_field(field,ax=ax1)
+
+# ax2 = fig.add_subplot(232)
+# bs = cf.BaseSystem(2,xRes=31,yRes=31)
+# field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
+# bs.plot_complex_field(field,ax=ax2,plot_method='phase_angle')
+
+# ax3 = fig.add_subplot(233, projection='3d')
+# bs = cf.BaseSystem(2,xRes=31,yRes=31)
+# field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
+# bs.plot_complex_field(field,ax=ax3,plot_method='3Dsurface')
+
+# ax5 = fig.add_subplot(235, projection='3d')
+# bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+# field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
+# bs.plot_complex_field(field,ax=ax5,plot_method='phase_angle')
+
+# ax6 = fig.add_subplot(236, projection='3d')
+# bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+# field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
+# bs.plot_complex_field(field,ax=ax6,plot_method='phase_blob')
+
+# plt.show()
 
 # fig = plt.figure()
 

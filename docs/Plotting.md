@@ -88,6 +88,12 @@ $$
 | `plot_shadows` | Boolean parameter indicating whether or not to plot the shadows of the objects. Only applicable for `plot_complex_field`. | `True` |
 | `fig` | `matplotlib` figure handle | None|
 | `ax` | `matplotlib` axis handle | None|
+| `xticks` | List of ticks on the x-axis | None |
+| `xticklabels` | List of labels for the ticks on the x-axis | None |
+| `yticks` | List of ticks on the y-axis | None |
+| `yticklabels` | List of labels for the ticks on the y-axis | None |
+| `zticks` | List of ticks on the z-axis | None |
+| `zticklabels` | List of labels for the ticks on the z-axis | None |
 
 
 ## Plotting functions
@@ -170,6 +176,39 @@ The `plot_complex_field` function is used to plot a complex field.
     ![](images/plotting_plot_complex_field_demo.png#only-light)
     ![](images/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
 
+### `plot_angle_field` - plotting an angle field
+
+The `plot_angle_field` function is used to plot an angle field.
+
+??? note "Example"
+    ```python
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(131)
+    bs = cf.BaseSystem(1,xRes=31)
+    angle_field = np.mod((bs.x)/5,2*np.pi)-np.pi
+    bs.plot_angle_field(angle_field,ax=ax1)
+
+    ax2 = fig.add_subplot(132)
+    bs = cf.BaseSystem(2,xRes=31,yRes=31)
+    angle_field = np.mod((bs.x + 2*bs.y)/5,2*np.pi)-np.pi
+    bs.plot_angle_field(angle_field,ax=ax2)
+
+    ax3 = fig.add_subplot(133, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
+    bs.plot_angle_field(angle_field,ax=ax3)
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_angle_field_demo.png#only-light)
+    ![](images/plotting_plot_angle_field_demo-colorinverted.png#only-dark)
+
 ### `plot_field_in_plane` - plotting a real field in a plane
 
 The `plot_field_in_plane` function is used to plot a real field in a plane.
@@ -200,6 +239,8 @@ The `plot_field_in_plane` function is used to plot a real field in a plane.
 ### `plot_complex_field_in_plane` - plotting a complex field in a plane
 
 The `plot_complex_field_in_plane` function is used to plot a complex field in a plane.
+The modulus of the complex field is shown as the alpha channel, where the minimum modulus value is transparent and the maximum modulus value is opaque.
+The phase of the complex field is shown as the color of the field, where the color is determined by the angle color scheme.
 
 ??? note "Example"
     ```python 
@@ -222,6 +263,32 @@ The `plot_complex_field_in_plane` function is used to plot a complex field in a 
 
     ![](images/plotting_plot_complex_field_in_plane_demo.png#only-light)
     ![](images/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
+
+### `plot_angle_field_in_plane` - plotting an angle field in a plane
+
+The `plot_angle_field_in_plane` function is used to plot an angle field in a plane.
+
+??? note "Example"
+    ```python 
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(121, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
+    bs.plot_angle_field_in_plane(angle_field, ax=ax1)
+
+    ax2 = fig.add_subplot(122, projection='3d')
+    bs.plot_angle_field_in_plane(angle_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_angle_field_in_plane_demo.png#only-light)
+    ![](images/plotting_plot_angle_field_in_plane_demo-colorinverted.png#only-dark)
 
 ## Animation
 

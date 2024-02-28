@@ -1171,6 +1171,23 @@ class BaseSystem:
             else:
                 zlim = [self.zmin/self.a0, (self.zmax-self.dz)/self.a0]
         
+        # Custom x-ticks
+        if 'xticks' in kwargs:
+            ax.set_xticks(kwargs['xticks'])
+        if 'xticklabels' in kwargs:
+            ax.set_xticklabels(kwargs['xticklabels'])
+
+        # Custom y-ticks
+        if 'yticks' in kwargs:
+            ax.set_yticks(kwargs['yticks'])
+        if 'yticklabels' in kwargs:
+            ax.set_yticklabels(kwargs['yticklabels'])
+        
+        # Custom z-ticks
+        if 'zticks' in kwargs:
+            ax.set_zticks(kwargs['zticks'])
+        if 'zticklabels' in kwargs:
+            ax.set_zticklabels(kwargs['zticklabels'])
         
         if self.dim == 1:
 
@@ -1186,6 +1203,8 @@ class BaseSystem:
 
             if ylim is not None:
                 ax.set_ylim(ylim[0], ylim[1])
+
+            
         
         elif self.dim == 2:
 
@@ -1657,6 +1676,41 @@ class BaseSystem:
         self.plot_set_axis_properties(**kwargs)
         return fig, ax
 
+    def plot_angle_field(self, angle_field, **kwargs):
+        """
+        Plot the angle field.
+
+        Input:
+            field (array-like): The angle field values.
+            ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
+        
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
+        """
+
+        # Normalize around 0
+        angle_field = np.mod(angle_field, 2 * np.pi) - np.pi        
+
+        if self.dim == 1:
+            if 'vlim' in kwargs:
+                vlim = kwargs['vlim']
+            else:
+                kwargs['vlim'] = [-np.pi, np.pi]
+                kwargs['yticks'] = [-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]
+                kwargs['yticklabels'] = [r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$']
+
+            
+            
+            return self.plot_field(angle_field, **kwargs)
+        
+        elif self.dim > 1:
+            complex_field = np.exp(1j * angle_field)
+
+            kwargs['plot_method'] = 'phase_angle'
+
+            return self.plot_complex_field(complex_field, **kwargs)
+
+
 
     def plot_field_in_plane(self, field, normal_vector=None, position=None, 
                         **kwargs):
@@ -1828,82 +1882,23 @@ class BaseSystem:
 
         return fig, ax
 
-
-    def plot_angle_field(self, field, ax=None, colorbar=True):
+    def plot_angle_field_in_plane(self, angle_field, normal_vector=None, position=None,**kwargs):
         """
-        Plot the angle field.
+        Plots the angle field in a plane.
 
         Input:
-            field (array-like): The angle field values.
-            ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
-        
+            angle_field (numpy.ndarray): The angle field to be plotted.
+            normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
+            position (array-like, optional): The position of the plane. Default is the middle of the system.
+            **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
+
         Output:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
-        if self.dim == 2:
-
-            if ax is None:
-                ax = plt.gca()
-
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-
-            custom_colormap = tool_colormap_angle()
-
-            mesh = ax.pcolormesh(X, Y, field, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
-            if colorbar:
-                cbar = plt.colorbar(mesh)  # To add a colorbar on the side
-                cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-                cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
-            # ax.title("Angle field")
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$y/a_0$')
-            ax.set_aspect('equal')
-
-            return ax
-
-        elif self.dim == 3:
-
-            if ax == None:
-                plt.figure()
-                ax = plt.gcf().add_subplot(111, projection='3d')
-
-            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-
-            colormap = tool_colormap_angle()
-
-            field_min = np.min(field)
-            field_max = np.max(field)
-
-            for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
-
-                if field_min < angle < field_max:
-                    field_to_plot = field.copy()
-                    field_to_plot[field < angle - 1] = float('nan')
-                    field_to_plot[field > angle + 1] = float('nan')
-
-                    verts, faces, _, _ = marching_cubes(field_to_plot, angle)
-
-                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                    color=colormap((angle + np.pi) / (2 * np.pi)))
-
-            field = np.mod(field, 2 * np.pi)
-
-            field_to_plot = field.copy()
-            field_to_plot[field < np.pi - 1] = float('nan')
-            field_to_plot[field > np.pi + 1] = float('nan')
-
-            verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
-
-            ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                            color=colormap(0))
-
-            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
-            ax.set_aspect('equal')
-
+        complex_field = np.exp(1j * angle_field)
     
+        return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
 
     def plot_fourier_field(self, field_f, ax=None):
         """
@@ -1948,29 +1943,6 @@ class BaseSystem:
             # plt.xlabel("X-axis")
             # plt.ylabel("Y-axis")
 
-
-    
-        
-    def plot_angle_field_in_plane(self, angle_field, colorbar=True):
-        """
-        Plots the angle field in a plane.
-
-        Input:
-            angle_field (numpy.ndarray): The angle field to be plotted.
-            colorbar (bool, optional): Whether to include a colorbar. Defaults to True.
-        
-        Output:
-            matplotlib.axes.Axes: The axes containing the plot.
-        """
-
-        self.plot_field_in_plane(angle_field, colorbar=False)
-
-        if colorbar:
-            sm = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
-            sm.set_clim(-np.pi, np.pi)
-            cbar = plt.colorbar(sm, ax=ax)
-            cbar.set_ticks(np.array([0, 1/6, 2/6, 3/6, 4/6, 5/6, 1]))
-            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
 
     def plot_vector_field(self, vector_field, ax=None, step=None):
