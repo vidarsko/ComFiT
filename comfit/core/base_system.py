@@ -1506,11 +1506,9 @@ class BaseSystem:
                 if ax == None:
                     fig.clf()
                     ax = fig.add_subplot(111, projection='3d')
-
-                custom_colormap = tool_colormap_angle()
                 
                 # Get the colors from a colormap (e.g., hsv, but you can choose any other)
-                colors = plt.cm.hsv((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+                colors = tool_colormap_angle()((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
 
                 surf = ax.plot_surface(X, Y, rho, facecolors=colors)
 
