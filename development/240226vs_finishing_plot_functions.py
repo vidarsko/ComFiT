@@ -9,22 +9,42 @@ import numpy as np
 fig = plt.figure()
 
 
+#1D system
 bs = cf.BaseSystem(1,xRes=31)
 
 # 1D vector field
 ax1 = fig.add_subplot(331)
-vector_field = np.array([bs.x**2*np.cos(bs.x/5)])
+vector_field = np.array([bs.x*np.cos(bs.x/5)])
 bs.plot_vector_field(vector_field,ax=ax1)
 
 # 2D vector field
 ax2 = fig.add_subplot(332, projection='3d')
-vector_field = np.array([bs.x**2*np.cos(bs.x/5), bs.x**2*np.sin(bs.x/5)])
+vector_field = np.array([bs.x*np.cos(bs.x/5), bs.x*np.sin(bs.x/5)])
 bs.plot_vector_field(vector_field,ax=ax2, spacing=3)
 
 # 3D vector field
 ax3 = fig.add_subplot(333, projection='3d')
-vector_field = np.array([bs.x**2*np.cos(bs.x/5), bs.x**2*np.sin(bs.x/5), bs.x**2*np.cos(bs.x/5)])
+vector_field = np.array([bs.x*np.cos(bs.x/5), bs.x*np.sin(bs.x/5), bs.x*np.cos(bs.x/5)])
 bs.plot_vector_field(vector_field,ax=ax3, spacing=3)
+
+#2D system
+bs = cf.BaseSystem(2,xRes=31,yRes=31)
+
+# 1D vector field
+ax4 = fig.add_subplot(334)
+vector_field = np.array([bs.x*np.cos(bs.y/5)])
+bs.plot_vector_field(vector_field,ax=ax4)
+
+# 2D vector field
+ax5 = fig.add_subplot(335)
+vector_field = np.array([bs.x*np.cos(bs.y/5), bs.y*np.sin(bs.x/5)])
+bs.plot_vector_field(vector_field,ax=ax5)
+
+# 3D vector field
+ax6 = fig.add_subplot(336, projection='3d')
+vector_field = np.array([bs.x*np.cos(bs.y/5), bs.y*np.sin(bs.x/5), bs.x*np.cos(bs.y/5)])
+bs.plot_vector_field(vector_field,ax=ax6, spacing=3)
+
 
 plt.show()
 

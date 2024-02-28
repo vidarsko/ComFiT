@@ -316,7 +316,7 @@ The behavior of this plot function is dependent on the interplay between the dim
 
 | System dimension | $n=1$ | $n=2$ | $n=3$ |
 | ----------------- | ----- | ----- | ----- |
-|`dim=1` |  The vector field is plotted as a 1D plot. |The vector field is plotted along the x-axis with the x-component of the vector field as the y-component of the plot and the y-component of the vector field as the z-component of the plot. |  The vector field is plotted along the x-axis. The vector field is normalized so that the maximal vector has length $a_0$. **This is not exactly true and needs to be fixed**.  |
+|`dim=1` |  Plotted as a 1D plot. | Plotted along the x-axis with the x-component of the vector field as the y-component of the plot and the y-component of the vector field as the z-component of the plot. |  Plotted along the x-axis. The x- and y- and z- component of the vector field are plotted along the x-, y- and z-component. The y- and z- component are shown as is in the perpendicular dimensions, while the x-component has been normalized by the max norm of the input vector field and subsequently scaled by `xmax/3`. The funciton is made for visualization purposes in mind, and quantitative analysis should plot each component individually. |
 
 
 ## Animation
