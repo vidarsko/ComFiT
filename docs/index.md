@@ -1,6 +1,14 @@
 # Home
 
 [ComFiT](https://github.com/vidarsko/ComFiT) is a versatile python library for simulating field theories, including plotting and animation in an object-oriented manner.
+If you use ComFiT in your research, please cite the following paper:
+
+---
+
+(unsubmitted) Skogvoll & Rønning, (2024). ComFiT: python library for computational field theory with topological defects. Journal of Open Source Software, X(XX), XXX, [link](link)
+
+---
+
 The best way to get to know ComFiT is by using it in one of the following tutorials.
 
 ## Base System 

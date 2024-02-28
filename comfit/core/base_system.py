@@ -1204,6 +1204,8 @@ class BaseSystem:
             if ylim is not None:
                 ax.set_ylim(ylim[0], ylim[1])
 
+            if zlim is not None:
+                ax.set_zlim(zlim[0], zlim[1])
             
         
         elif self.dim == 2:
@@ -1945,18 +1947,126 @@ class BaseSystem:
 
 
 
-    def plot_vector_field(self, vector_field, ax=None, step=None):
+    def plot_vector_field(self, vector_field, spacing=5, **kwargs):
         """
         Plots a vector field on a 2D grid.
 
         Input:
         vector_field (tuple): Tuple containing the x and y components of the vector field.
-        ax (matplotlib.axes.Axes, optional): The axes on which to plot the vector field. If not provided, a new subplot will be created.
+        spacing (int, optional): The spacing for the quiver plot. Default is 5.
+        kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
         Output:
         matplotlib.axes.Axes: The axes containing the plot.
         """
 
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
+
+        def add_spacing_2D(X,Y,U,V,spacing):
+            X = X[::spacing, ::spacing]
+            Y = Y[::spacing, ::spacing]
+            U = U[::spacing, ::spacing]
+            V = V[::spacing, ::spacing]
+            return X,Y,U,V
+
+        def add_spacing_3D(X,Y,Z,U,V,W,spacing):
+            X = X[::spacing, ::spacing, ::spacing]
+            Y = Y[::spacing, ::spacing, ::spacing]
+            Z = Z[::spacing, ::spacing, ::spacing]
+            U = U[::spacing, ::spacing, ::spacing]
+            V = V[::spacing, ::spacing, ::spacing]
+            W = W[::spacing, ::spacing, ::spacing]
+            return X,Y,Z,U,V,W            
+
+        if self.dim == 1:
+            
+            if vector_field.shape == (1,self.xRes):
+                return self.plot_field(vector_field[0], color='blue', **kwargs)
+
+            elif vector_field.shape == (2,self.xRes):
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+                
+                X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
+
+                U = np.zeros(X.shape)
+                V = np.zeros(X.shape)
+                W = np.zeros(X.shape)
+                V[:,0,0] = vector_field[0]
+                W[:,0,0] = vector_field[1]
+
+                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+
+                ax.quiver(X, Y, Z, U, V, W, color='blue')
+
+                kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
+                delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
+
+                kwargs['zlim'] = [np.min(vector_field[1]), np.max(vector_field[1])]
+                delta_z = kwargs['zlim'][1] - kwargs['zlim'][0]
+
+                if delta_y < 0.15*delta_z:
+                    kwargs['ylim'] = [kwargs['ylim'][0] - 0.15*delta_z, kwargs['ylim'][1] + 0.15*delta_z]
+                
+                if delta_z < 0.15*delta_y:
+                    kwargs['zlim'] = [kwargs['zlim'][0] - 0.15*delta_y, kwargs['zlim'][1] + 0.15*delta_y]
+
+                kwargs['ax'] = ax
+                self.plot_set_axis_properties(**kwargs)
+
+                return fig, ax
+
+            elif vector_field.shape == (3,self.xRes):
+
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+                
+
+                X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
+
+                U = np.zeros(X.shape)
+                V = np.zeros(X.shape)
+                W = np.zeros(X.shape)
+                U[:,0,0] = vector_field[0]
+                V[:,0,0] = vector_field[1]
+                W[:,0,0] = vector_field[2]
+
+                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+
+                # Normalize the vectors
+                max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+                U = (self.xmax-self.xmin)/3*U / max_vector
+                V = self.a0*V / max_vector
+                W = self.a0*W / max_vector
+
+                print("U")
+                print(U)
+                print("V")
+                print(V)
+                print("W")
+                print(W)
+
+
+                ax.quiver(X, Y, Z, U, V, W, color='blue')
+                
+
+                kwargs['ax'] = ax
+                kwargs['ylim'] = [-1,1]
+                kwargs['zlim'] = [-1,1]
+                self.plot_set_axis_properties(**kwargs)
+                # ax.set_aspect('equal')
+
+                return fig, ax
+
+
+            else:
+                raise Exception("You have entered an invalid field to the plot_vector_field function.")
+
+        
         if self.dim == 2:
 
             if ax == None:
@@ -1982,6 +2092,8 @@ class BaseSystem:
             ax.set_aspect('equal')
             ax.set_xlim([0, self.xmax-self.dx])
             ax.set_ylim([0, self.ymax-self.dy])
+
+            return ax
 
         elif self.dim == 3:
 
@@ -2016,5 +2128,5 @@ class BaseSystem:
             ax.set_ylim([0, self.ymax-self.dy])
             ax.set_zlim([0, self.zmax-self.dz])
 
-        return ax
+            return ax
 

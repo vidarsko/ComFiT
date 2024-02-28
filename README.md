@@ -7,6 +7,16 @@ The library features the Exponential Time Differencing method for numerical inte
 Additionally, ComFiT includes tools for tracking and calculating the density of topological defects in various systems.
 It also enables users to create and export plots and animations for a clearer understanding of the simulated phenomena.
 
+If you use ComFiT in your research or education, please cite the following paper:
+
+---
+
+(unsubmitted) Skogvoll & Rønning, (2024). ComFiT: python library for computational field theory with topological defects. Journal of Open Source Software, X(XX), XXX, [link](link)
+
+---
+
+The best way to get to know ComFiT is by having a look at the tutorials located in the [documentation](https://vidarsko.github.io/ComFiT/).
+
 Below, we see the simulation of an initial Guassian wave function in a harmonic oscillator trap under the time evolution imposed by the Schrödinger equation.
 
 ![Oscillating 1D Gaussian wave packet in a harmonic oscillator](docs/images/index_1D_Quantum_Mechanics_Gaussian.gif)

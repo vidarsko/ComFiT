@@ -2,22 +2,48 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
 import comfit as cf
 import matplotlib.pyplot as plt
 import numpy as np
 
 fig = plt.figure()
 
-ax1 = fig.add_subplot(121, projection='3d')
-bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
-bs.plot_angle_field_in_plane(angle_field, ax=ax1)
 
-ax2 = fig.add_subplot(122, projection='3d')
-bs.plot_angle_field_in_plane(angle_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+bs = cf.BaseSystem(1,xRes=31)
+
+# 1D vector field
+ax1 = fig.add_subplot(331)
+vector_field = np.array([bs.x**2*np.cos(bs.x/5)])
+bs.plot_vector_field(vector_field,ax=ax1)
+
+# 2D vector field
+ax2 = fig.add_subplot(332, projection='3d')
+vector_field = np.array([bs.x**2*np.cos(bs.x/5), bs.x**2*np.sin(bs.x/5)])
+bs.plot_vector_field(vector_field,ax=ax2, spacing=3)
+
+# 3D vector field
+ax3 = fig.add_subplot(333, projection='3d')
+vector_field = np.array([bs.x**2*np.cos(bs.x/5), bs.x**2*np.sin(bs.x/5), bs.x**2*np.cos(bs.x/5)])
+bs.plot_vector_field(vector_field,ax=ax3, spacing=3)
 
 plt.show()
+
+
+# import comfit as cf
+# import matplotlib.pyplot as plt
+# import numpy as np
+
+# fig = plt.figure()
+
+# ax1 = fig.add_subplot(121, projection='3d')
+# bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+# angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
+# bs.plot_angle_field_in_plane(angle_field, ax=ax1)
+
+# ax2 = fig.add_subplot(122, projection='3d')
+# bs.plot_angle_field_in_plane(angle_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+
+# plt.show()
 
 # import comfit as cf
 # import matplotlib.pyplot as plt

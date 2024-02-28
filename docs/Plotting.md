@@ -98,7 +98,13 @@ $$
 
 ## Plotting functions
 
-### `plot_field` - plotting a real field
+The `BaseSystem` class comes pre-packaged with a number of plotting functions to plot four different types of fields.
+
+### Real fields
+
+Real fields are fields that take real values, for example the temperature in a room.
+
+#### `plot_field`
 
 The `plot_field` function is used to plot a real field.
 
@@ -132,7 +138,38 @@ The `plot_field` function is used to plot a real field.
     ![](images/plotting_plot_field_demo.png#only-light)
     ![](images/plotting_plot_field_demo-colorinverted.png#only-dark)
 
-### `plot_complex_field` - plotting a complex field
+#### `plot_field_in_plane` 
+
+The `plot_field_in_plane` function is used to plot a real field in a plane.
+
+??? note "Example"
+    ```python 
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(121, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    field = (bs.x**2 + bs.y**2 + bs.z**2)
+    bs.plot_field_in_plane(field, ax=ax1)
+
+    ax2 = fig.add_subplot(122, projection='3d')
+    bs.plot_field_in_plane(field, ax=ax2, normal_vector=[1,1,0],position=[10,10,10])
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_field_in_plane_demo.png#only-light)
+    ![](images/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark)
+
+### Complex fields
+
+Complex fields are fields that take complex values, for example the electric field in a light wave.
+
+#### `plot_complex_field` 
 
 The `plot_complex_field` function is used to plot a complex field.
 
@@ -176,7 +213,39 @@ The `plot_complex_field` function is used to plot a complex field.
     ![](images/plotting_plot_complex_field_demo.png#only-light)
     ![](images/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
 
-### `plot_angle_field` - plotting an angle field
+#### `plot_complex_field_in_plane` 
+
+The `plot_complex_field_in_plane` function is used to plot a complex field in a plane.
+The modulus of the complex field is shown as the alpha channel, where the minimum modulus value is transparent and the maximum modulus value is opaque.
+The phase of the complex field is shown as the color of the field, where the color is determined by the angle color scheme.
+
+??? note "Example"
+    ```python 
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(121, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    complex_field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.y/3)
+    bs.plot_complex_field_in_plane(complex_field, ax=ax1)
+
+    ax2 = fig.add_subplot(122, projection='3d')
+    bs.plot_complex_field_in_plane(complex_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_complex_field_in_plane_demo.png#only-light)
+    ![](images/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
+
+### Angle fields
+
+Angle fields are fields that take values in the interval $[-\pi,\pi]$, for example the phase of a complex field.
+
+#### `plot_angle_field`
 
 The `plot_angle_field` function is used to plot an angle field.
 
@@ -209,62 +278,7 @@ The `plot_angle_field` function is used to plot an angle field.
     ![](images/plotting_plot_angle_field_demo.png#only-light)
     ![](images/plotting_plot_angle_field_demo-colorinverted.png#only-dark)
 
-### `plot_field_in_plane` - plotting a real field in a plane
-
-The `plot_field_in_plane` function is used to plot a real field in a plane.
-
-??? note "Example"
-    ```python 
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
-
-
-    fig = plt.figure()
-
-    ax1 = fig.add_subplot(121, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    field = (bs.x**2 + bs.y**2 + bs.z**2)
-    bs.plot_field_in_plane(field, ax=ax1)
-
-    ax2 = fig.add_subplot(122, projection='3d')
-    bs.plot_field_in_plane(field, ax=ax2, normal_vector=[1,1,0],position=[10,10,10])
-
-    plt.show()
-    ```
-
-    ![](images/plotting_plot_field_in_plane_demo.png#only-light)
-    ![](images/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark)
-
-### `plot_complex_field_in_plane` - plotting a complex field in a plane
-
-The `plot_complex_field_in_plane` function is used to plot a complex field in a plane.
-The modulus of the complex field is shown as the alpha channel, where the minimum modulus value is transparent and the maximum modulus value is opaque.
-The phase of the complex field is shown as the color of the field, where the color is determined by the angle color scheme.
-
-??? note "Example"
-    ```python 
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
-
-    fig = plt.figure()
-
-    ax1 = fig.add_subplot(121, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    complex_field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.y/3)
-    bs.plot_complex_field_in_plane(complex_field, ax=ax1)
-
-    ax2 = fig.add_subplot(122, projection='3d')
-    bs.plot_complex_field_in_plane(complex_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
-
-    plt.show()
-    ```
-
-    ![](images/plotting_plot_complex_field_in_plane_demo.png#only-light)
-    ![](images/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
-
-### `plot_angle_field_in_plane` - plotting an angle field in a plane
+#### `plot_angle_field_in_plane` 
 
 The `plot_angle_field_in_plane` function is used to plot an angle field in a plane.
 
@@ -289,6 +303,21 @@ The `plot_angle_field_in_plane` function is used to plot an angle field in a pla
 
     ![](images/plotting_plot_angle_field_in_plane_demo.png#only-light)
     ![](images/plotting_plot_angle_field_in_plane_demo-colorinverted.png#only-dark)
+
+### Vector fields
+
+#### `plot_vector_field`
+
+The `plot_vector_field` function is used to plot a vector field.
+Vector fields are usually plotted blue.
+Together with the typical keyword arguments, the `plot_vector_field` function has the kewyword `spacing` which determines the spacing between the arrows in the plot.
+
+The behavior of this plot function is dependent on the interplay between the dimension of the system and the dimension $n$ of the vector field.
+
+| System dimension | $n=1$ | $n=2$ | $n=3$ |
+| ----------------- | ----- | ----- | ----- |
+|`dim=1` |  The vector field is plotted as a 1D plot. |The vector field is plotted along the x-axis with the x-component of the vector field as the y-component of the plot and the y-component of the vector field as the z-component of the plot. |  The vector field is plotted along the x-axis. The vector field is normalized so that the maximal vector has length $a_0$. **This is not exactly true and needs to be fixed**.  |
+
 
 ## Animation
 
