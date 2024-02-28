@@ -170,6 +170,59 @@ The `plot_complex_field` function is used to plot a complex field.
     ![](images/plotting_plot_complex_field_demo.png#only-light)
     ![](images/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
 
+### `plot_field_in_plane` - plotting a real field in a plane
+
+The `plot_field_in_plane` function is used to plot a real field in a plane.
+
+??? note "Example"
+    ```python 
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(121, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    field = (bs.x**2 + bs.y**2 + bs.z**2)
+    bs.plot_field_in_plane(field, ax=ax1)
+
+    ax2 = fig.add_subplot(122, projection='3d')
+    bs.plot_field_in_plane(field, ax=ax2, normal_vector=[1,1,0],position=[10,10,10])
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_field_in_plane_demo.png#only-light)
+    ![](images/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark)
+
+### `plot_complex_field_in_plane` - plotting a complex field in a plane
+
+The `plot_complex_field_in_plane` function is used to plot a complex field in a plane.
+
+??? note "Example"
+    ```python 
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(121, projection='3d')
+    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+    complex_field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.y/3)
+    bs.plot_complex_field_in_plane(complex_field, ax=ax1)
+
+    ax2 = fig.add_subplot(122, projection='3d')
+    bs.plot_complex_field_in_plane(complex_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_complex_field_in_plane_demo.png#only-light)
+    ![](images/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
+
 ## Animation
 
 ## Angle color scheme

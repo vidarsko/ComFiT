@@ -1659,91 +1659,176 @@ class BaseSystem:
         self.plot_set_axis_properties(**kwargs)
         return fig, ax
 
-        def plot_field_in_plane(self, field, normal_vector=[0,1,0], position=None, ax=None,
-                         colorbar=True, colormap='viridis', clim=None,
-                         **kwargs):
-            """
-            Plots the field in a plane perpendicular to the given normal vector using
-            scipy.interpolate.griddata and plt.plot_trisurf.
 
-            Input:
-                field (array-like): The field to be plotted.
-                normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
-                position (array-like, optional): The position of the plane. Default is the middle of the system.
-                ax (Axes, optional): The axes object to plot on. If None, a new figure and axes will be created.
-                colorbar (bool, optional): Whether to include a colorbar in the plot. Default is True.
-                colormap (str, optional): The colormap to use for the plot. 
-            
-            Output:
-                matplotlib.axes.Axes: The axes containing the plot.
-            """
+    def plot_field_in_plane(self, field, normal_vector=None, position=None, 
+                        **kwargs):
+        """
+        Plots the field in a plane perpendicular to the given normal vector using
+        scipy.interpolate.griddata and plt.plot_trisurf.
 
-            if self.dim != 3:
-                raise Exception("This plotting function not yet configured for other dimensions")
-
-            if position is None:
-                position = self.rmid
-
-            if ax is None:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
-
-            if colormap == 'angle':
-                colormap = tool_colormap_angle()
-            elif colormap == 'bluewhitered':
-                colormap = tool_colormap_bluewhitered()
-            else:
-                colormap = plt.get_cmap(colormap)
-
-
-            normal_vector = np.array(normal_vector)/np.linalg.norm(normal_vector)
-            height_above_plane = (self.x-position[0])*normal_vector[0] + (self.y-position[1])*normal_vector[1] + (self.z-position[2])*normal_vector[2]
-
-            verts, faces, _, _ = marching_cubes(height_above_plane, 0)
-
-            # Calculate the centroids of each triangle
-            centroids = np.mean(verts[faces], axis=1)
-
-            # Assuming field is defined on the same grid as height_above_plane
-            x, y, z = np.mgrid[0:height_above_plane.shape[0], 0:height_above_plane.shape[1], 0:height_above_plane.shape[2]]
-
-            # Flatten the grid for interpolation
-            points = np.c_[x.ravel(), y.ravel(), z.ravel()]
-            field_values = field.ravel()
-
-            # Interpolate field at the vertices positions
-            field_verts = sp.interpolate.griddata(points, field_values, centroids, method='nearest')
-
-            # Normalize field values for color mapping
-            field_normalized = (field_verts - np.min(field_verts)) / (np.max(field_verts) - np.min(field_verts))
-
-            # Map normalized field values to colors
-            colors = colormap(field_normalized)
-
-
+        Input:
+            field (array-like): The field to be plotted.
+            normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
+            position (array-like, optional): The position of the plane. Default is the middle of the system.
+            **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/. 
         
-            ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
-                            self.ymin+verts[:, 1]*self.dy,
-                            faces,
-                            self.zmin+verts[:, 2]*self.dz,
-                            facecolor=colors, antialiased=False)
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
+        """
 
-            if colorbar:
-                sm = plt.cm.ScalarMappable(cmap=colormap)    
-                cbar = plt.colorbar(sm, ax=ax)
+        if self.dim != 3:
+            raise Exception("The plot in plane function is only defined for 3D fields.")
 
-            ax.set_xlim3d(self.xmin, self.xmax-self.dx)
-            ax.set_ylim3d(self.ymin, self.ymax-self.dy)
-            ax.set_zlim3d(self.zmin, self.zmax-self.dz)
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
 
-            ax.set_aspect('equal')
+        # Kewyord arguments
+        colorbar = kwargs.get('colorbar', True)
 
-            ax.set_xlabel("$x/a_0$")
-            ax.set_ylabel("$y/a_0$")
-            ax.set_zlabel("$z/a_0$")
-            ax.set_aspect('equal')
+        # Default values of position and normal vector
+        if position is None:
+            position = self.rmid
 
-        return ax
+        if normal_vector is None:
+            normal_vector=[0,1,0]
+
+        if ax is None:
+            ax = fig.add_subplot(111, projection='3d')
+
+        colormap = kwargs.get('colormap', 'viridis')
+
+        if colormap == 'angle':
+            colormap = tool_colormap_angle()
+        elif colormap == 'bluewhitered':
+            colormap = tool_colormap_bluewhitered()
+        else:
+            colormap = plt.get_cmap(colormap)
+
+        normal_vector = np.array(normal_vector)/np.linalg.norm(normal_vector)
+        height_above_plane = (self.x-position[0])*normal_vector[0] + (self.y-position[1])*normal_vector[1] + (self.z-position[2])*normal_vector[2]
+
+        verts, faces, _, _ = marching_cubes(height_above_plane, 0)
+
+        # Calculate the centroids of each triangle
+        centroids = np.mean(verts[faces], axis=1)
+
+        # Assuming field is defined on the same grid as height_above_plane
+        x, y, z = np.mgrid[0:height_above_plane.shape[0], 0:height_above_plane.shape[1], 0:height_above_plane.shape[2]]
+
+        # Flatten the grid for interpolation
+        points = np.c_[x.ravel(), y.ravel(), z.ravel()]
+        field_values = field.ravel()
+
+        # Interpolate field at the vertices positions
+        field_verts = sp.interpolate.griddata(points, field_values, centroids, method='nearest')
+
+        # Normalize field values for color mapping
+        field_normalized = (field_verts - np.min(field_verts)) / (np.max(field_verts) - np.min(field_verts))
+
+        # Map normalized field values to colors
+        colors = colormap(field_normalized)
+    
+        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
+                        self.ymin+verts[:, 1]*self.dy,
+                        faces,
+                        self.zmin+verts[:, 2]*self.dz,
+                        facecolor=colors, antialiased=False)
+
+        if colorbar:
+            sm = plt.cm.ScalarMappable(cmap=colormap)    
+            cbar = plt.colorbar(sm, ax=ax, pad=0.2)
+
+        kwargs['grid'] = kwargs.get('grid', True)
+        kwargs['ax'] = ax
+        self.plot_set_axis_properties(**kwargs)
+
+        return fig, ax
+
+    def plot_complex_field_in_plane(self, complex_field, normal_vector=None, position=None, **kwargs):
+        """
+        Plots the complex field in a plane perpendicular to the given normal vector using
+
+        Input:
+            complex_field (array-like): The complex field to be plotted.
+            normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
+            position (array-like, optional): The position of the plane. Default is the middle of the system.
+            **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
+
+        Output:
+            matplotlib.axes.Axes: The axes containing the plot.
+        """
+
+        if self.dim != 3:
+            raise Exception("The plot in plane function is only defined for 3D fields.")
+
+        # Default values of position and normal vector
+        if position is None:
+            position = self.rmid
+
+        if normal_vector is None:
+            normal_vector = [0,1,0]
+
+        # Calculate the magnitude and phase of the complex field
+        rho = np.abs(complex_field)
+        theta = np.angle(complex_field)
+        
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
+
+        # Kewyord arguments
+        colorbar = kwargs.get('colorbar', True)
+
+        normal_vector = np.array(normal_vector)/np.linalg.norm(normal_vector)
+        height_above_plane = (self.x-position[0])*normal_vector[0] + (self.y-position[1])*normal_vector[1] + (self.z-position[2])*normal_vector[2]
+
+        verts, faces, _, _ = marching_cubes(height_above_plane, 0)
+
+        # Calculate the centroids of each triangle
+        centroids = np.mean(verts[faces], axis=1)
+
+        # Assuming field is defined on the same grid as height_above_plane
+        x, y, z = np.mgrid[0:height_above_plane.shape[0], 0:height_above_plane.shape[1], 0:height_above_plane.shape[2]]
+
+        # Flatten the grid for interpolation
+        points = np.c_[x.ravel(), y.ravel(), z.ravel()]
+        theta_values = theta.ravel()
+
+        # Interpolate field at the vertices positions
+        theta_verts = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
+        rho_verts = sp.interpolate.griddata(points, rho.ravel(), centroids, method='nearest')
+
+        # Normalize field values for color mapping
+        theta_normalized = (theta_verts+np.pi) / (2*np.pi)
+
+        # Map normalized field values to colors
+        colormap = tool_colormap_angle()
+        colors = colormap(theta_normalized)
+
+        # Blend the colors with white according to rho (normalized)
+        colors[:,3] = (rho_verts/np.max(rho_verts)).ravel()
+    
+        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
+                        self.ymin+verts[:, 1]*self.dy,
+                        faces,
+                        self.zmin+verts[:, 2]*self.dz,
+                        facecolor=colors, antialiased=True)
+
+        # Create a colorbar
+        if colorbar:
+            mappable = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
+            mappable.set_array([])
+            mappable.set_clim(-np.pi, np.pi)
+            cbar = plt.colorbar(mappable, ax=ax, pad=0.2)
+            cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+
+        kwargs['grid'] = kwargs.get('grid', True)
+        kwargs['ax'] = ax
+        self.plot_set_axis_properties(**kwargs)
+
+        return fig, ax
 
 
     def plot_angle_field(self, field, ax=None, colorbar=True):
