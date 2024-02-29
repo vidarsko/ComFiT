@@ -601,7 +601,7 @@ class BoseEinsteinCondensate(BaseSystem):
                 )
             for vortex in vortex_nodes:
                 tangent_vector = np.array([rho[i][vortex['position_index']] for i in range(3)]),
-                vortex['tangent_vector'] = tangent_vector/np.linalg.norm(tangent_vector)
+                vortex['tangent_vector'] = tangent_vector[0]/np.linalg.norm(tangent_vector)
                 
                 if dt_psi is not None:
                     vortex['velocity'] = [velocity_field[0][vortex['position_index']], 
