@@ -415,6 +415,29 @@ The following table summarizes the behavior of the `plot_vector_field` function.
 
 The `plot_vector_field_in_plane` function is used to plot a vector field in a plane.
 
+??? note "Example"
+    ```python
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(121, projection='3d')
+    bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+    vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5), -bs.z+bs.x*np.cos(bs.y/5)])
+    bs.plot_vector_field_in_plane(vector_field, ax=ax1)
+
+    ax2 = fig.add_subplot(122, projection='3d')
+    bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+    vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5)])
+    bs.plot_vector_field_in_plane(vector_field, ax=ax2, normal_vector=[0,1,1],position=[2,3,3])
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_vector_field_in_plane_demo.png#only-light)
+    ![](images/plotting_plot_vector_field_in_plane_demo-colorinverted.png#only-dark)
 
 ## Animation
 

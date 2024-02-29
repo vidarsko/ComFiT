@@ -2209,7 +2209,7 @@ class BaseSystem:
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
 
     
-    def plot_vector_field_in_plane(self,vector_field,position=None,normal_vector=None,spacing=5,**kwargs):
+    def plot_vector_field_in_plane(self,vector_field,position=None,normal_vector=None,spacing=2,**kwargs):
         """
         Plots the vector field in a plane.
         
@@ -2280,14 +2280,41 @@ class BaseSystem:
         else:
             W_verts = np.zeros(U_verts.shape)
 
+        # Normalize the vectors
+        max_vector = np.max(np.sqrt(U_verts ** 2 + V_verts ** 2 + W_verts ** 2))
+        U_verts = U_verts / max_vector
+        V_verts = V_verts / max_vector
+        W_verts = W_verts / max_vector
+
+        # Scale factors
+        vx_scale = kwargs.get('vx_scale', spacing*self.dx)
+        vy_scale = kwargs.get('vy_scale', spacing*self.dy)
+        vz_scale = kwargs.get('vz_scale', spacing*self.dz)
+
+        # Scaling
+        U_verts = vx_scale*U_verts
+        V_verts = vy_scale*V_verts
+        W_verts = vz_scale*W_verts
+
         x = self.xmin+verts[:, 0]*self.dx
         y = self.ymin+verts[:, 1]*self.dy
         z = self.zmin+verts[:, 2]*self.dz
 
-        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
+        # Adjust positions based on the coordinate system
+        x = self.xmin + x * self.dx
+        y = self.ymin + y * self.dy
+        z = self.zmin + z * self.dz
 
-        U, V, W = np.meshgrid(U_verts, V_verts, W_verts, indexing='ij')
+        # Add spacing
+        x = x[::spacing]
+        y = y[::spacing]
+        z = z[::spacing]
+        U_verts = U_verts[::spacing]
+        V_verts = V_verts[::spacing]
+        W_verts = W_verts[::spacing]
 
-        ax.quiver(X, Y, Z, U, V, W, color='blue')
-        
+        ax.quiver(x, y, z, U_verts, V_verts, W_verts, color='blue')
+
+        kwargs['ax'] = ax
+        self.plot_set_axis_properties(**kwargs)
         return fig, ax

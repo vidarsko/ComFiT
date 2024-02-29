@@ -9,9 +9,14 @@ import numpy as np
 fig = plt.figure()
 
 ax1 = fig.add_subplot(121, projection='3d')
-bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11,dx=0.1,dy=0.1,dz=0.1)
+bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
 vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5), -bs.z+bs.x*np.cos(bs.y/5)])
-bs.plot_vector_field_in_plane(vector_field)
+bs.plot_vector_field_in_plane(vector_field, ax=ax1)
+
+ax2 = fig.add_subplot(122, projection='3d')
+bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5)])
+bs.plot_vector_field_in_plane(vector_field, ax=ax2, normal_vector=[0,1,1],position=[2,3,3])
 
 plt.show()
 
