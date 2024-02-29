@@ -411,6 +411,11 @@ The following table summarizes the behavior of the `plot_vector_field` function.
     ![](images/plotting_plot_vector_field_demo.png#only-light)
     ![](images/plotting_plot_vector_field_demo-colorinverted.png#only-dark)
 
+#### `plot_vector_field_in_plane`
+
+The `plot_vector_field_in_plane` function is used to plot a vector field in a plane.
+
+
 ## Animation
 
 ## Angle color scheme
@@ -426,3 +431,136 @@ This has the benefit of wrapping around itself at θ = ±π, stressing that thes
 ![Angle color scheme](images/conventions_angle_colormap-colorinverted.png#only-dark)
 
 *Angle color scheme.* The color scheme follows the hsv color circle going through  $\theta=0$ (Red), $\theta=\pi/3$ (Yellow), $\theta=2\pi/3$ (Lime), $\theta = \pm \pi$ (Aqua), $\theta = -2\pi/3$ (Blue), $\theta = -\pi/3$ (Fuchsia).
+
+## Technicality: The `marching_cubes` function and interpolation
+
+The marching cubes algorithm is used to create a 3D surface from a 3D field and is used in creating many of the plots in three dimensions.
+If you are going to make changes to the codebase, then it is useful to have an idea of how it works and what the resulting quantities are.
+
+Typically, we have our 3D system with a total resolution of, say 300, and a field `field`, of which we want to extract the values on some specific isosurface `iso_value`.
+The `marching_cubes` function is called as follows
+
+```python
+verts, faces, _, _ = marching_cubes(field,iso_value)
+```
+
+`verts` is a list of the (integer) positions of the vertices of the surfaces, e.g.,
+
+```python
+verts = 
+[[x0i,y0i,z0i],
+ [x1i,y1i,z1i],
+ [x2i,y2i,z2i],
+ [x3i,y3i,z3i],
+ [x4i,y4i,z4i]]
+
+verts = 
+[[ 0.  5.  1.]
+ [ 0.  5.  0.]
+ [ 1.  5.  1.]
+ [ 1.  5.  0.]
+ [ 0.  5.  2.]]
+```
+
+if the surface has five vertices.
+`faces` is a list of the indices of the vertices that make up the triangles of the surface.
+
+```python
+faces = 
+[[v0i,v1i,v2i],
+ [v3i,v4i,v5i],
+ ... #3 hidden rows
+ [v2i,v1i,v0i]]
+
+faces =
+[[  2   1   0]
+ [  2   3   1]
+ [  1   3   2]
+ [  0   4   2]
+ [  2   3   1]
+ [  0   1   2]]
+```
+
+if the surface has six faces.
+In other words, if `faces[0] = [2, 1, 0]`, then it represents the triangle given by the three vertices
+
+```python
+verts[2] = [ 1.  5.  1.]
+verts[1] = [ 0.  5.  1.]
+verts[0] = [ 0.  5.  0.]
+```
+
+Now, it is useful to calculate the position of a point located on the surface, which is calculated by the line
+
+```python
+centroids = np.mean(verts[faces], axis=1)
+```
+
+which gives the position of the centroids of the triangles that make up the surface.
+
+```python
+centroids = 
+[[x0c,y0c,z0c],
+ [x1c,y1c,z1c],
+ [x2c,y2c,z2c],
+ [x3c,y3c,z3c],
+ [x4c,y4c,z4c]
+ [x5c,y5c,z5c]]
+
+centroids =
+[[0.33333334 5.         0.6666667 ]
+ [0.6666667  5.         0.33333334]
+ [0.33333334 5.         1.6666666 ]
+ [0.6666667  5.         1.3333334 ]
+ [0.33333334 5.         2.6666667 ]
+ [0.6666667  5.         2.3333333 ]]
+```
+
+As we see, the centroids array consists of as many rows as there are faces (naturally), and each row consists of the x-, y- and z-coordinates of the centroid of the corresponding face.
+
+In the next line, we typically create the `points` array, as follows:
+
+```python
+x, y, z = np.mgrid[0:field.shape[0], 0:field.shape[1], 0:field.shape[2]]
+points = np.c_[x.ravel(), y.ravel(), z.ravel()]
+```
+
+The `points` array is a list of the (integer) positions of all the points in the full 3D grid.
+
+```python
+points = 
+[[x0i,y0i,z0i],
+ [x1i,y1i,z1i],
+ [x2i,y2i,z2i],
+ [x3i,y3i,z3i],
+ [x4i,y4i,z4i],
+ ... # 300 rows total
+ [x299i,y299i,z299i]]
+
+ points = 
+ [[ 0  0  0]
+ [ 0  0  1]
+ [ 0  0  2]
+ ... # 300 rows total
+ [10 10  8]
+ [10 10  9]
+ [10 10 10]]
+```
+
+Then, we create the `field_values` array by 
+
+```python
+field_values = field.ravel()
+```
+
+which is a `(300,)`-shaped array of the values of the field at the points in the `points` array, i.e., in the full grid.
+
+Now we get to the interpolation, which happens by the command
+
+```python
+field_verts = sp.interpolate.griddata(points, field_values,centroids, method='nearest')
+```
+
+which uses the information in `points` and `field_values` to interpolate the field values at the centroids of the faces of the surface.
+It returns thus a `(6,)`-array containing the field values to be used in the plotting of the surface.
+The `nearest` method is used to interpolate the field values, which means that the field value at the centroid of a face is the field value of the point in the full grid that is closest to the centroid of the face.
