@@ -14,7 +14,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 ## Base System 
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong> Basic Framework</strong></div>
         <hr>
         <p>
@@ -23,7 +23,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         </p>
         <p style="color: var(--md-default-fg-color)">Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. </p>
     </a>
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_creating_your_own_model.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_creating_your_own_model.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong>How to make your own model</strong></div>
         <hr>
         <p>
@@ -40,7 +40,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_introduction.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_introduction.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong> Quantum Mechanics in 1 dimension </strong></div>
         <hr>
         <p>
@@ -51,7 +51,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
         Understand the basics of the Quantum Mechanics model.
         </p>
     </a>
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_2D_introduction.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_2D_introduction.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong>Quantum Mechanics in 2 dimensions</strong></div>
         <hr>
         <p>
@@ -62,7 +62,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
         Understand how to plot a quantum mechanical system in 2 dimensions.
         </p>
 </a>
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_3D_introduction.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_3D_introduction.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> Quantum Mechanics in 3 dimensions </strong></div>
     <hr>
     <p>
@@ -73,7 +73,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     Understand how to plot a quantum mechanical system in 3 dimensions.
     </p>
 </a>
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_the_hydrogen_atom.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_the_hydrogen_atom.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> The hydrogen atom </strong></div>
     <hr>
     <p>
@@ -89,7 +89,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 ## Bose Einstein Condensates
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_basic_framework.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> Basic Framework </strong></div>
     <hr>
     <p>
@@ -100,7 +100,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     Understand the basics of the Bose Einstein Condensate model.
     </p>
 </a>
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_time_dependenent_potentials.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_time_dependenent_potentials.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong>Time-dependent potentials</strong></div>
     <hr>
     <p>
@@ -111,7 +111,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     Learn how to create time-dependent potentials to stir the Bose Einstein Condensate model.
     </p>
 </a>
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_comoving_frame_and_defect_tracking.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_comoving_frame_and_defect_tracking.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong>Comoving frame and defect tracking</strong></div>
     <hr>
     <p>
@@ -122,7 +122,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     Learn how to track defects and study defects made by an obstacle.
     </p>
 </a>
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_3D_comoving_frame.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_3D_comoving_frame.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong>3D and comoving frame </strong></div>
     <hr>
     <p>
@@ -140,7 +140,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 ## Phase-field crystal
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/phase_field_crystal_basic_framework.ipynb" class="card" style="min-width: 170px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/phase_field_crystal_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> Basic framework </strong></div>
     <hr>
     <p>
