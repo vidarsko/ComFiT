@@ -1,0 +1,25 @@
+name: Clear Notebook Outputs
+
+on: [push]
+
+jobs:
+  clear-outputs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install nbstripout
+      run: |
+        python -m pip install --upgrade pip
+        pip install nbstripout
+    - name: Strip outputs from notebooks
+      run: |
+        nbstripout tutorial/*.ipynb
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "Automatically removed outputs from notebooks"
