@@ -2096,21 +2096,26 @@ class BaseSystem:
                     ax = fig.add_subplot(111, projection='3d')
 
                 X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
-
-                U = vector_field[0]
-                V = vector_field[1]
-                W = vector_field[2]
+                U = np.zeros(X.shape)
+                V = np.zeros(X.shape)
+                W = np.zeros(X.shape)
+                
+                U[:,:,0] = vector_field[0]
+                V[:,:,0] = vector_field[1]
+                W[:,:,0] = vector_field[2]
 
                 X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
                 U = U / max_vector
                 V = V / max_vector
-                W = W / max_vector
+                W = W / max_vector/3
 
-                ax.quiver(X, Y, Z, U, V, W, color='blue')
+                ax.quiver(X, Y, Z, self.xmax/3*U, self.ymax/3*V, W, color='blue')
 
                 kwargs['ax'] = ax
+                kwargs['axis_equal'] = False
+                kwargs['zlim'] = [-1,1]
                 self.plot_set_axis_properties(**kwargs)
 
                 return fig, ax
