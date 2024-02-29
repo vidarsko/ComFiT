@@ -1983,7 +1983,21 @@ class BaseSystem:
         if self.dim == 1:
             
             if vector_field.shape == (1,self.xRes):
-                return self.plot_field(vector_field[0], **kwargs)
+                if ax == None:
+                    ax = plt.gcf().add_subplot(111)
+
+                X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
+
+                U = np.zeros(X.shape)
+                V = np.zeros(X.shape)
+
+                V[:,0] = vector_field[0]
+
+                X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
+
+                ax.quiver(X, Y, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
+                
+                kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
 
             elif vector_field.shape == (2,self.xRes):
                 if ax == None:
@@ -1995,6 +2009,7 @@ class BaseSystem:
                 U = np.zeros(X.shape)
                 V = np.zeros(X.shape)
                 W = np.zeros(X.shape)
+
                 V[:,0,0] = vector_field[0]
                 W[:,0,0] = vector_field[1]
 
@@ -2014,46 +2029,48 @@ class BaseSystem:
                 if delta_z < 0.15*delta_y:
                     kwargs['zlim'] = [kwargs['zlim'][0] - 0.15*delta_y, kwargs['zlim'][1] + 0.15*delta_y]
 
-                kwargs['ax'] = ax
-                self.plot_set_axis_properties(**kwargs)
-
-                return fig, ax
-
             elif vector_field.shape == (3,self.xRes):
 
                 if ax == None:
                     fig.clf()
                     ax = fig.add_subplot(111, projection='3d')
                 
-
                 X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
                 U = np.zeros(X.shape)
                 V = np.zeros(X.shape)
                 W = np.zeros(X.shape)
+
+                # Add the vector field
                 U[:,0,0] = vector_field[0]
                 V[:,0,0] = vector_field[1]
                 W[:,0,0] = vector_field[2]
 
+                # Add spacing
                 X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
                 # Normalize the vectors
-                max_vector = np.max(np.sqrt(U**2 + V ** 2 + W ** 2))
-                U = self.xmax/3* U/max_vector
-                V = self.a0*V / max_vector
-                W = self.a0*W / max_vector
+                max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+
+                # Normalizing
+                U = U/max_vector
+                V = V/max_vector
+                W = W/max_vector
+
+                # Scale factors
+                vx_scale = kwargs.get('vx_scale', spacing*self.xmax/15)
+                vy_scale = kwargs.get('vy_scale', 1)
+                vz_scale = kwargs.get('vz_scale', 1)
+
+                # Scaling
+                U = vx_scale*U
+                V = vy_scale*V
+                W = vz_scale*W
 
                 ax.quiver(X, Y, Z, U, V, W, color='blue')
                 
-
-                kwargs['ax'] = ax
                 kwargs['ylim'] = [-1,1]
                 kwargs['zlim'] = [-1,1]
-                self.plot_set_axis_properties(**kwargs)
-                # ax.set_aspect('equal')
-
-                return fig, ax
-
 
             else:
                 raise Exception("You have entered an invalid field to the plot_vector_field function.")
@@ -2062,13 +2079,32 @@ class BaseSystem:
 
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-            
             if vector_field.shape == (1,self.xRes,self.yRes):
+
                 if ax == None:
                     ax = plt.gcf().add_subplot(111)
 
-                return self.plot_field(vector_field[0], **kwargs)
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
+                U = vector_field[0]
+                V = np.zeros(X.shape)
+
+                X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
+
+                # Normalize the vectors
+                max_vector = np.max(np.sqrt(U ** 2))
+                
+                U = U / max_vector
+
+                # Scale factors
+                vx_scale = kwargs.get('vx_scale', spacing*self.dx)
+
+                # Scaling
+                U = vx_scale*U
+
+                ax.quiver(X, Y, U, V, color='blue',
+                    angles='xy', scale_units='xy', scale=1,
+                    headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
             elif vector_field.shape == (2,self.xRes,self.yRes):
 
@@ -2078,19 +2114,24 @@ class BaseSystem:
                 X, Y, U, V = add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
 
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
+                
                 U = U / max_vector
                 V = V / max_vector
 
-                ax.quiver(X, Y, self.a0*U, self.a0*V, color='blue')
+                # Scale factors
+                vx_scale = kwargs.get('vx_scale', 1.0*spacing*self.dx)
+                vy_scale = kwargs.get('vy_scale', 1.0*spacing*self.dy)
 
-                kwargs['ax'] = ax
-                self.plot_set_axis_properties(**kwargs)
+                # Scaling
+                U = vx_scale*U
+                V = vy_scale*V
 
-                return fig, ax
+                ax.quiver(X, Y, U, V, color='blue', 
+                    angles='xy', scale_units='xy', scale=1,
+                    headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
             elif vector_field.shape == (3,self.xRes,self.yRes):
 
-                #TODO: Fix
                 if ax == None:
                     fig.clf()
                     ax = fig.add_subplot(111, projection='3d')
@@ -2107,51 +2148,109 @@ class BaseSystem:
                 X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+
+                # Normalizing
                 U = U / max_vector
                 V = V / max_vector
-                W = W / max_vector/3
+                W = W / max_vector
+                
+                # Scale factors
+                vx_scale = kwargs.get('vx_scale', 2*spacing*self.xmax/max_vector)
+                vy_scale = kwargs.get('vy_scale', 2*spacing*self.ymax/max_vector)
+                vz_scale = kwargs.get('vz_scale', spacing)
 
-                ax.quiver(X, Y, Z, self.xmax/3*U, self.ymax/3*V, W, color='blue')
+                # Scaling
+                U = vx_scale*U
+                V = vy_scale*V
+                W = vz_scale*W
 
-                kwargs['ax'] = ax
+                ax.quiver(X, Y, Z, U, V, W, color='blue')
+
                 kwargs['axis_equal'] = False
-                kwargs['zlim'] = [-1,1]
-                self.plot_set_axis_properties(**kwargs)
-
-                return fig, ax
-
+                kwargs['zlim'] = [-spacing,spacing]
 
         elif self.dim == 3:
 
-            if ax == None:
-                ax = plt.gcf().add_subplot(111, projection='3d')
-
-            step = kwargs.get('step', 2)
-
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-            X_plot = X[::step, ::step, ::step]
-            Y_plot = Y[::step, ::step, ::step]
-            Z_plot = Z[::step, ::step, ::step]
-            U_plot = vector_field[0][::step, ::step, ::step]
-            V_plot = vector_field[1][::step, ::step, ::step]
-            W_plot = vector_field[2][::step, ::step, ::step]
+            if ax == None:
+                fig.clf()
+                ax = fig.add_subplot(111, projection='3d')
 
-            max_vector = np.max(np.sqrt(U_plot ** 2 + V_plot ** 2 + W_plot ** 2))
+            if vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
+                # Define the vector field
+                U = vector_field[0]
+                V = np.zeros(U.shape)
+                W = np.zeros(U.shape)
 
-            U_plot = U_plot / max_vector
-            V_plot = V_plot / max_vector
-            W_plot = W_plot / max_vector
+                # Add spacing
+                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-            ax.quiver(X_plot, Y_plot, Z_plot, U_plot, V_plot, W_plot, arrow_length_ratio=0.6)
+                # Normalize the vectors
+                max_vector = np.max(np.sqrt(U ** 2))
+                U = U / max_vector
 
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$y/a_0$')
-            ax.set_zlabel('$z/a_0$')
-            ax.set_aspect('equal')
-            ax.set_xlim([0, self.xmax-self.dx])
-            ax.set_ylim([0, self.ymax-self.dy])
-            ax.set_zlim([0, self.zmax-self.dz])
+                # Scale factors
+                vx_scale = kwargs.get('vx_scale', spacing*self.dx)
 
-            return ax
+                # Scaling
+                U = vx_scale*U
+
+                ax.quiver(X, Y, Z, U, V, W, color='blue')
+
+            elif vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
+                
+                # Define the vector field
+                U = vector_field[0]
+                V = vector_field[1]
+                W = np.zeros(U.shape)
+
+                # Add spacing
+                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+
+                # Normalize the vectors
+                max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
+                U = U / max_vector
+                V = V / max_vector
+
+                # Scale factors
+                vx_scale = kwargs.get('vx_scale', spacing*self.dx)
+                vy_scale = kwargs.get('vy_scale', spacing*self.dy)
+
+                # Scaling
+                U = vx_scale*U
+                V = vy_scale*V
+
+                ax.quiver(X, Y, Z, U, V, W, color='blue')
+
+            elif vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
+                
+                # Define the vector field
+                U = vector_field[0]
+                V = vector_field[1]
+                W = vector_field[2]
+
+                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+
+                # Normalize the vectors
+                max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+                U = U / max_vector
+                V = V / max_vector
+                W = W / max_vector
+
+                # Scale factors
+                vx_scale = kwargs.get('vx_scale', spacing*self.dx)
+                vy_scale = kwargs.get('vy_scale', spacing*self.dy)
+                vz_scale = kwargs.get('vz_scale', spacing*self.dz)
+
+                # Scaling
+                U = vx_scale*U
+                V = vy_scale*V
+                W = vz_scale*W
+
+                ax.quiver(X, Y, Z, U, V, W, color='blue')
+
+        kwargs['ax'] = ax
+        self.plot_set_axis_properties(**kwargs)
+        return fig, ax
 

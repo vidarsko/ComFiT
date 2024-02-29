@@ -308,16 +308,108 @@ The `plot_angle_field_in_plane` function is used to plot an angle field in a pla
 
 #### `plot_vector_field`
 
-The `plot_vector_field` function is used to plot a vector field.
+The `plot_vector_field` function is used to plot a vector field $\mathbf v = (v_x,v_y,v_z)$.
 Vector fields are usually plotted blue.
 Together with the typical keyword arguments, the `plot_vector_field` function has the kewyword `spacing` which determines the spacing between the arrows in the plot.
 
 The behavior of this plot function is dependent on the interplay between the dimension of the system and the dimension $n$ of the vector field.
+In cases where `dim` $+ n > 3$, it is not possible to plot the vector field in a quantitatively accurate (QA) way.
+In such cases, different scalings which results in not quantitatively accurate representations (not QA) are taken to visualize the vector field, as described in the table below, and the user is encouraged to plot the vector field components individually for quantitative analysis.
+The scaling used is can be seen in the code of the `plot_vector_field` function, and a custom scaling can be provided by the user by setting the `vx_scale`, `vy_scale` and `vz_scale` keyword arguments. 
+These factors scale the normalized vector field ($\frac{\mathbf v = \mathbf v }{|\mathbf v|}$) components in the x-, y- and z-axes, respectively, as shown for $n=3$ below.
+
+```python
+# Normalizing
+U = U / max_vector
+V = V / max_vector
+W = W / max_vector
+
+# Scale factors
+vx_scale = kwargs.get('vx_scale', 2*spacing*self.xmax/max_vector)
+vy_scale = kwargs.get('vy_scale', 2*spacing*self.ymax/max_vector)
+vz_scale = kwargs.get('vz_scale', spacing)
+
+# Scaling
+U = vx_scale*U
+V = vy_scale*V
+W = vz_scale*W
+```
+
+The following table summarizes the behavior of the `plot_vector_field` function.
 
 | System dimension | $n=1$ | $n=2$ | $n=3$ |
 | ----------------- | ----- | ----- | ----- |
-|`dim=1` |  Plotted as a 1D plot. | Plotted along the x-axis with the x-component of the vector field as the y-component of the plot and the y-component of the vector field as the z-component of the plot. |  Plotted along the x-axis. The x- and y- and z- component of the vector field are plotted along the x-, y- and z-component. The y- and z- component are shown as is in the perpendicular dimensions, while the x-component has been normalized by the max norm of the input vector field and subsequently scaled by `xmax/3`. The funciton is made for visualization purposes in mind, and quantitative analysis should plot each component individually. |
+|`dim=1` | $v_x$ on y-axis <br>(QA). | $v_x$ on y-axis, $v_y$ on z-axis <br>(QA). | $v_x, v_y$ and $v_z$ along x-, y- and z-axes, respectively <br>(not QA).  |
+| `dim=2` | $v_x$ on the x-axis. <br>(not QA) | $v_x$ and $v_y$ on x- and y-axes, respectively <br>(not QA).| $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
+| `dim=3` | $v_x$ on the x-axis <br>(not QA) | $v_x$, $v_y$ on the x-, and y-xes, respectively <br>(not QA). | $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
 
+??? note "Example"
+    ```python
+    import comfit as cf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+
+    #1D system
+    bs = cf.BaseSystem(1,xRes=31)
+
+    # 1D vector field
+    ax1 = fig.add_subplot(331)
+    vector_field = np.array([bs.x*np.cos(bs.x/5)])
+    bs.plot_vector_field(vector_field,ax=ax1, spacing=1)
+
+    # 2D vector field
+    ax2 = fig.add_subplot(332, projection='3d')
+    vector_field = np.array([bs.x*np.cos(bs.x/5), bs.x*np.sin(bs.x/5)])
+    bs.plot_vector_field(vector_field,ax=ax2, spacing=2)
+
+    # 3D vector field
+    ax3 = fig.add_subplot(333, projection='3d')
+    vector_field = np.array([bs.x*np.cos(bs.x/5), bs.x*np.sin(bs.x/5), bs.x*np.cos(bs.x/5)])
+    bs.plot_vector_field(vector_field,ax=ax3, spacing=3)
+
+    #2D system
+    bs = cf.BaseSystem(2,xRes=31,yRes=31)
+
+    # 1D vector field
+    ax4 = fig.add_subplot(334)
+    vector_field = np.array([bs.x*np.cos(bs.y/5)])
+    bs.plot_vector_field(vector_field,ax=ax4,spacing=3)
+
+    # 2D vector field
+    ax5 = fig.add_subplot(335)
+    vector_field = np.array([bs.x*np.cos(bs.y/5), bs.y*np.sin(bs.x/5)])
+    bs.plot_vector_field(vector_field,ax=ax5,spacing=5)
+
+    # 3D vector field
+    ax6 = fig.add_subplot(336, projection='3d')
+    vector_field = np.array([bs.x*np.cos(bs.y/5), bs.y*np.sin(bs.x/5), bs.x*np.cos(bs.y/5)])
+    bs.plot_vector_field(vector_field,ax=ax6, spacing=3)
+
+    # 3D system
+    bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+
+    # 1D vector field
+    ax7 = fig.add_subplot(337, projection='3d')
+    vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5)])
+    bs.plot_vector_field(vector_field,ax=ax7,spacing=3)
+
+    # 2D vector field
+    ax8 = fig.add_subplot(338, projection='3d')
+    vector_field = np.array([bs.z+ bs.x*np.cos(bs.y/5), bs.z + bs.y*np.sin(bs.x/5)])
+    bs.plot_vector_field(vector_field,ax=ax8,spacing=5)
+
+    # 3D vector field
+    ax9 = fig.add_subplot(339, projection='3d')
+    vector_field = np.array([bs.z+ bs.x*np.cos(bs.y/5), bs.z + bs.y*np.sin(bs.x/5), -bs.z + bs.x*np.cos(bs.y/5)])
+    bs.plot_vector_field(vector_field,ax=ax9,spacing=3)
+
+    plt.show()
+    ```
+
+    ![](images/plotting_plot_vector_field_demo.png#only-light)
+    ![](images/plotting_plot_vector_field_demo-colorinverted.png#only-dark)
 
 ## Animation
 
