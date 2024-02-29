@@ -2121,8 +2121,7 @@ class BaseSystem:
             if ax == None:
                 ax = plt.gcf().add_subplot(111, projection='3d')
 
-            if step is None:
-                step = 2
+            step = kwargs.get('step', 2)
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
