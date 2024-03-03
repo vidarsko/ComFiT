@@ -21,6 +21,7 @@ class TestBoseEinsteinCondensate(unittest.TestCase):
     def test_dGPE_relaxer(self):
         """Test the dGPE relaxer."""
         bec = cf.BoseEinsteinCondensate(2,xRes=13,yRes=4)
+        np.random.seed(12345678)
         bec.conf_initial_condition_disordered()
         bec.evolve_relax(1000)
 

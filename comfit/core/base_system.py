@@ -233,7 +233,7 @@ class BaseSystem:
 
         if position is None:
             position = [self.xmid, self.ymid]
-
+        
         theta = charge * np.arctan2(self.y - position[1], self.x - position[0])
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
@@ -1567,8 +1567,8 @@ class BaseSystem:
             ax = kwargs.get('ax', None)
 
             if ax == None:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
+                fig.clf()
+                ax = fig.add_subplot(111, projection='3d')
         
             if plot_method == 'phase_angle':
                 
@@ -2136,6 +2136,10 @@ class BaseSystem:
         # Check if an axis object is provided
         fig = kwargs.get('fig', plt.gcf())
         ax = kwargs.get('ax', None)
+
+        if ax == None:
+            fig.clf()
+            ax = fig.add_subplot(111, projection='3d')
 
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)

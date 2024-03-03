@@ -24,7 +24,7 @@ class TestBaseSystem(unittest.TestCase):
         """ Test 1D BaseSystem initialization with different parameters """
         params = [
             {'xRes': 11, 'dx': 0.1},
-            {'xRes': 32, 'dx': 0.3},
+            {'xRes': 32, 'dx': 0.3}
             # Add more parameter combinations as needed
         ]
         for p in params:
@@ -443,8 +443,7 @@ class TestBaseSystem(unittest.TestCase):
             # Check if the solution is close to the benchmark
             np.testing.assert_allclose(bs.T, T_final_3D, atol=1e-2, rtol=1e-2)
 
-        
-    def test_plot_field(self):
+    def test_plot_field_no_parameters(self):
         """ Test plotting of field """
 
         # 1 dimension
@@ -452,6 +451,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(1, xRes=32, dx=0.1)
 
         # Create field
+        np.random.seed(12345678)
         field = np.random.rand(bs.xRes)
 
         # Plot field
@@ -466,6 +466,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(2, xRes=32, dx=0.1, yRes=32, dy=0.1)
 
         # Create field
+        np.random.seed(12345678)
         field = np.random.rand(bs.yRes, bs.xRes)
 
         # Plot field
@@ -481,6 +482,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
         # Create field
+        np.random.seed(12345678)
         field = np.random.rand(bs.zRes, bs.yRes, bs.xRes)
 
         # Plot field
@@ -489,9 +491,228 @@ class TestBaseSystem(unittest.TestCase):
             plt.close()
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
+
+    def test_plot_complex_field_no_parameters(self):
+        """ Test plotting of complex field """
+
+        # 1 dimension
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(1, xRes=32, dx=0.1)
+
+        # Create field
+        np.random.seed(12345678)
+        field = np.random.rand(bs.xRes) + 1j*np.random.rand(bs.xRes)
+
+        # Plot field
+        try:
+            bs.plot_complex_field(field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+        # 2 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(2, xRes=32, dx=0.1, yRes=32, dy=0.1)
+
+        # Create field
+        np.random.seed(12345678)
+        field = np.random.rand(bs.yRes, bs.xRes) + 1j*np.random.rand(bs.yRes, bs.xRes)
+
+        # Plot field
+        try:
+            bs.plot_complex_field(field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+        # 3 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+
+        # Create field
+        np.random.seed(12345678)
+        field = np.random.rand(bs.zRes, bs.yRes, bs.xRes) + 1j*np.random.rand(bs.zRes, bs.yRes, bs.xRes)
+
+        # Plot field
+        try:
+            bs.plot_complex_field(field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
     
+    def test_plot_angle_field_no_parameters(self):
+        """ Test plotting of angle field """
+
+        # 1 dimension
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(1, xRes=32, dx=0.1)
+
+        # Calculate angle field
+        angle_field = 2*np.pi*np.random.rand(bs.xRes)-np.pi
+
+        # Plot field
+        try:
+            bs.plot_angle_field(angle_field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+
+        # 2 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(2, xRes=32, dx=0.1, yRes=32, dy=0.1)
+
+        # Calculate angle field
+        np.random.seed(12345678)
+        angle_field = 2*np.pi*np.random.rand(bs.yRes, bs.xRes)-np.pi
+
+        # Plot field
+        try:
+            bs.plot_angle_field(angle_field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+        # 3 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+
+        # Calculate angle field
+        np.random.seed(12345678)
+        angle_field = 2*np.pi*np.random.rand(bs.zRes, bs.yRes, bs.xRes)-np.pi
+
+        # Plot field
+        try:
+            bs.plot_angle_field(angle_field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+    def test_plot_vector_field_no_parameters(self):
+        """ Test plotting of vector field """
+
+        # 1 dimension
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(1, xRes=32, dx=0.1)
+
+        for vector_dim in range(1,4):
+        # Create field
+            np.random.seed(12345678)
+            field = np.random.rand(vector_dim, bs.xRes)
+
+            # Plot field
+            try:
+                bs.plot_vector_field(field)
+                plt.close()
+            except Exception as e:
+                self.fail(f"Plotting failed: {e}")
+
+        # 2 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(2, xRes=32, dx=0.1, yRes=32, dy=0.1)
+
+        for vector_dim in range(1,4):
+            # Create field
+            np.random.seed(12345678)
+            field = np.random.rand(vector_dim, bs.yRes, bs.xRes)
+
+            # Plot field
+            try:
+                bs.plot_vector_field(field)
+                plt.close()
+            except Exception as e:
+                self.fail(f"Plotting failed: {e}")
+
+        # 3 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+
+
+        for vector_dim in range(1,4):
+            # Create field
+            np.random.seed(12345678)
+            field = np.random.rand(vector_dim, bs.zRes, bs.yRes, bs.xRes)
+
+            # Plot field
+            try:
+                bs.plot_vector_field(field)
+                plt.close()
+            except Exception as e:
+                self.fail(f"Plotting failed: {e}")
+
+    def test_plot_field_in_plane(self):
+
+        # 3 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+
+        # Create field
+        np.random.seed(12345678)
+        field = np.random.rand(bs.zRes, bs.yRes, bs.xRes)
+
+        # Plot field
+        try:
+            bs.plot_field_in_plane(field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+    def test_plot_complex_field_in_plane(self):
+        """ Test plotting of complex field in plane """
+
+        # 3 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+
+        # Create field
+        np.random.seed(12345678)
+        field = np.random.rand(bs.zRes, bs.yRes, bs.xRes) + 1j*np.random.rand(bs.zRes, bs.yRes, bs.xRes)
+
+        # Plot field
+        try:
+            bs.plot_complex_field_in_plane(field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+    def plot_angle_field_in_plane(self):
+        """ Test plotting of angle field in plane """
+
+        # 3 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+
+        # Calculate angle field
+        np.random.seed(12345678)
+        angle_field = 2*np.pi*np.random.rand(bs.zRes, bs.yRes, bs.xRes)-np.pi
+
+        # Plot field
+        try:
+            bs.plot_angle_field_in_plane(angle_field)
+            plt.close()
+        except Exception as e:
+            self.fail(f"Plotting failed: {e}")
+
+    def plot_vector_field_in_plane(self):
+        """ Test plotting of vector field in plane """
+
+        # 3 dimensions
+        # Initialize BaseSystem object
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+
+        for vector_dim in range(1,4):
+            # Create field
+            np.random.seed(12345678)
+            field = np.random.rand(vector_dim, bs.zRes, bs.yRes, bs.xRes)
+
+            # Plot field
+            try:
+                bs.plot_vector_field_in_plane(field)
+                plt.close()
+            except Exception as e:
+                self.fail(f"Plotting failed: {e}")
 
 if __name__ == '__main__':
     unittest.main()
 
-    # unittest.main(defaultTest='TestBaseSystem.test_plot_field', verbosity=2)
+    # unittest.main(defaultTest='TestBaseSystem.test_plot_angle_field_no_parameters', verbosity=2)

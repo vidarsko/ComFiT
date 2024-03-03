@@ -200,12 +200,12 @@ plt.show()
 # plt.show()
 
 
-# fig = plt.figure()
+fig = plt.figure()
 
-# ax1 = fig.add_subplot(131)
-# bs = cf.BaseSystem(1,xRes=31)
-# field = bs.x**2
-# bs.plot_field(field,ax=ax1)
+ax1 = fig.add_subplot(131)
+bs = cf.BaseSystem(1,xRes=31)
+field = bs.x**2
+bs.plot_field(field,ax=ax1)
 
 # ax2 = fig.add_subplot(132)
 # bs = cf.BaseSystem(2,xRes=31,yRes=31)
