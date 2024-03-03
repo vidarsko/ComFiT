@@ -20,10 +20,13 @@ class TestBoseEinsteinCondensate(unittest.TestCase):
 
     def test_dGPE_relaxer(self):
         """Test the dGPE relaxer."""
-        bec = cf.BoseEinsteinCondensate(2,xRes=13,yRes=4)
+        bec = cf.BoseEinsteinCondensate(2,xRes=23,yRes=14)
         np.random.seed(12345678)
         bec.conf_initial_condition_disordered()
         bec.evolve_relax(1000)
+
+        bec.plot_field(np.abs(bec.psi))
+        plt.show()
 
         # Set the tolerance for approximation
         tolerance = 0.01
