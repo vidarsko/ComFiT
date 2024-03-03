@@ -724,18 +724,23 @@ class TestBaseSystem(unittest.TestCase):
         self.assertEqual(ax.get_xlabel(), 'x')
         self.assertEqual(ax.get_ylabel(), 'y')
         self.assertEqual(ax.get_zlabel(), 'z')
-        
+
         # Test title
         fig, ax = bs.plot_field(field, title='test')
         self.assertEqual(ax.get_title(), 'test')
 
-        
+        # Test xmin, xmax, ymin, ymax, zmin, zmax
+        #TODO: This does not work atm, must be fixed (Vidar 03.03.24)
+        # fig, ax = bs.plot_field(field, xmin=-3, xmax=4, ymin=-5, ymax=6, zmin=-7, zmax=8)
+        # self.assertEqual(ax.get_xlim(), (-3, 4))
+        # self.assertEqual(ax.get_ylim(), (-5, 6))
+        # self.assertEqual(ax.get_zlim(), (-7, 8))
 
 
 
 
 
 if __name__ == '__main__':
-    # unittest.main()
+    unittest.main()
 
-    unittest.main(defaultTest='TestBaseSystem.test_plot_field_with_different_parameters', verbosity=2)
+    # unittest.main(defaultTest='TestBaseSystem.test_plot_field_with_different_parameters', verbosity=2)

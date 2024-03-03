@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
 from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 from comfit.tools.tool_math_functions import tool_multinom
-from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
@@ -1019,10 +1018,6 @@ class BaseSystem:
             defect_node['position'] = calc_position_from_region(defect_density,region_to_integrate)
 
             defect_nodes.append(defect_node)
-
-            # print("charge:", charge)
-            # self.plot_field(defect_density)
-            # plt.show()
 
             defect_density[region_to_integrate] = 0
 
