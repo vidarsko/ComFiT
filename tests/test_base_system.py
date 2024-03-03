@@ -712,7 +712,30 @@ class TestBaseSystem(unittest.TestCase):
             except Exception as e:
                 self.fail(f"Plotting failed: {e}")
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_plot_field_with_different_parameters(self):
+        bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
-    # unittest.main(defaultTest='TestBaseSystem.test_plot_angle_field_no_parameters', verbosity=2)
+        # Create field
+        np.random.seed(97623584)
+        field = np.random.rand(bs.zRes, bs.yRes, bs.xRes)
+
+        # Test axis labels
+        fig, ax = bs.plot_field(field, xlabel='x', ylabel='y', zlabel='z')
+        self.assertEqual(ax.get_xlabel(), 'x')
+        self.assertEqual(ax.get_ylabel(), 'y')
+        self.assertEqual(ax.get_zlabel(), 'z')
+        
+        # Test title
+        fig, ax = bs.plot_field(field, title='test')
+        self.assertEqual(ax.get_title(), 'test')
+
+        
+
+
+
+
+
+if __name__ == '__main__':
+    # unittest.main()
+
+    unittest.main(defaultTest='TestBaseSystem.test_plot_field_with_different_parameters', verbosity=2)

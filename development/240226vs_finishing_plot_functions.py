@@ -6,19 +6,28 @@ import comfit as cf
 import matplotlib.pyplot as plt
 import numpy as np
 
-fig = plt.figure()
+bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
-ax1 = fig.add_subplot(121, projection='3d')
-bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
-vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5), -bs.z+bs.x*np.cos(bs.y/5)])
-bs.plot_vector_field_in_plane(vector_field, ax=ax1)
+# Create field
+np.random.seed(97623584)
+field = np.random.rand(bs.zRes, bs.yRes, bs.xRes)
 
-ax2 = fig.add_subplot(122, projection='3d')
-bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
-vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5)])
-bs.plot_vector_field_in_plane(vector_field, ax=ax2, normal_vector=[0,1,1],position=[2,3,3])
+fig, ax = bs.plot_field(field, suptitle='test')
+print(fig)
 
-plt.show()
+# fig = plt.figure()
+
+# ax1 = fig.add_subplot(121, projection='3d')
+# bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+# vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5), -bs.z+bs.x*np.cos(bs.y/5)])
+# bs.plot_vector_field_in_plane(vector_field, ax=ax1)
+
+# ax2 = fig.add_subplot(122, projection='3d')
+# bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+# vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5)])
+# bs.plot_vector_field_in_plane(vector_field, ax=ax2, normal_vector=[0,1,1],position=[2,3,3])
+
+# plt.show()
 
 
 # fig = plt.figure()
