@@ -7,7 +7,7 @@ from pathlib import Path
 print(Path().absolute())
 
 # Path to your tests folder
-tests_folder_path = 'C:\Users\vidar\Desktop\ComFiT\tests\'
+tests_folder_path = 'C:/Users/vidar/Desktop/ComFiT/tests/'
 
 # Generate a new random seed
 def new_seed():

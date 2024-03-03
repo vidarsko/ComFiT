@@ -451,7 +451,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(1, xRes=32, dx=0.1)
 
         # Create field
-        np.random.seed(12345678)
+        np.random.seed(20423536)
         field = np.random.rand(bs.xRes)
 
         # Plot field
@@ -466,7 +466,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(2, xRes=32, dx=0.1, yRes=32, dy=0.1)
 
         # Create field
-        np.random.seed(12345678)
+        np.random.seed(76427622)
         field = np.random.rand(bs.yRes, bs.xRes)
 
         # Plot field
@@ -482,7 +482,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
         # Create field
-        np.random.seed(12345678)
+        np.random.seed(42000637)
         field = np.random.rand(bs.zRes, bs.yRes, bs.xRes)
 
         # Plot field
@@ -500,7 +500,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(1, xRes=32, dx=0.1)
 
         # Create field
-        np.random.seed(12345678)
+        np.random.seed(83618706)
         field = np.random.rand(bs.xRes) + 1j*np.random.rand(bs.xRes)
 
         # Plot field
@@ -515,7 +515,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(2, xRes=32, dx=0.1, yRes=32, dy=0.1)
 
         # Create field
-        np.random.seed(12345678)
+        np.random.seed(86050252)
         field = np.random.rand(bs.yRes, bs.xRes) + 1j*np.random.rand(bs.yRes, bs.xRes)
 
         # Plot field
@@ -530,7 +530,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
         # Create field
-        np.random.seed(12345678)
+        np.random.seed(63363579)
         field = np.random.rand(bs.zRes, bs.yRes, bs.xRes) + 1j*np.random.rand(bs.zRes, bs.yRes, bs.xRes)
 
         # Plot field
@@ -563,7 +563,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(2, xRes=32, dx=0.1, yRes=32, dy=0.1)
 
         # Calculate angle field
-        np.random.seed(12345678)
+        np.random.seed(58271391)
         angle_field = 2*np.pi*np.random.rand(bs.yRes, bs.xRes)-np.pi
 
         # Plot field
@@ -578,7 +578,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
         # Calculate angle field
-        np.random.seed(12345678)
+        np.random.seed(77579665)
         angle_field = 2*np.pi*np.random.rand(bs.zRes, bs.yRes, bs.xRes)-np.pi
 
         # Plot field
@@ -597,7 +597,7 @@ class TestBaseSystem(unittest.TestCase):
 
         for vector_dim in range(1,4):
         # Create field
-            np.random.seed(12345678)
+            np.random.seed(52137189)
             field = np.random.rand(vector_dim, bs.xRes)
 
             # Plot field
@@ -613,7 +613,7 @@ class TestBaseSystem(unittest.TestCase):
 
         for vector_dim in range(1,4):
             # Create field
-            np.random.seed(12345678)
+            np.random.seed(12138881)
             field = np.random.rand(vector_dim, bs.yRes, bs.xRes)
 
             # Plot field
@@ -630,7 +630,7 @@ class TestBaseSystem(unittest.TestCase):
 
         for vector_dim in range(1,4):
             # Create field
-            np.random.seed(12345678)
+            np.random.seed(19623034)
             field = np.random.rand(vector_dim, bs.zRes, bs.yRes, bs.xRes)
 
             # Plot field
@@ -647,7 +647,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
         # Create field
-        np.random.seed(12345678)
+        np.random.seed(14803969)
         field = np.random.rand(bs.zRes, bs.yRes, bs.xRes)
 
         # Plot field
@@ -665,7 +665,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
         # Create field
-        np.random.seed(12345678)
+        np.random.seed(73158863)
         field = np.random.rand(bs.zRes, bs.yRes, bs.xRes) + 1j*np.random.rand(bs.zRes, bs.yRes, bs.xRes)
 
         # Plot field
@@ -683,7 +683,7 @@ class TestBaseSystem(unittest.TestCase):
         bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
 
         # Calculate angle field
-        np.random.seed(12345678)
+        np.random.seed(15735094)
         angle_field = 2*np.pi*np.random.rand(bs.zRes, bs.yRes, bs.xRes)-np.pi
 
         # Plot field
@@ -702,7 +702,7 @@ class TestBaseSystem(unittest.TestCase):
 
         for vector_dim in range(1,4):
             # Create field
-            np.random.seed(12345678)
+            np.random.seed(56688066)
             field = np.random.rand(vector_dim, bs.zRes, bs.yRes, bs.xRes)
 
             # Plot field

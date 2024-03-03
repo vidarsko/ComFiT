@@ -22,7 +22,7 @@ class TestNematicLiquidCrystal(unittest.TestCase):
     def test_no_flow_evolver(self):
         """Test the enm.evolve_nematic_no_flow"""
         nem = cf.NematicLiquidCrystal(2, xRes=13, yRes=4)
-        np.random.seed(12345678)
+        np.random.seed(29618953)
         nem.conf_initial_condition_disordered(noise_strength=2)
         nem.evolve_nematic_no_flow(500)
 
@@ -37,7 +37,7 @@ class TestNematicLiquidCrystal(unittest.TestCase):
 
     def test_no_flow_evolver_3D(self):
         nem = cf.NematicLiquidCrystal(3, xRes=13, yRes=4,zRes=13,C =1)
-        np.random.seed(12345678)
+        np.random.seed(29820894)
         nem.conf_initial_condition_disordered(noise_strength=2)
 
         nem.evolve_nematic_no_flow(300)
