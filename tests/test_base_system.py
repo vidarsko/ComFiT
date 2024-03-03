@@ -714,6 +714,7 @@ class TestBaseSystem(unittest.TestCase):
 
     def test_plot_field_with_different_parameters(self):
         bs = cf.BaseSystem(3, xRes=32, dx=0.1, yRes=32, dy=0.1, zRes=32, dz=0.1)
+        bs.a0=2
 
         # Create field
         np.random.seed(97623584)
@@ -730,17 +731,25 @@ class TestBaseSystem(unittest.TestCase):
         self.assertEqual(ax.get_title(), 'test')
 
         # Test xmin, xmax, ymin, ymax, zmin, zmax
-        #TODO: This does not work atm, must be fixed (Vidar 03.03.24)
-        # fig, ax = bs.plot_field(field, xmin=-3, xmax=4, ymin=-5, ymax=6, zmin=-7, zmax=8)
-        # self.assertEqual(ax.get_xlim(), (-3, 4))
-        # self.assertEqual(ax.get_ylim(), (-5, 6))
-        # self.assertEqual(ax.get_zlim(), (-7, 8))
+        fig, ax = bs.plot_field(field, xmin=-3, xmax=4, ymin=-5, ymax=6, zmin=-7, zmax=8)
+        self.assertEqual(ax.get_xlim(), (-3/bs.a0, 4/bs.a0))
+        self.assertEqual(ax.get_ylim(), (-5/bs.a0, 6/bs.a0))
+        self.assertEqual(ax.get_zlim(), (-7/bs.a0, 8/bs.a0))
 
+        # Test xlim, ylim, zlim
+        fig, ax = bs.plot_field(field, xlim=(-3,4), ylim=(-5,6), zlim=(-7,8))
+        self.assertEqual(ax.get_xlim(), (-3/bs.a0, 4/bs.a0))
+        self.assertEqual(ax.get_ylim(), (-5/bs.a0, 6/bs.a0))
+        self.assertEqual(ax.get_zlim(), (-7/bs.a0, 8/bs.a0))
 
-
+        # Test xticks, yticks, zticks
+        fig, ax = bs.plot_field(field, xticks=[-3, 0, 4], yticks=[-5, 0, 6], zticks=[-7, 0, 8])
+        np.testing.assert_array_equal(np.array(ax.get_xticks()),np.array([-3, 0, 4]))
+        np.testing.assert_array_equal(np.array(ax.get_yticks()),np.array([-5, 0, 6]))
+        np.testing.assert_array_equal(np.array(ax.get_zticks()),np.array([-7, 0, 8]))
 
 
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
 
-    # unittest.main(defaultTest='TestBaseSystem.test_plot_field_with_different_parameters', verbosity=2)
+    unittest.main(defaultTest='TestBaseSystem.test_plot_field_with_different_parameters', verbosity=2)

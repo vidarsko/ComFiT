@@ -1145,27 +1145,39 @@ class BaseSystem:
         else:
             ax.grid(True)
 
-        if 'xlim' in kwargs:
-            xlim = kwargs['xlim']
-        else:
-            xlim = [self.xmin/self.a0, (self.xmax-self.dx)/self.a0]
+        xlim = [self.xmin/self.a0, (self.xmax-self.dx)/self.a0]
 
+        if 'xmin' in kwargs:
+            xlim[0] = kwargs['xmin'] / self.a0
+
+        if 'xmax' in kwargs:
+            xlim[1] = kwargs['xmax'] / self.a0
+
+        if 'xlim' in kwargs:
+            xlim = np.array(kwargs['xlim']) / self.a0
+
+        ylim = [self.ymin/self.a0, (self.ymax-self.dy)/self.a0] if self.dim > 1 else None
+
+        if 'ymin' in kwargs:
+            ylim[0] = kwargs['ymin'] / self.a0 if self.dim > 1 else kwargs['ymin']
+        
+        if 'ymax' in kwargs:
+            ylim[1] = kwargs['ymax'] / self.a0 if self.dim > 1 else kwargs['ymax']
+        
         if 'ylim' in kwargs:
-            ylim = kwargs['ylim']
-        else:
-            if self.dim < 2:
-                ylim = None
-            else:
-                ylim = [self.ymin/self.a0, (self.ymax-self.dy)/self.a0]
+            ylim = np.array(kwargs['ylim'])/self.a0 if self.dim > 1 else kwargs['ylim']
+
+        zlim = [self.zmin/self.a0, (self.zmax-self.dz)/self.a0] if self.dim > 2 else None
+
+        if 'zmin' in kwargs:
+             zlim[0] = kwargs['zmin'] / self.a0 if self.dim > 2 else kwargs['zmin']
+
+        if 'zmax' in kwargs:
+            zlim[1] = kwargs['zmax'] / self.a0 if self.dim > 2 else kwargs['zmax']
 
         if 'zlim' in kwargs:
-            zlim = kwargs['zlim']
-        else:
-            if self.dim < 3:
-                zlim = None
-            else:
-                zlim = [self.zmin/self.a0, (self.zmax-self.dz)/self.a0]
-        
+            zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
+
         # Custom x-ticks
         if 'xticks' in kwargs:
             ax.set_xticks(kwargs['xticks'])
@@ -1341,7 +1353,7 @@ class BaseSystem:
                 region_to_plot = np.zeros(self.dims).astype(bool)
                 region_to_plot[(xlim[0] <= X)*(X <= xlim[1])*(ylim[0] <= Y)*(Y <= ylim[1])] = True
                 vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
-                print(vlim)
+
             else:
                 vlim = [np.min(field), np.max(field)]
             
