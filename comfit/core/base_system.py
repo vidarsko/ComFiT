@@ -721,7 +721,7 @@ class BaseSystem:
             ry2p = (self.y - position[1] + delta_y) ** 2
             ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes))
 
-            r2 += ry2
+            r2 = r2 + ry2
         
         if self.dim > 2:
             r2 = r2.reshape((self.xRes, self.yRes, 1))
@@ -732,7 +732,7 @@ class BaseSystem:
             rz2p = (self.z - position[2] + delta_z) ** 2
             rz2 = np.min(np.stack((rz2m, rz2, rz2p)), axis=0).reshape((1, 1, self.zRes))
 
-            r2 += rz2
+            r2 = r2 + rz2
 
         return r2
 
