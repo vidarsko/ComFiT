@@ -22,17 +22,28 @@ bibliography: paper.bib
 # Statement of need
 (A Statement of need section that clearly illustrates the research purpose of the software and places it in the context of related work.)
 
-Field theories are pivotal in understanding numerous physical phenomena, from quantum mechanics to fluid dynamics. 
-Despite their importance, there is a scarcity of comprehensive, user-friendly computational tools catering to this domain. 
-Adding to this, in many field theories, topological defects play a crucial role in understanding critical behavior such as phase transitions, but good numerical toolboxes to identify and track these defects are lacking. 
-ComFiT addresses this gap, targeting researchers and educators in physics and related fields. 
-Its modular design and extensive documentation make it an accessible yet powerful tool for simulating a wide range of field theories.
+The pivotal role of field theories in physics is profoundly significant, serving as a foundational framework for a broad spectrum of physical phenomena, from the intricacies of quantum mechanics to the complexities of fluid dynamics.
+Despite the availability of numerous technical computational tools designed to tackle partial differential equations (PDEs), these tools often employ complex languages that pose a barrier to individuals not well-versed in computer programming.
+Furthermore, these established software packages typically focus on solving PDEs with a particular approach and fall short in offering functionalities for visualizing and analyzing outcomes.
+Additionally, in the realm of many field theories, the study of topological defects is essential for understanding phenomena such as phase transitions.
+However, there is a notable absence of robust numerical toolkits for the identification and monitoring of these defects.
+
+ComFiT emerges as a solution to this void, catering to both researchers and educators in physics and adjacent disciplines.
+It introduces an accessible, object-oriented framework for addressing PDEs, with a special emphasis on physical field theories and the nuances of topological defects.
+Rooted in basic Python packages like numpy, matplotlib, and scipy, ComFiT is crafted to be straightforward for users, regardless of their programming proficiency.
+At its core, the `BaseSystem` class lays the groundwork for engaging with the library and fostering the development of personalized models.
+Predefined models such as `NematicLiquidCrystal`, `PhaseFieldCrystal`, `QuantumMechanics`, and `BoseEinsteinCondensate` serve as valuable resources for initiating diverse research endeavors and educational activities.
+The innovative algorithms for depicting and tracking topological defects, integrated into the `BaseSystem` class, provide a cohesive perspective on these defects across a variety of field theories.
 
 # Summary
 (A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience.)
 
+The core functionality of ComFiT is provided in the `BaseSystem` class, which defines a computational domain, auxiliary quantities, methods for time evolution, visualization tools and algorithms for identifying and tracking topological defects.
+The library builds on the Exponential Time Differencing (ETD) methods, particularly ETD2RK and ETD4RK schemes, for accurate time evolution in simulations.
+A user wanting to simulate a physical system can inherit from this class and implement the specific equations and parameters of the model.
+The library also provides a range of predefined models, such as `NematicLiquidCrystal`, `PhaseFieldCrystal`, `QuantumMechanics`, and `BoseEinsteinCondensate`, each tailored to a specific field theory, which may be used to quickly get started with simulations or for educational purposes.
+The documentation features several tutorials and examples to guide users through the process of setting up and running simulations, as well as visualizing and analyzing the results, which may be used in reserach or in teaching.
 
-ComFiT adopts an object-oriented approach, centralizing around a BaseSystem class, which provides a foundation for specific models like NematicLiquidCrystal, PhaseFieldCrystal, QuantumMechanics, and BoseEinsteinCondensate. 
 Each subclass implements model-specific equations and parameters. 
 The library employs Exponential Time Differencing (ETD) methods, particularly ETD2RK and ETD4RK schemes, for accurate time evolution in simulations.
 ComFiT has broad applications in academic research, particularly in the study of complex systems in physics. Its capability to simulate diverse field theories makes it a valuable tool for both theoretical and applied research.
