@@ -750,6 +750,6 @@ class TestBaseSystem(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    # unittest.main()
+    unittest.main()
 
-    unittest.main(defaultTest='TestBaseSystem.test_plot_field_with_different_parameters', verbosity=2)
+    # unittest.main(defaultTest='TestBaseSystem.test_plot_field_with_different_parameters', verbosity=2)

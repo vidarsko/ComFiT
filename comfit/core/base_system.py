@@ -1272,6 +1272,13 @@ class BaseSystem:
         if field.dtype == bool:
             field = field.astype(float)
 
+        # Check if the vector field is complex
+        if np.iscomplexobj(field):
+            print("\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(field)))
+            field = np.real(field)
+
+
         # Check if an axis object is provided
         fig = kwargs.get('fig', plt.gcf())
         ax = kwargs.get('ax', None)
@@ -1697,6 +1704,13 @@ class BaseSystem:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
+        # Check if the vector field is complex
+        if np.iscomplexobj(angle_field):
+            print("\033[91mWarning: the angle vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(angle_field)))
+            angle_field = np.real(angle_field)
+
+
         # Normalize around 0
         angle_field = np.mod(angle_field, 2 * np.pi) - np.pi        
 
@@ -1732,6 +1746,14 @@ class BaseSystem:
         matplotlib.figure.Figure: The figure containing the plot.
         matplotlib.axes.Axes: The axes containing the plot.
         """
+        # Convert the vector field to a numpy array
+        vector_field = np.array(vector_field)
+
+        # Check if the vector field is complex
+        if np.iscomplexobj(vector_field):
+            print("\033[91mWarning: the provided vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(vector_field)))
+            vector_field = np.real(vector_field)
 
         # Check if an axis object is provided
         fig = kwargs.get('fig', plt.gcf())
@@ -2046,6 +2068,13 @@ class BaseSystem:
         if self.dim != 3:
             raise Exception("The plot in plane function is only defined for 3D fields.")
 
+        # Check if the vector field is complex
+        if np.iscomplexobj(field):
+            print("\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(field)))
+            field = np.real(field)
+
+
         # Check if an axis object is provided
         fig = kwargs.get('fig', plt.gcf())
         ax = kwargs.get('ax', None)
@@ -2215,6 +2244,12 @@ class BaseSystem:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
+        # Check if the vector field is complex
+        if np.iscomplexobj(angle_field):
+            print("\033[91mWarning: the angle vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(angle_field)))
+            angle_field = np.real(angle_field)
+
         complex_field = np.exp(1j * angle_field)
     
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
@@ -2235,6 +2270,17 @@ class BaseSystem:
             matplotlib.figure.Figure: The figure containing the plot.
             matplotlib.axes.Axes: The axes containing the plot.
         """
+
+        # Convert the vector field to a numpy array
+        vector_field = np.array(vector_field)
+
+        # Check if the vector field is complex
+        if np.iscomplexobj(vector_field):
+            print("\033[91mWarning: the provided vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(vector_field)))
+            vector_field = np.real(vector_field)
+        
+
         if self.dim != 3:
             raise Exception("The plot in plane function is only defined for 3D fields.")
 
