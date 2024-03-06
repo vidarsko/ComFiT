@@ -18,10 +18,10 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong> Basic Framework</strong></div>
         <hr>
         <p>
-        <img src="images/index_3D_plot.png#only-light">
-        <img src="images/index_3D_plot-colorinverted.png#only-dark">
+        <img src="images/tutorial_base_system_basic_framework_demo.gif#only-light">
+        <img src="images/tutorial_base_system_basic_framework_demo-colorinverted.gif#only-dark">
         </p>
-        <p style="color: var(--md-default-fg-color)">Understand the basics of ComFiT ands produce nice plots of scalar fields in 1, 2 and 3 dimensions. </p>
+        <p style="color: var(--md-default-fg-color)"> Understand the basics of ComFiT, how to calculate derivatives and produce plots and animations in 1, 2 and 3 dimensions. </p>
     </a>
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_creating_your_own_model.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong>How to make your own model</strong></div>
