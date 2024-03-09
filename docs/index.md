@@ -18,8 +18,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong> Basic Framework</strong></div>
         <hr>
         <p>
-        <img src="images/tutorial_base_system_basic_framework_demo.gif#only-light">
-        <img src="images/tutorial_base_system_basic_framework_demo-colorinverted.gif#only-dark">
+        <img src="images/index_tutorial_base_system_basic_framework_demo.gif#only-light">
+        <img src="images/index_tutorial_base_system_basic_framework_demo-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)"> Understand the basics of ComFiT, how to calculate derivatives and produce plots and animations in 1, 2 and 3 dimensions. </p>
     </a>
@@ -27,8 +27,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong>How to make your own model</strong></div>
         <hr>
         <p>
-        <img src="images/base_system_evolution_test_2D.gif#only-light">
-        <img src="images/base_system_evolution_test_2D-colorinverted.gif#only-dark">
+        <img src="images/index_tutorial_base_system_make_your_own_model.gif#only-light">
+        <img src="images/index_tutorial_base_system_make_your_own_model-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)">Learn how to implement, solve and animate your own partial differential equation.</p>
 </a>
