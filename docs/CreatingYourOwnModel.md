@@ -123,6 +123,3 @@ If you want to contribute to the source code with your model (which is highly ap
 * Write documentation for the code, explaining the mathematics of the model. Remember to follow the [mathematical notation convention](Conventions.md#mathematical-notation-convention).
 * Make tests for the model.
 * [optional] Create tutorials showcasing how to use you code.
-
-
-[^chaikinPrinciplesCondensedMatter1995]: 

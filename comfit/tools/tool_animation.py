@@ -33,7 +33,7 @@ def tool_save_plot(counter):
     plt.savefig(f'plot_{counter}.png')
 
 
-def tool_make_animation_movie(counter, name=datetime.now().strftime("%y%m%d_%H%M") + ' - output_video.mp4', fps=24):
+def tool_make_animation_movie(counter, name=None, fps=24):
     """
 
     Creates an animation from a series of plot images and saves it as an MP4 video file.
@@ -47,6 +47,11 @@ def tool_make_animation_movie(counter, name=datetime.now().strftime("%y%m%d_%H%M
 
     - fps (int, optional): The frames per second for the video. Defaults to 24.
     """
+    
+    if name is None:
+        name = datetime.now().strftime("%y%m%d_%H%M") + ' - output_video.mp4'
+    else:
+        name = datetime.now().strftime("%y%m%d_%H%M") + ' - ' + name + '.mp4'
 
     # List of saved plot filenames
     image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
@@ -62,7 +67,7 @@ def tool_make_animation_movie(counter, name=datetime.now().strftime("%y%m%d_%H%M
         os.remove(file)
 
 
-def tool_make_animation_gif(counter, name=datetime.now().strftime("%y%m%d_%H%M") + ' - output_animation.gif', fps=24):
+def tool_make_animation_gif(counter, name=None, fps=24):
     """
     Creates an animation from a series of plot images and saves it as a GIF file.
 
@@ -71,6 +76,12 @@ def tool_make_animation_gif(counter, name=datetime.now().strftime("%y%m%d_%H%M")
         - name (str, optional): The filename for the output video. Defaults to today's date followed by ' - output_video.mp4'.
         - fps (int, optional): The frames per second for the video. Defaults to 24.
     """
+
+    if name is None:
+        name = datetime.now().strftime("%y%m%d_%H%M") + ' - output_animation.gif'
+    else:
+        name = datetime.now().strftime("%y%m%d_%H%M") + ' - ' + name + '.gif'
+
 
     image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
     images = []
