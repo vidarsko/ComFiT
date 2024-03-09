@@ -33,6 +33,15 @@ class QuantumMechanics(BaseSystem):
         return 'QuantumMechanics'
 
     def conf_initial_condition_Gaussian(self,position=None,width=None, initial_velocity=None):
+        """
+        Set the initial condition to a Gaussian wavepacket.
+        """
+
+        if position == None:
+            position = self.rmid
+        if width == None:
+            width = self.xmax/10
+    
 
         self.psi = np.sqrt(self.calc_Gaussian(position=position,width=width))
         

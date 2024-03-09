@@ -197,7 +197,7 @@ and is implemented in the function `calc_angle_field_vortex_ring`.
 Apart from the angle field of a single vortex, the other fields are compatible with periodic boundary conditions. The expressions for these fields, however, are really only valid for an infinite region. When this is imposed on periodic boundary conditions, it results in spurious boundary effects, especially if either of the vortices is placed near the edge of the simulation domain. By simply inserting the vortices directly, we get what is shown in the following figure (a).
 
 ![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields.png#only-light)
-![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields-colorinverted.png#only-light)
+![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields-colorinverted.png#only-dark)
 
 
 *Numerical implementaiton of periodic angle fields:*

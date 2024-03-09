@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
 from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 from comfit.tools.tool_math_functions import tool_multinom
-from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
@@ -233,7 +232,7 @@ class BaseSystem:
 
         if position is None:
             position = [self.xmid, self.ymid]
-
+        
         theta = charge * np.arctan2(self.y - position[1], self.x - position[0])
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
@@ -722,7 +721,7 @@ class BaseSystem:
             ry2p = (self.y - position[1] + delta_y) ** 2
             ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes))
 
-            r2 += ry2
+            r2 = r2 + ry2
         
         if self.dim > 2:
             r2 = r2.reshape((self.xRes, self.yRes, 1))
@@ -733,7 +732,7 @@ class BaseSystem:
             rz2p = (self.z - position[2] + delta_z) ** 2
             rz2 = np.min(np.stack((rz2m, rz2, rz2p)), axis=0).reshape((1, 1, self.zRes))
 
-            r2 += rz2
+            r2 = r2 + rz2
 
         return r2
 
@@ -1020,10 +1019,6 @@ class BaseSystem:
 
             defect_nodes.append(defect_node)
 
-            # print("charge:", charge)
-            # self.plot_field(defect_density)
-            # plt.show()
-
             defect_density[region_to_integrate] = 0
 
             defect_density_max_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
@@ -1150,27 +1145,39 @@ class BaseSystem:
         else:
             ax.grid(True)
 
-        if 'xlim' in kwargs:
-            xlim = kwargs['xlim']
-        else:
-            xlim = [self.xmin/self.a0, (self.xmax-self.dx)/self.a0]
+        xlim = [self.xmin/self.a0, (self.xmax-self.dx)/self.a0]
 
+        if 'xmin' in kwargs:
+            xlim[0] = kwargs['xmin'] / self.a0
+
+        if 'xmax' in kwargs:
+            xlim[1] = kwargs['xmax'] / self.a0
+
+        if 'xlim' in kwargs:
+            xlim = np.array(kwargs['xlim']) / self.a0
+
+        ylim = [self.ymin/self.a0, (self.ymax-self.dy)/self.a0] if self.dim > 1 else None
+
+        if 'ymin' in kwargs:
+            ylim[0] = kwargs['ymin'] / self.a0 if self.dim > 1 else kwargs['ymin']
+        
+        if 'ymax' in kwargs:
+            ylim[1] = kwargs['ymax'] / self.a0 if self.dim > 1 else kwargs['ymax']
+        
         if 'ylim' in kwargs:
-            ylim = kwargs['ylim']
-        else:
-            if self.dim < 2:
-                ylim = None
-            else:
-                ylim = [self.ymin/self.a0, (self.ymax-self.dy)/self.a0]
+            ylim = np.array(kwargs['ylim'])/self.a0 if self.dim > 1 else kwargs['ylim']
+
+        zlim = [self.zmin/self.a0, (self.zmax-self.dz)/self.a0] if self.dim > 2 else None
+
+        if 'zmin' in kwargs:
+             zlim[0] = kwargs['zmin'] / self.a0 if self.dim > 2 else kwargs['zmin']
+
+        if 'zmax' in kwargs:
+            zlim[1] = kwargs['zmax'] / self.a0 if self.dim > 2 else kwargs['zmax']
 
         if 'zlim' in kwargs:
-            zlim = kwargs['zlim']
-        else:
-            if self.dim < 3:
-                zlim = None
-            else:
-                zlim = [self.zmin/self.a0, (self.zmax-self.dz)/self.a0]
-        
+            zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
+
         # Custom x-ticks
         if 'xticks' in kwargs:
             ax.set_xticks(kwargs['xticks'])
@@ -1265,6 +1272,13 @@ class BaseSystem:
         if field.dtype == bool:
             field = field.astype(float)
 
+        # Check if the vector field is complex
+        if np.iscomplexobj(field):
+            print("\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(field)))
+            field = np.real(field)
+
+
         # Check if an axis object is provided
         fig = kwargs.get('fig', plt.gcf())
         ax = kwargs.get('ax', None)
@@ -1346,7 +1360,7 @@ class BaseSystem:
                 region_to_plot = np.zeros(self.dims).astype(bool)
                 region_to_plot[(xlim[0] <= X)*(X <= xlim[1])*(ylim[0] <= Y)*(Y <= ylim[1])] = True
                 vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
-                print(vlim)
+
             else:
                 vlim = [np.min(field), np.max(field)]
             
@@ -1567,8 +1581,8 @@ class BaseSystem:
             ax = kwargs.get('ax', None)
 
             if ax == None:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
+                fig.clf()
+                ax = fig.add_subplot(111, projection='3d')
         
             if plot_method == 'phase_angle':
                 
@@ -1690,6 +1704,13 @@ class BaseSystem:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
+        # Check if the vector field is complex
+        if np.iscomplexobj(angle_field):
+            print("\033[91mWarning: the angle vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(angle_field)))
+            angle_field = np.real(angle_field)
+
+
         # Normalize around 0
         angle_field = np.mod(angle_field, 2 * np.pi) - np.pi        
 
@@ -1725,6 +1746,14 @@ class BaseSystem:
         matplotlib.figure.Figure: The figure containing the plot.
         matplotlib.axes.Axes: The axes containing the plot.
         """
+        # Convert the vector field to a numpy array
+        vector_field = np.array(vector_field)
+
+        # Check if the vector field is complex
+        if np.iscomplexobj(vector_field):
+            print("\033[91mWarning: the provided vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(vector_field)))
+            vector_field = np.real(vector_field)
 
         # Check if an axis object is provided
         fig = kwargs.get('fig', plt.gcf())
@@ -2039,6 +2068,13 @@ class BaseSystem:
         if self.dim != 3:
             raise Exception("The plot in plane function is only defined for 3D fields.")
 
+        # Check if the vector field is complex
+        if np.iscomplexobj(field):
+            print("\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(field)))
+            field = np.real(field)
+
+
         # Check if an axis object is provided
         fig = kwargs.get('fig', plt.gcf())
         ax = kwargs.get('ax', None)
@@ -2137,6 +2173,10 @@ class BaseSystem:
         fig = kwargs.get('fig', plt.gcf())
         ax = kwargs.get('ax', None)
 
+        if ax == None:
+            fig.clf()
+            ax = fig.add_subplot(111, projection='3d')
+
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
 
@@ -2204,6 +2244,12 @@ class BaseSystem:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
+        # Check if the vector field is complex
+        if np.iscomplexobj(angle_field):
+            print("\033[91mWarning: the angle vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(angle_field)))
+            angle_field = np.real(angle_field)
+
         complex_field = np.exp(1j * angle_field)
     
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
@@ -2224,6 +2270,17 @@ class BaseSystem:
             matplotlib.figure.Figure: The figure containing the plot.
             matplotlib.axes.Axes: The axes containing the plot.
         """
+
+        # Convert the vector field to a numpy array
+        vector_field = np.array(vector_field)
+
+        # Check if the vector field is complex
+        if np.iscomplexobj(vector_field):
+            print("\033[91mWarning: the provided vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(vector_field)))
+            vector_field = np.real(vector_field)
+        
+
         if self.dim != 3:
             raise Exception("The plot in plane function is only defined for 3D fields.")
 
