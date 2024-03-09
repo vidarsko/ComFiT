@@ -23,7 +23,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         </p>
         <p style="color: var(--md-default-fg-color)"> Understand the basics of ComFiT, how to calculate derivatives and produce plots and animations in 1, 2 and 3 dimensions. </p>
     </a>
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_creating_your_own_model.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_make_your_own_model.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong>How to make your own model</strong></div>
         <hr>
         <p>
@@ -33,7 +33,6 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <p style="color: var(--md-default-fg-color)">Learn how to implement, solve and animate your own partial differential equation.</p>
 </a>
 </div>
-
 
 ## Quantum Mechanics
 
