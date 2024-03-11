@@ -46,7 +46,7 @@ We can translate from tensor indexes to the right value stored in the vector by
 using the function
 
 ```python
-get_sym(self,Q,i,j)
+get_sym_tl(self,Q,i,j)
 ```
 
 This returns the element $Q_{ij}$ of a symmetric and traceless tensor

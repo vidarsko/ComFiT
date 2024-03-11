@@ -60,71 +60,6 @@ class NematicLiquidCrystal(BaseSystem):
         """
         return "NematicLiquidCrystal"
 
-    #TODO: Generalize to 3D
-    ### defining get functions
-    def get_sym(self,Q,i,j):
-        """
-        Function to axes the tensor element Q_ij of a trace less symmetric matrix, which we will
-        save as a vector
-        
-        Input:
-            i (int): row index
-            j (int): colum index
-        
-        Output:
-            (numpy.ndarray) Q_ij
-        """
-        if self.dim == 2:
-            return (-1)**(i*j) *Q[(i+j)%2]
-
-        elif self.dim ==3:
-            if i == 0:
-                return Q[0] if j == 0 else Q[1] if j == 1 else Q[2]
-            elif i == 1:
-                return Q[1] if j == 0 else Q[3] if j == 1 else Q[4]
-            elif i == 2:
-                return Q[2] if j == 0 else Q[4] if j == 1 else -(Q[0] + Q[3])
-
-### TODO see if this can be improved (I added the conditional expressions in three D, but keept the two d case as is)
-                
-        # This code is elegant, I suppose, but quite unreadable. Here is my suggestion (Vidar 18.01.24)
-        # if self.dim == 2:
-        #     if i==1:
-        #         return Q[0] if j==1 else Q[1] 
-        #     elif i==2:
-        #         return Q[1] if j==1 else -Q[0] 
-            
-        # elif self.dim == 3:
-        #     if i==1:
-        #         return Q[0] if j==1 else Q[1] if j==2 else Q[2]
-        #     elif i==2:
-        #         return Q[1] if j==1 else Q[3] if j==2 else Q[4]
-        #     elif i==3:
-        #         return Q[2] if j==1 else Q[4] if j==2 else -(Q[0]+Q[3])
-
-    def get_anti_sym(self,omega,i,j):
-        """
-        Function to axes the tensor element omega_ij of an anti-symetric matrix, which we will
-        save as a scalar field in 2D and a vector field in 3D
-        
-        Input:
-            i (int): row index
-            j (int): colum index
-        
-        Output:
-            (numpy.ndarray) Q_ij
-        """
-        if self.dim == 2:
-            if i==j:
-                return 0
-            return (-1)**i *omega
-        elif self.dim ==3:
-            if i ==j:
-                return 0
-            else:
-                return np.sign(j-i)*omega[i+j-1]
-
-
     # Initial condition
     def conf_initial_condition_disordered(self, noise_strength=0.01):
         """
@@ -308,7 +243,7 @@ class NematicLiquidCrystal(BaseSystem):
         '''
         F_af = []
         for j in range(self.dim):
-            F_af.append(np.sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_sym(Q,j,i),axes=(range(-self.dim, 0)) ) for i in range(self.dim)))
+            F_af.append(np.sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_sym_tl(Q,j,i),axes=(range(-self.dim, 0)) ) for i in range(self.dim)))
         return np.array(F_af)
 
     def calc_passive_force_f(self,Q):
@@ -340,19 +275,19 @@ class NematicLiquidCrystal(BaseSystem):
         """
         if self.dim == 2:
             H = self.calc_molecular_field(Q)
-            Antisym_QH = np.sum(self.get_sym(Q,0,k)*self.get_sym(H,k,1) -self.get_sym(H,0,k)*self.get_sym(Q,k,1) for k in range(self.dim))
+            Antisym_QH = np.sum(self.get_sym_tl(Q,0,k)*self.get_sym_tl(H,k,1) -self.get_sym_tl(H,0,k)*self.get_sym_tl(Q,k,1) for k in range(self.dim))
             Ericksen = np.zeros((self.dim,self.xRes,self.yRes),dtype=np.complex128)
-            Ericksen[0] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym(Q,m,l)))*
-                                              sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q,m,l)))
+            Ericksen[0] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym_tl(Q,m,l)))*
+                                              sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q,m,l)))
                                               for m in range(self.dim) for l in range(self.dim))
-            Ericksen[1] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym(Q,m,l)))*
-                                              sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q,m,l)))
+            Ericksen[1] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym_tl(Q,m,l)))*
+                                              sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q,m,l)))
                                               for m in range(self.dim) for l in range(self.dim))
 
             stress = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
             for i in range(self.dim):
                 for j in range(self.dim):
-                    stress[i][j] = self.get_sym(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
+                    stress[i][j] = self.get_sym_tl(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
         elif self.dim == 3:
@@ -361,35 +296,35 @@ class NematicLiquidCrystal(BaseSystem):
 
             Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
 
-            Antisym_QH[0] = np.sum(self.get_sym(Q,0,k)*self.get_sym(H,k,1) -self.get_sym(H,0,k)*self.get_sym(Q,k,1) for k in range(self.dim))
+            Antisym_QH[0] = np.sum(self.get_sym_tl(Q,0,k)*self.get_sym_tl(H,k,1) -self.get_sym_tl(H,0,k)*self.get_sym_tl(Q,k,1) for k in range(self.dim))
             Antisym_QH[1] = np.sum(
-                self.get_sym(Q, 0, k) * self.get_sym(H, k, 2) - self.get_sym(H, 0, k) * self.get_sym(Q, k, 2) for k in
+                self.get_sym_tl(Q, 0, k) * self.get_sym_tl(H, k, 2) - self.get_sym_tl(H, 0, k) * self.get_sym_tl(Q, k, 2) for k in
                 range(self.dim))
             Antisym_QH[2] = np.sum(
-                self.get_sym(Q, 1, k) * self.get_sym(H, k, 2) - self.get_sym(H, 1, k) * self.get_sym(Q, k, 2) for k in
+                self.get_sym_tl(Q, 1, k) * self.get_sym_tl(H, k, 2) - self.get_sym_tl(H, 1, k) * self.get_sym_tl(Q, k, 2) for k in
                 range(self.dim))
 
             Ericksen = np.zeros((5, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
-            Ericksen[0] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l)))
+            Ericksen[0] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[1] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l)))
+            Ericksen[1] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[2] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym(Q, m, l)))
+            Ericksen[2] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[3] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l)))
+            Ericksen[3] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[4] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym(Q, m, l)))
+            Ericksen[4] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
 
             stress = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
             for i in range(self.dim):
                 for j in range(self.dim):
-                    stress[i][j] = self.get_sym(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
+                    stress[i][j] = self.get_sym_tl(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
     def calc_trace_Q2(self,Q):
@@ -695,7 +630,7 @@ class NematicLiquidCrystal(BaseSystem):
             Q_eig = numpy.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
             for i in range(self.dim):
                 for j in range(self.dim):
-                    Q_eig[:,:,:,i,j] = self.get_sym(self.Q,i,j)
+                    Q_eig[:,:,:,i,j] = self.get_sym_tl(self.Q,i,j)
 
             eigvals, eigvectors = numpy.linalg.eigh(Q_eig)
             S = 3/2 *eigvals[:,:,:,2]
