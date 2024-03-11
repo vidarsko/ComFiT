@@ -37,7 +37,6 @@ nav:
   - "Class: Bose-Einstein condensate": ClassBoseEinsteinCondensate.md
   - "Class: Nematic liquid crystal": ClassNematicLiquidCrystal.md
   - "Class: Phase-field crystal": ClassPhaseFieldCrystal.md
-  - "Creating your own model": CreatingYourOwnModel.md
   - Conventions: Conventions.md
   - Contributing: Contributing.md
 
