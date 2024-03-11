@@ -1113,7 +1113,7 @@ class BaseSystem:
 
     # PLOTTING FUNCTIONS
 
-    def plot_set_axis_properties(self, **kwargs):
+    def plot_tool_set_axis_properties(self, **kwargs):
         """
         Sets the properties of the axis for a plot.
         
@@ -1254,7 +1254,47 @@ class BaseSystem:
                 ax.set_aspect('equal')
 
         return ax
-        
+
+    def plot_tool_extend_field(self,field):
+        """
+        Extends the field in case not a complete array is given. 
+        For instance, if a field in 3 dimensions is calculated using only x, then the field is extended to the full 3D array.
+        Input:
+            field: The field to be extended
+        Output:
+            np.ndarray: The extended field
+        """    
+        # 2 dimensional fields
+        if field.shape == (self.xRes,1):
+            field = np.tile(field,(1,self.yRes))
+
+        elif field.shape == (1,self.yRes):
+            field = np.tile(field,(self.xRes,1))
+
+        # 3 dimensional fields
+        elif field.shape == (self.xRes,1,1):
+            field = np.tile(field,(1,self.yRes,1))
+            field = np.tile(field,(1,1,self.zRes))
+
+        elif field.shape == (1,self.yRes,1):
+            field = np.tile(field,(self.xRes,1,1))
+            field = np.tile(field,(1,1,self.zRes))
+
+        elif field.shape == (1,1,self.zRes):
+            field = np.tile(field,(self.xRes,1,1))
+            field = np.tile(field,(1,self.yRes,1))
+
+        elif field.shape == (self.xRes,self.yRes,1):
+            field = np.tile(field,(1,1,self.zRes))
+
+        elif field.shape == (self.xRes,1,self.zRes):
+            field = np.tile(field,(1,self.yRes,1))
+
+        elif field.shape == (1,self.yRes,self.zRes):
+            field = np.tile(field,(self.xRes,1,1))
+
+        return field
+    
     def plot_field(self, field, **kwargs):
         """
         Plots the given (real) field.
@@ -1286,6 +1326,9 @@ class BaseSystem:
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
 
+        # Extend the field if not a complete array is given
+        field = self.plot_tool_extend_field(field)
+        
         if self.dim == 1:
 
             # Keyword arguments particular to the 1D case
@@ -1398,6 +1441,7 @@ class BaseSystem:
             X, Y, Z = np.meshgrid(self.x/self.a0, self.y/self.a0, self.z/self.a0, indexing='ij')
 
             number_of_layers = kwargs.get('number_of_layers', 1)
+            alpha = kwargs.get('alpha', 0.5)
             
             if 'vlim' in kwargs:
                 vlim = kwargs['vlim']
@@ -1432,13 +1476,13 @@ class BaseSystem:
 
             if field_min < layer_values[1] < field_max:
                 verts, faces, _, _ = marching_cubes(field, layer_values[1])
-                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=alpha,
                             color=colormap(layer_values[1] / vmax))
 
             for layer_value in layer_values[2:-1]:
                 if field_min < layer_value < field_max:
                     verts, faces, _, _ = marching_cubes(field, layer_value)
-                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
+                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=alpha,
                                 color=colormap(layer_value / vmax))
 
             ax.set_aspect('equal')
@@ -1454,7 +1498,7 @@ class BaseSystem:
                 plt.colorbar(sm, ax=ax, pad=0.2)
         
         kwargs['ax'] = ax
-        self.plot_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties(**kwargs)
         return fig, ax
 
     def plot_complex_field(self, complex_field, **kwargs):
@@ -1482,6 +1526,8 @@ class BaseSystem:
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
 
+        # Extend the field if not a complete array is given
+        complex_field = self.plot_tool_extend_field(complex_field)
 
         # Calculate the magnitude and phase of the complex field
         rho = np.abs(complex_field)
@@ -1689,7 +1735,7 @@ class BaseSystem:
 
         kwargs['ax'] = ax
         kwargs['grid'] = grid
-        self.plot_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties(**kwargs)
         return fig, ax
 
     def plot_angle_field(self, angle_field, **kwargs):
@@ -1710,6 +1756,8 @@ class BaseSystem:
             print('Max imaginary part: ', np.max(np.imag(angle_field)))
             angle_field = np.real(angle_field)
 
+        # Extend the field if not a complete array is given
+        angle_field = self.plot_tool_extend_field(angle_field)
 
         # Normalize around 0
         angle_field = np.mod(angle_field, 2 * np.pi) - np.pi        
@@ -1748,6 +1796,13 @@ class BaseSystem:
         """
         # Convert the vector field to a numpy array
         vector_field = np.array(vector_field)
+        
+        # Extend the field if not a complete array is given
+        # TODO: Make this part more efficient (Vidar 11.03.24)
+        vector_field_copy = []
+        for n in range(vector_field.shape[0]):
+            vector_field_copy.append(self.plot_tool_extend_field(vector_field[n]))
+        vector_field = np.array(vector_field_copy)
 
         # Check if the vector field is complex
         if np.iscomplexobj(vector_field):
@@ -2046,7 +2101,7 @@ class BaseSystem:
                 ax.quiver(X, Y, Z, U, V, W, color='blue')
 
         kwargs['ax'] = ax
-        self.plot_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties(**kwargs)
         return fig, ax
 
     def plot_field_in_plane(self, field, normal_vector=None, position=None, 
@@ -2068,12 +2123,14 @@ class BaseSystem:
         if self.dim != 3:
             raise Exception("The plot in plane function is only defined for 3D fields.")
 
+        # Extend the field if not a complete array is given
+        field = self.plot_tool_extend_field(field)
+
         # Check if the vector field is complex
         if np.iscomplexobj(field):
             print("\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
             print('Max imaginary part: ', np.max(np.imag(field)))
             field = np.real(field)
-
 
         # Check if an axis object is provided
         fig = kwargs.get('fig', plt.gcf())
@@ -2137,7 +2194,7 @@ class BaseSystem:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        self.plot_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties(**kwargs)
 
         return fig, ax
 
@@ -2157,6 +2214,9 @@ class BaseSystem:
 
         if self.dim != 3:
             raise Exception("The plot in plane function is only defined for 3D fields.")
+
+        # Extend the field if not a complete array is given
+        complex_field = self.plot_tool_extend_field(complex_field)
 
         # Default values of position and normal vector
         if position is None:
@@ -2226,7 +2286,7 @@ class BaseSystem:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        self.plot_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties(**kwargs)
 
         return fig, ax
 
@@ -2249,6 +2309,9 @@ class BaseSystem:
             print("\033[91mWarning: the angle vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
             print('Max imaginary part: ', np.max(np.imag(angle_field)))
             angle_field = np.real(angle_field)
+
+        # Extend the field if not a complete array is given
+        angle_field = self.plot_tool_extend_field(angle_field)
 
         complex_field = np.exp(1j * angle_field)
     
@@ -2273,6 +2336,13 @@ class BaseSystem:
 
         # Convert the vector field to a numpy array
         vector_field = np.array(vector_field)
+
+        # Extend the field if not a complete array is given
+        # TODO: Make this part more efficient (Vidar 11.03.24)
+        vector_field_copy = []
+        for n in range(vector_field.shape[0]):
+            vector_field_copy.append(self.plot_tool_extend_field(vector_field[n]))
+        vector_field = np.array(vector_field_copy)
 
         # Check if the vector field is complex
         if np.iscomplexobj(vector_field):
@@ -2373,5 +2443,5 @@ class BaseSystem:
         ax.quiver(x, y, z, U_verts, V_verts, W_verts, color='blue')
 
         kwargs['ax'] = ax
-        self.plot_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties(**kwargs)
         return fig, ax

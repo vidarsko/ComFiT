@@ -94,6 +94,7 @@ $$
 | `yticklabels` | List of labels for the ticks on the y-axis | None |
 | `zticks` | List of ticks on the z-axis | None |
 | `zticklabels` | List of labels for the ticks on the z-axis | None |
+| `alpha` | The alpha value of the plot | 0.5 |
 
 
 ## Plotting functions
