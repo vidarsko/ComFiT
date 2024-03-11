@@ -21,9 +21,6 @@ class BaseSystem:
 
         Output:
             None
-        
-        Raises:
-            ValueError: If the dimension is not 1, 2, or 3.
         """
         if dim not in [1, 2, 3]:
             raise ValueError('Dimension must be 1, 2, or 3.')
@@ -54,7 +51,7 @@ class BaseSystem:
         # Providing dx trumps providing xRes
         if 'dx' in kwargs:
             self.dx = kwargs['dx']
-            self.xRes = int((self.xmax - self.xmin) / self.dx)
+            self.xRes = round((self.xmax - self.xmin) / self.dx)
 
         # Setting default values for y and z for 1 dimensional systems
         self.ymin = kwargs.get('ymin', 0)
@@ -90,7 +87,7 @@ class BaseSystem:
             # Providing dy trumps providing yRes
             if 'dy' in kwargs:
                 self.dy = kwargs['dy']
-                self.yRes = int((self.ymax - self.ymin) / self.dy)
+                self.yRes = round((self.ymax - self.ymin) / self.dy)
         
         if self.dim > 2:
             if 'zlim' in kwargs:
@@ -113,7 +110,7 @@ class BaseSystem:
             # Providing dz trumps providing zRes
             if 'dz' in kwargs:
                 self.dz = kwargs['dz']
-                self.zRes = int((self.zmax - self.zmin) / self.dz)
+                self.zRes = round((self.zmax - self.zmin) / self.dz)
 
         #  Setting default value of time
         self.time = kwargs.get('time', 0)
@@ -277,7 +274,7 @@ class BaseSystem:
         width = 0.2 * np.min([self.xmax, self.ymax])
         radius = 0.4 * np.min([self.xmax, self.ymax])
 
-        r2 = (self.x.reshape((self.xRes, 1)) - self.xmid) ** 2 + (self.y.reshape((1, self.yRes)) - self.ymid) ** 2
+        r2 = self.calc_distance_squared_to_point(self.rmid)
         filter = (1 + np.tanh((radius ** 2 - r2) / width ** 2)) / 2
         amp = amp * filter + (1 - filter)
 
@@ -710,6 +707,8 @@ class BaseSystem:
         rx2 = (self.x - position[0]) ** 2
         rx2p = (self.x - position[0] + delta_x) ** 2
 
+        print(rx2m.shape,rx2.shape,rx2p.shape)
+        print(self.xRes)
         r2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes))
 
         if self.dim > 1:
@@ -2465,15 +2464,15 @@ class BaseSystem:
             if i == 0:
                 return tensor[0] if j == 0 else tensor[1]
             elif i == 1:
-                return tensor[1] if j == 1 else tensor[2]
+                return tensor[1] if j == 0 else tensor[2]
 
         elif self.dim == 3:
             if i == 0:
                 return tensor[0] if j == 0 else tensor[1] if j == 1 else tensor[2]
             elif i == 1:
-                return tensor[1] if j == 1 else tensor[3] if j == 2 else tensor[4]
+                return tensor[1] if j == 0 else tensor[3] if j == 1 else tensor[4]
             elif i == 2:
-                return tensor[2] if j == 2 else tensor[4] if j == 0 else tensor[5]
+                return tensor[2] if j == 0 else tensor[4] if j == 1 else tensor[5]
 
     def get_sym_tl(self,tensor,i,j):
         """
