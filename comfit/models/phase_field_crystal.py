@@ -366,10 +366,18 @@ class PhaseFieldCrystal(BaseSystem):
         stress = self.calc_stress_tensor_microscopic()
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
 
+        # Number of independent stress components
+        if self.dim == 1:
+            number_of_stress_components = 1
+        elif self.dim == 2:
+            number_of_stress_components = 3
+        elif self.dim == 3:
+            number_of_stress_components = 6
+
         # Coarse-grain the microscopic stress
-        number_of_stress_components = 1 if self.dim == 1 else 3 if self.dim == 2 else 6
         for n in range(number_of_stress_components):
             stress[n] = Gaussian_filter_f*sp.fft.fftn(stress[n])
+
         return np.real(sp.fft.ifftn(stress, axes = (range( - self.dim , 0) )))
 
     def calc_dislocation_density(self, eta = None):
@@ -971,6 +979,22 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2)
 
+    def calc_stress_tensor_microscopic(self):
+        """
+        Calculates the microscopic stress of the phase-field crystal.
+        """
+        stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
+        
+        L1psi = np.real(sp.fft.ifftn((1-self.calc_k2())*self.psi_f))
+        stress[0] = -2*L1psi*np.real(sp.fft.ifftn(self.dif[0]*self.dif[0]*self.psi_f))
+        stress[1] = -2*L1psi*np.real(sp.fft.ifftn(self.dif[0]*self.dif[1]*self.psi_f))
+        stress[2] = -2*L1psi*np.real(sp.fft.ifftn(self.dif[0]*self.dif[2]*self.psi_f))
+        stress[3] = -2*L1psi*np.real(sp.fft.ifftn(self.dif[1]*self.dif[1]*self.psi_f))
+        stress[4] = -2*L1psi*np.real(sp.fft.ifftn(self.dif[1]*self.dif[2]*self.psi_f))
+        stress[5] = -2*L1psi*np.real(sp.fft.ifftn(self.dif[2]*self.dif[2]*self.psi_f))
+
+        return stress
+    
     def calc_stress_divergence_f(self, field_f = None):
         
         if field_f is None:
@@ -1084,6 +1108,24 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
     def calc_omega_f(self):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2*(4/3-k2)**2)
+
+    def calc_stress_tensor_microscopic(self):
+        """
+        Calculates the microscopic stress of the phase-field crystal.
+        """
+        stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
+        
+        k2 = self.calc_k2()
+        L1L43psi = np.real(sp.fft.ifftn((1-k2)*(4/3-k2)*self.psi_f))
+        L1plusL43_f = 7/3 - 2*k2
+        stress[0] = -2*L1L43psi*np.real(sp.fft.ifftn(L1plusL43_f*self.dif[0]*self.dif[0]*self.psi_f))
+        stress[1] = -2*L1L43psi*np.real(sp.fft.ifftn(L1plusL43_f*self.dif[0]*self.dif[1]*self.psi_f))
+        stress[2] = -2*L1L43psi*np.real(sp.fft.ifftn(L1plusL43_f*self.dif[0]*self.dif[2]*self.psi_f))
+        stress[3] = -2*L1L43psi*np.real(sp.fft.ifftn(L1plusL43_f*self.dif[1]*self.dif[1]*self.psi_f))
+        stress[4] = -2*L1L43psi*np.real(sp.fft.ifftn(L1plusL43_f*self.dif[1]*self.dif[2]*self.psi_f))
+        stress[5] = -2*L1L43psi*np.real(sp.fft.ifftn(L1plusL43_f*self.dif[2]*self.dif[2]*self.psi_f))
+
+        return stress
 
     def calc_stress_divergence_f(self, field_f = None):
         
@@ -1214,6 +1256,24 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
     def calc_omega_f(self):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2*(2-k2)**2*(3-k2)**2)
+
+    def calc_stress_tensor_microscopic(self):
+        """
+        Calculates the microscopic stress of the phase-field crystal.
+        """
+        stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
+        
+        k2 = self.calc_k2()
+        L1L2L3psi = np.real(sp.fft.ifftn((1-k2)*(2-k2)*(3-k2)*self.psi_f))
+        L2L3_p_L1L3_p_L1L2_f = 11 - 12*k2 + 3*k2**2
+        stress[0] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[0]*self.dif[0]*self.psi_f))
+        stress[1] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[0]*self.dif[1]*self.psi_f))
+        stress[2] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[0]*self.dif[2]*self.psi_f))
+        stress[3] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[1]*self.dif[1]*self.psi_f))
+        stress[4] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[1]*self.dif[2]*self.psi_f))
+        stress[5] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[2]*self.dif[2]*self.psi_f))
+
+        return stress
 
     def calc_stress_divergence_f(self, field_f = None):
         

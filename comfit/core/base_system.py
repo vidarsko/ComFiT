@@ -256,10 +256,6 @@ class BaseSystem:
 
         if dipole_position is None:
             dipole_position = self.rmid
-
-        # Add the vortices to the theta-field
-        print("dipole position", dipole_position)
-        print("dipole vector", dipole_vector)
         
         theta = np.zeros(self.dims)
         theta += self.calc_angle_field_single_vortex(dipole_position - np.array(dipole_vector) / 2,
@@ -707,8 +703,6 @@ class BaseSystem:
         rx2 = (self.x - position[0]) ** 2
         rx2p = (self.x - position[0] + delta_x) ** 2
 
-        print(rx2m.shape,rx2.shape,rx2p.shape)
-        print(self.xRes)
         r2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes))
 
         if self.dim > 1:
@@ -1293,6 +1287,22 @@ class BaseSystem:
             field = np.tile(field,(self.xRes,1,1))
 
         return field
+
+    def plot_tool_surface(self, **kwargs):
+        """
+        Plots the surface of the given field.
+        """
+        field = kwargs['field']
+        value = kwargs['value']
+        ax = kwargs.get('ax', plt.gca())
+        alpha = kwargs.get('alpha', 0.5)
+        color = kwargs.get('color', 'b')
+
+        verts, faces, _, _ = marching_cubes(field, value)
+        x = (self.xmin+verts[:, 0]*self.dx)/self.a0
+        y = (self.ymin+verts[:, 1]*self.dy)/self.a0
+        z = (self.zmin+verts[:, 2]*self.dz)/self.a0
+        ax.plot_trisurf(x, y, faces, z, alpha=alpha, color=color)
     
     def plot_field(self, field, **kwargs):
         """
@@ -1437,8 +1447,6 @@ class BaseSystem:
             field_min = np.min(field)
             field_max = np.max(field)
 
-            X, Y, Z = np.meshgrid(self.x/self.a0, self.y/self.a0, self.z/self.a0, indexing='ij')
-
             number_of_layers = kwargs.get('number_of_layers', 1)
             alpha = kwargs.get('alpha', 0.5)
             
@@ -1474,17 +1482,20 @@ class BaseSystem:
             
 
             if field_min < layer_values[1] < field_max:
-                verts, faces, _, _ = marching_cubes(field, layer_values[1])
-                ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=alpha,
-                            color=colormap(layer_values[1] / vmax))
+                self.plot_tool_surface(field=field, 
+                                        value=layer_values[1], 
+                                        color=colormap((layer_values[1]-vmin) / (vmax-vmin)), 
+                                        alpha=alpha,
+                                        ax=ax)
 
             for layer_value in layer_values[2:-1]:
                 if field_min < layer_value < field_max:
-                    verts, faces, _, _ = marching_cubes(field, layer_value)
-                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=alpha,
-                                color=colormap(layer_value / vmax))
+                    self.plot_tool_surface(field=field, 
+                                            value=layer_value, 
+                                            color=colormap((layer_value-vmin) / (vmax-vmin)), 
+                                            alpha=alpha,
+                                            ax=ax)
 
-            ax.set_aspect('equal')
 
             if 'colorbar' in kwargs:
                 colorbar = kwargs['colorbar']
@@ -1641,11 +1652,12 @@ class BaseSystem:
                     field_to_plot[rho_normalized < 0.01] = float('nan')
 
                     if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
-
-                        verts, faces, _, _ = marching_cubes(field_to_plot, angle)
-
-                        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                        color=colormap((angle + np.pi) / (2 * np.pi)))
+                        #TODO: make alpha a keyword argument (Vidar 11.03.24)
+                        self.plot_tool_surface(field=field_to_plot, 
+                                            value=angle, 
+                                            color=colormap((angle + np.pi) / (2 * np.pi)), 
+                                            alpha=0.5,
+                                            ax=ax)
 
                 theta = np.mod(theta, 2 * np.pi)
 
@@ -1655,14 +1667,15 @@ class BaseSystem:
                 field_to_plot[rho_normalized < 0.01] = float('nan')
 
                 if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
-
-                    verts, faces, _, _ = marching_cubes(field_to_plot, np.pi)
-
-                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, self.ymin+verts[:, 1]*self.dy, faces, self.zmin+verts[:, 2]*self.dz, alpha=0.5,
-                                color=colormap(0))
+                    #TODO: make alpha a keyword argument (Vidar 11.03.24)
+                    self.plot_tool_surface(field=field_to_plot, 
+                                            value=np.pi, 
+                                            color=colormap(0), 
+                                            alpha=0.5,
+                                            ax=ax)
             
             elif plot_method == 'phase_blob':
-
+                # TODO: change the function so that it used plot_tool_surface (Vidar 11.03.24)
                 # Padding for the colorbar
                 padding=0.2
                 
@@ -1692,33 +1705,33 @@ class BaseSystem:
                     colors = colormap(theta_faces_normalized)
 
                     # Plot the complex field
-                    ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, 
-                                    self.ymin+verts[:, 1]*self.dy, 
+                    ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
+                                    (self.ymin+verts[:, 1]*self.dy)/self.a0, 
                                     faces, 
-                                    self.zmin+verts[:, 2]*self.dz, 
+                                    (self.zmin+verts[:, 2]*self.dz)/self.a0, 
                                     facecolor=colors, antialiased=False)
                 
                     # Plot the shadows on the edges
                     plot_shadows = kwargs.get('plot_shadows', True)
                     if plot_shadows:
                         ax.plot_trisurf(self.xmin+0*verts[:, 0]*self.dx, 
-                                        self.ymin+verts[:, 1]*self.dy, 
+                                        (self.ymin+verts[:, 1]*self.dy)/self.a0, 
                                         faces, 
-                                        self.zmin+verts[:, 2]*self.dz, 
+                                        (self.zmin+verts[:, 2]*self.dz)/self.a0, 
                                         facecolor='black', antialiased=True,
                                         alpha=0.1)
 
-                        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, 
-                                        self.ymax+0*verts[:, 1]*self.dy, 
+                        ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
+                                        (self.ymax+0*verts[:, 1]*self.dy)/self.a0, 
                                         faces, 
-                                        self.zmin+verts[:, 2]*self.dz, 
+                                        (self.zmin+verts[:, 2]*self.dz)/self.a0, 
                                         facecolor='black', antialiased=True,
                                         alpha=0.1)
                         
-                        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx, 
-                                        self.ymin+verts[:, 1]*self.dy, 
+                        ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
+                                        (self.ymin+verts[:, 1]*self.dy)/self.a0, 
                                         faces, 
-                                        self.zmin+0*verts[:, 2]*self.dz, 
+                                        (self.zmin+0*verts[:, 2]*self.dz)/self.a0, 
                                         facecolor='black', antialiased=True,
                                         alpha=0.1)
 
@@ -2181,14 +2194,15 @@ class BaseSystem:
         # Map normalized field values to colors
         colors = colormap(field_normalized)
     
-        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
-                        self.ymin+verts[:, 1]*self.dy,
+        ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0,
+                        (self.ymin+verts[:, 1]*self.dy)/self.a0,
                         faces,
-                        self.zmin+verts[:, 2]*self.dz,
+                        (self.zmin+verts[:, 2]*self.dz)/self.a0,
                         facecolor=colors, antialiased=False)
 
         if colorbar:
-            sm = plt.cm.ScalarMappable(cmap=colormap)    
+            sm = plt.cm.ScalarMappable(cmap=colormap)  
+            sm.set_clim(np.min(field_verts),np.max(field_verts))  
             cbar = plt.colorbar(sm, ax=ax, pad=0.2)
 
         kwargs['grid'] = kwargs.get('grid', True)
@@ -2268,10 +2282,10 @@ class BaseSystem:
         # Blend the colors with white according to rho (normalized)
         colors[:,3] = (rho_verts/np.max(rho_verts)).ravel()
     
-        ax.plot_trisurf(self.xmin+verts[:, 0]*self.dx,
-                        self.ymin+verts[:, 1]*self.dy,
+        ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0,
+                        (self.ymin+verts[:, 1]*self.dy)/self.a0,
                         faces,
-                        self.zmin+verts[:, 2]*self.dz,
+                        (self.zmin+verts[:, 2]*self.dz)/self.a0,
                         facecolor=colors, antialiased=True)
 
         # Create a colorbar
