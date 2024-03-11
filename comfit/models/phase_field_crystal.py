@@ -724,6 +724,17 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2)
     
+    def calc_stress_tensor_microscopic(self):
+        """
+        Calculates the microscopic stress of the phase-field crystal.
+        """
+        pass
+
+    def calc_stress_tensor(self):
+        """
+        Calculates the stress of the phase-field crystal.
+        """
+        pass
     
     def calc_stress_divergence_f(self, field_f = None):
         

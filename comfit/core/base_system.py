@@ -2488,10 +2488,10 @@ class BaseSystem:
             (numpy.ndarray) The i,j component of the tensor.
         """
         if self.dim == 2:
-            if i == 1:
-                return tensor[0] if j == 1 else tensor[1]
-            elif i == 2:
-                return tensor[1] if j == 1 else -tensor[0]
+            if i == 0:
+                return tensor[0] if j == 0 else tensor[1]
+            elif i == 1:
+                return tensor[1] if j == 0 else -tensor[0]
             
         elif self.dim == 3:
             if i == 0:
