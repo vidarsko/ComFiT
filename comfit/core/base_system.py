@@ -2222,7 +2222,7 @@ class BaseSystem:
             **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
         Output:
-            matplotlib.axes.Axes: The axes containing the plot.
+            matplotlib.axes.Axes: The axes containing the plot of the complex field.
         """
 
         if self.dim != 3:

@@ -628,7 +628,11 @@ $$
 
 ### Strains
 
-The stress of the phase-field crystal can 
+The strain of the phase-field crystal can be calculated using the following formula[^skogvollSymmetryTopologyCrystal2023]
+
+$$
+\varepsilon_{ij} = \frac{1}{2}\delta_{ij} - \frac{d}{2N\eta_0^2} \langle \partial_i \psi \partial_j \psi \rangle
+$$
 
 
 ## Equations of motion
@@ -926,7 +930,7 @@ Create an animation of the dislocations annihilating under standard PFC dynamics
     ```
 
 [^elderModelingElasticPlastic2004]: Elder, K. R., & Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Physical Review E, 70(5), 051605. [https://doi.org/10.1103/PhysRevE.70.051605](https://doi.org/10.1103/PhysRevE.70.051605)
-[^Skogvoll2023SymmetryTopology]: Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo [https://www.duo.uio.no/handle/10852/102731](https://www.duo.uio.no/handle/10852/102731)
+[^skogvollSymmetryTopologyCrystal2023]: Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo [https://www.duo.uio.no/handle/10852/102731](https://www.duo.uio.no/handle/10852/102731)
 [^emdadiRevisitingPhaseDiagrams2016]: Emdadi, A., Asle Z., Mohsen and Asadi, E. (2016). Revisiting Phase Diagrams of Two-Mode Phase-Field Crystal Models. Computational Materials Science. 123, 139-147. [https://doi.org/10.1016/j.commatsci.2016.06.018](https://doi.org/10.1016/j.commatsci.2016.06.018)
 [^wuPhasefieldcrystalModelFcc2010]:Wu, K. A., Adland, A. and Karma, A. (2010). Phase-Field-Crystal Model for Fcc Ordering. Physical Review E. 81, 6, 06101. [https://doi.org/10.1103/PhysRevE.81.061601](https://doi.org/10.1103/PhysRevE.81.061601)
 [^wuPhasefieldCrystalModeling2007]: Wu, K-A. and Karma, A. (2007). Phase-Field Crystal Modeling of Equilibrium Bcc-Liquid Interfaces. Physical Review B. 76, 18, 184107. [https://doi.org/10.1103/PhysRevB.76.184107](https://doi.org/10.1103/PhysRevB.76.184107)
