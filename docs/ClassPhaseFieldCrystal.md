@@ -638,33 +638,52 @@ $$
 where $\mathcal R^{(n)}$ is the nth closest modes, i.e., the full reciprocal lattice can be written as 
 
 $$
-\mathcal R = \cup_{n=1}^\infty \mathcal R^{(n)}
+\mathcal R = \{\mathbf 0 \} \cup \left (\cup_{n=1}^\infty \mathcal R^{(n)} \right)
 $$
 
 We define the following quantity
 
 $$
-\eta^2 = N_1q_1^2\eta_1^2 + N_2q_2^2\eta_2^2 + ... 
+\Phi = N_1q_1^2\eta_1^2 + N_2q_2^2\eta_2^2 + ... 
 = \sum_{\vec q^{(n)} \in \mathcal R} \eta_{n,0}^2|\vec q^{(n)}|^2
 $$
 
+Assuming that the mode-approximations hold, we can calculate $\Phi$ from the equilibrium amplitudes which are stored in the `PhaseFieldCrystal` instance, which is done routinely in the initialization of the class and stored in `pfc.Phi`.
 Consider now the structure function of the equilibrium state
 
 $$
 \mathcal S_{ij} 
-= \langle \partial_i \psi \partial_j \psi\rangle 
-= \eta_1^2 \sum_{\vec q^{(n)} \in \mathcal R^{(1)}} q^{(n)}_iq^{(n)}_j +  \eta_2^2 \sum_{\vec q^{(n)} \in \mathcal R^{(2)}} q_i^{(n)}q_j^{(n)}+...\\
-= \eta_1^2 \frac{N_1 q_1^2}{d} \delta_{ij} + \eta_2^2 \frac{N_2 q_2^2}{d} \delta_{ij}+... \\= \frac{\eta^2}{d}\delta_{ij}
+= \langle \partial_i \psi \partial_j \psi\rangle
 $$
 
+$$
+= \eta_1^2 \sum_{\vec q^{(n)} \in \mathcal R^{(1)}} q^{(n)}_iq^{(n)}_j +  \eta_2^2 \sum_{\vec q^{(n)} \in \mathcal R^{(2)}} q_i^{(n)}q_j^{(n)}+...
+$$
 
-he strain of the phase-field crystal can be calculated using the following formula
+$$
+= \eta_1^2 \frac{N_1 q_1^2}{d} \delta_{ij} + \eta_2^2 \frac{N_2 q_2^2}{d} \delta_{ij}+... 
+$$
+
+$$
+= \frac{\Phi}{d}\delta_{ij}
+$$
+
+The strain of the phase-field crystal can be calculated using the following formula
 The strain of the phase-field crystal can be calculated using the following formula[^skogvollSymmetryTopologyCrystal2023]
 
 $$
-\varepsilon_{ij} = \frac{1}{2}\delta_{ij} - \frac{d}{2N\eta_0^2} \langle \partial_i \psi \partial_j \psi \rangle
+\varepsilon_{ij} = \frac{1}{2}\delta_{ij} - \frac{d}{2\Phi} \mathcal S_{ij},
 $$
 
+where $\mathcal S = \langle \nabla \psi \nabla \psi \rangle$ is called the structure function [^skogvollHydrodynamicPhaseField2022]
+and is implemented in the `calc_strain_tensor` method of the `PhaseFieldCrystal` class.
+It should be noted that there is some residual strain due to the equilibrium periodicity of the lattice not matching exactly the periodicity of the simulation domain [^punkeEvaluationElasticField2023].
+It is therefore often useful to subtract the mean value for visualization purposes.
+
+```python
+strain = pfc.calc_strain_tensor()
+strain = strain - np.mean(strain, axis=0)
+```
 
 ## Equations of motion
 
@@ -938,3 +957,4 @@ this
 [^skogvollHydrodynamicPhaseField2022]: Skogvoll, V., Salvalaglio, M. and Angheluta, L. (2022). Hydrodynamic Phase Field Crystal Approach to Interfaces, Dislocations and Multi-Grain Networks. Modelling and Simulation in Materials Science and Engineering. [https://doi.org/10.1088/1361-651X/ac9493](https://doi.org/10.1088/1361-651X/ac9493)
 [^skogvollPhaseFieldCrystal2022]: Skogvoll, V., Angheluta, L., Skaugen, A., Salvalaglio, M. and Viñals, J. (2022). A Phase Field Crystal Theory of the Kinematics of Dislocation Lines. Journal of the Mechanics and Physics of Solids. 166, 104932. [https://doi.org/10.1016/j.jmps.2022.104932](https://doi.org/10.1016/j.jmps.2022.104932)
 [^dederichsElasticGreenFunction1969]: Dederichs, P. H. and Leibfried, G. (1969). Elastic Green's function for anisotropic cubic crystals. Physical Review. 188, 3, 1175. [https://doi.org/10.1103/PhysRev.188.1175](https://doi.org/10.1103/PhysRev.188.1175)
+[^punkeEvaluationElasticField2023]: Punke, M., Skogvoll, V., & Salvalaglio, M. (2023). Evaluation of the elastic field in phase-field crystal simulations. PAMM, 23(3), e202300213. [https://doi.org/10.1002/pamm.202300213](https://doi.org/10.1002/pamm.202300213)

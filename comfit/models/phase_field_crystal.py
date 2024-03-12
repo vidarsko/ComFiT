@@ -24,6 +24,9 @@ class PhaseFieldCrystal(BaseSystem):
         self.dislocation_charges = np.array(
             [[np.round(np.dot(an, qn) / (2 * np.pi), decimals=8) for qn in self.q] for an in self.a])
 
+        self.Phi = 2*sum(np.array(self.eta0)**2)
+
+
     def __str__(self):
         return self.type
 
@@ -380,6 +383,80 @@ class PhaseFieldCrystal(BaseSystem):
 
         return np.real(sp.fft.ifftn(stress, axes = (range( - self.dim , 0) )))
 
+    def calc_structure_tensor(self):
+        """ 
+        Calculates the structure tensor of the phase-field crystal.
+
+        Input:
+            None
+
+        Output:
+            The structure tensor
+        """
+        # Calculate the gradient
+        diPsi = np.zeros([self.dim] + self.dims, dtype=complex)
+        for i in range(self.dim):
+            diPsi[i] = self.dif[i]*self.psi_f
+        diPsi = np.real(sp.fft.ifftn(diPsi, axes = (range( - self.dim , 0) )))
+
+        if self.dim == 1:
+            number_of_independent_strain_components = 1
+        elif self.dim == 2:
+            number_of_independent_strain_components = 3
+        elif self.dim == 3:
+            number_of_independent_strain_components = 6
+
+        structure_tensor = np.zeros([number_of_independent_strain_components] + self.dims, dtype=complex)
+
+        Gaussian_filter_f = self.calc_Gaussian_filter_f()
+        if self.dim == 1:
+            structure_tensor[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
+        elif self.dim == 2:
+            structure_tensor[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
+            structure_tensor[1] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[1])
+            structure_tensor[2] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[1])
+        elif self.dim == 3:
+            structure_tensor[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
+            structure_tensor[1] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[1])
+            structure_tensor[2] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[2])
+            structure_tensor[3] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[1])
+            structure_tensor[4] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[2])
+            structure_tensor[5] = Gaussian_filter_f*sp.fft.fftn(diPsi[2]*diPsi[2])
+        
+        structure_tensor = np.real(sp.fft.ifftn(structure_tensor, axes = (range( - self.dim , 0) )))
+
+        return structure_tensor
+            
+
+
+    def calc_strain_tensor(self):
+        """
+        Calculates the strain of the phase-field crystal.
+
+        Input:
+            None
+
+        Output:
+            The strain tensor
+        """
+        
+        strain = -self.dim/(2*self.Phi)*self.calc_structure_tensor()
+
+        if self.dim == 1:
+            strain = 1/2 + strain
+        elif self.dim == 2:
+            strain[0] = 1/2 + strain[0]
+            strain[2] = 1/2 + strain[2]
+        elif self.dim == 3:
+            strain[0] = 1/2 + strain[0]
+            strain[3] = 1/2 + strain[3]
+            strain[5] = 1/2 + strain[5]
+        
+        return strain
+        
+
+
+
     def calc_dislocation_density(self, eta = None):
 
         if eta is None:
@@ -722,14 +799,6 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         self.dx = a0 / self.micro_resolution[0]
         self.dy = np.sqrt(3) * a0 / self.micro_resolution[1]
 
-        # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
-                         dx=self.dx, dy=self.dy, dt=self.dt)
-
-        # Set the a0
-        self.a0 = a0
-        self.defined_length_scale = True
-
         self.A = self.calc_initial_amplitudes()
         self.eta0 = [self.A, self.A, self.A]
 
@@ -738,6 +807,17 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         self.el_mu = 3 * self.A ** 2
         self.el_gamma = 0
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+
+
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
+                         dx=self.dx, dy=self.dy, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
+        
 
     def calc_initial_amplitudes(self):
         psi0 = self.psi0
@@ -820,14 +900,6 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.dx = a0 / self.micro_resolution[0]
         self.dy = a0 / self.micro_resolution[1]
 
-        # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
-                         dx=self.dx, dy=self.dy, dt=self.dt)
-
-        # Set the a0
-        self.a0 = a0
-        self.defined_length_scale = True
-
         self.A, self.B = self.calc_initial_amplitudes()
         self.eta0 = [self.A, self.A, self.B, self.B]
 
@@ -837,6 +909,16 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.el_gamma = 0
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
+
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
+                         dx=self.dx, dy=self.dy, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
+        
     def calc_initial_amplitudes(self):
         psi0 = self.psi0
         r = self.r
@@ -948,14 +1030,6 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         self.dy = a0 / self.micro_resolution[1]
         self.dz = a0 / self.micro_resolution[2]
 
-        # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
-                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
-
-        # Set the a0
-        self.a0 = a0
-        self.defined_length_scale = True
-
         self.A = self.calc_initial_amplitudes()
         self.eta0 = [self.A, self.A, self.A, self.A, self.A, self.A]
 
@@ -964,6 +1038,14 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         self.el_mu = 4 * self.A ** 2
         self.el_gamma = - 4*self.A**2
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
+                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
 
 
     def calc_initial_amplitudes(self):
@@ -1063,14 +1145,6 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         self.dy = a0 / self.micro_resolution[1]
         self.dz = a0 / self.micro_resolution[2]
 
-        # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
-                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
-
-        # Set the a0
-        self.a0 = a0
-        self.defined_length_scale = True
-
         self.A, self.B = self.calc_initial_amplitudes()
         self.eta0 = [self.A, self.A, self.A, self.A, self.B, self.B, self.B]
 
@@ -1080,6 +1154,15 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         self.el_gamma = 32/81 * (2*self.B**2 - self.A**2)
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
+                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
+        
     def calc_initial_amplitudes(self):
         psi0 = self.psi0
         r = self.r
@@ -1199,14 +1282,6 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.dy = a0 / self.micro_resolution[1]
         self.dz = a0 / self.micro_resolution[2]
 
-        # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
-                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
-
-        # Set the a0
-        self.a0 = a0
-        self.defined_length_scale = True
-
         self.A, self.B, self.C = self.calc_initial_amplitudes()
         self.eta0 = [self.A, self.A, self.A,
                      self.B, self.B, self.B, self.B, self.B, self.B,
@@ -1217,6 +1292,14 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.el_mu = 16 * self.B ** 2 + 128 * self.C ** 2
         self.el_gamma = 32*self.A**2 - 16*self.B**2 - 256*self.C**2
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
+                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
 
     def calc_initial_amplitudes(self):
         psi0 = self.psi0
