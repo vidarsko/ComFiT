@@ -628,6 +628,37 @@ $$
 
 ### Strains
 
+In order to calculate the strain of a PFC configuration, we follow a generalized procedure as that outlined in Ref. [^skogvollSymmetryTopologyCrystal2023]. 
+The ground state of the PFC can be written as 
+
+$$
+\psi = \psi_0 + \eta_1 \sum_{\vec q^{(n)} \in \mathcal R^{(1)}} e^{i \vec q^{(n)} \cdot \vec r} +  \eta_2 \sum_{\vec q^{(n)} \in \mathcal R^{(2)}} e^{i \vec q^{(n)} \cdot \vec r} +...,
+$$
+
+where $\mathcal R^{(n)}$ is the nth closest modes, i.e., the full reciprocal lattice can be written as 
+
+$$
+\mathcal R = \cup_{n=1}^\infty \mathcal R^{(n)}
+$$
+
+We define the following quantity
+
+$$
+\eta^2 = N_1q_1^2\eta_1^2 + N_2q_2^2\eta_2^2 + ... 
+= \sum_{\vec q^{(n)} \in \mathcal R} \eta_{n,0}^2|\vec q^{(n)}|^2
+$$
+
+Consider now the structure function of the equilibrium state
+
+$$
+\mathcal S_{ij} 
+= \langle \partial_i \psi \partial_j \psi\rangle 
+= \eta_1^2 \sum_{\vec q^{(n)} \in \mathcal R^{(1)}} q^{(n)}_iq^{(n)}_j +  \eta_2^2 \sum_{\vec q^{(n)} \in \mathcal R^{(2)}} q_i^{(n)}q_j^{(n)}+...\\
+= \eta_1^2 \frac{N_1 q_1^2}{d} \delta_{ij} + \eta_2^2 \frac{N_2 q_2^2}{d} \delta_{ij}+... \\= \frac{\eta^2}{d}\delta_{ij}
+$$
+
+
+he strain of the phase-field crystal can be calculated using the following formula
 The strain of the phase-field crystal can be calculated using the following formula[^skogvollSymmetryTopologyCrystal2023]
 
 $$
@@ -897,37 +928,6 @@ $$
 
 In the language of
 this
-
-
-## Tutorial 1: Getting to know the triangular PFC
-
-
-Now create a the same PFC containing two defects.
-
-??? note "Solution"
-    ```python
-    pfc = cf.PhaseFieldCrystal2DTriangular(30,20)
-    eta = pfc.calc_amplitudes_with_dislocation_dipole()
-    pfc.conf_PFC_from_amplitudes(eta)
-    pfc.plot_field(pfc.psi, grid=False)
-    plt.show()
-    ```
-
-Create an animation of the dislocations annihilating under standard PFC dynamics.
-
-??? note "Solution"
-    ```python
-    pfc = cf.PhaseFieldCrystal2DTriangular(30,20)
-    eta = pfc.calc_amplitudes_with_dislocation_dipole()
-    pfc.conf_PFC_from_amplitudes(eta)
-
-    for n in range(100):
-        pfc.evolve_PFC(100)
-        pfc.plot_field(pfc.psi, grid=False, colorbar=False)
-        cf.tool_save_plot(n)
-
-    cf.tool_make_animation_gif(n)
-    ```
 
 [^elderModelingElasticPlastic2004]: Elder, K. R., & Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Physical Review E, 70(5), 051605. [https://doi.org/10.1103/PhysRevE.70.051605](https://doi.org/10.1103/PhysRevE.70.051605)
 [^skogvollSymmetryTopologyCrystal2023]: Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo [https://www.duo.uio.no/handle/10852/102731](https://www.duo.uio.no/handle/10852/102731)
