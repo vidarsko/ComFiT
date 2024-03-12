@@ -143,8 +143,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> Basic framework </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_pfc_basic_framework.png#only-light">
-    <img src="images/index_tutorial_pfc_basic_framework-colorinverted.png#only-dark">
+    <img src="images/index_tutorial_pfc_basic_framework.gif#only-light">
+    <img src="images/index_tutorial_pfc_basic_framework-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the basic of the PFC framework, including how to insert dislocations, plot them, and evolve the PFC.
