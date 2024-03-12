@@ -61,9 +61,6 @@ class QuantumMechanics(BaseSystem):
         self.psi_f = sp.fft.fftn(self.psi)
 
 
-        
-
-
     def conf_harmonic_potential(self,trapping_strength=None):
         """
         Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
@@ -84,6 +81,31 @@ class QuantumMechanics(BaseSystem):
             return trapping_strength * (((self.x - self.xmid) ** 2)
                                            + ((self.y - self.ymid) ** 2)
                                            +((self.z - self.zmid) ** 2) )
+
+    def calc_hydrogen_state(self,n,l,m):
+        """
+        Calculate the hydrogen state with quantum numbers n,l,m
+
+        Input:
+            n: principal quantum number
+            l: azimuthal quantum number
+            m: magnetic quantum number
+
+        Output:
+            (np.ndarray): wavefunction
+        """
+
+        if not self.dim == 3:
+            raise(Exception('The hydrogen state is only defined in 3D'))
+
+        r = np.sqrt(self.x**2 + self.y**2 + self.z**2)
+        theta = np.arccos(self.z/r)
+        phi = np.arctan2(self.y,self.x)
+
+        R = (2*r/n)**l * np.exp(-r/n) *  sp.special.genlaguerre(n-l-1,2*l+1)(2*r/n)
+        Y = sp.special.sph_harm(m,l,phi,theta)
+        
+        return R*Y
 
     ## Calculation functions
     def calc_nonlinear_evolution_function_f(self,psi,t):
