@@ -149,6 +149,16 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <p style="color: var(--md-default-fg-color)">
     Get to know the basic of the PFC framework, including how to insert dislocations, plot them, and evolve the PFC.
     </p>
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/phase_field_crystal_stresses_and_strains.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <div> <strong> Stresses and strains </strong></div>
+    <hr>
+    <p>
+    <img src="images/index_tutorial_pfc_stresses_and_strains.gif#only-light">
+    <img src="images/index_tutorial_pfc_stresses_and_strains-colorinverted.gif#only-dark">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    learn how to calculate stresses and strains in the PFC model.
+    </p>
 </a>
 </div>
 

@@ -92,3 +92,4 @@ def tool_make_animation_gif(counter, name=None, fps=24):
     # Delete the png files
     for file in image_files:
         os.remove(file)
+
