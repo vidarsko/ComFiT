@@ -1679,17 +1679,16 @@ class BaseSystem:
                 # Padding for the colorbar
                 padding=0.2
                 
-                if np.nanmin(rho_normalized)<0.5<np.nanmax(rho_normalized):
-                    verts, faces, _, _ = marching_cubes(rho_normalized, 0.5)
+                phase_blob_threshold = kwargs.get('phase_blob_threshold', 0.5)
+
+                if np.nanmin(rho_normalized)<phase_blob_threshold<np.nanmax(rho_normalized):
+                    verts, faces, _, _ = marching_cubes(rho_normalized, phase_blob_threshold)
 
                     # Calculate the centroids of each triangle
                     centroids = np.mean(verts[faces], axis=1)
 
                     # Assuming theta is defined on the same grid as rho
                     x, y, z = np.mgrid[0:rho_normalized.shape[0], 0:rho_normalized.shape[1], 0:rho_normalized.shape[2]]
-                    x = self.xmin+x*self.dx
-                    y = self.ymin+y*self.dy
-                    z = self.zmin+z*self.dz
 
                     # Flatten the grid for interpolation
                     points = np.c_[x.ravel(), y.ravel(), z.ravel()]

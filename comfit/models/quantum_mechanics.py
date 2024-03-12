@@ -82,6 +82,14 @@ class QuantumMechanics(BaseSystem):
                                            + ((self.y - self.ymid) ** 2)
                                            +((self.z - self.zmid) ** 2) )
 
+    def conf_hydrogen_state(self,n,l,m):
+        """
+        Set the initial condition to a hydrogen state with quantum numbers n,l,m
+        """
+
+        self.psi = self.calc_hydrogen_state(n,l,m)
+        self.psi_f = sp.fft.fftn(self.psi)
+
     def calc_hydrogen_state(self,n,l,m):
         """
         Calculate the hydrogen state with quantum numbers n,l,m
@@ -100,12 +108,15 @@ class QuantumMechanics(BaseSystem):
 
         r = np.sqrt(self.x**2 + self.y**2 + self.z**2)
         theta = np.arccos(self.z/r)
+        theta[np.isnan(theta)] = 0
         phi = np.arctan2(self.y,self.x)
 
         R = (2*r/n)**l * np.exp(-r/n) *  sp.special.genlaguerre(n-l-1,2*l+1)(2*r/n)
         Y = sp.special.sph_harm(m,l,phi,theta)
         
         return R*Y
+
+    
 
     ## Calculation functions
     def calc_nonlinear_evolution_function_f(self,psi,t):

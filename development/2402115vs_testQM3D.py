@@ -32,11 +32,11 @@ for i in range(300):
 
     # cf.tool_save_plot(i)
 
-    qm.evolve_schrodinger(50)
+    qm.evolve_schrodinger(1)
     # mlab.show()
     # plt.draw()
 
-    plt.pause(0.000001)
+    plt.pause(0.01)
     
 
 
