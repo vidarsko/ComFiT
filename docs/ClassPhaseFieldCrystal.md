@@ -526,6 +526,7 @@ pfc.el_gamma
 pfc.el_nu
 ```
 
+### Stress tensor
 The equations for calculating the stress tensor are found in Ref.
 [^skogvollStressOrderedSystems2021], but we list them below, together
 wtih the elastic constants for each of the models.
@@ -624,6 +625,11 @@ $$
     $$\mu = 16 B^2 + 128 C^2$$
 
     $$\gamma = 32 A^2 - 16 B^2 - 256 C^2$$
+
+### Strains
+
+The stress of the phase-field crystal can 
+
 
 ## Equations of motion
 
