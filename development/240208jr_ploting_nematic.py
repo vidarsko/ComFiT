@@ -6,12 +6,11 @@ from mayavi import mlab
 nem = cf.NematicLiquidCrystal(3,xRes=31,yRes=31,zRes = 31,dx=1,dy=1,dt=0.1,alpha=-1.5,C=1)
 
 
-
-nem.conf_initial_condition_disordered(noise_strength=1)
+#nem.conf_initial_condition_disordered(noise_strength=1)
 
 #nem.conf_initial_disclination_line()
 
-nem.evolve_nematic_no_flow(5,method="ETD4RK")
+#nem.evolve_nematic_no_flow(5,method="ETD4RK")
 
 
 
@@ -24,6 +23,6 @@ nem.evolve_nematic_no_flow(5,method="ETD4RK")
 #    plt.pause(0.01)
 #    cf.tool_save_plot(i)
 #    plt.clf()
-cf.tool_make_animation_gif(539)
+#cf.tool_make_animation_gif(539)
 
 plt.show()
