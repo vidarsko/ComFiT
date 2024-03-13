@@ -2535,3 +2535,5 @@ class BaseSystem:
                 return 0
             else:
                 return np.sign(j-i)*omega[i+j-1]
+
+

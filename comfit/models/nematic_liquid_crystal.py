@@ -4,6 +4,7 @@ from comfit.core.base_system import BaseSystem
 import scipy as sp
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from comfit.tools.tool_math_functions import levi_civita_symbol
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.cm as cm
 from matplotlib.colors import Normalize
@@ -572,8 +573,9 @@ class NematicLiquidCrystal(BaseSystem):
 
 ##### defect tracking
     def calc_defect_density_nematic(self):
+        #TODO: Optimize
         """
-        Calculates the defect density
+        Calculates the defect density for the nematic. Note that in three dimension the defect density is a tensor
 
         Input:
             None
@@ -584,9 +586,35 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 2:
             psi0 = np.sqrt(self.B)/2
             psi =[self.Q[0],self.Q[1]]
+            return self.calc_defect_density(psi, psi0)
+
+        elif self.dim == 3:
+            D = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
+
+            term_trace = np.sum(sp.fft.ifftn(self.dif[k] * self.get_sym_tl(self.Q_f,k,a)) *
+                                       sp.fft.ifftn(self.dif[l]*self.get_sym_tl(self.Q_f,l,a))
+                                       for k in range(self.dim) for a in range(self.dim) for l in range(self.dim) )
+            term_trace -= np.sum(sp.fft.ifftn(self.dif[k] * self.get_sym_tl(self.Q_f,l,a)) *
+                                       sp.fft.ifftn(self.dif[l]*self.get_sym_tl(self.Q_f,k,a))
+                                       for k in range(self.dim) for a in range(self.dim) for l in range(self.dim) )
+            for i in range(self.dim):
+                for j in range(self.dim):
+                    term1 = 2 * np.sum(sp.fft.ifftn(self.dif[i] * self.get_sym_tl(self.Q_f,k,a)) *
+                                       sp.fft.ifftn(self.dif[k]*self.get_sym_tl(self.Q_f,j,a))
+                                       for k in range(self.dim) for a in range(self.dim))
+                    term2 = -2 * np.sum(sp.fft.ifftn(self.dif[i]*self.get_sym_tl(self.Q_f,j,a)) *
+                                        sp.fft.ifftn(self.dif[k] *self.get_sym_tl(k,a))
+                                        for k in range(self.dim) for a in range(self.dim))
+                    D[i,j] = term1 + term2
+                    if i == j:
+                        D[i,j] += term_trace
+            return D
         else:
             raise Exception("Not implemented")
-        return self.calc_defect_density(psi,psi0)
+
+
+
+
 
     def calc_dt_psi(self,Q_prev,delta_t):
         dt_Q = (self.Q -Q_prev)/delta_t
