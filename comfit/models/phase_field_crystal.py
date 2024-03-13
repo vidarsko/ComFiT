@@ -38,15 +38,6 @@ class PhaseFieldCrystal(BaseSystem):
         if eta is None:
             eta = self.eta0
 
-        # if self.dim == 1:
-        #     X = self.x
-        #
-        # elif self.dim == 2:
-        #     X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-        #
-        # elif self.dim == 3:
-        #     X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-
         for n in range(self.number_of_reciprocal_lattice_modes):
 
             if self.dim == 1:
@@ -336,6 +327,44 @@ class PhaseFieldCrystal(BaseSystem):
 
         return eta
     
+    def calc_PFC_from_amplitudes(self, eta=None, rotation=None):
+        """
+        Calculates the PFC from the amplitudes.
+        """ 
+
+        psi = self.psi0
+
+        if rotation is None:
+            rotation = [0,0,0]
+        else:
+            if self.dim == 2:
+                rotation = [0,0,rotation]
+
+        rotation = sp.spatial.transform.Rotation.from_rotvec(rotation)
+        rotation_matrix = rotation.as_matrix()
+
+        # Rotate q-vectors to the new orientation
+        if self.dim == 2:
+            q = (rotation_matrix[0:2,0:2]@self.q.transpose()).transpose()
+        elif self.dim == 3:
+            q = (rotation_matrix[0:3,0:3]@self.q.transpose()).transpose()
+
+        if eta is None:
+            eta = self.eta0
+
+        for n in range(self.number_of_reciprocal_lattice_modes):
+
+            if self.dim == 1:
+                psi += 2 * eta[n] * np.exp(1j * q[n][0] * self.x)
+
+            elif self.dim == 2:
+                psi += 2 * eta[n] * np.exp(1j * (q[n][0] * self.x + q[n][1] * self.y))
+
+            elif self.dim == 3:
+                psi += 2 * eta[n] * np.exp(1j * (q[n][0] * self.x + q[n][1] * self.y + q[n][2] * self.z))
+
+        return np.real(psi)
+
     def calc_demodulate_PFC(self):
         eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
                        dtype=complex)
