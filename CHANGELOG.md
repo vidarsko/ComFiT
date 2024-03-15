@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://vidarsko.github.io/ComFiT/](https://vidarsko.github.io/ComFiT/).
 
+## [1.4.0] - 2024-03-15
+- Completed writing all the plot functions. 
+- Added stress tensor calculations for all the PFC models.
+- Completed much of the documentation.
+
 ## [1.3.1] - 2024-02-24
 - Added stress divergence calculation method to all PFC models.
 
