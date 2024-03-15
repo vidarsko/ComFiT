@@ -210,7 +210,7 @@ class NematicLiquidCrystal(BaseSystem):
             alpha_0 = self.alpha
             self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
         else:
-            raise Exception("The active channel is only permitted in three dimensions")
+            raise Exception("The active channel is only permitted in two dimensions")
 
 #### calculations related to the flow field
     def conf_u(self,Q):
