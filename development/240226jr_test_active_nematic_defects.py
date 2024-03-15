@@ -4,7 +4,7 @@ import comfit as cf
 
 nem =cf.NematicLiquidCrystal(2,xRes=101,yRes=101,dx=1,dt=0.1,alpha=-0.8)
 
-nem.conf_initial_condition_disordered(noise_strength=0.1)
+nem.conf_initial_condition_ordered(noise_strength=0.1)
 
 #nem.conf_initial_disclination_line()
 
