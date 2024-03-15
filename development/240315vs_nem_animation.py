@@ -17,10 +17,10 @@ nem.evolve_nematic_no_flow(10)
 
 
 
-Q_prev = np.copy(nem.Q)
+
 
 for n in range(200):
-    
+    Q_prev = np.copy(nem.Q)
     nem.evolve_nematic(3,"ETD4RK")
     dt_Q = (nem.Q -Q_prev)/(10*nem.dt)
 
