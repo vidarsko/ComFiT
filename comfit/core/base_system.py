@@ -1555,25 +1555,25 @@ class BaseSystem:
             # Padding for the colorbar
             padding=0.05
 
-            ax.plot(self.x, rho, color='black')
+            ax.plot(self.x/self.a0, rho, color='black')
 
             # Color in the graph based on the argument of the complex field
             blend_factor=0.3 # The degree to which the color is blended with white
             cmap = tool_colormap_angle()
 
-            ax.fill_between([self.xmin,self.xmin+self.dx/2], [rho[0],(rho[0]+rho[1])/2],
+            ax.fill_between([self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], [rho[0],(rho[0]+rho[1])/2],
                             color=(1-blend_factor)*np.array(cmap((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
                             alpha=1)
 
             for i in range(1,self.xRes-1):
-                ax.fill_between([self.x[i]-self.dx/2,self.x[i]], [(rho[i]+rho[i-1])/2,rho[i]],
+                ax.fill_between([(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], [(rho[i]+rho[i-1])/2,rho[i]],
                                 color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
                                 alpha=1)
-                ax.fill_between([self.x[i],self.x[i]+self.dx/2], [rho[i],(rho[i]+rho[i+1])/2],
+                ax.fill_between([self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], [rho[i],(rho[i]+rho[i+1])/2],
                     color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
                     alpha=1)
 
-            ax.fill_between([self.xmax-1.5*self.dx,self.xmax-self.dx], [(rho[-1]+rho[-2])/2,rho[-1]],
+            ax.fill_between([(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], [(rho[-1]+rho[-2])/2,rho[-1]],
                             color=(1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
                             alpha=1)
 
@@ -1601,7 +1601,7 @@ class BaseSystem:
                 # Get the colors from a colormap (e.g., hsv, but you can choose any other)
                 colors = tool_colormap_angle()((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
 
-                surf = ax.plot_surface(X, Y, rho, facecolors=colors)
+                surf = ax.plot_surface(X/self.a0, Y/self.a0, rho, facecolors=colors)
 
             elif plot_method == 'phase_angle':
                 
@@ -1619,7 +1619,7 @@ class BaseSystem:
                 rho_normalized = rho / np.max(rho)
                 custom_colormap = tool_colormap_angle()
 
-                mesh = ax.pcolormesh(X, Y, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
+                mesh = ax.pcolormesh(X/self.a0, Y/self.a0, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
                 mesh.set_alpha(rho_normalized)
 
         elif self.dim == 3:
@@ -1713,7 +1713,7 @@ class BaseSystem:
                     # Plot the shadows on the edges
                     plot_shadows = kwargs.get('plot_shadows', True)
                     if plot_shadows:
-                        ax.plot_trisurf(self.xmin+0*verts[:, 0]*self.dx, 
+                        ax.plot_trisurf((self.xmin+0*verts[:, 0]*self.dx)/self.a0, 
                                         (self.ymin+verts[:, 1]*self.dy)/self.a0, 
                                         faces, 
                                         (self.zmin+verts[:, 2]*self.dz)/self.a0, 
