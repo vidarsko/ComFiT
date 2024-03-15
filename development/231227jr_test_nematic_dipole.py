@@ -6,7 +6,9 @@ nem = cf.NematicLiquidCrystal(2,xRes=64,yRes=64,dx=1,dy=1,dt=0.1,alpha=1)
 
 
 
-nem.conf_insert_disclination_dipole()
+nem.conf_insert_disclination_dipole(dipole_position=[32,12])
+
+nem.conf_insert_disclination_dipole(dipole_position=[32,40])
 nem.evolve_nematic_no_flow(10)
 
 
