@@ -105,10 +105,8 @@ class PhaseFieldCrystal(BaseSystem):
         """
         
         if hasattr(self,'velocity_field'):
-            print("Velocity field established.")
             pass
         else:
-            print("I am initializing a velocity field")
             self.velocity_field = True
             self.psi = np.array([self.psi]+[np.zeros_like(self.psi)]*self.dim)
             self.psi_f = np.array([self.psi_f]+[np.zeros_like(self.psi_f)]*self.dim)

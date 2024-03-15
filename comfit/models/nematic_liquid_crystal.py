@@ -838,7 +838,11 @@ class NematicLiquidCrystal(BaseSystem):
             if ax == None:
                 ax = plt.gcf().add_subplot(111)
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-            cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap)
+            if cmax is None:
+                cmax = np.max(field)
+            if cmin is None:
+                cmin = np.min(field)
+            cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap, vmax=cmax, vmin=cmin)
             plt.colorbar(cbar)
             ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='w')
             ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
