@@ -137,7 +137,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 ## Nematic Liquid Crystal
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/phase_field_crystal_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/nematic_liquid_crystal_2D_active_nematic.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> 2D active nematic </strong></div>
     <hr>
     <p>
@@ -147,6 +147,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <p style="color: var(--md-default-fg-color)">
     Simulate an active nematic liquid crystal in 2 dimensions.
     </p>
+</a>
 </div>
 
 ## Phase-field crystal

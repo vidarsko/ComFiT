@@ -1552,7 +1552,7 @@ class BaseSystem:
                 fig.clf()
                 ax = fig.add_subplot(111)
 
-            # Padding for the colorbar
+            # Padding for the colorbar.
             padding=0.05
 
             ax.plot(self.x/self.a0, rho, color='black')
