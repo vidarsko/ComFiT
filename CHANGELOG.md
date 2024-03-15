@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://vidarsko.github.io/ComFiT/](https://vidarsko.github.io/ComFiT/).
 
+## [1.4.1] - 2024-03-15
+- Fixed error in plot_complex_field function.
+
 ## [1.4.0] - 2024-03-15
 - Completed writing all the plot functions. 
 - Added stress tensor calculations for all the PFC models.
