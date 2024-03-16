@@ -105,10 +105,8 @@ class PhaseFieldCrystal(BaseSystem):
         """
         
         if hasattr(self,'velocity_field'):
-            print("Velocity field established.")
             pass
         else:
-            print("I am initializing a velocity field")
             self.velocity_field = True
             self.psi = np.array([self.psi]+[np.zeros_like(self.psi)]*self.dim)
             self.psi_f = np.array([self.psi_f]+[np.zeros_like(self.psi_f)]*self.dim)
@@ -274,16 +272,16 @@ class PhaseFieldCrystal(BaseSystem):
             x2 = 2 * self.xmax / 3
         if y2 == None:
             y2 = self.ymax / 2
+
         if eta == None:
-            eta = self.eta0
+            eta = self.eta0.reshape(self.number_of_reciprocal_lattice_modes,1,1)\
+                *np.ones([self.number_of_reciprocal_lattice_modes] + self.dims, dtype=complex)
 
         sn = self.dislocation_charges[dislocation_type - 1]
 
         theta = self.calc_angle_field_vortex_dipole(
             dipole_vector=[x2 - x1, y2 - y1],
             dipole_position=[(x1 + x2) / 2, (y1 + y2) / 2])
-
-
 
         for n in range(self.number_of_reciprocal_lattice_modes):
             if sn[n] != 0:
@@ -312,7 +310,8 @@ class PhaseFieldCrystal(BaseSystem):
             radius = min(self.rmax)/3
 
         if eta == None:
-            eta = self.eta0
+            eta = self.eta0.reshape(self.number_of_reciprocal_lattice_modes,1,1,1)\
+                *np.ones([self.number_of_reciprocal_lattice_modes] + self.dims, dtype=complex)
 
         sn = self.dislocation_charges[dislocation_type - 1]
 
@@ -767,7 +766,7 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.defined_length_scale = True
 
         self.A = self.calc_initial_amplitudes()
-        self.eta0 = [self.A]
+        self.eta0 = np.array([self.A])
 
         # Set the elastic constants
         self.el_mu = 3 * self.A ** 2
@@ -829,7 +828,7 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         self.dy = np.sqrt(3) * a0 / self.micro_resolution[1]
 
         self.A = self.calc_initial_amplitudes()
-        self.eta0 = [self.A, self.A, self.A]
+        self.eta0 = np.array([self.A, self.A, self.A])
 
         # Set the elastic constants
         self.el_lambda = 3 * self.A ** 2
@@ -930,7 +929,7 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.dy = a0 / self.micro_resolution[1]
 
         self.A, self.B = self.calc_initial_amplitudes()
-        self.eta0 = [self.A, self.A, self.B, self.B]
+        self.eta0 = np.array([self.A, self.A, self.B, self.B])
 
         # Set the elastic constants
         self.el_lambda = 16 * self.B ** 2
@@ -1060,7 +1059,7 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         self.dz = a0 / self.micro_resolution[2]
 
         self.A = self.calc_initial_amplitudes()
-        self.eta0 = [self.A, self.A, self.A, self.A, self.A, self.A]
+        self.eta0 = np.array([self.A, self.A, self.A, self.A, self.A, self.A])
 
         # Set the elastic constants
         self.el_lambda = 4 * self.A ** 2
@@ -1175,7 +1174,7 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         self.dz = a0 / self.micro_resolution[2]
 
         self.A, self.B = self.calc_initial_amplitudes()
-        self.eta0 = [self.A, self.A, self.A, self.A, self.B, self.B, self.B]
+        self.eta0 = np.array([self.A, self.A, self.A, self.A, self.B, self.B, self.B])
 
         # Set the elastic constants
         self.el_lambda = 32/81 * self.A ** 2
@@ -1312,9 +1311,9 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.dz = a0 / self.micro_resolution[2]
 
         self.A, self.B, self.C = self.calc_initial_amplitudes()
-        self.eta0 = [self.A, self.A, self.A,
+        self.eta0 = np.array([self.A, self.A, self.A,
                      self.B, self.B, self.B, self.B, self.B, self.B,
-                     self.C, self.C, self.C, self.C]
+                     self.C, self.C, self.C, self.C])
 
         # Set the elastic constants
         self.el_lambda = 16 * self.B ** 2 + 128 * self.C ** 2

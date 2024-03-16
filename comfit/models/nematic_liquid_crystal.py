@@ -62,7 +62,7 @@ class NematicLiquidCrystal(BaseSystem):
         return "NematicLiquidCrystal"
 
     # Initial condition
-    def conf_initial_condition_disordered(self, noise_strength=0.01):
+    def conf_initial_condition_ordered(self, noise_strength=0.01):
         """
         Initialises the system with the nematogens pointing in the x-direction in 2D and in the z-direction in 3D
         with some random noise in the angle.
@@ -135,7 +135,7 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("The dimension of the system must be 2 for a vortex dipole configuration.")
 
         if self.Q is None:
-            self.conf_initial_condition_disordered(noise_strength=0)
+            self.conf_initial_condition_ordered(noise_strength=0)
 
         if dipole_vector is None:
             dipole_vector = [self.xmax / 3, 0]
@@ -162,7 +162,7 @@ class NematicLiquidCrystal(BaseSystem):
             Sets the value of self.Q and self.Q_f
         """
         if not (self.dim == 3):
-            raise Exception("The dimension of the system must be 3 for a vortex ring configuration.")
+            raise Exception("The dimension of the system must be 3 for a disclination line configuration.")
 
         if position is None:
             position = self.rmid
@@ -210,7 +210,7 @@ class NematicLiquidCrystal(BaseSystem):
             alpha_0 = self.alpha
             self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
         else:
-            raise Exception("The active channel is only permitted in three dimensions")
+            raise Exception("The active channel is only permitted in two dimensions")
 
 #### calculations related to the flow field
     def conf_u(self,Q):
@@ -542,6 +542,7 @@ class NematicLiquidCrystal(BaseSystem):
                                                        self.calc_nonlinear_evolution_function_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
+        self.conf_u(self.Q)
 
     def evolve_nematic_no_flow(self,number_of_steps,method = 'ETD2RK'):
         ''' Evolver for the nematic system without the flow field
@@ -803,6 +804,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             ax.set_xlim([0, self.xmax-self.dx])
             ax.set_ylim([0, self.ymax-self.dy])
+            return ax
 
 
     def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
@@ -836,7 +838,11 @@ class NematicLiquidCrystal(BaseSystem):
             if ax == None:
                 ax = plt.gcf().add_subplot(111)
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-            cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap)
+            if cmax is None:
+                cmax = np.max(field)
+            if cmin is None:
+                cmin = np.min(field)
+            cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap, vmax=cmax, vmin=cmin)
             plt.colorbar(cbar)
             ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='w')
             ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
