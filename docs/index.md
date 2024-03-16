@@ -40,7 +40,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
-        <div> <strong> Quantum Mechanics in 1 dimension </strong></div>
+        <div> <strong> 1D wave packets </strong></div>
         <hr>
         <p>
         <img src="images/index_1D_Quantum_Mechanics_Gaussian.gif#only-light">
@@ -51,7 +51,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
         </p>
     </a>
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_2D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
-        <div> <strong>Quantum Mechanics in 2 dimensions</strong></div>
+        <div> <strong> 2D wave packets </strong></div>
         <hr>
         <p>
         <img src="images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif#only-light">
@@ -62,7 +62,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
         </p>
 </a>
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_3D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
-    <div> <strong> Quantum Mechanics in 3 dimensions </strong></div>
+    <div> <strong> 3D wave packets </strong></div>
     <hr>
     <p>
     <img src="images/index_3D_Quantum_Mechanics_Gaussian.gif#only-light">
