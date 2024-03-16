@@ -74,7 +74,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 </a>
 </a>
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_harmonic_oscillator.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
-    <div> <strong> 3D wave packets </strong></div>
+    <div> <strong> The harmonic oscillator </strong></div>
     <hr>
     <p>
     <img src="images/index_tutorial_QM_harmonic_oscillator.gif#only-light">
