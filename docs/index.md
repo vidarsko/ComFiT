@@ -11,7 +11,7 @@ If you use ComFiT in your research, please cite the following paper:
 
 The best way to get to know ComFiT is by using it in one of the following tutorials.
 
-## Base System 
+## Base System
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -39,7 +39,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_introduction.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong> Quantum Mechanics in 1 dimension </strong></div>
         <hr>
         <p>
@@ -50,7 +50,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
         Understand the basics of the Quantum Mechanics model.
         </p>
     </a>
-    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_2D_introduction.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_2D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong>Quantum Mechanics in 2 dimensions</strong></div>
         <hr>
         <p>
@@ -61,7 +61,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
         Understand how to plot a quantum mechanical system in 2 dimensions.
         </p>
 </a>
-<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_3D_introduction.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_3D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> Quantum Mechanics in 3 dimensions </strong></div>
     <hr>
     <p>
@@ -203,4 +203,4 @@ It can be found here: [Custom GPT for help with ComFiT](https://chat.openai.com/
 
 ## Contributing
 
-We welcome contributions! Please read our [contributing guide](/docs/Contributing.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to ComFiT.
+We welcome contributions! Please read our [contributing guide](Contributing.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to ComFiT.
