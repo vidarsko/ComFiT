@@ -72,6 +72,18 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     Understand how to plot a quantum mechanical system in 3 dimensions.
     </p>
 </a>
+</a>
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_harmonic_oscillator.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <div> <strong> 3D wave packets </strong></div>
+    <hr>
+    <p>
+    <img src="images/index_tutorial_QM_harmonic_oscillator.gif#only-light">
+    <img src="images/index_tutorial_QM_harmonic_oscillator-colorinverted.gif#only-dark">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Investigate the quantum mechanical harmonic oscillator.
+    </p>
+</a>
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_the_hydrogen_atom.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> The hydrogen atom </strong></div>
     <hr>
