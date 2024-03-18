@@ -751,8 +751,14 @@ class NematicLiquidCrystal(BaseSystem):
                     vortex['polarization'] = [float('nan'), float('nan')]
 
         elif self.dim == 3:
+            #TODO Make sure that tangent vector is continous
             omega, Omega, T, trD = self.calc_disclination_density_decoupled()
             vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
+
+            for vortex in vortex_nodes:
+
+                tangent_vector = np.array([T[i][vortex['position_index']] for i in range(3)])
+
 
         return vortex_nodes
 
