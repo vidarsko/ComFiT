@@ -26,21 +26,17 @@ Even though there exist specialized software packages for solving PDEs, these ar
 In particular, in the realm of many field theories, the study of topological defects - small structures like vortices in fluids - is essential for understanding phenomena such as phase transitions, turbulence and pattern formation.
 Due to the shared mathematical structures of these topological defects, recent research has shown that a common computational framework can be used to study them across different physical systems, ranging from Bose-Einstein condensates to nematic liquid crystals and crystalline solids [@skogvollUnifiedFieldTheory2023].
 However, a unified computational framework that brings all these systems together is lacking.
-
 ComFiT aims to close this gap, catering to both researchers and educators in physics, by providing a user-friendly, object-oriented framework for setting up a physical system, solving PDEs in one, two and three dimensions, including tools for visualizing results and tracking topological defects.
-The modular design allows users to implement and simulate their own field theories, and to be a platform for sharing and developing new models and methods.
 
 # Summary
 
 The core functionality of ComFiT is provided in the `BaseSystem` class, which defines a computational domain, auxiliary quantities, methods for time evolution, visualization tools and algorithms for identifying and tracking topological defects.
 To simulate a physical system, a user can create a class inheriting from `BaseSystem` and implement the specific equations and parameters of the model.
-The documentation features several tutorials and examples to guide users through the process of setting up and running simulations, as well as visualizing and analyzing the results, which may be used in research or teaching.
 
 The library also provides a range of predefined models, which inherit from the `BaseSystem` class, such as `QuantumMechanics`, `BoseEinsteinCondensate`, `NematicLiquidCrystal`, and `PhaseFieldCrystal`, each tailored to a specific field theory, which may be used to quickly get started with simulations or for educational purposes.
-Each subclass implements model-specific equations and parameters and is well-documented in the ComFiT documentation.
 
 The project aims to be highly community-driven, continuously improving the code stability, efficiency and usability, and to be a platform for sharing and developing new models and methods for field theories and topological defects.
-The documentation is hosted on mkdocs and contains a range of theoretical backgrounds, tutorials and examples to guide users through the process of setting up and running simulations, as well as visualizing and analyzing the results.
+The documentation is hosted with MkDocs and contains a range of theoretical backgrounds for all the subclasses, tutorials, and examples to guide users through the process of setting up and running simulations, as well as visualizing and analyzing the results.
 
 # Research projects 
 <!-- (Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.) -->
