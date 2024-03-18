@@ -1,6 +1,6 @@
 # ComFiT: Computational Field Theory Python Package
 
-ComFiT is an open-source Python library for simulating field theories including the Schrödinger equation, damped Gross-Pitaevskii equation, phase-field crystal models, and hydrodynamic models for active nematics and p-adic systems.
+ComFiT is an open-source Python library for simulating field theories including the Schrödinger equation, damped Gross-Pitaevskii equation, phase-field crystal models, and hydrodynamic models for active nematics.
 It uses an object-oriented approach to provide functions for system setup, time evolution, data analysis, and visualization.
 The library features the Exponential Time Differencing method for numerical integration, specifically the ETD2RK and ETD4RK schemes, ensuring accurate time evolution in simulations.
 
@@ -17,13 +17,13 @@ If you use ComFiT in your research or education, please cite the following paper
 
 The best way to get to know ComFiT is by having a look at the tutorials located in the [documentation](https://vidarsko.github.io/ComFiT/).
 
-Below, we see the simulation of an initial Guassian wave function in a harmonic oscillator trap under the time evolution imposed by the Schrödinger equation.
+Below, we see the simulation of an initial Gaussian wave function in a harmonic oscillator trap under the time evolution imposed by the Schrödinger equation.
 
 ![Oscillating 1D Gaussian wave packet in a harmonic oscillator](docs/images/index_tutorial_base_system_make_your_own_model.gif)
 
-*Figure: Oscillating 1D Gaussian wave packet in a harmonic oscillator* A 2D simulation of an order parameter (field) in a Landau model with a disordered initial condition. The equilibrium value of the order parameter is non-zero, so as the system relaxes, it spontaneously forms interfaces between regions of different order parameter values.
+*Figure: Quenching of a disordered state in a Landau model* A 2D simulation of an order parameter (field) in a Landau model with a disordered initial condition. The equilibrium value of the order parameter is non-zero, so as the system relaxes, it spontaneously forms interfaces between regions of different order parameter values.
 
-![Oscillating 3D Gaussian wave packet in a harmonic oscillator](docs/images/index_tutorial_qm_3D_wave_packet)
+![Oscillating 3D Gaussian wave packet in a harmonic oscillator](docs/images/index_tutorial_qm_3D_wave_packet.gif)
 
 *Figure: Oscillating 3D Gaussian wave packet in a harmonic oscillator* A 3D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
 The amplitude of the wavefunciton is shown as an isosurface at $50\%$ its maximal value and the argument by the angle color scheme of the figure above.
