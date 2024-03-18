@@ -618,7 +618,23 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim == 3:
             D = self.calc_disclination_density_nematic()
             omega = np.sqrt(np.sum(D[i,j]*D[i,j] for i in range(self.dim) for j in range(self.dim)) )
-            return omega
+
+            DDT = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
+            DTD = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
+
+            for i in range(self.dim):
+                for j in range(self.dim):
+                    DDT[:,:,:,i,j] = np.sum(D[i,k]*D[j,k] for k in range(self.dim))
+                    DTD[:, :, :, i, j] = np.sum(D[k,i] * D[ k,j] for k in range(self.dim))
+
+            max = np.argmax(omega)
+            max_ind = np.unravel_index(max,omega.shape)
+            print(max_ind)
+            vals_1,vecs_1 =  numpy.linalg.eig(DDT)
+            vals_2, vecs_2 = numpy.linalg.eig(DTD)
+            Omega = np.transpose(vecs_1[:,:,:,:,0], (3,0,1,2))
+            T = np.transpose(vecs_2[:,:,:,:,0], (3,0,1,2))
+            return omega, Omega, T
 
 
     def calc_dt_psi(self,Q_prev,delta_t):
