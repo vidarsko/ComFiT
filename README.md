@@ -21,12 +21,12 @@ Below, we see the simulation of an initial Gaussian wave function in a harmonic 
 
 ![Oscillating 1D Gaussian wave packet in a harmonic oscillator](docs/images/index_tutorial_base_system_make_your_own_model.gif)
 
-*Figure: Quenching of a disordered state in a Landau model* A 2D simulation of an order parameter (field) in a Landau model with a disordered initial condition. The equilibrium value of the order parameter is non-zero, so as the system relaxes, it spontaneously forms interfaces between regions of different order parameter values.
+*Figure: Quenching of a disordered state in a Lan* A 2D simulation of an order parameter (field) in a Landau model with a disordered initial condition. The equilibrium value of the order parameter is non-zero, so as the system relaxes, it spontaneously forms interfaces between regions of different order parameter values.
 
 ![Oscillating 3D Gaussian wave packet in a harmonic oscillator](docs/images/index_tutorial_qm_3D_wave_packet.gif)
 
 *Figure: Oscillating 3D Gaussian wave packet in a harmonic oscillator* A 3D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
-The amplitude of the wavefunciton is shown as an isosurface at $50\%$ its maximal value and the argument by the angle color scheme of the figure above.
+The amplitude of the wavefunction is shown as an isosurface at $50\%$ its maximal value and the argument by the angle color scheme of the figure above.
 
 ## Documentation
 
@@ -40,15 +40,12 @@ Comfit can be installed from the Python Package Index (PyPI), a repository of so
 pip install comfit
 ```
 
-pip install comfit in your terminal or command prompt.
-Using a virtual environment is highly recommended as new comfit is an open source project subject to likely frequent updates and overall bug fixes.
-
 ## License
 
 ComFiT is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-We are grateful to [Luiza Angheluta](https://orcid.org/0000-0001-7231-6694) for her steady guidance during our years as Ph.D. doctoral research fellows and introducing us to this field of study,
-[Audun Skaugen](https://orcid.org/0000-0003-0005-786X) for paving the way of the study of these systems in particular and creating the first programs on which this library is built, and
+We are grateful to [Luiza Angheluta](https://orcid.org/0000-0001-7231-6694) for her steady guidance during our years as Ph.D. doctoral research fellows and for introducing us to this field of study,
+[Audun Skaugen](https://orcid.org/0000-0003-0005-786X) for paving the way for the study of these systems in particular and creating the first programs on which this library is built, and
 [Vegard Gjeldvik Jervell](https://orcid.org/0009-0002-2959-0246), for helping us with the technical python parts and becoming full-fledged software developers.
