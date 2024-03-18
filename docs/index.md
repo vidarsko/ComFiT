@@ -54,8 +54,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
         <div> <strong> 2D wave packets </strong></div>
         <hr>
         <p>
-        <img src="images/index_2D_Quantum_mechanics_Gaussian_oscillating.gif#only-light">
-        <img src="images/index_2D_Quantum_mechanics_Gaussian_oscillating-colorinverted.gif#only-dark">
+        <img src="images/index_tutorial_qm_2D_wave_packet.gif#only-light">
+        <img src="images/index_tutorial_qm_2D_wave_packet-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)">
         Understand how to plot a quantum mechanical system in 2 dimensions.
