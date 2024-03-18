@@ -16,7 +16,7 @@ for i in range(500):
 
     nem.evolve_nematic(10,method="ETD4RK")
     S,n = nem.calc_order_and_director()
-    D = nem.calc_defect_density_nematic()
+    D = nem.calc_disclination_density_nematic()
     disclination_nodes = nem.calc_disclination_nodes_nem(charge_tolerance=0.0005)
     ax =nem.plot_field(S, vlim_symmetric=False,colormap='winter')
   #  nem.plot_disclination_nodes(disclination_nodes,ax=ax)

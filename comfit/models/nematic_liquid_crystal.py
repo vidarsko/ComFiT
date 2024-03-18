@@ -573,7 +573,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 
 ##### defect tracking
-    def calc_defect_density_nematic(self):
+    def calc_disclination_density_nematic(self):
         #TODO: Optimize
         """
         Calculates the defect density for the nematic. Note that in three dimension the defect density is a tensor
@@ -604,17 +604,21 @@ class NematicLiquidCrystal(BaseSystem):
                                        sp.fft.ifftn(self.dif[k]*self.get_sym_tl(self.Q_f,j,a))
                                        for k in range(self.dim) for a in range(self.dim))
                     term2 = -2 * np.sum(sp.fft.ifftn(self.dif[i]*self.get_sym_tl(self.Q_f,j,a)) *
-                                        sp.fft.ifftn(self.dif[k] *self.get_sym_tl(k,a))
+                                        sp.fft.ifftn(self.dif[k] *self.get_sym_tl(self.Q_f,k,a))
                                         for k in range(self.dim) for a in range(self.dim))
-                    D[i,j] = term1 + term2
+                    D[i,j] = np.real(term1 + term2)
                     if i == j:
-                        D[i,j] += term_trace
+                        D[i,j] += np.real(term_trace)
             return D
         else:
             raise Exception("Not implemented")
 
 
-
+    def calc_disclination_density_decoupling(self):
+        if self.dim == 3:
+            D = self.calc_disclination_density_nematic()
+            omega = np.sqrt(np.sum(D[i,j]*D[i,j] for i in range(self.dim) for j in range(self.dim)) )
+            return omega
 
 
     def calc_dt_psi(self,Q_prev,delta_t):
@@ -710,7 +714,7 @@ class NematicLiquidCrystal(BaseSystem):
         # Calculate defect density
         if self.dim == 2:
             psi = self.Q[0] + 1j*self.Q[1]
-            rho = self.calc_defect_density_nematic()
+            rho = self.calc_disclination_density_nematic()
 
             if dt_Q is not None:
                 velocity_field = self.calc_vortex_velocity_field(dt_Q, psi)
