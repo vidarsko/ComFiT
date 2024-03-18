@@ -614,7 +614,7 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("Not implemented")
 
 
-    def calc_disclination_density_decoupling(self):
+    def calc_disclination_density_decoupled(self):
         if self.dim == 3:
             D = self.calc_disclination_density_nematic()
             omega = np.sqrt(np.sum(D[i,j]*D[i,j] for i in range(self.dim) for j in range(self.dim)) )
@@ -627,14 +627,12 @@ class NematicLiquidCrystal(BaseSystem):
                     DDT[:,:,:,i,j] = np.sum(D[i,k]*D[j,k] for k in range(self.dim))
                     DTD[:, :, :, i, j] = np.sum(D[k,i] * D[ k,j] for k in range(self.dim))
 
-            max = np.argmax(omega)
-            max_ind = np.unravel_index(max,omega.shape)
-            print(max_ind)
             vals_1,vecs_1 =  numpy.linalg.eig(DDT)
             vals_2, vecs_2 = numpy.linalg.eig(DTD)
             Omega = np.transpose(vecs_1[:,:,:,:,0], (3,0,1,2))
             T = np.transpose(vecs_2[:,:,:,:,0], (3,0,1,2))
-            return omega, Omega, T
+            trD = np.sum(D[i,i] for i in range(self.dim))
+            return omega, Omega, T, trD
 
 
     def calc_dt_psi(self,Q_prev,delta_t):
@@ -752,6 +750,9 @@ class NematicLiquidCrystal(BaseSystem):
                 else:
                     vortex['polarization'] = [float('nan'), float('nan')]
 
+        elif self.dim == 3:
+            omega, Omega, T, trD = self.calc_disclination_density_decoupled()
+            vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
 
         return vortex_nodes
 
