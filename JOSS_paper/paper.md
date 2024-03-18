@@ -50,7 +50,7 @@ The PFC framework is currently under exploration at the Njord Centre at the Univ
 
 # Appendix
 
-The code used to produce the illustration is given below. 
+The code used to produce the illustration is given below.
 
 ```python
 !pip install comfit==1.4.2

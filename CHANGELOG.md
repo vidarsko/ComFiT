@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://vidarsko.github.io/ComFiT/](https://vidarsko.github.io/ComFiT/).
 
+## [1.4.2] - 2024-03-18
+- Bug fixes and stability improvements.
+
 ## [1.4.1] - 2024-03-15
 - Fixed error in plot_complex_field function.
 
