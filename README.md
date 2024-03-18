@@ -44,7 +44,7 @@ pip install comfit
 
 ComFiT is licensed under the [MIT License](LICENSE).
 
-## Acknowledgements
+## Acknowledgments
 
 We are grateful to [Luiza Angheluta](https://orcid.org/0000-0001-7231-6694) for her steady guidance during our years as Ph.D. doctoral research fellows and for introducing us to this field of study,
 [Audun Skaugen](https://orcid.org/0000-0003-0005-786X) for paving the way for the study of these systems in particular and creating the first programs on which this library is built, and
