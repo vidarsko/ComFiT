@@ -1343,10 +1343,6 @@ class BaseSystem:
             # Keyword arguments particular to the 1D case
             kwargs['grid'] = kwargs.get('grid', True)
 
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111)
-
             ax = kwargs.get('ax', plt.gca())
 
             ax.plot(self.x/self.a0, field)
@@ -1444,6 +1440,10 @@ class BaseSystem:
 
         elif self.dim == 3:
 
+            if ax == None:
+                plt.clf()
+                ax = plt.gcf().add_subplot(111, projection='3d')
+
             field_min = np.min(field)
             field_max = np.max(field)
 
@@ -1462,10 +1462,6 @@ class BaseSystem:
                 layer_values = np.concatenate([[-np.inf], kwargs['layer_values'], [np.inf]])
             else: 
                 layer_values = np.linspace(vmin, vmax, number_of_layers + 2)
-
-            if ax == None:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
 
             if 'colormap' in kwargs:
                 colormap = kwargs['colormap']

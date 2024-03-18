@@ -595,12 +595,29 @@ class PhaseFieldCrystal(BaseSystem):
         return dislocation_nodes
 
     # PLOTTING FUNCTIONS
-    def plot_dislocation_nodes(self, dislocation_nodes, ax=None):
+    def plot_dislocation_nodes(self, dislocation_nodes, **kwargs):
+        """
+        Plots the dislocation nodes.
+
+        Input:
+            - dislocation_nodes: The dislocation nodes to plot.
+            -**kwargs: Keyword arguments for the plot.
+                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md 
+                for a full list of keyword arguments.  
+
+        Output: 
+            matplotlib.axes.Axes: The axes containing the plot.
+        """    
+
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
 
         if self.dim == 2:
 
             if ax == None:
-                ax = plt.gcf().add_subplot(111)
+                fig.clf()
+                ax = fig.add_subplot(111)
 
             x_coords = []
             y_coords = []
@@ -630,22 +647,16 @@ class PhaseFieldCrystal(BaseSystem):
             # ax.quiver(x_coords, y_coords, vx_coords, vy_coords, color='black')
             ax.quiver(x_coords/self.a0, y_coords/self.a0, Bx_coords, By_coords, color='red')
             
-            ax.set_aspect('equal')
-            ax.set_facecolor('none')
-
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$y/a_0$')
-
-            ax.set_xlim([0, (self.xmax-self.dx)/self.a0])
-            ax.set_ylim([0, (self.ymax-self.dy)/self.a0])
+            kwargs['ax'] = ax
+            self.plot_tool_set_axis_properties(**kwargs)
 
         elif self.dim == 3:
             # Plotting options
             quiver_scale = 2 # The scale of the quiver arrows
 
             if ax == None:
+                plt.clf()
                 ax = plt.gcf().add_subplot(111, projection='3d')
-               # ax = plt.gca()
 
             x_coords = []
             y_coords = []
@@ -719,7 +730,6 @@ class PhaseFieldCrystal(BaseSystem):
             ax.set_zlim([0, self.zmax-self.dz])
 
             ax.set_aspect('equal')
-        ax.grid(True)
 
 
 class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
