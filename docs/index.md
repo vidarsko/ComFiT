@@ -104,8 +104,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> Basic Framework </strong></div>
     <hr>
     <p>
-    <img src="images/bose_einstein_condensate_concentric_loops-colorinverted.gif#only-dark">
-    <img src="images/bose_einstein_condensate_concentric_loops.gif#only-light">
+    <img src="images/index_tutorial_bec_basic_framework-colorinverted.gif#only-dark">
+    <img src="images/index_tutorial_bec_basic_framework.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Understand the basics of the Bose Einstein Condensate model.
@@ -115,8 +115,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong>Time-dependent potentials</strong></div>
     <hr>
     <p>
-    <img src="images/bose_einstein_condensate_2D_stirrer_v2-colorinverted.gif#only-dark">
-    <img src="images/bose_einstein_condensate_2D_stirrer_v2.gif#only-light">
+    <img src="images/index_tutorial_bec_time_dependent_potentials-colorinverted.gif#only-dark">
+    <img src="images/index_tutorial_bec_time_dependent_potentials.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to create time-dependent potentials to stir the Bose Einstein Condensate model.
@@ -126,8 +126,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong>Comoving frame and defect tracking</strong></div>
     <hr>
     <p>
-    <img src="images/bose_einstein_condensate_defect_tracking-colorinverted.png#only-dark">
-    <img src="images/bose_einstein_condensate_defect_tracking.png#only-light">
+    <img src="images/index_tutorial_bec_comoving_frame_defect_tracking-colorinverted.gif#only-dark">
+    <img src="images/index_tutorial_bec_comoving_frame_defect_tracking.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to track defects and study defects made by an obstacle.
