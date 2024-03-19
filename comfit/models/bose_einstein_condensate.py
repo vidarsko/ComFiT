@@ -199,7 +199,7 @@ class BoseEinsteinCondensate(BaseSystem):
         theta = self.calc_angle_field_vortex_ring(position=position, radius=radius, normal_vector=normal_vector)
 
         if self.psi is None:
-            self.psi = 1
+            self.conf_initial_condition_Thomas_Fermi()
 
         self.psi = self.psi * np.exp(1j * theta)
         self.psi_f = sp.fft.fftn(self.psi)
