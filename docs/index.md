@@ -77,8 +77,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong> The harmonic oscillator </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_QM_harmonic_oscillator.gif#only-light">
-    <img src="images/index_tutorial_QM_harmonic_oscillator-colorinverted.gif#only-dark">
+    <img src="images/index_tutorial_qm_harmonic_oscillator.gif#only-light">
+    <img src="images/index_tutorial_qm_harmonic_oscillator-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Investigate the quantum mechanical harmonic oscillator.
@@ -97,7 +97,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 </a>
 </div>
 
-## Bose Einstein Condensates
+## BoseEinstein Condensates
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -137,8 +137,8 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
     <div> <strong>3D and comoving frame </strong></div>
     <hr>
     <p>
-    <img src="images/bose_einstein_condensate_3D_stirrer-colorinverted.gif#only-dark">
-    <img src="images/bose_einstein_condensate_3D_stirrer.gif#only-light">
+    <img src="images/index_tutorial_bec_3D_comoving_frame-colorinverted.gif#only-dark">
+    <img src="images/index_tutorial_bec_3D_comoving_frame.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to use the Bose Einstein Condensate model in 3 dimensions and in a comoving frame.

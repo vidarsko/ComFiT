@@ -17,8 +17,6 @@ If you use ComFiT in your research or education, please cite the following paper
 
 The best way to get to know ComFiT is by having a look at the tutorials located in the [documentation](https://vidarsko.github.io/ComFiT/).
 
-Below, we see the simulation of an initial Gaussian wave function in a harmonic oscillator trap under the time evolution imposed by the Schrödinger equation.
-
 ![Oscillating 1D Gaussian wave packet in a harmonic oscillator](docs/images/index_tutorial_base_system_make_your_own_model.gif)
 
 *Figure: Quenching of a disordered state in a Lan* A 2D simulation of an order parameter (field) in a Landau model with a disordered initial condition. The equilibrium value of the order parameter is non-zero, so as the system relaxes, it spontaneously forms interfaces between regions of different order parameter values.
