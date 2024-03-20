@@ -13,7 +13,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Nothing here yet
         """
-
+        
         # First initialize the BaseSystem class
         super().__init__(dimension, **kwargs)
 
@@ -25,7 +25,6 @@ class PhaseFieldCrystal(BaseSystem):
             [[np.round(np.dot(an, qn) / (2 * np.pi), decimals=8) for qn in self.q] for an in self.a])
 
         self.Phi = 2*sum(np.array(self.eta0)**2)
-
 
     def __str__(self):
         return self.type
@@ -59,6 +58,15 @@ class PhaseFieldCrystal(BaseSystem):
 
         self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
         self.psi_f = sp.fft.fftn(self.psi)
+
+    def conf_apply_strain(self, strain):
+        if self.dim == 1:
+            self.k[0] = self.k[0]/(1+strain)
+            self.dif[0] = self.dif[0]/(1+strain)
+            self.x = self.x*(1+strain)
+        else:
+            print("Applied strain is not implemented for dimensions other than 1D.")
+
 
     # EVOLUTION FUNCTIONS
     def evolve_PFC(self, number_of_steps, method='ETD2RK'):
