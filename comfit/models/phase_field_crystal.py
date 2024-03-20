@@ -743,7 +743,7 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.dim = 1
 
         # Default simulation parameters
-        self.micro_resolution = [5]
+        self.micro_resolution = kwargs.get('micro_resolution',[5])
         self.psi0 = -0.3
         self.r = -0.3
         self.t = 0
@@ -767,14 +767,6 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
 
-        # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
-                         dx=self.dx, dy=self.dy, dt=self.dt)
-
-        # Set the a0
-        self.a0 = a0
-        self.defined_length_scale = True
-
         self.A = self.calc_initial_amplitudes()
         self.eta0 = np.array([self.A])
 
@@ -784,13 +776,21 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.el_gamma = 0
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, 
+                         dx=self.dx,  dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
     def calc_initial_amplitudes(self):
         psi0 = self.psi0
         r = self.r
         t = self.t
         v = self.v
 
-        A = (-3 * v * psi0 + np.sqrt(20 * t * v - 15 * v * r + 30 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) / (15 * v)
+        A = np.sqrt(-self.r/3 - psi0**2)
         return A
 
     def calc_omega_f(self):
