@@ -456,7 +456,7 @@ To find the ground state of a PFC, one inserts the a particular mode approximati
     To insert this into the free energy density, we need to calculate som auxiliary quantities.
 
     $$
-    \mathcal L \psi^{\textrm{eq}} = (1+\nabla^2) \psi^{\textrm{eq}} = \psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{\mathfrak i q x})
+    \mathcal L \psi^{\textrm{eq}} = (1+\nabla^2) \psi^{\textrm{eq}} = \psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{-\mathfrak i q x})
     $$ 
 
     so 
