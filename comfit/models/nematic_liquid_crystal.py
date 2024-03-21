@@ -617,15 +617,17 @@ class NematicLiquidCrystal(BaseSystem):
     def calc_disclination_density_decoupled(self):
         if self.dim == 3:
             D = self.calc_disclination_density_nematic()
-            omega = np.sqrt(np.sum(D[i,j]*D[i,j] for i in range(self.dim) for j in range(self.dim)) )
+            S0 = self.calc_equilibrium_S()
+            rho = D/(S0**2 *np.pi)
+            omega = np.sqrt(np.sum(rho[i,j]*rho[i,j] for i in range(self.dim) for j in range(self.dim)) )
 
             DDT = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
             DTD = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
 
             for i in range(self.dim):
                 for j in range(self.dim):
-                    DDT[:,:,:,i,j] = np.sum(D[i,k]*D[j,k] for k in range(self.dim))
-                    DTD[:, :, :, i, j] = np.sum(D[k,i] * D[ k,j] for k in range(self.dim))
+                    DDT[:,:,:,i,j] = np.sum(rho[i,k]*rho[j,k] for k in range(self.dim))
+                    DTD[:, :, :, i, j] = np.sum(rho[k,i] * rho[ k,j] for k in range(self.dim))
 
             vals_1,vecs_1 =  numpy.linalg.eig(DDT)
             vals_2, vecs_2 = numpy.linalg.eig(DTD)
@@ -753,7 +755,8 @@ class NematicLiquidCrystal(BaseSystem):
         elif self.dim == 3:
             #TODO Make sure that tangent vector is continous
             omega, Omega, T, trD = self.calc_disclination_density_decoupled()
-            vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=1)
+
+            vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
 
             for vortex in vortex_nodes:
 
