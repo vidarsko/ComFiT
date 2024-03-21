@@ -574,7 +574,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 ##### defect tracking
     def calc_disclination_density_nematic(self):
-        #TODO: Optimize
+        #TODO: This is currently not working properly in 3D
         """
         Calculates the defect density for the nematic. Note that in three dimension the defect density is a tensor
 
@@ -639,7 +639,7 @@ class NematicLiquidCrystal(BaseSystem):
         dt_Q = (self.Q -Q_prev)/delta_t
         return dt_Q[0] + 1j*dt_Q[1]
 
-    def calc_S(self):
+    def calc_equilibrium_S(self):
         # TODO: This function will be removed soon
         '''
         Calculates the strength of nematic order S
@@ -651,11 +651,11 @@ class NematicLiquidCrystal(BaseSystem):
             (numpy.narray) S
         '''
         if self.dim == 2:
-            return 2 * np.sqrt((self.Q[0]) ** 2 + (self.Q[1]) ** 2)
+            return  np.sqrt(self.B)
 
         elif self.dim == 3:
-            Q2 = self.calc_trace_Q2(self.Q)
-            return np.sqrt(3 * Q2 / 2)
+            S0 = 1 / 8 * self.C / self.A + 1 / 2 * np.sqrt(self.C ** 2 / (16 * self.A ** 2) + 3 * self.B)
+            return S0
 
     def calc_order_and_director(self):
         """
@@ -753,12 +753,15 @@ class NematicLiquidCrystal(BaseSystem):
         elif self.dim == 3:
             #TODO Make sure that tangent vector is continous
             omega, Omega, T, trD = self.calc_disclination_density_decoupled()
-            vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
-            positions = []
+            vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=1)
+
             for vortex in vortex_nodes:
 
                 tangent_vector = np.array([T[i][vortex['position_index']] for i in range(3)])
+                rotation_vector = np.array([Omega[i][vortex['position_index']] for i in range(3)])
 
+                vortex['Tangent_vector'] = tangent_vector
+                vortex['Rotation_vector'] = rotation_vector
 
         return vortex_nodes
 
@@ -832,7 +835,64 @@ class NematicLiquidCrystal(BaseSystem):
             ax.set_xlim([0, self.xmax-self.dx])
             ax.set_ylim([0, self.ymax-self.dy])
             return ax
+        elif self.dim == 3:
+            # Plotting options
+            quiver_scale = 2  # The scale of the quiver arrows
 
+            if ax == None:
+                ax = plt.gcf().add_subplot(111, projection='3d')
+            x_coords = []
+            y_coords = []
+            z_coords = []
+
+            tx = []
+            ty = []
+            tz = []
+
+            Ox = []
+            Oy = []
+            Oz = []
+
+            for vortex in vortex_nodes:
+                x_coords.append(vortex['position'][0])
+                y_coords.append(vortex['position'][1])
+                z_coords.append(vortex['position'][2])
+
+                tx.append(vortex['Tangent_vector'][0])
+                ty.append(vortex['Tangent_vector'][1])
+                tz.append(vortex['Tangent_vector'][2])
+
+                Ox.append(vortex['Rotation_vector'][0])
+                Oy.append(vortex['Rotation_vector'][1])
+                Oz.append(vortex['Rotation_vector'][2])
+
+            tx = np.array(tx)
+            ty = np.array(ty)
+            tz = np.array(tz)
+
+            Ox = np.array(Ox)
+            Oy = np.array(Oy)
+            Oz = np.array(Oz)
+
+
+            # ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * tx, quiver_scale * ty, quiver_scale * tz,
+                      color='blue')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * Ox , quiver_scale * Oy ,
+                      quiver_scale * Oz, color='green')
+
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_zlabel('$z/a_0$')
+
+            ax.set_xlim([0, self.xmax - self.dx])
+            ax.set_ylim([0, self.ymax - self.dy])
+            ax.set_zlim([0, self.zmax - self.dz])
+
+            ax.set_aspect('equal')
+            ax.grid(True)
+
+            return ax
 
     def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
                                          cmax=None, cmin=None,
