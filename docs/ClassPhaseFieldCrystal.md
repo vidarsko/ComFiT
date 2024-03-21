@@ -437,7 +437,7 @@ Below are all the lattice constants and primary RLVs and BLVs for the models we 
 
 To find the ground state of a PFC, one inserts a particular mode approximation into the free energy density, average over a unit cell ([coarse-grain](ClassBaseSystem.md)) and minimizes it with respect to the amplitudes.
 
-??? example "Example: The 1D PFC - Ground state"
+!!! example "Example: The 1D PFC - Ground state"
     To find the ground state of the 1D PFC, we assume that we can express the field in the one-mode approximation, i.e.,
 
     $$
@@ -448,7 +448,7 @@ To find the ground state of a PFC, one inserts a particular mode approximation i
     We want to insert this into the free energy density $\tilde f$ and integrate over a unit cell (UC), which in this case is simply $[0,2\pi]$
     
     $$
-    \mathcal F_{UC} = \int_0^{2\pi} \tilde f(\psi^{\textrm{eq}}) dx \equiv \langle \tilde f(\psi^{\textrm{eq}}) \rangle_{UC} = \frac{1}{2} \langle (\mathcal L {\psi^{\textrm{eq}}})^2 \rangle_{UC} + \frac{1}{2} \texttt{r} \langle {\psi^{\textrm{eq}}}^2 \rangle_{UC} + \frac{1}{4} \langle {\psi^{\textrm{eq}}}^4 \rangle_{UC}
+    \frac{1}{2\pi} \mathcal F_{UC} =  \frac{1}{2\pi} \int_0^{2\pi} \tilde f(\psi^{\textrm{eq}}) dx \equiv \langle \tilde f(\psi^{\textrm{eq}}) \rangle_{UC} = \frac{1}{2} \langle (\mathcal L {\psi^{\textrm{eq}}})^2 \rangle_{UC} + \frac{1}{2} \texttt{r} \langle {\psi^{\textrm{eq}}}^2 \rangle_{UC} + \frac{1}{4} \langle {\psi^{\textrm{eq}}}^4 \rangle_{UC}
     $$
     
     To insert this into the free energy density, we need to calculate some auxiliary quantities.
@@ -487,7 +487,7 @@ To find the ground state of a PFC, one inserts a particular mode approximation i
     which gives 
 
     $$
-    \mathcal F_{UC} = \frac{1}{2} (\psi_0^2 + 2 A^2 (1-q^2)^2)  + \frac{1}{2} \texttt{r} (\psi_0^2 + 2 A^2) + \frac{1}{3} \texttt t (\psi_0^3 + 6 \psi_0 A^2) + \frac{1}{4} \texttt v (\psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4)
+    \mathcal F_{UC} = 2\pi \left( \frac{1}{2} (\psi_0^2 + 2 A^2 (1-q^2)^2)  + \frac{1}{2} \texttt{r} (\psi_0^2 + 2 A^2) + \frac{1}{3} \texttt t (\psi_0^3 + 6 \psi_0 A^2) + \frac{1}{4} \texttt v (\psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4) \right )
     $$
 
     First of all, we see that the equilibrium value must have $q=1$, since the free energy is minimized by this choice.
@@ -577,7 +577,7 @@ The `pfc` instance will be initialized with a list called `eta0`, which consists
     Equilibrium amplitude equations (conserved)
 
     $$
-    \left \lbrace \partial_{A} \mathcal F_{UC} = 0: \quad  A= -\frac{1}{15\texttt v} \left ( -\texttt t - 3 \texttt v \psi_0 \pm \sqrt{ \texttt t^2 - 15 \texttt r \texttt v - 24 \texttt t \texttt v \psi_0 - 36 \texttt v^2 \psi_0^2} \right ) \right \rbrace
+    \left \lbrace \partial_{A} \mathcal F_{UC} = 0: A=0 ~ \textrm{or} ~ \quad  A= \frac{1}{15\texttt v} \left ( -\texttt t - 3 \texttt v \psi_0 \pm \sqrt{ \texttt t^2 - 15 \texttt r \texttt v - 24 \texttt t \texttt v \psi_0 - 36 \texttt v^2 \psi_0^2} \right ) \right \rbrace
     $$
 
     Equilibrium amplitude equations (unconserved) 
@@ -703,6 +703,10 @@ The `pfc` instance will be initialized with a list called `eta0`, which consists
     $$
 
     <!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
+
+We refer to these amplitudes $A,B,C$ as *proto amplitudes* and they are calculated by the functions `calc_proto_amplitudes_conserved` (by default) and `calc_proto_amplitudes_unconserved` in the `pfc` class.
+The proto amplitudes are saved in the `pfc` instance as `eta0`.
+The function `calc_free_energy_from_proto_amplitudes` calculates the free energy $\mathcal F_{UC}$ from the proto amplitudes, including $\psi_0$.
 
 ## Demodulation
 
