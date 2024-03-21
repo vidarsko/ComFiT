@@ -574,7 +574,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 ##### defect tracking
     def calc_disclination_density_nematic(self):
-        #TODO: This is currently not working properly in 3D
+        #TODO: Optimise 3D
         """
         Calculates the defect density for the nematic. Note that in three dimension the defect density is a tensor
 
@@ -592,23 +592,14 @@ class NematicLiquidCrystal(BaseSystem):
         elif self.dim == 3:
             D = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
 
-            term_trace = np.sum(sp.fft.ifftn(self.dif[k] * self.get_sym_tl(self.Q_f,k,a)) *
-                                       sp.fft.ifftn(self.dif[l]*self.get_sym_tl(self.Q_f,l,a))
-                                       for k in range(self.dim) for a in range(self.dim) for l in range(self.dim) )
-            term_trace -= np.sum(sp.fft.ifftn(self.dif[k] * self.get_sym_tl(self.Q_f,l,a)) *
-                                       sp.fft.ifftn(self.dif[l]*self.get_sym_tl(self.Q_f,k,a))
-                                       for k in range(self.dim) for a in range(self.dim) for l in range(self.dim) )
             for i in range(self.dim):
                 for j in range(self.dim):
-                    term1 = 2 * np.sum(sp.fft.ifftn(self.dif[i] * self.get_sym_tl(self.Q_f,k,a)) *
-                                       sp.fft.ifftn(self.dif[k]*self.get_sym_tl(self.Q_f,j,a))
-                                       for k in range(self.dim) for a in range(self.dim))
-                    term2 = -2 * np.sum(sp.fft.ifftn(self.dif[i]*self.get_sym_tl(self.Q_f,j,a)) *
-                                        sp.fft.ifftn(self.dif[k] *self.get_sym_tl(self.Q_f,k,a))
-                                        for k in range(self.dim) for a in range(self.dim))
-                    D[i,j] = np.real(term1 + term2)
-                    if i == j:
-                        D[i,j] += np.real(term_trace)
+                    D[i,j] = np.sum(levi_civita_symbol(i,mu,nu)*levi_civita_symbol(j,k,l) *
+                                    np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,mu,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,nu,a)))
+                                    for mu in range(self.dim) for nu in range(self.dim)
+                                    for k in range(self.dim) for l in range(self.dim)
+                                    for a in range(self.dim))
             return D
         else:
             raise Exception("Not implemented")
@@ -631,6 +622,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             vals_1,vecs_1 =  numpy.linalg.eig(DDT)
             vals_2, vecs_2 = numpy.linalg.eig(DTD)
+
             Omega = np.transpose(vecs_1[:,:,:,:,0], (3,0,1,2))
             T = np.transpose(vecs_2[:,:,:,:,0], (3,0,1,2))
             trD = np.sum(D[i,i] for i in range(self.dim))
@@ -881,8 +873,8 @@ class NematicLiquidCrystal(BaseSystem):
             # ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
             ax.quiver(x_coords, y_coords, z_coords, quiver_scale * tx, quiver_scale * ty, quiver_scale * tz,
                       color='blue')
-            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * Ox , quiver_scale * Oy ,
-                      quiver_scale * Oz, color='green')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * Ox*0.75 , quiver_scale * Oy*0.75 ,
+                      quiver_scale * Oz*0.75, color='green')
 
             ax.set_xlabel('$x/a_0$')
             ax.set_ylabel('$y/a_0$')
