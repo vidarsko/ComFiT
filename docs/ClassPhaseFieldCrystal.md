@@ -1,7 +1,5 @@
 # Class: Phase Field Crystal
 
-A crystal is a peridic arrangement of atoms, isnt it.
-
 In this class, we simulate a crystal using the phase-field crystal methodology. 
 The phase-field crystal (PFC) model is a mesoscopic model that describes the dynamics of a crystal.
 The model is based on a free energy functional, which is minimized to find the equilibrium state of the system.
@@ -37,7 +35,7 @@ represent different crystalline structures in 1, 2 and 3 dimensions, all
 of which are on the form
 
 $$
-\tilde f( \psi, \nabla \psi, ...) = \frac{1}{2} (\mathcal L(\nabla) \psi)^2 + \frac{1}{2} \texttt{r} \psi^2  + \frac{1}{4} \psi^4,
+\tilde f( \psi, \nabla \psi, ...) = \frac{1}{2} (\mathcal L(\nabla) \psi)^2 + \frac{1}{2} \texttt{r} \psi^2  + \frac{1}{3} \texttt t \psi^3 + \frac{1}{4} \texttt v \psi^4,
 $$
 
 where $\mathcal L (\nabla)$ is a gradient operator dependent on the
@@ -117,7 +115,7 @@ There are only $d$ primitive LVs in $d$ dimensions whereas there may be any numb
 For instance, there are six primitive BLVs for the triangular lattice and four primitive lattice vectors for the 2D square lattice. 
 In the following, the primary BLVs and RLVs have been chosen so that the first $d$ primary LVs are primitive LVs which satisfy the orthogonality relation.
 
-!!! example "Example: The 1D PFC - Crystal symmetry"
+??? example "Example: The 1D PFC - Crystal symmetry"
     The simplest example of a PFC model is the 1D periodic model, which simply looks like a sine wave.
 
     ![1D PFC](images/phase_field_crystal_1d_periodic.png#only-light)
@@ -437,7 +435,7 @@ Below are all the lattice constants and primary RLVs and BLVs for the models we 
 
 ## The ground state 
 
-To find the ground state of a PFC, one inserts the a particular mode approximation into the free energy density, average over a unit cell ([coarse-grain](ClassBaseSystem.md)) and minimizes it with respect to the amplitudes.
+To find the ground state of a PFC, one inserts a particular mode approximation into the free energy density, average over a unit cell ([coarse-grain](ClassBaseSystem.md)) and minimizes it with respect to the amplitudes.
 
 !!! example "Example: The 1D PFC - Ground state"
     To find the ground state of the 1D PFC, we assume that we can express the field in the one-mode approximation, i.e.,
@@ -446,14 +444,14 @@ To find the ground state of a PFC, one inserts the a particular mode approximati
     \psi^{\textrm{eq}}(x) = \psi_0 + A (e^{\mathfrak i q x} + e^{\mathfrak i q x}),
     $$
 
-    We want to insert this into the free energy density $\tilde f$ and coarse-grain, i.e., calculate 
+    We want to insert this into the free energy density $\tilde f$ and integrate over a unit cell (UC), which in this case is simply $[0,2\pi]$
     
     $$
-    \langle \tilde f(\psi^{\textrm{eq}}) \rangle = \frac{1}{2} \langle (\mathcal L {\psi^{\textrm{eq}}})^2 \rangle + \frac{1}{2} \texttt{r} \langle {\psi^{\textrm{eq}}}^2 \rangle + \frac{1}{4} \langle {\psi^{\textrm{eq}}}^4 \rangle
+    \mathcal F_{UC} = \int_0^{2\pi} \tilde f(\psi^{\textrm{eq}}) dx \equiv \langle \tilde f(\psi^{\textrm{eq}}) \rangle_{UC} = \frac{1}{2} \langle (\mathcal L {\psi^{\textrm{eq}}})^2 \rangle_{UC} + \frac{1}{2} \texttt{r} \langle {\psi^{\textrm{eq}}}^2 \rangle_{UC} + \frac{1}{4} \langle {\psi^{\textrm{eq}}}^4 \rangle_{UC}
     $$
     
     where $q$ is, for now, an arbitrary wave vector which we will show to be the primary RLV of the lattice. 
-    To insert this into the free energy density, we need to calculate som auxiliary quantities.
+    To insert this into the free energy density, we need to calculate some auxiliary quantities.
 
     $$
     \mathcal L \psi^{\textrm{eq}} = (1+\nabla^2) \psi^{\textrm{eq}} = \psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{-\mathfrak i q x})
@@ -462,34 +460,34 @@ To find the ground state of a PFC, one inserts the a particular mode approximati
     so 
 
     $$
-    \langle (\mathcal L \psi^{\textrm{eq}})^2 \rangle = \langle (\psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{\mathfrak i q x})(\psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{\mathfrak i q x})) \rangle
+    \langle (\mathcal L \psi^{\textrm{eq}})^2 \rangle_{UC} = \langle (\psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{\mathfrak i q x})(\psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{\mathfrak i q x})) \rangle_{UC}
     $$
 
     Now, to calculate this, we need to make use of a condition of resonance, which is that under the coarse-graining operation, terms with periodicity average to zero [^skogvollSymmetryTopologyCrystal2023].
     So we get 
 
     $$
-    \langle (\mathcal L \psi^{\textrm{eq}})^2 \rangle = \psi_0^2 + 2 A^2 (1-q^2)^2
+    \langle (\mathcal L \psi^{\textrm{eq}})^2 \rangle_{UC} = \psi_0^2 + 2 A^2 (1-q^2)^2
     $$
 
     Similarly, the other terms give
 
     $$
-    \langle {\psi^{\textrm{eq}}}^2 \rangle = \psi_0^2 + 2 A^2
+    \langle {\psi^{\textrm{eq}}}^2 \rangle_{UC} = \psi_0^2 + 2 A^2
     $$
 
     $$
-    \langle {\psi^{\textrm{eq}}}^3 \rangle = \psi_0^3 + 6 \psi_0 A^2
+    \langle {\psi^{\textrm{eq}}}^3 \rangle_{UC} = \psi_0^3 + 6 \psi_0 A^2
     $$
 
     $$
-    \langle {\psi^{\textrm{eq}}}^4 \rangle = \psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4
+    \langle {\psi^{\textrm{eq}}}^4 \rangle_{UC} = \psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4
     $$
 
     which gives 
 
     $$
-    \langle \tilde f(\psi^{\textrm{eq}}) \rangle = \frac{1}{2} (\psi_0^2 + 2 A^2 (1-q^2)^2) + \frac{1}{2} \texttt{r} (\psi_0^2 + 2 A^2) + \frac{1}{4} (\psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4)
+    \langle \tilde f(\psi^{\textrm{eq}}) \rangle_{UC} = \frac{1}{2} (\psi_0^2 + 2 A^2 (1-q^2)^2) + \frac{1}{2} \texttt{r} (\psi_0^2 + 2 A^2) + \frac{1}{4} (\psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4)
     $$
 
     To find the equilibrium value of $A$, we minimize this with respect to $A$, and set to zero, which gives 
@@ -521,7 +519,6 @@ To find the ground state of a PFC, one inserts the a particular mode approximati
     The sign does not matter in the case of the 1D PFC, since it will only affect the global sign of the amplitude, flipping the cosine wave.
     In higher dimensions, however, it requires more subtle treatment.
 
-
 The `pfc` instance will be initialized with a list called `eta`, which consists of the equilibrium values of the amplitudes to begin with.
 
 === "1D periodic"
@@ -530,10 +527,27 @@ The `pfc` instance will be initialized with a list called `eta`, which consists 
 
     Default model parameters $(r,\psi_0)$: $(-0.3,-0.3)$
 
-    Equilibrium amplitude equations
+    Free energy per unit cell
 
     $$
-    A = \sqrt{- \texttt{r}/3 -  \psi_0^2 }
+    \mathcal F_{UC} = 
+    $$
+
+    Equilibrium amplitude  (conserved)
+
+    $$
+    \partial_{A} \mathcal F = 0: \quad A =\pm \frac{1}{\sqrt {3\texttt v}} \sqrt{ -\texttt r - 2 \texttt t \psi_0 - 3 \texttt v \psi_0^2}
+    $$
+
+    Equilibrium amplitude equations (unconserved)
+
+    $$
+    \left \lbrace
+            \begin{array}{lrl}
+            \partial_{\psi_0} \mathcal F = 0: & 2 A^2 (\texttt t + 3 \texttt v \psi_0) + \psi_0 (1 + \texttt r + \texttt t \psi_0 + \texttt v \psi_0^2) &=0 \\
+            \partial_{A} \mathcal F = 0: & \texttt r + 3 A^2 \texttt v + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)  &= 0\\
+            \end{array}
+    \right \rbrace
     $$
 
 === "2D triangular"
@@ -542,81 +556,139 @@ The `pfc` instance will be initialized with a list called `eta`, which consists 
 
     Default model parameters $(r,\psi_0)$: $(-0.3,-0.3)$
 
-    Equilibrium amplitude equation [^elderModelingElasticPlastic2004]
+    Free energy per unit cell
 
     $$
-    \left \lbrace A= -\frac{1}{5} \psi_0 + \frac{1}{15}\sqrt{- 15r - 36\psi_0^2} \right \rbrace
+    \mathcal F_{UC} = 
+    $$
+
+    Equilibrium amplitude equations (conserved)
+
+    $$
+    \left \lbrace \partial_{A} \mathcal F = 0: \quad  A= -\frac{1}{15\texttt v} \left ( -\texttt t - 3 \texttt v \psi_0 \pm \sqrt{ \texttt t^2 - 15 \texttt r \texttt v - 24 \texttt t \texttt v \psi_0 - 36 \texttt v^2 \psi_0^2} \right ) \right \rbrace
+    $$
+
+    Equilibrium amplitude equations (unconserved) 
+
+    $$
+    \left \lbrace
+            \begin{array}{lrl}
+            \partial_{\psi_0} \mathcal F = 0: & 12 A^3 \texttt v + 6 A^2 (\texttt t + 3 \texttt v \psi_0) + \psi_0 (1 + \texttt r + \texttt t \psi_0 + \texttt v \psi_0^2) &=0 \\
+            \partial_{A} \mathcal F = 0: & A(\texttt r + 15 A^2 \texttt v + 2 A (\texttt t + 3 \texttt v \psi_0) + \psi_0 (2 \texttt t + 3 \texttt v \psi_0))  &= 0\\
+            \end{array}
+    \right \rbrace
     $$
 
 === "2D square"
 
     Default resolution: $[7,7]^{-1}a_0$
 
-    Default model parameters $(r,\psi_0)$: $(-0.3,-0.3)$
+    Default model parameters $(\texttt r,\psi_0)$: $(-0.3,-0.3)$
 
-    Equilibrium amplitude equations [^emdadiRevisitingPhaseDiagrams2016]
+    Free energy per unit cell
+
+    $$
+    \mathcal F_{UC} = 1/3 \pi^2 (108 A^4 \texttt v + 108 B^4 \texttt v + \psi_0^2 (24 + 6 \texttt r + 4 \texttt t \psi_0 + 3 \texttt v \psi_0^2) + 24 B^2 (\texttt r + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)) + 24 A^2 (\texttt r + 18 B^2 \texttt v + 4 B (t + 3 \texttt v \psi_0) + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)))
+    $$    
+
+    Equilibrium amplitude equations
 
     $$
     \left \lbrace
-            \begin{array}{rl}
-            12 \psi_0^2 A + 48 \psi_0 A B + 36 A^3 + 72 A B^2 + 4A r &=0 \\
-            12 \psi_0^2 B + 24 \psi_0 A^2 + 36 B^3 + 72 A^2 B + 4Br  &= 0\\
+            \begin{array}{lrl}
+            \partial_{\psi_0} \mathcal F_{UC} = 0: & 4 B^2 (\texttt t + 3 \texttt v \psi_0) + \psi_0 (4 + \texttt r + \texttt t \psi_0 + \texttt v \psi_0^2) + 4 A^2 (\texttt t + 3 \texttt v (2 B + \psi_0)) &= 0 \\
+            \partial_{A} \mathcal F_{UC} = 0: & A (\texttt r + 9 A^2 \texttt v + 18 B^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 4 B (\texttt t + 3 \texttt v \psi_0)) &= 0 \\
+            \partial_{B} \mathcal F_{UC} = 0: & 9 B^3 \texttt v + 2 A^2 (t + 3 \texttt v \psi_0) + B (\texttt r + 18 A^2 \texttt v + 2 \texttt \texttt t \psi_0 + 3 \texttt v \psi_0^2) &= 0\\
             \end{array}
     \right \rbrace
     $$
+
+    <!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
 
 === "3D body-centered cubic"
 
     Default resolution: $[7,7,7]^{-1}a_0$
 
-    Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
+    Default model parameters $(\texttt r,\psi_0)$: $(-0.3,-0.325)$
 
-    Equilibrium amplitude equations [^wuPhasefieldCrystalModeling2007]
+    Free energy per unit cell
 
     $$
-    \left \lbrace A = -\frac{2}{15}\psi_0 + \frac{1}{15} \sqrt{-5r - 11 \psi_0^2} \right \rbrace
+    \mathcal F_{UC} = 1/3 \sqrt 2 \pi^3 \left (1620 A^4 \texttt v + 192 A^3 (t + 3 \texttt v \psi_0) + \psi_0^2 (6 + 6 \texttt r + 4 t \psi_0 + 3 \texttt v \psi_0^2) + 72 A^2 (\texttt r + \psi_0 (2 t + 3 \texttt v \psi_0)) \right )
     $$
+
+    Equilibrium amplitude (conserved)
+
+    $$
+    \left \lbrace \partial_{A} \mathcal F_{UC} = 0:  A=0 ~ \textrm{or} ~ \quad A = \frac{1}{45\texttt v} \left ( -2 \texttt t - 6 \texttt v \psi_0 \pm \sqrt{
+    4 \texttt t^2 - 45 \texttt r \texttt v - 66 \texttt t \texttt v \psi_0 - 99 \texttt v^2 \psi_0^2} \right) \right \rbrace
+    $$
+
+    Equilibrium amplitude equations (unconserved)
+
+    $$
+    \left \lbrace
+            \begin{array}{lrl}
+            \partial_{\psi_0} \mathcal F_{UC} = 0: & 48 A^3 \texttt v + 12 A^2 (\texttt t + 3 \texttt v \psi_0) + \psi_0 (1 + \texttt r + \texttt t \psi_0 + \texttt v \psi_0^2) &=0 \\
+            \partial_{A} \mathcal F_{UC} = 0: & A (\texttt r + 45 A^2 \texttt v + 4 A (\texttt t + 3 \texttt v \psi_0) + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)) &= 0\\
+            \end{array}
+    \right \rbrace
+    $$
+
+    <!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
 
 === "3D face-centered cubic"
 
     Default resolution: $[11,11,11]^{-1}a_0$
 
-    Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
+    Default model parameters $(\texttt r,\psi_0)$: $(-0.3,-0.325)$
 
-    Equilibrium amplitude equations [^wuPhasefieldcrystalModelFcc2010]
+    Free energy per unit cell
+
+    $$
+    \mathcal F_{UC} = \frac{2 \pi^3}{\sqrt 3} (1944 A^4 \texttt v + 810 B^4 \texttt v + \psi_0^2 (32 + 18 \texttt r + 12 \texttt t \psi_0 + 9 \texttt v \psi_0^2) + 108 B^2 (r + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)) + 144 A^2 (\texttt r + 36 B^2 \texttt v + 6 B (t + 3 \texttt v \psi_0) + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)))
+    $$
+
+    Equilibrium amplitude equations 
 
     $$
     \left \lbrace
-    \begin{array}{rl}
-    27 A^2 + 36 B^2 + 18 B \psi_0 + 3 \psi_0^2 + r &=0 \\
-    72 A^2 (4 B + \psi_0) + 90 B^3 + 18 B \psi_0^2 + 6 B r &=0\\
-    \end{array}
+            \begin{array}{lrl}
+            \partial_{\psi_0} \mathcal F_{UC} = 0: & 54 B^2 (t + 3 \texttt v \psi_0) + \psi_0 (16 + 9 \texttt r + 9 t \psi_0 + 9 \texttt v \psi_0^2) + 72 A^2 (t + 3 \texttt v (3 B + \psi_0)) &= 0 \\
+            \partial_{A} \mathcal F_{UC} = 0: & A (\texttt r + 27 A^2 \texttt v + 36 B^2 \texttt v + 2 t \psi_0 + 3 \texttt v \psi_0^2 + 6 B (t + 3 \texttt v \psi_0)) &= 0 \\
+            \partial_{B} \mathcal F_{UC} = 0: & 15 B^3 \texttt v + 4 A^2 (t + 3 \texttt v \psi_0) + B (\texttt r + 48 A^2 \texttt v + 2 t \psi_0 + 3 \texttt v \psi_0^2) &= 0\\
+            \end{array}
     \right \rbrace
     $$
+
+    <!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
 
 === "3D simple cubic"
 
     Default resolution: $[5,5,5]^{-1}a_0$
 
-    Default model parameters $(r,\psi_0)$: $(-0.3,-0.325)$
+    Default model parameters $(\texttt r,\psi_0)$: $(-0.3,-0.325)$
 
-    Equilibrium amplitude equations [^skogvollStressOrderedSystems2021]
+    Free energy per unit cell
+
+    $$
+    \mathcal F_{UC} = 2/3 \pi^3 \left (48 C^2 \texttt r + 270 A^4 \texttt v + 1620 B^4 \texttt v + 576 A^3 C \texttt v + 648 C^4 \texttt v + 96 C^2 \texttt t \psi_0 + 6 (36 + \texttt r + 24 C^2 \texttt v) \psi_0^2 + 4 \texttt t \psi_0^3 + 3 \texttt v \psi_0^4 + 192 B^3 (\texttt t + 3 \texttt v \psi_0) + 576 A B C (t + 3 \texttt v (3 B + \psi_0)) + 36 A^2 (\texttt r + 96 B^2 \texttt v + 36 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 8 B (\texttt t + 3 \texttt v \psi_0)) + 72 B^2 (r + 54 C^2 \texttt v + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)) \right )
+    $$
+
+    Equilibrium amplitude equations:
 
     $$
     \left \lbrace
-    \begin{array}{rl}
-    15 A^3 + 24 A^2 C + 24 B C (3 B + \psi_0)
-    + 96 AB^2 + 36 AC^2 + 24 AB \psi_0
-    + 3A \psi_0^2 + Ar &= 0, \\
-    12 A C (6 B + \psi_0) + 6 A^2 (8 B + \psi_0)
-    +  45 B^3 + 54 BC^2 + 12 B^2 \psi_0
-    + 3B \psi_0^2 + Br &=0  \\
-    6 A^3 + 27 A^2 C + 18 A B (3 B + \psi_0)
-    +   81 B^2C + 27 C^3  
-    + 3 C \psi_0^2 + Cr &=0 \\
-    \end{array}
+            \begin{array}{lrl}
+            \partial_{\psi_0} \mathcal F_{UC} = 0: & 8 C^2 \texttt t + 48 B^3 \texttt v + 144 A B C \texttt v + 36 \psi_0 + \texttt r \psi_0 + 24 C^2 \texttt v \psi_0 + \texttt t \psi_0^2 + \texttt v \psi_0^3 + 12 B^2 (t + 3 \texttt v \psi_0) + 6 A^2 (t + 3 \texttt v (4 B + \psi_0)) &= 0 \\
+            \partial_{A} \mathcal F_{UC} = 0: & 15 A^3 \texttt v + 24 A^2 C \texttt v + 8 B C (t + 3 \texttt v (3 B + \psi_0)) + A (\texttt r + 96 B^2 \texttt v + 36 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 8 B (t + 3 \texttt v \psi_0)) &= 0 \\
+            \partial_{B} \mathcal F_{UC} = 0: & 45 B^3 \texttt v + 4 B^2 (t + 3 \texttt v \psi_0) + 2 A (a + 2 C) (t + 3 \texttt v \psi_0) +b (\texttt r + 48 A^2 \texttt v + 72 A C \texttt v + 54 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2) &= 0\\
+            \partial_{C} \mathcal F_{UC} = 0: & 27 C^3 \texttt v + C (\texttt r + 27 A^2 \texttt v + 81 B^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2) + 6 A (a^2 \texttt v + 9 B^2 \texttt v + B (t + 3 \texttt v \psi_0)) &= 0\\
+            \end{array}
     \right \rbrace
     $$
+
+    <!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
 
 ## Demodulation
 
@@ -834,7 +906,7 @@ The PFC chemical potential
 
 which gives
 $$
-{{\omega }_{\mathfrak f}}= -\boldsymbol{k}^2 (r + {{\mathcal L}_{\mathfrak f}}^2)
+{{\omega }_{\mathfrak f}}= -\boldsymbol{k}^2 (\texttt r + {{\mathcal L}_{\mathfrak f}}^2)
 $$
 
 $$
