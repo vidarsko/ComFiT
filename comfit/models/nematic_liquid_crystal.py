@@ -148,7 +148,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q[1] = np.imag(psi)
         self.Q_f = sp.fft.fft2(self.Q)
 
-    def conf_initial_disclination_line(self, position=None,angle=np.pi/2,sign = 1):
+    def conf_initial_disclination_lines(self, position=None):
         """
         Sets the initial condition for a disclination line in a 3-dimensional system.
         The dislocation is parralell to the z-axis
@@ -165,18 +165,19 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("The dimension of the system must be 3 for a disclination line configuration.")
 
         if position is None:
-            position = self.rmid
+            position1 = [self.xmid+self.xmax/3, self.ymid]
+            position2 = [self.xmid - self.xmax/3, self.ymid]
 
 
-        theta = 1/2*np.arctan2((self.y-position[1]),(self.x-position[0]))
-
-
+        theta_1 = 1/2*np.arctan2((self.y-position1[1]),(self.x-position1[0]))
+        theta_2 = -1/2*np.arctan2((self.y-position2[1]),(self.x-position2[0]))
+        theta = theta_1 +theta_2
 
         S0 = 1/8* self.C/self.A + 1/2 * np.sqrt(self.C**2 /(16*self.A**2) + 3*self.B)
 
-        nx =  np.cos(np.sign(sign)*theta)*np.sin(angle)
-        ny = np.sin(np.sign(sign)*theta)*np.sin(angle)
-        nz = np.cos(angle)*np.ones_like(nx)
+        nx =  np.cos(theta)
+        ny = np.sin(theta)
+        nz = np.zeros_like(nx)
 
         self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
         self.Q[0] = S0 * (nx * nx - 1 / 3)
@@ -620,11 +621,11 @@ class NematicLiquidCrystal(BaseSystem):
                     DDT[:,:,:,i,j] = np.sum(rho[i,k]*rho[j,k] for k in range(self.dim))
                     DTD[:, :, :, i, j] = np.sum(rho[k,i] * rho[ k,j] for k in range(self.dim))
 
-            vals_1,vecs_1 =  numpy.linalg.eig(DDT)
-            vals_2, vecs_2 = numpy.linalg.eig(DTD)
+            vals_1,vecs_1 =  numpy.linalg.eigh(DDT)
+            vals_2, vecs_2 = numpy.linalg.eigh(DTD)
 
-            Omega = np.transpose(vecs_1[:,:,:,:,0], (3,0,1,2))
-            T = np.transpose(vecs_2[:,:,:,:,0], (3,0,1,2))
+            Omega = np.transpose(vecs_1[:,:,:,:,2], (3,0,1,2))
+            T = np.transpose(vecs_2[:,:,:,:,2], (3,0,1,2))
             trD = np.sum(D[i,i] for i in range(self.dim))
             return omega, Omega, T, trD
 
@@ -755,8 +756,13 @@ class NematicLiquidCrystal(BaseSystem):
                 tangent_vector = np.array([T[i][vortex['position_index']] for i in range(3)])
                 rotation_vector = np.array([Omega[i][vortex['position_index']] for i in range(3)])
 
+                if np.sign(np.dot(tangent_vector, rotation_vector)) != np.sign(trD[vortex['position_index']]):
+                    rotation_vector *= -1
+
                 vortex['Tangent_vector'] = tangent_vector
                 vortex['Rotation_vector'] = rotation_vector
+
+
 
         return vortex_nodes
 
