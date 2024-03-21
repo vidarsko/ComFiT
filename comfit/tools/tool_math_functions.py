@@ -15,7 +15,7 @@ def tool_multinom(*args):
 
 def levi_civita_symbol(i, j, k):
     if {i, j, k} != {0, 1, 2}:
-        return 0  # Levi-Civita symbol is zero if indices are not 1, 2, 3
+        return 0  # Levi-Civita symbol is zero if indices are not 0, 1, 2
 
     if (i, j, k) in [(0, 1, 2), (1, 2, 0), (2, 0, 1)]:
         return 1  # Even permutation

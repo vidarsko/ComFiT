@@ -13,7 +13,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Nothing here yet
         """
-
+        
         # First initialize the BaseSystem class
         super().__init__(dimension, **kwargs)
 
@@ -25,7 +25,6 @@ class PhaseFieldCrystal(BaseSystem):
             [[np.round(np.dot(an, qn) / (2 * np.pi), decimals=8) for qn in self.q] for an in self.a])
 
         self.Phi = 2*sum(np.array(self.eta0)**2)
-
 
     def __str__(self):
         return self.type
@@ -59,6 +58,15 @@ class PhaseFieldCrystal(BaseSystem):
 
         self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
         self.psi_f = sp.fft.fftn(self.psi)
+
+    def conf_apply_strain(self, strain):
+        if self.dim == 1:
+            self.k[0] = self.k[0]/(1+strain)
+            self.dif[0] = self.dif[0]/(1+strain)
+            self.x = self.x*(1+strain)
+        else:
+            print("Applied strain is not implemented for dimensions other than 1D.")
+
 
     # EVOLUTION FUNCTIONS
     def evolve_PFC(self, number_of_steps, method='ETD2RK'):
@@ -743,7 +751,7 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.dim = 1
 
         # Default simulation parameters
-        self.micro_resolution = [5]
+        self.micro_resolution = kwargs.get('micro_resolution',[5])
         self.psi0 = -0.3
         self.r = -0.3
         self.t = 0
@@ -767,14 +775,6 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
 
-        # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
-                         dx=self.dx, dy=self.dy, dt=self.dt)
-
-        # Set the a0
-        self.a0 = a0
-        self.defined_length_scale = True
-
         self.A = self.calc_initial_amplitudes()
         self.eta0 = np.array([self.A])
 
@@ -784,13 +784,21 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.el_gamma = 0
         self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
+        # Initialize the BaseSystem
+        super().__init__(self.dim, xRes=self.xRes, 
+                         dx=self.dx,  dt=self.dt)
+
+        # Set the a0
+        self.a0 = a0
+        self.defined_length_scale = True
+
     def calc_initial_amplitudes(self):
         psi0 = self.psi0
         r = self.r
         t = self.t
         v = self.v
 
-        A = (-3 * v * psi0 + np.sqrt(20 * t * v - 15 * v * r + 30 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) / (15 * v)
+        A = np.sqrt(-self.r/3 - psi0**2)
         return A
 
     def calc_omega_f(self):

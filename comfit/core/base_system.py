@@ -1343,7 +1343,9 @@ class BaseSystem:
             # Keyword arguments particular to the 1D case
             kwargs['grid'] = kwargs.get('grid', True)
 
-            ax = kwargs.get('ax', plt.gca())
+            if ax == None:
+                fig.clf()
+                ax = fig.add_subplot(111)
 
             ax.plot(self.x/self.a0, field)
 
