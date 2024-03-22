@@ -28,7 +28,7 @@ Even though there exist specialized software packages for solving PDEs, these ar
 In particular, in the realm of many field theories, the study of topological defects - small structures like vortices in fluids - is essential for understanding phenomena such as phase transitions, turbulence and pattern formation.
 Due to the shared mathematical structures of these topological defects, recent research has shown that a common computational framework can be used to study them across different physical systems, ranging from Bose-Einstein condensates to nematic liquid crystals and crystalline solids [@skogvollUnifiedFieldTheory2023].
 However, a unified computational framework that brings all these systems together is lacking.
-ComFiT aims to close this gap, catering to both researchers and educators in physics, by providing a user-friendly, object-oriented framework for setting up a physical system, solving PDEs in one, two and three dimensions, including tools for visualizing results and tracking topological defects.
+ComFiT aims to close this gap, catering to both researchers and educators in physics, by providing a user-friendly, object-oriented framework for setting up a physical system, solving PDEs in one, two and three dimensions, visualizing results, and tracking topological defects.
 In so doing, ComFiT also brings advanced models of phase-field crystal modeling and nematic liquid crystals to the Python ecosystem, which are currently scarcely available in the open-source community, especially for three dimensions.
 
 # Summary
