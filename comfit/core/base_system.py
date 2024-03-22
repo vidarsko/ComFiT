@@ -1111,7 +1111,6 @@ class BaseSystem:
         Sets the properties of the axis for a plot.
         
         Input:
-            ax_or_scene: an axis or scene object
             kwargs: keyword arguments for the axis properties
         """
 
