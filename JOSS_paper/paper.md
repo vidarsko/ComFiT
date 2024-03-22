@@ -1,6 +1,8 @@
 ---
-title: 'ComFiT: a python library for Computational Field Theory'
+title: 'ComFiT: a python library for computational field theory with topological defects'
 tags:
+  - computational field theory
+  - topological defects
   - Bose-Einstein condensates
   - phase-field crystal
 authors:
