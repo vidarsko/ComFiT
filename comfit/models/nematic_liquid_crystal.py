@@ -148,7 +148,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q[1] = np.imag(psi)
         self.Q_f = sp.fft.fft2(self.Q)
 
-    def conf_initial_disclination_line(self, position=None,angle=np.pi/2,sign = 1):
+    def conf_initial_disclination_lines(self, position=None):
         """
         Sets the initial condition for a disclination line in a 3-dimensional system.
         The dislocation is parralell to the z-axis
@@ -165,18 +165,19 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("The dimension of the system must be 3 for a disclination line configuration.")
 
         if position is None:
-            position = self.rmid
+            position1 = [self.xmid+self.xmax/3, self.ymid]
+            position2 = [self.xmid - self.xmax/3, self.ymid]
 
 
-        theta = 1/2*np.arctan2((self.y-position[1]),(self.x-position[0]))
-
-
+        theta_1 = 1/2*np.arctan2((self.y-position1[1]),(self.x-position1[0]))
+        theta_2 = -1/2*np.arctan2((self.y-position2[1]),(self.x-position2[0]))
+        theta = theta_1 +theta_2
 
         S0 = 1/8* self.C/self.A + 1/2 * np.sqrt(self.C**2 /(16*self.A**2) + 3*self.B)
 
-        nx =  np.cos(np.sign(sign)*theta)*np.sin(angle)
-        ny = np.sin(np.sign(sign)*theta)*np.sin(angle)
-        nz = np.cos(angle)*np.ones_like(nx)
+        nx =  np.cos(theta)
+        ny = np.sin(theta)
+        nz = np.zeros_like(nx)
 
         self.Q = np.zeros((5, self.xRes, self.yRes, self.zRes))
         self.Q[0] = S0 * (nx * nx - 1 / 3)
@@ -574,7 +575,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 ##### defect tracking
     def calc_disclination_density_nematic(self):
-        #TODO: Optimize
+        #TODO: Optimise 3D
         """
         Calculates the defect density for the nematic. Note that in three dimension the defect density is a tensor
 
@@ -592,23 +593,14 @@ class NematicLiquidCrystal(BaseSystem):
         elif self.dim == 3:
             D = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
 
-            term_trace = np.sum(sp.fft.ifftn(self.dif[k] * self.get_sym_tl(self.Q_f,k,a)) *
-                                       sp.fft.ifftn(self.dif[l]*self.get_sym_tl(self.Q_f,l,a))
-                                       for k in range(self.dim) for a in range(self.dim) for l in range(self.dim) )
-            term_trace -= np.sum(sp.fft.ifftn(self.dif[k] * self.get_sym_tl(self.Q_f,l,a)) *
-                                       sp.fft.ifftn(self.dif[l]*self.get_sym_tl(self.Q_f,k,a))
-                                       for k in range(self.dim) for a in range(self.dim) for l in range(self.dim) )
             for i in range(self.dim):
                 for j in range(self.dim):
-                    term1 = 2 * np.sum(sp.fft.ifftn(self.dif[i] * self.get_sym_tl(self.Q_f,k,a)) *
-                                       sp.fft.ifftn(self.dif[k]*self.get_sym_tl(self.Q_f,j,a))
-                                       for k in range(self.dim) for a in range(self.dim))
-                    term2 = -2 * np.sum(sp.fft.ifftn(self.dif[i]*self.get_sym_tl(self.Q_f,j,a)) *
-                                        sp.fft.ifftn(self.dif[k] *self.get_sym_tl(self.Q_f,k,a))
-                                        for k in range(self.dim) for a in range(self.dim))
-                    D[i,j] = np.real(term1 + term2)
-                    if i == j:
-                        D[i,j] += np.real(term_trace)
+                    D[i,j] = np.sum(levi_civita_symbol(i,mu,nu)*levi_civita_symbol(j,k,l) *
+                                    np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,mu,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,nu,a)))
+                                    for mu in range(self.dim) for nu in range(self.dim)
+                                    for k in range(self.dim) for l in range(self.dim)
+                                    for a in range(self.dim))
             return D
         else:
             raise Exception("Not implemented")
@@ -617,20 +609,23 @@ class NematicLiquidCrystal(BaseSystem):
     def calc_disclination_density_decoupled(self):
         if self.dim == 3:
             D = self.calc_disclination_density_nematic()
-            omega = np.sqrt(np.sum(D[i,j]*D[i,j] for i in range(self.dim) for j in range(self.dim)) )
+            S0 = self.calc_equilibrium_S()
+            rho = D/(S0**2 *np.pi)
+            omega = np.sqrt(np.sum(rho[i,j]*rho[i,j] for i in range(self.dim) for j in range(self.dim)) )
 
             DDT = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
             DTD = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
 
             for i in range(self.dim):
                 for j in range(self.dim):
-                    DDT[:,:,:,i,j] = np.sum(D[i,k]*D[j,k] for k in range(self.dim))
-                    DTD[:, :, :, i, j] = np.sum(D[k,i] * D[ k,j] for k in range(self.dim))
+                    DDT[:,:,:,i,j] = np.sum(rho[i,k]*rho[j,k] for k in range(self.dim))
+                    DTD[:, :, :, i, j] = np.sum(rho[k,i] * rho[ k,j] for k in range(self.dim))
 
-            vals_1,vecs_1 =  numpy.linalg.eig(DDT)
-            vals_2, vecs_2 = numpy.linalg.eig(DTD)
-            Omega = np.transpose(vecs_1[:,:,:,:,0], (3,0,1,2))
-            T = np.transpose(vecs_2[:,:,:,:,0], (3,0,1,2))
+            vals_1,vecs_1 =  numpy.linalg.eigh(DDT)
+            vals_2, vecs_2 = numpy.linalg.eigh(DTD)
+
+            Omega = np.transpose(vecs_1[:,:,:,:,2], (3,0,1,2))
+            T = np.transpose(vecs_2[:,:,:,:,2], (3,0,1,2))
             trD = np.sum(D[i,i] for i in range(self.dim))
             return omega, Omega, T, trD
 
@@ -639,7 +634,7 @@ class NematicLiquidCrystal(BaseSystem):
         dt_Q = (self.Q -Q_prev)/delta_t
         return dt_Q[0] + 1j*dt_Q[1]
 
-    def calc_S(self):
+    def calc_equilibrium_S(self):
         # TODO: This function will be removed soon
         '''
         Calculates the strength of nematic order S
@@ -651,11 +646,11 @@ class NematicLiquidCrystal(BaseSystem):
             (numpy.narray) S
         '''
         if self.dim == 2:
-            return 2 * np.sqrt((self.Q[0]) ** 2 + (self.Q[1]) ** 2)
+            return  np.sqrt(self.B)
 
         elif self.dim == 3:
-            Q2 = self.calc_trace_Q2(self.Q)
-            return np.sqrt(3 * Q2 / 2)
+            S0 = 1 / 8 * self.C / self.A + 1 / 2 * np.sqrt(self.C ** 2 / (16 * self.A ** 2) + 3 * self.B)
+            return S0
 
     def calc_order_and_director(self):
         """
@@ -753,11 +748,20 @@ class NematicLiquidCrystal(BaseSystem):
         elif self.dim == 3:
             #TODO Make sure that tangent vector is continous
             omega, Omega, T, trD = self.calc_disclination_density_decoupled()
+
             vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
-            positions = []
+
             for vortex in vortex_nodes:
 
                 tangent_vector = np.array([T[i][vortex['position_index']] for i in range(3)])
+                rotation_vector = np.array([Omega[i][vortex['position_index']] for i in range(3)])
+
+                if np.sign(np.dot(tangent_vector, rotation_vector)) != np.sign(trD[vortex['position_index']]):
+                    rotation_vector *= -1
+
+                vortex['Tangent_vector'] = tangent_vector
+                vortex['Rotation_vector'] = rotation_vector
+
 
 
         return vortex_nodes
@@ -832,7 +836,64 @@ class NematicLiquidCrystal(BaseSystem):
             ax.set_xlim([0, self.xmax-self.dx])
             ax.set_ylim([0, self.ymax-self.dy])
             return ax
+        elif self.dim == 3:
+            # Plotting options
+            quiver_scale = 2  # The scale of the quiver arrows
 
+            if ax == None:
+                ax = plt.gcf().add_subplot(111, projection='3d')
+            x_coords = []
+            y_coords = []
+            z_coords = []
+
+            tx = []
+            ty = []
+            tz = []
+
+            Ox = []
+            Oy = []
+            Oz = []
+
+            for vortex in vortex_nodes:
+                x_coords.append(vortex['position'][0])
+                y_coords.append(vortex['position'][1])
+                z_coords.append(vortex['position'][2])
+
+                tx.append(vortex['Tangent_vector'][0])
+                ty.append(vortex['Tangent_vector'][1])
+                tz.append(vortex['Tangent_vector'][2])
+
+                Ox.append(vortex['Rotation_vector'][0])
+                Oy.append(vortex['Rotation_vector'][1])
+                Oz.append(vortex['Rotation_vector'][2])
+
+            tx = np.array(tx)
+            ty = np.array(ty)
+            tz = np.array(tz)
+
+            Ox = np.array(Ox)
+            Oy = np.array(Oy)
+            Oz = np.array(Oz)
+
+
+            # ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * tx, quiver_scale * ty, quiver_scale * tz,
+                      color='blue')
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * Ox*0.75 , quiver_scale * Oy*0.75 ,
+                      quiver_scale * Oz*0.75, color='green')
+
+            ax.set_xlabel('$x/a_0$')
+            ax.set_ylabel('$y/a_0$')
+            ax.set_zlabel('$z/a_0$')
+
+            ax.set_xlim([0, self.xmax - self.dx])
+            ax.set_ylim([0, self.ymax - self.dy])
+            ax.set_zlim([0, self.zmax - self.dz])
+
+            ax.set_aspect('equal')
+            ax.grid(True)
+
+            return ax
 
     def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
                                          cmax=None, cmin=None,

@@ -24,10 +24,58 @@ class PhaseFieldCrystal(BaseSystem):
         self.dislocation_charges = np.array(
             [[np.round(np.dot(an, qn) / (2 * np.pi), decimals=8) for qn in self.q] for an in self.a])
 
+        # Elastic constant
+        if ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)!=0:
+            self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
+        else:
+            self.el_nu = 0
+
         self.Phi = 2*sum(np.array(self.eta0)**2)
 
     def __str__(self):
-        return self.type
+        """
+        Returns a string representation of the object.
+        """
+        string = "-------------------------------\n"
+        string += "Phase Field Crystal instance\n"
+        string += "-------------------------------\n"
+        string += "Type: " + self.type + "\n"
+        if self.dim == 1:
+            string += "(nx) = (" + str(self.nx) + ")\n"
+        elif self.dim == 2:
+            string += "(nx, ny) = (" + str(self.nx) + ", " + str(self.ny) + ")\n"
+        elif self.dim == 3:
+            string += "(nx, ny, nz) = (" + str(self.nx) + ", " + str(self.ny) + ", " + str(self.nz) + ")\n"
+        string += "micro_resolution: " + str(self.micro_resolution) + "\n"
+        string += "-------------------------------\n"
+        string += "Parameters\n"
+        string += "-------------------------------\n"
+        string += "r: " + str(self.r) + "\n"
+        string += "t: " + str(self.t) + "\n"
+        string += "v: " + str(self.v) + "\n"
+        string += "-------------------------------\n"
+        string += "Proto amplitudes\n"
+        string += "-------------------------------\n"
+        string += "psi0: " + str(self.psi0) + "\n"
+        if self.type == 'PhaseFieldCrystal1DPeriodic':
+            string += "A: " + str(self.A) + "\n"
+        elif self.type == 'PhaseFieldCrystal2DTriangular':
+            string += "A: " + str(self.A) + "\n"
+        elif self.type == 'PhaseFieldCrystal2DSquare':
+            string += "A: " + str(self.A) + "\n"
+            string += "B: " + str(self.B) + "\n"
+        elif self.type == 'PhaseFieldCrystal3DBodyCenteredCubic':
+            string += "A: " + str(self.A) + "\n"
+        elif self.type == 'PhaseFieldCrystal3DFaceCenteredCubic':
+            string += "A: " + str(self.A) + "\n"
+            string += "B: " + str(self.B) + "\n"
+        elif self.type == 'PhaseFieldCrystal3DSimpleCubic':
+            string += "A: " + str(self.A) + "\n"
+            string += "B: " + str(self.B) + "\n"
+            string += "C: " + str(self.C) + "\n"
+        string += "-------------------------------\n"
+
+        return string
 
     # CONFIGURATION FUNCTIONS
     def conf_PFC_from_amplitudes(self, eta=None):
@@ -749,6 +797,7 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         # Type of the system
         self.type = 'PhaseFieldCrystal1DPeriodic'
         self.dim = 1
+        self.nx = nx
 
         # Default simulation parameters
         self.micro_resolution = kwargs.get('micro_resolution',[5])
@@ -775,14 +824,13 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
 
-        self.A = self.calc_initial_amplitudes()
+        self.A = self.calc_proto_amplitudes_conserved()
         self.eta0 = np.array([self.A])
 
         # Set the elastic constants
         self.el_mu = 3 * self.A ** 2
         self.el_lambda = 3 * self.A ** 2
         self.el_gamma = 0
-        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, 
@@ -792,14 +840,26 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.a0 = a0
         self.defined_length_scale = True
 
-    def calc_initial_amplitudes(self):
+    def calc_proto_amplitudes_conserved(self):
         psi0 = self.psi0
         r = self.r
         t = self.t
         v = self.v
 
-        A = np.sqrt(-self.r/3 - psi0**2)
+        A = 0
+        
+        A_tmp = 1/np.sqrt(3*v)*np.sqrt(- r - 2*t*psi0 - 3*v*psi0**2)
+        if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
+            A = A_tmp
+
         return A
+
+    def calc_free_energy_from_proto_amplitudes(self, psi0, A):
+        r = self.r
+        t = self.t
+        v = self.v
+
+        return 2*np.pi*(1/2*psi0**2 + 1/2*r*(psi0**2 + 2*A**2) + 1/3*t*(psi0**3 + 6*psi0*A**2) + 1/4*v*(psi0**4 + 12*psi0**2*A**2 + 6*A**4))
 
     def calc_omega_f(self):
         k2 = self.calc_k2()
@@ -845,14 +905,13 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         self.dx = a0 / self.micro_resolution[0]
         self.dy = np.sqrt(3) * a0 / self.micro_resolution[1]
 
-        self.A = self.calc_initial_amplitudes()
+        self.A = self.calc_proto_amplitudes_conserved()
         self.eta0 = np.array([self.A, self.A, self.A])
 
         # Set the elastic constants
         self.el_lambda = 3 * self.A ** 2
         self.el_mu = 3 * self.A ** 2
         self.el_gamma = 0
-        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
 
         # Initialize the BaseSystem
@@ -865,14 +924,28 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
 
         
 
-    def calc_initial_amplitudes(self):
+    def calc_proto_amplitudes_conserved(self):
         psi0 = self.psi0
         r = self.r
         t = self.t
         v = self.v
-
-        A = (-3 * v * psi0 + np.sqrt(20 * t * v - 15 * v * r + 30 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) / (15 * v)
+        
+        #Testing which of the three amplitudes give the lowest free energy
+        A = 0
+        A_tmp = 1 / (15 * v)*(-t + -3 * v * psi0 - np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
+        if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
+            A = A_tmp
+        A_tmp = 1 / (15 * v)*(-t + -3 * v * psi0 + np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
+        if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
+            A = A_tmp
         return A
+
+    def calc_free_energy_from_proto_amplitudes(self, psi0, A):
+        r = self.r
+        t = self.t
+        v = self.v
+
+        return np.pi**2/(3*np.sqrt(3))*(270*A**4*v + 48*A**3*( t + 3*v*psi0) + psi0**2*(6 + 6*r + 4*t*psi0 + 3*v*psi0**2) + 36*A**2*( r + psi0*(2*t + 3*v*psi0)))
 
     def calc_omega_f(self):
         k2 = self.calc_k2()
@@ -946,14 +1019,13 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.dx = a0 / self.micro_resolution[0]
         self.dy = a0 / self.micro_resolution[1]
 
-        self.A, self.B = self.calc_initial_amplitudes()
+        self.A, self.B = self.calc_proto_amplitudes_conserved()
         self.eta0 = np.array([self.A, self.A, self.B, self.B])
 
         # Set the elastic constants
         self.el_lambda = 16 * self.B ** 2
         self.el_mu = 16 * self.B ** 2
         self.el_gamma = 0
-        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
 
         # Initialize the BaseSystem
@@ -965,31 +1037,38 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.defined_length_scale = True
 
         
-    def calc_initial_amplitudes(self):
-        psi0 = self.psi0
-        r = self.r
-        t = self.t
-        v = self.v
-
-        def equations(vars):
-            A, B = vars
-            eq1 = 12*psi0**2*A + 48*psi0*A*B + 36*A**3 + 72*A*B**2 + 4*A*r
-            eq2 = 12*psi0**2*B + 24*psi0*A**2 + 36*B**3 + 72*A**2*B + 4*B*r
-            return [eq1, eq2]
-
-
+    def calc_proto_amplitudes_conserved(self):
         A = 0
         B = 0
 
         for A0 in np.linspace(0,1,11):
             B0 = A0/2
-            [A_tmp, B_tmp] = fsolve(equations, [A0, B0])
+            [A_tmp, B_tmp] = fsolve(self.calc_proto_amplitude_equations_conserved, [A0, B0])
 
-            if abs(A_tmp) > abs(A):
+            if self.calc_free_energy_from_proto_amplitudes(self.psi0, A_tmp, B_tmp) < self.calc_free_energy_from_proto_amplitudes(self.psi0, A, B):
                 A = A_tmp
                 B = B_tmp
 
         return A, B
+
+    def calc_proto_amplitude_equations_conserved(self,vars):
+
+        psi0 = self.psi0
+        r = self.r
+        t = self.t
+        v = self.v
+        
+        A, B = vars
+        eq1 = A*(r + 9*A**2*v + 18*B**2*v + 2*t*psi0 + 3*v*psi0**2 + 4*B*(t + 3*v*psi0))
+        eq2 = 9*B**3*v + 2*A**2*(t + 3*v*psi0) + B*(r + 18*A**2*v + 2*t*psi0 + 3*v*psi0**2)
+
+        return [eq1, eq2]
+
+    def calc_free_energy_from_proto_amplitudes(self,psi0,A,B):
+        r = self.r
+        t = self.t
+        v = self.v
+        return (108*A**4*v + 108*B**4*v + psi0**2*(24 + 6*r + 4*t*psi0 + 3*v*psi0**2) + 24*B**2*(r + psi0*(2*t + 3*v*psi0)) + 24*A**2*(r + 18*B**2*v + 4*B*(t + 3*v*psi0) + psi0*(2*t*+ 3*v*psi0)))
 
     def calc_omega_f(self):
         k2 = self.calc_k2()
@@ -1076,14 +1155,13 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         self.dy = a0 / self.micro_resolution[1]
         self.dz = a0 / self.micro_resolution[2]
 
-        self.A = self.calc_initial_amplitudes()
+        self.A = self.calc_proto_amplitudes_conserved()
         self.eta0 = np.array([self.A, self.A, self.A, self.A, self.A, self.A])
 
         # Set the elastic constants
         self.el_lambda = 4 * self.A ** 2
         self.el_mu = 4 * self.A ** 2
         self.el_gamma = - 4*self.A**2
-        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
@@ -1094,7 +1172,7 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         self.defined_length_scale = True
 
 
-    def calc_initial_amplitudes(self):
+    def calc_proto_amplitudes_conserved(self):
         psi0 = self.psi0
         r = self.r
         t = self.t
@@ -1191,14 +1269,13 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         self.dy = a0 / self.micro_resolution[1]
         self.dz = a0 / self.micro_resolution[2]
 
-        self.A, self.B = self.calc_initial_amplitudes()
+        self.A, self.B = self.calc_proto_amplitudes_conserved()
         self.eta0 = np.array([self.A, self.A, self.A, self.A, self.B, self.B, self.B])
 
         # Set the elastic constants
         self.el_lambda = 32/81 * self.A ** 2
         self.el_mu = 32/81 * self.A ** 2
         self.el_gamma = 32/81 * (2*self.B**2 - self.A**2)
-        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
@@ -1209,7 +1286,7 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         self.defined_length_scale = True
 
         
-    def calc_initial_amplitudes(self):
+    def calc_proto_amplitudes_conserved(self):
         psi0 = self.psi0
         r = self.r
         t = self.t
@@ -1328,7 +1405,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.dy = a0 / self.micro_resolution[1]
         self.dz = a0 / self.micro_resolution[2]
 
-        self.A, self.B, self.C = self.calc_initial_amplitudes()
+        self.A, self.B, self.C = self.calc_proto_amplitudes_conserved()
         self.eta0 = np.array([self.A, self.A, self.A,
                      self.B, self.B, self.B, self.B, self.B, self.B,
                      self.C, self.C, self.C, self.C])
@@ -1337,7 +1414,6 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.el_lambda = 16 * self.B ** 2 + 128 * self.C ** 2
         self.el_mu = 16 * self.B ** 2 + 128 * self.C ** 2
         self.el_gamma = 32*self.A**2 - 16*self.B**2 - 256*self.C**2
-        self.el_nu = self.el_lambda / ((self.dim - 1) * self.el_lambda + 2 * self.el_mu + self.el_gamma)
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
@@ -1347,7 +1423,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.a0 = a0
         self.defined_length_scale = True
 
-    def calc_initial_amplitudes(self):
+    def calc_proto_amplitudes_conserved(self):
         psi0 = self.psi0
         r = self.r
         t = self.t
