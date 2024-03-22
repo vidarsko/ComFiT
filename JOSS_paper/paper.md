@@ -40,7 +40,7 @@ The library also provides a range of predefined models, which inherit from the `
 ![Four example setups of the ComFiT library. (a) The function $f(x,y) = x/a_0-y/a_0$ where $a_0$ is a length scale, (b) a quantum mechanical wavepacket with a nonzero velocity in three dimensions, (c) a Bose-Einstein condensate vortex ring in three dimensions with vortex nodes identified and (d) a square phase-field crystal simulation containing a dislocation dipole. More details of the systems are given in the package documentation, and the code used to make these figures is given in the appendix.](illustration.png)
 
 The project aims to be highly community-driven, continuously improving the code stability, efficiency and usability, and to be a platform for sharing and developing new models and methods for field theories and topological defects.
-The documentation is hosted with MkDocs and contains a range of theoretical backgrounds for all the subclasses, tutorials, and examples to guide users through the process of setting up and running simulations, as well as visualizing and analyzing the results.
+[The documentation](https://vidarsko.github.io/ComFiT/) is hosted with MkDocs and contains a range of theoretical backgrounds for all the subclasses, tutorials, and examples to guide users through the process of setting up and running simulations, as well as visualizing and analyzing the results.
 
 # Research projects 
 
