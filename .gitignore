@@ -33,3 +33,5 @@ build/
 
 *.gif
 !/docs/images/*.gif
+!/JOSS_paper/*.gif
+!/JOSS_paper/*.png

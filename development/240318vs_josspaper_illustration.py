@@ -41,5 +41,6 @@ ax4 = fig.add_subplot(2, 2, 4)
 pfc.plot_field(pfc.psi,ax=ax4)
 pfc.plot_dislocation_nodes(dislocation_nodes,ax=ax4,grid=False)
 
+fig.tight_layout()
 
 plt.show()
