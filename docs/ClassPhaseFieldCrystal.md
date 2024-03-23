@@ -437,7 +437,7 @@ Below are all the lattice constants and primary RLVs and BLVs for the models we 
 
 To find the ground state of a PFC, one inserts a particular mode approximation into the free energy density, average over a unit cell ([coarse-grain](ClassBaseSystem.md)) and minimizes it with respect to the amplitudes.
 
-!!! example "Example: The 1D PFC - Ground state"
+??? example "Example: The 1D PFC - Ground state"
     To find the ground state of the 1D PFC, we assume that we can express the field in the one-mode approximation, i.e.,
 
     $$
@@ -628,7 +628,7 @@ The `pfc` instance will be initialized with a list called `eta0`, which consists
     Free energy per unit cell ([calculation document](https://github.com/vidarsko/ComFiT/blob/main/docs/calculations/phase_field_crystal_3D_bcc_equilibrium_amplitudes.nb)):
 
     $$
-    \mathcal F_{UC} = \frac{\sqrt 2 \pi^3}{3} \left (1620 A^4 \texttt v + 192 A^3 (t + 3 \texttt v \psi_0) + \psi_0^2 (6 + 6 \texttt r + 4 t \psi_0 + 3 \texttt v \psi_0^2) + 72 A^2 (\texttt r + \psi_0 (2 t + 3 \texttt v \psi_0)) \right )
+    \mathcal F_{UC} = \frac{4 \sqrt 2 \pi^3}{3} \left (1620 A^4 \texttt v + 192 A^3 (t + 3 \texttt v \psi_0) + \psi_0^2 (6 + 6 \texttt r + 4 t \psi_0 + 3 \texttt v \psi_0^2) + 72 A^2 (\texttt r + \psi_0 (2 t + 3 \texttt v \psi_0)) \right )
     $$
 
     Equilibrium amplitude (conserved)
@@ -696,8 +696,8 @@ The `pfc` instance will be initialized with a list called `eta0`, which consists
             \begin{array}{lrl}
             \partial_{\psi_0} \mathcal F_{UC} = 0: & 8 C^2 \texttt t + 48 B^3 \texttt v + 144 A B C \texttt v + 36 \psi_0 + \texttt r \psi_0 + 24 C^2 \texttt v \psi_0 + \texttt t \psi_0^2 + \texttt v \psi_0^3 + 12 B^2 (t + 3 \texttt v \psi_0) + 6 A^2 (t + 3 \texttt v (4 B + \psi_0)) &= 0 \\
             \partial_{A} \mathcal F_{UC} = 0: & 15 A^3 \texttt v + 24 A^2 C \texttt v + 8 B C (t + 3 \texttt v (3 B + \psi_0)) + A (\texttt r + 96 B^2 \texttt v + 36 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 8 B (t + 3 \texttt v \psi_0)) &= 0 \\
-            \partial_{B} \mathcal F_{UC} = 0: & 45 B^3 \texttt v + 4 B^2 (t + 3 \texttt v \psi_0) + 2 A (a + 2 C) (t + 3 \texttt v \psi_0) +b (\texttt r + 48 A^2 \texttt v + 72 A C \texttt v + 54 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2) &= 0\\
-            \partial_{C} \mathcal F_{UC} = 0: & 27 C^3 \texttt v + C (\texttt r + 27 A^2 \texttt v + 81 B^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2) + 6 A (a^2 \texttt v + 9 B^2 \texttt v + B (t + 3 \texttt v \psi_0)) &= 0\\
+            \partial_{B} \mathcal F_{UC} = 0: & 45 B^3 \texttt v + 4 B^2 (t + 3 \texttt v \psi_0) + 2 A (A + 2 C) (t + 3 \texttt v \psi_0) + B (\texttt r + 48 A^2 \texttt v + 72 A C \texttt v + 54 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2) &= 0\\
+            \partial_{C} \mathcal F_{UC} = 0: & 27 C^3 \texttt v + C (\texttt r + 27 A^2 \texttt v + 81 B^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2) + 6 A (A^2 \texttt v + 9 B^2 \texttt v + B (t + 3 \texttt v \psi_0)) &= 0\\
             \end{array}
     \right \rbrace
     $$

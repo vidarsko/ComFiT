@@ -1040,14 +1040,17 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
     def calc_proto_amplitudes_conserved(self):
         A = 0
         B = 0
+        free_energy = self.calc_free_energy_from_proto_amplitudes(self.psi0, A, B)
 
-        for A0 in np.linspace(0,1,11):
-            B0 = A0/2
-            [A_tmp, B_tmp] = fsolve(self.calc_proto_amplitude_equations_conserved, [A0, B0])
+        for A0 in np.linspace(-1,1,10):
+            for B0 in [-A0/2,A0/2]:
+                [A_tmp, B_tmp] = fsolve(self.calc_proto_amplitude_equations_conserved, [A0, B0])
+                free_energy_tmp = self.calc_free_energy_from_proto_amplitudes(self.psi0, A_tmp, B_tmp)
 
-            if self.calc_free_energy_from_proto_amplitudes(self.psi0, A_tmp, B_tmp) < self.calc_free_energy_from_proto_amplitudes(self.psi0, A, B):
-                A = A_tmp
-                B = B_tmp
+                if free_energy_tmp <= free_energy:
+                    A = A_tmp
+                    B = B_tmp
+                    free_energy = free_energy_tmp
 
         return A, B
 
@@ -1178,8 +1181,25 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         t = self.t
         v = self.v
 
-        A = -2/15 * psi0 + 1/15*np.sqrt(-5*r - 11*psi0**2)
+        # Testing which of the three amplitudes give the lowest free energy
+        A=0
+        A_tmp = 1/(45*v)*( -2*t - 6*v*psi0 + np.sqrt(4*t**2 - 45*r*v - 66*t*v*psi0 - 99*v**2*psi0**2))
+        if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
+            A = A_tmp
+        A_tmp = 1/(45*v)*( -2*t - 6*v*psi0 - np.sqrt(4*t**2 - 45*r*v - 66*t*v*psi0 - 99*v**2*psi0**2))
+        if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
+            A = A_tmp
         return A
+
+    def calc_free_energy_from_proto_amplitudes(self, psi0, A):
+        """
+        Calculates the free energy of the phase-field crystal from the proto amplitudes.
+        """
+        r = self.r
+        t = self.t
+        v = self.v
+
+        return 4*np.sqrt(2)*np.pi**3/3*(1620*A**4*v + 192*A**3*(t + 3*v*psi0) + psi0**2*(6 + 6*r + 4*t*psi0 + 3*v*psi0**2) + 72*A**2*(r + psi0*(2*t + 3*v*psi0)))
 
     def calc_omega_f(self):
         k2 = self.calc_k2()
@@ -1287,29 +1307,40 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
 
         
     def calc_proto_amplitudes_conserved(self):
+        A = 0
+        B = 0
+        free_energy = self.calc_free_energy_from_proto_amplitudes(self.psi0, A, B)
+
+        for A0 in np.linspace(-1, 1, 10):
+            for B0 in [-A0/2,A0/2]:
+                [A_tmp, B_tmp] = fsolve(self.calc_proto_amplitude_equations_conserved, [A0, B0])
+                free_energy_tmp = self.calc_free_energy_from_proto_amplitudes(self.psi0, A_tmp, B_tmp)
+
+                if free_energy_tmp <= free_energy:
+                    A = A_tmp
+                    B = B_tmp
+                    free_energy = free_energy_tmp
+
+        return A, B
+
+    def calc_proto_amplitude_equations_conserved(self, vars):
+
         psi0 = self.psi0
         r = self.r
         t = self.t
         v = self.v
 
-        def equations(vars):
-            A, B = vars
-            eq1 = 27*A**2 + 36*B**2 + 18*B*psi0 + 3*psi0**2 + r
-            eq2 = 72*A**2*(4*B + psi0) + 90*B**3 + 18*B*psi0**2 + 6*B*r
-            return [eq1, eq2]
+        A, B = vars
+        eq1 = A*( r + 27*A**2*v + 36*B**2*v + 2*t*psi0 + 3*v*psi0**2 + 6*B*(t + 3*v*psi0))
+        eq2 = 15*B**3*v + 4*A**2*(t + 3*v*psi0) + B*( r + 48*A**2*v + 2*t*psi0 + 3*v*psi0**2)
 
-        A = 0
-        B = 0
+        return [eq1, eq2]
 
-        for A0 in np.linspace(0, 1, 11):
-            B0 = A0 / 2
-            [A_tmp, B_tmp] = fsolve(equations, [A0, B0])
-
-            if abs(A_tmp) > abs(A):
-                A = A_tmp
-                B = B_tmp
-
-        return A, B
+    def calc_free_energy_from_proto_amplitudes(self, psi0, A, B):
+        r = self.r
+        t = self.t
+        v = self.v
+        return 2*np.pi**3/np.sqrt(3)*(1944*A**4*v + 810*B**4*v + psi0**2*(32 + 18*r + 12*t*psi0 + 9*v*psi0**2) + 108*B**2*(r + psi0*(2*t + 3*v*psi0)) + 144*A**2*( r + 36*B**2*v + 6*B*(t + 3*v*psi0) + psi0*(2*t + 3*v*psi0)))
 
     def calc_omega_f(self):
         k2 = self.calc_k2()
@@ -1354,7 +1385,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         """
 
         # Type of the system
-        self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
+        self.type = 'PhaseFieldCrystal3DSimpleCubic'
         self.dim = 3
         self.nx = nx
         self.ny = ny
@@ -1423,40 +1454,51 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.a0 = a0
         self.defined_length_scale = True
 
+    def calc_free_energy_from_proto_amplitudes(self, psi0, A, B, C):
+        r = self.r
+        t = self.t
+        v = self.v
+        return 2*np.pi**3/3*(48*C**2*r + 270*A**4*v + 1620*B**4*v + 576*A**3*C*v + 648*C**4*v + 96*C**2*t*psi0 + 6*(36 + r + 24*C**2*v)*psi0**2 + 4*t*psi0**3 + 3*v*psi0**4 + 192*B**3*(t + 3*v*psi0) + 576*A*B*C*(t + 3*v*(3*B + psi0)) + 36*A**2*( r + 96*B**2*v + 36*C**2*v + 2*t*psi0 + 3*v*psi0**2 + 8*B*( t + 3*v*psi0)) + 72*B**2*(r + 54*C**2*v + psi0*(2*t + 3*v*psi0)) )
+
     def calc_proto_amplitudes_conserved(self):
         psi0 = self.psi0
         r = self.r
         t = self.t
         v = self.v
 
-        def equations(vars):
-            A, B, C = vars
-            eq1 = 15*A**3 + 24*A**2*C + 24*B*C*(3*B + psi0) \
-                    + 96*A*B**2 + 36*A*C**2 + 24*A*B*psi0 \
-                    + 3*A*psi0**2 + A*r
-            eq2 = 12*A*C*(6*B + psi0) + 6*A**2*(8*B + psi0) \
-                    + 45*B**3 + 54*B*C**2 + 12*B**2*psi0 \
-                    + 3*B*psi0**2 + B*r
-            eq3 = 6*A**3 + 27*A**2*C + 18*A*B*(3*B + psi0) \
-                    + C*(81*B**2 + 27*C**2 + 3*psi0**2 + r)
-
-            return [eq1, eq2, eq3]
-
         A = 0
         B = 0
         C = 0
+        free_energy = self.calc_free_energy_from_proto_amplitudes(psi0, A, B, C)
 
-        for A0 in np.linspace(0, 0.2, 21):
-            B0 = A0 / 2
-            C0 = A0 / 4
-            [A_tmp, B_tmp, C_tmp] = fsolve(equations, [A0, B0, C0])
+        for A0 in np.linspace(-1, 1, 10):
+            for B0 in [-A0/2, A0/2]:
+                for C0 in [-A0/4, A0/4]:
+                    [A_tmp, B_tmp, C_tmp] = fsolve(self.calc_proto_amplitude_equations_conserved, [A0, B0, C0])
+                    free_energy_tmp = self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp, B_tmp, C_tmp)
 
-            if abs(A_tmp) > abs(A):
-                A = A_tmp
-                B = B_tmp
-                C = C_tmp
+                    if free_energy_tmp <= free_energy:
+                        A = A_tmp
+                        B = B_tmp
+                        C = C_tmp
+                        free_energy = free_energy_tmp
 
         return A, B, C
+
+    def calc_proto_amplitude_equations_conserved(self, vars):
+        
+        psi0 = self.psi0
+        r = self.r
+        t = self.t
+        v = self.v
+
+        A, B, C = vars
+
+        eq1 = 15*A**3*v + 24*A**2*C*v + 8*B*C*(t + 3*v*(3*B + psi0)) + A*( r + 96*B**2*v + 36*C**2*v + 2*t*psi0 + 3*v*psi0**2 + 8*B*(t + 3*v*psi0))
+        eq2 = 45*B**3*v + 4*B**2*(t + 3*v*psi0) + 2*A*(A + 2*C)*(t + 3*v*psi0) + B*( r + 48*A**2*v + 72*A*C*v + 54*C**2*v + 2*t*psi0 + 3*v*psi0**2)
+        eq3 = 27*C**3*v + C*( r + 27*A**2*v + 81*B**2*v + 2*t*psi0 + 3*v*psi0**2) + 6*A*(A**2*v + 9*B**2*v + B*(t + 3*v*psi0))
+
+        return [eq1, eq2, eq3]
 
     def calc_omega_f(self):
         k2 = self.calc_k2()
