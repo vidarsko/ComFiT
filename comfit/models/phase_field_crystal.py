@@ -1427,7 +1427,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
                            [1, 1, -1],
                            [1, 1, 1]])
 
-        # Set the number of reciprocal modes
+        # Set the number of reciprocal modes.
         self.number_of_reciprocal_lattice_modes = 13
         self.number_of_primary_reciprocal_lattice_modes = 3
 
