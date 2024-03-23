@@ -1,7 +1,6 @@
 import numpy as np
 import scipy as sp
 
-
 from comfit.tools.tool_math_functions import tool_multinom
 
 class BaseSystemCalc:

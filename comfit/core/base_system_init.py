@@ -1,7 +1,6 @@
 import numpy as np
 import scipy as sp
 
-
 class BaseSystemInit:
     def __init__(self, dim, **kwargs):
         """

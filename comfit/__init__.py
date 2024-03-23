@@ -1,7 +1,7 @@
 from .core import BaseSystem
 
 from .models import BoseEinsteinCondensate, QuantumMechanics, \
-    PhaseFieldCrystal1DPeriodic, PhaseFieldCrystal, \
+    PhaseFieldCrystal1DPeriodic, \
     PhaseFieldCrystal2DTriangular, PhaseFieldCrystal2DSquare, \
     PhaseFieldCrystal3DBodyCenteredCubic, PhaseFieldCrystal3DFaceCenteredCubic, \
     PhaseFieldCrystal3DSimpleCubic, NematicLiquidCrystal
