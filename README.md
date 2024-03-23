@@ -19,11 +19,11 @@ The best way to get to know ComFiT is by having a look at the tutorials located 
 
 ![Oscillating 1D Gaussian wave packet in a harmonic oscillator](docs/images/index_tutorial_base_system_make_your_own_model.gif)
 
-*Figure: Quenching of a disordered state in a Lan* A 2D simulation of an order parameter (field) in a Landau model with a disordered initial condition. The equilibrium value of the order parameter is non-zero, so as the system relaxes, it spontaneously forms interfaces between regions of different order parameter values.
+*Figure: Quenching of a disordered state in a Landau system.* A 2D simulation of an order parameter (field) in a Landau model with a disordered initial condition. The equilibrium value of the order parameter is non-zero, so as the system relaxes, it spontaneously forms interfaces between regions of different order parameter values.
 
 ![Oscillating 3D Gaussian wave packet in a harmonic oscillator](docs/images/index_tutorial_qm_3D_wave_packet.gif)
 
-*Figure: Oscillating 3D Gaussian wave packet in a harmonic oscillator* A 3D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
+*Figure: Oscillating 3D Gaussian wave packet in a harmonic oscillator.* A 3D simulation of the Schrödinger equation with a Gaussian initial condition (at rest) in a Harmonic oscillator potential.
 The amplitude of the wavefunction is shown as an isosurface at $50\%$ its maximal value and the argument by the angle color scheme of the figure above.
 
 ## Documentation
