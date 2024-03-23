@@ -932,10 +932,10 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         
         #Testing which of the three amplitudes give the lowest free energy
         A = 0
-        A_tmp = 1 / (15 * v)*(-t + -3 * v * psi0 - np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
+        A_tmp = 1 / (15 * v)*(-t -3 * v * psi0 - np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
         if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
             A = A_tmp
-        A_tmp = 1 / (15 * v)*(-t + -3 * v * psi0 + np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
+        A_tmp = 1 / (15 * v)*(-t -3 * v * psi0 + np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
         if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
             A = A_tmp
         return A
@@ -1042,8 +1042,8 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         B = 0
         free_energy = self.calc_free_energy_from_proto_amplitudes(self.psi0, A, B)
 
-        for A0 in np.linspace(-1,1,10):
-            for B0 in [-A0/2,A0/2]:
+        for A0 in np.linspace(0.01,1,10):
+            for B0 in [A0/2]:
                 [A_tmp, B_tmp] = fsolve(self.calc_proto_amplitude_equations_conserved, [A0, B0])
                 free_energy_tmp = self.calc_free_energy_from_proto_amplitudes(self.psi0, A_tmp, B_tmp)
 
@@ -1242,7 +1242,7 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         """
 
         # Type of the system
-        self.type = 'PhaseFieldCrystal3DBodyCenteredCubic'
+        self.type = 'PhaseFieldCrystal3DFaceCenteredCubic'
         self.dim = 3
         self.nx = nx
         self.ny = ny
@@ -1311,8 +1311,8 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         B = 0
         free_energy = self.calc_free_energy_from_proto_amplitudes(self.psi0, A, B)
 
-        for A0 in np.linspace(-1, 1, 10):
-            for B0 in [-A0/2,A0/2]:
+        for A0 in np.linspace(0.01, 1, 10):
+            for B0 in [A0/2]:
                 [A_tmp, B_tmp] = fsolve(self.calc_proto_amplitude_equations_conserved, [A0, B0])
                 free_energy_tmp = self.calc_free_energy_from_proto_amplitudes(self.psi0, A_tmp, B_tmp)
 
@@ -1471,9 +1471,9 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         C = 0
         free_energy = self.calc_free_energy_from_proto_amplitudes(psi0, A, B, C)
 
-        for A0 in np.linspace(-1, 1, 10):
-            for B0 in [-A0/2, A0/2]:
-                for C0 in [-A0/4, A0/4]:
+        for A0 in np.linspace(0.01, 1, 10):
+            for B0 in [A0/2]:
+                for C0 in [A0/4]:
                     [A_tmp, B_tmp, C_tmp] = fsolve(self.calc_proto_amplitude_equations_conserved, [A0, B0, C0])
                     free_energy_tmp = self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp, B_tmp, C_tmp)
 
