@@ -1,11 +1,11 @@
-# Home
+# <img src="images/logo.png" width="25" height="25"> ComFiT documentation
 
 [ComFiT](https://github.com/vidarsko/ComFiT) is a versatile Python library for simulating field theories, including plotting and animation in an object-oriented manner.
 If you use ComFiT in your research, please cite the following paper:
 
 
 !!! quote ""
-    (unsubmitted) Skogvoll & Rønning, (2024). ComFiT: Python library for computational field theory with topological defects. Journal of Open Source Software, X(XX),   XXX, [link](link)
+    (submitted) Skogvoll & Rønning, (2024). ComFiT: Python library for computational field theory with topological defects. Journal of Open Source Software, X(XX),   XXX, [link](link)
 
 
 ## Tutorials
@@ -36,8 +36,6 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 </div>
 
 ### Quantum Mechanics
-
-Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">

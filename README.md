@@ -1,4 +1,4 @@
-# ComFiT: a python library for computational field theory with topological defects
+# <img src="docs/images/logo.png" width="25" height="25"> ComFiT: a python library for computational field theory with topological defects
 
 ComFiT is an open-source Python library for simulating field theories including the Schrödinger equation, damped Gross-Pitaevskii equation, phase-field crystal models, and hydrodynamic models for active nematics.
 It uses an object-oriented approach to provide functions for system setup, time evolution, data analysis, and visualization.
@@ -14,7 +14,7 @@ If you use ComFiT in your research or education, please cite the following paper
 
 ---
 
-(unsubmitted) Skogvoll & Rønning, (2024). ComFiT: python library for computational field theory with topological defects. Journal of Open Source Software, X(XX), XXX, [link](link)
+(submitted) Skogvoll & Rønning, (2024). ComFiT: python library for computational field theory with topological defects. Journal of Open Source Software, X(XX), XXX, [link](link)
 
 ---
 
