@@ -109,7 +109,7 @@ Real fields are fields that take real values, for example the temperature in a r
 
 The `plot_field` function is used to plot a real field.
 
-??? note "Example"
+??? example "Example"
 
     ```python
     import comfit as cf
@@ -143,7 +143,7 @@ The `plot_field` function is used to plot a real field.
 
 The `plot_field_in_plane` function is used to plot a real field in a plane.
 
-??? note "Example"
+??? example "Example"
     ```python 
     import comfit as cf
     import matplotlib.pyplot as plt
@@ -174,7 +174,7 @@ Complex fields are fields that take complex values, for example the electric fie
 
 The `plot_complex_field` function is used to plot a complex field.
 
-??? note "Example"
+??? example "Example"
 
     ```python
     import comfit as cf
@@ -220,7 +220,7 @@ The `plot_complex_field_in_plane` function is used to plot a complex field in a 
 The modulus of the complex field is shown as the alpha channel, where the minimum modulus value is transparent and the maximum modulus value is opaque.
 The phase of the complex field is shown as the color of the field, where the color is determined by the angle color scheme.
 
-??? note "Example"
+??? example "Example"
     ```python 
     import comfit as cf
     import matplotlib.pyplot as plt
@@ -250,7 +250,7 @@ Angle fields are fields that take values in the interval $[-\pi,\pi]$, for examp
 
 The `plot_angle_field` function is used to plot an angle field.
 
-??? note "Example"
+??? example "Example"
     ```python
     import comfit as cf
     import matplotlib.pyplot as plt
@@ -283,7 +283,7 @@ The `plot_angle_field` function is used to plot an angle field.
 
 The `plot_angle_field_in_plane` function is used to plot an angle field in a plane.
 
-??? note "Example"
+??? example "Example"
     ```python 
     import comfit as cf
     import matplotlib.pyplot as plt
@@ -344,7 +344,7 @@ The following table summarizes the behavior of the `plot_vector_field` function.
 | `dim=2` | $v_x$ on the x-axis. <br>(not QA) | $v_x$ and $v_y$ on x- and y-axes, respectively <br>(not QA).| $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
 | `dim=3` | $v_x$ on the x-axis <br>(not QA) | $v_x$, $v_y$ on the x-, and y-xes, respectively <br>(not QA). | $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
 
-??? note "Example"
+??? example "Example"
     ```python
     import comfit as cf
     import matplotlib.pyplot as plt
@@ -416,7 +416,7 @@ The following table summarizes the behavior of the `plot_vector_field` function.
 
 The `plot_vector_field_in_plane` function is used to plot a vector field in a plane.
 
-??? note "Example"
+??? example "Example"
     ```python
     import comfit as cf
     import matplotlib.pyplot as plt

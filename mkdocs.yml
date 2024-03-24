@@ -64,5 +64,9 @@ extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
+extra_css:
+  - styles.css
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js
+
 copyright: |
   &copy; 2024 <a href="https://github.com/vidarsko/ComFiT"  target="_blank" rel="noopener">Vidar Skogvoll and Jonas Rønning</a>

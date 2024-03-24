@@ -1,5 +1,5 @@
 ---
-title: 'ComFiT: a python library for computational field theory with topological defects'
+title: 'ComFiT: a Python library for computational field theory with topological defects'
 tags:
   - computational field theory
   - topological defects

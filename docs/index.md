@@ -1,17 +1,18 @@
 # Home
 
-[ComFiT](https://github.com/vidarsko/ComFiT) is a versatile python library for simulating field theories, including plotting and animation in an object-oriented manner.
+[ComFiT](https://github.com/vidarsko/ComFiT) is a versatile Python library for simulating field theories, including plotting and animation in an object-oriented manner.
 If you use ComFiT in your research, please cite the following paper:
 
----
 
-(unsubmitted) Skogvoll & Rønning, (2024). ComFiT: python library for computational field theory with topological defects. Journal of Open Source Software, X(XX), XXX, [link](link)
+!!! quote ""
+    (unsubmitted) Skogvoll & Rønning, (2024). ComFiT: Python library for computational field theory with topological defects. Journal of Open Source Software, X(XX),   XXX, [link](link)
 
----
+
+## Tutorials
 
 The best way to get to know ComFiT is by using it in one of the following tutorials.
 
-## Base System
+###Base System
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -34,7 +35,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 </a>
 </div>
 
-## Quantum Mechanics
+### Quantum Mechanics
 
 Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 
@@ -97,7 +98,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 </a>
 </div>
 
-## BoseEinstein Condensates
+### Bose-Einstein Condensates
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/bose_einstein_condensate_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -146,7 +147,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 </a>
 </div>
 
-## Nematic Liquid Crystal
+### Nematic Liquid Crystal
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/nematic_liquid_crystal_2D_active_nematic.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -162,7 +163,7 @@ Explore the Schrödinger equation in 1, 2 and 3 dimensions.
 </a>
 </div>
 
-## Phase-field crystal
+### Phase-field crystal
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/phase_field_crystal_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -208,10 +209,10 @@ Using a virtual environnement when using ComFiT is highly encouraged for because
 To create a virtual environnement, run the following command in your terminal after having navigated to the root folder of your exploration project
 
 ```bash
-python -m venv myvenv
+Python -m venv myvenv
 ```
 
-This will create the folder `myvenv` which will contain the local installation of python and associated packages.
+This will create the folder `myvenv` which will contain the local installation of Python and associated packages.
 To activate the virtual environnement, simply run
 
 ```bash
