@@ -21,24 +21,22 @@ pfc.psi
 
 ## Basic model
 
-The phase-field crystal methodology is based on postulating a free
-energy
+The PFC methodology is based on postulating a free energy
 
-$$
-\mathcal F = \int d\boldsymbol{r} \tilde f(\psi, \nabla \psi, ...),
-$$
+!!! equation "The PFC free energy"
+    $$
+    \mathcal F = \int d\boldsymbol{r} \tilde f(\psi, \nabla \psi, ...)
+    $$
 
 with the goal of the state that minimizes $\mathcal F$ has a certain symmetry.
-In this documentation, we will present six such models to
-represent different crystalline structures in 1, 2 and 3 dimensions, all
-of which are on the form
+In this documentation, we will present six such models to represent different crystalline structures in 1, 2 and 3 dimensions, all of which are on the form
 
-$$
-\tilde f( \psi, \nabla \psi, ...) = \frac{1}{2} (\mathcal L(\nabla) \psi)^2 + \frac{1}{2} \texttt{r} \psi^2  + \frac{1}{3} \texttt t \psi^3 + \frac{1}{4} \texttt v \psi^4,
-$$
+!!! equation "The PFC free energy density"
+    $$
+    \tilde f( \psi, \nabla \psi, ...) = \frac{1}{2} (\mathcal L(\nabla) \psi)^2 + \frac{1}{2} \texttt{r} \psi^2  + \frac{1}{3} \texttt t \psi^3 + \frac{1}{4} \texttt v \psi^4,
+    $$
 
-where $\mathcal L (\nabla)$ is a gradient operator dependent on the
-dimension and target symmetry, listed below
+where $\mathcal L (\nabla)$ is a gradient operator dependent on the dimension and target symmetry, listed below
 
 |Model| Derivative operator $\mathcal L$|
 |-----|---------------------------------|
@@ -49,7 +47,7 @@ dimension and target symmetry, listed below
 |3D fcc            |$\mathcal L_1 \mathcal L_{4/3} = (1+\nabla^2) (4/3+\nabla^2)$|
 |3D simple cubic   |$\mathcal L_1 \mathcal L_2 \mathcal L_3 = (1+\nabla^2) (2+\nabla^2) (3+\nabla^2)$|
 
-*Table:* Phase-field crystal models. $\mathcal L_X = (X+\nabla^2)$.
+**Table:** Phase-field crystal models. $\mathcal L_X = (X+\nabla^2)$.
 
 Historical context: model presented in Ref.[^elderModelingElasticPlastic2004].
 
@@ -67,13 +65,15 @@ For instance, the figure below shows the (real) field $\psi$ for a (a) 2D triang
 ![PFC symmetries](images/phase_field_crystal_ground_state.png#only-light)
 ![PFC symmetrie](images/phase_field_crystal_ground_state-colorinverted.png#only-dark)
 
+**Figure:** Ground state of the PFC model for (a) 2D triangular and (b) 2D square lattice.
+
 The crystalline symmetry is described by a Bravais lattice, which consists of vectors that point to peaks on the lattice.
 The Fourier transform of a field that a Bravais lattice symmetry will itself have a lattice symmetry, which is called the reciprocal lattice, and is useful to express the field in terms of a Fourier series.
 
 ![PFC Bravais and reciprocal lattice vectors](images/phase_field_crystal_bravais_and_reciprocal_lattices.png#only-light)
 ![PFC Bravais and reciprocal lattice vectors](images/phase_field_crystal_bravais_and_reciprocal_lattices-colorinverted.png#only-dark)
 
-*PFC Bravais and reciprocal lattice vectors:* Bravais lattices $\mathcal B$ and their reciprocal lattices $\mathcal R$ for square and triangular symmetry.
+**Figure:** Bravais lattices $\mathcal B$ and their reciprocal lattices $\mathcal R$ for square and triangular symmetry.
 In each case, $\{\vec a^{(n)}\}_{n=1}^2$ are primitive lattice vectors and $\{ \vec q^{(n)}\}_{n=1}^2$ primitive reciprocal lattice vectors (RLVs) that satisfy $\vec a^{(n)} \cdot \vec q^{(m)} = 2\pi \delta_{nm}$.
 Amended and reprinted from Ref. [^Skogvoll2023SymmetryTopology] with permission.
 
@@ -710,16 +710,33 @@ We refer to these amplitudes $A,B,C$ as *proto amplitudes* and they are calculat
 The proto amplitudes are saved in the `pfc` instance as `eta0`.
 The function `calc_free_energy_from_proto_amplitudes` calculates the free energy $\mathcal F_{UC}$ from the proto amplitudes, including $\psi_0$.
 
-## Deviations from the ground state - the amplitude approximation
+## The amplitude approximation - deviations from the ground state
 
 So far, we have only looked at the equilibrium state of the PFC, which has a specific symmetry, and the few-mode approximations that can be used to describe the PFC in this state.
-For small deviations from the equilibrium state, we can use the amplitude approximation, in
+For small deviations from the equilibrium state, like in the presence of few dislocations and small strains, we can use the amplitude approximation, in which we assume that the field can be written as
+
+!!! equation "The amplitude approximation"
+
+    $$
+    \psi \approx \bar \psi + \sum_{\vec q^{(n)} \in \mathcal R^{(1)}} \eta_n(\vec r) e^{\mathfrak i \vec q^{(n)} \cdot \vec r},
+    $$
+
+where $\eta_n$ are slowly varying complex fields.
+These fields can be found by demodulating the field $\psi$ with the primary RLVs, i.e.,
 
 !!! equation "Demodulation"
 
     $$
     \eta_n = \langle \psi e^{- \mathfrak i \boldsymbol{q}^{(n)} \cdot \boldsymbol{r}} \rangle
     $$
+
+The figure below shows an example of the evolution of the PFC for a triangular lattice and the corresponding amplitude fields.
+
+![](images/phase_field_crystal_amplitude_approximation.png#only-light)
+![](images/phase_field_crystal_amplitude_approximation-colorinverted.png#only-dark)
+
+**Figure:** Snapshots of an example evolution of the 2D triangular PFC model at (top row) $t=0$ and (bottom row) $t=600$. Parameters used were $(r,\psi_0) = (-0.3,-0.3)$. The columns show the demodulated fields $\bar \psi$ and $\{ \eta_n \}_{n=1}^{3}$, where the complex fields are shown by their phase $\theta_n$ and brightness corresponding to the magnitude $|\eta_n|$. Taken from Ref. [^skogvollSymmetryTopologyCrystal2023] with permission.
+
 
 ## Elasticity
 
