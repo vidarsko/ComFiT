@@ -62,16 +62,16 @@ pfc.psi
 The way in which this field can model a crystalline lattice is by the ground state having that particular symmetry.
 For instance, the figure below shows the (real) field $\psi$ for a (a) 2D triangular, and a (b) 2D square lattice.
 
-![PFC symmetries](images/phase_field_crystal_ground_state.png#only-light)
-![PFC symmetrie](images/phase_field_crystal_ground_state-colorinverted.png#only-dark)
+![PFC symmetries](img/phase_field_crystal_ground_state.png#only-light)
+![PFC symmetrie](img/phase_field_crystal_ground_state-colorinverted.png#only-dark)
 
 **Figure:** Ground state of the PFC model for (a) 2D triangular and (b) 2D square lattice.
 
 The crystalline symmetry is described by a Bravais lattice, which consists of vectors that point to peaks on the lattice.
 The Fourier transform of a field that a Bravais lattice symmetry will itself have a lattice symmetry, which is called the reciprocal lattice, and is useful to express the field in terms of a Fourier series.
 
-![PFC Bravais and reciprocal lattice vectors](images/phase_field_crystal_bravais_and_reciprocal_lattices.png#only-light)
-![PFC Bravais and reciprocal lattice vectors](images/phase_field_crystal_bravais_and_reciprocal_lattices-colorinverted.png#only-dark)
+![PFC Bravais and reciprocal lattice vectors](img/phase_field_crystal_bravais_and_reciprocal_lattices.png#only-light)
+![PFC Bravais and reciprocal lattice vectors](img/phase_field_crystal_bravais_and_reciprocal_lattices-colorinverted.png#only-dark)
 
 **Figure:** Bravais lattices $\mathcal B$ and their reciprocal lattices $\mathcal R$ for square and triangular symmetry.
 In each case, $\{\vec a^{(n)}\}_{n=1}^2$ are primitive lattice vectors and $\{ \vec q^{(n)}\}_{n=1}^2$ primitive reciprocal lattice vectors (RLVs) that satisfy $\vec a^{(n)} \cdot \vec q^{(m)} = 2\pi \delta_{nm}$.
@@ -110,8 +110,8 @@ print(pfc.q)
 ??? example "Example: The 1D PFC - Crystal symmetry"
     The simplest example of a PFC model is the 1D periodic model, which simply looks like a sine wave.
 
-    ![1D PFC](images/phase_field_crystal_1d_periodic.png#only-light)
-    ![1D PFC](images/phase_field_crystal_1d_periodic-colorinverted.png#only-dark)
+    ![1D PFC](img/phase_field_crystal_1d_periodic.png#only-light)
+    ![1D PFC](img/phase_field_crystal_1d_periodic-colorinverted.png#only-dark)
 
     The crystal symmetry in this case refers to $\psi$ having a periodicity of $a_0=2\pi$, and so the Bravais lattice is simply $\{ a^{(n)} \} = \{...,-2\pi,-\pi,0,\pi,2\pi,... \}$.
     The primary BLVs are thus given by
@@ -732,8 +732,8 @@ These fields can be found by demodulating the field $\psi$ with the primary RLVs
 
 The figure below shows an example of the evolution of the PFC for a triangular lattice and the corresponding amplitude fields.
 
-![](images/phase_field_crystal_amplitude_approximation.png#only-light)
-![](images/phase_field_crystal_amplitude_approximation-colorinverted.png#only-dark)
+![](img/phase_field_crystal_amplitude_approximation.png#only-light)
+![](img/phase_field_crystal_amplitude_approximation-colorinverted.png#only-dark)
 
 **Figure:** Snapshots of an example evolution of the 2D triangular PFC model at (top row) $t=0$ and (bottom row) $t=600$. Parameters used were $(r,\psi_0) = (-0.3,-0.3)$. The columns show the demodulated fields $\bar \psi$ and $\{ \eta_n \}_{n=1}^{3}$, where the complex fields are shown by their phase $\theta_n$ and brightness corresponding to the magnitude $|\eta_n|$. Taken from Ref. [^skogvollSymmetryTopologyCrystal2023] with permission.
 
@@ -928,8 +928,8 @@ Burgers vector to be the disconnection error from the *ending* point to
 the *starting* point, when going an oriented path around the
 dislocation,
 
-![Burgers vector definition](images/phase_field_crystal_burgers_vector_definition.png#only-light)
-![Burgers vector definition](images/phase_field_crystal_burgers_vector_definition-colorinverted.png#only-dark)
+![Burgers vector definition](img/phase_field_crystal_burgers_vector_definition.png#only-light)
+![Burgers vector definition](img/phase_field_crystal_burgers_vector_definition-colorinverted.png#only-dark)
 
 *Burgers vector definition:* (a) The one-body density of a crystalline solid containing an edge dislocation in a 2D square lattice (superimposed), (b) a 3D simple cubic lattice with an edge dislocation ($\vec b \perp \vec t$), and (c) a 3D simple cubic lattice with a screw dislocation ($\vec b \parallel \vec t)$.
 In all cases, a circulation (green) that is right-handed with respect to the tangent vector $\vec t$, i.e., following a path around the dislocation, gives rise to a connection error: the Burgers vector $\vec b$.  

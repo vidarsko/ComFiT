@@ -1,6 +1,6 @@
 """
 
-This module provides tools for saving Matplotlib plots as images and creating animations from these images using MoviePy.
+This module provides tools for saving Matplotlib plots as img and creating animations from these img using MoviePy.
 
 
 Functions:
@@ -36,12 +36,12 @@ def tool_save_plot(counter):
 def tool_make_animation_movie(counter, name=None, fps=24):
     """
 
-    Creates an animation from a series of plot images and saves it as an MP4 video file.
+    Creates an animation from a series of plot img and saves it as an MP4 video file.
 
 
     Input:
 
-    - counter (int): The number of plot images to include in the animation.
+    - counter (int): The number of plot img to include in the animation.
 
     - name (str, optional): The filename for the output video. Defaults to today's date followed by ' - output_video.mp4'.
 
@@ -69,10 +69,10 @@ def tool_make_animation_movie(counter, name=None, fps=24):
 
 def tool_make_animation_gif(counter, name=None, fps=24):
     """
-    Creates an animation from a series of plot images and saves it as a GIF file.
+    Creates an animation from a series of plot img and saves it as a GIF file.
 
     Input:
-        - counter (int): The number of plot images to include in the animation.
+        - counter (int): The number of plot img to include in the animation.
         - name (str, optional): The filename for the output video. Defaults to today's date followed by ' - output_video.mp4'.
         - fps (int, optional): The frames per second for the video. Defaults to 24.
     """
@@ -84,10 +84,10 @@ def tool_make_animation_gif(counter, name=None, fps=24):
 
 
     image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
-    images = []
+    img = []
     for image_file in image_files:  
-        images.append(imageio.imread(image_file))
-    imageio.mimsave(name, images, fps=fps, loop=0) 
+        img.append(imageio.imread(image_file))
+    imageio.mimsave(name, img, fps=fps, loop=0) 
 
     # Delete the png files
     for file in image_files:

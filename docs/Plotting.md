@@ -136,8 +136,8 @@ The `plot_field` function is used to plot a real field.
     plt.show()
     ```
 
-    ![](images/plotting_plot_field_demo.png#only-light)
-    ![](images/plotting_plot_field_demo-colorinverted.png#only-dark)
+    ![](img/plotting_plot_field_demo.png#only-light)
+    ![](img/plotting_plot_field_demo-colorinverted.png#only-dark)
 
 #### `plot_field_in_plane` 
 
@@ -163,8 +163,8 @@ The `plot_field_in_plane` function is used to plot a real field in a plane.
     plt.show()
     ```
 
-    ![](images/plotting_plot_field_in_plane_demo.png#only-light)
-    ![](images/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark)
+    ![](img/plotting_plot_field_in_plane_demo.png#only-light)
+    ![](img/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark)
 
 ### Complex fields
 
@@ -211,8 +211,8 @@ The `plot_complex_field` function is used to plot a complex field.
     plt.show()
     ```
 
-    ![](images/plotting_plot_complex_field_demo.png#only-light)
-    ![](images/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
+    ![](img/plotting_plot_complex_field_demo.png#only-light)
+    ![](img/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
 
 #### `plot_complex_field_in_plane` 
 
@@ -239,8 +239,8 @@ The phase of the complex field is shown as the color of the field, where the col
     plt.show()
     ```
 
-    ![](images/plotting_plot_complex_field_in_plane_demo.png#only-light)
-    ![](images/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
+    ![](img/plotting_plot_complex_field_in_plane_demo.png#only-light)
+    ![](img/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
 
 ### Angle fields
 
@@ -276,8 +276,8 @@ The `plot_angle_field` function is used to plot an angle field.
     plt.show()
     ```
 
-    ![](images/plotting_plot_angle_field_demo.png#only-light)
-    ![](images/plotting_plot_angle_field_demo-colorinverted.png#only-dark)
+    ![](img/plotting_plot_angle_field_demo.png#only-light)
+    ![](img/plotting_plot_angle_field_demo-colorinverted.png#only-dark)
 
 #### `plot_angle_field_in_plane` 
 
@@ -302,8 +302,8 @@ The `plot_angle_field_in_plane` function is used to plot an angle field in a pla
     plt.show()
     ```
 
-    ![](images/plotting_plot_angle_field_in_plane_demo.png#only-light)
-    ![](images/plotting_plot_angle_field_in_plane_demo-colorinverted.png#only-dark)
+    ![](img/plotting_plot_angle_field_in_plane_demo.png#only-light)
+    ![](img/plotting_plot_angle_field_in_plane_demo-colorinverted.png#only-dark)
 
 ### Vector fields
 
@@ -409,8 +409,8 @@ The following table summarizes the behavior of the `plot_vector_field` function.
     plt.show()
     ```
 
-    ![](images/plotting_plot_vector_field_demo.png#only-light)
-    ![](images/plotting_plot_vector_field_demo-colorinverted.png#only-dark)
+    ![](img/plotting_plot_vector_field_demo.png#only-light)
+    ![](img/plotting_plot_vector_field_demo-colorinverted.png#only-dark)
 
 #### `plot_vector_field_in_plane`
 
@@ -437,8 +437,8 @@ The `plot_vector_field_in_plane` function is used to plot a vector field in a pl
     plt.show()
     ```
 
-    ![](images/plotting_plot_vector_field_in_plane_demo.png#only-light)
-    ![](images/plotting_plot_vector_field_in_plane_demo-colorinverted.png#only-dark)
+    ![](img/plotting_plot_vector_field_in_plane_demo.png#only-light)
+    ![](img/plotting_plot_vector_field_in_plane_demo-colorinverted.png#only-dark)
 
 ## Animation
 
@@ -451,8 +451,8 @@ modulus 2π are eqvuivalent, but if one uses a regular color scheme, this equiva
 readily visible. Therefore, when expressing angles, we use the color scheme shown in Fig. 1.1.
 This has the benefit of wrapping around itself at θ = ±π, stressing that these correspond
 
-![Angle color scheme](images/conventions_angle_colormap.png#only-light)
-![Angle color scheme](images/conventions_angle_colormap-colorinverted.png#only-dark)
+![Angle color scheme](img/conventions_angle_colormap.png#only-light)
+![Angle color scheme](img/conventions_angle_colormap-colorinverted.png#only-dark)
 
 *Angle color scheme.* The color scheme follows the hsv color circle going through  $\theta=0$ (Red), $\theta=\pi/3$ (Yellow), $\theta=2\pi/3$ (Lime), $\theta = \pm \pi$ (Aqua), $\theta = -2\pi/3$ (Blue), $\theta = -\pi/3$ (Fuchsia).
 

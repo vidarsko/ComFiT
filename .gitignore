@@ -27,11 +27,11 @@ build/
 
 # ----- Picture and movie files -----
 *.png
-!/docs/images/*.png
+!/docs/img/*.png
 
 *.mp4
 
 *.gif
-!/docs/images/*.gif
+!/docs/img/*.gif
 !/JOSS_paper/*.gif
 !/JOSS_paper/*.png
