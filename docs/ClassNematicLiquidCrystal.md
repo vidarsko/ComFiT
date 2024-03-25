@@ -443,20 +443,22 @@ $$
 In three dimenstions, the story is more complicated, because we have a tensor $\rho_{\gamma i}$.
 This tensor contains two pieces of information, namely which direction the disclination is pointing, and around which axis $\boldsymbol \Omega$, near the disclination, the rods are rotating.
 In that way, it is similar to a dislocation density in a crystal structure, only that it allows for the orientation the "Burgers vector" to be any direction.
-It can probably be written like this
+It can be written like this [^schimming2023kinematics]
 
 $$
-\rho_{\gamma i} = \Omega_\gamma t_{i} ,
+\rho_{\gamma i} = \omega \Omega_\gamma t_{i} ,
 $$
 
-where $\boldsymbol t$ is a unit vector.
+where the unitvectors are $\boldsymbol t$ is tangent vector and $\boldsymbol\Omega$ is the rotational vector.
 From this, we see that
 
 $$
-|\rho|^2 = \rho_{\gamma i} \rho_{\gamma i} = |\boldsymbol \Omega|^2,
+\omega^2 =|\rho|^2 = \rho_{\gamma i} \rho_{\gamma i} 
 $$
 
-so $\sqrt{|\rho|^2}$ is the quantity we should integrate to find the nodes of the defects.
+so $\sqrt{|\rho|^2}$ is the quantity we should integrate to find the nodes of the defects. 
+The unitvectors $\boldsymbol t$ and $\boldsymbol \Omega$ is found as the eigenvectors of the matrices $\rho^T \rho$ and $\rho \rho^T$ respectivly.
+Since the eigenvectors are determined up to a sign one have to make sure that $\boldsymbol t$ is continous along the defect and impose the condition $\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\sign{Tr}(\rho))$.
 
 From Ref.[^schimming2023kinematics], we have
 
