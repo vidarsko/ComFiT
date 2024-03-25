@@ -1,8 +1,16 @@
 site_name: ComFiT documentation
+site_description: Documentation for the ComFiT project
+site_author: Vidar Skogvoll and Jonas Rønning
+site_url: https://vidarsko.github.io/ComFiT/
+
+# Favicon
+site_favicon: images/logo.png
 
 theme:
   name: material
+  logo: images/logo.png
   features:
+    - navigation.instant
     - navigation.sections
     - toc.integrate
     - navigation.right
@@ -16,14 +24,14 @@ theme:
       toggle:
         icon: material/toggle-switch-off-outline 
         name: Switch to dark mode
-      primary: teal
-      accent: purple 
+      # primary: teal
+      # accent: purple 
     - scheme: slate 
       toggle:
         icon: material/toggle-switch
         name: Switch to light mode    
-      primary: teal
-      accent: lime
+      # primary: teal
+      # accent: lime
   font:
     text: 'Roboto'
     code: 'Roboto Mono'
