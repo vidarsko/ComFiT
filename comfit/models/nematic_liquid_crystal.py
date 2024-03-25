@@ -265,7 +265,6 @@ class NematicLiquidCrystal(BaseSystem):
         return numpy.array(F_pf)
 
     def calc_passive_stress_f(self,Q):
-        #TODO Make 3d
         """
         Calculates the passive stress in fourier space
 
@@ -423,7 +422,7 @@ class NematicLiquidCrystal(BaseSystem):
             return Omega
 
     def calc_strain_rate_tensor_f(self):
-        # TODO Make symetric and 3d
+        # TODO change this
         """
         Calculates the strainrate tensor
 
@@ -442,7 +441,6 @@ class NematicLiquidCrystal(BaseSystem):
 #### Calculation of non-linear evolution terms
     def calc_nonlinear_evolution_function_f(self,Q,t):
         # TODO test and make sure that the passive stress works as intended (Jonas: 2023/11/14)
-        #TODO make 3d compatible
         """
         Calculates the non-linear evolution function for the nematic
         
@@ -575,7 +573,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 ##### defect tracking
     def calc_disclination_density_nematic(self):
-        #TODO: Optimise 3D
+        #TODO: See if this can be optimised
         """
         Calculates the defect density for the nematic. Note that in three dimension the defect density is a tensor
 
@@ -641,7 +639,6 @@ class NematicLiquidCrystal(BaseSystem):
         return dt_Q[0] + 1j*dt_Q[1]
 
     def calc_equilibrium_S(self):
-        # TODO: This function will be removed soon
         '''
         Calculates the strength of nematic order S
 
@@ -649,7 +646,7 @@ class NematicLiquidCrystal(BaseSystem):
             None
 
         Output:
-            (numpy.narray) S
+            (numpy.narray) equilibriums value of D
         '''
         if self.dim == 2:
             return  np.sqrt(self.B)
