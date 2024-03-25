@@ -16,11 +16,11 @@ S,n = nem.calc_order_and_director()
 #D = nem.calc_disclination_density_nematic()
 
 omega,Omega,T,trD = nem.calc_disclination_density_decoupled()
-fig,ax =nem.plot_field(S,number_of_layers=2,vlim_symmetric=False)
+#fig,ax =nem.plot_field(S,number_of_layers=2,vlim_symmetric=False)
 #nem.plot_vector_field(Omega,ax=ax)
 
 nodes = nem.calc_disclination_nodes_nem()
 #print(nodes)
-nem.plot_disclination_nodes(nodes,ax=ax)
+nem.plot_disclination_nodes(nodes)
 
 plt.show()
