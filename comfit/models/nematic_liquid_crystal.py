@@ -609,7 +609,7 @@ class NematicLiquidCrystal(BaseSystem):
                         D[gam,i] += term_trace
             return D
         else:
-            raise Exception("Not implemented")
+            raise Exception("Only two and three dimensions are currently supported")
 
 
     def calc_disclination_density_decoupled(self):
