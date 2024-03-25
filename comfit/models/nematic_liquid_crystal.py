@@ -592,15 +592,21 @@ class NematicLiquidCrystal(BaseSystem):
 
         elif self.dim == 3:
             D = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
+            term_trace = np.sum(np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,k,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,l,a)))
+                                    - np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,l,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,k,a)))
+                                    for k in range(self.dim) for a in range(self.dim) for l in range(self.dim))
 
-            for i in range(self.dim):
-                for j in range(self.dim):
-                    D[i,j] = np.sum(levi_civita_symbol(i,mu,nu)*levi_civita_symbol(j,k,l) *
-                                    np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,mu,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,nu,a)))
-                                    for mu in range(self.dim) for nu in range(self.dim)
-                                    for k in range(self.dim) for l in range(self.dim)
-                                    for a in range(self.dim))
+            for gam in range(self.dim):
+                for i in range(self.dim):
+                    D[gam, i] = 2*np.sum(np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_sym_tl(self.Q_f,k,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[k] * self.get_sym_tl(self.Q_f,i,a)))
+                                    - np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_sym_tl(self.Q_f,i,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[k] * self.get_sym_tl(self.Q_f,k,a)))
+                                    for k in range(self.dim) for a in range(self.dim))
+                    if gam == i:
+                        D[gam,i] += term_trace
             return D
         else:
             raise Exception("Not implemented")
