@@ -756,17 +756,28 @@ class NematicLiquidCrystal(BaseSystem):
             omega, Omega, T, trD = self.calc_disclination_density_decoupled()
 
             vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
+            position_list = []
 
             for vortex in vortex_nodes:
 
                 tangent_vector = np.array([T[i][vortex['position_index']] for i in range(3)])
                 rotation_vector = np.array([Omega[i][vortex['position_index']] for i in range(3)])
 
+                for i in range(len(position_list)):
+                    pos = position_list[i]
+                    if np.sqrt(sum( (vortex['position'][i] -pos[i])**2 for i in range(self.dim) )) <  5*self.a0:
+                        tan_neight = vortex_nodes[i]['Tangent_vector']
+                        if np.sum((tan_neight[j] -tangent_vector[j] )**2 -(tan_neight[j] + tangent_vector[j])**2 for j in range(self.dim)) > 0:
+
+                            tangent_vector = -1* tangent_vector
+                        break
+
                 if np.sign(np.dot(tangent_vector, rotation_vector)) != np.sign(trD[vortex['position_index']]):
-                    rotation_vector *= -1
+                    rotation_vector = -1*rotation_vector
 
                 vortex['Tangent_vector'] = tangent_vector
                 vortex['Rotation_vector'] = rotation_vector
+                position_list.append(vortex['position'])
 
 
 
