@@ -380,6 +380,7 @@ From [^schimming2023kinematics],
 $$
 D_{\gamma i} = \epsilon_{\gamma \mu \nu} \epsilon_{ikl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}.
 $$
+
 We can write this as
 
 $$
@@ -456,14 +457,14 @@ $$
 \rho_{\gamma i} = \omega \Omega_\gamma t_{i} ,
 $$
 
-where the unitvectors are $\boldsymbol t$ is tangent vector and $\boldsymbol\Omega$ is the rotational vector.
+where the unit vectors are $\boldsymbol t$ is tangent vector and $\boldsymbol\Omega$ is the rotational vector.
 From this, we see that
 
 $$
 \omega^2 =|\rho|^2 = \rho_{\gamma i} \rho_{\gamma i} 
 $$
 
-so $\sqrt{|\rho|^2}$ is the quantity we should integrate to find the nodes of the defects. 
+so $\omega$ is the quantity we should integrate to find the nodes of the defects. 
 The unitvectors $\boldsymbol t$ and $\boldsymbol \Omega$ is found as the eigenvectors of the matrices $\rho^T \rho$ and $\rho \rho^T$ respectivly.
 Since the eigenvectors are determined up to a sign one have to make sure that $\boldsymbol t$ is continous along the defect and impose the condition $\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\text{Tr}(\rho))$.
 
