@@ -458,7 +458,7 @@ $$
 
 so $\sqrt{|\rho|^2}$ is the quantity we should integrate to find the nodes of the defects. 
 The unitvectors $\boldsymbol t$ and $\boldsymbol \Omega$ is found as the eigenvectors of the matrices $\rho^T \rho$ and $\rho \rho^T$ respectivly.
-Since the eigenvectors are determined up to a sign one have to make sure that $\boldsymbol t$ is continous along the defect and impose the condition $\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\sign{Tr}(\rho))$.
+Since the eigenvectors are determined up to a sign one have to make sure that $\boldsymbol t$ is continous along the defect and impose the condition $\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\text{Tr}(\rho))$.
 
 From Ref.[^schimming2023kinematics], we have
 
