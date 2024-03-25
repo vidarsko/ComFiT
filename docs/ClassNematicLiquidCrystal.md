@@ -380,6 +380,13 @@ From [^schimming2023kinematics],
 $$
 D_{\gamma i} = \epsilon_{\gamma \mu \nu} \epsilon_{ikl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}.
 $$
+We can write this as
+
+$$
+D_{\gamma i} = \delta_{\gamma i} ( \partial_k Q_{k\alpha} \partial_l Q_{l\alpha} - \partial_k Q_{l\alpha}\partial_l Q_{k\alpha}) + 2( \partial_\gamma Q_{k\alpha} \partial_k Q_{i\alpha} - \partial_\gamma Q_{i\alpha} \partial_k Q_{k\alpha})
+$$
+
+to reduce the number of sums preformed.
 
 In two dimensions, where $\mathbf n = (\cos \theta,\sin \theta)$, we have
 
