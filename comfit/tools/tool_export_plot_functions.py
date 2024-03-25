@@ -10,7 +10,7 @@ def tool_export_rotating_plot(ax=None,step=5):
     if ax is None:
         ax = plt.gca()
 
-    for n in tqdm(range(0,360//step),desc="Saving images for animation"):
+    for n in tqdm(range(0,360//step),desc="Saving img for animation"):
 
         ax.view_init(elev=30, azim=-60+n*step)
         cf.tool_save_plot(n)

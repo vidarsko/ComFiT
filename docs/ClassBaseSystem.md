@@ -59,8 +59,8 @@ From these keywords, a number of useful parameters are constructed, given in the
 
 Note that even though variables like `yRes`, `zRes` etc. are defined in cases where they are not relevant, such as for a $1$-dimensional system, they play no significant role in any calculations in such situations.
 
-![](images/base_system_x_axis_illustration.png#only-light)
-![](images/base_system_x_axis_illustration-colorinverted.png#only-dark)
+![](img/base_system_x_axis_illustration.png#only-light)
+![](img/base_system_x_axis_illustration-colorinverted.png#only-dark)
 
 
 Periodic boundary conditions means that `xmax` and `xmin` are identified as the same point. 
@@ -176,8 +176,8 @@ $$
 
 These expressions are based on the geometry depicted in the following figure.
 
-![Vortex ring angle field explanation](images/base_system_vortex_ring_angle_field_explanation.png#only-light)
-![Vortex ring angle field explanation](images/base_system_vortex_ring_angle_field_explanation-colorinverted.png#only-dark)
+![Vortex ring angle field explanation](img/base_system_vortex_ring_angle_field_explanation.png#only-light)
+![Vortex ring angle field explanation](img/base_system_vortex_ring_angle_field_explanation-colorinverted.png#only-dark)
 
 
 *Vortex ring angle field explanation:* Geometry of a vortex ring in the plane given by $\vec n$.
@@ -196,8 +196,8 @@ and is implemented in the function `calc_angle_field_vortex_ring`.
 
 Apart from the angle field of a single vortex, the other fields are compatible with periodic boundary conditions. The expressions for these fields, however, are really only valid for an infinite region. When this is imposed on periodic boundary conditions, it results in spurious boundary effects, especially if either of the vortices is placed near the edge of the simulation domain. By simply inserting the vortices directly, we get what is shown in the following figure (a).
 
-![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields.png#only-light)
-![Numerical implementaiton of periodic angle fields](images/base_system_numerical_implementation_of_periodic_angle_fields-colorinverted.png#only-dark)
+![Numerical implementaiton of periodic angle fields](img/base_system_numerical_implementation_of_periodic_angle_fields.png#only-light)
+![Numerical implementaiton of periodic angle fields](img/base_system_numerical_implementation_of_periodic_angle_fields-colorinverted.png#only-dark)
 
 
 *Numerical implementaiton of periodic angle fields:*
@@ -510,14 +510,14 @@ As a benchmark, we use the `solve_ivp` of the scipy library `sp.integrate` to so
 The solutions match to a satisfactory degree, but a more thorough investigation into how the accuracy of the framework and integration methods scale with spatial and temporal resolution will be performed in the future.
 Tests are included in `test_base_system.py`, but for visual examination, here are animations of the initial condition $T=0$ in all three dimensions
 
-![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_1D.gif#only-light)
-![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_1D-colorinverted.gif#only-dark)
+![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_1D.gif#only-light)
+![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_1D-colorinverted.gif#only-dark)
 
-![Testing of the evolution code in 2 dimensions](images/base_system_evolution_test_2D.gif#only-light)
-![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_2D-colorinverted.gif#only-dark)
+![Testing of the evolution code in 2 dimensions](img/base_system_evolution_test_2D.gif#only-light)
+![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_2D-colorinverted.gif#only-dark)
 
-![Testing of the evolution code in 3 dimensions](images/base_system_evolution_test_3D.gif#only-light)
-![Testing of the evolution code in 1 dimension](images/base_system_evolution_test_3D-colorinverted.gif#only-dark)
+![Testing of the evolution code in 3 dimensions](img/base_system_evolution_test_3D.gif#only-light)
+![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_3D-colorinverted.gif#only-dark)
 
 ## Algorithms for tracking defects
 

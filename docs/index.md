@@ -1,4 +1,4 @@
-# <img src="images/logo.png" width="25" height="25"> ComFiT documentation
+# <img src="img/logo.png" width="25" height="25"> ComFiT documentation
 
 [ComFiT](https://github.com/vidarsko/ComFiT) is a versatile Python library for simulating field theories, including plotting and animation in an object-oriented manner.
 If you use ComFiT in your research, please cite the following paper:
@@ -19,8 +19,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong> Basic Framework</strong></div>
         <hr>
         <p>
-        <img src="images/index_tutorial_base_system_basic_framework_demo.gif#only-light">
-        <img src="images/index_tutorial_base_system_basic_framework_demo-colorinverted.gif#only-dark">
+        <img src="img/index_tutorial_base_system_basic_framework_demo.gif#only-light">
+        <img src="img/index_tutorial_base_system_basic_framework_demo-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)"> Understand the basics of ComFiT, how to calculate derivatives and produce plots and animations in 1, 2 and 3 dimensions. </p>
     </a>
@@ -28,8 +28,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong>How to make your own model</strong></div>
         <hr>
         <p>
-        <img src="images/index_tutorial_base_system_make_your_own_model.gif#only-light">
-        <img src="images/index_tutorial_base_system_make_your_own_model-colorinverted.gif#only-dark">
+        <img src="img/index_tutorial_base_system_make_your_own_model.gif#only-light">
+        <img src="img/index_tutorial_base_system_make_your_own_model-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)">Learn how to implement, solve and animate your own partial differential equation.</p>
 </a>
@@ -42,8 +42,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong> 1D wave packets </strong></div>
         <hr>
         <p>
-        <img src="images/index_1D_Quantum_Mechanics_Gaussian.gif#only-light">
-        <img src="images/index_1D_Quantum_Mechanics_Gaussian-colorinverted.gif#only-dark">
+        <img src="img/index_1D_Quantum_Mechanics_Gaussian.gif#only-light">
+        <img src="img/index_1D_Quantum_Mechanics_Gaussian-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)">
         Understand the basics of the Quantum Mechanics model.
@@ -53,8 +53,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong> 2D wave packets </strong></div>
         <hr>
         <p>
-        <img src="images/index_tutorial_qm_2D_wave_packet.gif#only-light">
-        <img src="images/index_tutorial_qm_2D_wave_packet-colorinverted.gif#only-dark">
+        <img src="img/index_tutorial_qm_2D_wave_packet.gif#only-light">
+        <img src="img/index_tutorial_qm_2D_wave_packet-colorinverted.gif#only-dark">
         </p>
         <p style="color: var(--md-default-fg-color)">
         Understand how to plot a quantum mechanical system in 2 dimensions.
@@ -64,8 +64,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong> 3D wave packets </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_qm_3D_wave_packet.gif#only-light">
-    <img src="images/index_tutorial_qm_3D_wave_packet-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_qm_3D_wave_packet.gif#only-light">
+    <img src="img/index_tutorial_qm_3D_wave_packet-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Understand how to plot a quantum mechanical system in 3 dimensions.
@@ -76,8 +76,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong> The harmonic oscillator </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_qm_harmonic_oscillator.gif#only-light">
-    <img src="images/index_tutorial_qm_harmonic_oscillator-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_qm_harmonic_oscillator.gif#only-light">
+    <img src="img/index_tutorial_qm_harmonic_oscillator-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Investigate the quantum mechanical harmonic oscillator.
@@ -87,8 +87,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong> The hydrogen atom </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_quantum_mechanics_hydrogen.gif#only-light">
-    <img src="images/index_tutorial_quantum_mechanics_hydrogen-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_quantum_mechanics_hydrogen.gif#only-light">
+    <img src="img/index_tutorial_quantum_mechanics_hydrogen-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the hydrogen atom.
@@ -103,8 +103,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong> Basic Framework </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_bec_basic_framework-colorinverted.gif#only-dark">
-    <img src="images/index_tutorial_bec_basic_framework.gif#only-light">
+    <img src="img/index_tutorial_bec_basic_framework-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_bec_basic_framework.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Understand the basics of the Bose Einstein Condensate model.
@@ -114,8 +114,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong>Time-dependent potentials</strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_bec_time_dependent_potentials-colorinverted.gif#only-dark">
-    <img src="images/index_tutorial_bec_time_dependent_potentials.gif#only-light">
+    <img src="img/index_tutorial_bec_time_dependent_potentials-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_bec_time_dependent_potentials.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to create time-dependent potentials to stir the Bose Einstein Condensate model.
@@ -125,8 +125,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong>Comoving frame and defect tracking</strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_bec_comoving_frame_defect_tracking-colorinverted.gif#only-dark">
-    <img src="images/index_tutorial_bec_comoving_frame_defect_tracking.gif#only-light">
+    <img src="img/index_tutorial_bec_comoving_frame_defect_tracking-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_bec_comoving_frame_defect_tracking.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to track defects and study defects made by an obstacle.
@@ -136,8 +136,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong>3D and comoving frame </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_bec_3D_comoving_frame-colorinverted.gif#only-dark">
-    <img src="images/index_tutorial_bec_3D_comoving_frame.gif#only-light">
+    <img src="img/index_tutorial_bec_3D_comoving_frame-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_bec_3D_comoving_frame.gif#only-light">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to use the Bose Einstein Condensate model in 3 dimensions and in a comoving frame.
@@ -152,8 +152,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong> 2D active nematic </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_nematic_liquid_crystal_2D_active_nematic.gif#only-light">
-    <img src="images/index_tutorial_nematic_liquid_crystal_2D_active_nematic-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_nematic_liquid_crystal_2D_active_nematic.gif#only-light">
+    <img src="img/index_tutorial_nematic_liquid_crystal_2D_active_nematic-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Simulate an active nematic liquid crystal in 2 dimensions.
@@ -168,8 +168,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong> Basic framework </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_pfc_basic_framework.gif#only-light">
-    <img src="images/index_tutorial_pfc_basic_framework-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_pfc_basic_framework.gif#only-light">
+    <img src="img/index_tutorial_pfc_basic_framework-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the basic of the PFC framework, including how to insert dislocations, plot them, and evolve the PFC.
@@ -178,8 +178,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <div> <strong> Stresses and strains </strong></div>
     <hr>
     <p>
-    <img src="images/index_tutorial_pfc_stresses_and_strains.gif#only-light">
-    <img src="images/index_tutorial_pfc_stresses_and_strains-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_pfc_stresses_and_strains.gif#only-light">
+    <img src="img/index_tutorial_pfc_stresses_and_strains-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
     learn how to calculate stresses and strains in the PFC model.
