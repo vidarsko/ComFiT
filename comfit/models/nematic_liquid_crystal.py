@@ -684,12 +684,13 @@ class NematicLiquidCrystal(BaseSystem):
             return S, n
 
     def calc_vortex_velocity_field(self, dt_Q, psi=None):
+        # TODO make 3D
         """
         Calculates the velocity field of the defect in two dimensions
         
         Input:
             dt_Q (numpy.narray) the time derivative of the order parameter
-            psi (numpy.narray, optional) the order parameter
+            psi (numpy.narray, optional) the order parameter on complex form
         
         Output:
             (numpy.narray) the velocity field
