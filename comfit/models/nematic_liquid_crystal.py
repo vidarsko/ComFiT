@@ -4,6 +4,9 @@ from comfit.core.base_system import BaseSystem
 import scipy as sp
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
+from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
+
 from comfit.tools.tool_math_functions import levi_civita_symbol
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.cm as cm
@@ -910,9 +913,9 @@ class NematicLiquidCrystal(BaseSystem):
 
             return ax
 
-    def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
-                                         cmax=None, cmin=None,
-                                         number_of_layers=1, hold=False):
+    def plot_field_velocity_and_director(self, field, velocity, director, **kwargs):# ax=None, colorbar=True, colormap='viridis',
+                                       #  cmax=None, cmin=None,
+                                        # number_of_layers=1, hold=False):
         """
         Plot the field, velocity, and director in the given axes.
 
@@ -937,21 +940,119 @@ class NematicLiquidCrystal(BaseSystem):
         Note: streamplot assumes xy indexing and not ij. I think it is suficient
         just transpose the matrices before putting them in
         """
+        if field.dtype == bool:
+         field = field.astype(float)
+
+        # Check if the vector field is complex
+        if np.iscomplexobj(field):
+         print(
+             "\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+        print('Max imaginary part: ', np.max(np.imag(field)))
+        field = np.real(field)
+
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
+
+        # Kewyord arguments
+        colorbar = kwargs.get('colorbar', True)
+
+        # Extend the field if not a complete array is given
+        field = self.plot_tool_extend_field(field)
+
         if self.dim == 2:
+
+            # Keyword arguments particular to the 2D case
+            kwargs['grid'] = kwargs.get('grid', False)
+
             if ax == None:
+                fig.clf()
                 ax = plt.gcf().add_subplot(111)
+
+            colormap = kwargs.get('colormap', 'viridis')
+
+            if colormap == 'bluewhitered':
+                colormap = tool_colormap_bluewhitered()
+
+            elif colormap == 'sunburst':
+                colormap = tool_colormap_sunburst()
+            else:
+                colormap = plt.get_cmap(colormap)
+
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-            if cmax is None:
-                cmax = np.max(field)
-            if cmin is None:
-                cmin = np.min(field)
-            cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap, vmax=cmax, vmin=cmin)
-            plt.colorbar(cbar)
+            pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
+
+            xlim = [self.xmin, self.xmax - self.dx]
+            ylim = [self.ymin, self.ymax - self.dy]
+
+            limits_provided = False
+            if 'xlim' in kwargs:
+                xlim = kwargs['xlim']
+                limits_provided = True
+            else:
+                if 'xmin' in kwargs:
+                    xlim[0] = kwargs['xmin']
+                    limits_provided = True
+
+                if 'xmax' in kwargs:
+                    xlim[1] = kwargs['xmax']
+                    limits_provided = True
+
+            if 'ylim' in kwargs:
+                ylim = kwargs['ylim']
+                limits_provided = True
+            else:
+                if 'ymin' in kwargs:
+                    ylim[0] = kwargs['ymin']
+                    limits_provided = True
+
+                if 'ymax' in kwargs:
+                    ylim[1] = kwargs['ymax']
+                    limits_provided = True
+            if limits_provided:
+                region_to_plot = np.zeros(self.dims).astype(bool)
+                region_to_plot[(xlim[0] <= X) * (X <= xlim[1]) * (ylim[0] <= Y) * (Y <= ylim[1])] = True
+                vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
+
+            else:
+                vlim = [np.min(field), np.max(field)]
+
+            # Set the value limitses
+            if 'vlim' in kwargs:
+                vlim = kwargs['vlim']
+            else:
+                if 'vmin' in kwargs:
+                    vlim[0] = kwargs['vmin']
+                if 'vmax' in kwargs:
+                    vlim[1] = kwargs['vmax']
+
+            if vlim[1] - vlim[0] < 1e-10:
+                vlim = [vlim[0] - 0.05, vlim[1] + 0.05]
+
+            pcm.set_clim(vmin=vlim[0], vmax=vlim[1])
+
+            if 'vlim_symmetric' in kwargs:
+                vlim_symmetric = kwargs['vlim_symmetric']
+                if vlim_symmetric:
+                    cmax = abs(field).max()
+                    cmin = -cmax
+                    pcm.set_clim(vmin=cmin, vmax=cmax)
+
+            colorbar = kwargs.get('colorbar', True)
+
+            if colorbar:
+                cbar = plt.colorbar(pcm, ax=ax)
+
+
+
             ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='w')
             ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
             ax.quiver(X, Y, -director[0], -director[1], headwidth=0, scale=50)
             ax.set_aspect('equal')
-            return ax
 
         else:
             raise Exception("This plotting function not yet configured for other dimension")
+
+        kwargs['ax'] = ax
+        self.plot_tool_set_axis_properties(**kwargs)
+        return fig, ax
