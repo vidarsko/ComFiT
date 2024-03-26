@@ -307,15 +307,17 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Inserts a  dislocation dipole in the system corresponding to dislocation type and its negative
 
-        :param eta: The amplitudes currently being manipulated (default: self.eta0)
-        :param x1: The x-position of the first dislocation (default: 1/3 xmax)
-        :param y1: The y-position of the first dislocation (default: 1/2 ymax)
-        :param x2: The x-position of the second dislocation (default: 2/3 xmax)
-        :param y2: The y-position of the second dislocation (default: 1/2 ymax)
-        :param dislocation_type: the type of dislocation dipole (default: 1)
-        :Output:
+        Input:
+            - eta: The amplitudes to insert the dislocation dipole in
+            - x1: The x-coordinate of the first dislocation
+            - y1: The y-coordinate of the first dislocation
+            - x2: The x-coordinate of the second dislocation
+            - y2: The y-coordinate of the second dislocation
+            - dislocation_type: The dislocation type to insert
+        
+        Output:
+            The amplitudes with the dislocation dipole inserted
         """
-        # TODO: Improve code documentation
 
         if not (self.dim == 2):
             raise Exception("The dimension of the system must be 2 to insert a dislocation dipole.")
@@ -351,7 +353,17 @@ class PhaseFieldCrystal(BaseSystem):
                                                 normal_vector=[0, 0, 1],
                                                 dislocation_type=1):
         """
-        Inserts a  dislocation ring in the system corresponding to dislocation type
+        Inserts a  dislocation ring in the system corresponding to dislocation type.
+
+        Input:
+            - eta: The amplitudes to insert the dislocation ring in
+            - position: The position of the dislocation ring
+            - radius: The radius of the dislocation ring
+            - normal_vector: The normal vector of the dislocation ring
+            - dislocation_type: The dislocation type to insert
+
+        Output:
+            The amplitudes with the dislocation ring inserted
 
         """
         # TODO: Improve code documentation
@@ -421,6 +433,16 @@ class PhaseFieldCrystal(BaseSystem):
         return np.real(psi)
 
     def calc_demodulate_PFC(self):
+        """
+        Demodulates the PFC.
+
+        Input:
+            None
+
+        Output:
+            The demodulated PFC
+        """
+
         eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
                        dtype=complex)
 

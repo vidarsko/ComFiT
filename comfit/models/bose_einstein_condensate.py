@@ -587,7 +587,9 @@ class BoseEinsteinCondensate(BaseSystem):
             velocity_field = self.calc_vortex_velocity_field(dt_psi, self.psi)
 
         if self.dim == 2:
-            vortex_nodes = self.calc_defect_nodes(np.abs(rho))
+            vortex_nodes = self.calc_defect_nodes(np.abs(rho), 
+                                                    charge_tolerance = 0.2,
+                                                    integration_radius = self.a0)
             for vortex in vortex_nodes:
                 vortex['charge'] = np.sign(rho[vortex['position_index']])
                 if dt_psi is not None:
@@ -596,8 +598,9 @@ class BoseEinsteinCondensate(BaseSystem):
                 else:
                     vortex['velocity'] = [float('nan'), float('nan')]
         elif self.dim == 3:
-            vortex_nodes = self.calc_defect_nodes(
-                np.sqrt(rho[0]**2 + rho[1]**2 + rho[2]**2)
+            vortex_nodes = self.calc_defect_nodes(np.sqrt(rho[0]**2 + rho[1]**2 + rho[2]**2), 
+                                                charge_tolerance = 0.2*self.a0,
+                                                integration_radius = self.a0
                 )
             for vortex in vortex_nodes:
                 tangent_vector = np.array([rho[i][vortex['position_index']] for i in range(3)]),
