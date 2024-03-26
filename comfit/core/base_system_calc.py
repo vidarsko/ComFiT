@@ -791,7 +791,6 @@ class BaseSystemCalc:
 
         # Calculate the point where defect density is largest
         position_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
-        print("position_index:",position_index)
 
         # Integrate the defect density around this point (i.e. in a disk/ball around)
         region_to_integrate = calc_region(position_index,
@@ -813,8 +812,6 @@ class BaseSystemCalc:
             region_to_search[region_to_exclude_from_search] = 0
 
             position_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
-
-            print("position_index:",position_index)
 
             region_to_integrate = calc_region(position_index,
                                         radius=integration_radius)

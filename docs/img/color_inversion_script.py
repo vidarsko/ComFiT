@@ -67,4 +67,4 @@ def process_folder(folder_path, delete_old):
                 print(f"Skipped {filename}, converted image already exists.")
 
 # Example usage - replace 'path/to/folder' with the actual folder path
-process_folder('./docs/images/', delete_old = False)
+process_folder('./docs/img/', delete_old = False)

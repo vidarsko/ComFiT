@@ -27,18 +27,17 @@ The algorithm takes
 
 as inputs, and then follows these steps:
 
-|----|----|
 | Step | Illustration|
 |----|----|
-| 1. Identify the `position_index` corresponding to `max(defect_density)`. | ![Illustration of step 1]()|
-| 2. Calculate the integral `charge` of `defect_density` in a ball `region_to_integrate` of radius `integration_radius` around the point corresponding to `position_index`. If `charge>charge_tolerance`, then the point will be added to the identified defect nodes. | ![Illustration of step 2]()|
+| 1. Identify the `position_index` corresponding to `max(defect_density)`. | ![Illustration of step 1](img/topological_defects_algorithm_1.png#only-light) ![Illustration of step 1](img/topological_defects_algorithm_1-colorinverted.png#only-dark)  |
+| 2. Calculate the integral `charge` of `defect_density` in a ball `region_to_integrate` of radius `integration_radius` around the point corresponding to `position_index`. If `charge>charge_tolerance`, then the point will be added to the identified defect nodes. | ![Illustration of step 2](img/topological_defects_algorithm_2.png#only-light) ![Illustration of step 2](img/topological_defects_algorithm_2-colorinverted.png#only-dark)|
 | `while` `charge>charge_tolerance` | |
-| &nbsp; 3.1 Store `position_index` in the dictionary `defect_node`.  | |
-| &nbsp; 3.1 Calculate position $\mathbf r_0$ of `defect_note` as the expectation value of $(x,y,z)$ by using `defect_density` as a probability distribution function in `region_to_integrate`. | |
-| &nbsp; 3.2 Add `defect_node` to the list `defect_nodes`. | |
-| &nbsp; 3.3 Remove a ball of radius `2*integration_radius` around `position_index` from the region `region_to_search` in which to search for new defect nodes. | |
-| &nbsp; 3.4 Identify the `position_index` corresponding to `max(defect_density)` in the region `region_to_search`. | |
-| &nbsp; 3.5 Calculate the integral `charge` of `defect_density` in a ball `region_to_integrate` of radius `integration_radius` around the point corresponding to `position_index`. | ![Illustration of step 3.6]()|
+| &nbsp;&nbsp; 3.1 Store `position_index` in the dictionary `defect_node`.  | |
+| &nbsp;&nbsp; 3.2 Calculate position $\mathbf r_0$ of `defect_note` as the expectation value of $(x,y,z)$ by using `defect_density` as a probability distribution function in `region_to_integrate`. | ![Illustration of step 3.2](img/topological_defects_algorithm_3_2.png#only-light) [Illustration of step 3.2](img/topological_defects_algorithm_3_2-colorinverted.png#only-dark)  |
+| &nbsp;&nbsp; 3.3 Add `defect_node` to the list `defect_nodes`. | |
+| &nbsp;&nbsp; 3.4 Remove a ball of radius `2*integration_radius` around `position_index` from the region `region_to_search` in which to search for new defect nodes. | ![Illustration of step 3.4](img/topological_defects_algorithm_3_4.png#only-light) ![Illustration of step 3.4](img/topological_defects_algorithm_3_4-colorinverted.png#only-dark) |
+| &nbsp;&nbsp; 3.5 Identify the `position_index` corresponding to `max(defect_density)` in the region `region_to_search`. | ![Illustration of step 3.5](img/topological_defects_algorithm_3_5.png#only-light) ![Illustration of step 3.5](img/topological_defects_algorithm_3_5-colorinverted.png#only-dark) |
+| &nbsp;&nbsp; 3.6 Calculate the integral `charge` of `defect_density` in a ball `region_to_integrate` of radius `integration_radius` around the point corresponding to `position_index`. | ![Illustration of step 3.6](img/topological_defects_algorithm_3_6.png#only-light) ![Illustration of step 3.6](img/topological_defects_algorithm_3_6-colorinverted.png#only-dark)|
 
 The value of `charge_tolerance` and `integration_radius` must be set depending on the particular system and nature of defect density. 
 For instance,
