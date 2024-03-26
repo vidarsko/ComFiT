@@ -284,9 +284,9 @@ class BaseSystemCalc:
 
                 #TODO: check if this factor of 2 is actually supposed to be there (Vidar 05.12.23)
 
-                print(region_to_ignore.shape)
-                print(Vx.shape)
-                print(Vy.shape)
+                # print(region_to_ignore.shape)
+                # print(Vx.shape)
+                # print(Vy.shape)
 
                 Vx[region_to_ignore] = 0
                 Vy[region_to_ignore] = 0
@@ -754,15 +754,30 @@ class BaseSystemCalc:
                 integration_radius = self.a0
             
             #Auxiliary functions
-            def calc_region(defect_density_max_index,radius):
+            def calc_region(position_index,radius):
                 return self.calc_region_disk(position=[
-                    self.x.flatten()[defect_density_max_index[0]],
-                    self.y.flatten()[defect_density_max_index[1]]], 
+                    self.x.flatten()[position_index[0]],
+                    self.y.flatten()[position_index[1]]], 
                     radius=radius)
 
-            def calc_position_from_region(defect_density,region_to_integrate):
-                x = np.sum(region_to_integrate * defect_density * self.x) / np.sum(region_to_integrate * defect_density)
-                y = np.sum(region_to_integrate * defect_density * self.y) / np.sum(region_to_integrate * defect_density)
+            def calc_position_from_region(defect_density,region_to_integrate,position_index):
+                # Calculate the field to integrate
+                field_to_integrate = region_to_integrate * defect_density
+                # Normalize the field to integrate
+                field_to_integrate = field_to_integrate / np.sum(field_to_integrate)
+
+                # Roll the field so that the defect node is at the center
+                Rx = round((self.x.flatten()[position_index[0]] - self.xmid) / self.dx)
+                field_to_integrate = np.roll(field_to_integrate, -Rx, axis=0)
+                Ry = round((self.y.flatten()[position_index[1]] - self.ymid) / self.dy)
+                field_to_integrate = np.roll(field_to_integrate, -Ry, axis=1)
+                
+                x = np.sum(field_to_integrate * self.x) 
+                y = np.sum(field_to_integrate * self.y) 
+
+                x = x + Rx*self.dx
+                y = y + Ry*self.dy
+
                 return [x,y]
 
         elif self.dim == 3:
@@ -773,17 +788,35 @@ class BaseSystemCalc:
                 integration_radius = 2*self.a0
 
             #Auxiliary functions
-            def calc_region(defect_density_max_index,radius):
+            def calc_region(position_index,radius):
                 return self.calc_region_ball(position=[
-                        self.x.flatten()[defect_density_max_index[0]],
-                        self.y.flatten()[defect_density_max_index[1]],
-                        self.z.flatten()[defect_density_max_index[2]]], 
+                        self.x.flatten()[position_index[0]],
+                        self.y.flatten()[position_index[1]],
+                        self.z.flatten()[position_index[2]]], 
                         radius=radius)
             
-            def calc_position_from_region(defect_density,region_to_integrate):
-                x = np.sum(region_to_integrate * defect_density * self.x) / np.sum(region_to_integrate * defect_density)
-                y = np.sum(region_to_integrate * defect_density * self.y) / np.sum(region_to_integrate * defect_density)
-                z = np.sum(region_to_integrate * defect_density * self.z) / np.sum(region_to_integrate * defect_density)
+            def calc_position_from_region(defect_density,region_to_integrate,position_index):
+                # Calculate the field to integrate
+                field_to_integrate = region_to_integrate * defect_density
+                # Normalize the field to integrate
+                field_to_integrate = field_to_integrate / np.sum(field_to_integrate)
+
+                # Roll the field so that the defect node is at the center
+                Rx = round((self.x.flatten()[position_index[0]] - self.xmid) / self.dx)
+                field_to_integrate = np.roll(field_to_integrate, -Rx, axis=0)
+                Ry = round((self.y.flatten()[position_index[1]] - self.ymid) / self.dy)
+                field_to_integrate = np.roll(field_to_integrate, -Ry, axis=1)
+                Rz = round((self.z.flatten()[position_index[2]] - self.zmid) / self.dz)
+                field_to_integrate = np.roll(field_to_integrate, -Rz, axis=2)
+
+                x = np.sum(field_to_integrate * self.x)
+                y = np.sum(field_to_integrate * self.y)
+                z = np.sum(field_to_integrate * self.z)
+
+                x = x + Rx*self.dx
+                y = y + Ry*self.dy
+                z = z + Rz*self.dz
+
                 return [x,y,z]
 
         #Region to search for defect nodes
@@ -802,8 +835,9 @@ class BaseSystemCalc:
             defect_node = {}
             defect_node['position_index'] = position_index
 
-            defect_node['position'] = calc_position_from_region(defect_density,region_to_integrate)
+            defect_node['position'] = calc_position_from_region(defect_density,region_to_integrate,position_index)
 
+            print("Defect node position: ", defect_node['position'])
             defect_nodes.append(defect_node)
 
             region_to_exclude_from_search = calc_region(position_index,
