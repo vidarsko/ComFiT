@@ -945,9 +945,9 @@ class NematicLiquidCrystal(BaseSystem):
 
         # Check if the vector field is complex
         if np.iscomplexobj(field):
-         print(
-             "\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
-        print('Max imaginary part: ', np.max(np.imag(field)))
+            print(
+                 "\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(field)))
         field = np.real(field)
 
         # Check if an axis object is provided
