@@ -36,22 +36,24 @@ class TestNematicLiquidCrystal(unittest.TestCase):
         self.assertTrue(condition, "Elements in nem.Q are not relaxed to the correct value")
 
     def test_no_flow_evolver_3D(self):
-        nem = cf.NematicLiquidCrystal(3, xRes=13, yRes=4,zRes=13,C =1)
-        np.random.seed(29820894)
-        nem.conf_initial_condition_ordered(noise_strength=2)
+        for i in range(10):
+            c = np.random.rand() + 0.5
+            nem = cf.NematicLiquidCrystal(3, xRes=13, yRes=4,zRes=13,C =1.7)
+            np.random.seed(29820894)
+            nem.conf_initial_condition_ordered(noise_strength=2)
 
-        nem.evolve_nematic_no_flow(300)
+            nem.evolve_nematic_no_flow(300)
 
 
-        # Set the tolerance for approximation
-        tolerance = 0.01
+            # Set the tolerance for approximation
+            tolerance = 0.01
 
-        # Check if all elements in  are approximately 1
-        S_0 =1/8* nem.C/nem.A + 1/2 * np.sqrt(nem.C**2 /(16*nem.A**2) + 3*nem.B)
+            # Check if all elements in  are approximately 1
+            S_0 =1/8* nem.C/nem.A + 1/2 * np.sqrt(nem.C**2 /(16*nem.A**2) + 3*nem.B)
 
-        S, n = nem.calc_order_and_director()
-        condition = np.allclose(S_0, S, atol=tolerance)
-        self.assertTrue(condition, "Elements in nem.Q are not relaxed to the correct value")
+            S, n = nem.calc_order_and_director()
+            condition = np.allclose(S_0, S, atol=tolerance)
+            self.assertTrue(condition, "Elements in nem.Q are not relaxed to the correct value")
 
 
 
