@@ -427,9 +427,7 @@ class BaseSystemPlot:
         
         Output:
             matplotlib.axes.Axes: The axes containing the plot.
-                
-        Raises:
-            Exception: If the dimension of the field is not 2.
+
         """
 
         # Check if an axis object is provided
