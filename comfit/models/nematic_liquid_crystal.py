@@ -686,21 +686,21 @@ class NematicLiquidCrystal(BaseSystem):
 
             return S, n
 
-    def calc_vortex_velocity_field(self, dt_Q, psi=None):
+    def calc_vortex_velocity_field(self, dt_Q):
         # TODO make 3D
         """
         Calculates the velocity field of the defect in two dimensions
         
         Input:
             dt_Q (numpy.narray) the time derivative of the order parameter
-            psi (numpy.narray, optional) the order parameter on complex form
+
         
         Output:
             (numpy.narray) the velocity field
         """
         if self.dim ==2:
-            if psi is None:
-                psi = self.Q[0] +1j*self.Q[1]
+
+            psi = self.Q[0] +1j*self.Q[1]
 
             dt_psi = dt_Q[0] + 1j * dt_Q[1]
 
@@ -794,7 +794,7 @@ class NematicLiquidCrystal(BaseSystem):
                                  - 'position': The position of the vortex node as a list [x, y].
                                  - 'position_index': The index of the position
                                  - 'charge' (2D only): The charge of the vortex node.
-                                 - 'velocity' (curently 2D only): The velocity of the defect
+                                 - 'velocity' (currently 2D only): The velocity of the defect
                                  - 'polarization' (2D only): The polarization of the +1/2 defects
                                  - 'Tangent_vector' (3D only): the tangent of the disclination line
                                  - 'Rotation_vector' (3D only): the rotation vector of the disclination line
