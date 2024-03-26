@@ -37,8 +37,8 @@ class TestNematicLiquidCrystal(unittest.TestCase):
 
     def test_no_flow_evolver_3D(self):
         for i in range(10):
-            c = np.random.rand() + 0.5
-            nem = cf.NematicLiquidCrystal(3, xRes=13, yRes=4,zRes=13,C =1.7)
+            c = 2*np.random.rand()
+            nem = cf.NematicLiquidCrystal(3, xRes=13, yRes=4,zRes=13,C = c)
             np.random.seed(29820894)
             nem.conf_initial_condition_ordered(noise_strength=2)
 
