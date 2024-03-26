@@ -707,6 +707,7 @@ class NematicLiquidCrystal(BaseSystem):
             return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
                                                    [np.real(dt_psi), np.imag(dt_psi)])
 
+
     def calc_defect_polarization_field(self):
         ex = np.real(sp.fft.ifftn(1j*self.k[0]*self.Q_f[0] + 1j*self.k[1]*self.Q_f[1]))
         ey = np.real(sp.fft.ifftn(1j * self.k[0] * self.Q_f[1] - 1j * self.k[1] * self.Q_f[0]))
@@ -793,7 +794,9 @@ class NematicLiquidCrystal(BaseSystem):
                                  - 'position': The position of the vortex node as a list [x, y].
                                  - 'charge': The charge of the vortex node.
                                  - 'velocity': The velocity of the vortex node as a list [vx, vy].
-            ax (Axes, optional): The axes to plot the vortex nodes on. If not provided, a new subplot will be created.
+            -**kwargs: Keyword arguments for the plot.
+                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
+                for a full list of keyword arguments.  
 
         Output:
             matplotlib.axes.Axes: The axes on which the disclination nodes are plotted.
