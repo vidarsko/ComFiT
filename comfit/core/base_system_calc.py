@@ -831,13 +831,16 @@ class BaseSystemCalc:
 
         charge = self.calc_integrate_field(defect_density, region_to_integrate)
 
+        # print("Charge: ", charge)
+        # print("Charge tolerance: ", charge_tolerance)
+
         while charge > charge_tolerance:
             defect_node = {}
             defect_node['position_index'] = position_index
 
             defect_node['position'] = calc_position_from_region(defect_density,region_to_integrate,position_index)
 
-            print("Defect node position: ", defect_node['position'])
+            # print("Defect node position: ", defect_node['position'])
             defect_nodes.append(defect_node)
 
             region_to_exclude_from_search = calc_region(position_index,
