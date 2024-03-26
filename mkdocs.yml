@@ -34,7 +34,7 @@ nav:
   - Home: index.md
   - "Class: Base system": ClassBaseSystem.md
   - Plotting: Plotting.md
-  # - Topological Defects: TopologicalDefects.md
+  - Topological Defects: TopologicalDefects.md
   - "Class: Quantum Mechanics": ClassQuantumMechanics.md
   - "Class: Bose-Einstein condensate": ClassBoseEinsteinCondensate.md
   - "Class: Nematic liquid crystal": ClassNematicLiquidCrystal.md

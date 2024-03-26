@@ -790,38 +790,34 @@ class BaseSystemCalc:
         region_to_search = np.ones(self.dims)
 
         # Calculate the point where defect density is largest
-        defect_density_max_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
+        position_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
+        print("position_index:",position_index)
 
         # Integrate the defect density around this point (i.e. in a disk/ball around)
-        region_to_integrate = calc_region(defect_density_max_index,
+        region_to_integrate = calc_region(position_index,
                                         radius=integration_radius)
-        
-        region_to_exclude_from_search = calc_region(defect_density_max_index,
-                                        radius=2*integration_radius)
-        
-        region_to_search[region_to_exclude_from_search] = 0
-        
+
         charge = self.calc_integrate_field(defect_density, region_to_integrate)
 
         while charge > charge_tolerance:
             defect_node = {}
-            defect_node['position_index'] = defect_density_max_index
+            defect_node['position_index'] = position_index
 
             defect_node['position'] = calc_position_from_region(defect_density,region_to_integrate)
 
             defect_nodes.append(defect_node)
 
-            defect_density[region_to_integrate] = 0
-
-            defect_density_max_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
-
-            region_to_integrate = calc_region(defect_density_max_index,
-                                        radius=integration_radius)
-            
-            region_to_exclude_from_search = calc_region(defect_density_max_index,
+            region_to_exclude_from_search = calc_region(position_index,
                                         radius=2*integration_radius)
-            
+        
             region_to_search[region_to_exclude_from_search] = 0
+
+            position_index = np.unravel_index(np.argmax(defect_density*region_to_search), defect_density.shape)
+
+            print("position_index:",position_index)
+
+            region_to_integrate = calc_region(position_index,
+                                        radius=integration_radius)
             
             charge = self.calc_integrate_field(defect_density, region_to_integrate)
 

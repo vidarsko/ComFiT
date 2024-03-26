@@ -54,8 +54,8 @@ jobs:
         RUN_TEST_NEMATIC_LIQUID_CRYSTAL=false
 
         # Check for base_system.py changes and run all tests
-        if echo "$FILES" | grep -q "comfit/core/base_system.py"; then
-          echo "Changes in base_system.py detected. Running all tests."
+        if echo "$FILES" | grep -qE "comfit/core/base_system(|_calc|_conf|_evolve|_get|_init|_plot).py"; then
+          echo "Changes in base_system or its components detected. Running all tests."
           xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest discover tests/
           exit 0
         fi
@@ -75,7 +75,7 @@ jobs:
           RUN_TEST_BOSE_EINSTEIN_CONDENSATE=true
         fi
 
-        if echo "$FILES" | grep -q "comfit/models/phase_field_crystal.py"; then
+        if echo "$FILES" | grep -qE "comfit/models/phase_field_crystal(|_1d_periodic|_2d_triangular|_2d_square|_3d_body_centered_cubic|_3d_face_centered_cubic|_3d_simple_cubic).py"; then
           RUN_TEST_PHASE_FIELD_CRYSTAL=true
         fi
         if echo "$FILES" | grep -q "tests/test_phase_field_crystal.py"; then
