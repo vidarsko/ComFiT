@@ -792,11 +792,15 @@ class NematicLiquidCrystal(BaseSystem):
         Input:
             vortex_nodes (list): A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
                                  - 'position': The position of the vortex node as a list [x, y].
-                                 - 'charge': The charge of the vortex node.
-                                 - 'velocity': The velocity of the vortex node as a list [vx, vy].
+                                 - 'position_index': The index of the position
+                                 - 'charge' (2D only): The charge of the vortex node.
+                                 - 'velocity' (curently 2D only): The velocity of the defect
+                                 - 'polarization' (2D only): The polarization of the +1/2 defects
+                                 - 'Tangent_vector' (3D only): the tangent of the disclination line
+                                 - 'Rotation_vector' (3D only): the rotation vector of the disclination line
             -**kwargs: Keyword arguments for the plot.
                 See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
-                for a full list of keyword arguments.  
+                for a full list of keyword arguments.
 
         Output:
             matplotlib.axes.Axes: The axes on which the disclination nodes are plotted.

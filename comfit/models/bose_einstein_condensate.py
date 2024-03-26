@@ -614,7 +614,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
     # Plot functions
 
-    def plot_vortex_nodes(self, vortex_nodes, ax=None):
+    def plot_vortex_nodes(self, vortex_nodes, **kwargs):
         """
         Plots the vortex nodes in the system.
 
@@ -624,11 +624,16 @@ class BoseEinsteinCondensate(BaseSystem):
                                  - 'charge': The charge of the vortex node.
                                  - 'position': The position of the vortex node as a list [x, y].
                                  - 'velocity': The velocity of the vortex node as a list [vx, vy].
-            ax (matplotlib.axes.Axes): The axes on which to plot the vortex nodes. If None, a new figure and axes are created.
+            -**kwargs: Keyword arguments for the plot.
+                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
+                for a full list of keyword arguments.
         
         Output:
             matplotlib.axes.Axes: The axes on which the vortex nodes are plotted.
         """
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
         if self.dim == 2:
 
             if ax == None:
