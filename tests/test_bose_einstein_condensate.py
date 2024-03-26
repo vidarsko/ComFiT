@@ -81,8 +81,6 @@ class TestBoseEinsteinCondensate(unittest.TestCase):
         #Check that there are nodes
         self.assertGreater(len(Dnodes),0,"Vortex nodes not found")
 
-        bec.plot_vortex_nodes(Dnodes)
-        plt.show()
         #Check that all the nodes belong to the correct plane
         for node in Dnodes:
             # Calculate the plane equation
