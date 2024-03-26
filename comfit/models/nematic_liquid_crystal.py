@@ -4,6 +4,9 @@ from comfit.core.base_system import BaseSystem
 import scipy as sp
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
+from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
+
 from comfit.tools.tool_math_functions import levi_civita_symbol
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.cm as cm
@@ -683,25 +686,27 @@ class NematicLiquidCrystal(BaseSystem):
 
             return S, n
 
-    def calc_vortex_velocity_field(self, dt_Q, psi=None):
+    def calc_vortex_velocity_field(self, dt_Q):
+        # TODO make 3D
         """
         Calculates the velocity field of the defect in two dimensions
         
         Input:
             dt_Q (numpy.narray) the time derivative of the order parameter
-            psi (numpy.narray, optional) the order parameter
+
         
         Output:
             (numpy.narray) the velocity field
         """
         if self.dim ==2:
-            if psi is None:
-                psi = self.Q[0] +1j*self.Q[1]
+
+            psi = self.Q[0] +1j*self.Q[1]
 
             dt_psi = dt_Q[0] + 1j * dt_Q[1]
 
             return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
                                                    [np.real(dt_psi), np.imag(dt_psi)])
+
 
     def calc_defect_polarization_field(self):
         ex = np.real(sp.fft.ifftn(1j*self.k[0]*self.Q_f[0] + 1j*self.k[1]*self.Q_f[1]))
@@ -780,24 +785,35 @@ class NematicLiquidCrystal(BaseSystem):
 
         return vortex_nodes
 
-    def plot_disclination_nodes(self, vortex_nodes, ax=None):
+    def plot_disclination_nodes(self, vortex_nodes, **kwargs):
         """
         Plots the discliation nodes in the given axes.
 
         Input:
             vortex_nodes (list): A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
                                  - 'position': The position of the vortex node as a list [x, y].
-                                 - 'charge': The charge of the vortex node.
-                                 - 'velocity': The velocity of the vortex node as a list [vx, vy].
-            ax (Axes, optional): The axes to plot the vortex nodes on. If not provided, a new subplot will be created.
+                                 - 'position_index': The index of the position
+                                 - 'charge' (2D only): The charge of the vortex node.
+                                 - 'velocity' (currently 2D only): The velocity of the defect
+                                 - 'polarization' (2D only): The polarization of the +1/2 defects
+                                 - 'Tangent_vector' (3D only): the tangent of the disclination line
+                                 - 'Rotation_vector' (3D only): the rotation vector of the disclination line
+            -**kwargs: Keyword arguments for the plot.
+                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
+                for a full list of keyword arguments.
 
         Output:
             matplotlib.axes.Axes: The axes on which the disclination nodes are plotted.
         """
 
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
+
         if self.dim == 2:
 
             if ax == None:
+                fig.clf()
                 ax = plt.gcf().add_subplot(111)
 
             x_coords_pos = []
@@ -850,11 +866,13 @@ class NematicLiquidCrystal(BaseSystem):
             ax.set_xlim([0, self.xmax-self.dx])
             ax.set_ylim([0, self.ymax-self.dy])
             return ax
+
         elif self.dim == 3:
             # Plotting options
             quiver_scale = 2  # The scale of the quiver arrows
 
             if ax == None:
+                plt.clf()
                 ax = plt.gcf().add_subplot(111, projection='3d')
             x_coords = []
             y_coords = []
@@ -909,48 +927,138 @@ class NematicLiquidCrystal(BaseSystem):
 
             return ax
 
-    def plot_field_velocity_and_director(self, field, velocity, director, ax=None, colorbar=True, colormap='viridis',
-                                         cmax=None, cmin=None,
-                                         number_of_layers=1, hold=False):
+    def plot_field_velocity_and_director(self, field, velocity, director, **kwargs):
         """
-        Plot the field, velocity, and director in the given axes.
+        Plot the field, velocity, and director field in 2 dimensions
 
         Input:
             field (ndarray): The field to be plotted.
             velocity (ndarray): The velocity to be plotted.
             director (ndarray): The director to be plotted.
-            ax (Axes, optional): The axes to plot the field, velocity, and director on. If not provided, a new subplot will be created.
-            colorbar (bool, optional): Whether to show the colorbar. Default is True.
-            colormap (str, optional): The colormap to use for plotting the field. Default is 'viridis'.
-            cmax (float, optional): The maximum value for the colorbar. If not provided, the maximum value of the field will be used.
-            cmin (float, optional): The minimum value for the colorbar. If not provided, the minimum value of the field will be used.
-            number_of_layers (int, optional): The number of layers in the plot. Default is 1.
-            hold (bool, optional): Whether to hold the plot. Default is False.
+            **kwargs: Keyword arguments for the plot.
+                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
+                for a full list of keyword arguments.
 
         Output:
+            fig (figure): the figure
             ax (Axes): The axes with the plotted field, velocity, and director.
 
         Raises:
-            Exception: If the plotting function is not yet configured for dimensions other than 2.
-
-        Note: streamplot assumes xy indexing and not ij. I think it is suficient
-        just transpose the matrices before putting them in
+            Exception: If the dimension is other than 2.
         """
+        if field.dtype == bool:
+         field = field.astype(float)
+
+        # Check if the vector field is complex
+        if np.iscomplexobj(field):
+            print(
+                 "\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print('Max imaginary part: ', np.max(np.imag(field)))
+        field = np.real(field)
+
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
+
+        # Kewyord arguments
+        colorbar = kwargs.get('colorbar', True)
+
+        # Extend the field if not a complete array is given
+        field = self.plot_tool_extend_field(field)
+
         if self.dim == 2:
+
+            # Keyword arguments particular to the 2D case
+            kwargs['grid'] = kwargs.get('grid', False)
+
             if ax == None:
+                fig.clf()
                 ax = plt.gcf().add_subplot(111)
+
+            colormap = kwargs.get('colormap', 'viridis')
+
+            if colormap == 'bluewhitered':
+                colormap = tool_colormap_bluewhitered()
+
+            elif colormap == 'sunburst':
+                colormap = tool_colormap_sunburst()
+            else:
+                colormap = plt.get_cmap(colormap)
+
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-            if cmax is None:
-                cmax = np.max(field)
-            if cmin is None:
-                cmin = np.min(field)
-            cbar = ax.pcolormesh(X, Y, field, shading='gouraud', cmap=colormap, vmax=cmax, vmin=cmin)
-            plt.colorbar(cbar)
+            pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
+
+            xlim = [self.xmin, self.xmax - self.dx]
+            ylim = [self.ymin, self.ymax - self.dy]
+
+            limits_provided = False
+            if 'xlim' in kwargs:
+                xlim = kwargs['xlim']
+                limits_provided = True
+            else:
+                if 'xmin' in kwargs:
+                    xlim[0] = kwargs['xmin']
+                    limits_provided = True
+
+                if 'xmax' in kwargs:
+                    xlim[1] = kwargs['xmax']
+                    limits_provided = True
+
+            if 'ylim' in kwargs:
+                ylim = kwargs['ylim']
+                limits_provided = True
+            else:
+                if 'ymin' in kwargs:
+                    ylim[0] = kwargs['ymin']
+                    limits_provided = True
+
+                if 'ymax' in kwargs:
+                    ylim[1] = kwargs['ymax']
+                    limits_provided = True
+            if limits_provided:
+                region_to_plot = np.zeros(self.dims).astype(bool)
+                region_to_plot[(xlim[0] <= X) * (X <= xlim[1]) * (ylim[0] <= Y) * (Y <= ylim[1])] = True
+                vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
+
+            else:
+                vlim = [np.min(field), np.max(field)]
+
+            # Set the value limitses
+            if 'vlim' in kwargs:
+                vlim = kwargs['vlim']
+            else:
+                if 'vmin' in kwargs:
+                    vlim[0] = kwargs['vmin']
+                if 'vmax' in kwargs:
+                    vlim[1] = kwargs['vmax']
+
+            if vlim[1] - vlim[0] < 1e-10:
+                vlim = [vlim[0] - 0.05, vlim[1] + 0.05]
+
+            pcm.set_clim(vmin=vlim[0], vmax=vlim[1])
+
+            if 'vlim_symmetric' in kwargs:
+                vlim_symmetric = kwargs['vlim_symmetric']
+                if vlim_symmetric:
+                    cmax = abs(field).max()
+                    cmin = -cmax
+                    pcm.set_clim(vmin=cmin, vmax=cmax)
+
+            colorbar = kwargs.get('colorbar', True)
+
+            if colorbar:
+                cbar = plt.colorbar(pcm, ax=ax)
+
+
+
             ax.streamplot(X.T, Y.T, (velocity[0]).T, (velocity[1]).T, color='w')
             ax.quiver(X, Y, director[0], director[1], headwidth=0, scale=50)
             ax.quiver(X, Y, -director[0], -director[1], headwidth=0, scale=50)
             ax.set_aspect('equal')
-            return ax
 
         else:
-            raise Exception("This plotting function not yet configured for other dimension")
+            raise Exception("This plotting function is currently only implemented in 2D! ")
+
+        kwargs['ax'] = ax
+        self.plot_tool_set_axis_properties(**kwargs)
+        return fig, ax
