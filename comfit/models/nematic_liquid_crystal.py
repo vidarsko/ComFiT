@@ -784,7 +784,7 @@ class NematicLiquidCrystal(BaseSystem):
 
         return vortex_nodes
 
-    def plot_disclination_nodes(self, vortex_nodes, ax=None):
+    def plot_disclination_nodes(self, vortex_nodes, **kwargs):
         """
         Plots the discliation nodes in the given axes.
 
@@ -799,9 +799,14 @@ class NematicLiquidCrystal(BaseSystem):
             matplotlib.axes.Axes: The axes on which the disclination nodes are plotted.
         """
 
+        # Check if an axis object is provided
+        fig = kwargs.get('fig', plt.gcf())
+        ax = kwargs.get('ax', None)
+
         if self.dim == 2:
 
             if ax == None:
+                fig.clf()
                 ax = plt.gcf().add_subplot(111)
 
             x_coords_pos = []
@@ -854,11 +859,13 @@ class NematicLiquidCrystal(BaseSystem):
             ax.set_xlim([0, self.xmax-self.dx])
             ax.set_ylim([0, self.ymax-self.dy])
             return ax
+
         elif self.dim == 3:
             # Plotting options
             quiver_scale = 2  # The scale of the quiver arrows
 
             if ax == None:
+                plt.clf()
                 ax = plt.gcf().add_subplot(111, projection='3d')
             x_coords = []
             y_coords = []
@@ -913,32 +920,24 @@ class NematicLiquidCrystal(BaseSystem):
 
             return ax
 
-    def plot_field_velocity_and_director(self, field, velocity, director, **kwargs):# ax=None, colorbar=True, colormap='viridis',
-                                       #  cmax=None, cmin=None,
-                                        # number_of_layers=1, hold=False):
+    def plot_field_velocity_and_director(self, field, velocity, director, **kwargs):
         """
-        Plot the field, velocity, and director in the given axes.
+        Plot the field, velocity, and director field in 2 dimensions
 
         Input:
             field (ndarray): The field to be plotted.
             velocity (ndarray): The velocity to be plotted.
             director (ndarray): The director to be plotted.
-            ax (Axes, optional): The axes to plot the field, velocity, and director on. If not provided, a new subplot will be created.
-            colorbar (bool, optional): Whether to show the colorbar. Default is True.
-            colormap (str, optional): The colormap to use for plotting the field. Default is 'viridis'.
-            cmax (float, optional): The maximum value for the colorbar. If not provided, the maximum value of the field will be used.
-            cmin (float, optional): The minimum value for the colorbar. If not provided, the minimum value of the field will be used.
-            number_of_layers (int, optional): The number of layers in the plot. Default is 1.
-            hold (bool, optional): Whether to hold the plot. Default is False.
+            **kwargs: Keyword arguments for the plot.
+                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
+                for a full list of keyword arguments.
 
         Output:
+            fig (figure): the figure
             ax (Axes): The axes with the plotted field, velocity, and director.
 
         Raises:
-            Exception: If the plotting function is not yet configured for dimensions other than 2.
-
-        Note: streamplot assumes xy indexing and not ij. I think it is suficient
-        just transpose the matrices before putting them in
+            Exception: If the dimension is other than 2.
         """
         if field.dtype == bool:
          field = field.astype(float)
@@ -1051,7 +1050,7 @@ class NematicLiquidCrystal(BaseSystem):
             ax.set_aspect('equal')
 
         else:
-            raise Exception("This plotting function not yet configured for other dimension")
+            raise Exception("This plotting function is currently only implemented in 2D! ")
 
         kwargs['ax'] = ax
         self.plot_tool_set_axis_properties(**kwargs)
