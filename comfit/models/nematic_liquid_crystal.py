@@ -135,7 +135,7 @@ class NematicLiquidCrystal(BaseSystem):
             Exception: If the dimension of the system is not 2.
         """
         if not (self.dim == 2):
-            raise Exception("The dimension of the system must be 2 for a vortex dipole configuration.")
+            raise Exception("The dimension of the system must be 2 for a disclination dipole configuration.")
 
         if self.Q is None:
             self.conf_initial_condition_ordered(noise_strength=0)
@@ -574,17 +574,17 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q = np.real(self.Q)
 
 
-##### defect tracking
+##### disclination tracking
     def calc_disclination_density_nematic(self):
         #TODO: See if this can be optimised
         """
-        Calculates the defect density for the nematic. Note that in three dimension the defect density is a tensor
+        Calculates the disclination density for the nematic. Note that in three dimension the disclination density is a tensor
 
         Input:
             None
 
         Output:
-            (numpy.narray) The defect density
+            (numpy.narray) The disclination density
         """
         if self.dim == 2:
             psi0 = np.sqrt(self.B)/2
@@ -686,10 +686,10 @@ class NematicLiquidCrystal(BaseSystem):
 
             return S, n
 
-    def calc_vortex_velocity_field(self, dt_Q):
+    def calc_disclination_velocity_field(self, dt_Q):
         # TODO make 3D
         """
-        Calculates the velocity field of the defect in two dimensions
+        Calculates the velocity field of the disclination in two dimensions
         
         Input:
             dt_Q (numpy.narray) the time derivative of the order parameter
@@ -708,94 +708,94 @@ class NematicLiquidCrystal(BaseSystem):
                                                    [np.real(dt_psi), np.imag(dt_psi)])
 
 
-    def calc_defect_polarization_field(self):
+    def calc_disclination_polarization_field(self):
         ex = np.real(sp.fft.ifftn(1j*self.k[0]*self.Q_f[0] + 1j*self.k[1]*self.Q_f[1]))
         ey = np.real(sp.fft.ifftn(1j * self.k[0] * self.Q_f[1] - 1j * self.k[1] * self.Q_f[0]))
         return np.array([ex,ey])
 
     def calc_disclination_nodes_nem(self, dt_Q=None,polarization = None,charge_tolerance=None):
         """
-        Calculate the positions and charges of vortex nodes based on the defect density.
+        Calculate the positions and charges of disclination nodes based on the disclination density.
         
         Input:
-            dt_Q (numpy.narray, optional): The time derivative of the order parameter. If not provided, the velocity of the vortex nodes will not be calculated.
+            dt_Q (numpy.narray, optional): The time derivative of the order parameter. If not provided, the velocity of the disclination nodes will not be calculated.
         
         Output:
-            list: A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
-                  - 'position_index': The position index of the vortex node in the defect density array.
-                  - 'charge': The charge of the vortex node.
-                  - 'position': The position of the vortex node as a list [x, y].
-                  - 'velocity': The velocity of the vortex node as a list [vx, vy].
+            list: A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:
+                  - 'position_index': The position index of the disclination node in the disclination density array.
+                  - 'charge': The charge of the disclination node.
+                  - 'position': The position of the disclination node as a list [x, y].
+                  - 'velocity': The velocity of the disclination node as a list [vx, vy].
         """
 
-        # Calculate defect density
+        # Calculate disclination density
         if self.dim == 2:
             psi = self.Q[0] + 1j*self.Q[1]
             rho = self.calc_disclination_density_nematic()
 
             if dt_Q is not None:
-                velocity_field = self.calc_vortex_velocity_field(dt_Q, psi)
+                velocity_field = self.calc_disclination_velocity_field(dt_Q, psi)
 
 
-            vortex_nodes = self.calc_defect_nodes(np.abs(rho))
-            for vortex in vortex_nodes:
-                vortex['charge'] = np.sign(rho[vortex['position_index']])
+            disclination_nodes = self.calc_defect_nodes(np.abs(rho))
+            for disclination in disclination_nodes:
+                disclination['charge'] = np.sign(rho[disclination['position_index']])
 
                 if dt_Q is not None:
-                    vortex['velocity'] = [velocity_field[0][vortex['position_index']],
-                                          velocity_field[1][vortex['position_index']]]
+                    disclination['velocity'] = [velocity_field[0][disclination['position_index']],
+                                          velocity_field[1][disclination['position_index']]]
                 else:
-                    vortex['velocity'] = [float('nan'), float('nan')]
+                    disclination['velocity'] = [float('nan'), float('nan')]
 
-                if vortex['charge'] >0 and polarization is not None:
-                    vortex['polarization'] = [polarization[0][vortex['position_index']]
-                        ,polarization[1][vortex['position_index']]]
+                if disclination['charge'] >0 and polarization is not None:
+                    disclination['polarization'] = [polarization[0][disclination['position_index']]
+                        ,polarization[1][disclination['position_index']]]
                 else:
-                    vortex['polarization'] = [float('nan'), float('nan')]
+                    disclination['polarization'] = [float('nan'), float('nan')]
 
         elif self.dim == 3:
             #TODO Make sure that tangent vector is continous across the border
             omega, Omega, T, trD = self.calc_disclination_density_decoupled()
 
-            vortex_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
+            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
             position_list = []
 
-            for vortex in vortex_nodes:
+            for disclination in disclination_nodes:
 
-                tangent_vector = np.array([T[i][vortex['position_index']] for i in range(3)])
-                rotation_vector = np.array([Omega[i][vortex['position_index']] for i in range(3)])
+                tangent_vector = np.array([T[i][disclination['position_index']] for i in range(3)])
+                rotation_vector = np.array([Omega[i][disclination['position_index']] for i in range(3)])
 
                 for i in range(len(position_list)):
                     pos = position_list[i]
-                    if np.sqrt(sum( (vortex['position'][i] -pos[i])**2 for i in range(self.dim) )) <  5*self.a0:
-                        tan_neight = vortex_nodes[i]['Tangent_vector']
+                    if np.sqrt(sum( (disclination['position'][i] -pos[i])**2 for i in range(self.dim) )) <  5*self.a0:
+                        tan_neight = disclination_nodes[i]['Tangent_vector']
                         if np.sum((tan_neight[j] -tangent_vector[j] )**2 -(tan_neight[j] + tangent_vector[j])**2 for j in range(self.dim)) > 0:
 
                             tangent_vector = -1* tangent_vector
                         break
 
-                if np.sign(np.dot(tangent_vector, rotation_vector)) != np.sign(trD[vortex['position_index']]):
+                if np.sign(np.dot(tangent_vector, rotation_vector)) != np.sign(trD[disclination['position_index']]):
                     rotation_vector = -1*rotation_vector
 
-                vortex['Tangent_vector'] = tangent_vector
-                vortex['Rotation_vector'] = rotation_vector
-                position_list.append(vortex['position'])
+                disclination['Tangent_vector'] = tangent_vector
+                disclination['Rotation_vector'] = rotation_vector
+                position_list.append(disclination['position'])
 
 
 
-        return vortex_nodes
+        return disclination_nodes
 
-    def plot_disclination_nodes(self, vortex_nodes, **kwargs):
+    def plot_disclination_nodes(self, disclination_nodes, **kwargs):
         """
         Plots the discliation nodes in the given axes.
 
         Input:
-            vortex_nodes (list): A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
-                                 - 'position': The position of the vortex node as a list [x, y].
+            disclination_nodes (list): A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:
+                                 - 'position': The position of the disclination node as a list [x, y].
                                  - 'position_index': The index of the position
-                                 - 'charge' (2D only): The charge of the vortex node.
-                                 - 'velocity' (currently 2D only): The velocity of the defect
-                                 - 'polarization' (2D only): The polarization of the +1/2 defects
+                                 - 'charge' (2D only): The charge of the disclination node.
+                                 - 'velocity' (currently 2D only): The velocity of the disclination
+                                 - 'polarization' (2D only): The polarization of the +1/2 disclinations
                                  - 'Tangent_vector' (3D only): the tangent of the disclination line
                                  - 'Rotation_vector' (3D only): the rotation vector of the disclination line
             -**kwargs: Keyword arguments for the plot.
@@ -834,20 +834,20 @@ class NematicLiquidCrystal(BaseSystem):
 
 
 
-            for vortex in vortex_nodes:
+            for disclination in disclination_nodes:
 
-                if vortex['charge'] > 0:
-                    x_coords_pos.append(vortex['position'][0])
-                    y_coords_pos.append(vortex['position'][1])
-                    vx_coords_pos.append(vortex['velocity'][0])
-                    vy_coords_pos.append(vortex['velocity'][1])
-                    px_coords_pos.append(vortex['polarization'][0])
-                    py_coords_pos.append(vortex['polarization'][1])
+                if disclination['charge'] > 0:
+                    x_coords_pos.append(disclination['position'][0])
+                    y_coords_pos.append(disclination['position'][1])
+                    vx_coords_pos.append(disclination['velocity'][0])
+                    vy_coords_pos.append(disclination['velocity'][1])
+                    px_coords_pos.append(disclination['polarization'][0])
+                    py_coords_pos.append(disclination['polarization'][1])
                 else:
-                    x_coords_neg.append(vortex['position'][0])
-                    y_coords_neg.append(vortex['position'][1])
-                    vx_coords_neg.append(vortex['velocity'][0])
-                    vy_coords_neg.append(vortex['velocity'][1])
+                    x_coords_neg.append(disclination['position'][0])
+                    y_coords_neg.append(disclination['position'][1])
+                    vx_coords_neg.append(disclination['velocity'][0])
+                    vy_coords_neg.append(disclination['velocity'][1])
 
 
             # print(x_coords_pos,y_coords_pos)
@@ -886,18 +886,18 @@ class NematicLiquidCrystal(BaseSystem):
             Oy = []
             Oz = []
 
-            for vortex in vortex_nodes:
-                x_coords.append(vortex['position'][0])
-                y_coords.append(vortex['position'][1])
-                z_coords.append(vortex['position'][2])
+            for disclination in disclination_nodes:
+                x_coords.append(disclination['position'][0])
+                y_coords.append(disclination['position'][1])
+                z_coords.append(disclination['position'][2])
 
-                tx.append(vortex['Tangent_vector'][0])
-                ty.append(vortex['Tangent_vector'][1])
-                tz.append(vortex['Tangent_vector'][2])
+                tx.append(disclination['Tangent_vector'][0])
+                ty.append(disclination['Tangent_vector'][1])
+                tz.append(disclination['Tangent_vector'][2])
 
-                Ox.append(vortex['Rotation_vector'][0])
-                Oy.append(vortex['Rotation_vector'][1])
-                Oz.append(vortex['Rotation_vector'][2])
+                Ox.append(disclination['Rotation_vector'][0])
+                Oy.append(disclination['Rotation_vector'][1])
+                Oz.append(disclination['Rotation_vector'][2])
 
             tx = np.array(tx)
             ty = np.array(ty)
