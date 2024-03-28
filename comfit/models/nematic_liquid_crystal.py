@@ -734,7 +734,7 @@ class NematicLiquidCrystal(BaseSystem):
             rho = self.calc_disclination_density_nematic()
 
             if dt_Q is not None:
-                velocity_field = self.calc_disclination_velocity_field(dt_Q, psi)
+                velocity_field = self.calc_disclination_velocity_field(dt_Q)
 
 
             disclination_nodes = self.calc_defect_nodes(np.abs(rho))
