@@ -730,7 +730,7 @@ class NematicLiquidCrystal(BaseSystem):
 
         # Calculate disclination density
         if self.dim == 2:
-            psi = self.Q[0] + 1j*self.Q[1]
+
             rho = self.calc_disclination_density_nematic()
 
             if dt_Q is not None:
