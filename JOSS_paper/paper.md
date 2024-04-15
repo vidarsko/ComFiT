@@ -34,7 +34,7 @@ In so doing, ComFiT also brings advanced models of phase-field crystal modeling 
 ComFiT sets itself apart from existing open-source Python software for solving PDEs in these ways:
 
 - **Spectral Methods**: Like Dedalus [@burnsDedalusFlexibleFramework2020], ComFiT employs spectral methods for differentiation and integration,  which is more accessible for those familiar with Fourier analysis, unlike more complex finite element/volume approaches common in performance-driven libraries, e.g., FEniCS [@alnaesFEniCSProjectVersion2015], PyClaw [@ketchesonPyClawAccessibleExtensible2012], and Firedrake [@hamFiredrakeUserManual2023].
-- **Built-in Visualization**: ComFiT includes tailored plotting tools for physical systems, saving users the effort of integrating external libraries. Most existing libraries focus on providing documentation on how to use external libraries for visualization.
+- **Built-in Visualization**: Unlike the aforementioned libraries, ComFiT includes tailored plotting tools for physical systems, saving users the effort of integrating with external libraries.
 - **Topological Defect Analysis**: ComFiT's defect identification and tracking algorithms provide unique insights crucial for studying physical phenomena. To the best of our knowledge, no other integrated Python library for PDEs offers this functionality.
 
 # Summary
