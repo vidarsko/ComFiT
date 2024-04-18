@@ -7,13 +7,17 @@ import matplotlib.pyplot as plt
 import scipy as sp
 
 pfc = cf.PhaseFieldCrystal2DTriangular(20,13)
-# eta = np.exp(1j*pfc.calc_angle_field_vortex_dipole())
-# pfc.psi = np.real(eta*np.exp(1j*pfc.x))
+eta = np.exp(1j*pfc.calc_angle_field_vortex_dipole())
+# q0=[np.sqrt(2)/2,np.sqrt(2)/2]
+# q0 = [0,1]sd
+# q0 = [np.sqrt(3)/2,1/2]
+# pfc.psi = np.real(eta*np.exp(1j*(q0[0]*pfc.x + q0[1]*pfc.y)))
 
 pfc.psi = np.random.rand(pfc.xRes,pfc.yRes)-0.5
 
 pfc.psi_f = np.fft.fft2(pfc.psi)
 
+pfc.a0 = 2*np.pi
 
 pfc.evolve_PFC(500)
 
@@ -22,7 +26,8 @@ def demodulate(pfc,q):
 
 
 def orientation(pfc,T):
-    qs = [[1,0],[np.sqrt(3)/2,1/2],[np.sqrt(2)/2,np.sqrt(2)/2],[1/2,np.sqrt(3)/2],[0,1],[-1/2,np.sqrt(3)/2],[-np.sqrt(2)/2,np.sqrt(2)/2],[-np.sqrt(3)/2,1/2],[-1,0],[-np.sqrt(3)/2,-1/2],[-np.sqrt(2)/2,-np.sqrt(2)/2],[-1/2,-np.sqrt(3)/2]]
+    N=8
+    qs = [[np.cos(theta),np.sin(theta)] for theta in np.linspace(0,np.pi-(np.pi)/N,N)]
     Z = 0
     p = np.zeros((len(qs),pfc.xRes,pfc.yRes))
     for q,n in zip(qs,range(len(qs))):
@@ -32,24 +37,31 @@ def orientation(pfc,T):
         p[n] = np.exp(abs(eta)/T)
         Z += p[n]
     
-    q_net = np.zeros((2,pfc.xRes,pfc.yRes))
+    Q_net = np.zeros((2,pfc.xRes,pfc.yRes))
     for q,n in zip(qs,range(len(qs))):
+        # print(q[0]*q[0]-1/2)
+        # print(q[0]*q[1])
         # pfc.plot_field(p[n]/Z)
         # plt.show()
-        q_net[0] += q[0]*p[n]/Z
-        q_net[1] += q[1]*p[n]/Z
+        prob = p[n]/Z
+        Q_net[0] += prob*(q[0]*q[0]-1/2)
+        Q_net[1] += prob*q[0]*q[1]
     
-    return q_net
+    return Q_net
 
-q_net = orientation(pfc,0.01)
+Q_net = orientation(pfc,0.1)
+theta = np.arctan2(Q_net[1],Q_net[0])
+q = [np.cos(theta/2),np.sin(theta/2)]
+
 
 fig = plt.figure()
-fig.subplots(1,2)
+fig.subplots(1,1)
 
 pfc.plot_field(pfc.psi,ax=fig.axes[0])
 
-pfc.plot_vector_field(q_net,spacing=1,ax=fig.axes[1])
-# pfc.plot_field(q_net[1])
+pfc.plot_vector_field(q,spacing=1,ax=fig.axes[0])
+# pfc.plot_field(Q_net[0],ax=fig.axes[2])
+# pfc.plot_field(Q_net[1],ax=fig.axes[3])
 plt.show()
             
 

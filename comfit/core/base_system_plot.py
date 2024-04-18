@@ -757,7 +757,7 @@ class BaseSystemPlot:
 
                 X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
 
-                ax.quiver(X, Y, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
+                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
                 
                 kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
 
@@ -777,7 +777,7 @@ class BaseSystemPlot:
 
                 X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-                ax.quiver(X, Y, Z, U, V, W, color='blue')
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
                 kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
                 delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
@@ -820,7 +820,7 @@ class BaseSystemPlot:
                 W = W/max_vector
 
                 # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.xmax/15)
+                vx_scale = kwargs.get('vx_scale', spacing*self.xmax/15/self.a0)
                 vy_scale = kwargs.get('vy_scale', 1)
                 vz_scale = kwargs.get('vz_scale', 1)
 
@@ -829,7 +829,7 @@ class BaseSystemPlot:
                 V = vy_scale*V
                 W = vz_scale*W
 
-                ax.quiver(X, Y, Z, U, V, W, color='blue')
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
                 
                 kwargs['ylim'] = [-1,1]
                 kwargs['zlim'] = [-1,1]
@@ -859,12 +859,12 @@ class BaseSystemPlot:
                 U = U / max_vector
 
                 # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.dx)
+                vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
 
                 # Scaling
                 U = vx_scale*U
 
-                ax.quiver(X, Y, U, V, color='blue',
+                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue',
                     angles='xy', scale_units='xy', scale=1,
                     headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
@@ -875,20 +875,21 @@ class BaseSystemPlot:
 
                 X, Y, U, V = add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
 
+
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
                 
                 U = U / max_vector
                 V = V / max_vector
 
                 # Scale factors
-                vx_scale = kwargs.get('vx_scale', 1.0*spacing*self.dx)
-                vy_scale = kwargs.get('vy_scale', 1.0*spacing*self.dy)
+                vx_scale = kwargs.get('vx_scale', 1.0*spacing*self.dx/self.a0)
+                vy_scale = kwargs.get('vy_scale', 1.0*spacing*self.dy/self.a0)
 
                 # Scaling
                 U = vx_scale*U
                 V = vy_scale*V
 
-                ax.quiver(X, Y, U, V, color='blue', 
+                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', 
                     angles='xy', scale_units='xy', scale=1,
                     headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
@@ -917,16 +918,16 @@ class BaseSystemPlot:
                 W = W / max_vector
                 
                 # Scale factors
-                vx_scale = kwargs.get('vx_scale', 2*spacing*self.xmax/max_vector)
-                vy_scale = kwargs.get('vy_scale', 2*spacing*self.ymax/max_vector)
-                vz_scale = kwargs.get('vz_scale', spacing)
+                vx_scale = kwargs.get('vx_scale', 2*spacing*self.xmax/max_vector/self.a0)
+                vy_scale = kwargs.get('vy_scale', 2*spacing*self.ymax/max_vector/self.a0)
+                vz_scale = kwargs.get('vz_scale', spacing/self.a0)
 
                 # Scaling
                 U = vx_scale*U
                 V = vy_scale*V
                 W = vz_scale*W
 
-                ax.quiver(X, Y, Z, U, V, W, color='blue')
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
                 kwargs['axis_equal'] = False
                 kwargs['zlim'] = [-spacing,spacing]
@@ -953,12 +954,12 @@ class BaseSystemPlot:
                 U = U / max_vector
 
                 # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.dx)
+                vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
 
                 # Scaling
                 U = vx_scale*U
 
-                ax.quiver(X, Y, Z, U, V, W, color='blue')
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
             elif vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
                 
@@ -976,14 +977,14 @@ class BaseSystemPlot:
                 V = V / max_vector
 
                 # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.dx)
-                vy_scale = kwargs.get('vy_scale', spacing*self.dy)
+                vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+                vy_scale = kwargs.get('vy_scale', spacing*self.dy/self.a0)
 
                 # Scaling
                 U = vx_scale*U
                 V = vy_scale*V
 
-                ax.quiver(X, Y, Z, U, V, W, color='blue')
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
             elif vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
                 
@@ -1001,16 +1002,16 @@ class BaseSystemPlot:
                 W = W / max_vector
 
                 # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.dx)
-                vy_scale = kwargs.get('vy_scale', spacing*self.dy)
-                vz_scale = kwargs.get('vz_scale', spacing*self.dz)
+                vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+                vy_scale = kwargs.get('vy_scale', spacing*self.dy/self.a0)
+                vz_scale = kwargs.get('vz_scale', spacing*self.dz/self.a0)
 
                 # Scaling
                 U = vx_scale*U
                 V = vy_scale*V
                 W = vz_scale*W
 
-                ax.quiver(X, Y, Z, U, V, W, color='blue')
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
         kwargs['ax'] = ax
         self.plot_tool_set_axis_properties(**kwargs)
