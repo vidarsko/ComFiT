@@ -6,14 +6,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
 
-pfc = cf.PhaseFieldCrystal2DTriangular(20,13)
+pfc = cf.PhaseFieldCrystal2DTriangular(40,26)
 eta = np.exp(1j*pfc.calc_angle_field_vortex_dipole())
-# q0=[np.sqrt(2)/2,np.sqrt(2)/2]
-# q0 = [0,1]sd
+q0 = [1,0]
+q0=[np.sqrt(2)/2,np.sqrt(2)/2]
+# q0 = [0,1]
 # q0 = [np.sqrt(3)/2,1/2]
-# pfc.psi = np.real(eta*np.exp(1j*(q0[0]*pfc.x + q0[1]*pfc.y)))
+pfc.psi = np.real(eta*np.exp(1j*(q0[0]*pfc.x + q0[1]*pfc.y)))
 
-pfc.psi = np.random.rand(pfc.xRes,pfc.yRes)-0.5
+# pfc.psi = np.random.rand(pfc.xRes,pfc.yRes)-0.5
 
 pfc.psi_f = np.fft.fft2(pfc.psi)
 
@@ -30,36 +31,42 @@ def orientation(pfc,T):
     qs = [[np.cos(theta),np.sin(theta)] for theta in np.linspace(0,np.pi-(np.pi)/N,N)]
     Z = 0
     p = np.zeros((len(qs),pfc.xRes,pfc.yRes))
+    eta = np.zeros((len(qs),pfc.xRes,pfc.yRes),dtype=complex)
     for q,n in zip(qs,range(len(qs))):
-        eta = sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_Gaussian_filter_f())
+        eta[n] = sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_Gaussian_filter_f())
         # pfc.plot_field(abs(eta))
         # plt.show()
-        p[n] = np.exp(abs(eta)/T)
+        p[n] = np.exp(abs(eta[n])/T)
         Z += p[n]
     
     Q_net = np.zeros((2,pfc.xRes,pfc.yRes))
+    eta_net = np.zeros((pfc.xRes,pfc.yRes),dtype=complex)
     for q,n in zip(qs,range(len(qs))):
         # print(q[0]*q[0]-1/2)
         # print(q[0]*q[1])
         # pfc.plot_field(p[n]/Z)
         # plt.show()
+        # pfc.plot_complex_field(eta[n])
+        # plt.show()
         prob = p[n]/Z
         Q_net[0] += prob*(q[0]*q[0]-1/2)
         Q_net[1] += prob*q[0]*q[1]
+        eta_net += prob*eta[n]
     
-    return Q_net
+    return Q_net, eta_net
 
-Q_net = orientation(pfc,0.1)
+Q_net, eta_net = orientation(pfc,0.1)
 theta = np.arctan2(Q_net[1],Q_net[0])
 q = [np.cos(theta/2),np.sin(theta/2)]
 
 
 fig = plt.figure()
-fig.subplots(1,1)
+fig.subplots(1,2)
 
 pfc.plot_field(pfc.psi,ax=fig.axes[0])
+pfc.plot_complex_field(eta_net,ax=fig.axes[1])
 
-pfc.plot_vector_field(q,spacing=1,ax=fig.axes[0])
+# pfc.plot_vector_field(q,spacing=1,ax=fig.axes[0])
 # pfc.plot_field(Q_net[0],ax=fig.axes[2])
 # pfc.plot_field(Q_net[1],ax=fig.axes[3])
 plt.show()
