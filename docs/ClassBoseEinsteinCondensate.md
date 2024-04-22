@@ -19,6 +19,11 @@ The primary field is the complex wave function $\psi$
 ```python
 bec.psi 
 ```
+The Bose-Einstein condensate takes the same keyword arguments as the BaseSystem in addition to
+
+| Keyword | Definition | Default value|
+|---------|------------|--------------|
+| `gamma`  | dissipative factor | $0.01$ |
 
 ## Model
 
