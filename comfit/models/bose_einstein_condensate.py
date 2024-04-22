@@ -15,18 +15,18 @@ class BoseEinsteinCondensate(BaseSystem):
         Input:
         - dimension : int
             The dimension of the system.
-        - x_resolution : int
-            The resolution along the x-axis.
         - kwargs : dict, optional
-            Optional keyword arguments to set additional parameters.
+            Optional keyword arguments to set additional parameters. see
+            https://vidarsko.github.io/ComFiT/ClassBoseEinsteinCondensate/
 
         Output:
         - BoseEinsteinCondensate object
             The system object representing the BoseEinsteinCondensate simulation.
 
         Example:
-        bec = BoseEinsteinCondensate(3, 100, dissipation_factor=0.5)
-        Creates a BoseEinsteinCondensate system with 3 dimensions and an x-resolution of 100. The dissipation factor is set to 0.5.
+        bec = BoseEinsteinCondensate(3,xRes=101,yRes=101,zRes=101, gamma=0.5)
+        Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101.
+        The dissipative factor gamma is set to 0.5.
         """
 
         # First initialize the BaseSystem class
@@ -38,7 +38,7 @@ class BoseEinsteinCondensate(BaseSystem):
         self.type = 'BoseEinsteinCondensate'
 
         # Default simulation parameters
-        self.gamma = 0.1 if 'gamma' not in kwargs else kwargs['gamma']  # Dissipation (gamma)
+        self.gamma = 0.01 if 'gamma' not in kwargs else kwargs['gamma']  # Dissipation (gamma)
 
         self.V_ext = lambda t: 0  # External potential, note this is a function of t
 

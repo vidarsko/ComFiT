@@ -20,19 +20,18 @@ class NematicLiquidCrystal(BaseSystem):
 
         Input:
         - dimension : int
-            The dimension of the system. Note that only d=2 is implemented at the moment
-        - x_resolution : int
-            The resolution along the x-axis.
+            The dimension of the system.
         - kwargs : dict, optional
-            Optional keyword arguments to set additional parameters.
+            Optional keyword arguments to set additional parameters. See
+            https://vidarsko.github.io/ComFiT/ClassNematicLiquidCrystal/
 
         Output:
         - nematic object
             The system object representing the nematic simulation.
 
         Example:
-        nematic = nematic(2, 100, alpha=-0.5)
-        Creates a nematic system with 2 dimensions and an x-resolution of 100. The activity alpha is set to -0.5.
+        nematic = NematicLiquidCrystal(2, xRes=100, yRes = 100, alpha=-0.5)
+        Creates a nematic system with 2 dimensions and a spatial resolution of 100. The activity alpha is set to -0.5.
         """
         super().__init__(dimension, **kwargs)
 

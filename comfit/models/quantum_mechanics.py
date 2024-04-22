@@ -9,6 +9,19 @@ class QuantumMechanics(BaseSystem):
         """
         Initializes a quamtum mechanics system evolving according to the Schrödinger equation
 
+        Input:
+        - dimension : int
+            The dimension of the system.
+        - kwargs : dict, optional
+            Optional keyword arguments to set additional parameters. Same as BaseSystem
+
+        Output:
+        - QuantumMechanics object
+            The system object representing the QuantumMechanics simulation.
+
+        Example:
+        qm = cf.QuantumMechanics(3,xRes=101,yRes=101,zRes=101)
+        Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101.
         """
 
         # First initialize the BaseSystem class
