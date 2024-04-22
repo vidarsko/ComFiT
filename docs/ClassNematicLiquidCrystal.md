@@ -23,6 +23,22 @@ nem.Q
 nem.u
 ```
 
+The NematicLiquidCrystal class takes the same keyword as the BaseSystem class in addition to
+
+| Keyword | Definition | Default value|
+|---------|------------|--------------|
+| `alpha`  | The activity parameter. Negative is extensile | $-1$ |
+| `K`  | Frank elastic constant  | $1$ |
+| `A`  | Parameter in front of $\text{Tr}(Q^2)$ in the free-energy | $1$ |
+| `B`  | Parameter in front of $\text{Tr}(Q^2)^2$ in the free-energy | $1$ |
+| `C`  | Parameter in front of $\text{Tr}(Q^3)$ in the free-energy. 3D only | $0$ |
+| `gamma`  | Rotational diffusion | $1$ |
+| `Gamma`  | Friction  | $0$ |
+| `eta`  | Viscosity | $1$ |
+
+These parameters are discussed in more detail in the model section. 
+
+### Note on the tensor parameters
 The $Q$ tensor is given by the nematic director as
 
 $$
