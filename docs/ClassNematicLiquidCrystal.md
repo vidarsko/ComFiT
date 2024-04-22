@@ -23,6 +23,14 @@ nem.Q
 nem.u
 ```
 
+The NematicLiquidCrystal class takes the same keyword as the BaseSystem class in addition to
+
+| Keyword | Definition | Default value|
+|---------|------------|--------------|
+| `gamma`  | dissipative factor | $0.01$ |
+
+
+### The parameters
 The $Q$ tensor is given by the nematic director as
 
 $$
