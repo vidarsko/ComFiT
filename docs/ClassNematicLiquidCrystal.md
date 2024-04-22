@@ -27,7 +27,7 @@ The NematicLiquidCrystal class takes the same keyword as the BaseSystem class in
 
 | Keyword | Definition | Default value|
 |---------|------------|--------------|
-| `alpha`  | The activity parameter. See model section for sign convention | $-1$ |
+| `alpha`  | The activity parameter. Negative is extensile | $-1$ |
 | `K`  | Frank elastic constant  | $1$ |
 | `A`  | Parameter in front of $\text{Tr}(Q^2)$ in the free-energy | $1$ |
 | `B`  | Parameter in front of $\text{Tr}(Q^2)^2$ in the free-energy | $1$ |
