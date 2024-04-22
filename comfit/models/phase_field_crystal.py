@@ -11,7 +11,23 @@ class PhaseFieldCrystal(BaseSystem):
 
     def __init__(self, dimension, **kwargs):
         """
-        Nothing here yet
+        Initializes a system to simulate a Phase Field Crystal. This class is the base of the other
+        phase field crystal models implemented in comfit
+
+        Input:
+        - dimension : int
+            The dimension of the system.
+        - kwargs : dict, optional
+            Optional keyword arguments to set additional parameters. See
+            https://vidarsko.github.io/ComFiT/ClassPhaseFieldCrystal/
+
+        Output:
+        - PhaseFieldCrystal object
+            The system object representing the phase field crystal simulation.
+
+        Example:
+        pfc = PhaseFieldCrystal(2, xRes=100, yRes = 100)
+        Creates a phase field crystal system with 2 dimensions and a spatial resolution of 100.
         """
         
         # First initialize the BaseSystem class

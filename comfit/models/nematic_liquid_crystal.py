@@ -26,12 +26,13 @@ class NematicLiquidCrystal(BaseSystem):
             https://vidarsko.github.io/ComFiT/ClassNematicLiquidCrystal/
 
         Output:
-        - nematic object
+        - NematicLiquidCrystal object
             The system object representing the nematic simulation.
 
         Example:
         nematic = NematicLiquidCrystal(2, xRes=100, yRes = 100, alpha=-0.5)
-        Creates a nematic system with 2 dimensions and a spatial resolution of 100. The activity alpha is set to -0.5.
+        Creates a nematic liquid crystal with 2 dimensions and a spatial resolution of 100.
+        The activity alpha is set to -0.5.
         """
         super().__init__(dimension, **kwargs)
 
