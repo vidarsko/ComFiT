@@ -5,8 +5,6 @@ from tqdm import tqdm
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 import scipy as sp
 
-#A meaningless test comment
-
 class BoseEinsteinCondensate(BaseSystem):
     def __init__(self, dimension, **kwargs):
         """
@@ -25,7 +23,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
         Example:
         bec = BoseEinsteinCondensate(3,xRes=101,yRes=101,zRes=101, gamma=0.5)
-        Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101.
+        Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101 in all directions.
         The dissipative factor gamma is set to 0.5.
         """
 
