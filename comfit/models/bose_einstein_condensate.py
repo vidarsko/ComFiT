@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from comfit.core.base_system import BaseSystem
 from tqdm import tqdm
-from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
+from mpl_toolkits.mplot3d import Axes3D  
 import scipy as sp
 
 class BoseEinsteinCondensate(BaseSystem):
