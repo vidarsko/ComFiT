@@ -10,14 +10,16 @@ import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 
 class BaseSystemPlot:
-    # PLOTTING FUNCTIONS
+    """ Plotting methods for the base system class"""
 
     def plot_tool_set_axis_properties(self, **kwargs):
-        """
-        Sets the properties of the axis for a plot.
+        """Sets the properties of the axis for a plot.
         
         Args:
             kwargs: keyword arguments for the axis properties
+
+        Returns:
+            The axis object with the properties set.
         """
 
         # Check if an axis object is provided
@@ -154,13 +156,15 @@ class BaseSystemPlot:
         return ax
 
     def plot_tool_extend_field(self,field):
-        """
-        Extends the field in case not a complete array is given. 
+        """Extends the field in case not a complete array is given. 
+
         For instance, if a field in 3 dimensions is calculated using only x, then the field is extended to the full 3D array.
+
         Args:
             field: The field to be extended
+
         Returns:
-            np.ndarray: The extended field
+            The extended field (np.ndarray)
         """    
         # 2 dimensional fields
         if field.shape == (self.xRes,1):
@@ -194,8 +198,13 @@ class BaseSystemPlot:
         return field
 
     def plot_tool_surface(self, **kwargs):
-        """
-        Plots the surface of the given field.
+        """Plots the surface of the given field.
+
+        Args:
+            **kwargs: Keyword arguments for the plot.
+        
+        Returns:
+            The axes containing the plot.
         """
         field = kwargs['field']
         value = kwargs['value']
@@ -210,8 +219,7 @@ class BaseSystemPlot:
         ax.plot_trisurf(x, y, faces, z, alpha=alpha, color=color)
     
     def plot_field(self, field, **kwargs):
-        """
-        Plots the given (real) field.
+        """Plots the given (real) field.
         
         Args:
             field (array-like): The field to be plotted.
@@ -220,7 +228,7 @@ class BaseSystemPlot:
                 for a full list of keyword arguments.
         
         Returns:
-            matplotlib.axes.Axes: The axes containing the plot.
+            The axes containing the plot (matplotlib.axes.Axes).
         """
 
         if field.dtype == bool:
@@ -427,7 +435,6 @@ class BaseSystemPlot:
         
         Returns:
             matplotlib.axes.Axes: The axes containing the plot.
-
         """
 
         # Check if an axis object is provided
@@ -651,15 +658,14 @@ class BaseSystemPlot:
         return fig, ax
 
     def plot_angle_field(self, angle_field, **kwargs):
-        """
-        Plot the angle field.
+        """Plot the angle field.
 
         Args:
             field (array-like): The angle field values.
             ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
         
         Returns:
-            matplotlib.axes.Axes: The axes containing the plot.
+            The axes containing the plot. (matplotlib.axes.Axes)
         """
 
         # Check if the vector field is complex
@@ -694,17 +700,17 @@ class BaseSystemPlot:
             return self.plot_complex_field(complex_field, **kwargs)
 
     def plot_vector_field(self, vector_field, spacing=5, **kwargs):
-        """
-        Plots a vector field.
+        """Plots a vector field.
 
         Args:
-        vector_field (tuple): Tuple containing the x and y components of the vector field.
-        spacing (int, optional): The spacing for the quiver plot. Default is 5.
-        kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
+            vector_field (tuple): Tuple containing the x and y components of the vector field.
+            spacing (int, optional): The spacing for the quiver plot. Default is 5.
+            **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
         Returns:
-        matplotlib.figure.Figure: The figure containing the plot.
-        matplotlib.axes.Axes: The axes containing the plot.
+            Tuple containing
+                - The figure containing the plot.
+                - The axes containing the plot.
         """
         # Convert the vector field to a numpy array
         vector_field = np.array(vector_field)
@@ -1019,9 +1025,9 @@ class BaseSystemPlot:
 
     def plot_field_in_plane(self, field, normal_vector=None, position=None, 
                         **kwargs):
-        """
-        Plots the field in a plane perpendicular to the given normal vector using
-        scipy.interpolate.griddata and plt.plot_trisurf.
+        """Plots the field in a plane perpendicular to the given normal vector
+        
+        Uses scipy.interpolate.griddata and plt.plot_trisurf.
 
         Args:
             field (array-like): The field to be plotted.
@@ -1030,7 +1036,7 @@ class BaseSystemPlot:
             **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/. 
         
         Returns:
-            matplotlib.axes.Axes: The axes containing the plot.
+            The axes containing the plot. (matplotlib.axes.Axes)
         """
 
         if self.dim != 3:
@@ -1113,8 +1119,7 @@ class BaseSystemPlot:
         return fig, ax
 
     def plot_complex_field_in_plane(self, complex_field, normal_vector=None, position=None, **kwargs):
-        """
-        Plots the complex field in a plane perpendicular to the given normal vector using
+        """Plots the complex field in a plane perpendicular to the given normal vector using
 
         Args:
             complex_field (array-like): The complex field to be plotted.
@@ -1123,7 +1128,7 @@ class BaseSystemPlot:
             **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
         Returns:
-            matplotlib.axes.Axes: The axes containing the plot of the complex field.
+            The axes containing the plot of the complex field. (matplotlib.axes.Axes)
         """
 
         if self.dim != 3:
@@ -1205,8 +1210,7 @@ class BaseSystemPlot:
         return fig, ax
 
     def plot_angle_field_in_plane(self, angle_field, normal_vector=None, position=None,**kwargs):
-        """
-        Plots the angle field in a plane.
+        """Plots the angle field in a plane.
 
         Args:
             angle_field (numpy.ndarray): The angle field to be plotted.
@@ -1215,7 +1219,7 @@ class BaseSystemPlot:
             **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
         Returns:
-            matplotlib.axes.Axes: The axes containing the plot.
+            The axes containing the plot. (matplotlib.axes.Axes)
         """
 
         # Check if the vector field is complex
@@ -1244,8 +1248,9 @@ class BaseSystemPlot:
             kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
         Returns:
-            matplotlib.figure.Figure: The figure containing the plot.
-            matplotlib.axes.Axes: The axes containing the plot.
+            Tuple   
+            The figure containing the plot. matplotlib.figure.Figure.
+            The axes containing the plot. matplotlib.axes.Axes: 
         """
 
         # Convert the vector field to a numpy array
