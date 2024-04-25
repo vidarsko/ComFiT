@@ -622,15 +622,14 @@ class BaseSystemCalc:
         return integrating_factors_f, solver
 
     def calc_advect_field(self, field, u, field_f = None, order = 3):
-        """
-        Advects field accodring to the provided displacement field u, with a taylor expansion up to order 3.
+        """Advects field accodring to the provided displacement field u, with a taylor expansion up to order 3.
 
         Args: 
             u: Displacement field (numpy.ndarray)
             taylor_order: Order of the taylor expansion
 
         Returns:
-            np.ndarray: The field after advection by u
+            The field after advection by u. np.ndarray.
         """
 
         if order > 3:
@@ -667,15 +666,14 @@ class BaseSystemCalc:
 
 
     def calc_evolution_integrating_factors_ETD2RK(self, omega_f, tol=10 ** (-4)):
-        """
-        Calculates integrating factors for ETD2RK
+        """Calculates integrating factors for ETD2RK
         
         Args:
-            omega_f (numpy.ndarray): the value of omega_f
-            tol (float, optional): tolerance for when to expand the integrating factors that divide by omega
+            omega_f: the value of omega_f. (numpy.ndarray)
+            tol: tolerance for when to expand the integrating factors that divide by omega (float, optional)
         
         Returns:
-            list: the list of integrating factors
+            the list of integrating factors
         """
         integrating_factors_f = [0, 0, 0]
 
@@ -690,15 +688,14 @@ class BaseSystemCalc:
         return integrating_factors_f
 
     def calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10 ** (-4)):
-        """
-        Calculate the evolution integrating factors using the ETDRK4 method.
+        """Calculate the evolution integrating factors using the ETDRK4 method.
 
         Args:
-            omega_f (numpy.ndarray): The value of omega_f.
-            tol (float,optional): tolerance for when to expand the integrating factors that divide by omega
-        
+            omega_f: The value of omega_f.  (numpy.ndarray)
+            tol: tolerance for when to expand the integrating factors that divide by omega (float,optional)
+         
         Returns:
-            list: The list of integrating factors.
+            The list of integrating factors.
         """
         integrating_factors_f = [0, 0, 0, 0, 0, 0]
 
@@ -733,14 +730,13 @@ class BaseSystemCalc:
     def calc_defect_nodes(self, defect_density,
                           charge_tolerance=None,
                           integration_radius=None):
-        """
-        Calculate the positions and charges of defect nodes based on the defect density.
+        """Calculate the positions and charges of defect nodes based on the defect density.
         
         Args:
-            defect_density (numpy.ndarray): The defect density field. A positive scalar field to be integrated.
+            defect_density: The defect density field. A positive scalar field to be integrated.  (numpy.ndarray)
         
         Returns:
-            list: A list of dictionaries representing the defect nodes. Each dictionary contains the following keys:
+            A list of dictionaries representing the defect nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the defect node in the defect density array.
                   - 'position': The position of the defect node
         """
