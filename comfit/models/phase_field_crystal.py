@@ -15,19 +15,11 @@ class PhaseFieldCrystal(BaseSystem):
         phase field crystal models implemented in comfit
 
         Args:
-        - dimension : int
-            The dimension of the system.
-        - kwargs : dict, optional
-            Optional keyword arguments to set additional parameters. See
-            https://comfitlib.com/ClassPhaseFieldCrystal/
+            dimension: The dimension of the system.
+            kwargs :keyword arguments to set additional parameters. See https://comfitlib.com/ClassPhaseFieldCrystal/
 
         Returns:
-        - PhaseFieldCrystal object
             The system object representing the phase field crystal simulation.
-
-        Example:
-        pfc = PhaseFieldCrystal(2, xRes=100, yRes = 100)
-        Creates a phase field crystal system with 2 dimensions and a spatial resolution of 100.
         """
         
         # First initialize the BaseSystem class
@@ -51,6 +43,12 @@ class PhaseFieldCrystal(BaseSystem):
     def __str__(self):
         """
         Returns a string representation of the object.
+
+        Args:
+            None
+        
+        Returns: 
+            A string representation of the object.
         """
         string = "-------------------------------\n"
         string += "Phase Field Crystal instance\n"
@@ -95,6 +93,14 @@ class PhaseFieldCrystal(BaseSystem):
 
     # CONFIGURATION FUNCTIONS
     def conf_PFC_from_amplitudes(self, eta=None):
+        """Configures the PFC from the amplitudes.
+
+        Args:
+            eta: The amplitudes to configure the PFC from.
+
+        Returns:
+            Configures self.psi and self.psi_f.
+        """
 
         self.psi = self.psi0
 
@@ -116,8 +122,13 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi_f = sp.fft.fftn(self.psi)
 
     def conf_advect_PFC(self,u):
-        """
-        Advects the PFC according to the displacement field u.
+        """Advects the PFC according to the displacement field u.
+
+        Args:
+            u: The displacement field to advect the PFC with.
+
+        Returns:
+            The advected PFC.
         """
 
         self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
@@ -134,6 +145,15 @@ class PhaseFieldCrystal(BaseSystem):
 
     # EVOLUTION FUNCTIONS
     def evolve_PFC(self, number_of_steps, method='ETD2RK'):
+        """Evolves the PFC according to classical PFC dynamics.
+
+        Args:
+            number_of_steps: The number of steps to evolve the PFC.
+            method: The method to use for the evolution (default: ETD2RK).
+        
+        Returns:
+            Updates self.psi and self.psi_f
+        """
 
         omega_f = self.calc_omega_f()
 
@@ -149,13 +169,15 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi_f = sp.fft.fftn(self.psi)
 
     def evolve_PFC_mechanical_equilibrium(self, time, Delta_t = 10, method='ETD2RK'):
-        """
-        Evolves the PFC in mechanical equilibrium. 
+        """Evolves the PFC in mechanical equilibrium. 
 
         Args:
             number_of_steps: The number of steps to evolve the PFC
             Delta_t: The time step for the mechanical equilibrium evolution
-            method: The method to use for the evolution (default: ETD2RK)
+            method: The method to use for the evolution
+
+        Returns:
+            Updates self.psi and self.psi_f
         """
         
         number_of_steps = round(time/self.dt)
@@ -172,8 +194,19 @@ class PhaseFieldCrystal(BaseSystem):
                                 method = 'ETD2RK',
                                 gamma_S = 2**-2,
                                 rho0 = 2**-2):
-        """
-        We extend psi to also contain the hydrodynamic field in components psi[1],psi[2],psi[3]
+        """Evolves the PFC according to hydrodynamic PFC dynamics.
+
+        This requires introducing a velocity field. 
+        If psi does not contain this field, it is added to the components psi[1],psi[2],psi[3].
+        
+        Args:
+            number_of_steps: The number of steps to evolve the PFC.
+            method: The method to use for the evolution (default: ETD2RK).
+            gamma_S: The surface tension coefficient.
+            rho0: The mass density.
+
+        Returns:
+            Updates self.psi and self.psi_f
         """
         
         if hasattr(self,'velocity_field'):
@@ -200,12 +233,29 @@ class PhaseFieldCrystal(BaseSystem):
 
 
     # CALCULATION FUNCTIONS
-
     def calc_omega_hydrodynamic_f(self):
+        """Calculates the hydrodynamic evolution function omega_f.
+
+        Args:
+            None
+
+        Returns:
+            The hydrodynamic evolution function omega_f.
+        """
+
         return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*np.ones(self.dims)]*self.dim)
 
 
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
+        """Calculates the free energy density and chemical potential of the PFC.
+
+        Args:
+            field: The field to calculate the free energy density and chemical potential of.
+            field_f: The Fourier transform of the field.
+
+        Returns:
+            The free energy density and chemical potential of the PFC.
+        """
 
         if field is None:
             field = self.psi
@@ -236,6 +286,15 @@ class PhaseFieldCrystal(BaseSystem):
         return free_energy_density, chemical_potential
 
     def calc_nonlinear_hydrodynamic_evolution_function_f(self, field, t):
+        """Calculates the hydrodynamic evolution function of the PFC.
+
+        Args:
+            field: The field to calculate the evolution function of.
+            t: The time.
+
+        Returns:
+            The nonlinear evolution function for the hydrodynamic PFC.
+        """
 
         field_f = sp.fft.fftn(field, axes =( range ( - self . dim , 0) ))
 
@@ -252,8 +311,7 @@ class PhaseFieldCrystal(BaseSystem):
         return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
 
     def calc_displacement_field_to_equilibrium(self):
-        """
-        Calculates the displacement field needed to put the PFC in mechanical equilibrium.
+        """Calculates the displacement field needed to put the PFC in mechanical equilibrium.
 
         Args:
             None
@@ -298,6 +356,17 @@ class PhaseFieldCrystal(BaseSystem):
 
     # Initial configuration methods
     def calc_amplitudes_with_dislocation(self, eta=None, x=None, y=None, dislocation_type=1):
+        """ Calculates the amplitudes with a single point dislocation inserted.
+
+        Args:
+            eta: The amplitudes to insert the dislocation in.
+            x: The x-coordinate of the dislocation.
+            y: The y-coordinate of the dislocation.
+            dislocation_type: The dislocation type to insert.
+        
+        Returns:
+            The amplitudes containing the dislocation
+        """
 
         if not (self.dim == 2):
             raise Exception("The dimension of the system must be 2 for a single point dislocation.")
@@ -324,12 +393,12 @@ class PhaseFieldCrystal(BaseSystem):
         Inserts a  dislocation dipole in the system corresponding to dislocation type and its negative
 
         Args:
-            - eta: The amplitudes to insert the dislocation dipole in
-            - x1: The x-coordinate of the first dislocation
-            - y1: The y-coordinate of the first dislocation
-            - x2: The x-coordinate of the second dislocation
-            - y2: The y-coordinate of the second dislocation
-            - dislocation_type: The dislocation type to insert
+            eta: The amplitudes to insert the dislocation dipole in
+            x1: The x-coordinate of the first dislocation
+            y1: The y-coordinate of the first dislocation
+            x2: The x-coordinate of the second dislocation
+            y2: The y-coordinate of the second dislocation
+            dislocation_type: The dislocation type to insert
         
         Returns:
             The amplitudes with the dislocation dipole inserted
@@ -372,11 +441,11 @@ class PhaseFieldCrystal(BaseSystem):
         Inserts a  dislocation ring in the system corresponding to dislocation type.
 
         Args:
-            - eta: The amplitudes to insert the dislocation ring in
-            - position: The position of the dislocation ring
-            - radius: The radius of the dislocation ring
-            - normal_vector: The normal vector of the dislocation ring
-            - dislocation_type: The dislocation type to insert
+            eta: The amplitudes to insert the dislocation ring in
+            position: The position of the dislocation ring
+            radius: The radius of the dislocation ring
+            normal_vector: The normal vector of the dislocation ring
+            dislocation_type: The dislocation type to insert
 
         Returns:
             The amplitudes with the dislocation ring inserted
@@ -411,8 +480,14 @@ class PhaseFieldCrystal(BaseSystem):
         return eta
     
     def calc_PFC_from_amplitudes(self, eta=None, rotation=None):
-        """
-        Calculates the PFC from the amplitudes.
+        """Calculates the PFC from the amplitudes.
+
+        Args:
+            eta: The amplitudes to calculate the PFC from.
+            rotation : The rotation of the PFC
+
+        Returns:
+            The PFC.
         """ 
 
         psi = self.psi0
@@ -449,14 +524,13 @@ class PhaseFieldCrystal(BaseSystem):
         return np.real(psi)
 
     def calc_demodulate_PFC(self):
-        """
-        Demodulates the PFC.
+        """Demodulates the PFC.
 
         Args:
             None
 
         Returns:
-            The demodulated PFC
+            The amplitudes corresponding to the demodulated PFC.
         """
 
         eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
@@ -478,8 +552,7 @@ class PhaseFieldCrystal(BaseSystem):
         return eta
 
     def calc_stress_tensor(self):
-        """
-        Calculates the stress of the phase-field crystal.
+        """Calculates the stress of the phase-field crystal.
 
         Args:
             None
@@ -506,8 +579,7 @@ class PhaseFieldCrystal(BaseSystem):
         return np.real(sp.fft.ifftn(stress, axes = (range( - self.dim , 0) )))
 
     def calc_structure_tensor(self):
-        """ 
-        Calculates the structure tensor of the phase-field crystal.
+        """Calculates the structure tensor of the phase-field crystal.
 
         Args:
             None
@@ -552,8 +624,7 @@ class PhaseFieldCrystal(BaseSystem):
 
 
     def calc_strain_tensor(self):
-        """
-        Calculates the strain of the phase-field crystal.
+        """Calculates the strain of the phase-field crystal.
 
         Args:
             None
@@ -580,6 +651,14 @@ class PhaseFieldCrystal(BaseSystem):
 
 
     def calc_dislocation_density(self, eta = None):
+        """Calculates the dislocation density
+
+        Args:
+            eta: The amplitudes to calculate the dislocation density from.
+
+        Returns:
+            The dislocation density
+        """
 
         if eta is None:
             eta = self.calc_demodulate_PFC()
@@ -608,6 +687,15 @@ class PhaseFieldCrystal(BaseSystem):
         
 
     def calc_dislocation_nodes(self):
+        """ Calculates the dislocation nodes
+
+        Args:
+            None
+        
+        Returns:
+            The dislocation nodes
+        """
+
         alpha = self.calc_dislocation_density()
 
         if self.dim == 2:
@@ -694,13 +782,11 @@ class PhaseFieldCrystal(BaseSystem):
         Plots the dislocation nodes.
 
         Args:
-            - dislocation_nodes: The dislocation nodes to plot.
-            -**kwargs: Keyword arguments for the plot.
-                See https://comfitlib.com/ClassBaseSystem/ 
-                for a full list of keyword arguments.  
-
+            dislocation_nodes: The dislocation nodes to plot.
+            **kwargs: Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.  
+                
         Returns: 
-            matplotlib.axes.Axes: The axes containing the plot.
+            The axes containing the plot. (matplotlib.axes.Axes)
         """    
 
         # Check if an axis object is provided
