@@ -7,7 +7,7 @@ The library features the Exponential Time Differencing method for numerical inte
 Additionally, ComFiT includes tools for tracking and calculating the density of topological defects in various systems.
 It also enables users to create and export plots and animations for a clearer understanding of the simulated phenomena.
 
-[![Try ComFiT with our tutorials!](https://img.shields.io/badge/-Try%20ComFiT%20with%20our%20tutorials!-brightgreen)](https://vidarsko.github.io/ComFiT/)
+[![Try ComFiT with our tutorials!](https://img.shields.io/badge/-Try%20ComFiT%20with%20our%20tutorials!-brightgreen)](https://comfitlib.com)
 
 
 If you use ComFiT in your research or education, please cite the following paper:
@@ -29,7 +29,7 @@ The amplitude of the wavefunction is shown as an isosurface at $50\%$ its maxima
 
 ## Documentation
 
-For detailed usage instructions, tutorials and instructions on how to contribute, please refer to our [documentation](https://vidarsko.github.io/ComFiT/).
+For detailed usage instructions, tutorials and instructions on how to contribute, please refer to our [documentation](https://comfitlib.com).
 
 ## Installation
 
