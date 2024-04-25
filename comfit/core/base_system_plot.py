@@ -1248,9 +1248,9 @@ class BaseSystemPlot:
             kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
         Returns:
-            Tuple   
-            The figure containing the plot. matplotlib.figure.Figure.
-            The axes containing the plot. matplotlib.axes.Axes: 
+            Tuple consisting of
+                - The figure containing the plot. matplotlib.figure.Figure.
+                - The axes containing the plot. matplotlib.axes.Axes: 
         """
 
         # Convert the vector field to a numpy array
