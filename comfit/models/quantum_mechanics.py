@@ -15,7 +15,7 @@ class QuantumMechanics(BaseSystem):
         - kwargs : dict, optional
             Optional keyword arguments to set additional parameters. Same as BaseSystem
 
-        Output:
+        Returns:
         - QuantumMechanics object
             The system object representing the QuantumMechanics simulation.
 
@@ -78,7 +78,7 @@ class QuantumMechanics(BaseSystem):
         """
         Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
         :param R_tf:
-        :Output:
+        :Returns:
         """
 
         if trapping_strength == None:
@@ -112,7 +112,7 @@ class QuantumMechanics(BaseSystem):
             l: azimuthal quantum number
             m: magnetic quantum number
 
-        Output:
+        Returns:
             (np.ndarray): wavefunction
         """
 

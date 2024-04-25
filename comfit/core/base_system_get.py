@@ -13,7 +13,7 @@ class BaseSystemGet:
             i (int): The row index.
             j (int): The column index.
         
-        Output:
+        Returns:
             (numpy.ndarray) The i,j component of the tensor.
         """
 
@@ -40,7 +40,7 @@ class BaseSystemGet:
             i (int): The row index.
             j (int): The column index.
         
-        Output:
+        Returns:
             (numpy.ndarray) The i,j component of the tensor.
         """
         if self.dim == 2:
@@ -66,7 +66,7 @@ class BaseSystemGet:
             i (int): The row index.
             j (int): The column index.
         
-        Output:
+        Returns:
             (numpy.ndarray) The i,j component of the tensor.
         """
         # TODO: I don't like that the input vector is a scalar field in 2 dimensions. (Vidar 11.03.24)

@@ -11,7 +11,7 @@ class BaseSystemInit:
             **kwargs: Additional keyword arguments, see 
             https://vidarsko.github.io/ComFiT/ClassBaseSystem/
 
-        Output:
+        Returns:
             None
         """
         if dim not in [1, 2, 3]:

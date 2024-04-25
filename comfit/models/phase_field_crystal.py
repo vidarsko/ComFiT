@@ -21,7 +21,7 @@ class PhaseFieldCrystal(BaseSystem):
             Optional keyword arguments to set additional parameters. See
             https://vidarsko.github.io/ComFiT/ClassPhaseFieldCrystal/
 
-        Output:
+        Returns:
         - PhaseFieldCrystal object
             The system object representing the phase field crystal simulation.
 
@@ -258,7 +258,7 @@ class PhaseFieldCrystal(BaseSystem):
         Args:
             None
         
-        Output:
+        Returns:
             The displacement field u
         """
 
@@ -331,7 +331,7 @@ class PhaseFieldCrystal(BaseSystem):
             - y2: The y-coordinate of the second dislocation
             - dislocation_type: The dislocation type to insert
         
-        Output:
+        Returns:
             The amplitudes with the dislocation dipole inserted
         """
 
@@ -378,7 +378,7 @@ class PhaseFieldCrystal(BaseSystem):
             - normal_vector: The normal vector of the dislocation ring
             - dislocation_type: The dislocation type to insert
 
-        Output:
+        Returns:
             The amplitudes with the dislocation ring inserted
 
         """
@@ -455,7 +455,7 @@ class PhaseFieldCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             The demodulated PFC
         """
 
@@ -484,7 +484,7 @@ class PhaseFieldCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             The stress tensor
         """
         
@@ -512,7 +512,7 @@ class PhaseFieldCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             The structure tensor
         """
         # Calculate the gradient
@@ -558,7 +558,7 @@ class PhaseFieldCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             The strain tensor
         """
         
@@ -699,7 +699,7 @@ class PhaseFieldCrystal(BaseSystem):
                 See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md 
                 for a full list of keyword arguments.  
 
-        Output: 
+        Returns: 
             matplotlib.axes.Axes: The axes containing the plot.
         """    
 

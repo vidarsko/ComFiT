@@ -25,7 +25,7 @@ class NematicLiquidCrystal(BaseSystem):
             Optional keyword arguments to set additional parameters. See
             https://vidarsko.github.io/ComFiT/ClassNematicLiquidCrystal/
 
-        Output:
+        Returns:
         - NematicLiquidCrystal object
             The system object representing the nematic simulation.
 
@@ -73,7 +73,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
              noise_strength (float): A meshure for how much noise to put in the angle
         
-        Output:
+        Returns:
             Initialises self.Q  and self.Q_f
         
         Raises:
@@ -128,7 +128,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             None
 
         Raises:
@@ -161,7 +161,7 @@ class NematicLiquidCrystal(BaseSystem):
             angle (float): the angle between the director and the z axis.
             sign (float): +1 or -1. Charge of the dislocation in the xy-plain
 
-        Output:
+        Returns:
             Sets the value of self.Q and self.Q_f
         """
         if not (self.dim == 3):
@@ -206,7 +206,7 @@ class NematicLiquidCrystal(BaseSystem):
             width (float): width of the channel
             d (float, optional): width of interface
         
-        Output:
+        Returns:
             updates the activity to the channel configuration.
         """
         if self.dim ==2:
@@ -225,7 +225,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             (numpy.narray) the Q tensor
         
-        Output:
+        Returns:
             (numpy.narray) velocity
         '''
         F_af = self.calc_active_force_f(Q)
@@ -243,7 +243,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             Q (numpy.narray) the order parameter that we use to find the force.
         
-        Output:
+        Returns:
             (numpy.narray) the active force in Fourier space
         '''
         F_af = []
@@ -258,7 +258,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             Q (numpy.narray) the order parameter that we use to find the force.
         
-        Output: 
+        Returns: 
             numpy.ndarray: the passive force in Fourier space
         '''
         Pi_f = self.calc_passive_stress_f(Q)
@@ -274,7 +274,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             Q (numpy.narray) the order parameter that we use to find the stress.
         
-        Output: 
+        Returns: 
             (numpy.narray) the passive stress in fourier space
         """
         if self.dim == 2:
@@ -346,7 +346,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             Q (numpy.ndarray): The nematic tensor
         
-        Output:
+        Returns:
              (numpy.ndarray): The molecular field
         """
 
@@ -376,7 +376,7 @@ class NematicLiquidCrystal(BaseSystem):
             F_af (numpy.narray) the active force in Fourier space
             F_pf (numpy.narray) the passive force in Fourier space
         
-        Output:
+        Returns:
             (numpy.ndarray) the pressure
         '''
         p_af = np.sum(1j*self.k[i]*F_af[i] for i in range(self.dim))
@@ -391,7 +391,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args: 
             p_f (numpy.narray) the pressure in Fourier space
         
-        Output:
+        Returns:
              (numpy.ndarray) gradient of th epressure
         """
         grad_pf = []
@@ -406,7 +406,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (numpy.ndarray) The vorticity tensor
         """
         if self.dim == 2:
@@ -432,7 +432,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (numpy.ndarray) The strainrate
         """
         E_f = np.zeros_like(self.Q_f)
@@ -450,7 +450,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             Q (numpy.narray) the nematic orderparameter
         
-        Output:
+        Returns:
             (numpy.narray) the non-linear evolution function evaluated in Fourier space
         """
         if self.dim == 2:
@@ -498,7 +498,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             Q (numpy.narray) the nematic orderparameter
         
-        Output:
+        Returns:
             (numpy.narray) the non-linear evolution function evaluated in Fourier space
         """
         Q2 = self.calc_trace_Q2(Q)
@@ -525,7 +525,7 @@ class NematicLiquidCrystal(BaseSystem):
             number_of_steps (int) the number of time steps that we are evolving the equation
             method (string, optional) the integration method we want to use. ETD2RK is sett as default
         
-        Output:
+        Returns:
             Updates the fields self.Q and self.Q_f
         '''
         omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
@@ -553,7 +553,7 @@ class NematicLiquidCrystal(BaseSystem):
             number_of_steps (int) the number of time steps that we are evolving the equation
             method (string, optional) the integration method we want to use. ETD2RK is sett as default
         
-        Output:
+        Returns:
             Updates the fields self.Q and self.Q_f
         '''
         omega_f = (self.A * self.B - self.K * self.k2) / self.gamma
@@ -583,7 +583,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (numpy.narray) The disclination density
         """
         if self.dim == 2:
@@ -648,7 +648,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (numpy.narray) equilibriums value of D
         '''
         if self.dim == 2:
@@ -665,7 +665,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (tuple): (scalar field) S - amount of order   , (vector field) the director field
         """
         if self.dim == 2:
@@ -695,7 +695,7 @@ class NematicLiquidCrystal(BaseSystem):
             dt_Q (numpy.narray) the time derivative of the order parameter
 
         
-        Output:
+        Returns:
             (numpy.narray) the velocity field
         """
         if self.dim ==2:
@@ -720,7 +720,7 @@ class NematicLiquidCrystal(BaseSystem):
         Args:
             dt_Q (numpy.narray, optional): The time derivative of the order parameter. If not provided, the velocity of the disclination nodes will not be calculated.
         
-        Output:
+        Returns:
             list: A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the disclination node in the disclination density array.
                   - 'charge': The charge of the disclination node.
@@ -802,7 +802,7 @@ class NematicLiquidCrystal(BaseSystem):
                 See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
                 for a full list of keyword arguments.
 
-        Output:
+        Returns:
             matplotlib.axes.Axes: The axes on which the disclination nodes are plotted.
         """
 
@@ -939,7 +939,7 @@ class NematicLiquidCrystal(BaseSystem):
                 See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
                 for a full list of keyword arguments.
 
-        Output:
+        Returns:
             fig (figure): the figure
             ax (Axes): The axes with the plotted field, velocity, and director.
 

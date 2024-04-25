@@ -17,7 +17,7 @@ class BoseEinsteinCondensate(BaseSystem):
             Optional keyword arguments to set additional parameters. see
             https://vidarsko.github.io/ComFiT/ClassBoseEinsteinCondensate/
 
-        Output:
+        Returns:
         - BoseEinsteinCondensate object
             The system object representing the BoseEinsteinCondensate simulation.
 
@@ -59,7 +59,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             noise_strength: the strength of the noise
 
-        Output:
+        Returns:
             Sets the value of self.psi and self.psi_f
         """
 
@@ -86,7 +86,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             V_ext (function or float): the external potential
             additive (bool, optional): whether to add the new potential to the existing potential or not
-        Output:
+        Returns:
             Modifies the value of self.V_ext
         """
 
@@ -109,7 +109,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
         
-        Output: 
+        Returns: 
             sets the value of self.psi and self.psi_f
         """
         V_0 = np.zeros(self.dims) + self.V_ext(self.time)
@@ -127,7 +127,7 @@ class BoseEinsteinCondensate(BaseSystem):
             charge (int): the charge of the vortex
             position (list): the position of the vortex
 
-        Output:
+        Returns:
             Modifies the value of self.psi and self.psi_f
         """
         if not (self.dim == 2):
@@ -152,7 +152,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             Modifies the value of self.psi and self.psi_f
 
         Raises:
@@ -182,7 +182,7 @@ class BoseEinsteinCondensate(BaseSystem):
             radius (float): the radius of the vortex ring
             normal_vector (list): the normal vector of the vortex ring
         
-        Output:
+        Returns:
             Modifies the value of self.psi and self.psi_f
         """
         if not (self.dim == 3):
@@ -211,7 +211,7 @@ class BoseEinsteinCondensate(BaseSystem):
             nodes (list) a list containing the vortices
             Area  (array) list on the format (x1,x2,y1,y2)
 
-        Output:
+        Returns:
             Modifies the value of self.psi and self.psi_f
         '''
         for vortex in nodes:
@@ -233,7 +233,7 @@ class BoseEinsteinCondensate(BaseSystem):
             wy (float):    -- " --                         y-direction
             wz (float):     -- " --                         z-direction
         
-        Output:
+        Returns:
             modify self.gamma
         '''
         if self.dim == 2:
@@ -260,7 +260,7 @@ class BoseEinsteinCondensate(BaseSystem):
             number_of_steps (int) the number of time steps that we are evolving the equation
             method (string, optional) the integration method we want to use. ETD2RK is sett as default
         
-        Output:
+        Returns:
             Updates the self.psi and self.psi_f
        '''
 
@@ -282,7 +282,7 @@ class BoseEinsteinCondensate(BaseSystem):
             number_of_steps (int) the number of time steps that we are evolving the equation
             method (string, optional) the integration method we want to use. ETD2RK is sett as default
         
-        Output:
+        Returns:
             Updates the self.psi and self.psi_f
         '''
         temp_t = self.time
@@ -312,7 +312,7 @@ class BoseEinsteinCondensate(BaseSystem):
             velx (float) velocity in x direction
             method (string, optional) the integration method we want to use. ETD2RK is sett as default
         
-        Output:
+        Returns:
             Updates the fields self.psi and self.psi_f
             '''
         k2 = self.calc_k2()
@@ -341,7 +341,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
              psi (numpy.ndarray): the wavefunction at a given time.
         
-        Output:
+        Returns:
             (numpy.ndarray): the non-linear evolution term
         """
         
@@ -356,7 +356,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             psi (numpy.ndarray): the wavefunction at a given time.
         
-        Output:
+        Returns:
             (numpy.ndarray): the non-linear evolution term
         """
         psi2 = np.abs(psi) ** 2
@@ -374,7 +374,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
         
-        Output:
+        Returns:
             (numpy.ndarray) the superfluid current
         """
         if self.dim == 2:
@@ -394,7 +394,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (numpy.ndarray) the weighted velocity field
         """
         if self.dim == 2:
@@ -415,7 +415,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (float) the kinetic energy
         """
         u = self.calc_velocity()
@@ -430,7 +430,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (numpy.ndarray) the hamiltonian density
         """
         k2 = self.calc_k2()
@@ -446,7 +446,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
 
-        Output:
+        Returns:
             (Float) the Hamiltonian
         """
         H = self.calc_hamiltonian_density()
@@ -459,7 +459,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
                 R_tf (float): The Thomas-Fermi radius
         
-        Output:
+        Returns:
                 A harmonic potential
         """
         trapping_strength = 1 / (R_tf ** 2)
@@ -482,7 +482,7 @@ class BoseEinsteinCondensate(BaseSystem):
             strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
             position (array) the position of the stirrer
        
-        Output:
+        Returns:
             (numpy.ndarray) a gaussian potential
         """
 
@@ -504,7 +504,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
         
-        Output:
+        Returns:
             (numpy.ndarray) average force on the potential
         """
         Force =np.zeros(self.dim)
@@ -525,7 +525,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             psi (numpy.ndarray): The wavefunction of the system.
         
-        Output:
+        Returns:
             numpy.ndarray: The vortex density of the system.
         """
         if psi is None:
@@ -540,7 +540,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             None
         
-        Output:
+        Returns:
             numpy.ndarray: The vortex density of the system.
         """
         # TODO: Insert the correct value of the equilibrium of psi, based on theory (Vidar 03.12.23)
@@ -554,7 +554,7 @@ class BoseEinsteinCondensate(BaseSystem):
             dt_psi (numpy.ndarray): The time derivative of the wavefunction of the system.
             psi (numpy.ndarray): The wavefunction of the system.
 
-        Output:
+        Returns:
             numpy.ndarray: The vortex velocity field of the system. 
         """
         if psi is None:
@@ -570,7 +570,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Args:
             dt_psi (numpy.ndarray): The time derivative of the wavefunction of the system.    
     
-        Output:
+        Returns:
             list: A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the vortex node in the defect density array.
                   - 'charge': The charge of the vortex node.
@@ -629,7 +629,7 @@ class BoseEinsteinCondensate(BaseSystem):
                 See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
                 for a full list of keyword arguments.
         
-        Output:
+        Returns:
             matplotlib.axes.Axes: The axes on which the vortex nodes are plotted.
         """
         # Check if an axis object is provided

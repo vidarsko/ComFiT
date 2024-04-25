@@ -159,7 +159,7 @@ class BaseSystemPlot:
         For instance, if a field in 3 dimensions is calculated using only x, then the field is extended to the full 3D array.
         Args:
             field: The field to be extended
-        Output:
+        Returns:
             np.ndarray: The extended field
         """    
         # 2 dimensional fields
@@ -219,7 +219,7 @@ class BaseSystemPlot:
                 See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md 
                 for a full list of keyword arguments.
         
-        Output:
+        Returns:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
@@ -425,7 +425,7 @@ class BaseSystemPlot:
             ax (matplotlib.axes.Axes, optional): The matplotlib axes on which to plot the field.
                 If not provided, a new 3D axes will be created.
         
-        Output:
+        Returns:
             matplotlib.axes.Axes: The axes containing the plot.
 
         """
@@ -658,7 +658,7 @@ class BaseSystemPlot:
             field (array-like): The angle field values.
             ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
         
-        Output:
+        Returns:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
@@ -702,7 +702,7 @@ class BaseSystemPlot:
         spacing (int, optional): The spacing for the quiver plot. Default is 5.
         kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
-        Output:
+        Returns:
         matplotlib.figure.Figure: The figure containing the plot.
         matplotlib.axes.Axes: The axes containing the plot.
         """
@@ -1029,7 +1029,7 @@ class BaseSystemPlot:
             position (array-like, optional): The position of the plane. Default is the middle of the system.
             **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/. 
         
-        Output:
+        Returns:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
@@ -1122,7 +1122,7 @@ class BaseSystemPlot:
             position (array-like, optional): The position of the plane. Default is the middle of the system.
             **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
-        Output:
+        Returns:
             matplotlib.axes.Axes: The axes containing the plot of the complex field.
         """
 
@@ -1214,7 +1214,7 @@ class BaseSystemPlot:
             position (array-like, optional): The position of the plane. Default is the middle of the system.
             **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
-        Output:
+        Returns:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
@@ -1243,7 +1243,7 @@ class BaseSystemPlot:
             spacing (int, optional): The spacing for the quiver plot. Default is 5.
             kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
 
-        Output:
+        Returns:
             matplotlib.figure.Figure: The figure containing the plot.
             matplotlib.axes.Axes: The axes containing the plot.
         """

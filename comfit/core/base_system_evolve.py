@@ -14,7 +14,7 @@ class BaseSystemEvolve:
             field (ndarray): The initial field to be evolved.
             field_f (ndarray): The Fourier transform of the initial field.
 
-        Output:
+        Returns:
             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
         """
         """
@@ -52,7 +52,7 @@ class BaseSystemEvolve:
              field (ndarray): The initial field to be evolved.
              field_f (ndarray): The Fourier transform of the initial field.
 
-         Output:
+         Returns:
              tuple: A tuple containing the evolved field and the predicted field in Fourier space.
          """
         N_0f = nonlinear_evolution_function_f(field, self.time)

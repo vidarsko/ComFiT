@@ -10,7 +10,7 @@ def tool_create_orthonormal_triad(t):
     t : numpy array
         The input vector. It does not need to be a unit vector.
 
-    Output:
+    Returns:
     e1, e2, t : tuple of numpy arrays
         The orthonormal triad. Each element of the tuple is a numpy array representing a vector.
     """

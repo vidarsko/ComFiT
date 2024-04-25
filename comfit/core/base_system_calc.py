@@ -17,7 +17,7 @@ class BaseSystemCalc:
             position (list, optional): The position of the vortex. Defaults to None.
             charge (int, optional): The charge of the vortex. Defaults to 1.
         
-        Output:
+        Returns:
             numpy.ndarray: The angle field calculated for the vortex.
             
         Raises:
@@ -45,7 +45,7 @@ class BaseSystemCalc:
         Raises:
             Exception: If the dimension of the system is not 2.
             
-        Output:
+        Returns:
             np.ndarray: The calculated angle field for the double vortex system.
         """
 
@@ -92,7 +92,7 @@ class BaseSystemCalc:
             position (list, optional): The position of the vortex ring. Defaults to None.
             radius (float, optional): The radius of the vortex ring. Defaults to None.
             normal_vector (list, optional): The normal vector of the vortex ring. Defaults to [0,0,1].
-        Output:
+        Returns:
             numpy.ndarray: The calculated angle field for the vortex ring.
         """
         if position is None:
@@ -161,7 +161,7 @@ class BaseSystemCalc:
         Args:
         - x : 1D array of x-positions.
 
-        Output:
+        Returns:
             numpy array: 1D array of wavenumbers with all the modes for the given x-array,
             assuming periodicity from x[0] to x[0] over n intervals.
 
@@ -169,7 +169,7 @@ class BaseSystemCalc:
         x = np.array([-10, -5, 0, 5, 10])
         k = instance_of_BaseSystem.calc_wavenums(self,x)
         print(k)
-        # Output: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
+        # Returns: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
         """
         n = len(x)
 
@@ -199,7 +199,7 @@ class BaseSystemCalc:
         Args:
             psi (list): A list of two psi fields.
 
-        Output:
+        Returns:
             numpy.ndarray: The defect density of the psi field.
         """
         
@@ -235,7 +235,7 @@ class BaseSystemCalc:
             psi (list): A list of two psi fields.
             psi0 (float, optional): The value of psi_0. Defaults to 1.
 
-        Output:
+        Returns:
             np.ndarray: The defect density of the psi field.
         """
 
@@ -248,7 +248,7 @@ class BaseSystemCalc:
         Args:
             psi (float): The value of psi.
             psi0 (float, optional): The reference value of psi. Defaults to 1.
-        Output:
+        Returns:
             np.ndarray: The defect density for the given psi value.
         """
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
@@ -261,7 +261,7 @@ class BaseSystemCalc:
             psi: The psi field
             dt_psi: The time derivative of the psi field
 
-        Output:
+        Returns:
             np.ndarray: The velocity field of the defects
         """
         if self.dim == 2:
@@ -354,7 +354,7 @@ class BaseSystemCalc:
             dt_psi (numpy.ndarray) the time derivative of psi
             psi_0 (floar or numpy.ndarray, optional) the equilibrium state
         
-        Output:
+        Returns:
             np.ndarray: Components of the conserved current
         """
         if self.dim == 2:
@@ -379,7 +379,7 @@ class BaseSystemCalc:
             psi (list): The wavefunction.
             psi0 (float): The width of the wavefunction. Default is 1.
 
-        Output:
+        Returns:
             np.ndarray: The value of the delta function.
         """
         width = psi0 / 2
@@ -397,7 +397,7 @@ class BaseSystemCalc:
             a: The lower bound of the interval
             b: The upper bound of the interval
         
-        Output:
+        Returns:
             np.ndarray: A boolean array indicating whether a point is within the interval
         """
         if not (a <= b):
@@ -417,7 +417,7 @@ class BaseSystemCalc:
             position: The position of the disk
             radius: The radius of the disk
         
-        Output:
+        Returns:
             np.ndarray: A boolean array indicating whether a point is within the disk
         """
         if self.dim == 2:
@@ -444,7 +444,7 @@ class BaseSystemCalc:
             position: The position of the ball
             radius: The radius of the ball
         
-        Output:
+        Returns:
             np.ndarray: A boolean array indicating whether a point is within the ball
         """
         if self.dim == 3:
@@ -540,7 +540,7 @@ class BaseSystemCalc:
             normal_vector: The normal vector of the cylinder
             height: The height of the cylinder
         
-        Output:
+        Returns:
             np.ndarray: A boolean array indicating whether a point is within the cylinder
         """
         if self.dim == 3:
@@ -584,7 +584,7 @@ class BaseSystemCalc:
                             within the region and a boolean array indicating the region. If index is None,
                             returns the integrated field value within the entire field.
 
-        Output:
+        Returns:
             float: The integrated field value within the region.
                                             
         Raises:
@@ -604,7 +604,7 @@ class BaseSystemCalc:
             omega_f: The value of omega_f
             method: The method used for evolution
         
-        Output:
+        Returns:
             integrating_factors_f: The integrating factors
             solver: The solver for the evolution equation
         """
@@ -628,7 +628,7 @@ class BaseSystemCalc:
             u: Displacement field (numpy.ndarray)
             taylor_order: Order of the taylor expansion
 
-        Output:
+        Returns:
             np.ndarray: The field after advection by u
         """
 
@@ -673,7 +673,7 @@ class BaseSystemCalc:
             omega_f (numpy.ndarray): the value of omega_f
             tol (float, optional): tolerance for when to expand the integrating factors that divide by omega
         
-        Output:
+        Returns:
             list: the list of integrating factors
         """
         integrating_factors_f = [0, 0, 0]
@@ -696,7 +696,7 @@ class BaseSystemCalc:
             omega_f (numpy.ndarray): The value of omega_f.
             tol (float,optional): tolerance for when to expand the integrating factors that divide by omega
         
-        Output:
+        Returns:
             list: The list of integrating factors.
         """
         integrating_factors_f = [0, 0, 0, 0, 0, 0]
@@ -738,7 +738,7 @@ class BaseSystemCalc:
         Args:
             defect_density (numpy.ndarray): The defect density field. A positive scalar field to be integrated.
         
-        Output:
+        Returns:
             list: A list of dictionaries representing the defect nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the defect node in the defect density array.
                   - 'position': The position of the defect node
