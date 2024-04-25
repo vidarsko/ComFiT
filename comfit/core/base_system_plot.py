@@ -224,7 +224,7 @@ class BaseSystemPlot:
         Args:
             field (array-like): The field to be plotted.
             **kwargs: Keyword arguments for the plot.
-                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md 
+                See https://comfitlib.com/ClassBaseSystem/ 
                 for a full list of keyword arguments.
         
         Returns:

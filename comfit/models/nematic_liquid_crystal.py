@@ -28,9 +28,9 @@ class NematicLiquidCrystal(BaseSystem):
             The system object representing the nematic simulation.
 
         Example:
-        nematic = NematicLiquidCrystal(2, xRes=100, yRes = 100, alpha=-0.5)
-        Creates a nematic liquid crystal with 2 dimensions and a spatial resolution of 100.
-        The activity alpha is set to -0.5.
+            nematic = NematicLiquidCrystal(2, xRes=100, yRes = 100, alpha=-0.5)
+            Creates a nematic liquid crystal with 2 dimensions and a spatial resolution of 100.
+            The activity alpha is set to -0.5.
         """
         super().__init__(dimension, **kwargs)
 
@@ -57,22 +57,26 @@ class NematicLiquidCrystal(BaseSystem):
             setattr(self, key, value)
 
     def __str__(self):
-        """
-        Output a string representation of the system.
+        """Output a string representation of the system.
+
+        Input:
+            None
+
+        Returns:
+            A string representation of the system.
         """
         return "NematicLiquidCrystal"
 
     # Initial condition
     def conf_initial_condition_ordered(self, noise_strength=0.01):
-        """
-        Initialises the system with the nematogens pointing in the x-direction in 2D and in the z-direction in 3D
+        """Configures the system with the nematogens pointing in the x-direction in 2D and in the z-direction in 3D
         with some random noise in the angle.
         
         Args:
-             noise_strength (float): A meshure for how much noise to put in the angle
+             noise_strength: A meshure for how much noise to put in the angle (float)
         
         Returns:
-            Initialises self.Q  and self.Q_f
+            Initialises self.Q and self.Q_f
         
         Raises:
             Exception if the dimension is not 2 or 3
@@ -120,14 +124,13 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("This dimension is not included for the moment")
 
     def conf_insert_disclination_dipole(self, dipole_vector=None, dipole_position=None):
-        """
-        Sets the initial condition for a disclination dipole configuration in a 2-dimensional system.
+        """Sets the initial condition for a disclination dipole configuration in a 2-dimensional system.
 
         Args:
             None
 
         Returns:
-            None
+            Configures self.Q and self.Q_f with a disclination dipole configuration.
 
         Raises:
             Exception: If the dimension of the system is not 2.
@@ -150,8 +153,8 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q_f = sp.fft.fft2(self.Q)
 
     def conf_initial_disclination_lines(self, position=None):
-        """
-        Sets the initial condition for a disclination line in a 3-dimensional system.
+        """Sets the initial condition for a disclination line in a 3-dimensional system.
+
         The dislocation is parralell to the z-axis
 
         Args:
@@ -197,15 +200,14 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def conf_active_channel(self,width,d=7):
-        """
-        Set the activity to zero everywhere exept for inside a channel of width "width"
+        """Configures the activity to zero everywhere exept for inside a channel of width "width"
         
         Args:
-            width (float): width of the channel
-            d (float, optional): width of interface
+            width: width of the channel (float)
+            d: width of interface (float, optional)
         
         Returns:
-            updates the activity to the channel configuration.
+            Updates the activity to the channel configuration.
         """
         if self.dim ==2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
@@ -214,9 +216,8 @@ class NematicLiquidCrystal(BaseSystem):
         else:
             raise Exception("The active channel is only permitted in two dimensions")
 
-#### calculations related to the flow field
+    ## calculations related to the flow field
     def conf_u(self,Q):
-        #TODO: This function needs a more descriptive name (Vidar 03.01.24)
         '''
         Updates the velocity and its fourier transform given a nematic field Q.
         
@@ -235,14 +236,13 @@ class NematicLiquidCrystal(BaseSystem):
         self.u = np.real(sp.fft.ifftn(self.u_f, axes=(range(-self.dim, 0))))
 
     def calc_active_force_f(self,Q):
-        '''
-        Function that calculates the activ force in Fourier space.
+        '''Function that calculates the activ force in Fourier space.
         
         Args:
-            Q (numpy.narray) the order parameter that we use to find the force.
+            Q: the order parameter that we use to find the force.  (numpy.narray) 
         
         Returns:
-            (numpy.narray) the active force in Fourier space
+            The active force in Fourier space (numpy.narray) 
         '''
         F_af = []
         for j in range(self.dim):
@@ -250,14 +250,13 @@ class NematicLiquidCrystal(BaseSystem):
         return np.array(F_af)
 
     def calc_passive_force_f(self,Q):
-        '''
-        Calculate the passive force in Fourier space
+        '''Calculates the passive force in Fourier space
         
         Args:
-            Q (numpy.narray) the order parameter that we use to find the force.
+            Q: the order parameter that we use to find the force. (numpy.narray)
         
         Returns: 
-            numpy.ndarray: the passive force in Fourier space
+            The passive force in Fourier space numpy.ndarray: 
         '''
         Pi_f = self.calc_passive_stress_f(Q)
         F_pf = []
@@ -266,14 +265,13 @@ class NematicLiquidCrystal(BaseSystem):
         return numpy.array(F_pf)
 
     def calc_passive_stress_f(self,Q):
-        """
-        Calculates the passive stress in fourier space
+        """Calculates the passive stress in fourier space
 
         Args:
-            Q (numpy.narray) the order parameter that we use to find the stress.
+            Q: the order parameter that we use to find the stress.
         
         Returns: 
-            (numpy.narray) the passive stress in fourier space
+            The passive stress in fourier space (numpy.narray) 
         """
         if self.dim == 2:
             H = self.calc_molecular_field(Q)
@@ -338,14 +336,13 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def calc_molecular_field(self,Q):
-        """
-        Finds the molecular field (NB! need to be rewriten when C != 0)
+        """Finds the molecular field 
         
         Args:
             Q (numpy.ndarray): The nematic tensor
         
         Returns:
-             (numpy.ndarray): The molecular field
+            The molecular field (numpy.ndarray)
         """
 
         Q2 =  self.calc_trace_Q2(Q)
@@ -367,30 +364,28 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def calc_pressure_f(self,F_af,F_pf):
-        '''
-        Calculates the pressure in Fourier space. The zero mode is set to zero
+        '''Calculates the pressure in Fourier space. The zero mode is set to zero
         
         Args:
-            F_af (numpy.narray) the active force in Fourier space
-            F_pf (numpy.narray) the passive force in Fourier space
+            F_af: the active force in Fourier space  (numpy.narray)
+            F_pf:the passive force in Fourier space  (numpy.narray) 
         
-        Returns:
-            (numpy.ndarray) the pressure
+        Returns: 
+            The pressure (numpy.ndarray) 
         '''
         p_af = np.sum(1j*self.k[i]*F_af[i] for i in range(self.dim))
         p_pf = np.sum(1j*self.k[i]*F_pf[i] for i in range(self.dim))
         return -(p_af + p_pf)/self.k2_press
 
-    #TODO: This function needs a more descriptive name (Vidar 21.01.24)
+    
     def calc_grad_p_f(self,p_f):
-        """
-        Caclulates the gradient of the pressure
+        """Caclulates the gradient of the pressure
         
         Args: 
-            p_f (numpy.narray) the pressure in Fourier space
+            p_f: the pressure in Fourier space  (numpy.narray)
         
         Returns:
-             (numpy.ndarray) gradient of th epressure
+            Gradient of the pressure (numpy.ndarray) 
         """
         grad_pf = []
         for i in range(self.dim):
@@ -398,14 +393,13 @@ class NematicLiquidCrystal(BaseSystem):
         return np.array(grad_pf)
 
     def calc_vorticity_tensor(self):
-        """
-        Calculates the vorticity tensor
+        """Calculates the vorticity tensor
 
         Args:
             None
 
         Returns:
-            (numpy.ndarray) The vorticity tensor
+            The vorticity tensor (numpy.ndarray) 
         """
         if self.dim == 2:
 
@@ -423,15 +417,14 @@ class NematicLiquidCrystal(BaseSystem):
             return Omega
 
     def calc_strain_rate_tensor_f(self):
-        # TODO change this
         """
         Calculates the strainrate tensor
 
         Args:
             None
 
-        Returns:
-            (numpy.ndarray) The strainrate
+        Returns: 
+            The strainrate (numpy.ndarray) 
         """
         E_f = np.zeros_like(self.Q_f)
         for i in range(self.dim):
@@ -439,17 +432,16 @@ class NematicLiquidCrystal(BaseSystem):
                 E_f[i][j]= (1j*self.k[i]*self.u_f[j] +1j*self.k[j]*self.u_f[i])/2
         return E_f
 
-#### Calculation of non-linear evolution terms
+    ## Calculation of non-linear evolution terms
     def calc_nonlinear_evolution_function_f(self,Q,t):
-        # TODO test and make sure that the passive stress works as intended (Jonas: 2023/11/14)
-        """
-        Calculates the non-linear evolution function for the nematic
+        """Calculates the non-linear evolution function for the nematic
         
         Args:
-            Q (numpy.narray) the nematic orderparameter
+            Q: the nematic orderparameter (numpy.narray) 
         
         Returns:
-            (numpy.narray) the non-linear evolution function evaluated in Fourier space
+            
+            The non-linear evolution function evaluated in Fourier space (numpy.narray) 
         """
         if self.dim == 2:
             self.conf_u(Q)
@@ -466,7 +458,6 @@ class NematicLiquidCrystal(BaseSystem):
             return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
         elif self.dim == 3:
-            # TODO: check that antisym_omega is correct (18/01/24)
             self.conf_u(Q)
             Q_f = sp.fft.fftn(Q, axes=range(-self.dim, 0))
             N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q,t)
@@ -489,15 +480,13 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("This dimension is not implemented at the moment")
 
     def calc_nonlinear_evolution_term_no_flow_f(self,Q,t):
-
-        """
-        Calculates the non-linear evolution function for the nematic without the flow field
+        """Calculates the non-linear evolution function for the nematic without the flow field
         
         Args:
-            Q (numpy.narray) the nematic orderparameter
+            Q: the nematic orderparameter  (numpy.narray)
         
         Returns:
-            (numpy.narray) the non-linear evolution function evaluated in Fourier space
+            The non-linear evolution function evaluated in Fourier space (numpy.narray) 
         """
         Q2 = self.calc_trace_Q2(Q)
         if self.dim ==2 or self.C == 0:
@@ -516,12 +505,11 @@ class NematicLiquidCrystal(BaseSystem):
 
 ##### evolvers
     def evolve_nematic(self, number_of_steps, method= 'ETD2RK'):
-        '''
-         Evolver for the nematic system
+        '''Evolves the nematic system
         
         Args:
-            number_of_steps (int) the number of time steps that we are evolving the equation
-            method (string, optional) the integration method we want to use. ETD2RK is sett as default
+            number_of_steps: the number of time steps that we are evolving the equation  (int)
+            method: the integration method we want to use. ETD2RK is sett as default  (string)
         
         Returns:
             Updates the fields self.Q and self.Q_f
@@ -545,11 +533,11 @@ class NematicLiquidCrystal(BaseSystem):
         self.conf_u(self.Q)
 
     def evolve_nematic_no_flow(self,number_of_steps,method = 'ETD2RK'):
-        ''' Evolver for the nematic system without the flow field
+        ''' Evolves the nematic system without the flow field
         
         Args:
-            number_of_steps (int) the number of time steps that we are evolving the equation
-            method (string, optional) the integration method we want to use. ETD2RK is sett as default
+            number_of_steps: the number of time steps that we are evolving the equation  (int)
+            method: the integration method we want to use. ETD2RK is sett as default  (string)
         
         Returns:
             Updates the fields self.Q and self.Q_f
@@ -572,9 +560,8 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q = np.real(self.Q)
 
 
-##### disclination tracking
+    ## Disclination tracking
     def calc_disclination_density_nematic(self):
-        #TODO: See if this can be optimised
         """
         Calculates the disclination density for the nematic. Note that in three dimension the disclination density is a tensor
 
@@ -582,7 +569,7 @@ class NematicLiquidCrystal(BaseSystem):
             None
 
         Returns:
-            (numpy.narray) The disclination density
+            The disclination density (numpy.narray) 
         """
         if self.dim == 2:
             psi0 = np.sqrt(self.B)/2
@@ -612,6 +599,14 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def calc_disclination_density_decoupled(self):
+        """Calculates the decoupled diclination density
+
+        Args:
+            None
+        
+        Returns:
+            The disclination density (numpy.narray)
+        """ 
         if self.dim == 3:
             D = self.calc_disclination_density_nematic()
             S0 = self.calc_equilibrium_S()
@@ -636,18 +631,27 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def calc_dt_psi(self,Q_prev,delta_t):
+        """Calculates the time derivative of the order parameter
+
+        Args:
+            Q_prev: the order parameter at the previous time step (numpy.narray)
+            delta_t: the time step (float)
+        
+        Returns:
+            The time derivative of the order parameter (numpy.narray)
+        """
+
         dt_Q = (self.Q -Q_prev)/delta_t
         return dt_Q[0] + 1j*dt_Q[1]
 
     def calc_equilibrium_S(self):
-        '''
-        Calculates the strength of nematic order S
+        '''Calculates the strength of nematic order S
 
         Args:
             None
 
         Returns:
-            (numpy.narray) equilibriums value of D
+            equilibriums value of D (numpy.narray) 
         '''
         if self.dim == 2:
             return  np.sqrt(self.B)
@@ -657,14 +661,15 @@ class NematicLiquidCrystal(BaseSystem):
             return S0
 
     def calc_order_and_director(self):
-        """
-        Finds the amount of order (S) and the director field (n)
+        """Calculates the amount of order (S) and the director field (n)
 
         Args:
             None
 
         Returns:
-            (tuple): (scalar field) S - amount of order   , (vector field) the director field
+            Tuple consisting of 
+                - Amount of order (scalar field) 
+                - the director field (vector field)
         """
         if self.dim == 2:
             psi_n = self.Q[0] + 1j*self.Q[1]
@@ -685,16 +690,14 @@ class NematicLiquidCrystal(BaseSystem):
             return S, n
 
     def calc_disclination_velocity_field(self, dt_Q):
-        # TODO make 3D
         """
         Calculates the velocity field of the disclination in two dimensions
         
         Args:
-            dt_Q (numpy.narray) the time derivative of the order parameter
+            dt_Q: the time derivative of the order parameter (numpy.narray)
 
-        
         Returns:
-            (numpy.narray) the velocity field
+            The velocity field (numpy.narray) 
         """
         if self.dim ==2:
 
@@ -707,19 +710,26 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def calc_disclination_polarization_field(self):
+        """Calculates the polarization field of the disclination in two dimensions
+
+        Args:
+            None
+        
+        Returns:
+            The polarization field (numpy.narray)
+        """
         ex = np.real(sp.fft.ifftn(1j*self.k[0]*self.Q_f[0] + 1j*self.k[1]*self.Q_f[1]))
         ey = np.real(sp.fft.ifftn(1j * self.k[0] * self.Q_f[1] - 1j * self.k[1] * self.Q_f[0]))
         return np.array([ex,ey])
 
     def calc_disclination_nodes_nem(self, dt_Q=None,polarization = None,charge_tolerance=None):
-        """
-        Calculate the positions and charges of disclination nodes based on the disclination density.
+        """Calculates the positions and charges of disclination nodes based on the disclination density.
         
         Args:
-            dt_Q (numpy.narray, optional): The time derivative of the order parameter. If not provided, the velocity of the disclination nodes will not be calculated.
+            dt_Q: The time derivative of the order parameter. If not provided, the velocity of the disclination nodes will not be calculated. (numpy.narray, optional)
         
         Returns:
-            list: A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:
+            A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the disclination node in the disclination density array.
                   - 'charge': The charge of the disclination node.
                   - 'position': The position of the disclination node as a list [x, y].
@@ -752,7 +762,6 @@ class NematicLiquidCrystal(BaseSystem):
                     disclination['polarization'] = [float('nan'), float('nan')]
 
         elif self.dim == 3:
-            #TODO Make sure that tangent vector is continous across the border
             omega, Omega, T, trD = self.calc_disclination_density_decoupled()
 
             disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
@@ -784,11 +793,10 @@ class NematicLiquidCrystal(BaseSystem):
         return disclination_nodes
 
     def plot_disclination_nodes(self, disclination_nodes, **kwargs):
-        """
-        Plots the discliation nodes in the given axes.
+        """Plots the discliation nodes in the given axes.
 
         Args:
-            disclination_nodes (list): A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:
+            disclination_nodes: A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:
                                  - 'position': The position of the disclination node as a list [x, y].
                                  - 'position_index': The index of the position
                                  - 'charge' (2D only): The charge of the disclination node.
@@ -797,11 +805,11 @@ class NematicLiquidCrystal(BaseSystem):
                                  - 'Tangent_vector' (3D only): the tangent of the disclination line
                                  - 'Rotation_vector' (3D only): the rotation vector of the disclination line
             -**kwargs: Keyword arguments for the plot.
-                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
+                See https://comfitlib.com/ClassBaseSystem/
                 for a full list of keyword arguments.
 
         Returns:
-            matplotlib.axes.Axes: The axes on which the disclination nodes are plotted.
+            The axes on which the disclination nodes are plotted. (matplotlib.axes.Axes: )
         """
 
         # Check if an axis object is provided
@@ -926,20 +934,20 @@ class NematicLiquidCrystal(BaseSystem):
             return ax
 
     def plot_field_velocity_and_director(self, field, velocity, director, **kwargs):
-        """
-        Plot the field, velocity, and director field in 2 dimensions
+        """Plot the fields, velocity, and director field in 2 dimensions
 
         Args:
             field (ndarray): The field to be plotted.
             velocity (ndarray): The velocity to be plotted.
             director (ndarray): The director to be plotted.
             **kwargs: Keyword arguments for the plot.
-                See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md
+                See https://comfitlib.com/ClassBaseSystem/
                 for a full list of keyword arguments.
 
         Returns:
-            fig (figure): the figure
-            ax (Axes): The axes with the plotted field, velocity, and director.
+            A tuple consisting of
+                - The figure
+                - The axes with the plotted field, velocity, and director. ax (Axes)
 
         Raises:
             Exception: If the dimension is other than 2.
