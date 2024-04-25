@@ -9,8 +9,13 @@ from pprint import pprint
 
 class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
     def __init__(self, nx, **kwargs):
-        """
-        Nothing here yet
+        """Initializes a phase field crystal system in 1D with a periodic crystal structure.
+
+        Args:
+            nx: The number of unit cells in the x direction.
+
+        Returns:
+            The system object representing the PhaseFieldCrystal1DPeriodic simulation.
         """
 
         # Type of the system
@@ -60,6 +65,16 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.defined_length_scale = True
 
     def calc_proto_amplitudes_conserved(self):
+        """Calculates the proto-amplitudes for the system. 
+
+        Args:
+            None
+        
+        Returns:
+            The proto-amplitudes for the system.
+        """
+
+
         psi0 = self.psi0
         r = self.r
         t = self.t
@@ -74,6 +89,16 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         return A
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A):
+        """Calculates the free energy of the system from the proto-amplitudes.
+
+        Args:
+            psi0: The average value of psi.
+            A: The proto-amplitude.
+
+        Returns:
+            The free energy of the system.
+        """
+
         r = self.r
         t = self.t
         v = self.v
@@ -81,5 +106,14 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         return 2*np.pi*(1/2*psi0**2 + 1/2*r*(psi0**2 + 2*A**2) + 1/3*t*(psi0**3 + 6*psi0*A**2) + 1/4*v*(psi0**4 + 12*psi0**2*A**2 + 6*A**4))
 
     def calc_omega_f(self):
+        """Calculates the free energy of the system.
+
+        Args:
+            None
+            
+        Returns:
+            The free energy of the system.
+        """
+        
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2)
