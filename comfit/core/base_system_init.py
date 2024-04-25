@@ -2,6 +2,7 @@ import numpy as np
 import scipy as sp
 
 class BaseSystemInit:
+    """ Initialization methods for the base system class"""
     def __init__(self, dim, **kwargs):
         """
         Initialize the class with the given parameters.
@@ -177,6 +178,14 @@ class BaseSystemInit:
         self.rmax = [self.xmax, self.ymax, self.zmax]
 
     def __str__(self):
+        """Return a string representation of the class.
+        
+        Input:
+            None
+
+        Returns:
+            A string representation of the class.
+        """
         description = f"BaseSystem instance\n"
         # Start with the dimension of the system
         description = f"System Dimension: {self.dim}\n"
