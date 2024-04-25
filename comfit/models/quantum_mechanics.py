@@ -6,22 +6,18 @@ import scipy as sp
 
 class QuantumMechanics(BaseSystem):
     def __init__(self, dimension, **kwargs):
-        """
-        Initializes a quamtum mechanics system evolving according to the Schrödinger equation
+        """Initializes a quamtum mechanics system evolving according to the Schrödinger equation
 
         Args:
-        - dimension : int
-            The dimension of the system.
-        - kwargs : dict, optional
-            Optional keyword arguments to set additional parameters. Same as BaseSystem
-
+            dimension: The dimension of the system.
+            **kwargs : dict, optional. Optional keyword arguments to set additional parameters. Same as BaseSystem
+                
         Returns:
-        - QuantumMechanics object
             The system object representing the QuantumMechanics simulation.
 
         Example:
-        qm = cf.QuantumMechanics(3,xRes=101,yRes=101,zRes=101)
-        Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101.
+            qm = cf.QuantumMechanics(3,xRes=101,yRes=101,zRes=101)
+            Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101.
         """
 
         # First initialize the BaseSystem class
@@ -40,14 +36,26 @@ class QuantumMechanics(BaseSystem):
             setattr(self, key, value)
 
     def __str__(self):
-        """
-        Output a string representation of the system
+        """Output a string representation of the system
+
+        Args:
+            None
+
+        Returns:
+            A string representation of the system
         """
         return 'QuantumMechanics'
 
     def conf_initial_condition_Gaussian(self,position=None,width=None, initial_velocity=None):
-        """
-        Set the initial condition to a Gaussian wavepacket.
+        """Set the initial condition to a Gaussian wavepacket.
+
+        Args:
+            position: The position of the wavepacket.
+            width: The width of the wavepacket.
+            initial_velocity: The initial velocity of the wavepacket.
+
+        Returns:
+            Configures self.psi and self.psi_f.
         """
 
         if position == None:
@@ -75,10 +83,13 @@ class QuantumMechanics(BaseSystem):
 
 
     def conf_harmonic_potential(self,trapping_strength=None):
-        """
-        Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
-        :param R_tf:
-        :Returns:
+        """Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
+        
+        Args:
+            trapping_strength: The strength of the trapping potential.
+
+        Returns:
+            Configures self.V_ext.
         """
 
         if trapping_strength == None:
@@ -96,16 +107,7 @@ class QuantumMechanics(BaseSystem):
                                            +((self.z - self.zmid) ** 2) )
 
     def conf_hydrogen_state(self,n,l,m):
-        """
-        Set the initial condition to a hydrogen state with quantum numbers n,l,m
-        """
-
-        self.psi = self.calc_hydrogen_state(n,l,m)
-        self.psi_f = sp.fft.fftn(self.psi)
-
-    def calc_hydrogen_state(self,n,l,m):
-        """
-        Calculate the hydrogen state with quantum numbers n,l,m
+        """Set the initial condition to a hydrogen state with quantum numbers n,l,m
 
         Args:
             n: principal quantum number
@@ -113,7 +115,22 @@ class QuantumMechanics(BaseSystem):
             m: magnetic quantum number
 
         Returns:
-            (np.ndarray): wavefunction
+            Configures self.psi and self.psi_f.
+        """
+
+        self.psi = self.calc_hydrogen_state(n,l,m)
+        self.psi_f = sp.fft.fftn(self.psi)
+
+    def calc_hydrogen_state(self,n,l,m):
+        """Calculates the hydrogen state with quantum numbers n,l,m
+
+        Args:
+            n: principal quantum number
+            l: azimuthal quantum number
+            m: magnetic quantum number
+
+        Returns:
+            Wavefunction of the hydrogen state. (np.ndarray)
         """
 
         if not self.dim == 3:
@@ -133,12 +150,30 @@ class QuantumMechanics(BaseSystem):
 
     ## Calculation functions
     def calc_nonlinear_evolution_function_f(self,psi,t):
+        """Calculates the nonlinear evolution function f of the Schrödinger equation
+
+        Args:
+            psi: The wavefunction.
+            t: Time.
+        
+        Returns:
+            The nonlinear evolution function f.
+        """
 
         return sp.fft.fftn((1j) * (-self.V_ext) * psi)
 
 
     ## Time evolution functions
     def evolve_schrodinger(self,number_of_steps,method = 'ETD2RK'):
+        """Evolve the system according to the Schrödinger equation
+
+        Args:
+            number_of_steps: The number of steps to evolve the system.
+            method: The method to use for the time evolution. 
+        
+        Returns:
+            Evolves the system according to the Schrödinger equation.
+        """
         omega_f = -1j / 2 * self.calc_k2()
         if method == 'ETD2RK':
             integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
@@ -151,60 +186,3 @@ class QuantumMechanics(BaseSystem):
         for n in range(number_of_steps):
             self.psi, self.psi_f = solver(integrating_factors_f, self.calc_nonlinear_evolution_function_f,
                                                            self.psi, self.psi_f)
-
-
-    # Hamilton minimization functions
-
-    def calc_Hamiltonian(self):
-        integrand = -1/2*np.conj(self.psi)\
-            * sp.fft.ifftn(-self.calc_k2()*self.psi_f)\
-            + self.V_ext*abs(self.psi)**2
-        return self.calc_integrate_field(integrand)
-    
-    ## Plotting functions 
-    def plot(self, ylim=None):
-
-        if self.dim == 1:
-            plt.clf()
-            ax = plt.gcf().add_subplot(111)
-
-            cmap = tool_colormap_angle()
-
-
-            y = np.abs(self.psi) ** 2
-
-            c = np.angle(self.psi)
-
-            ax.plot(self.x,y,color='black')
-
-            if ylim is not None:
-                ax.set_ylim(0,ylim)
-
-
-            # Color in the graph based on the argument of the wavefunction
-            alpha_level=0.7
-
-            ax.fill_between([self.xmin,self.xmin+self.dx/2], [y[0],(y[0]+y[1])/2],
-                            color=cmap((c[0] + np.pi) / (2 * np.pi)), alpha=alpha_level,edgecolor='none')
-
-            for i in range(1,self.xRes-1):
-                ax.fill_between([self.x[i]-self.dx/2,self.x[i]+self.dx/2], [(y[i]+y[i-1])/2,(y[i]+y[i+1])/2],
-                                color = cmap((c[i] + np.pi) / (2 * np.pi)), alpha=alpha_level,edgecolor='none')
-
-            ax.fill_between([self.xmax-self.dx/2,self.xmax], [y[-1],(y[-1]+y[-2])/2],
-                            color=cmap((c[-1] + np.pi) / (2 * np.pi)), alpha=alpha_level,edgecolor='none')
-
-            ax.set_xlabel('$x/a_0$')
-            ax.set_ylabel('$|\psi|^2$')
-
-            sm = plt.cm.ScalarMappable(cmap=cmap)
-            cbar = plt.gcf().colorbar(sm, ax=ax)
-
-            #cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-            cbar.set_ticks(np.array([0, 1/6, 2/6, 3/6, 4/6, 5/6, 1]))
-            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
-            cbar.set_label('arg($\psi$)')
-
-
-            return ax
-    
