@@ -65,14 +65,17 @@ def function_name(arg1, arg2):
     Optional longer description of the function.
 
     Args:
-        arg1: Description of arg1.
+        arg1: Description of arg1. No need to state default values.
         arg2: Description of arg2.
 
     Returns:
-        Description of the return value.
+        Description of the return value. Data type.
 
     Raises:
         Exception: Description of the exception.
+
+    Example:
+        Optional example usage
     """
     pass
 ```

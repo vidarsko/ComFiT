@@ -10,15 +10,14 @@ class BaseSystemCalc:
     def calc_angle_field_single_vortex(self,
                                        position=None,
                                        charge=1):
-        """
-        Calculate the angle field due to a single vortex.
+        """Calculate the angle field due to a single vortex.
 
         Args:
             position (list, optional): The position of the vortex. Defaults to None.
             charge (int, optional): The charge of the vortex. Defaults to 1.
         
         Returns:
-            numpy.ndarray: The angle field calculated for the vortex.
+            The angle field calculated for the vortex. numpy.ndarray.
             
         Raises:
             Exception: If the dimension of the system is not 2.
@@ -39,14 +38,14 @@ class BaseSystemCalc:
         """Calculates the angle field for a double vortex system.
 
         Args:
-            dipole_vector (list, optional): The dipole vector. Defaults to None.
-            dipole_position (list, optional): The position the center of mass of the dipole. Defaults to None.
+            dipole_vector: The dipole vector. List or tuple. 
+            dipole_position: The position the center of mass of the dipole. 
+            
+        Returns:
+            The calculated angle field for the double vortex system as a numpy array. numpy.ndarray.
 
         Raises:
             Exception: If the dimension of the system is not 2.
-            
-        Returns:
-            np.ndarray: The calculated angle field for the double vortex system.
         """
 
         if self.dim != 2:
@@ -86,14 +85,15 @@ class BaseSystemCalc:
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
     def calc_angle_field_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
-        """
-        Calculates the angle field for a vortex ring.
+        """Calculates the angle field for a vortex ring.
+
         Args:
-            position (list, optional): The position of the vortex ring. Defaults to None.
-            radius (float, optional): The radius of the vortex ring. Defaults to None.
-            normal_vector (list, optional): The normal vector of the vortex ring. Defaults to [0,0,1].
+            position: The position of the vortex ring. 
+            radius: The radius of the vortex ring. 
+            normal_vector: The normal vector of the vortex ring.
+
         Returns:
-            numpy.ndarray: The calculated angle field for the vortex ring.
+            The calculated angle field for the vortex ring.
         """
         if position is None:
             position = self.rmid
@@ -155,21 +155,20 @@ class BaseSystemCalc:
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
     def calc_wavenums(self, x):
-        """
-        Calculates the wavenumbers corresponding to the input position vectors given by x.
+        """Calculates the wavenumbers corresponding to the input position vectors given by x.
 
         Args:
-        - x : 1D array of x-positions.
+            x: 1D array of x-positions.
 
         Returns:
-            numpy array: 1D array of wavenumbers with all the modes for the given x-array,
-            assuming periodicity from x[0] to x[0] over n intervals.
+            1D array of wavenumbers with all the modes for the given x-array,
+            assuming periodicity from x[0] to x[0] over n intervals. numpy array.
 
         Example:
-        x = np.array([-10, -5, 0, 5, 10])
-        k = instance_of_BaseSystem.calc_wavenums(self,x)
-        print(k)
-        # Returns: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
+            x = np.array([-10, -5, 0, 5, 10])
+            k = instance_of_BaseSystem.calc_wavenums(self,x)
+            print(k)
+            # Returns: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
         """
         n = len(x)
 
@@ -183,6 +182,14 @@ class BaseSystemCalc:
         return k
 
     def calc_k2(self):
+        """ Calculates the squared wavenumber.
+
+        Args:
+            None.
+
+        Returns:
+            The squared wavenumber. numpy.ndarray.
+        """
         return sum([self.k[i] ** 2 for i in range(len(self.k))])
 
     def calc_Gaussian_filter_f(self, a0=None):
@@ -193,14 +200,13 @@ class BaseSystemCalc:
         return np.exp(-1 / 2 * a0 ** 2 * self.calc_k2())
 
     def calc_determinant_field(self, psi):
-        """
-        Calculate the determinant transformation of a given field
+        """Calculate the determinant transformation of a given field
 
         Args:
-            psi (list): A list of two psi fields.
+            psi: A list of two psi fields. (list)
 
         Returns:
-            numpy.ndarray: The defect density of the psi field.
+            The defect density of the psi field. numpy.ndarray.
         """
         
         if self.dim == 2:
@@ -228,41 +234,39 @@ class BaseSystemCalc:
                 return np.array(result)
 
     def calc_defect_density(self, psi, psi0=1):
-        """
-        Calculate the defect density of a given psi field.
+        """Calculate the defect density of a given psi field.
 
         Args:
-            psi (list): A list of two psi fields.
-            psi0 (float, optional): The value of psi_0. Defaults to 1.
+            psi: A list of two psi fields.
+            psi0: The value of psi_0. 
 
         Returns:
-            np.ndarray: The defect density of the psi field.
+            The defect density of the psi field.
         """
 
         return 1 / (np.pi * psi0 ** 2) * self.calc_determinant_field(psi)
 
     def calc_defect_density_singular(self, psi, psi0=1):
-        """
-        Calculate the singular defect density for a given psi field.
+        """Calculate the singular defect density for a given psi field.
 
         Args:
-            psi (float): The value of psi.
-            psi0 (float, optional): The reference value of psi. Defaults to 1.
+            psi: The field psi. numpy.ndarray.
+            psi0: The reference value of psi. 
+
         Returns:
-            np.ndarray: The defect density for the given psi value.
+            The defect density for the given psi value. np.ndarray.
         """
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
 
     def calc_defect_velocity_field(self, psi, dt_psi):
-        """
-        Calculates the velocity field of the defects in the psi field.
+        """Calculates the velocity field of the defects in the psi field.
 
         Args:
             psi: The psi field
             dt_psi: The time derivative of the psi field
 
         Returns:
-            np.ndarray: The velocity field of the defects
+            The velocity field of the defects np.ndarray: 
         """
         if self.dim == 2:
             if len(psi) == 2:
@@ -346,16 +350,15 @@ class BaseSystemCalc:
                 return [Vx, Vy, Vz]
 
     def calc_defect_current_density(self, psi, dt_psi, psi_0=0):
-        """
-        Calculates the conserved current of the superfluid density
+        """Calculates the conserved current of the superfluid density
 
         Args:
-            psi (numpy.ndarray) the vector field that we find the density of
-            dt_psi (numpy.ndarray) the time derivative of psi
-            psi_0 (floar or numpy.ndarray, optional) the equilibrium state
+            psi: the vector field that we find the density of  (numpy.ndarray)
+            dt_psi: the time derivative of psi  (numpy.ndarray)
+            psi_0: the equilibrium state (floar or numpy.ndarray, optional)
         
         Returns:
-            np.ndarray: Components of the conserved current
+            Components of the conserved current. np.ndarray: 
         """
         if self.dim == 2:
             if len(psi) == 2:
@@ -372,15 +375,14 @@ class BaseSystemCalc:
                 return [Jx, Jy]
 
     def calc_delta_function(self, psi, psi0=1):
-        """
-        Calculate the delta function for a given wavefunction.
+        """Calculate the delta function for a given wavefunction.
 
         Args:
-            psi (list): The wavefunction.
-            psi0 (float): The width of the wavefunction. Default is 1.
+            psi: The wavefunction (list).
+            psi0: The width of the wavefunction. (float)
 
         Returns:
-            np.ndarray: The value of the delta function.
+            The value of the delta function. np.ndarray: 
         """
         width = psi0 / 2
         n = len(psi)
@@ -390,15 +392,14 @@ class BaseSystemCalc:
                 return 1 / (2 * np.pi * width ** 2) * np.exp(-psi2 / (2 * width ** 2))
 
     def calc_region_interval(self,a,b):
-        """
-        Calculates a boolean array indicating whether a point is within an interval.
+        """Calculates a boolean array indicating whether a point is within an interval.
         
         Args:
             a: The lower bound of the interval
             b: The upper bound of the interval
         
         Returns:
-            np.ndarray: A boolean array indicating whether a point is within the interval
+            A boolean array indicating whether a point is within the interval. np.ndarray: 
         """
         if not (a <= b):
             raise Exception("The lower bound must be less than or equal to the upper bound.")
@@ -410,15 +411,14 @@ class BaseSystemCalc:
         
 
     def calc_region_disk(self, position, radius):
-        """
-        Calculates a boolean array indicating whether a point is within a disk of a given radius.
+        """Calculates a boolean array indicating whether a point is within a disk of a given radius.
         
         Args:
             position: The position of the disk
             radius: The radius of the disk
         
         Returns:
-            np.ndarray: A boolean array indicating whether a point is within the disk
+            A boolean array indicating whether a point is within the disk. np.ndarray.
         """
         if self.dim == 2:
             rx2m = (self.x - position[0] - self.xmax) ** 2
@@ -437,15 +437,14 @@ class BaseSystemCalc:
             raise Exception("Not valid for other dimensions.")
 
     def calc_region_ball(self, position, radius):
-        """
-        Calculates a boolean array indicating whether a point is within a ball of a given radius.
+        """Calculates a boolean array indicating whether a point is within a ball of a given radius.
         
         Args:
             position: The position of the ball
             radius: The radius of the ball
         
         Returns:
-            np.ndarray: A boolean array indicating whether a point is within the ball
+            A boolean array indicating whether a point is within the ball. np.ndarray.
         """
         if self.dim == 3:
             # This code ensures that the region is periodic
@@ -470,8 +469,8 @@ class BaseSystemCalc:
             raise Exception("Not valid for other dimensions.")
 
     def calc_Gaussian(self, **kwargs):
-        """
-        Calculated the Gaussian function 
+        """Calculated the Gaussian function 
+
         Args:
             kwargs:
             - position
@@ -479,6 +478,9 @@ class BaseSystemCalc:
             - top (the top of the Gaussian function)
             - value (the value of the integrated Gaussian function)
             If neither top nor value is provided, the function will be normalized to 1
+        
+        Returns:
+            The Gaussian function. np.ndarray.
         """
         position = kwargs.get('position',self.rmid)
         width = kwargs.get('width',self.a0)
@@ -492,8 +494,13 @@ class BaseSystemCalc:
             return value*(2*np.pi*width**2)**(-self.dim/2)*np.exp(-r2/(2*width**2))
 
     def calc_distance_squared_to_point(self,position):
-        """
-        Calculates the distance to a point given
+        """Calculates the distance to a point given
+        
+        Args:
+            position: The position of the point
+
+        Returns:
+            The squared distance to the point. np.ndarray.
         """
 
         if self.dim == 1:
@@ -531,8 +538,7 @@ class BaseSystemCalc:
         return r2
 
     def calc_region_cylinder(self, position, radius, normal_vector, height):
-        """
-        Calculates a boolean array indicating whether a point is within a cylinder of a given radius and height.
+        """Calculates a boolean array indicating whether a point is within a cylinder of a given radius and height.
         
         Args:
             position: The position of the cylinder
@@ -541,7 +547,7 @@ class BaseSystemCalc:
             height: The height of the cylinder
         
         Returns:
-            np.ndarray: A boolean array indicating whether a point is within the cylinder
+            A boolean array indicating whether a point is within the cylinder. np.ndarray.
         """
         if self.dim == 3:
             t = normal_vector / np.linalg.norm(np.array(normal_vector))
@@ -571,16 +577,11 @@ class BaseSystemCalc:
             raise Exception("Not valid for other dimensions.")
 
     def calc_integrate_field(self, field, region=None):
-        """
-        Calculates the integrated field value within a specified region.
+        """Calculates the integrated field value within a specified region.
 
         Args:
             field (numpy.ndarray): The field array.
-            index (tuple, optional): The indices of the center point in the field. Defaults to None.
-            radius (float, optional): The radius of the region. Defaults to None.
-
-        Args:
-            tuple or float: If index is provided, returns a tuple containing the integrated field value
+            region: If index is provided, returns a tuple containing the integrated field value
                             within the region and a boolean array indicating the region. If index is None,
                             returns the integrated field value within the entire field.
 
@@ -597,16 +598,16 @@ class BaseSystemCalc:
             return np.sum(field[region]) * self.dV
 
     def calc_integrating_factors_f_and_solver(self, omega_f, method):
-        """
-        Calculates the integrating factors and the solver for the evolution equation.
+        """Calculates the integrating factors and the solver for the evolution equation.
         
         Args:
             omega_f: The value of omega_f
             method: The method used for evolution
         
         Returns:
-            integrating_factors_f: The integrating factors
-            solver: The solver for the evolution equation
+            The integrating factors
+        
+            The solver for the evolution equation
         """
         if method == 'ETD2RK':
             integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)

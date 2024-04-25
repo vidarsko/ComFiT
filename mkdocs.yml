@@ -1,4 +1,5 @@
 site_name: ComFiT documentation
+site_url: https://comfitlib.com
 
 theme:
   name: material
