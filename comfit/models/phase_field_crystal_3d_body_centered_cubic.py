@@ -9,8 +9,15 @@ from pprint import pprint
 
 class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
-        """
-        Nothing here yet
+        """Initializes a phase field crystal system in 3D with a body centered cubic crystal structure.
+
+        Args:
+            nx: The number of unit cells in the x direction.
+            ny: The number of unit cells in the y direction.
+            nz: The number of unit cells in the z direction.
+
+        Returns:
+            The system object representing the PhaseFieldCrystal3DBodyCenteredCubic simulation.
         """
 
         # Type of the system
@@ -76,6 +83,15 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
 
 
     def calc_proto_amplitudes_conserved(self):
+        """Calculates the proto-amplitudes for the system.
+
+        Args:
+            None
+
+        Returns:
+            The proto-amplitudes for the system.
+        """
+
         psi0 = self.psi0
         r = self.r
         t = self.t
@@ -92,8 +108,14 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         return A
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A):
-        """
-        Calculates the free energy of the phase-field crystal from the proto amplitudes.
+        """Calculates the free energy of the phase-field crystal from the proto amplitudes.
+
+        Args:
+            psi0: The average value of psi.
+            A: The proto-amplitude.
+
+        Returns:
+            The free energy of the phase-field crystal.
         """
         r = self.r
         t = self.t
@@ -102,12 +124,26 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         return 4*np.sqrt(2)*np.pi**3/3*(1620*A**4*v + 192*A**3*(t + 3*v*psi0) + psi0**2*(6 + 6*r + 4*t*psi0 + 3*v*psi0**2) + 72*A**2*(r + psi0*(2*t + 3*v*psi0)))
 
     def calc_omega_f(self):
+        """Calculates the linear part of the evolution equation in Fourier space.
+
+        Args:
+            None
+
+        Returns:
+            The linear part of the evolution equation in Fourier space.
+        """
+
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2)
 
     def calc_stress_tensor_microscopic(self):
-        """
-        Calculates the microscopic stress of the phase-field crystal.
+        """Calculates the microscopic stress of the phase-field crystal.
+
+        Args:
+            None
+        
+        Returns:
+            The microscopic stress of the phase-field crystal.
         """
         stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
         
@@ -122,6 +158,14 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         return stress
     
     def calc_stress_divergence_f(self, field_f = None):
+        """Calculates the divergence of the stress tensor in Fourier space.
+
+        Args:
+            field_f: The field in Fourier space.
+
+        Returns:
+            The divergence of the stress tensor in Fourier space.
+        """
         
         if field_f is None:
             field_f = self.psi_f
@@ -133,4 +177,3 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
                 sp.fft.ifftn((1-k2)*self.dif[i]*field_f)*sp.fft.ifftn(self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
                 ]) + sp.fft.ifftn((1-k2)*field_f)*sp.fft.ifftn(self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
                 )
-                #TODO: Needs double checking (Vidar 27.02.24)
