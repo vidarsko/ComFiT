@@ -9,8 +9,14 @@ from pprint import pprint
 
 class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
     def __init__(self, nx, ny, **kwargs):
-        """
-        Nothing here yet
+        """Initializes a phase field crystal system in 2D with a triangular crystal structure.
+
+        Args:
+            nx: The number of unit cells in the x direction.
+            ny: The number of unit cells in the y direction.
+
+        Returns:
+            The system object representing the PhaseFieldCrystal2DTriangular simulation.
         """
 
         # Type of the system
@@ -66,6 +72,15 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         
 
     def calc_proto_amplitudes_conserved(self):
+        """Calculates the proto-amplitudes for the system.
+
+        Args:
+            None
+        
+        Returns:
+            The proto-amplitudes for the system.
+        """
+
         psi0 = self.psi0
         r = self.r
         t = self.t
@@ -82,6 +97,15 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         return A
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A):
+        """Calculates the free energy of the system from the proto-amplitudes.
+
+        Args:
+            psi0: The average value of psi.
+            A: The proto-amplitude.
+
+        Returns:
+            The free energy of the system.
+        """
         r = self.r
         t = self.t
         v = self.v
@@ -89,12 +113,26 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         return np.pi**2/(3*np.sqrt(3))*(270*A**4*v + 48*A**3*( t + 3*v*psi0) + psi0**2*(6 + 6*r + 4*t*psi0 + 3*v*psi0**2) + 36*A**2*( r + psi0*(2*t + 3*v*psi0)))
 
     def calc_omega_f(self):
+        """Calculates the linear evolution operator of the system.
+
+        Args:
+            None
+        
+        Returns:
+            The linear evolution operator of the system.
+        """
+
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2)
     
     def calc_stress_tensor_microscopic(self):
-        """
-        Calculates the microscopic stress of the phase-field crystal.
+        """Calculates the microscopic stress of the phase-field crystal.
+
+        Args:
+            None
+
+        Returns:
+            The microscopic stress of the phase-field crystal.
         """
         stress = np.zeros((3,self.xRes,self.yRes))
         
@@ -107,7 +145,15 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
 
     
     def calc_stress_divergence_f(self, field_f = None):
-        
+        """Calculates the divergence of the stress tensor in Fourier space.
+
+        Args:
+            field_f: The field in Fourier space.
+
+        Returns:
+            The divergence of the stress tensor in Fourier space.
+        """
+
         if field_f is None:
             field_f = self.psi_f
         
