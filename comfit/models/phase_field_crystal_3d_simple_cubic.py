@@ -9,8 +9,15 @@ from pprint import pprint
 
 class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
-        """
-        Nothing here yet
+        """Initializes a phase field crystal system in 3D with a simple cubic crystal structure.
+
+        Args:
+            nx: The number of unit cells in the x direction.
+            ny: The number of unit cells in the y direction.
+            nz: The number of unit cells in the z direction.
+
+        Returns:
+            The system object representing the PhaseFieldCrystal3DSimpleCubic simulation.
         """
 
         # Type of the system
@@ -84,12 +91,32 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.defined_length_scale = True
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A, B, C):
+        """Calculates the free energy of the system from the proto-amplitudes.
+
+        Args:
+            psi0: The value of psi0.
+            A: The value of A.
+            B: The value of B.
+            C: The value of C.
+
+        Returns:
+            The free energy of the system.
+        """
+
         r = self.r
         t = self.t
         v = self.v
         return 2*np.pi**3/3*(48*C**2*r + 270*A**4*v + 1620*B**4*v + 576*A**3*C*v + 648*C**4*v + 96*C**2*t*psi0 + 6*(36 + r + 24*C**2*v)*psi0**2 + 4*t*psi0**3 + 3*v*psi0**4 + 192*B**3*(t + 3*v*psi0) + 576*A*B*C*(t + 3*v*(3*B + psi0)) + 36*A**2*( r + 96*B**2*v + 36*C**2*v + 2*t*psi0 + 3*v*psi0**2 + 8*B*( t + 3*v*psi0)) + 72*B**2*(r + 54*C**2*v + psi0*(2*t + 3*v*psi0)) )
 
     def calc_proto_amplitudes_conserved(self):
+        """Calculates the proto-amplitudes for the system.
+
+        Args:
+            None
+
+        Returns:
+            The proto-amplitudes for the system.
+        """
         psi0 = self.psi0
         r = self.r
         t = self.t
@@ -115,7 +142,14 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         return A, B, C
 
     def calc_proto_amplitude_equations_conserved(self, vars):
-        
+        """Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics
+
+        Args:
+            vars: The proto-amplitudes for the system.
+
+        Returns:
+            The equations for the proto-amplitudes for the system in the case of conserved dynamics.
+        """
         psi0 = self.psi0
         r = self.r
         t = self.t
@@ -130,12 +164,26 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         return [eq1, eq2, eq3]
 
     def calc_omega_f(self):
+        """Calculates the linear evolution operator of the system.
+
+        Args:
+            None
+
+        Returns:
+            The linear evolution operator of the system.
+        """
+
         k2 = self.calc_k2()
         return - k2 * (self.r + (1 - k2)**2*(2-k2)**2*(3-k2)**2)
 
     def calc_stress_tensor_microscopic(self):
-        """
-        Calculates the microscopic stress of the phase-field crystal.
+        """Calculates the microscopic stress of the phase-field crystal.
+
+        Args:
+            None
+
+        Returns:
+            The microscopic stress of the phase-field crystal.
         """
         stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
         
@@ -152,7 +200,15 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         return stress
 
     def calc_stress_divergence_f(self, field_f = None):
-        
+        """Calculates the divergence of the stress tensor in Fourier space.
+
+        Args:
+            field_f: The field in Fourier space.
+
+        Returns:
+            The divergence of the stress tensor in Fourier space.
+        """
+
         if field_f is None:
             field_f = self.psi_f
         
@@ -163,4 +219,3 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
                 sp.fft.ifftn((1-k2)*(2-k2)*(3-k2)*self.dif[i]*field_f)*sp.fft.ifftn((11-12*k2+3*k2**2)*self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
                 ]) + sp.fft.ifftn((1-k2)*(2-k2)*(3-k2)*field_f)*sp.fft.ifftn((11-12*k2+3*k2**2)*self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
                 )
-        #TODO: Needs double checking (Vidar 27.02.24)
