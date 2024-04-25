@@ -4,6 +4,7 @@ import scipy as sp
 from comfit.tools.tool_math_functions import tool_multinom
 
 class BaseSystemCalc:
+    """Calculation method for the base system class"""
     # CALCULATION FUNCTIONS
 
     # Calculation of angle fields for vortices of different types
