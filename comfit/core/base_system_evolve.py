@@ -2,32 +2,22 @@ import numpy as np
 import scipy as sp
 
 class BaseSystemEvolve:
+    """ Evolution methods for the base system class"""
     ## Time evolution function
     def evolve_ETD2RK_loop(self, integrating_factors_f, nonlinear_evolution_function_f, field, field_f):
-        """
-        Evolves the given field using the ETD2RK scheme with a loop.
+        """Evolves the given field using the ETD2RK scheme with a loop.
 
         Args:
-            integrating_factors_f (list): A list of three integrating factors.
-            nonlinear_evolution_function_f (function): A function that calculates the non-linear evolution of the field
-                    and returns the fourier transform.
-            field (ndarray): The initial field to be evolved.
-            field_f (ndarray): The Fourier transform of the initial field.
+            integrating_factors_f: A list of three integrating factors. (list)
+            nonlinear_evolution_function_f: A function that calculates the non-linear evolution of the field
+                    and returns the fourier transform.  (function)
+            field: The initial field to be evolved. (ndarray)
+            field_f: The Fourier transform of the initial field. (ndarray)
 
         Returns:
             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
         """
-        """
-        Don't think this is needed. self.time is now initialized in base and all timedependence should be through this
-        if t==None:
-            def N_f(field,t):
-                return nonlinear_evolution_function_f(field)
-            t=0
 
-        else:
-            def N_f(field,t):
-                return nonlinear_evolution_function_f(field,t)
-        """
         N0_f = nonlinear_evolution_function_f(field, self.time)
 
         a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
@@ -42,18 +32,16 @@ class BaseSystemEvolve:
         return field, field_f
 
     def evolve_ETD4RK_loop(self, integrating_factors_f, nonlinear_evolution_function_f, field, field_f):
-
-        """
-         Evolves the given field using the ETD4RK scheme with a loop.
+        """Evolves the given field using the ETD4RK scheme with a loop.
 
          Args:
-             integrating_factors_f (list): A list of five integrating factors.
-             nonlinear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
-             field (ndarray): The initial field to be evolved.
-             field_f (ndarray): The Fourier transform of the initial field.
+             integrating_factors_f: A list of five integrating factors.  (list)
+             nonlinear_evolution_function_f: A function that calculates the non-linear evolution of the field.  (function)
+             field: The initial field to be evolved. (ndarray)
+             field_f: The Fourier transform of the initial field. (ndarray)
 
          Returns:
-             tuple: A tuple containing the evolved field and the predicted field in Fourier space.
+             A tuple containing the evolved field and the predicted field in Fourier space.
          """
         N_0f = nonlinear_evolution_function_f(field, self.time)
 
