@@ -25,7 +25,7 @@ def tool_save_plot(counter):
     Saves the current Matplotlib plot as a PNG file.
 
 
-    Input:
+    Args:
 
     - counter (int): A unique identifier for the plot image file.
     """
@@ -39,7 +39,7 @@ def tool_make_animation_movie(counter, name=None, fps=24):
     Creates an animation from a series of plot img and saves it as an MP4 video file.
 
 
-    Input:
+    Args:
 
     - counter (int): The number of plot img to include in the animation.
 
@@ -71,7 +71,7 @@ def tool_make_animation_gif(counter, name=None, fps=24):
     """
     Creates an animation from a series of plot img and saves it as a GIF file.
 
-    Input:
+    Args:
         - counter (int): The number of plot img to include in the animation.
         - name (str, optional): The filename for the output video. Defaults to today's date followed by ' - output_video.mp4'.
         - fps (int, optional): The frames per second for the video. Defaults to 24.

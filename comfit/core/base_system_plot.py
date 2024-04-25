@@ -16,7 +16,7 @@ class BaseSystemPlot:
         """
         Sets the properties of the axis for a plot.
         
-        Input:
+        Args:
             kwargs: keyword arguments for the axis properties
         """
 
@@ -157,7 +157,7 @@ class BaseSystemPlot:
         """
         Extends the field in case not a complete array is given. 
         For instance, if a field in 3 dimensions is calculated using only x, then the field is extended to the full 3D array.
-        Input:
+        Args:
             field: The field to be extended
         Output:
             np.ndarray: The extended field
@@ -213,7 +213,7 @@ class BaseSystemPlot:
         """
         Plots the given (real) field.
         
-        Input:
+        Args:
             field (array-like): The field to be plotted.
             **kwargs: Keyword arguments for the plot.
                 See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md 
@@ -420,7 +420,7 @@ class BaseSystemPlot:
 
         ax=None, plot_method=None, colorbar=False
 
-        Input:
+        Args:
             complex_field (numpy.ndarray): The complex field to plot.
             ax (matplotlib.axes.Axes, optional): The matplotlib axes on which to plot the field.
                 If not provided, a new 3D axes will be created.
@@ -654,7 +654,7 @@ class BaseSystemPlot:
         """
         Plot the angle field.
 
-        Input:
+        Args:
             field (array-like): The angle field values.
             ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
         
@@ -697,7 +697,7 @@ class BaseSystemPlot:
         """
         Plots a vector field.
 
-        Input:
+        Args:
         vector_field (tuple): Tuple containing the x and y components of the vector field.
         spacing (int, optional): The spacing for the quiver plot. Default is 5.
         kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
@@ -1023,7 +1023,7 @@ class BaseSystemPlot:
         Plots the field in a plane perpendicular to the given normal vector using
         scipy.interpolate.griddata and plt.plot_trisurf.
 
-        Input:
+        Args:
             field (array-like): The field to be plotted.
             normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
             position (array-like, optional): The position of the plane. Default is the middle of the system.
@@ -1116,7 +1116,7 @@ class BaseSystemPlot:
         """
         Plots the complex field in a plane perpendicular to the given normal vector using
 
-        Input:
+        Args:
             complex_field (array-like): The complex field to be plotted.
             normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
             position (array-like, optional): The position of the plane. Default is the middle of the system.
@@ -1208,7 +1208,7 @@ class BaseSystemPlot:
         """
         Plots the angle field in a plane.
 
-        Input:
+        Args:
             angle_field (numpy.ndarray): The angle field to be plotted.
             normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
             position (array-like, optional): The position of the plane. Default is the middle of the system.
@@ -1236,7 +1236,7 @@ class BaseSystemPlot:
         """
         Plots the vector field in a plane.
         
-        Input:
+        Args:
             vector_field (tuple): Tuple containing the x and y components of the vector field.
             position (array-like, optional): The position of the plane. Default is the middle of the system.
             normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].

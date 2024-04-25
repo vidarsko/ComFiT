@@ -7,7 +7,7 @@ class BaseSystemEvolve:
         """
         Evolves the given field using the ETD2RK scheme with a loop.
 
-        Input:
+        Args:
             integrating_factors_f (list): A list of three integrating factors.
             nonlinear_evolution_function_f (function): A function that calculates the non-linear evolution of the field
                     and returns the fourier transform.
@@ -46,7 +46,7 @@ class BaseSystemEvolve:
         """
          Evolves the given field using the ETD4RK scheme with a loop.
 
-         Input:
+         Args:
              integrating_factors_f (list): A list of five integrating factors.
              nonlinear_evolution_function_f (function): A function that calculates the non-linear evolution of the field.
              field (ndarray): The initial field to be evolved.

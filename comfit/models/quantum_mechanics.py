@@ -9,7 +9,7 @@ class QuantumMechanics(BaseSystem):
         """
         Initializes a quamtum mechanics system evolving according to the Schrödinger equation
 
-        Input:
+        Args:
         - dimension : int
             The dimension of the system.
         - kwargs : dict, optional
@@ -107,7 +107,7 @@ class QuantumMechanics(BaseSystem):
         """
         Calculate the hydrogen state with quantum numbers n,l,m
 
-        Input:
+        Args:
             n: principal quantum number
             l: azimuthal quantum number
             m: magnetic quantum number

@@ -6,7 +6,7 @@ def tool_create_orthonormal_triad(t):
     The function first normalizes the input vector t, then it creates two orthogonal unit vectors e1 and e2.
     The vectors e1, e2, and the normalized t form an orthonormal triad.
 
-    Input:
+    Args:
     t : numpy array
         The input vector. It does not need to be a unit vector.
 

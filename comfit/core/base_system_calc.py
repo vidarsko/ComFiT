@@ -13,7 +13,7 @@ class BaseSystemCalc:
         """
         Calculate the angle field due to a single vortex.
 
-        Input:
+        Args:
             position (list, optional): The position of the vortex. Defaults to None.
             charge (int, optional): The charge of the vortex. Defaults to 1.
         
@@ -36,13 +36,15 @@ class BaseSystemCalc:
     def calc_angle_field_vortex_dipole(self,
                                        dipole_vector=None,
                                        dipole_position=None):
-        """
-        Calculates the angle field for a double vortex system.
-        Input:
+        """Calculates the angle field for a double vortex system.
+
+        Args:
             dipole_vector (list, optional): The dipole vector. Defaults to None.
             dipole_position (list, optional): The position the center of mass of the dipole. Defaults to None.
+
         Raises:
             Exception: If the dimension of the system is not 2.
+            
         Output:
             np.ndarray: The calculated angle field for the double vortex system.
         """
@@ -86,7 +88,7 @@ class BaseSystemCalc:
     def calc_angle_field_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
         """
         Calculates the angle field for a vortex ring.
-        Input:
+        Args:
             position (list, optional): The position of the vortex ring. Defaults to None.
             radius (float, optional): The radius of the vortex ring. Defaults to None.
             normal_vector (list, optional): The normal vector of the vortex ring. Defaults to [0,0,1].
@@ -156,7 +158,7 @@ class BaseSystemCalc:
         """
         Calculates the wavenumbers corresponding to the input position vectors given by x.
 
-        Input:
+        Args:
         - x : 1D array of x-positions.
 
         Output:
@@ -194,7 +196,7 @@ class BaseSystemCalc:
         """
         Calculate the determinant transformation of a given field
 
-        Input:
+        Args:
             psi (list): A list of two psi fields.
 
         Output:
@@ -229,7 +231,7 @@ class BaseSystemCalc:
         """
         Calculate the defect density of a given psi field.
 
-        Input:
+        Args:
             psi (list): A list of two psi fields.
             psi0 (float, optional): The value of psi_0. Defaults to 1.
 
@@ -243,7 +245,7 @@ class BaseSystemCalc:
         """
         Calculate the singular defect density for a given psi field.
 
-        Input:
+        Args:
             psi (float): The value of psi.
             psi0 (float, optional): The reference value of psi. Defaults to 1.
         Output:
@@ -255,7 +257,7 @@ class BaseSystemCalc:
         """
         Calculates the velocity field of the defects in the psi field.
 
-        Input:
+        Args:
             psi: The psi field
             dt_psi: The time derivative of the psi field
 
@@ -347,7 +349,7 @@ class BaseSystemCalc:
         """
         Calculates the conserved current of the superfluid density
 
-        Input:
+        Args:
             psi (numpy.ndarray) the vector field that we find the density of
             dt_psi (numpy.ndarray) the time derivative of psi
             psi_0 (floar or numpy.ndarray, optional) the equilibrium state
@@ -373,7 +375,7 @@ class BaseSystemCalc:
         """
         Calculate the delta function for a given wavefunction.
 
-        Input:
+        Args:
             psi (list): The wavefunction.
             psi0 (float): The width of the wavefunction. Default is 1.
 
@@ -391,7 +393,7 @@ class BaseSystemCalc:
         """
         Calculates a boolean array indicating whether a point is within an interval.
         
-        Input:
+        Args:
             a: The lower bound of the interval
             b: The upper bound of the interval
         
@@ -411,7 +413,7 @@ class BaseSystemCalc:
         """
         Calculates a boolean array indicating whether a point is within a disk of a given radius.
         
-        Input:
+        Args:
             position: The position of the disk
             radius: The radius of the disk
         
@@ -438,7 +440,7 @@ class BaseSystemCalc:
         """
         Calculates a boolean array indicating whether a point is within a ball of a given radius.
         
-        Input:
+        Args:
             position: The position of the ball
             radius: The radius of the ball
         
@@ -470,7 +472,7 @@ class BaseSystemCalc:
     def calc_Gaussian(self, **kwargs):
         """
         Calculated the Gaussian function 
-        Input:
+        Args:
             kwargs:
             - position
             - width
@@ -532,7 +534,7 @@ class BaseSystemCalc:
         """
         Calculates a boolean array indicating whether a point is within a cylinder of a given radius and height.
         
-        Input:
+        Args:
             position: The position of the cylinder
             radius: The radius of the cylinder
             normal_vector: The normal vector of the cylinder
@@ -572,12 +574,12 @@ class BaseSystemCalc:
         """
         Calculates the integrated field value within a specified region.
 
-        Input:
+        Args:
             field (numpy.ndarray): The field array.
             index (tuple, optional): The indices of the center point in the field. Defaults to None.
             radius (float, optional): The radius of the region. Defaults to None.
 
-        Input:
+        Args:
             tuple or float: If index is provided, returns a tuple containing the integrated field value
                             within the region and a boolean array indicating the region. If index is None,
                             returns the integrated field value within the entire field.
@@ -598,7 +600,7 @@ class BaseSystemCalc:
         """
         Calculates the integrating factors and the solver for the evolution equation.
         
-        Input:
+        Args:
             omega_f: The value of omega_f
             method: The method used for evolution
         
@@ -622,7 +624,7 @@ class BaseSystemCalc:
         """
         Advects field accodring to the provided displacement field u, with a taylor expansion up to order 3.
 
-        Input: 
+        Args: 
             u: Displacement field (numpy.ndarray)
             taylor_order: Order of the taylor expansion
 
@@ -667,7 +669,7 @@ class BaseSystemCalc:
         """
         Calculates integrating factors for ETD2RK
         
-        Input:
+        Args:
             omega_f (numpy.ndarray): the value of omega_f
             tol (float, optional): tolerance for when to expand the integrating factors that divide by omega
         
@@ -690,7 +692,7 @@ class BaseSystemCalc:
         """
         Calculate the evolution integrating factors using the ETDRK4 method.
 
-        Input:
+        Args:
             omega_f (numpy.ndarray): The value of omega_f.
             tol (float,optional): tolerance for when to expand the integrating factors that divide by omega
         
@@ -733,7 +735,7 @@ class BaseSystemCalc:
         """
         Calculate the positions and charges of defect nodes based on the defect density.
         
-        Input:
+        Args:
             defect_density (numpy.ndarray): The defect density field. A positive scalar field to be integrated.
         
         Output:

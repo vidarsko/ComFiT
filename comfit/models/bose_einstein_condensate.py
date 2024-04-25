@@ -12,7 +12,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Initializes a system to simulate a Bose-Einstein Condensate using the Gross-Pitaevskii equation.
 
-        Input:
+        Args:
         - dimension : int
             The dimension of the system.
         - kwargs : dict, optional
@@ -58,7 +58,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Sets disordered initial condition for the BoseEinsteinCondensate with some thermal flcutiations
         
-        Input:
+        Args:
             noise_strength: the strength of the noise
 
         Output:
@@ -85,7 +85,7 @@ class BoseEinsteinCondensate(BaseSystem):
     def conf_external_potential(self, V_ext, additive=False):
         """
         Sets the external potential of the system.
-        Input:
+        Args:
             V_ext (function or float): the external potential
             additive (bool, optional): whether to add the new potential to the existing potential or not
         Output:
@@ -108,7 +108,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Finds the Thomas_Fermi ground state.
         Must be precided by an energy relaxation to find the true ground state
 
-        Input:
+        Args:
             None
         
         Output: 
@@ -125,7 +125,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Sets the initial condition for a vortex dipole
 
-        Input:
+        Args:
             charge (int): the charge of the vortex
             position (list): the position of the vortex
 
@@ -151,7 +151,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Sets the initial condition for a vortex dipole configuration in a 2-dimensional system.
 
-        Input:
+        Args:
             None
 
         Output:
@@ -179,7 +179,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Sets the initial condition for a vortex ring configuration in a 3-dimensional system
         
-        Input:
+        Args:
             position (list): the position of the vortex ring
             radius (float): the radius of the vortex ring
             normal_vector (list): the normal vector of the vortex ring
@@ -209,7 +209,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Function that finds and removes vortices outside of the area defined by the corners
         (x1,y1), (x1,y2), (x2,y1), (x2,y2)
 
-        Input:
+        Args:
             nodes (list) a list containing the vortices
             Area  (array) list on the format (x1,x2,y1,y2)
 
@@ -229,7 +229,7 @@ class BoseEinsteinCondensate(BaseSystem):
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
         This sets a dissipative frame around the computational domain
         
-        Input:
+        Args:
             d (float): length of the interface between the low gamma and high gamma regions
             wx (float): distance fom center to the frame in x-direction
             wy (float):    -- " --                         y-direction
@@ -258,7 +258,7 @@ class BoseEinsteinCondensate(BaseSystem):
         '''
         Evolver for the dGPE.
         
-        Input:
+        Args:
             number_of_steps (int) the number of time steps that we are evolving the equation
             method (string, optional) the integration method we want to use. ETD2RK is sett as default
         
@@ -280,7 +280,7 @@ class BoseEinsteinCondensate(BaseSystem):
         '''
         Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
         
-        Input:
+        Args:
             number_of_steps (int) the number of time steps that we are evolving the equation
             method (string, optional) the integration method we want to use. ETD2RK is sett as default
         
@@ -309,7 +309,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Evolver for the dGPE in the comoving frame.
         This evolver assume that the stirring is in the x-direction and that gamma is spatialy dependent
         
-        Input:
+        Args:
             number_of_steps (int) the number of time steps that we are evolving the equation
             velx (float) velocity in x direction
             method (string, optional) the integration method we want to use. ETD2RK is sett as default
@@ -340,7 +340,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Calculates the non-linear evolution term of the dGPE
         
-        Input:
+        Args:
              psi (numpy.ndarray): the wavefunction at a given time.
         
         Output:
@@ -355,7 +355,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Calculates the non-linear evolution term of the dGPE when gamma is not a constant.
         Relevant for example in the comoving frame when we have a dissipative frame around the edge.
         
-        Input:
+        Args:
             psi (numpy.ndarray): the wavefunction at a given time.
         
         Output:
@@ -373,7 +373,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Function that calculates the superfluid current
 
-        Input:
+        Args:
             None
         
         Output:
@@ -393,7 +393,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Calculates the weighted velocity field
         
-        Input:
+        Args:
             None
 
         Output:
@@ -414,7 +414,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Calculates the kinetic energy.
 
-        Input:
+        Args:
             None
 
         Output:
@@ -429,7 +429,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Function that calculates the hamiltonian density
 
-        Input:
+        Args:
             None
 
         Output:
@@ -445,7 +445,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Function that calculates the Hamiltonian
 
-        Input:
+        Args:
             None
 
         Output:
@@ -458,7 +458,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Set returns a harmonic trap with R_tf being the Thomas-Fermi radius
         
-        Input:
+        Args:
                 R_tf (float): The Thomas-Fermi radius
         
         Output:
@@ -479,7 +479,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Function for calculate a gaussian potential
         
-        Input:
+        Args:
             size (float) size of the stirrer
             strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
             position (array) the position of the stirrer
@@ -503,7 +503,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """ 
         Calculates the average force acting on the external potential.
         
-        Input:
+        Args:
             None
         
         Output:
@@ -524,7 +524,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Calculates the vortex density of the system.
 
-        Input:
+        Args:
             psi (numpy.ndarray): The wavefunction of the system.
         
         Output:
@@ -539,7 +539,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Calculates the vortex density of the system using the singular method.
 
-        Input:
+        Args:
             None
         
         Output:
@@ -552,7 +552,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Calculates the vortex velocity field of the system.
 
-        Input:
+        Args:
             dt_psi (numpy.ndarray): The time derivative of the wavefunction of the system.
             psi (numpy.ndarray): The wavefunction of the system.
 
@@ -569,7 +569,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Calculate the positions and charges of vortex nodes based on the defect density.
 
-        Input:
+        Args:
             dt_psi (numpy.ndarray): The time derivative of the wavefunction of the system.    
     
         Output:
@@ -621,7 +621,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Plots the vortex nodes in the system.
 
-        Input:
+        Args:
             vortex_nodes (list): A list of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
                                  - 'position_index': The position index of the vortex node in the defect density array.
                                  - 'charge': The charge of the vortex node.

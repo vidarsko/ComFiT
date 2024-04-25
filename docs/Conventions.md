@@ -57,5 +57,23 @@ $$
 
 ## Programming notation conventions
 
-* [PEP8](https://peps.python.org/pep-0008/) for python programming, and [PEP257](https://peps.python.org/pep-0257/)/[Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) for doc strings.
+* [PEP8](https://peps.python.org/pep-0008/) for python programming, and loosely [PEP257](https://peps.python.org/pep-0257/)/[Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) for doc strings. Functions are documented as follows:
+```python
+def function_name(arg1, arg2):
+    """Short description of the function.
+
+    Optional longer description of the function.
+
+    Args:
+        arg1: Description of arg1.
+        arg2: Description of arg2.
+
+    Returns:
+        Description of the return value.
+
+    Raises:
+        Exception: Description of the exception.
+    """
+    pass
+```
 * [markdownlint](https://github.com/DavidAnson/markdownlint) for markdown documents.

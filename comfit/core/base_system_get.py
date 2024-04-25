@@ -8,7 +8,7 @@ class BaseSystemGet:
         """
         Gets the i,j component of a symmetric tensor saved in an array structure.
 
-        Input: 
+        Args: 
             tensor (numpy.ndarray): The symmetric tensor.
             i (int): The row index.
             j (int): The column index.
@@ -35,7 +35,7 @@ class BaseSystemGet:
         """
         Gets the i,j component of a symmetric traceless tensor saved in an array structure.
 
-        Input:
+        Args:
             tensor (numpy.ndarray): The symmetric traceless tensor.
             i (int): The row index.
             j (int): The column index.
@@ -61,7 +61,7 @@ class BaseSystemGet:
         """
         Gets the i,j component of an anti-symmetric tensor saved in an array structure.
 
-        Input:
+        Args:
             omega (numpy.ndarray): The anti-symmetric tensor.
             i (int): The row index.
             j (int): The column index.

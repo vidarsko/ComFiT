@@ -6,7 +6,7 @@ class BaseSystemInit:
         """
         Initialize the class with the given parameters.
 
-        Input:
+        Args:
             dimension (int): The dimension of the system. Must be 1, 2, or 3.
             **kwargs: Additional keyword arguments, see 
             https://vidarsko.github.io/ComFiT/ClassBaseSystem/

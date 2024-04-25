@@ -14,7 +14,7 @@ class PhaseFieldCrystal(BaseSystem):
         Initializes a system to simulate a Phase Field Crystal. This class is the base of the other
         phase field crystal models implemented in comfit
 
-        Input:
+        Args:
         - dimension : int
             The dimension of the system.
         - kwargs : dict, optional
@@ -152,7 +152,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Evolves the PFC in mechanical equilibrium. 
 
-        Input:
+        Args:
             number_of_steps: The number of steps to evolve the PFC
             Delta_t: The time step for the mechanical equilibrium evolution
             method: The method to use for the evolution (default: ETD2RK)
@@ -255,7 +255,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Calculates the displacement field needed to put the PFC in mechanical equilibrium.
 
-        Input:
+        Args:
             None
         
         Output:
@@ -323,7 +323,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Inserts a  dislocation dipole in the system corresponding to dislocation type and its negative
 
-        Input:
+        Args:
             - eta: The amplitudes to insert the dislocation dipole in
             - x1: The x-coordinate of the first dislocation
             - y1: The y-coordinate of the first dislocation
@@ -371,7 +371,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Inserts a  dislocation ring in the system corresponding to dislocation type.
 
-        Input:
+        Args:
             - eta: The amplitudes to insert the dislocation ring in
             - position: The position of the dislocation ring
             - radius: The radius of the dislocation ring
@@ -452,7 +452,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Demodulates the PFC.
 
-        Input:
+        Args:
             None
 
         Output:
@@ -481,7 +481,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Calculates the stress of the phase-field crystal.
 
-        Input:
+        Args:
             None
 
         Output:
@@ -509,7 +509,7 @@ class PhaseFieldCrystal(BaseSystem):
         """ 
         Calculates the structure tensor of the phase-field crystal.
 
-        Input:
+        Args:
             None
 
         Output:
@@ -555,7 +555,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Calculates the strain of the phase-field crystal.
 
-        Input:
+        Args:
             None
 
         Output:
@@ -693,7 +693,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         Plots the dislocation nodes.
 
-        Input:
+        Args:
             - dislocation_nodes: The dislocation nodes to plot.
             -**kwargs: Keyword arguments for the plot.
                 See github.com/vidarsko/ComFiT/blob/main/docs/ClassBaseSystem.md 
