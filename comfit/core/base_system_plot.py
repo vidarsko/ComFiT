@@ -705,7 +705,7 @@ class BaseSystemPlot:
         Args:
             vector_field (tuple): Tuple containing the x and y components of the vector field.
             spacing (int, optional): The spacing for the quiver plot. Default is 5.
-            **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
+            **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
         Returns:
             Tuple containing
@@ -1033,7 +1033,7 @@ class BaseSystemPlot:
             field (array-like): The field to be plotted.
             normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
             position (array-like, optional): The position of the plane. Default is the middle of the system.
-            **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/. 
+            **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/. 
         
         Returns:
             The axes containing the plot. (matplotlib.axes.Axes)
@@ -1125,7 +1125,7 @@ class BaseSystemPlot:
             complex_field (array-like): The complex field to be plotted.
             normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
             position (array-like, optional): The position of the plane. Default is the middle of the system.
-            **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
+            **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
         Returns:
             The axes containing the plot of the complex field. (matplotlib.axes.Axes)
@@ -1216,7 +1216,7 @@ class BaseSystemPlot:
             angle_field (numpy.ndarray): The angle field to be plotted.
             normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
             position (array-like, optional): The position of the plane. Default is the middle of the system.
-            **kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
+            **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
         Returns:
             The axes containing the plot. (matplotlib.axes.Axes)
@@ -1245,7 +1245,7 @@ class BaseSystemPlot:
             position (array-like, optional): The position of the plane. Default is the middle of the system.
             normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
             spacing (int, optional): The spacing for the quiver plot. Default is 5.
-            kwargs: Keyword arguments for the plot, see https://vidarsko.github.io/ComFiT/Plotting/.
+            kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
         Returns:
             Tuple consisting of

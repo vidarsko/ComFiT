@@ -15,15 +15,13 @@ from matplotlib.colors import Normalize
 class NematicLiquidCrystal(BaseSystem):
 
     def __init__(self, dimension, **kwargs):
-        """
-        Initializes a system to simulate a (active) nematic liquid crystal
+        """Initializes a system to simulate a (active) nematic liquid crystal
 
         Args:
-        - dimension : int
-            The dimension of the system.
-        - kwargs : dict, optional
+            dimension : The dimension of the system.
+            kwargs : dict, optional
             Optional keyword arguments to set additional parameters. See
-            https://vidarsko.github.io/ComFiT/ClassNematicLiquidCrystal/
+            https://comfitlib.com/ClassNematicLiquidCrystal/
 
         Returns:
         - NematicLiquidCrystal object

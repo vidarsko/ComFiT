@@ -14,7 +14,7 @@ class BoseEinsteinCondensate(BaseSystem):
                 The dimension of the system.
             kwargs : dict, optional
                 Optional keyword arguments to set additional parameters. see
-                https://vidarsko.github.io/ComFiT/ClassBoseEinsteinCondensate/
+                https://comfitlib.com/ClassBoseEinsteinCondensate/
 
         Returns:
             The system object representing the BoseEinsteinCondensate simulation. BoseEinsteinCondensate object

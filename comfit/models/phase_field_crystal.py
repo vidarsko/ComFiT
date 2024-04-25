@@ -19,7 +19,7 @@ class PhaseFieldCrystal(BaseSystem):
             The dimension of the system.
         - kwargs : dict, optional
             Optional keyword arguments to set additional parameters. See
-            https://vidarsko.github.io/ComFiT/ClassPhaseFieldCrystal/
+            https://comfitlib.com/ClassPhaseFieldCrystal/
 
         Returns:
         - PhaseFieldCrystal object

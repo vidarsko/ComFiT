@@ -1,7 +1,7 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-Full documentation can be found here: [https://vidarsko.github.io/ComFiT/](https://vidarsko.github.io/ComFiT/).
+Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
 ## [1.4.2] - 2024-03-18
 - Bug fixes and stability improvements.
