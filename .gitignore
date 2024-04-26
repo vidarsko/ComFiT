@@ -35,3 +35,4 @@ build/
 !/docs/img/*.gif
 !/JOSS_paper/*.gif
 !/JOSS_paper/*.png
+.DS_Store
