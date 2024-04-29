@@ -39,6 +39,14 @@ Comfit can be installed from the Python Package Index (PyPI), a repository of so
 pip install comfit
 ```
 
+## Tests
+
+To test the library, run the following command in the root directory of the repository:
+
+```bash
+python -m unittest discover -s .\tests\
+```
+
 ## License
 
 ComFiT is licensed under the [MIT License](LICENSE).
