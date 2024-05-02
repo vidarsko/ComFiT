@@ -44,7 +44,7 @@ pip install comfit
 To test the library, run the following command in the root directory of the repository:
 
 ```bash
-python -m unittest discover -s .\tests\
+python -m unittest discover -s ./tests/
 ```
 
 ## License
