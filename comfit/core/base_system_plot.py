@@ -716,7 +716,6 @@ class BaseSystemPlot:
         vector_field = np.array(vector_field)
         
         # Extend the field if not a complete array is given
-        # TODO: Make this part more efficient (Vidar 11.03.24)
         vector_field_copy = []
         for n in range(vector_field.shape[0]):
             vector_field_copy.append(self.plot_tool_extend_field(vector_field[n]))
@@ -752,6 +751,7 @@ class BaseSystemPlot:
             
             if vector_field.shape == (1,self.xRes):
                 if ax == None:
+                    fig.clf()
                     ax = plt.gcf().add_subplot(111)
 
                 X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
@@ -850,6 +850,7 @@ class BaseSystemPlot:
             if vector_field.shape == (1,self.xRes,self.yRes):
 
                 if ax == None:
+                    fig.clf()
                     ax = plt.gcf().add_subplot(111)
 
                 X, Y = np.meshgrid(self.x, self.y, indexing='ij')
@@ -877,6 +878,7 @@ class BaseSystemPlot:
             elif vector_field.shape == (2,self.xRes,self.yRes):
 
                 if ax == None:
+                    fig.clf()
                     ax = plt.gcf().add_subplot(111)
 
                 X, Y, U, V = add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
