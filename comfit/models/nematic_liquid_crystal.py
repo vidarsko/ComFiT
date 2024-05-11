@@ -1066,5 +1066,5 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("This plotting function is currently only implemented in 2D! ")
 
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties_matplotlib(**kwargs)
+        self.plot_tool_set_axis_properties(**kwargs)
         return fig, ax
