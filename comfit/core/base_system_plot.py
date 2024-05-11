@@ -5,12 +5,22 @@ from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluew
 from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 
 import matplotlib.pyplot as plt
-from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 
+import plotly.graph_objects as go
+
+from skimage.measure import marching_cubes
+
 class BaseSystemPlot:
     """ Plotting methods for the base system class"""
+
+    def show(self):
+        """Show the plot."""
+        if self.plot_lib == 'matplotlib':
+            plt.show()
+        elif self.plot_lib == 'plotly':
+            go.show()
 
     def plot_tool_set_axis_properties(self, **kwargs):
         """Sets the properties of the axis for a plot.
