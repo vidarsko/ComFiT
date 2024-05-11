@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'feature-plotly-integration'
     paths:
       - 'comfit/**.py'  # Trigger when any Python file in comfit directory is changed
       - 'tests/test_*.py'  # Trigger when any test file is changed

@@ -20,7 +20,7 @@ class BaseSystemPlot:
         if self.plot_lib == 'matplotlib':
             plt.show()
         elif self.plot_lib == 'plotly':
-            go.show()
+            go.show() #or fig.show?
 
     def plot_tool_set_axis_properties(self, **kwargs):
         """Sets the properties of the axis for a plot.
