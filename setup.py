@@ -9,6 +9,7 @@ setup(
     install_requires=['numpy>=1.21, <2.0.0',
                       'scipy',
                       'matplotlib',
+                      'plotly',
                       'scikit-image>=0.18.0,<0.23',
                       'moviepy',
                       'imageio'],
