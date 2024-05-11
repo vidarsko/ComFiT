@@ -828,7 +828,7 @@ class PhaseFieldCrystal(BaseSystem):
             ax.quiver(x_coords/self.a0, y_coords/self.a0, Bx_coords, By_coords, color='red')
             
             kwargs['ax'] = ax
-            self.plot_tool_set_axis_properties(**kwargs)
+            self.plot_tool_set_axis_properties_matplotlib(**kwargs)
 
         elif self.dim == 3:
             # Plotting options

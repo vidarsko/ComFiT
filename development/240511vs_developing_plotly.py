@@ -18,6 +18,5 @@ fig.add_trace(
 
 # Update layout if needed (optional)
 fig.update_layout(height=600, width=600, title_text="Subplots Example")
-
-# Show the figure
 fig.show()
+

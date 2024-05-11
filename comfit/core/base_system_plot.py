@@ -22,7 +22,7 @@ class BaseSystemPlot:
         elif self.plot_lib == 'plotly':
             go.show() #or fig.show?
 
-    def plot_tool_set_axis_properties(self, **kwargs):
+    def plot_tool_set_axis_properties_matplotlib(self, **kwargs):
         """Sets the properties of the axis for a plot.
         
         Args:
@@ -165,6 +165,50 @@ class BaseSystemPlot:
 
         return ax
 
+    def plot_tool_surface_matplotlib(self, **kwargs):
+        """Plots the surface of the given field.
+
+        Args:
+            **kwargs: Keyword arguments for the plot.
+        
+        Returns:
+            The axes containing the plot.
+        """
+        field = kwargs['field']
+        value = kwargs['value']
+        ax = kwargs.get('ax', plt.gca())
+        alpha = kwargs.get('alpha', 0.5)
+        color = kwargs.get('color', 'b')
+
+        verts, faces, _, _ = marching_cubes(field, value)
+        x = (self.xmin+verts[:, 0]*self.dx)/self.a0
+        y = (self.ymin+verts[:, 1]*self.dy)/self.a0
+        z = (self.zmin+verts[:, 2]*self.dz)/self.a0
+        ax.plot_trisurf(x, y, faces, z, alpha=alpha, color=color)
+    
+    def plot_tool_set_axis_properties_plotly(self, **kwargs):
+        """Sets the properties of the axis for a plot with the plotly library.
+
+        Args:
+            kwargs: keyword arguments for the axis properties
+        
+        Returns:
+            The figure containing the plot.
+        """
+        pass
+
+    def plot_surface_plotly(self, field, **kwargs):
+        """Plots the surface of the given field.
+
+        Args:
+            field (array-like): The field to be plotted.
+            **kwargs: Keyword arguments for the plot.
+        
+        Returns:
+            The figure containing the plot.
+        """
+        pass
+
     def plot_tool_extend_field(self,field):
         """Extends the field in case not a complete array is given. 
 
@@ -207,27 +251,6 @@ class BaseSystemPlot:
 
         return field
 
-    def plot_tool_surface(self, **kwargs):
-        """Plots the surface of the given field.
-
-        Args:
-            **kwargs: Keyword arguments for the plot.
-        
-        Returns:
-            The axes containing the plot.
-        """
-        field = kwargs['field']
-        value = kwargs['value']
-        ax = kwargs.get('ax', plt.gca())
-        alpha = kwargs.get('alpha', 0.5)
-        color = kwargs.get('color', 'b')
-
-        verts, faces, _, _ = marching_cubes(field, value)
-        x = (self.xmin+verts[:, 0]*self.dx)/self.a0
-        y = (self.ymin+verts[:, 1]*self.dy)/self.a0
-        z = (self.zmin+verts[:, 2]*self.dz)/self.a0
-        ax.plot_trisurf(x, y, faces, z, alpha=alpha, color=color)
-    
     def plot_field(self, field, **kwargs):
         """Plots the given (real) field.
         
@@ -238,7 +261,10 @@ class BaseSystemPlot:
                 for a full list of keyword arguments.
         
         Returns:
-            The axes containing the plot (matplotlib.axes.Axes).
+            If self.plot_lib == 'matplotlib':
+                The axes containing the plot (matplotlib.axes.Axes).
+            If self.plot_lib == 'plotly':
+                The figure containing the plot.
         """
 
         if field.dtype == bool:
@@ -250,10 +276,14 @@ class BaseSystemPlot:
             print('Max imaginary part: ', np.max(np.imag(field)))
             field = np.real(field)
 
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        # Check if an axis object is provided
-        fig = kwargs.get('fig', plt.gcf())
-        ax = kwargs.get('ax', None)
+        if plot_lib=='matplotlib':
+            # Check if an axis object is provided
+            fig = kwargs.get('fig', plt.gcf())
+            ax = kwargs.get('ax', None)
+        elif plot_lib=='plotly':
+            fig = kwargs.get('fig', go.Figure())
 
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
@@ -365,9 +395,7 @@ class BaseSystemPlot:
 
         elif self.dim == 3:
 
-            if ax == None:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
+            # Keyword arguments particular to the 3D case
 
             field_min = np.min(field)
             field_max = np.max(field)
@@ -402,35 +430,71 @@ class BaseSystemPlot:
                 colormap = plt.get_cmap('viridis')
             
 
-            if field_min < layer_values[1] < field_max:
-                self.plot_tool_surface(field=field, 
-                                        value=layer_values[1], 
-                                        color=colormap((layer_values[1]-vmin) / (vmax-vmin)), 
-                                        alpha=alpha,
-                                        ax=ax)
-
-            for layer_value in layer_values[2:-1]:
-                if field_min < layer_value < field_max:
-                    self.plot_tool_surface(field=field, 
-                                            value=layer_value, 
-                                            color=colormap((layer_value-vmin) / (vmax-vmin)), 
-                                            alpha=alpha,
-                                            ax=ax)
-
-
             if 'colorbar' in kwargs:
                 colorbar = kwargs['colorbar']
             else:
                 colorbar = True
 
-            if colorbar:
-                sm = plt.cm.ScalarMappable(cmap=colormap)
-                sm.set_clim(vmin, vmax)
-                plt.colorbar(sm, ax=ax, pad=0.2)
+            #Plotting the layers
+            if plot_lib == 'matplotlib':
+                if ax == None:
+                    plt.clf()
+                    ax = plt.gcf().add_subplot(111, projection='3d')
+
+
+                if field_min < layer_values[1] < field_max:
+                    self.plot_tool_surface_matplotlib(field=field, 
+                                            value=layer_values[1], 
+                                            color=colormap((layer_values[1]-vmin) / (vmax-vmin)), 
+                                            alpha=alpha,
+                                            ax=ax)
+
+                for layer_value in layer_values[2:-1]:
+                    if field_min < layer_value < field_max:
+                        self.plot_tool_surface_matplotlib(field=field, 
+                                                value=layer_value, 
+                                                color=colormap((layer_value-vmin) / (vmax-vmin)), 
+                                                alpha=alpha,
+                                                ax=ax)
+
+
+                if colorbar:
+                    sm = plt.cm.ScalarMappable(cmap=colormap)
+                    sm.set_clim(vmin, vmax)
+                    plt.colorbar(sm, ax=ax, pad=0.2)
+
+            elif plot_lib == 'plotly':
+
+                X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
+                for layer_value in layer_values[1:-1]:
+
+                    fig.add_trace(go.Isosurface(
+                        x=X.flatten()/self.a0,
+                        y=Y.flatten()/self.a0,
+                        z=Z.flatten()/self.a0,
+                        value = field.flatten(),
+                        isomin = layer_value,
+                        isomax = layer_value,
+                        cmin = vmin,
+                        cmax = vmax,
+                        surface=dict(count=3),  # Ensuring only one surface is shown
+                        colorscale='Viridis',
+                        opacity=alpha,
+                        showscale=bool(layer_value == layer_values[1])
+                    )
+                        )
         
-        kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
-        return fig, ax
+        if plot_lib == 'matplotlib':
+            kwargs['ax'] = ax
+            self.plot_tool_set_axis_properties_matplotlib(**kwargs)
+            return fig, ax
+
+        elif plot_lib == 'plotly':
+            self.plot_tool_set_axis_properties_plotly(fig, **kwargs)
+            return fig
+
+        
 
     def plot_complex_field(self, complex_field, **kwargs):
         """
@@ -571,7 +635,7 @@ class BaseSystemPlot:
 
                     if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
                         #TODO: make alpha a keyword argument (Vidar 11.03.24)
-                        self.plot_tool_surface(field=field_to_plot, 
+                        self.plot_tool_surface_matplotlib(field=field_to_plot, 
                                             value=angle, 
                                             color=colormap((angle + np.pi) / (2 * np.pi)), 
                                             alpha=0.5,
@@ -586,14 +650,14 @@ class BaseSystemPlot:
 
                 if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
                     #TODO: make alpha a keyword argument (Vidar 11.03.24)
-                    self.plot_tool_surface(field=field_to_plot, 
+                    self.plot_tool_surface_matplotlib(field=field_to_plot, 
                                             value=np.pi, 
                                             color=colormap(0), 
                                             alpha=0.5,
                                             ax=ax)
             
             elif plot_method == 'phase_blob':
-                # TODO: change the function so that it used plot_tool_surface (Vidar 11.03.24)
+                # TODO: change the function so that it used plot_tool_surface_matplotlib (Vidar 11.03.24)
                 # Padding for the colorbar
                 padding=0.2
                 
@@ -664,7 +728,7 @@ class BaseSystemPlot:
 
         kwargs['ax'] = ax
         kwargs['grid'] = grid
-        self.plot_tool_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties_matplotlib(**kwargs)
         return fig, ax
 
     def plot_angle_field(self, angle_field, **kwargs):
@@ -1032,7 +1096,7 @@ class BaseSystemPlot:
                 ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties_matplotlib(**kwargs)
         return fig, ax
 
     def plot_field_in_plane(self, field, normal_vector=None, position=None, 
@@ -1126,7 +1190,7 @@ class BaseSystemPlot:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties_matplotlib(**kwargs)
 
         return fig, ax
 
@@ -1217,7 +1281,7 @@ class BaseSystemPlot:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties_matplotlib(**kwargs)
 
         return fig, ax
 
@@ -1374,5 +1438,5 @@ class BaseSystemPlot:
         ax.quiver(x, y, z, U_verts, V_verts, W_verts, color='blue')
 
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties_matplotlib(**kwargs)
         return fig, ax
