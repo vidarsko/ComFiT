@@ -17,7 +17,7 @@ from datetime import datetime
 import imageio
 
 
-def tool_save_plot(counter, image_size=(5,5), dpi=100):
+def tool_save_plot(counter, image_size_inches=(6,5), dpi=100):
     """
 
     Saves the current Matplotlib plot as a PNG file.
