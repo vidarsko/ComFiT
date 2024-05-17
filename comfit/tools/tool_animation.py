@@ -30,7 +30,7 @@ def tool_save_plot(counter, image_size_inches=(6,5), dpi=100):
     Returns: 
         None, saves the plot as a PNG file.
     """
-    plt.gcf().set_size_inches(image_size)
+    plt.gcf().set_size_inches(image_size_inches)
     plt.savefig(f'plot_{counter}.png',dpi=dpi)
 
 
