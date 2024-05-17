@@ -24,7 +24,7 @@ bibliography: paper.bib
 # Statement of need
 
 Field theories described by partial differential equations (PDEs) are the backbone of many areas in physics.
-Examples of such field theories include the _Navier-Stokes equations_ which describe how air flows around the wing of an airplane, the _Schrödinger equation_ which governs how microscopic particles behave, _Maxwell's equations_ which dictate how electromagnetic fields encode those well-crafted cat memes, and the Nobel-prize winning _Ginzburg-Landau theory_ which explains how superconductors work.
+Examples of such field theories include the Navier-Stokes equations, which describe how air flows around the wing of an airplane; the Schrödinger equation, which governs how microscopic particles behave; Maxwell's equations, which explain the behavior of electromagnetic fields; and the Nobel Prize-winning Ginzburg-Landau theory, which explains how superconductors work.
 Despite their importance, simulating field theories often requires specialized software and programming expertise.
 Even though there exist specialized software packages like FEniCS [@alnaesFEniCSProjectVersion2015] for solving PDEs, these are often focused on numerical efficiency at the cost of legibility or user-friendliness and fall short in offering functionalities for visualizing and analyzing outcomes.
 In particular, in the realm of many field theories, the study of topological defects - small structures like vortices in fluids - is essential for understanding phenomena such as phase transitions, turbulence and pattern formation.
