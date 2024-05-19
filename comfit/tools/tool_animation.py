@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 from moviepy.editor import ImageSequenceClip
 import os
 from datetime import datetime
-import imageio
+from PIL import Image
 
 
 def tool_save_plot(counter, image_size_inches=(6,5), dpi=100):
@@ -86,12 +86,23 @@ def tool_make_animation_gif(counter, name=None, fps=24):
     else:
         name = datetime.now().strftime("%y%m%d_%H%M") + ' - ' + name + '.gif'
 
-
     image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
-    img = []
-    for image_file in image_files:  
-        img.append(imageio.imread(image_file))
-    imageio.mimsave(name, img, fps=fps, loop=0) 
+    images = [Image.open(image_file) for image_file in image_files]
+
+    # Find the smallest image dimensions
+    min_width = min(image.width for image in images)
+    min_height = min(image.height for image in images)
+
+    # Crop images if necessary and issue a warning
+    cropped_images = []
+    for image in images:
+        if image.width != min_width or image.height != min_height:
+            print(f"Warning: Image sizes inconsistent. Cropping image {image.filename} to {min_width}x{min_height}. Consider reviewing how plots are saved mid loop. ")
+            image = image.crop((0, 0, min_width, min_height))
+        cropped_images.append(image)
+
+    # Save the images as a GIF
+    cropped_images[0].save(name, save_all=True, append_images=cropped_images[1:], duration=1000/fps, loop=0)
 
     # Delete the png files
     for file in image_files:
