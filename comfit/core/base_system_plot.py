@@ -7,6 +7,7 @@ from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_t
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
+import matplotlib.cm as cm
 
 import plotly.graph_objects as go
 
@@ -300,6 +301,37 @@ class BaseSystemPlot:
 
         return field
 
+    def plot_tool_plotly_add_angle_colorbar3D(self,fig):
+        """Adds a colorbar to a 3D plot with the angle colormap.
+
+        Args:
+            fig: The figure to which the colorbar is added.
+        
+        Returns:
+            The figure with the colorbar added.
+        """
+        # Generate the custom colormap
+        custom_colormap = tool_colormap_angle(pyplot=True)
+
+        fig.add_trace(go.Isosurface(
+            x=[self.xmin/self.a0,self.xmax/self.a0], 
+            y=[self.ymin/self.a0,self.ymax/self.a0], 
+            z=[self.zmin/self.a0, self.zmax/self.a0],
+            value=[0,0],
+            cmin = -np.pi,
+            cmax = np.pi,
+            opacity=0,
+            colorscale=custom_colormap,
+            colorbar=dict(
+                tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
+                ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
+            ),
+            showscale=True
+        ))
+
+        return fig
+
+
     def plot_field(self, field, **kwargs):
         """Plots the given (real) field.
         
@@ -336,6 +368,7 @@ class BaseSystemPlot:
 
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
+        axis_equal = kwargs.get('axis_equal',True)
 
         # Extend the field if not a complete array is given
         field = self.plot_tool_extend_field(field)
@@ -357,90 +390,114 @@ class BaseSystemPlot:
             # Keyword arguments particular to the 2D case
             kwargs['grid'] = kwargs.get('grid', False)
 
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111)
-            
-            # Set the colormap
-            colormap = kwargs.get('colormap', 'viridis')
-
-            if colormap == 'bluewhitered':
-                colormap = tool_colormap_bluewhitered()
-
-            elif colormap == 'sunburst':
-                colormap = tool_colormap_sunburst()
-            else:
-                colormap = plt.get_cmap(colormap)
-
-            # Value limits symmetric
-            vlim_symmetric = kwargs.get('vlim_symmetric', False)
-
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-
-            pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
-
-            xlim = [self.xmin, self.xmax-self.dx]
-            ylim = [self.ymin, self.ymax-self.dy]
-
-            limits_provided = False
-            if 'xlim' in kwargs:
-                xlim = kwargs['xlim']
-                limits_provided = True
-            else:
-                if 'xmin' in kwargs:
-                    xlim[0] = kwargs['xmin']
-                    limits_provided = True
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111)
                 
-                if 'xmax' in kwargs:
-                    xlim[1] = kwargs['xmax']
-                    limits_provided = True
+                # Set the colormap
+                colormap = kwargs.get('colormap', 'viridis')
 
-            if 'ylim' in kwargs:
-                ylim = kwargs['ylim']
-                limits_provided = True
-            else:
-                if 'ymin' in kwargs:
-                    ylim[0] = kwargs['ymin']
+                if colormap == 'bluewhitered':
+                    colormap = tool_colormap_bluewhitered()
+
+                elif colormap == 'sunburst':
+                    colormap = tool_colormap_sunburst()
+                else:
+                    colormap = plt.get_cmap(colormap)
+
+                # Value limits symmetric
+                vlim_symmetric = kwargs.get('vlim_symmetric', False)
+
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+                pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
+
+                xlim = [self.xmin, self.xmax-self.dx]
+                ylim = [self.ymin, self.ymax-self.dy]
+
+                limits_provided = False
+                if 'xlim' in kwargs:
+                    xlim = kwargs['xlim']
                     limits_provided = True
+                else:
+                    if 'xmin' in kwargs:
+                        xlim[0] = kwargs['xmin']
+                        limits_provided = True
                     
-                if 'ymax' in kwargs:
-                    ylim[1] = kwargs['ymax']
+                    if 'xmax' in kwargs:
+                        xlim[1] = kwargs['xmax']
+                        limits_provided = True
+
+                if 'ylim' in kwargs:
+                    ylim = kwargs['ylim']
                     limits_provided = True
+                else:
+                    if 'ymin' in kwargs:
+                        ylim[0] = kwargs['ymin']
+                        limits_provided = True
+                        
+                    if 'ymax' in kwargs:
+                        ylim[1] = kwargs['ymax']
+                        limits_provided = True
 
-            # If explicit limits are provided, use them to change the vlim ranges
-            if limits_provided:
-                region_to_plot = np.zeros(self.dims).astype(bool)
-                region_to_plot[(xlim[0] <= X)*(X <= xlim[1])*(ylim[0] <= Y)*(Y <= ylim[1])] = True
-                vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
+                # If explicit limits are provided, use them to change the vlim ranges
+                if limits_provided:
+                    region_to_plot = np.zeros(self.dims).astype(bool)
+                    region_to_plot[(xlim[0] <= X)*(X <= xlim[1])*(ylim[0] <= Y)*(Y <= ylim[1])] = True
+                    vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
 
-            else:
-                vlim = [np.min(field), np.max(field)]
-            
-            # Set the value limitses
-            if 'vlim' in kwargs:
-                vlim = kwargs['vlim']
-            else:
-                if 'vmin' in kwargs:
-                    vlim[0] = kwargs['vmin']
-                if 'vmax' in kwargs:
-                    vlim[1] = kwargs['vmax']
+                else:
+                    vlim = [np.min(field), np.max(field)]
+                
+                # Set the value limitses
+                if 'vlim' in kwargs:
+                    vlim = kwargs['vlim']
+                else:
+                    if 'vmin' in kwargs:
+                        vlim[0] = kwargs['vmin']
+                    if 'vmax' in kwargs:
+                        vlim[1] = kwargs['vmax']
 
-            if vlim[1] - vlim[0] < 1e-10:
-                vlim = [vlim[0]-0.05, vlim[1]+0.05]
+                if vlim[1] - vlim[0] < 1e-10:
+                    vlim = [vlim[0]-0.05, vlim[1]+0.05]
 
-            pcm.set_clim(vmin=vlim[0], vmax=vlim[1])
+                pcm.set_clim(vmin=vlim[0], vmax=vlim[1])
 
-            if 'vlim_symmetric' in kwargs:
-                vlim_symmetric = kwargs['vlim_symmetric']
-                if vlim_symmetric:
-                    cmax = abs(field).max()
-                    cmin = -cmax
-                    pcm.set_clim(vmin=cmin, vmax=cmax)
+                if 'vlim_symmetric' in kwargs:
+                    vlim_symmetric = kwargs['vlim_symmetric']
+                    if vlim_symmetric:
+                        cmax = abs(field).max()
+                        cmin = -cmax
+                        pcm.set_clim(vmin=cmin, vmax=cmax)
 
-            colorbar = kwargs.get('colorbar', True)
+                colorbar = kwargs.get('colorbar', True)
 
-            if colorbar:
-                cbar = plt.colorbar(pcm, ax=ax)
+                if colorbar:
+                    cbar = plt.colorbar(pcm, ax=ax)
+            elif self.plot_lib == 'plotly':
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+                fig.add_trace(go.Heatmap(
+                    x=X.flatten()/self.a0,
+                    y=Y.flatten()/self.a0,
+                    z=field.flatten(),
+                    zmin=np.min(field),
+                    zmax=np.max(field),
+                    colorscale='Viridis'
+                ))
+
+                if axis_equal:
+                    # Set axis to be equal
+                    fig.update_yaxes(
+                        scaleanchor="x",
+                        scaleratio=1,
+                    )
+
+                    fig.update_xaxes(
+                        scaleanchor="y",
+                        scaleratio=1,
+                        ) 
 
         elif self.dim == 3:
 
@@ -572,6 +629,7 @@ class BaseSystemPlot:
 
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
+        axis_equal = kwargs.get('axis_equal',True)
 
         # Extend the field if not a complete array is given
         complex_field = self.plot_tool_extend_field(complex_field)
@@ -585,34 +643,38 @@ class BaseSystemPlot:
             # Keyword arguments particular to the 1D case
             grid = kwargs.get('grid', False)
 
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111)
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111)
 
-            # Padding for the colorbar.
-            padding=0.05
+                # Padding for the colorbar.
+                padding=0.05
 
-            ax.plot(self.x/self.a0, rho, color='black')
+                ax.plot(self.x/self.a0, rho, color='black')
 
-            # Color in the graph based on the argument of the complex field
-            blend_factor=0.3 # The degree to which the color is blended with white
-            cmap = tool_colormap_angle()
+                # Color in the graph based on the argument of the complex field
+                blend_factor=0.3 # The degree to which the color is blended with white
+                cmap = tool_colormap_angle()
 
-            ax.fill_between([self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], [rho[0],(rho[0]+rho[1])/2],
-                            color=(1-blend_factor)*np.array(cmap((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
-                            alpha=1)
-
-            for i in range(1,self.xRes-1):
-                ax.fill_between([(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], [(rho[i]+rho[i-1])/2,rho[i]],
-                                color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
+                ax.fill_between([self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], [rho[0],(rho[0]+rho[1])/2],
+                                color=(1-blend_factor)*np.array(cmap((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
                                 alpha=1)
-                ax.fill_between([self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], [rho[i],(rho[i]+rho[i+1])/2],
-                    color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
-                    alpha=1)
 
-            ax.fill_between([(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], [(rho[-1]+rho[-2])/2,rho[-1]],
-                            color=(1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
-                            alpha=1)
+                for i in range(1,self.xRes-1):
+                    ax.fill_between([(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], [(rho[i]+rho[i-1])/2,rho[i]],
+                                    color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
+                                    alpha=1)
+                    ax.fill_between([self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], [rho[i],(rho[i]+rho[i+1])/2],
+                        color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
+                        alpha=1)
+
+                ax.fill_between([(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], [(rho[-1]+rho[-2])/2,rho[-1]],
+                                color=(1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
+                                alpha=1)
+            elif self.plot_lib == 'plotly':
+                print('Plotly not yet implemented for 1D complex field plots.')
+                pass
 
 
         elif self.dim == 2:
@@ -623,41 +685,104 @@ class BaseSystemPlot:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
             if plot_method == '3Dsurface':
-                
-                # Padding for the colorbar
-                padding=0.2
+                if self.plot_lib == 'matplotlib':  
+                    # Padding for the colorbar
+                    padding=0.2
 
-                # Keyword arguments particular to the 3D surface plot
-                grid = kwargs.get('grid', True)
-                kwargs['axis_equal'] = False
-                
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
-                
-                # Get the colors from a colormap (e.g., hsv, but you can choose any other)
-                colors = tool_colormap_angle()((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+                    # Keyword arguments particular to the 3D surface plot
+                    grid = kwargs.get('grid', True)
+                    kwargs['axis_equal'] = False
+                    
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111, projection='3d')
+                    
+                    # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+                    colors = tool_colormap_angle()((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
 
-                surf = ax.plot_surface(X/self.a0, Y/self.a0, rho, facecolors=colors)
+                    surf = ax.plot_surface(X/self.a0, Y/self.a0, rho, facecolors=colors)
+
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for 2D 3Dsurface angle plots.')
+                    pass
 
             elif plot_method == 'phase_angle':
                 
-                # Padding for the colorbar
-                padding=0.05
 
                 # Keyword arguments particular to the phase angle plot
                 grid = kwargs.get('grid', False)
-                
-                # Check if an axis object is provided
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111)
 
                 rho_normalized = rho / np.max(rho)
-                custom_colormap = tool_colormap_angle()
 
-                mesh = ax.pcolormesh(X/self.a0, Y/self.a0, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
-                mesh.set_alpha(rho_normalized)
+                custom_colormap = tool_colormap_angle()
+                
+                if self.plot_lib == 'matplotlib':
+                    
+                    # Check if an axis object is provided
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111)
+
+                    # Padding for the colorbar
+                    padding=0.05
+                    
+                    mesh = ax.pcolormesh(X/self.a0, Y/self.a0, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
+                    mesh.set_alpha(rho_normalized)
+                
+                elif self.plot_lib == 'plotly':
+
+                    norm = mcolors.Normalize(vmin=-np.pi, vmax=np.pi)
+                    colormap = cm.ScalarMappable(norm=norm, cmap=custom_colormap)
+
+                    # Create an RGBA image array
+                    rgba_image = colormap.to_rgba(theta)
+
+                    # Apply the spatial opacity
+                    for i in range(rgba_image.shape[0]):
+                        for j in range(rgba_image.shape[1]):
+                            for k in range(3):
+                                rgba_image[i, j, k] = 1-(1-rgba_image[i, j, k])*rho_normalized[i, j]  # Set alpha channel
+
+                    rgba_image = np.transpose(rgba_image, (1, 0, 2))
+
+                    # Convert RGBA image to a format Plotly can understand
+                    image_data = (rgba_image * 255).astype(np.uint8)
+
+
+                    if fig == None:
+                        fig = go.Figure()
+
+                    fig.add_trace(go.Image(z=image_data, dx=self.dx/self.a0, dy=self.dy/self.a0, x0=self.xmin/self.a0, y0=self.ymin/self.a0))
+
+
+                    # fig.add_trace(go.Heatmap(
+                    #     x=X.flatten()/self.a0,
+                    #     y=Y.flatten()/self.a0,
+                    #     z=theta.flatten(),
+                    #     zmin=-np.pi,
+                    #     zmax=np.pi,
+                    #     colorscale=tool_colormap_angle(pyplot=True),
+                    #     colorbar=dict(
+                    #             tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
+                    #             ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
+                    #         )
+                    # ))
+
+                    if axis_equal:
+                       # Set axis to be equal
+                        fig.update_yaxes(
+                            scaleanchor="x",
+                            scaleratio=1,
+                        )
+
+                        fig.update_xaxes(
+                            scaleanchor="y",
+                            scaleratio=1,
+                            ) 
+
+                    
+
+                    
 
         elif self.dim == 3:
 
@@ -683,37 +808,42 @@ class BaseSystemPlot:
         
             if plot_method == 'phase_angle':
                 
-                # Padding for the colorbar
-                padding=0.2
+                if self.plot_lib == 'matplotlib':
+                    
+                    # Padding for the colorbar
+                    padding=0.2
 
-                for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
+                    for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
+                        field_to_plot = theta.copy()
+                        field_to_plot[theta < angle - 1] = float('nan')
+                        field_to_plot[theta > angle + 1] = float('nan')
+                        field_to_plot[rho_normalized < 0.01] = float('nan')
+
+                        if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
+                            #TODO: make alpha a keyword argument (Vidar 11.03.24)
+                            self.plot_tool_surface_matplotlib(field=field_to_plot, 
+                                                value=angle, 
+                                                color=colormap((angle + np.pi) / (2 * np.pi)), 
+                                                alpha=0.5,
+                                                ax=ax)
+
+                    theta = np.mod(theta, 2 * np.pi)
+
                     field_to_plot = theta.copy()
-                    field_to_plot[theta < angle - 1] = float('nan')
-                    field_to_plot[theta > angle + 1] = float('nan')
+                    field_to_plot[theta < np.pi - 1] = float('nan')
+                    field_to_plot[theta > np.pi + 1] = float('nan')
                     field_to_plot[rho_normalized < 0.01] = float('nan')
 
-                    if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
+                    if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
                         #TODO: make alpha a keyword argument (Vidar 11.03.24)
                         self.plot_tool_surface_matplotlib(field=field_to_plot, 
-                                            value=angle, 
-                                            color=colormap((angle + np.pi) / (2 * np.pi)), 
-                                            alpha=0.5,
-                                            ax=ax)
-
-                theta = np.mod(theta, 2 * np.pi)
-
-                field_to_plot = theta.copy()
-                field_to_plot[theta < np.pi - 1] = float('nan')
-                field_to_plot[theta > np.pi + 1] = float('nan')
-                field_to_plot[rho_normalized < 0.01] = float('nan')
-
-                if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
-                    #TODO: make alpha a keyword argument (Vidar 11.03.24)
-                    self.plot_tool_surface_matplotlib(field=field_to_plot, 
-                                            value=np.pi, 
-                                            color=colormap(0), 
-                                            alpha=0.5,
-                                            ax=ax)
+                                                value=np.pi, 
+                                                color=colormap(0), 
+                                                alpha=0.5,
+                                                ax=ax)
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for 3D phase angle plots.')
+                    pass
             
             elif plot_method == 'phase_blob':
                 # TODO: change the function so that it used plot_tool_surface_matplotlib (Vidar 11.03.24)
@@ -777,6 +907,7 @@ class BaseSystemPlot:
                                             (self.zmin+0*verts[:, 2]*self.dz)/self.a0, 
                                             facecolor='black', antialiased=True,
                                             alpha=0.1)
+
                     elif plot_lib == 'plotly':
                         # Convert colors to 'rgba()' format required by Plotly
                         colors = ['rgba({},{},{},{})'.format(*c) for c in (255*colors).astype(int)]
@@ -794,12 +925,11 @@ class BaseSystemPlot:
                             j=faces[:, 1], 
                             k=faces[:, 2],
                             facecolor=colors,  # Set color for each face
-                            flatshading=True
+                            showscale=True
                         )
+
                         fig = go.Figure(data=[mesh])
 
-        # Create a colorbar
-        
         if colorbar:
             if plot_lib == 'matplotlib':
                 mappable = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
@@ -810,7 +940,13 @@ class BaseSystemPlot:
                 cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
             elif plot_lib == 'plotly':
-                pass
+                # Add a colorbar to the plot
+                if self.dim == 1:
+                    pass
+                elif self.dim == 2:
+                    pass
+                elif self.dim == 3:
+                    fig = self.plot_tool_plotly_add_angle_colorbar3D(fig)
 
         if plot_lib == 'matplotlib':
             kwargs['ax'] = ax
