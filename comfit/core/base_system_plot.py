@@ -672,10 +672,73 @@ class BaseSystemPlot:
                 ax.fill_between([(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], [(rho[-1]+rho[-2])/2,rho[-1]],
                                 color=(1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
                                 alpha=1)
-            elif self.plot_lib == 'plotly':
-                print('Plotly not yet implemented for 1D complex field plots.')
-                pass
 
+            elif self.plot_lib == 'plotly':
+                
+                if fig == None:
+                    fig = go.Figure()
+
+                # Color in the graph based on the argument of the complex field
+                blend_factor=0.3 # The degree to which the color is blended with white
+                cmap = tool_colormap_angle()
+
+                color = (1-blend_factor)*np.array(cmap((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
+                color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
+
+                fig.add_trace(go.Scatter(x=[self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], 
+                              y=[rho[0],(rho[0]+rho[1])/2],
+                                mode='lines',
+                                line=dict(color='rgba(0,0,0,0)'),
+                                fill='tozeroy',
+                                showlegend=False,
+                                hoverinfo='skip',
+                                fillcolor=color_str))
+
+                for i in range(1,self.xRes-1):
+                    color = (1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
+                    color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
+                    fig.add_trace(go.Scatter(x=[(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], 
+                              y=[(rho[i]+rho[i-1])/2,rho[i]],
+                                mode='lines',
+                                line=dict(color='rgba(0,0,0,0)'),
+                                fill='tozeroy',
+                                showlegend=False,
+                                hoverinfo='skip',
+                                fillcolor=color_str))
+
+                    color = (1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
+                    color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
+                    fig.add_trace(go.Scatter(x=[self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], 
+                              y=[rho[i],(rho[i]+rho[i+1])/2],
+                                mode='lines',
+                                line=dict(color='rgba(0,0,0,0)'),
+                                fill='tozeroy',
+                                showlegend=False,
+                                hoverinfo='skip',
+                                fillcolor=color_str))
+
+                color = (1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
+                color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
+                fig.add_trace(go.Scatter(x=[(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], 
+                              y=[(rho[-1]+rho[-2])/2,rho[-1]],
+                                mode='lines',
+                                line=dict(color='rgba(0,0,0,0)'),
+                                fill='tozeroy',
+                                showlegend=False,
+                                hoverinfo='skip',
+                                fillcolor=color_str))
+
+                fig.add_trace(go.Scatter(
+                    x=self.x/self.a0,
+                    y=rho,
+                    mode='lines',
+                    showlegend=False,
+                    customdata=np.stack((theta/np.pi, rho), axis=-1),
+                    hovertemplate='x: %{x:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
+                    name='',
+                    line=dict(color='black')
+                ))
+                
 
         elif self.dim == 2:
             # Keyword arguments particular to the 2D case
@@ -752,7 +815,15 @@ class BaseSystemPlot:
                     if fig == None:
                         fig = go.Figure()
 
-                    fig.add_trace(go.Image(z=image_data, dx=self.dx/self.a0, dy=self.dy/self.a0, x0=self.xmin/self.a0, y0=self.ymin/self.a0))
+                    fig.add_trace(go.Image(z=image_data, 
+                                    dx=self.dx/self.a0, 
+                                    dy=self.dy/self.a0, 
+                                    x0=self.xmin/self.a0, 
+                                    y0=self.ymin/self.a0,
+                                    hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
+                                    customdata=np.stack((np.transpose(theta/np.pi), np.transpose(rho)), axis=-1),
+                                    name=''
+                                    ))  
 
 
                     # fig.add_trace(go.Heatmap(
