@@ -164,9 +164,9 @@ class PhaseFieldCrystal(BaseSystem):
                                           self.calc_nonlinear_evolution_function_f,
                                           self.psi, self.psi_f)
 
-        # These steps seem to be necessary for numerical stability (Vidar 18.12.23)
-        self.psi = np.real(self.psi)
-        self.psi_f = sp.fft.fftn(self.psi)
+            # These steps seem to be necessary for numerical stability (Vidar 18.12.23)
+            self.psi = np.real(self.psi)
+            self.psi_f = sp.fft.fftn(self.psi)
 
     def evolve_PFC_mechanical_equilibrium(self, time, Delta_t = 10, method='ETD2RK'):
         """Evolves the PFC in mechanical equilibrium. 
@@ -228,8 +228,8 @@ class PhaseFieldCrystal(BaseSystem):
                                           self.calc_nonlinear_hydrodynamic_evolution_function_f,
                                           self.psi, self.psi_f)
             
-        self.psi = np.real(self.psi)
-        self.psi_f = sp.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
+            self.psi = np.real(self.psi)
+            self.psi_f = sp.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
 
 
     # CALCULATION FUNCTIONS
