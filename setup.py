@@ -11,5 +11,5 @@ setup(
                       'matplotlib',
                       'scikit-image>=0.18.0,<0.23',
                       'moviepy',
-                      'imageio'],
+                      'pillow'],
 )
