@@ -66,7 +66,7 @@ The phase-field crystal framework is currently under exploration at the Njord Ce
 The code used to produce the illustration is given below.
 
 ```python
-!pip install comfit==1.4.2
+!pip install comfit==1.5.0
 import comfit as cf
 import matplotlib.pyplot as plt
 
