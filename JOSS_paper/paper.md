@@ -13,11 +13,11 @@ authors:
    orcid: 0000-0001-5289-7276
    affiliation: 2
 affiliations:
- - name: Department of Physics, University of Oslo, P. O. Box 1048, 0316 Oslo, Norway.
+ - name: Department of Physics, University of Oslo, Norway
    index: 1
- - name: Okinawa Institute of Science and Technology
+ - name: Okinawa Institute of Science and Technology, Japan
    index: 2 
-date: 06 July 2023
+date: 30 May 2024
 bibliography: paper.bib
 ---
 
