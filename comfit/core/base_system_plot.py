@@ -378,11 +378,20 @@ class BaseSystemPlot:
             # Keyword arguments particular to the 1D case
             kwargs['grid'] = kwargs.get('grid', True)
 
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111)
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111)
 
-            ax.plot(self.x/self.a0, field)
+                ax.plot(self.x/self.a0, field)
+            elif self.plot_lib == 'plotly':
+                fig.add_trace(go.Scatter(
+                    x=self.x/self.a0,
+                    y=field,
+                    mode='lines',
+                    name='',
+                    hovertemplate='x: %{x:.2f} a₀<br>field: %{y:.2f}'
+                ))
 
 
         if self.dim == 2:
@@ -484,7 +493,10 @@ class BaseSystemPlot:
                     z=field.flatten(),
                     zmin=np.min(field),
                     zmax=np.max(field),
-                    colorscale='Viridis'
+                    colorscale='Viridis', 
+                    zsmooth='best',
+                    hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                    name=''
                 ))
 
                 if axis_equal:
