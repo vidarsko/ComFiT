@@ -10,6 +10,7 @@ import matplotlib.tri as mtri
 import matplotlib.cm as cm
 
 import plotly.graph_objects as go
+import plotly.figure_factory as ff
 
 from skimage.measure import marching_cubes
 
@@ -1112,9 +1113,10 @@ class BaseSystemPlot:
             print('Max imaginary part: ', np.max(np.imag(vector_field)))
             vector_field = np.real(vector_field)
 
-        # Check if an axis object is provided
-        fig = kwargs.get('fig', plt.gcf())
-        ax = kwargs.get('ax', None)
+        if self.plot_lib == 'matplotlib':
+            # Check if an axis object is provided
+            fig = kwargs.get('fig', plt.gcf())
+            ax = kwargs.get('ax', None)
 
         def add_spacing_2D(X,Y,U,V,spacing):
             X = X[::spacing, ::spacing]
@@ -1135,9 +1137,11 @@ class BaseSystemPlot:
         if self.dim == 1:
             
             if vector_field.shape == (1,self.xRes):
-                if ax == None:
-                    fig.clf()
-                    ax = plt.gcf().add_subplot(111)
+
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = plt.gcf().add_subplot(111)
 
                 X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
 
@@ -1148,14 +1152,17 @@ class BaseSystemPlot:
 
                 X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
 
-                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
                 
                 kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
 
             elif vector_field.shape == (2,self.xRes):
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
+                
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111, projection='3d')
                 
                 X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -1168,7 +1175,8 @@ class BaseSystemPlot:
 
                 X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
                 kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
                 delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
@@ -1183,10 +1191,11 @@ class BaseSystemPlot:
                     kwargs['zlim'] = [kwargs['zlim'][0] - 0.15*delta_y, kwargs['zlim'][1] + 0.15*delta_y]
 
             elif vector_field.shape == (3,self.xRes):
-
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
+                
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111, projection='3d')
                 
                 X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -1220,7 +1229,8 @@ class BaseSystemPlot:
                 V = vy_scale*V
                 W = vz_scale*W
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
                 
                 kwargs['ylim'] = [-1,1]
                 kwargs['zlim'] = [-1,1]
@@ -1233,10 +1243,11 @@ class BaseSystemPlot:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
             if vector_field.shape == (1,self.xRes,self.yRes):
-
-                if ax == None:
-                    fig.clf()
-                    ax = plt.gcf().add_subplot(111)
+                
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = plt.gcf().add_subplot(111)
 
                 X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
@@ -1255,16 +1266,17 @@ class BaseSystemPlot:
 
                 # Scaling
                 U = vx_scale*U
-
-                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue',
-                    angles='xy', scale_units='xy', scale=1,
-                    headwidth=3, headlength=4, headaxislength=3, pivot='middle')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue',
+                        angles='xy', scale_units='xy', scale=1,
+                        headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
             elif vector_field.shape == (2,self.xRes,self.yRes):
-
-                if ax == None:
-                    fig.clf()
-                    ax = plt.gcf().add_subplot(111)
+                
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = plt.gcf().add_subplot(111)
 
                 X, Y, U, V = add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
 
@@ -1281,16 +1293,18 @@ class BaseSystemPlot:
                 # Scaling
                 U = vx_scale*U
                 V = vy_scale*V
-
-                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', 
-                    angles='xy', scale_units='xy', scale=1,
-                    headwidth=3, headlength=4, headaxislength=3, pivot='middle')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', 
+                        angles='xy', scale_units='xy', scale=1,
+                        headwidth=3, headlength=4, headaxislength=3, pivot='middle')
+                elif self.plot_lib == 'plotly':
+                    fig = ff.create_quiver(X/self.a0, Y/self.a0, U, V, line=dict(width=1))
 
             elif vector_field.shape == (3,self.xRes,self.yRes):
-
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111, projection='3d')
 
                 X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
                 U = np.zeros(X.shape)
@@ -1319,8 +1333,8 @@ class BaseSystemPlot:
                 U = vx_scale*U
                 V = vy_scale*V
                 W = vz_scale*W
-
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
                 kwargs['axis_equal'] = False
                 kwargs['zlim'] = [-spacing,spacing]
@@ -1328,10 +1342,10 @@ class BaseSystemPlot:
         elif self.dim == 3:
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111, projection='3d')
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
 
             if vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
                 # Define the vector field
@@ -1352,7 +1366,8 @@ class BaseSystemPlot:
                 # Scaling
                 U = vx_scale*U
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
             elif vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
                 
@@ -1377,7 +1392,8 @@ class BaseSystemPlot:
                 U = vx_scale*U
                 V = vy_scale*V
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
             elif vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
                 
@@ -1403,12 +1419,17 @@ class BaseSystemPlot:
                 U = vx_scale*U
                 V = vy_scale*V
                 W = vz_scale*W
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
-
-        kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
-        return fig, ax
+        if self.plot_lib == 'matplotlib':
+            kwargs['ax'] = ax
+            self.plot_tool_set_axis_properties(**kwargs)
+            return fig, ax
+        elif self.plot_lib == 'plotly':
+            kwargs['fig'] = fig
+            self.plot_tool_set_axis_properties(**kwargs)
+            return fig
 
     def plot_field_in_plane(self, field, normal_vector=None, position=None, 
                         **kwargs):
