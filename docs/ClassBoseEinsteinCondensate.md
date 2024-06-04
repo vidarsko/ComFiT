@@ -30,9 +30,9 @@ The Bose-Einstein condensate takes the same keyword arguments as the BaseSystem 
 The BEC is in the mean field regime described by the GPE[^dalfovo1999theory] [^kevrekidis2007emergent]. 
 This is a non-linear Schrödinger equation which reads
 
-$$
+``` math
 i\hbar \partial_t\psi = \left[-\frac{\hbar^2}{2m} \nabla^2+ V_{ext} -\mu +g|\psi|^2 \right]\psi.
-$$
+```
 
 Here, $\mu$ is the chemical potential, $m$ is the mass of the bosons, $g$ is an interaction parameter and $\hbar$ is the Planc constant. 
 $\psi$ is the wave function describing the condensate phase and $V_{ext}$ is an external potential. 
