@@ -105,6 +105,7 @@ equations, namely the Edvard-Beris equation coupled to the Stokes
 equation
 [^marchetti2013hydrodynamics] [^genkin2017topological] [^nejad2020memory] [^angheluta2021role]
 
+!!! equation "The Edward-Beris equation (`evolve_nematic`)"
 $$
 \begin{aligned}
 \partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=\gamma^{-1}H,
