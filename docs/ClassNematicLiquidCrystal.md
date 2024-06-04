@@ -106,14 +106,14 @@ equation
 [^marchetti2013hydrodynamics] [^genkin2017topological] [^nejad2020memory] [^angheluta2021role]
 
 !!! equation "The Edward-Beris equation (`evolve_nematic`)"
-$$
-\begin{aligned}
-\partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=\gamma^{-1}H,
-\\
-(\Gamma- \eta \nabla^2 )\mathbf u &= -\nabla P + \nabla \cdot \sigma^a(Q) + \nabla \cdot \sigma^p, \\
-    \nabla \cdot \mathbf u &= 0.
-\end{aligned}
-$$
+    $$
+    \begin{aligned}
+    \partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=\gamma^{-1}H,
+    \\
+    (\Gamma- \eta \nabla^2 )\mathbf u &= -\nabla P + \nabla \cdot \sigma^a(Q) + \nabla \cdot \sigma^p, \\
+        \nabla \cdot \mathbf u &= 0.
+    \end{aligned}
+    $$
 
 Here $2\Omega_{ij} = \partial_i u_j - \partial_j u_i$ is
 the vorticity tensor, $P$ is the pressure, $\gamma$ is the rotational friction coefficient, $\sigma^p$ is the passive stress, $\Gamma$ is friction with a substrate, $\eta$ is viscosity and the active stress is given by $\sigma^a = \alpha Q$.
