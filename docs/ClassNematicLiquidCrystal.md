@@ -107,12 +107,12 @@ equation
 
 !!! equation "The Edward-Beris equation (`evolve_nematic`)"
     $$
-    \begin{aligned}
-    \partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=\gamma^{-1}H,
-    \\
-    (\Gamma- \eta \nabla^2 )\mathbf u &= -\nabla P + \nabla \cdot \sigma^a(Q) + \nabla \cdot \sigma^p, \\
-        \nabla \cdot \mathbf u &= 0.
-    \end{aligned}
+        \begin{aligned}
+            \partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &=\gamma^{-1}H,
+            \\
+            (\Gamma- \eta \nabla^2 )\mathbf u &= -\nabla P + \nabla \cdot \sigma^a(Q) + \nabla \cdot \sigma^p, \\
+            \nabla \cdot \mathbf u &= 0.
+        \end{aligned}
     $$
 
 Here $2\Omega_{ij} = \partial_i u_j - \partial_j u_i$ is
