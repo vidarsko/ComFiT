@@ -8,7 +8,8 @@ import scipy as sp
 
 import plotly.graph_objects as go
 
-pfc = cf.PhaseFieldCrystal2DTriangular(12,5)
+nx = 12
+pfc = cf.PhaseFieldCrystal2DTriangular(nx,np.round(nx/np.sqrt(3)))
 pfc.plot_lib = 'plotly'
 
 pfc.conf_PFC_from_amplitudes()

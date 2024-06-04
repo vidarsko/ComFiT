@@ -199,6 +199,12 @@ class BaseSystemPlot:
             if axis_equal:
                 if plot_lib == 'matplotlib':
                     ax.set_aspect('equal')
+                elif plot_lib == 'plotly':
+                    fig.update_yaxes(
+                        scaleanchor="x",
+                        scaleratio=1,
+                    )
+                    pass
 
         elif self.dim == 3:
 
@@ -1101,6 +1107,9 @@ class BaseSystemPlot:
         # Convert the vector field to a numpy array
         vector_field = np.array(vector_field)
         
+        # Keyword arguments
+        axis_equal = kwargs.get('axis_equal',True)
+
         # Extend the field if not a complete array is given
         vector_field_copy = []
         for n in range(vector_field.shape[0]):
@@ -1298,7 +1307,68 @@ class BaseSystemPlot:
                         angles='xy', scale_units='xy', scale=1,
                         headwidth=3, headlength=4, headaxislength=3, pivot='middle')
                 elif self.plot_lib == 'plotly':
-                    fig = ff.create_quiver(X/self.a0, Y/self.a0, U, V, line=dict(width=1))
+                    # fig = ff.create_quiver(X/self.a0, Y/self.a0, U, V, line=dict(width=1))
+                    # fig = go.Figure(data=go.Cone(x=X.flatten()/self.a0,
+                    #             y=Y.flatten()/self.a0,
+                    #             z=np.zeros(X.shape).flatten(),
+                    #             u=U.flatten(),
+                    #             v=V.flatten(),
+                    #             w=np.zeros(X.shape).flatten(), 
+                    #             sizemode="absolute",
+                    #             colorscale='Viridis',
+                    #             sizeref=0.1))
+
+                    # Calculate magnitude and angle of the vectors
+                    u = U.flatten()
+                    v = V.flatten()
+                    magnitude = np.sqrt(u**2 + v**2)
+                    angle = np.arctan2(v, u)
+                    
+                    Ntheta = 36  # Number of angle bins
+                    Nm = 1  # Number of magnitude bins
+
+                    # Discretize angles and magnitudes
+                    theta_bins = np.linspace(-np.pi, np.pi, Ntheta + 1)
+                    mag_bins = np.linspace(0, np.max(magnitude), Nm + 1)
+                    
+                    x = X.flatten()/self.a0
+                    y = Y.flatten()/self.a0
+
+                    # Create scatter plot data
+                    scatter_data = []
+                    for i in range(Ntheta):
+                        for j in range(Nm):
+                            # Filter points in the current angle and magnitude bin
+                            angle_mask = (angle >= theta_bins[i]) & (angle < theta_bins[i+1])
+                            mag_mask = (magnitude >= mag_bins[j]) & (magnitude < mag_bins[j+1])
+                            mask = angle_mask & mag_mask
+                            
+                            # Get points that satisfy the mask
+                            x_bin = x[mask]
+                            y_bin = y[mask]
+                            u_bin = u[mask]
+                            v_bin = v[mask]
+                            mag_bin = magnitude[mask]
+                            
+                            # Add scatter plot for this bin
+                            scatter_data.append(go.Scatter(
+                                x=x_bin,
+                                y=y_bin,
+                                mode='markers',
+                                marker=dict(
+                                    symbol='arrow',
+                                    angle=np.degrees(theta_bins[i]),
+                                    size=5*((j + 1)/Nm),  # Adjust size based on magnitude bin
+                                    color=mag_bin,
+                                    colorscale='Viridis'
+                                ),
+                                name='',
+                                showlegend=False,
+                                hoverinfo='text',
+                                text=[f"x: {x_bin[i]:.5f}, y: {y_bin[i]:.5f}, u: {u_bin[i]:.5f}, v: {v_bin[i]:.5f}, |v|: {mag:.5f}" for i, mag in enumerate(mag_bin)]
+                            ))
+                    # Create figure
+                    fig = go.Figure(data=scatter_data)
 
             elif vector_field.shape == (3,self.xRes,self.yRes):
                 if self.plot_lib == 'matplotlib':
@@ -1426,6 +1496,7 @@ class BaseSystemPlot:
             kwargs['ax'] = ax
             self.plot_tool_set_axis_properties(**kwargs)
             return fig, ax
+
         elif self.plot_lib == 'plotly':
             kwargs['fig'] = fig
             self.plot_tool_set_axis_properties(**kwargs)
