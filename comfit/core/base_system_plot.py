@@ -11,6 +11,7 @@ import matplotlib.cm as cm
 
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
+import plotly.colors as pc
 
 from skimage.measure import marching_cubes
 
@@ -1289,7 +1290,6 @@ class BaseSystemPlot:
 
                 X, Y, U, V = add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
 
-
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
                 
                 U = U / max_vector
@@ -1319,56 +1319,101 @@ class BaseSystemPlot:
                     #             sizeref=0.1))
 
                     # Calculate magnitude and angle of the vectors
+                    # u = U.flatten()
+                    # v = V.flatten()
+                    # magnitude = np.sqrt(u**2 + v**2)
+                    # angle = np.arctan2(v, u)
+                    # x = X.flatten()/self.a0
+                    # y = Y.flatten()/self.a0
+
+                    # Ntheta = 36  # Number of angle bins
+                    # Nm = 1  # Number of magnitude bins
+
+                    # # Discretize angles and magnitudes
+                    # theta_bins = np.linspace(-np.pi, np.pi, Ntheta + 1)
+                    # mag_bins = np.linspace(0, np.max(magnitude), Nm + 1)
+                    
+                    
+
+                    # # Create scatter plot data
+                    # scatter_data = []
+                    # for i in range(Ntheta):
+                    #     for j in range(Nm):
+                    #         # Filter points in the current angle and magnitude bin
+                    #         angle_mask = (angle >= theta_bins[i]) & (angle < theta_bins[i+1])
+                    #         mag_mask = (magnitude >= mag_bins[j]) & (magnitude < mag_bins[j+1])
+                    #         mask = angle_mask & mag_mask
+                            
+                    #         # Get points that satisfy the mask
+                    #         x_bin = x[mask]
+                    #         y_bin = y[mask]
+                    #         u_bin = u[mask]
+                    #         v_bin = v[mask]
+                    #         mag_bin = magnitude[mask]
+                            
+                    #         # Add scatter plot for this bin
+                    #         scatter_data.append(go.Scatter(
+                    #             x=x_bin,
+                    #             y=y_bin,
+                    #             mode='markers',
+                    #             marker=dict(
+                    #                 symbol='arrow',
+                    #                 angle=np.degrees(theta_bins[i]),
+                    #                 size=20,
+                    #                 standoff=5*((j + 1)/Nm),  # Adjust size based on magnitude bin
+                    #                 color=mag_bin,
+                    #                 colorscale='Viridis'
+                    #             ),
+                    #             name='',
+                    #             showlegend=False,
+                    #             hoverinfo='text',
+                    #             text=[f"x: {x_bin[i]:.5f}, y: {y_bin[i]:.5f}, u: {u_bin[i]:.5f}, v: {v_bin[i]:.5f}, |v|: {mag:.5f}" for i, mag in enumerate(mag_bin)]
+                    #         ))
+                    # # Create figure
+                    # fig = go.Figure(data=scatter_data)
+
+                    def get_colors(values, colorscale='Viridis'):
+                        colorscale = pc.get_colorscale(colorscale)
+                        unique_magnitudes = np.unique(values)
+                        color_map = {val: pc.sample_colorscale(colorscale, val)[0] for val in unique_magnitudes}
+                        return np.vectorize(color_map.get)(values)
+
+                    def plot_triangle(fig, position,direction,size,color):
+                        x = [position[0]+direction[0]*size/2, 
+                                position[0]-direction[0]*size/3 + direction[1]*size/4, 
+                                position[0]-direction[0]*size/3 - direction[1]*size/4]
+                        y = [position[1]+direction[1]*size/2, 
+                                position[1]-direction[1]*size/3 - direction[0]*size/4, 
+                                position[1]-direction[1]*size/3 + direction[0]*size/4]
+                        fig.add_trace(go.Scatter(
+                            x=x,
+                            y=y,
+                            fill='toself',
+                            mode='lines', 
+                            line=dict(color='rgba(0,0,0,0)'),
+                            fillcolor=color,
+                            showlegend=False,
+                            name=''
+                        ))
+
+                    fig = go.Figure()
+
                     u = U.flatten()
                     v = V.flatten()
+                    
                     magnitude = np.sqrt(u**2 + v**2)
+                    magnitude = (magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))
+                    colors = get_colors(magnitude)
+
                     angle = np.arctan2(v, u)
                     
-                    Ntheta = 36  # Number of angle bins
-                    Nm = 1  # Number of magnitude bins
+                    direction = np.array([np.cos(angle), np.sin(angle)]).T
 
-                    # Discretize angles and magnitudes
-                    theta_bins = np.linspace(-np.pi, np.pi, Ntheta + 1)
-                    mag_bins = np.linspace(0, np.max(magnitude), Nm + 1)
-                    
                     x = X.flatten()/self.a0
                     y = Y.flatten()/self.a0
 
-                    # Create scatter plot data
-                    scatter_data = []
-                    for i in range(Ntheta):
-                        for j in range(Nm):
-                            # Filter points in the current angle and magnitude bin
-                            angle_mask = (angle >= theta_bins[i]) & (angle < theta_bins[i+1])
-                            mag_mask = (magnitude >= mag_bins[j]) & (magnitude < mag_bins[j+1])
-                            mask = angle_mask & mag_mask
-                            
-                            # Get points that satisfy the mask
-                            x_bin = x[mask]
-                            y_bin = y[mask]
-                            u_bin = u[mask]
-                            v_bin = v[mask]
-                            mag_bin = magnitude[mask]
-                            
-                            # Add scatter plot for this bin
-                            scatter_data.append(go.Scatter(
-                                x=x_bin,
-                                y=y_bin,
-                                mode='markers',
-                                marker=dict(
-                                    symbol='arrow',
-                                    angle=np.degrees(theta_bins[i]),
-                                    size=5*((j + 1)/Nm),  # Adjust size based on magnitude bin
-                                    color=mag_bin,
-                                    colorscale='Viridis'
-                                ),
-                                name='',
-                                showlegend=False,
-                                hoverinfo='text',
-                                text=[f"x: {x_bin[i]:.5f}, y: {y_bin[i]:.5f}, u: {u_bin[i]:.5f}, v: {v_bin[i]:.5f}, |v|: {mag:.5f}" for i, mag in enumerate(mag_bin)]
-                            ))
-                    # Create figure
-                    fig = go.Figure(data=scatter_data)
+                    for i in range(len(x)):
+                        plot_triangle(fig, position=[x[i],y[i]], direction=direction[i], size=1.3*magnitude[i]*spacing*self.dx/self.a0, color=colors[i])
 
             elif vector_field.shape == (3,self.xRes,self.yRes):
                 if self.plot_lib == 'matplotlib':
