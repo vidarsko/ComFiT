@@ -15,6 +15,8 @@ import plotly.colors as pc
 
 from skimage.measure import marching_cubes
 
+import time
+
 class BaseSystemPlot:
     """ Plotting methods for the base system class"""
 
@@ -1092,19 +1094,22 @@ class BaseSystemPlot:
 
             return self.plot_complex_field(complex_field, **kwargs)
 
-    def plot_vector_field(self, vector_field, spacing=5, **kwargs):
+    def plot_vector_field(self, vector_field, **kwargs):
         """Plots a vector field.
 
         Args:
             vector_field (tuple): Tuple containing the x and y components of the vector field.
-            spacing (int, optional): The spacing for the quiver plot. Default is 5.
-            **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
+            **kwargs: 
+                spacing (int, optional): The spacing for the quiver plot. Default is self.xRes//20.
+                Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
         Returns:
             Tuple containing
                 - The figure containing the plot.
                 - The axes containing the plot.
         """
+        spacing = kwargs.get('spacing', self.xRes//20)
+
         # Convert the vector field to a numpy array
         vector_field = np.array(vector_field)
         
@@ -1307,77 +1312,13 @@ class BaseSystemPlot:
                         angles='xy', scale_units='xy', scale=1,
                         headwidth=3, headlength=4, headaxislength=3, pivot='middle')
                 elif self.plot_lib == 'plotly':
-                    # fig = ff.create_quiver(X/self.a0, Y/self.a0, U, V, line=dict(width=1))
-                    # fig = go.Figure(data=go.Cone(x=X.flatten()/self.a0,
-                    #             y=Y.flatten()/self.a0,
-                    #             z=np.zeros(X.shape).flatten(),
-                    #             u=U.flatten(),
-                    #             v=V.flatten(),
-                    #             w=np.zeros(X.shape).flatten(), 
-                    #             sizemode="absolute",
-                    #             colorscale='Viridis',
-                    #             sizeref=0.1))
-
-                    # Calculate magnitude and angle of the vectors
-                    # u = U.flatten()
-                    # v = V.flatten()
-                    # magnitude = np.sqrt(u**2 + v**2)
-                    # angle = np.arctan2(v, u)
-                    # x = X.flatten()/self.a0
-                    # y = Y.flatten()/self.a0
-
-                    # Ntheta = 36  # Number of angle bins
-                    # Nm = 1  # Number of magnitude bins
-
-                    # # Discretize angles and magnitudes
-                    # theta_bins = np.linspace(-np.pi, np.pi, Ntheta + 1)
-                    # mag_bins = np.linspace(0, np.max(magnitude), Nm + 1)
-                    
-                    
-
-                    # # Create scatter plot data
-                    # scatter_data = []
-                    # for i in range(Ntheta):
-                    #     for j in range(Nm):
-                    #         # Filter points in the current angle and magnitude bin
-                    #         angle_mask = (angle >= theta_bins[i]) & (angle < theta_bins[i+1])
-                    #         mag_mask = (magnitude >= mag_bins[j]) & (magnitude < mag_bins[j+1])
-                    #         mask = angle_mask & mag_mask
-                            
-                    #         # Get points that satisfy the mask
-                    #         x_bin = x[mask]
-                    #         y_bin = y[mask]
-                    #         u_bin = u[mask]
-                    #         v_bin = v[mask]
-                    #         mag_bin = magnitude[mask]
-                            
-                    #         # Add scatter plot for this bin
-                    #         scatter_data.append(go.Scatter(
-                    #             x=x_bin,
-                    #             y=y_bin,
-                    #             mode='markers',
-                    #             marker=dict(
-                    #                 symbol='arrow',
-                    #                 angle=np.degrees(theta_bins[i]),
-                    #                 size=20,
-                    #                 standoff=5*((j + 1)/Nm),  # Adjust size based on magnitude bin
-                    #                 color=mag_bin,
-                    #                 colorscale='Viridis'
-                    #             ),
-                    #             name='',
-                    #             showlegend=False,
-                    #             hoverinfo='text',
-                    #             text=[f"x: {x_bin[i]:.5f}, y: {y_bin[i]:.5f}, u: {u_bin[i]:.5f}, v: {v_bin[i]:.5f}, |v|: {mag:.5f}" for i, mag in enumerate(mag_bin)]
-                    #         ))
-                    # # Create figure
-                    # fig = go.Figure(data=scatter_data)
-
                     def get_colors(values, colorscale='Viridis'):
                         colorscale = pc.get_colorscale(colorscale)
                         unique_magnitudes = np.unique(values)
                         color_map = {val: pc.sample_colorscale(colorscale, val)[0] for val in unique_magnitudes}
                         return np.vectorize(color_map.get)(values)
 
+                        
                     def plot_triangle(fig, position,direction,size,color):
                         x = [position[0]+direction[0]*size/2, 
                                 position[0]-direction[0]*size/3 + direction[1]*size/4, 
@@ -1396,6 +1337,7 @@ class BaseSystemPlot:
                             name=''
                         ))
 
+
                     fig = go.Figure()
 
                     u = U.flatten()
@@ -1403,6 +1345,7 @@ class BaseSystemPlot:
                     
                     magnitude = np.sqrt(u**2 + v**2)
                     magnitude = (magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))
+
                     colors = get_colors(magnitude)
 
                     angle = np.arctan2(v, u)
@@ -1416,7 +1359,11 @@ class BaseSystemPlot:
                         plot_triangle(fig, position=[x[i],y[i]], direction=direction[i], size=1.3*magnitude[i]*spacing*self.dx/self.a0, color=colors[i])
 
             elif vector_field.shape == (3,self.xRes,self.yRes):
-                if self.plot_lib == 'matplotlib':
+                if self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for this type of vector field.')
+                    pass
+
+                elif self.plot_lib == 'matplotlib':
                     if ax == None:
                         fig.clf()
                         ax = fig.add_subplot(111, projection='3d')
@@ -1483,6 +1430,9 @@ class BaseSystemPlot:
 
                 if self.plot_lib == 'matplotlib':
                     ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for this type of vector field.')
+                    pass
 
             elif vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
                 
@@ -1509,6 +1459,9 @@ class BaseSystemPlot:
 
                 if self.plot_lib == 'matplotlib':
                     ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for this type of vector field.')
+                    pass
 
             elif vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
                 
@@ -1536,6 +1489,9 @@ class BaseSystemPlot:
                 W = vz_scale*W
                 if self.plot_lib == 'matplotlib':
                     ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for this type of vector field.')
+                    pass
 
         if self.plot_lib == 'matplotlib':
             kwargs['ax'] = ax
