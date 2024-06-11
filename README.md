@@ -14,7 +14,7 @@ If you use ComFiT in your research or education, please cite the following paper
 
 ---
 
-(submitted) Skogvoll & Rønning, (2024). ComFiT: python library for computational field theory with topological defects. Journal of Open Source Software, X(XX), XXX, [link](link)
+Skogvoll, V., & Rønning, J. (2024). ComFiT: A Python library for computational field theory with topological defects. Journal of Open Source Software, 9(98), 6599. [https://doi.org/10.21105/joss.06599](https://doi.org/10.21105/joss.06599)
 
 ---
 
