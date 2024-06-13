@@ -34,7 +34,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python setup.py install  # Install dependencies from setup.py
+        pip install .  # Install dependencies from setup.py
 
     - name: Install xvfb
       run: sudo apt-get install -y xvfb
