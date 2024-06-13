@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.5.0] - 2024-05-30
+- Finalized version of software after JOSS software review. 
+
 ## [1.4.2] - 2024-03-18
 - Bug fixes and stability improvements.
 
