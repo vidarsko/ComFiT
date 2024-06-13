@@ -43,7 +43,7 @@ class BaseSystemCalc:
             dipole_position: The position the center of mass of the dipole. 
             
         Returns:
-            The calculated angle field for the double vortex system as a numpy array. numpy.ndarray.
+            The calculated angle field for the double vortex system as a numpy array. 
 
         Raises:
             Exception: If the dimension of the system is not 2.
