@@ -3,7 +3,7 @@ from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.colors as mcolors
 
 
-def tool_colormap_angle():
+def tool_colormap_angle(pyplot=False):
     # Create hues ranging from cyan to red and back to cyan
     # Note: In the HSV color space, cyan is at 0.5 and red is at 0.
     hues = np.linspace(0.5, 0, 128).tolist() + np.linspace(1, 0.5, 128).tolist()
@@ -14,7 +14,17 @@ def tool_colormap_angle():
     # Convert these hues to RGB colors with full saturation and value
     colors = [mcolors.hsv_to_rgb([h, 1, 1]) for h in hues]
 
-    return LinearSegmentedColormap.from_list("custom_hsv", colors)
+    colormap = LinearSegmentedColormap.from_list("custom_hsv", colors)
+
+    if pyplot:
+         # # Convert the colormap to Plotly format
+        custom_hsv = []
+        for i in range(colormap.N):
+            rgb = colormap(i)[:3]
+            custom_hsv.append([i / (colormap.N - 1), f'rgb({int(rgb[0]*255)}, {int(rgb[1]*255)}, {int(rgb[2]*255)})'])
+        return custom_hsv
+    else:
+        return colormap
 
 
 def tool_colormap_bluewhitered():

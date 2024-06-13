@@ -5,12 +5,27 @@ from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluew
 from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 
 import matplotlib.pyplot as plt
-from skimage.measure import marching_cubes
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
+import matplotlib.cm as cm
+
+import plotly.graph_objects as go
+import plotly.figure_factory as ff
+import plotly.colors as pc
+
+from skimage.measure import marching_cubes
+
+import time
 
 class BaseSystemPlot:
     """ Plotting methods for the base system class"""
+
+    def show(self):
+        """Show the plot."""
+        if self.plot_lib == 'matplotlib':
+            plt.show()
+        elif self.plot_lib == 'plotly':
+            go.show() #or fig.show?
 
     def plot_tool_set_axis_properties(self, **kwargs):
         """Sets the properties of the axis for a plot.
@@ -22,28 +37,29 @@ class BaseSystemPlot:
             The axis object with the properties set.
         """
 
-        # Check if an axis object is provided
-        if 'ax' in kwargs:
-            ax = kwargs['ax']
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+        
+        if plot_lib == 'matplotlib':
+            ax = kwargs.get('ax', plt.gca())
+        elif plot_lib == 'plotly':
+            fig = kwargs.get('fig', go.Figure())
 
-        # Set the xlabel
-        if 'xlabel' in kwargs:
-            ax.set_xlabel(kwargs['xlabel'])
-        else:
-            ax.set_xlabel('$x/a_0$')
+        xlabel = kwargs.get('xlabel', 'x/a₀')
 
         if 'title' in kwargs:
                 ax.set_title(kwargs['title'])
 
         #TODO: Check if I should instead include a fig object somewhere (Vidar 05.02.24)
-        if 'suptitle' in kwargs:
-            plt.suptitle(kwargs['suptitle'])
-
-        # Set the grid
-        if 'grid' in kwargs:
-            ax.grid(kwargs['grid'])
-        else:
-            ax.grid(True)
+        suptitle = kwargs.get('suptitle', None)
+        if suptitle is not None:
+            if plot_lib == 'matplotlib':
+                ax.get_figure().suptitle(suptitle)
+            elif plot_lib == 'plotly':
+                fig.update_layout(title_text=suptitle)
+        
+        grid = kwargs.get('grid', True)
+        if plot_lib == 'matplotlib':
+            ax.grid(grid)
 
         xlim = [self.xmin/self.a0, (self.xmax-self.dx)/self.a0]
 
@@ -79,79 +95,177 @@ class BaseSystemPlot:
             zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
 
         # Custom x-ticks
-        if 'xticks' in kwargs:
-            ax.set_xticks(kwargs['xticks'])
-        if 'xticklabels' in kwargs:
-            ax.set_xticklabels(kwargs['xticklabels'])
-
-        # Custom y-ticks
-        if 'yticks' in kwargs:
-            ax.set_yticks(kwargs['yticks'])
-        if 'yticklabels' in kwargs:
-            ax.set_yticklabels(kwargs['yticklabels'])
+        xticks = kwargs.get('xticks', None)
+        if xticks is not None:
+            if plot_lib == 'matplotlib':
+                ax.set_xticks(xticks)
         
-        # Custom z-ticks
-        if 'zticks' in kwargs:
-            ax.set_zticks(kwargs['zticks'])
-        if 'zticklabels' in kwargs:
-            ax.set_zticklabels(kwargs['zticklabels'])
+        xticklabels = kwargs.get('xticklabels', None)
+        if xticklabels is not None:
+            if plot_lib == 'matplotlib':
+                ax.set_xticklabels(xticklabels)
+            elif plot_lib == 'plotly':
+                fig.update_layout(xaxis=dict(tickvals=xticks, ticktext=xticklabels))
+
+        yticks = kwargs.get('yticks', None)
+        if yticks is not None:
+            if plot_lib == 'matplotlib':
+                ax.set_yticks(yticks)
+            elif plot_lib == 'plotly':
+                fig.update_layout(yaxis=dict(tickvals=yticks))
+        
+        yticklabels = kwargs.get('yticklabels', None)
+        if yticklabels is not None:
+            if plot_lib == 'matplotlib':
+                ax.set_yticklabels(yticklabels)
+            elif plot_lib == 'plotly':
+                fig.update_layout(yaxis=dict(ticktext=yticklabels))
+
+        zticks = kwargs.get('zticks', None)
+        if zticks is not None:
+            if plot_lib == 'matplotlib':
+                ax.set_zticks(zticks)
+            elif plot_lib == 'plotly':
+                fig.update_layout(zaxis=dict(tickvals=zticks))
+        
+        zticklabels = kwargs.get('zticklabels', None)
+        if zticklabels is not None:
+            if plot_lib == 'matplotlib':
+                ax.set_zticklabels(zticklabels)
+            elif plot_lib == 'plotly':
+                fig.update_layout(zaxis=dict(ticktext=zticklabels))
         
         if self.dim == 1:
+            # Set the xlabel
+            if plot_lib == 'matplotlib':
+                ax.set_xlabel(xlabel)
+            elif plot_lib == 'plotly':
+                fig.update_layout(xaxis_title=xlabel)
 
             # Set the ylabel
             if 'ylabel' in kwargs:
-                ax.set_ylabel(kwargs['ylabel'])
+                if plot_lib == 'matplotlib':
+                    ax.set_ylabel(kwargs['ylabel'])
+                elif plot_lib == 'plotly':
+                    fig.update_layout(yaxis_title=kwargs['ylabel'])
 
             # Set the title
             if 'title' in kwargs:
-                ax.set_title(kwargs['title'])
+                if plot_lib == 'matplotlib':
+                    ax.set_title(kwargs['title'])
+                elif plot_lib == 'plotly':
+                    fig.update_layout(title_text=kwargs['title'])
             
-            ax.set_xlim(xlim[0], xlim[1])
+            if plot_lib == 'matplotlib':
+                ax.set_xlim(xlim[0], xlim[1])
+            elif plot_lib == 'plotly':
+                fig.update_layout(xaxis_range=[xlim[0], xlim[1]])
 
             if ylim is not None:
-                ax.set_ylim(ylim[0], ylim[1])
+                if plot_lib == 'matplotlib':
+                    ax.set_ylim(ylim[0], ylim[1])
+                elif plot_lib == 'plotly':
+                    fig.update_layout(yaxis_range=[ylim[0], ylim[1]])
 
             if zlim is not None:
-                ax.set_zlim(zlim[0], zlim[1])
-            
+                if plot_lib == 'matplotlib':
+                    ax.set_zlim(zlim[0], zlim[1])
+                elif plot_lib == 'plotly':
+                    fig.update_layout(zaxis_range=[zlim[0], zlim[1]])
         
         elif self.dim == 2:
-
-            if 'ylabel' in kwargs:
-                ax.set_ylabel(kwargs['ylabel'])
-            else:
-                ax.set_ylabel('$y/a_0$')
             
-            ax.set_xlim(xlim[0], xlim[1])
-            ax.set_ylim(ylim[0], ylim[1])
+            ylabel = kwargs.get('ylabel', 'y/a₀')
+
+            if plot_lib == 'matplotlib':
+                ax.set_xlabel(xlabel)
+                ax.set_ylabel(ylabel)
+            elif plot_lib == 'plotly':
+                fig.update_layout(xaxis_title=xlabel)
+                fig.update_layout(yaxis_title=ylabel)
+            
+            if plot_lib == 'matplotlib':
+                ax.set_xlim(xlim[0], xlim[1])
+                ax.set_ylim(ylim[0], ylim[1])
+            elif plot_lib == 'plotly':
+                fig.update_layout(xaxis_range=[xlim[0], xlim[1]])
+                fig.update_layout(yaxis_range=[ylim[0], ylim[1]])
+
             if zlim is not None:
-                ax.set_zlim(zlim[0], zlim[1])
+                if plot_lib == 'matplotlib':
+                    ax.set_zlim(zlim[0], zlim[1])
+                elif plot_lib == 'plotly':
+                    fig.update_layout(zaxis_range=[zlim[0], zlim[1]])
 
             # Set the aspect ratio
             axis_equal = kwargs.get('axis_equal', True)
             if axis_equal:
-                ax.set_aspect('equal')
+                if plot_lib == 'matplotlib':
+                    ax.set_aspect('equal')
+                elif plot_lib == 'plotly':
+                    fig.update_yaxes(
+                        scaleanchor="x",
+                        scaleratio=1,
+                    )
+                    pass
 
         elif self.dim == 3:
 
-            if 'ylabel' in kwargs:
-                ax.set_ylabel(kwargs['ylabel'])
-            else:
-                ax.set_ylabel('$y/a_0$')
+            ylabel = kwargs.get('ylabel', 'y/a₀')
+            zlabel = kwargs.get('zlabel', 'z/a₀')
 
-            if 'zlabel' in kwargs:
-                ax.set_zlabel(kwargs['zlabel'])
-            else:
-                ax.set_zlabel('$z/a_0$')
+            if plot_lib == 'matplotlib':
+                ax.set_xlabel(xlabel)
+                ax.set_ylabel(ylabel)
+                ax.set_zlabel(zlabel)
 
-            ax.set_xlim3d(xlim[0], xlim[1])
-            ax.set_ylim3d(ylim[0], ylim[1])
-            ax.set_zlim3d(zlim[0], zlim[1])
+                ax.set_xlim3d(xlim[0], xlim[1])
+                ax.set_ylim3d(ylim[0], ylim[1])
+                ax.set_zlim3d(zlim[0], zlim[1])
+            elif plot_lib == 'plotly':
+                fig.update_layout(
+                scene = dict(
+                    xaxis=dict(title=xlabel, range=[xlim[0], xlim[1]]),
+                    yaxis=dict(title=ylabel, range=[ylim[0], ylim[1]]),
+                    zaxis=dict(title=zlabel, range=[zlim[0], zlim[1]])
+                    )       
+                    )
+
+            elif plot_lib == 'plotly':
+                fig.update_layout(xaxis_range=[xlim[0], xlim[1]])
+                fig.update_layout(yaxis_range=[ylim[0], ylim[1]])
+                fig.update_layout(zaxis_range=[zlim[0], zlim[1]])
 
             # Set the aspect ratio
             axis_equal = kwargs.get('axis_equal', True)
             if axis_equal:
-                ax.set_aspect('equal')
+                if plot_lib == 'matplotlib':
+                    ax.set_aspect('equal')  
+        if plot_lib == 'matplotlib':
+            return ax
+        elif plot_lib == 'plotly':
+            return fig
+
+    def plot_tool_surface_matplotlib(self, **kwargs):
+        """Plots the surface of the given field.
+
+        Args:
+            **kwargs: Keyword arguments for the plot.
+        
+        Returns:
+            The axes containing the plot.
+        """
+        field = kwargs['field']
+        value = kwargs['value']
+        ax = kwargs.get('ax', plt.gca())
+        alpha = kwargs.get('alpha', 0.5)
+        color = kwargs.get('color', 'b')
+
+        verts, faces, _, _ = marching_cubes(field, value)
+        x = (self.xmin+verts[:, 0]*self.dx)/self.a0
+        y = (self.ymin+verts[:, 1]*self.dy)/self.a0
+        z = (self.zmin+verts[:, 2]*self.dz)/self.a0
+        ax.plot_trisurf(x, y, faces, z, alpha=alpha, color=color)
 
         return ax
 
@@ -197,27 +311,37 @@ class BaseSystemPlot:
 
         return field
 
-    def plot_tool_surface(self, **kwargs):
-        """Plots the surface of the given field.
+    def plot_tool_plotly_add_angle_colorbar3D(self,fig):
+        """Adds a colorbar to a 3D plot with the angle colormap.
 
         Args:
-            **kwargs: Keyword arguments for the plot.
+            fig: The figure to which the colorbar is added.
         
         Returns:
-            The axes containing the plot.
+            The figure with the colorbar added.
         """
-        field = kwargs['field']
-        value = kwargs['value']
-        ax = kwargs.get('ax', plt.gca())
-        alpha = kwargs.get('alpha', 0.5)
-        color = kwargs.get('color', 'b')
+        # Generate the custom colormap
+        custom_colormap = tool_colormap_angle(pyplot=True)
 
-        verts, faces, _, _ = marching_cubes(field, value)
-        x = (self.xmin+verts[:, 0]*self.dx)/self.a0
-        y = (self.ymin+verts[:, 1]*self.dy)/self.a0
-        z = (self.zmin+verts[:, 2]*self.dz)/self.a0
-        ax.plot_trisurf(x, y, faces, z, alpha=alpha, color=color)
-    
+        fig.add_trace(go.Isosurface(
+            x=[self.xmin/self.a0,self.xmax/self.a0], 
+            y=[self.ymin/self.a0,self.ymax/self.a0], 
+            z=[self.zmin/self.a0, self.zmax/self.a0],
+            value=[0,0],
+            cmin = -np.pi,
+            cmax = np.pi,
+            opacity=0,
+            colorscale=custom_colormap,
+            colorbar=dict(
+                tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
+                ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
+            ),
+            showscale=True
+        ))
+
+        return fig
+
+
     def plot_field(self, field, **kwargs):
         """Plots the given (real) field.
         
@@ -228,7 +352,10 @@ class BaseSystemPlot:
                 for a full list of keyword arguments.
         
         Returns:
-            The axes containing the plot (matplotlib.axes.Axes).
+            If self.plot_lib == 'matplotlib':
+                The axes containing the plot (matplotlib.axes.Axes).
+            If self.plot_lib == 'plotly':
+                The figure containing the plot.
         """
 
         if field.dtype == bool:
@@ -240,13 +367,18 @@ class BaseSystemPlot:
             print('Max imaginary part: ', np.max(np.imag(field)))
             field = np.real(field)
 
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        # Check if an axis object is provided
-        fig = kwargs.get('fig', plt.gcf())
-        ax = kwargs.get('ax', None)
+        if plot_lib=='matplotlib':
+            # Check if an axis object is provided
+            fig = kwargs.get('fig', plt.gcf())
+            ax = kwargs.get('ax', None)
+        elif plot_lib=='plotly':
+            fig = kwargs.get('fig', go.Figure())
 
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
+        axis_equal = kwargs.get('axis_equal',True)
 
         # Extend the field if not a complete array is given
         field = self.plot_tool_extend_field(field)
@@ -256,11 +388,20 @@ class BaseSystemPlot:
             # Keyword arguments particular to the 1D case
             kwargs['grid'] = kwargs.get('grid', True)
 
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111)
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111)
 
-            ax.plot(self.x/self.a0, field)
+                ax.plot(self.x/self.a0, field)
+            elif self.plot_lib == 'plotly':
+                fig.add_trace(go.Scatter(
+                    x=self.x/self.a0,
+                    y=field,
+                    mode='lines',
+                    name='',
+                    hovertemplate='x: %{x:.2f} a₀<br>field: %{y:.2f}'
+                ))
 
 
         if self.dim == 2:
@@ -268,96 +409,121 @@ class BaseSystemPlot:
             # Keyword arguments particular to the 2D case
             kwargs['grid'] = kwargs.get('grid', False)
 
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111)
-            
-            # Set the colormap
-            colormap = kwargs.get('colormap', 'viridis')
-
-            if colormap == 'bluewhitered':
-                colormap = tool_colormap_bluewhitered()
-
-            elif colormap == 'sunburst':
-                colormap = tool_colormap_sunburst()
-            else:
-                colormap = plt.get_cmap(colormap)
-
-            # Value limits symmetric
-            vlim_symmetric = kwargs.get('vlim_symmetric', False)
-
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-
-            pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
-
-            xlim = [self.xmin, self.xmax-self.dx]
-            ylim = [self.ymin, self.ymax-self.dy]
-
-            limits_provided = False
-            if 'xlim' in kwargs:
-                xlim = kwargs['xlim']
-                limits_provided = True
-            else:
-                if 'xmin' in kwargs:
-                    xlim[0] = kwargs['xmin']
-                    limits_provided = True
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111)
                 
-                if 'xmax' in kwargs:
-                    xlim[1] = kwargs['xmax']
-                    limits_provided = True
+                # Set the colormap
+                colormap = kwargs.get('colormap', 'viridis')
 
-            if 'ylim' in kwargs:
-                ylim = kwargs['ylim']
-                limits_provided = True
-            else:
-                if 'ymin' in kwargs:
-                    ylim[0] = kwargs['ymin']
+                if colormap == 'bluewhitered':
+                    colormap = tool_colormap_bluewhitered()
+
+                elif colormap == 'sunburst':
+                    colormap = tool_colormap_sunburst()
+                else:
+                    colormap = plt.get_cmap(colormap)
+
+                # Value limits symmetric
+                vlim_symmetric = kwargs.get('vlim_symmetric', False)
+
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+                pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
+
+                xlim = [self.xmin, self.xmax-self.dx]
+                ylim = [self.ymin, self.ymax-self.dy]
+
+                limits_provided = False
+                if 'xlim' in kwargs:
+                    xlim = kwargs['xlim']
                     limits_provided = True
+                else:
+                    if 'xmin' in kwargs:
+                        xlim[0] = kwargs['xmin']
+                        limits_provided = True
                     
-                if 'ymax' in kwargs:
-                    ylim[1] = kwargs['ymax']
+                    if 'xmax' in kwargs:
+                        xlim[1] = kwargs['xmax']
+                        limits_provided = True
+
+                if 'ylim' in kwargs:
+                    ylim = kwargs['ylim']
                     limits_provided = True
+                else:
+                    if 'ymin' in kwargs:
+                        ylim[0] = kwargs['ymin']
+                        limits_provided = True
+                        
+                    if 'ymax' in kwargs:
+                        ylim[1] = kwargs['ymax']
+                        limits_provided = True
 
-            # If explicit limits are provided, use them to change the vlim ranges
-            if limits_provided:
-                region_to_plot = np.zeros(self.dims).astype(bool)
-                region_to_plot[(xlim[0] <= X)*(X <= xlim[1])*(ylim[0] <= Y)*(Y <= ylim[1])] = True
-                vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
+                # If explicit limits are provided, use them to change the vlim ranges
+                if limits_provided:
+                    region_to_plot = np.zeros(self.dims).astype(bool)
+                    region_to_plot[(xlim[0] <= X)*(X <= xlim[1])*(ylim[0] <= Y)*(Y <= ylim[1])] = True
+                    vlim = [np.min(field[region_to_plot]), np.max(field[region_to_plot])]
 
-            else:
-                vlim = [np.min(field), np.max(field)]
-            
-            # Set the value limitses
-            if 'vlim' in kwargs:
-                vlim = kwargs['vlim']
-            else:
-                if 'vmin' in kwargs:
-                    vlim[0] = kwargs['vmin']
-                if 'vmax' in kwargs:
-                    vlim[1] = kwargs['vmax']
+                else:
+                    vlim = [np.min(field), np.max(field)]
+                
+                # Set the value limitses
+                if 'vlim' in kwargs:
+                    vlim = kwargs['vlim']
+                else:
+                    if 'vmin' in kwargs:
+                        vlim[0] = kwargs['vmin']
+                    if 'vmax' in kwargs:
+                        vlim[1] = kwargs['vmax']
 
-            if vlim[1] - vlim[0] < 1e-10:
-                vlim = [vlim[0]-0.05, vlim[1]+0.05]
+                if vlim[1] - vlim[0] < 1e-10:
+                    vlim = [vlim[0]-0.05, vlim[1]+0.05]
 
-            pcm.set_clim(vmin=vlim[0], vmax=vlim[1])
+                pcm.set_clim(vmin=vlim[0], vmax=vlim[1])
 
-            if 'vlim_symmetric' in kwargs:
-                vlim_symmetric = kwargs['vlim_symmetric']
-                if vlim_symmetric:
-                    cmax = abs(field).max()
-                    cmin = -cmax
-                    pcm.set_clim(vmin=cmin, vmax=cmax)
+                if 'vlim_symmetric' in kwargs:
+                    vlim_symmetric = kwargs['vlim_symmetric']
+                    if vlim_symmetric:
+                        cmax = abs(field).max()
+                        cmin = -cmax
+                        pcm.set_clim(vmin=cmin, vmax=cmax)
 
-            colorbar = kwargs.get('colorbar', True)
+                colorbar = kwargs.get('colorbar', True)
 
-            if colorbar:
-                cbar = plt.colorbar(pcm, ax=ax)
+                if colorbar:
+                    cbar = plt.colorbar(pcm, ax=ax)
+            elif self.plot_lib == 'plotly':
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+                fig.add_trace(go.Heatmap(
+                    x=X.flatten()/self.a0,
+                    y=Y.flatten()/self.a0,
+                    z=field.flatten(),
+                    zmin=np.min(field),
+                    zmax=np.max(field),
+                    colorscale='Viridis', 
+                    zsmooth='best',
+                    hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                    name=''
+                ))
+
+                if axis_equal:
+                    # Set axis to be equal
+                    fig.update_yaxes(
+                        scaleanchor="x",
+                        scaleratio=1,
+                    )
+
+                    fig.update_xaxes(
+                        scaleanchor="y",
+                        scaleratio=1,
+                        ) 
 
         elif self.dim == 3:
 
-            if ax == None:
-                plt.clf()
-                ax = plt.gcf().add_subplot(111, projection='3d')
+            # Keyword arguments particular to the 3D case
 
             field_min = np.min(field)
             field_max = np.max(field)
@@ -392,35 +558,72 @@ class BaseSystemPlot:
                 colormap = plt.get_cmap('viridis')
             
 
-            if field_min < layer_values[1] < field_max:
-                self.plot_tool_surface(field=field, 
-                                        value=layer_values[1], 
-                                        color=colormap((layer_values[1]-vmin) / (vmax-vmin)), 
-                                        alpha=alpha,
-                                        ax=ax)
-
-            for layer_value in layer_values[2:-1]:
-                if field_min < layer_value < field_max:
-                    self.plot_tool_surface(field=field, 
-                                            value=layer_value, 
-                                            color=colormap((layer_value-vmin) / (vmax-vmin)), 
-                                            alpha=alpha,
-                                            ax=ax)
-
-
             if 'colorbar' in kwargs:
                 colorbar = kwargs['colorbar']
             else:
                 colorbar = True
 
-            if colorbar:
-                sm = plt.cm.ScalarMappable(cmap=colormap)
-                sm.set_clim(vmin, vmax)
-                plt.colorbar(sm, ax=ax, pad=0.2)
+            #Plotting the layers
+            if plot_lib == 'matplotlib':
+                if ax == None:
+                    plt.clf()
+                    ax = plt.gcf().add_subplot(111, projection='3d')
+
+
+                if field_min < layer_values[1] < field_max:
+                    self.plot_tool_surface_matplotlib(field=field, 
+                                            value=layer_values[1], 
+                                            color=colormap((layer_values[1]-vmin) / (vmax-vmin)), 
+                                            alpha=alpha,
+                                            ax=ax)
+
+                for layer_value in layer_values[2:-1]:
+                    if field_min < layer_value < field_max:
+                        self.plot_tool_surface_matplotlib(field=field, 
+                                                value=layer_value, 
+                                                color=colormap((layer_value-vmin) / (vmax-vmin)), 
+                                                alpha=alpha,
+                                                ax=ax)
+
+
+                if colorbar:
+                    sm = plt.cm.ScalarMappable(cmap=colormap)
+                    sm.set_clim(vmin, vmax)
+                    plt.colorbar(sm, ax=ax, pad=0.2)
+
+            elif plot_lib == 'plotly':
+
+                X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
+                for layer_value in layer_values[1:-1]:
+
+                    fig.add_trace(go.Isosurface(
+                        x=X.flatten()/self.a0,
+                        y=Y.flatten()/self.a0,
+                        z=Z.flatten()/self.a0,
+                        value = field.flatten(),
+                        isomin = layer_value,
+                        isomax = layer_value,
+                        cmin = vmin,
+                        cmax = vmax,
+                        surface=dict(count=3),  # Ensuring only one surface is shown
+                        colorscale='Viridis',
+                        opacity=alpha,
+                        showscale=bool(layer_value == layer_values[1])
+                    )
+                        )
         
-        kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
-        return fig, ax
+        if plot_lib == 'matplotlib':
+            kwargs['ax'] = ax
+            self.plot_tool_set_axis_properties(**kwargs)
+            return fig, ax
+
+        elif plot_lib == 'plotly':
+            kwargs['fig'] = fig
+            self.plot_tool_set_axis_properties(**kwargs)
+            return fig
+
+        
 
     def plot_complex_field(self, complex_field, **kwargs):
         """
@@ -437,12 +640,18 @@ class BaseSystemPlot:
             matplotlib.axes.Axes: The axes containing the plot.
         """
 
-        # Check if an axis object is provided
-        fig = kwargs.get('fig', plt.gcf())
-        ax = kwargs.get('ax', None)
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == 'matplotlib':
+            # Check if an axis object is provided
+            fig = kwargs.get('fig', plt.gcf())
+            ax = kwargs.get('ax', None)
+        elif plot_lib == 'plotly':
+            fig = kwargs.get('fig', go.Figure())
 
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
+        axis_equal = kwargs.get('axis_equal',True)
 
         # Extend the field if not a complete array is given
         complex_field = self.plot_tool_extend_field(complex_field)
@@ -456,35 +665,102 @@ class BaseSystemPlot:
             # Keyword arguments particular to the 1D case
             grid = kwargs.get('grid', False)
 
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111)
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111)
 
-            # Padding for the colorbar.
-            padding=0.05
+                # Padding for the colorbar.
+                padding=0.05
 
-            ax.plot(self.x/self.a0, rho, color='black')
+                ax.plot(self.x/self.a0, rho, color='black')
 
-            # Color in the graph based on the argument of the complex field
-            blend_factor=0.3 # The degree to which the color is blended with white
-            cmap = tool_colormap_angle()
+                # Color in the graph based on the argument of the complex field
+                blend_factor=0.3 # The degree to which the color is blended with white
+                cmap = tool_colormap_angle()
 
-            ax.fill_between([self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], [rho[0],(rho[0]+rho[1])/2],
-                            color=(1-blend_factor)*np.array(cmap((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
-                            alpha=1)
-
-            for i in range(1,self.xRes-1):
-                ax.fill_between([(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], [(rho[i]+rho[i-1])/2,rho[i]],
-                                color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
+                ax.fill_between([self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], [rho[0],(rho[0]+rho[1])/2],
+                                color=(1-blend_factor)*np.array(cmap((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
                                 alpha=1)
-                ax.fill_between([self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], [rho[i],(rho[i]+rho[i+1])/2],
-                    color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
-                    alpha=1)
 
-            ax.fill_between([(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], [(rho[-1]+rho[-2])/2,rho[-1]],
-                            color=(1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
-                            alpha=1)
+                for i in range(1,self.xRes-1):
+                    ax.fill_between([(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], [(rho[i]+rho[i-1])/2,rho[i]],
+                                    color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
+                                    alpha=1)
+                    ax.fill_between([self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], [rho[i],(rho[i]+rho[i+1])/2],
+                        color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
+                        alpha=1)
 
+                ax.fill_between([(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], [(rho[-1]+rho[-2])/2,rho[-1]],
+                                color=(1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
+                                alpha=1)
+
+            elif self.plot_lib == 'plotly':
+                
+                if fig == None:
+                    fig = go.Figure()
+
+                # Color in the graph based on the argument of the complex field
+                blend_factor=0.3 # The degree to which the color is blended with white
+                cmap = tool_colormap_angle()
+
+                color = (1-blend_factor)*np.array(cmap((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
+                color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
+
+                fig.add_trace(go.Scatter(x=[self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], 
+                              y=[rho[0],(rho[0]+rho[1])/2],
+                                mode='lines',
+                                line=dict(color='rgba(0,0,0,0)'),
+                                fill='tozeroy',
+                                showlegend=False,
+                                hoverinfo='skip',
+                                fillcolor=color_str))
+
+                for i in range(1,self.xRes-1):
+                    color = (1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
+                    color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
+                    fig.add_trace(go.Scatter(x=[(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], 
+                              y=[(rho[i]+rho[i-1])/2,rho[i]],
+                                mode='lines',
+                                line=dict(color='rgba(0,0,0,0)'),
+                                fill='tozeroy',
+                                showlegend=False,
+                                hoverinfo='skip',
+                                fillcolor=color_str))
+
+                    color = (1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
+                    color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
+                    fig.add_trace(go.Scatter(x=[self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], 
+                              y=[rho[i],(rho[i]+rho[i+1])/2],
+                                mode='lines',
+                                line=dict(color='rgba(0,0,0,0)'),
+                                fill='tozeroy',
+                                showlegend=False,
+                                hoverinfo='skip',
+                                fillcolor=color_str))
+
+                color = (1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
+                color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
+                fig.add_trace(go.Scatter(x=[(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], 
+                              y=[(rho[-1]+rho[-2])/2,rho[-1]],
+                                mode='lines',
+                                line=dict(color='rgba(0,0,0,0)'),
+                                fill='tozeroy',
+                                showlegend=False,
+                                hoverinfo='skip',
+                                fillcolor=color_str))
+
+                fig.add_trace(go.Scatter(
+                    x=self.x/self.a0,
+                    y=rho,
+                    mode='lines',
+                    showlegend=False,
+                    customdata=np.stack((theta/np.pi, rho), axis=-1),
+                    hovertemplate='x: %{x:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
+                    name='',
+                    line=dict(color='black')
+                ))
+                
 
         elif self.dim == 2:
             # Keyword arguments particular to the 2D case
@@ -494,41 +770,112 @@ class BaseSystemPlot:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
             if plot_method == '3Dsurface':
-                
-                # Padding for the colorbar
-                padding=0.2
+                if self.plot_lib == 'matplotlib':  
+                    # Padding for the colorbar
+                    padding=0.2
 
-                # Keyword arguments particular to the 3D surface plot
-                grid = kwargs.get('grid', True)
-                kwargs['axis_equal'] = False
-                
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
-                
-                # Get the colors from a colormap (e.g., hsv, but you can choose any other)
-                colors = tool_colormap_angle()((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
+                    # Keyword arguments particular to the 3D surface plot
+                    grid = kwargs.get('grid', True)
+                    kwargs['axis_equal'] = False
+                    
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111, projection='3d')
+                    
+                    # Get the colors from a colormap (e.g., hsv, but you can choose any other)
+                    colors = tool_colormap_angle()((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
 
-                surf = ax.plot_surface(X/self.a0, Y/self.a0, rho, facecolors=colors)
+                    surf = ax.plot_surface(X/self.a0, Y/self.a0, rho, facecolors=colors)
+
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for 2D 3Dsurface angle plots.')
+                    pass
 
             elif plot_method == 'phase_angle':
                 
-                # Padding for the colorbar
-                padding=0.05
 
                 # Keyword arguments particular to the phase angle plot
                 grid = kwargs.get('grid', False)
-                
-                # Check if an axis object is provided
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111)
 
                 rho_normalized = rho / np.max(rho)
-                custom_colormap = tool_colormap_angle()
 
-                mesh = ax.pcolormesh(X/self.a0, Y/self.a0, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
-                mesh.set_alpha(rho_normalized)
+                custom_colormap = tool_colormap_angle()
+                
+                if self.plot_lib == 'matplotlib':
+                    
+                    # Check if an axis object is provided
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111)
+
+                    # Padding for the colorbar
+                    padding=0.05
+                    
+                    mesh = ax.pcolormesh(X/self.a0, Y/self.a0, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
+                    mesh.set_alpha(rho_normalized)
+                
+                elif self.plot_lib == 'plotly':
+
+                    norm = mcolors.Normalize(vmin=-np.pi, vmax=np.pi)
+                    colormap = cm.ScalarMappable(norm=norm, cmap=custom_colormap)
+
+                    # Create an RGBA image array
+                    rgba_image = colormap.to_rgba(theta)
+
+                    # Apply the spatial opacity
+                    for i in range(rgba_image.shape[0]):
+                        for j in range(rgba_image.shape[1]):
+                            for k in range(3):
+                                rgba_image[i, j, k] = 1-(1-rgba_image[i, j, k])*rho_normalized[i, j]  # Set alpha channel
+
+                    rgba_image = np.transpose(rgba_image, (1, 0, 2))
+
+                    # Convert RGBA image to a format Plotly can understand
+                    image_data = (rgba_image * 255).astype(np.uint8)
+
+
+                    if fig == None:
+                        fig = go.Figure()
+
+                    fig.add_trace(go.Image(z=image_data, 
+                                    dx=self.dx/self.a0, 
+                                    dy=self.dy/self.a0, 
+                                    x0=self.xmin/self.a0, 
+                                    y0=self.ymin/self.a0,
+                                    hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
+                                    customdata=np.stack((np.transpose(theta/np.pi), np.transpose(rho)), axis=-1),
+                                    name=''
+                                    ))  
+
+
+                    # fig.add_trace(go.Heatmap(
+                    #     x=X.flatten()/self.a0,
+                    #     y=Y.flatten()/self.a0,
+                    #     z=theta.flatten(),
+                    #     zmin=-np.pi,
+                    #     zmax=np.pi,
+                    #     colorscale=tool_colormap_angle(pyplot=True),
+                    #     colorbar=dict(
+                    #             tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
+                    #             ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
+                    #         )
+                    # ))
+
+                    if axis_equal:
+                       # Set axis to be equal
+                        fig.update_yaxes(
+                            scaleanchor="x",
+                            scaleratio=1,
+                        )
+
+                        fig.update_xaxes(
+                            scaleanchor="y",
+                            scaleratio=1,
+                            ) 
+
+                    
+
+                    
 
         elif self.dim == 3:
 
@@ -542,48 +889,57 @@ class BaseSystemPlot:
 
             colormap = tool_colormap_angle()
 
-            ax = kwargs.get('ax', None)
+            if plot_lib == 'matplotlib':
+                ax = kwargs.get('ax', None)
 
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111, projection='3d')
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+            
+            elif plot_lib == 'plotly':
+                pass
         
             if plot_method == 'phase_angle':
                 
-                # Padding for the colorbar
-                padding=0.2
+                if self.plot_lib == 'matplotlib':
+                    
+                    # Padding for the colorbar
+                    padding=0.2
 
-                for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
+                    for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
+                        field_to_plot = theta.copy()
+                        field_to_plot[theta < angle - 1] = float('nan')
+                        field_to_plot[theta > angle + 1] = float('nan')
+                        field_to_plot[rho_normalized < 0.01] = float('nan')
+
+                        if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
+                            #TODO: make alpha a keyword argument (Vidar 11.03.24)
+                            self.plot_tool_surface_matplotlib(field=field_to_plot, 
+                                                value=angle, 
+                                                color=colormap((angle + np.pi) / (2 * np.pi)), 
+                                                alpha=0.5,
+                                                ax=ax)
+
+                    theta = np.mod(theta, 2 * np.pi)
+
                     field_to_plot = theta.copy()
-                    field_to_plot[theta < angle - 1] = float('nan')
-                    field_to_plot[theta > angle + 1] = float('nan')
+                    field_to_plot[theta < np.pi - 1] = float('nan')
+                    field_to_plot[theta > np.pi + 1] = float('nan')
                     field_to_plot[rho_normalized < 0.01] = float('nan')
 
-                    if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
+                    if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
                         #TODO: make alpha a keyword argument (Vidar 11.03.24)
-                        self.plot_tool_surface(field=field_to_plot, 
-                                            value=angle, 
-                                            color=colormap((angle + np.pi) / (2 * np.pi)), 
-                                            alpha=0.5,
-                                            ax=ax)
-
-                theta = np.mod(theta, 2 * np.pi)
-
-                field_to_plot = theta.copy()
-                field_to_plot[theta < np.pi - 1] = float('nan')
-                field_to_plot[theta > np.pi + 1] = float('nan')
-                field_to_plot[rho_normalized < 0.01] = float('nan')
-
-                if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
-                    #TODO: make alpha a keyword argument (Vidar 11.03.24)
-                    self.plot_tool_surface(field=field_to_plot, 
-                                            value=np.pi, 
-                                            color=colormap(0), 
-                                            alpha=0.5,
-                                            ax=ax)
+                        self.plot_tool_surface_matplotlib(field=field_to_plot, 
+                                                value=np.pi, 
+                                                color=colormap(0), 
+                                                alpha=0.5,
+                                                ax=ax)
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for 3D phase angle plots.')
+                    pass
             
             elif plot_method == 'phase_blob':
-                # TODO: change the function so that it used plot_tool_surface (Vidar 11.03.24)
+                # TODO: change the function so that it used plot_tool_surface_matplotlib (Vidar 11.03.24)
                 # Padding for the colorbar
                 padding=0.2
                 
@@ -611,51 +967,90 @@ class BaseSystemPlot:
                     # Map normalized theta values to colors
                     colors = colormap(theta_faces_normalized)
 
-                    # Plot the complex field
-                    ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
-                                    (self.ymin+verts[:, 1]*self.dy)/self.a0, 
-                                    faces, 
-                                    (self.zmin+verts[:, 2]*self.dz)/self.a0, 
-                                    facecolor=colors, antialiased=False)
-                
-                    # Plot the shadows on the edges
-                    plot_shadows = kwargs.get('plot_shadows', True)
-                    if plot_shadows:
-                        ax.plot_trisurf((self.xmin+0*verts[:, 0]*self.dx)/self.a0, 
-                                        (self.ymin+verts[:, 1]*self.dy)/self.a0, 
-                                        faces, 
-                                        (self.zmin+verts[:, 2]*self.dz)/self.a0, 
-                                        facecolor='black', antialiased=True,
-                                        alpha=0.1)
-
-                        ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
-                                        (self.ymax+0*verts[:, 1]*self.dy)/self.a0, 
-                                        faces, 
-                                        (self.zmin+verts[:, 2]*self.dz)/self.a0, 
-                                        facecolor='black', antialiased=True,
-                                        alpha=0.1)
+                    if plot_lib == 'matplotlib':
                         
+
+                        # Plot the complex field
                         ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
                                         (self.ymin+verts[:, 1]*self.dy)/self.a0, 
                                         faces, 
-                                        (self.zmin+0*verts[:, 2]*self.dz)/self.a0, 
-                                        facecolor='black', antialiased=True,
-                                        alpha=0.1)
+                                        (self.zmin+verts[:, 2]*self.dz)/self.a0, 
+                                        facecolor=colors, antialiased=False)
+                    
+                        # Plot the shadows on the edges
+                        plot_shadows = kwargs.get('plot_shadows', True)
+                        if plot_shadows:
+                            ax.plot_trisurf((self.xmin+0*verts[:, 0]*self.dx)/self.a0, 
+                                            (self.ymin+verts[:, 1]*self.dy)/self.a0, 
+                                            faces, 
+                                            (self.zmin+verts[:, 2]*self.dz)/self.a0, 
+                                            facecolor='black', antialiased=True,
+                                            alpha=0.1)
 
+                            ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
+                                            (self.ymax+0*verts[:, 1]*self.dy)/self.a0, 
+                                            faces, 
+                                            (self.zmin+verts[:, 2]*self.dz)/self.a0, 
+                                            facecolor='black', antialiased=True,
+                                            alpha=0.1)
+                            
+                            ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
+                                            (self.ymin+verts[:, 1]*self.dy)/self.a0, 
+                                            faces, 
+                                            (self.zmin+0*verts[:, 2]*self.dz)/self.a0, 
+                                            facecolor='black', antialiased=True,
+                                            alpha=0.1)
 
-        # Create a colorbar
+                    elif plot_lib == 'plotly':
+                        # Convert colors to 'rgba()' format required by Plotly
+                        colors = ['rgba({},{},{},{})'.format(*c) for c in (255*colors).astype(int)]
+
+                        # Create the mesh object
+                        x_new = (verts[:, 0] * self.dx + self.xmin) / self.a0
+                        y_new = (verts[:, 1] * self.dy + self.ymin) / self.a0
+                        z_new = (verts[:, 2] * self.dz + self.zmin) / self.a0
+
+                        mesh = go.Mesh3d(
+                            x=x_new, 
+                            y=y_new, 
+                            z=z_new,
+                            i=faces[:, 0], 
+                            j=faces[:, 1], 
+                            k=faces[:, 2],
+                            facecolor=colors,  # Set color for each face
+                            showscale=True
+                        )
+
+                        fig = go.Figure(data=[mesh])
+
         if colorbar:
-            mappable = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
-            mappable.set_array([])
-            mappable.set_clim(-np.pi, np.pi)
-            cbar = plt.colorbar(mappable, ax=ax, pad=padding)
-            cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+            if plot_lib == 'matplotlib':
+                mappable = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
+                mappable.set_array([])
+                mappable.set_clim(-np.pi, np.pi)
+                cbar = plt.colorbar(mappable, ax=ax, pad=padding)
+                cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
+                cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
-        kwargs['ax'] = ax
-        kwargs['grid'] = grid
-        self.plot_tool_set_axis_properties(**kwargs)
-        return fig, ax
+            elif plot_lib == 'plotly':
+                # Add a colorbar to the plot
+                if self.dim == 1:
+                    pass
+                elif self.dim == 2:
+                    pass
+                elif self.dim == 3:
+                    fig = self.plot_tool_plotly_add_angle_colorbar3D(fig)
+
+        if plot_lib == 'matplotlib':
+            kwargs['ax'] = ax
+            kwargs['grid'] = grid
+            self.plot_tool_set_axis_properties(**kwargs)
+            return fig, ax
+
+        elif plot_lib == 'plotly':
+            kwargs['fig'] = fig
+            self.plot_tool_set_axis_properties(**kwargs)
+            return fig
 
     def plot_angle_field(self, angle_field, **kwargs):
         """Plot the angle field.
@@ -699,22 +1094,28 @@ class BaseSystemPlot:
 
             return self.plot_complex_field(complex_field, **kwargs)
 
-    def plot_vector_field(self, vector_field, spacing=5, **kwargs):
+    def plot_vector_field(self, vector_field, **kwargs):
         """Plots a vector field.
 
         Args:
             vector_field (tuple): Tuple containing the x and y components of the vector field.
-            spacing (int, optional): The spacing for the quiver plot. Default is 5.
-            **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
+            **kwargs: 
+                spacing (int, optional): The spacing for the quiver plot. Default is self.xRes//20.
+                Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
         Returns:
             Tuple containing
                 - The figure containing the plot.
                 - The axes containing the plot.
         """
+        spacing = kwargs.get('spacing', self.xRes//20)
+
         # Convert the vector field to a numpy array
         vector_field = np.array(vector_field)
         
+        # Keyword arguments
+        axis_equal = kwargs.get('axis_equal',True)
+
         # Extend the field if not a complete array is given
         vector_field_copy = []
         for n in range(vector_field.shape[0]):
@@ -727,9 +1128,10 @@ class BaseSystemPlot:
             print('Max imaginary part: ', np.max(np.imag(vector_field)))
             vector_field = np.real(vector_field)
 
-        # Check if an axis object is provided
-        fig = kwargs.get('fig', plt.gcf())
-        ax = kwargs.get('ax', None)
+        if self.plot_lib == 'matplotlib':
+            # Check if an axis object is provided
+            fig = kwargs.get('fig', plt.gcf())
+            ax = kwargs.get('ax', None)
 
         def add_spacing_2D(X,Y,U,V,spacing):
             X = X[::spacing, ::spacing]
@@ -750,9 +1152,11 @@ class BaseSystemPlot:
         if self.dim == 1:
             
             if vector_field.shape == (1,self.xRes):
-                if ax == None:
-                    fig.clf()
-                    ax = plt.gcf().add_subplot(111)
+
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = plt.gcf().add_subplot(111)
 
                 X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
 
@@ -763,14 +1167,17 @@ class BaseSystemPlot:
 
                 X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
 
-                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
                 
                 kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
 
             elif vector_field.shape == (2,self.xRes):
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
+                
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111, projection='3d')
                 
                 X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -783,7 +1190,8 @@ class BaseSystemPlot:
 
                 X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
                 kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
                 delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
@@ -798,10 +1206,11 @@ class BaseSystemPlot:
                     kwargs['zlim'] = [kwargs['zlim'][0] - 0.15*delta_y, kwargs['zlim'][1] + 0.15*delta_y]
 
             elif vector_field.shape == (3,self.xRes):
-
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
+                
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111, projection='3d')
                 
                 X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -835,7 +1244,8 @@ class BaseSystemPlot:
                 V = vy_scale*V
                 W = vz_scale*W
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
                 
                 kwargs['ylim'] = [-1,1]
                 kwargs['zlim'] = [-1,1]
@@ -848,10 +1258,11 @@ class BaseSystemPlot:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
             if vector_field.shape == (1,self.xRes,self.yRes):
-
-                if ax == None:
-                    fig.clf()
-                    ax = plt.gcf().add_subplot(111)
+                
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = plt.gcf().add_subplot(111)
 
                 X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
@@ -870,19 +1281,19 @@ class BaseSystemPlot:
 
                 # Scaling
                 U = vx_scale*U
-
-                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue',
-                    angles='xy', scale_units='xy', scale=1,
-                    headwidth=3, headlength=4, headaxislength=3, pivot='middle')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue',
+                        angles='xy', scale_units='xy', scale=1,
+                        headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
             elif vector_field.shape == (2,self.xRes,self.yRes):
-
-                if ax == None:
-                    fig.clf()
-                    ax = plt.gcf().add_subplot(111)
+                
+                if self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = plt.gcf().add_subplot(111)
 
                 X, Y, U, V = add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
-
 
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
                 
@@ -896,16 +1307,66 @@ class BaseSystemPlot:
                 # Scaling
                 U = vx_scale*U
                 V = vy_scale*V
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', 
+                        angles='xy', scale_units='xy', scale=1,
+                        headwidth=3, headlength=4, headaxislength=3, pivot='middle')
+                elif self.plot_lib == 'plotly':
+                    def get_colors(values, colorscale='Viridis'):
+                        colorscale = pc.get_colorscale(colorscale)
+                        unique_magnitudes = np.unique(values)
+                        color_map = {val: pc.sample_colorscale(colorscale, val)[0] for val in unique_magnitudes}
+                        return np.vectorize(color_map.get)(values)
 
-                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', 
-                    angles='xy', scale_units='xy', scale=1,
-                    headwidth=3, headlength=4, headaxislength=3, pivot='middle')
+                        
+                    def plot_triangle(fig, position,direction,size,color):
+                        x = [position[0]+direction[0]*size/2, 
+                                position[0]-direction[0]*size/3 + direction[1]*size/4, 
+                                position[0]-direction[0]*size/3 - direction[1]*size/4]
+                        y = [position[1]+direction[1]*size/2, 
+                                position[1]-direction[1]*size/3 - direction[0]*size/4, 
+                                position[1]-direction[1]*size/3 + direction[0]*size/4]
+                        fig.add_trace(go.Scatter(
+                            x=x,
+                            y=y,
+                            fill='toself',
+                            mode='lines', 
+                            line=dict(color='rgba(0,0,0,0)'),
+                            fillcolor=color,
+                            showlegend=False,
+                            name=''
+                        ))
+
+
+                    fig = go.Figure()
+
+                    u = U.flatten()
+                    v = V.flatten()
+                    
+                    magnitude = np.sqrt(u**2 + v**2)
+                    magnitude = (magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))
+
+                    colors = get_colors(magnitude)
+
+                    angle = np.arctan2(v, u)
+                    
+                    direction = np.array([np.cos(angle), np.sin(angle)]).T
+
+                    x = X.flatten()/self.a0
+                    y = Y.flatten()/self.a0
+
+                    for i in range(len(x)):
+                        plot_triangle(fig, position=[x[i],y[i]], direction=direction[i], size=1.3*magnitude[i]*spacing*self.dx/self.a0, color=colors[i])
 
             elif vector_field.shape == (3,self.xRes,self.yRes):
+                if self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for this type of vector field.')
+                    pass
 
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
+                elif self.plot_lib == 'matplotlib':
+                    if ax == None:
+                        fig.clf()
+                        ax = fig.add_subplot(111, projection='3d')
 
                 X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
                 U = np.zeros(X.shape)
@@ -934,8 +1395,8 @@ class BaseSystemPlot:
                 U = vx_scale*U
                 V = vy_scale*V
                 W = vz_scale*W
-
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
                 kwargs['axis_equal'] = False
                 kwargs['zlim'] = [-spacing,spacing]
@@ -943,10 +1404,10 @@ class BaseSystemPlot:
         elif self.dim == 3:
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-
-            if ax == None:
-                fig.clf()
-                ax = fig.add_subplot(111, projection='3d')
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
 
             if vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
                 # Define the vector field
@@ -967,7 +1428,11 @@ class BaseSystemPlot:
                 # Scaling
                 U = vx_scale*U
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for this type of vector field.')
+                    pass
 
             elif vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
                 
@@ -992,7 +1457,11 @@ class BaseSystemPlot:
                 U = vx_scale*U
                 V = vy_scale*V
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for this type of vector field.')
+                    pass
 
             elif vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
                 
@@ -1018,12 +1487,21 @@ class BaseSystemPlot:
                 U = vx_scale*U
                 V = vy_scale*V
                 W = vz_scale*W
+                if self.plot_lib == 'matplotlib':
+                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                elif self.plot_lib == 'plotly':
+                    print('Plotly not yet implemented for this type of vector field.')
+                    pass
 
-                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+        if self.plot_lib == 'matplotlib':
+            kwargs['ax'] = ax
+            self.plot_tool_set_axis_properties(**kwargs)
+            return fig, ax
 
-        kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
-        return fig, ax
+        elif self.plot_lib == 'plotly':
+            kwargs['fig'] = fig
+            self.plot_tool_set_axis_properties(**kwargs)
+            return fig
 
     def plot_field_in_plane(self, field, normal_vector=None, position=None, 
                         **kwargs):
