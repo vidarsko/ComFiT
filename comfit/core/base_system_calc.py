@@ -47,6 +47,7 @@ class BaseSystemCalc:
 
         Raises:
             Exception: If the dimension of the system is not 2.
+            
         """
 
         if self.dim != 2:
