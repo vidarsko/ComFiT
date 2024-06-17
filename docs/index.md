@@ -1,6 +1,6 @@
 # <img src="img/logo.png" width="25" height="25"> ComFiT documentation
 
-[ComFiT](https://github.com/vidarsko/ComFiT) is a versatile Python library for simulating field theories, including plotting and animation in an object-oriented manner.
+ComFiT ([Github](https://github.com/vidarsko/ComFiT)) is a versatile Python library for simulating field theories, including plotting and animation in an object-oriented manner.
 If you use ComFiT in your research, please cite the following paper:
 
 

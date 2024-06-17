@@ -280,6 +280,8 @@ class BaseSystemPlot:
         Returns:
             The extended field (np.ndarray)
         """    
+        print(self.yRes)
+
         # 2 dimensional fields
         if field.shape == (self.xRes,1):
             field = np.tile(field,(1,self.yRes))
@@ -1110,17 +1112,16 @@ class BaseSystemPlot:
         """
         spacing = kwargs.get('spacing', self.xRes//20)
 
-        # Convert the vector field to a numpy array
-        vector_field = np.array(vector_field)
+        # Extend the field if not a complete array is given
+        vector_field_copy = []
+        for n in range(len(vector_field)):
+            print(vector_field[n].shape)
+            vector_field_copy.append(self.plot_tool_extend_field(vector_field[n]))
+        vector_field = np.array(vector_field_copy)
         
         # Keyword arguments
         axis_equal = kwargs.get('axis_equal',True)
-
-        # Extend the field if not a complete array is given
-        vector_field_copy = []
-        for n in range(vector_field.shape[0]):
-            vector_field_copy.append(self.plot_tool_extend_field(vector_field[n]))
-        vector_field = np.array(vector_field_copy)
+        colormap = kwargs.get('colormap', 'viridis')
 
         # Check if the vector field is complex
         if np.iscomplexobj(vector_field):
@@ -1149,154 +1150,170 @@ class BaseSystemPlot:
             W = W[::spacing, ::spacing, ::spacing]
             return X,Y,Z,U,V,W            
 
-        if self.dim == 1:
+
+        ###############################################################
+        ########### DIMENSION: 1 - VECTOR-DIMENSION: 1 ################
+        ###############################################################
             
-            if vector_field.shape == (1,self.xRes):
+        if self.dim == 1 and vector_field.shape == (1,self.xRes):
 
-                if self.plot_lib == 'matplotlib':
-                    if ax == None:
-                        fig.clf()
-                        ax = plt.gcf().add_subplot(111)
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = plt.gcf().add_subplot(111)
 
-                X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
+            X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
 
-                U = np.zeros(X.shape)
-                V = np.zeros(X.shape)
+            U = np.zeros(X.shape)
+            V = np.zeros(X.shape)
 
-                V[:,0] = vector_field[0]
+            V[:,0] = vector_field[0]
 
-                X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
+            X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
 
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
-                
-                kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
+            if self.plot_lib == 'matplotlib':
+                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
+            
+            kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
 
-            elif vector_field.shape == (2,self.xRes):
-                
-                if self.plot_lib == 'matplotlib':
-                    if ax == None:
-                        fig.clf()
-                        ax = fig.add_subplot(111, projection='3d')
-                
-                X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
+        ###############################################################
+        ########### DIMENSION: 1 - VECTOR-DIMENSION: 2 ################
+        ###############################################################
 
-                U = np.zeros(X.shape)
-                V = np.zeros(X.shape)
-                W = np.zeros(X.shape)
+        elif self.dim == 1 and vector_field.shape == (2,self.xRes):
+            
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+            
+            X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
-                V[:,0,0] = vector_field[0]
-                W[:,0,0] = vector_field[1]
+            U = np.zeros(X.shape)
+            V = np.zeros(X.shape)
+            W = np.zeros(X.shape)
 
-                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+            V[:,0,0] = vector_field[0]
+            W[:,0,0] = vector_field[1]
 
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+            X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-                kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
-                delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
+            if self.plot_lib == 'matplotlib':
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
-                kwargs['zlim'] = [np.min(vector_field[1]), np.max(vector_field[1])]
-                delta_z = kwargs['zlim'][1] - kwargs['zlim'][0]
+            kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
+            delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
 
-                if delta_y < 0.15*delta_z:
-                    kwargs['ylim'] = [kwargs['ylim'][0] - 0.15*delta_z, kwargs['ylim'][1] + 0.15*delta_z]
-                
-                if delta_z < 0.15*delta_y:
-                    kwargs['zlim'] = [kwargs['zlim'][0] - 0.15*delta_y, kwargs['zlim'][1] + 0.15*delta_y]
+            kwargs['zlim'] = [np.min(vector_field[1]), np.max(vector_field[1])]
+            delta_z = kwargs['zlim'][1] - kwargs['zlim'][0]
 
-            elif vector_field.shape == (3,self.xRes):
-                
-                if self.plot_lib == 'matplotlib':
-                    if ax == None:
-                        fig.clf()
-                        ax = fig.add_subplot(111, projection='3d')
-                
-                X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
+            if delta_y < 0.15*delta_z:
+                kwargs['ylim'] = [kwargs['ylim'][0] - 0.15*delta_z, kwargs['ylim'][1] + 0.15*delta_z]
+            
+            if delta_z < 0.15*delta_y:
+                kwargs['zlim'] = [kwargs['zlim'][0] - 0.15*delta_y, kwargs['zlim'][1] + 0.15*delta_y]
 
-                U = np.zeros(X.shape)
-                V = np.zeros(X.shape)
-                W = np.zeros(X.shape)
+        ###############################################################
+        ########### DIMENSION: 1 - VECTOR-DIMENSION: 3 ################
+        ###############################################################
 
-                # Add the vector field
-                U[:,0,0] = vector_field[0]
-                V[:,0,0] = vector_field[1]
-                W[:,0,0] = vector_field[2]
+        elif self.dim == 1 and vector_field.shape == (3,self.xRes):
+            
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+            
+            X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
-                # Add spacing
-                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+            U = np.zeros(X.shape)
+            V = np.zeros(X.shape)
+            W = np.zeros(X.shape)
 
-                # Normalize the vectors
-                max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+            # Add the vector field
+            U[:,0,0] = vector_field[0]
+            V[:,0,0] = vector_field[1]
+            W[:,0,0] = vector_field[2]
 
-                # Normalizing
-                U = U/max_vector
-                V = V/max_vector
-                W = W/max_vector
+            # Add spacing
+            X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-                # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.xmax/15/self.a0)
-                vy_scale = kwargs.get('vy_scale', 1)
-                vz_scale = kwargs.get('vz_scale', 1)
+            # Normalize the vectors
+            max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
 
-                # Scaling
-                U = vx_scale*U
-                V = vy_scale*V
-                W = vz_scale*W
+            # Normalizing
+            U = U/max_vector
+            V = V/max_vector
+            W = W/max_vector
 
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
-                
-                kwargs['ylim'] = [-1,1]
-                kwargs['zlim'] = [-1,1]
+            # Scale factors
+            vx_scale = kwargs.get('vx_scale', spacing*self.xmax/15/self.a0)
+            vy_scale = kwargs.get('vy_scale', 1)
+            vz_scale = kwargs.get('vz_scale', 1)
 
-            else:
-                raise Exception("You have entered an invalid field to the plot_vector_field function.")
+            # Scaling
+            U = vx_scale*U
+            V = vy_scale*V
+            W = vz_scale*W
 
-        elif self.dim == 2:
+            if self.plot_lib == 'matplotlib':
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+            
+            kwargs['ylim'] = [-1,1]
+            kwargs['zlim'] = [-1,1]
+
+        ###############################################################
+        ########### DIMENSION: 2 - VECTOR-DIMENSION: 1 ################
+        ###############################################################
+
+        elif self.dim == 2 and vector_field.shape == (1,self.xRes,self.yRes):
+            
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = plt.gcf().add_subplot(111)
 
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-            if vector_field.shape == (1,self.xRes,self.yRes):
-                
-                if self.plot_lib == 'matplotlib':
-                    if ax == None:
-                        fig.clf()
-                        ax = plt.gcf().add_subplot(111)
+            U = vector_field[0]
+            V = np.zeros(X.shape)
 
-                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
 
-                U = vector_field[0]
-                V = np.zeros(X.shape)
+            # Normalize the vectors
+            max_vector = np.max(np.sqrt(U ** 2))
+            
+            U = U / max_vector
 
-                X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
+            # Scale factors
+            vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
 
-                # Normalize the vectors
-                max_vector = np.max(np.sqrt(U ** 2))
-                
-                U = U / max_vector
+            # Scaling
+            U = vx_scale*U
+            if self.plot_lib == 'matplotlib':
+                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue',
+                    angles='xy', scale_units='xy', scale=1,
+                    headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
-                # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+        ###############################################################
+        ########### DIMENSION: 2 - VECTOR-DIMENSION: 2 ################
+        ###############################################################
 
-                # Scaling
-                U = vx_scale*U
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue',
-                        angles='xy', scale_units='xy', scale=1,
-                        headwidth=3, headlength=4, headaxislength=3, pivot='middle')
+        elif self.dim == 2 and vector_field.shape == (2,self.xRes,self.yRes):
+            
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = plt.gcf().add_subplot(111)
 
-            elif vector_field.shape == (2,self.xRes,self.yRes):
-                
-                if self.plot_lib == 'matplotlib':
-                    if ax == None:
-                        fig.clf()
-                        ax = plt.gcf().add_subplot(111)
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-                X, Y, U, V = add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
+            X, Y, U, V = add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
+
+            if self.plot_lib == 'matplotlib':
 
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
-                
+            
                 U = U / max_vector
                 V = V / max_vector
 
@@ -1307,101 +1324,154 @@ class BaseSystemPlot:
                 # Scaling
                 U = vx_scale*U
                 V = vy_scale*V
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', 
-                        angles='xy', scale_units='xy', scale=1,
-                        headwidth=3, headlength=4, headaxislength=3, pivot='middle')
-                elif self.plot_lib == 'plotly':
-                    def get_colors(values, colorscale='Viridis'):
-                        colorscale = pc.get_colorscale(colorscale)
-                        unique_magnitudes = np.unique(values)
-                        color_map = {val: pc.sample_colorscale(colorscale, val)[0] for val in unique_magnitudes}
-                        return np.vectorize(color_map.get)(values)
 
-                        
-                    def plot_triangle(fig, position,direction,size,color):
-                        x = [position[0]+direction[0]*size/2, 
-                                position[0]-direction[0]*size/3 + direction[1]*size/4, 
-                                position[0]-direction[0]*size/3 - direction[1]*size/4]
-                        y = [position[1]+direction[1]*size/2, 
-                                position[1]-direction[1]*size/3 - direction[0]*size/4, 
-                                position[1]-direction[1]*size/3 + direction[0]*size/4]
-                        fig.add_trace(go.Scatter(
-                            x=x,
-                            y=y,
-                            fill='toself',
-                            mode='lines', 
-                            line=dict(color='rgba(0,0,0,0)'),
-                            fillcolor=color,
-                            showlegend=False,
-                            name=''
-                        ))
+                ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', 
+                    angles='xy', scale_units='xy', scale=1,
+                    headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
-
-                    fig = go.Figure()
-
-                    u = U.flatten()
-                    v = V.flatten()
-                    
-                    magnitude = np.sqrt(u**2 + v**2)
-                    magnitude = (magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))
-
-                    colors = get_colors(magnitude)
-
-                    angle = np.arctan2(v, u)
-                    
-                    direction = np.array([np.cos(angle), np.sin(angle)]).T
-
-                    x = X.flatten()/self.a0
-                    y = Y.flatten()/self.a0
-
-                    for i in range(len(x)):
-                        plot_triangle(fig, position=[x[i],y[i]], direction=direction[i], size=1.3*magnitude[i]*spacing*self.dx/self.a0, color=colors[i])
-
-            elif vector_field.shape == (3,self.xRes,self.yRes):
-                if self.plot_lib == 'plotly':
-                    print('Plotly not yet implemented for this type of vector field.')
-                    pass
-
-                elif self.plot_lib == 'matplotlib':
-                    if ax == None:
-                        fig.clf()
-                        ax = fig.add_subplot(111, projection='3d')
-
-                X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
-                U = np.zeros(X.shape)
-                V = np.zeros(X.shape)
-                W = np.zeros(X.shape)
+            
+            elif self.plot_lib == 'plotly':
                 
-                U[:,:,0] = vector_field[0]
-                V[:,:,0] = vector_field[1]
-                W[:,:,0] = vector_field[2]
+                # An attempt to use Cone. Not optimal
+                # fig = kwargs.get('fig', go.Figure())
+                # fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                #             y=Y.flatten()/self.a0, 
+                #             z=np.zeros(X.shape).flatten(), 
+                #             u=U.flatten(), 
+                #             v=V.flatten(), 
+                #             w=np.zeros(X.shape).flatten(),
+                #             colorscale='Viridis', 
+                #             sizemode='scaled', 
+                #             sizeref=1, showscale=True))
+                # fig.update_layout(
+                #         scene_camera=dict(
+                #             eye=dict(x=0, y=0, z=2.5),
+                #             up=dict(x=0, y=0, z=1)
+                #         ),
+                #         scene=dict(
+                #             zaxis=dict(showticklabels=False, title='')
+                #         )
+                #     )
 
-                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+                def get_colors(values, colorscale='Viridis'):
+                    colorscale = pc.get_colorscale(colorscale)
+                    unique_magnitudes = np.unique(values)
+                    color_map = {val: pc.sample_colorscale(colorscale, val)[0] for val in unique_magnitudes}
+                    return np.vectorize(color_map.get)(values)
 
-                max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+                    
+                def plot_triangle(fig, position,direction,size,color):
+                    x = [position[0]+direction[0]*size/2, 
+                            position[0]-direction[0]*size/3 + direction[1]*size/4, 
+                            position[0]-direction[0]*size/3 - direction[1]*size/4]
+                    y = [position[1]+direction[1]*size/2, 
+                            position[1]-direction[1]*size/3 - direction[0]*size/4, 
+                            position[1]-direction[1]*size/3 + direction[0]*size/4]
 
-                # Normalizing
-                U = U / max_vector
-                V = V / max_vector
-                W = W / max_vector
+                    fig.add_trace(go.Scatter(
+                        x=x,
+                        y=y,
+                        fill='toself',
+                        mode='lines', 
+                        line=dict(color='rgba(0,0,0,0)'),
+                        fillcolor=color,
+                        showlegend=False,
+                        name=''
+                    ))
+
+                fig = kwargs.get('fig', go.Figure())
+
+                u = U.flatten()
+                v = V.flatten()
                 
-                # Scale factors
-                vx_scale = kwargs.get('vx_scale', 2*spacing*self.xmax/max_vector/self.a0)
-                vy_scale = kwargs.get('vy_scale', 2*spacing*self.ymax/max_vector/self.a0)
-                vz_scale = kwargs.get('vz_scale', spacing/self.a0)
+                magnitude = np.sqrt(u**2 + v**2)
+                magnitude_normalized = magnitude/np.max(magnitude)
 
-                # Scaling
-                U = vx_scale*U
-                V = vy_scale*V
-                W = vz_scale*W
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+                colors = get_colors(magnitude_normalized, colorscale='viridis')
 
-                kwargs['axis_equal'] = False
-                kwargs['zlim'] = [-spacing,spacing]
+                angle = np.arctan2(v, u)
+                
+                direction = np.array([np.cos(angle), np.sin(angle)]).T
 
-        elif self.dim == 3:
+                x = X.flatten()/self.a0
+                y = Y.flatten()/self.a0
+
+                for i in range(len(x)):
+                    plot_triangle(fig, position=[x[i],y[i]], direction=direction[i], size=1.3*magnitude_normalized[i]*spacing*self.dx/self.a0, color=colors[i])
+
+                colorbar = kwargs.get('colorbar', True)
+
+                if colorbar:
+                    # Add a scatter trace to create the colorbar
+                    colorbar_trace = go.Scatter(
+                        x=[None],
+                        y=[None],
+                        mode='markers',
+                        marker=dict(
+                            colorscale=colormap,
+                            cmin=0,
+                            cmax=np.max(magnitude),
+                            colorbar=dict(
+                                title=''
+                            )
+                        ),
+                        showlegend=False
+                    )
+                    fig.add_trace(colorbar_trace)
+
+        ###############################################################
+        ########### DIMENSION: 2 - VECTOR-DIMENSION: 3 ################
+        ###############################################################
+
+        elif self.dim == 2 and vector_field.shape == (3,self.xRes,self.yRes):
+
+            if self.plot_lib == 'plotly':
+                print('Plotly not yet implemented for this type of vector field.')
+                pass
+
+            elif self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+
+            X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
+            U = np.zeros(X.shape)
+            V = np.zeros(X.shape)
+            W = np.zeros(X.shape)
+            
+            U[:,:,0] = vector_field[0]
+            V[:,:,0] = vector_field[1]
+            W[:,:,0] = vector_field[2]
+
+            X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+
+            max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+
+            # Normalizing
+            U = U / max_vector
+            V = V / max_vector
+            W = W / max_vector
+            
+            # Scale factors
+            vx_scale = kwargs.get('vx_scale', 2*spacing*self.xmax/max_vector/self.a0)
+            vy_scale = kwargs.get('vy_scale', 2*spacing*self.ymax/max_vector/self.a0)
+            vz_scale = kwargs.get('vz_scale', spacing/self.a0)
+
+            # Scaling
+            U = vx_scale*U
+            V = vy_scale*V
+            W = vz_scale*W
+            if self.plot_lib == 'matplotlib':
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+
+            kwargs['axis_equal'] = False
+            kwargs['zlim'] = [-spacing,spacing]
+
+        ###############################################################
+        ########### DIMENSION: 3 - VECTOR-DIMENSION: 1 ################
+        ###############################################################
+
+        elif self.dim == 3 and vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
 
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
             if self.plot_lib == 'matplotlib':
@@ -1409,71 +1479,96 @@ class BaseSystemPlot:
                     fig.clf()
                     ax = fig.add_subplot(111, projection='3d')
 
-            if vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
-                # Define the vector field
-                U = vector_field[0]
-                V = np.zeros(U.shape)
-                W = np.zeros(U.shape)
+            # Define the vector field
+            U = vector_field[0]
+            V = np.zeros(U.shape)
+            W = np.zeros(U.shape)
 
-                # Add spacing
-                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+            # Add spacing
+            X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-                # Normalize the vectors
-                max_vector = np.max(np.sqrt(U ** 2))
-                U = U / max_vector
+            # Normalize the vectors
+            max_vector = np.max(np.sqrt(U ** 2))
+            U = U / max_vector
 
-                # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+            # Scale factors
+            vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
 
-                # Scaling
-                U = vx_scale*U
+            # Scaling
+            U = vx_scale*U
 
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
-                elif self.plot_lib == 'plotly':
-                    print('Plotly not yet implemented for this type of vector field.')
-                    pass
+            if self.plot_lib == 'matplotlib':
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+            elif self.plot_lib == 'plotly':
+                print('Plotly not yet implemented for this type of vector field.')
+                pass
 
-            elif vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
-                
-                # Define the vector field
-                U = vector_field[0]
-                V = vector_field[1]
-                W = np.zeros(U.shape)
+        ###############################################################
+        ########### DIMENSION: 3 - VECTOR-DIMENSION: 2 ################
+        ###############################################################
 
-                # Add spacing
-                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        elif self.dim == 3 and vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
 
-                # Normalize the vectors
-                max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
-                U = U / max_vector
-                V = V / max_vector
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+            
+            # Define the vector field
+            U = vector_field[0]
+            V = vector_field[1]
+            W = np.zeros(U.shape)
 
-                # Scale factors
-                vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
-                vy_scale = kwargs.get('vy_scale', spacing*self.dy/self.a0)
+            # Add spacing
+            X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-                # Scaling
-                U = vx_scale*U
-                V = vy_scale*V
+            # Normalize the vectors
+            max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
+            U = U / max_vector
+            V = V / max_vector
 
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
-                elif self.plot_lib == 'plotly':
-                    print('Plotly not yet implemented for this type of vector field.')
-                    pass
+            # Scale factors
+            vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+            vy_scale = kwargs.get('vy_scale', spacing*self.dy/self.a0)
 
-            elif vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
-                
-                # Define the vector field
-                U = vector_field[0]
-                V = vector_field[1]
-                W = vector_field[2]
+            # Scaling
+            U = vx_scale*U
+            V = vy_scale*V
 
-                X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+            if self.plot_lib == 'matplotlib':
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+            elif self.plot_lib == 'plotly':
+                print('Plotly not yet implemented for this type of vector field.')
+                pass
 
+        ###############################################################
+        ########### DIMENSION: 3 - VECTOR-DIMENSION: 3 ################
+        ###############################################################
+
+        elif self.dim == 3 and vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
+
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+            if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+
+                    
+            
+            # Define the vector field
+            U = vector_field[0]
+            V = vector_field[1]
+            W = vector_field[2]
+
+            X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
+
+            
+
+            if self.plot_lib == 'matplotlib':
                 # Normalize the vectors
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+
                 U = U / max_vector
                 V = V / max_vector
                 W = W / max_vector
@@ -1487,11 +1582,19 @@ class BaseSystemPlot:
                 U = vx_scale*U
                 V = vy_scale*V
                 W = vz_scale*W
-                if self.plot_lib == 'matplotlib':
-                    ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
-                elif self.plot_lib == 'plotly':
-                    print('Plotly not yet implemented for this type of vector field.')
-                    pass
+                ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+            
+            elif self.plot_lib == 'plotly':
+                fig = kwargs.get('fig', go.Figure())
+                fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+
+
+        ###############################################################
+        ###########     NON-VALID DIMENSION            ################
+        ###############################################################
+
+        else:
+            raise Exception("You have entered an invalid field to the plot_vector_field function.")
 
         if self.plot_lib == 'matplotlib':
             kwargs['ax'] = ax
