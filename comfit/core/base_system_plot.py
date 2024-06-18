@@ -375,6 +375,7 @@ class BaseSystemPlot:
             # Check if an axis object is provided
             fig = kwargs.get('fig', plt.gcf())
             ax = kwargs.get('ax', None)
+
         elif plot_lib=='plotly':
             fig = kwargs.get('fig', go.Figure())
 
@@ -412,6 +413,7 @@ class BaseSystemPlot:
             kwargs['grid'] = kwargs.get('grid', False)
 
             if self.plot_lib == 'matplotlib':
+
                 if ax == None:
                     fig.clf()
                     ax = fig.add_subplot(111)
