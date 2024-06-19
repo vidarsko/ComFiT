@@ -189,11 +189,10 @@ class PhaseFieldCrystal(BaseSystem):
             self.evolve_PFC(number_of_steps_per_iteration, method)
             
 
-
     def evolve_PFC_hydrodynamic(self, number_of_steps, 
                                 method = 'ETD2RK',
-                                gamma_S = 2**-2,
-                                rho0 = 2**-2):
+                                gamma_S = 2**-4,
+                                rho0 = 2**-4):
         """Evolves the PFC according to hydrodynamic PFC dynamics.
 
         This requires introducing a velocity field. 
@@ -231,8 +230,9 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi = np.real(self.psi)
             self.psi_f = sp.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
 
-
-    # CALCULATION FUNCTIONS
+    ############################################################
+    ################# CALCULATION FUNCTIONS ####################
+    ############################################################
     def calc_omega_hydrodynamic_f(self):
         """Calculates the hydrodynamic evolution function omega_f.
 
@@ -242,7 +242,7 @@ class PhaseFieldCrystal(BaseSystem):
         Returns:
             The hydrodynamic evolution function omega_f.
         """
-
+        k2 = self.calc_k2()
         return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*np.ones(self.dims)]*self.dim)
 
 
@@ -538,14 +538,19 @@ class PhaseFieldCrystal(BaseSystem):
 
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
 
+        if hasattr(self,'velocity_field'):
+            order_parameter = self.psi[0]
+        else:
+            order_parameter = self.psi
+
         if self.dim == 2:
                 for n in range(self.number_of_primary_reciprocal_lattice_modes):
-                    eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(self.psi*np.exp(
+                    eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
                         -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y)))
 
         elif self.dim == 3:
             for n in range(self.number_of_primary_reciprocal_lattice_modes):
-                eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(self.psi*np.exp(
+                eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
                     -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y - 1j*self.q[n][2]*self.z  
                     )))
                 
