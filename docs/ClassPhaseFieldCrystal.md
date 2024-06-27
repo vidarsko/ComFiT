@@ -1143,6 +1143,91 @@ $$
 \end{pmatrix}
 $$
 
+## Configurations
+
+The PFC class has a number of methods for generating initial conditions.
+
+### Dislocation dipoles and loops
+
+The simplest setup for the PFC is to insert a dislocation dipole or dislocation loop.
+
+### Polycrystal configurations
+
+To set a polycrystal configuration, one typically calculates the PFC from a set of rotated reciprocal lattices.
+This is done in the `calc_PFC_from_amplitudes` method, using the `rotation` keyword argument.
+Then, one constructs a field with the desired orientation by setting the field in the regions corresponding to the rotated reciprocal lattice to the rotated field.
+In order to avoid numerical artifacts with the interface, it is recommended to smooth the interface by evolving the PFC for a few time steps according to classical PFC dynamics.
+
+??? example "Example: Creating a circular inclusion"
+    To create a circular inclusion in 2 dimensions, you can run the following code.
+
+    ```python
+    import comfit as cf
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import scipy as sp
+
+    pfc = cf.PhaseFieldCrystal2DSquare(30,30)
+    pfc.dt=0.05
+
+    # This creates a standard orientation of the crystal
+    pfc.conf_PFC_from_amplitudes()
+
+    # Create the rotated field
+    psi_rotated = pfc.calc_PFC_from_amplitudes(rotation=np.pi/6)
+
+    # Specify the region centered at the mid position with radius 6 a0.
+    inclusion_region = pfc.calc_region_disk(pfc.rmid, 6*pfc.a0)
+
+    # Set the rotated field in the inclusion region
+    pfc.psi[inclusion_region] = psi_rotated[inclusion_region]
+    pfc.psi_f = sp.fft.fftn(pfc.psi)
+
+    #Smooth the interface
+    tau = 10
+    pfc.evolve_PFC(round(tau/pfc.dt)) 
+
+    pfc.plot_field(pfc.psi)
+    plt.show()
+    ```
+
+    This will produce the following image.
+
+    ![Circular inclusion in a PFC](img/phase_field_crystal_circular_inclusion.png#only-light)
+    ![Circular inclusion in a PFC](img/phase_field_crystal_circular_inclusion-colorinverted.png#only-dark)
+
+The class comes with a variety of pre-configured setups for polycrystalline configurations, which are created using the `conf_create_polycrystal` method.
+This function takes as argument a keyword argument `type`, which is a string specifying the type of polycrystal to create.
+The available types are
+
+=== "`circular`"
+    This creates a circular inclusion valid in 2 and 3 dimensions. 
+    The type opens for two additional keywords:
+
+    - `radius` which specifies the radius of the inclusion (default `self.Lmin/4`).
+
+    - `position` which specifies the position of the center of the inclusion (default `self.rmid`).
+    
+    - `rotation` a float specifying the rotation of the inclusion wrt. the z-axis (default `np.pi/6`).
+
+    If initialized in 3 dimensions, the inclusion will be a cylinder extended along the z-axis.
+
+    ![Circular inclusion in a PFC](img/phase_field_crystal_circular_inclusion.png#only-light)
+    ![Circular inclusion in a PFC](img/phase_field_crystal_circular_inclusion-colorinverted.png#only-dark)
+
+
+=== "`four_grain`"
+    This creates a four-grain configuration valid in 2 and 3 dimensions.
+    The type allows for no additional keywords.
+
+    If initialized in 3 dimensions, the four grains will be extended along the z-axis.
+
+    ![Four grain configuration in a PFC](img/phase_field_crystal_four_grain_inclusion.png#only-light)
+    ![Four grain configuration in a PFC](img/phase_field_crystal_four_grain_inclusion-colorinverted.png#only-dark)
+
+
+
+
 [^elderModelingElasticPlastic2004]: Elder, K. R., & Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Physical Review E, 70(5), 051605. [https://doi.org/10.1103/PhysRevE.70.051605](https://doi.org/10.1103/PhysRevE.70.051605)
 [^skogvollSymmetryTopologyCrystal2023]: Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo [https://www.duo.uio.no/handle/10852/102731](https://www.duo.uio.no/handle/10852/102731)
 [^emdadiRevisitingPhaseDiagrams2016]: Emdadi, A., Asle Z., Mohsen and Asadi, E. (2016). Revisiting Phase Diagrams of Two-Mode Phase-Field Crystal Models. Computational Materials Science. 123, 139-147. [https://doi.org/10.1016/j.commatsci.2016.06.018](https://doi.org/10.1016/j.commatsci.2016.06.018)

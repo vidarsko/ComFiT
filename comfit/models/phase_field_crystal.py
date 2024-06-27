@@ -154,20 +154,41 @@ class PhaseFieldCrystal(BaseSystem):
         else:
             raise ImplementationError("Applied strain is not implemented for dimensions other than 1D.")
 
-    def conf_create_polycrystal(self, type, relaxation_time=None):
+    def conf_create_polycrystal(self, type, **kwargs):
         """Creates a polycrystal.
 
         Args:
             type: The type of polycrystal to create.
-            relaxation_time: The relaxation time to use for the polycrystal creation.
+            kwargs: Additional arguments for the polycrystal creation. Including:
+                relaxation_time: The relaxation time to use for the polycrystal creation.
         
         Returns:
             None, but updates the PFC.
         """
         # First type of polycrystal, see documentation.
-        if type == 1:
+        if type == 'circular':
+            # This creates a standard orientation of the crystal
+            self.conf_PFC_from_amplitudes()
+
+            rotation = kwargs.get('rotation', np.pi/6)
+            position = kwargs.get('position', self.rmid)
+            radius = kwargs.get('radius', self.Lmin/4)
+
+            # Create the rotated field
+            psi_rotated = self.calc_PFC_from_amplitudes(rotation=[0,0,rotation])
+
+            # Set the rotated field in the inclusion region
+            region  = self.calc_region_disk(position, radius)
+            self.psi[region] = psi_rotated[region]
+            self.psi_f = sp.fft.fftn(self.psi)
+
+            # Smooth the interface
+            relaxation_time = kwargs.get('relaxation_time', 10)
+            self.evolve_PFC(round(relaxation_time/self.dt))
+
+        elif type == 'four_grain':
             if self.dim == 1:
-                raise Exception("Polycrystal type 1 is not valid for 1 dimension.") 
+                raise Exception("Polycrystal type four_grain is not valid for 1 dimension.") 
                 
             self.psi = self.calc_PFC_from_amplitudes(self.eta0)
             
@@ -198,8 +219,7 @@ class PhaseFieldCrystal(BaseSystem):
 
             self.psi_f = sp.fft.fftn(self.psi)
 
-            if relaxation_time is None:
-                relaxation_time = 10
+            relaxation_time = kwargs.get('relaxation_time', 10)
             
             self.evolve_PFC(round(relaxation_time/self.dt))
 

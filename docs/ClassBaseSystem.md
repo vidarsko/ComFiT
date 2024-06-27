@@ -31,6 +31,8 @@ These are the optional keywords for the `BaseSystem` class.
 | `xmax`  | Maximum value of $x$ of the simulation domain. | $100$ |
 | `ymax`  | Maximum value of $y$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 100 \\ 100 \\ \end{array} \right \rbrace$ |
 | `zmax`  | Maximum value of $z$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  100 \\ \end{array} \right \rbrace$ |
+| `Lmin` | Minimum value of the simulation domain | $\left \lbrace \begin{array}{c} \texttt{xmax}-\texttt{xmin} \\ \texttt{min}(\texttt{xmax}-\texttt{xmin},\texttt{ymax}-\texttt{ymin}) \\ \texttt{min}(\texttt{xmax}-\texttt{xmin},\texttt{ymax}-\texttt{ymin}, \texttt{zmax}-\texttt{zmin}) \\ \end{array} \right \rbrace$ |
+| `Lmax` | Maximum value of the simulation domain | $\left \lbrace \begin{array}{c} \texttt{xmax}-\texttt{xmin} \\ \texttt{max}(\texttt{xmax}-\texttt{xmin},\texttt{ymax}-\texttt{ymin}) \\ \texttt{max}(\texttt{xmax}-\texttt{xmin},\texttt{ymax}-\texttt{ymin}, \texttt{zmax}-\texttt{zmin}) \\ \end{array} \right \rbrace$   |
 | `xRes`  | Resolution of the $x$ axis | $101$ |
 | `yRes`  | Resolution of the $y$ axis | $\left \lbrace \begin{array}{c} 1 \\ 101 \\  101 \\ \end{array} \right \rbrace$ |
 | `zRes`  | Resolution of the $z$ axis | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  101 \\ \end{array} \right \rbrace$ |

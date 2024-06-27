@@ -108,6 +108,17 @@ class BaseSystemInit:
                 self.dz = kwargs['dz']
                 self.zRes = round((self.zmax - self.zmin) / self.dz)
 
+        # Minimum and maximum sizes of the domain
+        if self.dim == 1:
+            self.Lmin = self.xmax - self.xmin
+            self.Lmax = self.xmax - self.xmin
+        elif self.dim == 2:
+            self.Lmin = np.min([self.xmax - self.xmin, self.ymax - self.ymin])
+            self.Lmax = np.max([self.xmax - self.xmin, self.ymax - self.ymin])
+        elif self.dim == 3:
+            self.Lmin = np.min([self.xmax - self.xmin, self.ymax - self.ymin, self.zmax - self.zmin])
+            self.Lmax = np.max([self.xmax - self.xmin, self.ymax - self.ymin, self.zmax - self.zmin])
+
         #  Setting default value of time
         self.time = kwargs.get('time', 0)
         self.dt = kwargs.get('dt', 0.1)
