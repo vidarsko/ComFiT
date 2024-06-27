@@ -180,8 +180,12 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         k2 = self.calc_k2()
 
         return np.array([
-            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(sum([
-                sp.fft.ifftn((1-k2)*(2-k2)*self.dif[i]*field_f)*sp.fft.ifftn((3-2*k2)*self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
-                ]) + sp.fft.ifftn((1-k2)*(2-k2)*field_f)*sp.fft.ifftn((3-2*k2)*self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
+            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(
+                sum([
+                sp.fft.ifftn((1-k2)*(2-k2)*self.dif[i]*field_f)*sp.fft.ifftn((3-2*k2)*self.dif[i]*self.dif[j]*field_f) 
+                for i in range(self.dim)
+                ]) 
+                +sp.fft.ifftn((1-k2)*(2-k2)*field_f)*sp.fft.ifftn((3-2*k2)*self.dif[j]*(-k2)*field_f)) 
+                for j in range(self.dim)]
                 )
             #TODO: Needs double checking (Vidar 27.02.24)

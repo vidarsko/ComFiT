@@ -90,8 +90,11 @@ class PhaseFieldCrystal(BaseSystem):
         string += "-------------------------------\n"
 
         return string
+    
+    #######################################################
+    ############ CONFIGURATION FUNCTIONS #################
+    #######################################################
 
-    # CONFIGURATION FUNCTIONS
     def conf_PFC_from_amplitudes(self, eta=None):
         """Configures the PFC from the amplitudes.
 
@@ -128,22 +131,83 @@ class PhaseFieldCrystal(BaseSystem):
             u: The displacement field to advect the PFC with.
 
         Returns:
-            The advected PFC.
+            None, but updates the PFC.
         """
 
         self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
         self.psi_f = sp.fft.fftn(self.psi)
 
     def conf_apply_strain(self, strain):
+        """Applies a strain to the PFC.
+
+        Args:
+            strain: The strain to apply to the PFC.
+        
+        Returns:
+            None, but updates the PFC.
+        """
+
         if self.dim == 1:
             self.k[0] = self.k[0]/(1+strain)
             self.dif[0] = self.dif[0]/(1+strain)
             self.x = self.x*(1+strain)
         else:
-            print("Applied strain is not implemented for dimensions other than 1D.")
+            raise ImplementationError("Applied strain is not implemented for dimensions other than 1D.")
+
+    def conf_create_polycrystal(self, type, relaxation_time=None):
+        """Creates a polycrystal.
+
+        Args:
+            type: The type of polycrystal to create.
+            relaxation_time: The relaxation time to use for the polycrystal creation.
+        
+        Returns:
+            None, but updates the PFC.
+        """
+        # First type of polycrystal, see documentation.
+        if type == 1:
+            if self.dim == 1:
+                raise Exception("Polycrystal type 1 is not valid for 1 dimension.") 
+                
+            self.psi = self.calc_PFC_from_amplitudes(self.eta0)
+            
+            l1  = self.y>1/6*self.ymax+(4/6*self.ymax)/(1/1*self.xmax)*self.x
+            l2  = self.y>1/2*self.ymax+(1/2*self.ymax)/(2/3*self.xmax)*self.x
+            l3  = self.y>1/2*self.ymax-(1/2*self.ymax)/(2/3*self.xmax)*self.x
+            l4  = self.y>5/6*self.ymax-(4/6*self.ymax)/(1/1*self.xmax)*self.x
+            l5  = self.x>self.xmax/4
+            l6  = self.y>5/4*self.ymax-(3/4*self.ymax)/(1/1*self.xmax)*self.x
+            l7  = self.x>self.xmax/2
+            l8  = self.y<1/2*self.ymax+(1/2*self.ymax)/(2/3*self.xmax)*self.x
+            l9  = self.x>3/4*self.xmax
+            l10 = self.y<-1/4*self.ymax+(3/4*self.ymax)/(1/1*self.xmax)*self.x
+
+            zdir = 1 if self.dim == 2 else np.ones((1,1,self.zRes))
+
+            pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,-22.5/180*np.pi])
+            region = np.bool_((l4*~(l7)*~(l8) + ~(l1)*~(l3)*~(l7))*zdir)
+            self.psi[region] = pfcRotated[region]
+
+            pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,22.5/180*np.pi])
+            region = np.bool_((l1*l6*l7 + l7*l10*~(l4))*zdir)
+            self.psi[region] = pfcRotated[region]
+
+            pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,45/180*np.pi])
+            region = np.bool_((l1*~(l4)*~(l5) + ~(l1)*l4*l9)*zdir)
+            self.psi[region] = pfcRotated[region]
+
+            self.psi_f = sp.fft.fftn(self.psi)
+
+            if relaxation_time is None:
+                relaxation_time = 10
+            
+            self.evolve_PFC(round(relaxation_time/self.dt))
 
 
-    # EVOLUTION FUNCTIONS
+    #######################################################
+    ############### EVOLUTION FUNCTIONS ###################
+    #######################################################
+
     def evolve_PFC(self, number_of_steps, method='ETD2RK'):
         """Evolves the PFC according to classical PFC dynamics.
 
@@ -243,7 +307,7 @@ class PhaseFieldCrystal(BaseSystem):
             The hydrodynamic evolution function omega_f.
         """
         k2 = self.calc_k2()
-        return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*np.ones(self.dims)]*self.dim)
+        return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*k2]*self.dim)
 
 
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
@@ -495,7 +559,7 @@ class PhaseFieldCrystal(BaseSystem):
         if rotation is None:
             rotation = [0,0,0]
         else:
-            if self.dim == 2:
+            if isinstance(rotation, float):
                 rotation = [0,0,rotation]
 
         rotation = sp.spatial.transform.Rotation.from_rotvec(rotation)
@@ -781,7 +845,10 @@ class PhaseFieldCrystal(BaseSystem):
 
         return dislocation_nodes
 
-    # PLOTTING FUNCTIONS
+    #######################################################
+    ############### PLOTTING FUNCTIONS ####################
+    #######################################################
+
     def plot_dislocation_nodes(self, dislocation_nodes, **kwargs):
         """
         Plots the dislocation nodes.

@@ -17,7 +17,10 @@ from datetime import datetime
 from PIL import Image
 
 
-def tool_save_plot(counter, image_size_inches=(6,5), dpi=100):
+def tool_save_plot(counter, 
+                image_size_inches=(6,5), 
+                dpi=100,
+                ID=None):
     """
 
     Saves the current Matplotlib plot as a PNG file.
@@ -26,12 +29,19 @@ def tool_save_plot(counter, image_size_inches=(6,5), dpi=100):
         counter (int): A unique identifier for the plot image file.
         image_size (tuple, optional): The size of the image in inches. Defaults to (5,5).
         dpi (int, optional): The resolution of the image in dots per inch. Defaults to 100.
+        ID (str, optional): A unique identifier for the plot image file. Defaults to None.
     
     Returns: 
         None, saves the plot as a PNG file.
     """
+
+    if ID is None:
+        filename = f'plot_{counter}.png'
+    else:
+        filename = f'plot_{counter}_{ID}.png'
+
     plt.gcf().set_size_inches(image_size_inches)
-    plt.savefig(f'plot_{counter}.png',dpi=dpi)
+    plt.savefig(filename,dpi=dpi)
 
 
 def tool_make_animation_movie(counter, name=None, fps=24):
@@ -68,7 +78,10 @@ def tool_make_animation_movie(counter, name=None, fps=24):
         os.remove(file)
 
 
-def tool_make_animation_gif(counter, name=None, fps=24):
+def tool_make_animation_gif(counter, 
+                            name=None, 
+                            fps=24,
+                            ID=None):
     """
     Creates an animation from a series of plot img and saves it as a GIF file.
 
@@ -76,6 +89,7 @@ def tool_make_animation_gif(counter, name=None, fps=24):
         counter (int): The number of plot img to include in the animation.
         name (str, optional): The filename for the output video. Defaults to today's date followed by ' - output_video.mp4'.
         fps (int, optional): The frames per second for the video. Defaults to 24.
+        ID (str, optional): A unique identifier for the plot image files. Defaults to None.
 
     Returns:
         None, saves the GIF file.
@@ -86,7 +100,10 @@ def tool_make_animation_gif(counter, name=None, fps=24):
     else:
         name = datetime.now().strftime("%y%m%d_%H%M") + ' - ' + name + '.gif'
 
-    image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
+    if ID is None:
+        image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
+    else:
+        image_files = [f'plot_{counter}_{ID}.png' for counter in range(counter+1)]
     images = [Image.open(image_file) for image_file in image_files]
 
     # Find the smallest image dimensions
