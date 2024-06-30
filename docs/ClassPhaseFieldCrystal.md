@@ -1226,6 +1226,28 @@ The available types are
     ![Four grain configuration in a PFC](img/phase_field_crystal_four_grain_inclusion-colorinverted.png#only-dark)
 
 
+### Calculating the orientation field
+
+In many simulations with polycrystals, it is useful to calculate the orientation field.
+This is a vector field that points in the direction of the crystal orientation.
+To calculate the orientation field, we rely on the amplitude approximation of the PFC field, demodulate with respect to different orientations and estimate the orientation based on the magnitude of these amplitudes.
+
+Consider the 2D case for a triangular PFC, in which the rotation angle $\theta$ is given with respect to the z-axis.
+For a given rotation, we can demodulate the PFC with respect to a triplet of reciprocal lattice vectors.
+
+$$
+\{ R(\theta) \mathbf q^{(n)} \},
+$$
+
+where $R(\theta)$ is the rotation matrix and $\mathbf q^{(n)}$ is the primary reciprocal lattice vector of the unrotated PFC.
+This will give three amplitudes $\eta_n$, the combined magnitude   
+
+$$
+\Phi^2 = \sum_{n=1}^3 |\eta_n|^2
+$$
+
+of which will indicate to which degree the orientation of the PFC aligns with that direction.
+
 
 
 [^elderModelingElasticPlastic2004]: Elder, K. R., & Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Physical Review E, 70(5), 051605. [https://doi.org/10.1103/PhysRevE.70.051605](https://doi.org/10.1103/PhysRevE.70.051605)

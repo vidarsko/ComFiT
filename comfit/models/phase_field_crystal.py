@@ -300,6 +300,9 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi_f = np.array([self.psi_f]+[np.zeros_like(self.psi_f)]*self.dim)
             # print("psi shape", self.psi.shape)
 
+            if not hasattr(self,'external_force_density_f'):
+                self.external_force_density_f = np.zeros([self.dim] + self.dims, dtype=complex)
+
         self.gamma_S = gamma_S
         self.rho0 = rho0
 
@@ -389,7 +392,7 @@ class PhaseFieldCrystal(BaseSystem):
         
         force_density_f = self.calc_stress_divergence_f(field_f[0])
 
-        return np.array([N0_f] + [1/self.rho0*force_density_f[i] for i in range(self.dim)])
+        return np.array([N0_f] + [1/self.rho0*(force_density_f[i]+self.external_force_density_f[i]) for i in range(self.dim)])
 
     def calc_nonlinear_evolution_function_f(self, psi, t):
         return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
@@ -437,7 +440,6 @@ class PhaseFieldCrystal(BaseSystem):
         return np.real(sp.fft.ifftn(u_f, axes = (range ( - self . dim , 0) )))
 
         
-
     # Initial configuration methods
     def calc_amplitudes_with_dislocation(self, eta=None, x=None, y=None, dislocation_type=1):
         """ Calculates the amplitudes with a single point dislocation inserted.
@@ -535,7 +537,6 @@ class PhaseFieldCrystal(BaseSystem):
             The amplitudes with the dislocation ring inserted
 
         """
-        # TODO: Improve code documentation
 
         if not (self.dim == 3):
             raise Exception("The dimension of the system must be 3 to insert a dislocation dipole.")
@@ -864,6 +865,49 @@ class PhaseFieldCrystal(BaseSystem):
                 dislocation_node['tangent_vector'] = tangent_vector_sign*tangent_vector
 
         return dislocation_nodes
+
+    def calc_orientation_field(self):
+        """Calculates the orientation field of the phase-field crystal.
+
+        Args:
+            None
+        
+        Returns:
+            An orientation field, which is a vector field specifying the orientation of the crystal.
+        """
+
+        if hasattr(self,'velocity_field'):
+            order_parameter = self.psi[0]
+        else:
+            order_parameter = self.psi
+
+        eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
+                       dtype=complex)
+        Gaussian_filter_f = self.calc_Gaussian_filter_f()
+
+        if self.dim == 2:
+            resolution = 16
+            orientation_field = 0 + 0j
+            for angle in np.linspace(0, np.pi/3, resolution):
+                rotation = sp.spatial.transform.Rotation.from_rotvec([0,0,angle])
+                rotation_matrix = rotation.as_matrix()
+                q = (rotation_matrix[0:2,0:2]@self.q.transpose()).transpose()
+                for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                    eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
+                            -1j*q[n][0]*self.x - 1j*q[n][1]*self.y)))
+                
+                Phi2 = np.zeros(self.dims)
+                for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                    Phi2 += abs(eta[n])**2
+                
+                orientation_field += np.exp(3*1j*angle)*Phi2
+
+            return orientation_field
+
+
+
+        pass
+
 
     #######################################################
     ############### PLOTTING FUNCTIONS ####################

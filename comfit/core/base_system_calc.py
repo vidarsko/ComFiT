@@ -484,6 +484,7 @@ class BaseSystemCalc:
         Returns:
             The Gaussian function. np.ndarray.
         """
+        
         position = kwargs.get('position',self.rmid)
         width = kwargs.get('width',self.a0)
 

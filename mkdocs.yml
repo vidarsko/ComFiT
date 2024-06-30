@@ -5,7 +5,7 @@ theme:
   name: material
   logo: img/logo.png
   features:
-    - navigation.instant
+    # - navigation.instant
     - navigation.sections
     - toc.integrate
     - navigation.right
