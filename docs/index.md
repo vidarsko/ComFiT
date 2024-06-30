@@ -182,7 +182,18 @@ The best way to get to know ComFiT is by using it in one of the following tutori
     <img src="img/index_tutorial_pfc_stresses_and_strains-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
-    learn how to calculate stresses and strains in the PFC model.
+    Learn how to calculate stresses and strains in the PFC model.
+    </p>
+</a>
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/phase_field_crystal_polycrystalline_systems.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <div> <strong> Polycrystalline systems </strong></div>
+    <hr>
+    <p>
+    <img src="img/index_tutorial_pfc_polycrystals.gif#only-light">
+    <img src="img/index_tutorial_pfc_polycrystals-colorinverted.gif#only-dark">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Create polycrystalline systems with the PFC model and evolve it according to different dynamics.
     </p>
 </a>
 </div>
