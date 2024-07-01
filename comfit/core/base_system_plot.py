@@ -363,9 +363,13 @@ class BaseSystemPlot:
         if field.dtype == bool:
             field = field.astype(float)
 
+        if field.ndim == self.dim+1:
+            print("\033[91mWarning - in plot_field: the provided field seems to be an order parameter containing several fields. Only the zeroth component will be plotted.\033[0m")
+            field = field[0]
+
         # Check if the vector field is complex
         if np.iscomplexobj(field):
-            print("\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
+            print("\033[91mWarning - in plot_field: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
             print('Max imaginary part: ', np.max(np.imag(field)))
             field = np.real(field)
 
@@ -1033,8 +1037,12 @@ class BaseSystemPlot:
                 mappable.set_array([])
                 mappable.set_clim(-np.pi, np.pi)
                 cbar = plt.colorbar(mappable, ax=ax, pad=padding)
-                cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-                cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+
+                cticks = kwargs.get('cticks', [-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi])
+                cbar.set_ticks(cticks)
+
+                cticklabelse = kwargs.get('cticklabels', [r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+                cbar.set_ticklabels(cticklabelse)
 
             elif plot_lib == 'plotly':
                 # Add a colorbar to the plot
@@ -1077,7 +1085,7 @@ class BaseSystemPlot:
         angle_field = self.plot_tool_extend_field(angle_field)
 
         # Normalize around 0
-        angle_field = np.mod(angle_field, 2 * np.pi) - np.pi        
+        angle_field = np.mod(angle_field + np.pi, 2 * np.pi) - np.pi        
 
         if self.dim == 1:
             if 'vlim' in kwargs:
@@ -1087,7 +1095,6 @@ class BaseSystemPlot:
                 kwargs['yticks'] = [-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]
                 kwargs['yticklabels'] = [r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$']
 
-            
             
             return self.plot_field(angle_field, **kwargs)
         

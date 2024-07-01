@@ -623,10 +623,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
 
-        if hasattr(self,'velocity_field'):
-            order_parameter = self.psi[0]
-        else:
-            order_parameter = self.psi
+        order_parameter = self.psi if self.psi.ndim == self.dim else self.psi[0]
 
         if self.dim == 2:
                 for n in range(self.number_of_primary_reciprocal_lattice_modes):
@@ -876,19 +873,23 @@ class PhaseFieldCrystal(BaseSystem):
             An orientation field, which is a vector field specifying the orientation of the crystal.
         """
 
-        if hasattr(self,'velocity_field'):
-            order_parameter = self.psi[0]
-        else:
-            order_parameter = self.psi
+        order_parameter = self.psi if self.psi.ndim == self.dim else self.psi[0]
 
         eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
                        dtype=complex)
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
 
         if self.dim == 2:
+            if self.type == 'PhaseFieldCrystal2DTriangular':
+                wrap_factor = 3
+            elif self.type == 'PhaseFieldCrystal2DSquare':
+                wrap_factor = 2
+
             resolution = 16
-            orientation_field = 0 + 0j
-            for angle in np.linspace(0, np.pi/3, resolution):
+            orientation_field = np.zeros((2,self.xRes,self.yRes))
+            angles = np.arange(resolution)/resolution*np.pi/wrap_factor
+
+            for angle in angles:
                 rotation = sp.spatial.transform.Rotation.from_rotvec([0,0,angle])
                 rotation_matrix = rotation.as_matrix()
                 q = (rotation_matrix[0:2,0:2]@self.q.transpose()).transpose()
@@ -900,18 +901,48 @@ class PhaseFieldCrystal(BaseSystem):
                 for n in range(self.number_of_primary_reciprocal_lattice_modes):
                     Phi2 += abs(eta[n])**2
                 
-                orientation_field += np.exp(3*1j*angle)*Phi2
+                orientation_field[0] += Phi2*np.cos(2*wrap_factor*angle)
+                orientation_field[1] += Phi2*np.sin(2*wrap_factor*angle)
 
             return orientation_field
+        
+        else:
+            raise Exception("The orientation field is only implemented for 2D systems.")
 
-
-
-        pass
 
 
     #######################################################
     ############### PLOTTING FUNCTIONS ####################
     #######################################################
+
+    def plot_orientation_field(self, orientation_field=None, **kwargs):
+        """Plots the orientation field of the phase-field crystal.
+
+        Args:
+            orientation_field: The orientation field to plot.
+            **kwargs: Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.
+
+        Returns:
+            The axes containing the plot.
+        """
+
+        if orientation_field is None:
+            orientation_field = self.calc_orientation_field()
+        
+        if self.dim == 2:
+            complex_field = orientation_field[0] + 1j*orientation_field[1]
+             
+            if self.type == 'PhaseFieldCrystal2DTriangular':
+                kwargs['cticks'] = [-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]
+                kwargs['cticklabels'] = [r'$-\pi/6$', r'$-\pi/9$', r'$-\pi/18$', r'$0$', r'$\pi/18$', r'$\pi/9$', r'$\pi/6$']
+
+            elif self.type == 'PhaseFieldCrystal2DSquare':
+                kwargs['cticks'] = [-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi]
+                kwargs['cticklabels'] = [r'$-\pi/4$', r'$-\pi/8$', r'$0$', r'$\pi/8$', r'$\pi/4$']
+
+            kwargs['plot_method'] = 'phase_angle'
+
+            return self.plot_complex_field(complex_field, **kwargs)
 
     def plot_dislocation_nodes(self, dislocation_nodes, **kwargs):
         """
