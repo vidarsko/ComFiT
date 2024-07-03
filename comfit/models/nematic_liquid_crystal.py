@@ -142,7 +142,7 @@ class NematicLiquidCrystal(BaseSystem):
             self.conf_initial_condition_ordered(noise_strength=0)
 
         if dipole_vector is None:
-            dipole_vector = [self.xmax / 3, 0]
+            dipole_vector = [(self.xmax -self.xmin)/ 3, 0]
 
         if dipole_position is None:
             dipole_position = self.rmid
