@@ -101,9 +101,9 @@ class BaseSystemCalc:
             position = self.rmid
 
         if radius is None:
-            radius = np.min([self.xmax, self.ymax, self.zmax]) / 3
+            radius = np.min([(self.xmax-self.xmin), (self.ymax-self.ymin), (self.zmax-self.zmin)]) / 3
 
-        if radius > np.min([self.xmax, self.ymax, self.zmax]) / 3:
+        if radius > np.min([(self.xmax-self.xmin), (self.ymax-self.ymin), (self.zmax-self.zmin)]) / 3:
             print("Warning: The radius of the suggested vortex ring is large."
                   "This can cause unwanted boundary effects.")
 
@@ -133,8 +133,8 @@ class BaseSystemCalc:
         amp = np.exp(1j * theta)
 
         # Filter the angle field
-        width = 0.2 * np.min([self.xmax, self.ymax, self.zmax])
-        radius = 0.4 * np.min([self.xmax, self.ymax, self.zmax])
+        width = 0.2 * np.min([(self.xmax-self.xmin), (self.ymax-self.ymin), (self.zmax-self.zmin)])
+        radius = 0.4 * np.min([(self.xmax-self.xmin), (self.ymax-self.ymin), (self.zmax-self.zmin)])
         # TODO: This radius shares name with the one defining the ring. May cause trouble down the line (Vidar 01.12.23)
 
         r2 = (self.x.reshape((self.xRes, 1, 1)) - self.xmid) ** 2 \
