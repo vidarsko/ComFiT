@@ -482,7 +482,13 @@ $$
 \rho_{\gamma i} = \frac{1}{\pi S_0^2} D_{\gamma i}
 $$
 
-In three dimenstions, the story is more complicated, because we have a tensor $\rho_{\gamma i}$.
+This fiel is found by the function 
+
+```python
+calc_disclination_density_nematic(self)
+```
+which returns a tensorfield in three dimensions and a scalar field ($\rho_{33}$) in two. 
+Since we have tensor in three dimenstions, the story is more complicated than usual. 
 This tensor contains two pieces of information, namely which direction the disclination is pointing, and around which axis $\boldsymbol \Omega$, near the disclination, the rods are rotating.
 In that way, it is similar to a dislocation density in a crystal structure, only that it allows for the orientation the "Burgers vector" to be any direction.
 It can be written like this [^schimming2023kinematics]
