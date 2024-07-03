@@ -16,7 +16,7 @@ class: NematicLiquidCrystal
 ## Variables and parameters
 
 The primary variables are the symmetric traceless tensor $Q$ and the
-velocity field $\\mathbf{u}$
+velocity field $\mathbf{u}$
 
 ```python
 nem.Q 
