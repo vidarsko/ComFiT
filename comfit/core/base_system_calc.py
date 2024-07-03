@@ -54,7 +54,7 @@ class BaseSystemCalc:
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
 
         if dipole_vector is None:
-            dipole_vector = [self.xmax / 3, 0]
+            dipole_vector = [(self.xmax-self.xmin) / 3, 0]
 
         if dipole_position is None:
             dipole_position = self.rmid
