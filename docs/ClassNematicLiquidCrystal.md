@@ -145,7 +145,9 @@ $$\mathcal F = \int \left( K |\nabla Q|^2 - \frac{A}{2} \left[ B \text{Tr}(Q^2) 
 $$
 
 where it is assumed that there is a single Frank elastic constant $K$.
-Note that the last term only exists in three dimensions since the trace of $Q^3$ vanishes in two dimensions.
+Here $Q^2 = QQ$ denote a standard matrix multiplication, and similar for $Q^3$.
+We therfore have that $text{Tr}(Q^2)^2 = Q_{kj}Q_{jk}$.
+The $\text{tr}(Q^3)$ only exists in three dimensons since it is zero in two dimensions.
 The molecular field is then given as
 
 $$
