@@ -351,6 +351,21 @@ conf_insert_vortex_dipole(self, dipole_vector=None, dipole_position=None)
 which works similarly as the one implemented for the BEC. This function
 can be used either to initialize a homogeneous state with a dipole, or
 it can be used to insert a dipole into an already existing nematic.
+In three dimensions one can initialise two disclination lines paralel to the z-axis using the function 
+
+```python
+conf_initial_disclination_lines(self, position1=None,position2 = None)
+```
+
+This function intialises a wedge defect looking like the two dimensional $+1/2$ defect at `position1` and one 
+looking like a $-1/2$ at `position2`. 
+The positions are in the xy-plane.
+If no positions are given the defects are placed at the positions 
+
+```python
+    position1 = [self.xmid+(self.xmax-self.xmin)/3, self.ymid]
+    position2 = [self.xmid - (self.xmax-self.xmin) / 3, self.ymid]
+```
 
 ## Spatially varying activity
 
