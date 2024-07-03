@@ -470,11 +470,10 @@ class BaseSystemCalc:
         else:
             raise Exception("Not valid for other dimensions.")
 
-    def calc_Gaussian(self, **kwargs):
+    def calc_Gaussian(self, position= None, width=None, top=None,value=None):
         """Calculated the Gaussian function 
 
         Args:
-            kwargs:
             - position
             - width
             - top (the top of the Gaussian function)
@@ -484,17 +483,21 @@ class BaseSystemCalc:
         Returns:
             The Gaussian function. np.ndarray.
         """
-        
-        position = kwargs.get('position',self.rmid)
-        width = kwargs.get('width',self.a0)
+
+        if position is None:
+            position = self.rmid
+        if width is None:
+            width = self.a0
 
         r2 = self.calc_distance_squared_to_point(position)
-        
-        if 'top' in kwargs:
-            return kwargs['top']*np.exp(-r2/(2*width**2))
-        else:
-            value = kwargs.get('value',1)
-            return value*(2*np.pi*width**2)**(-self.dim/2)*np.exp(-r2/(2*width**2))
+
+        if top is not None:
+            return top * np.exp(-r2 / (2 * width ** 2))
+
+        if value is None:
+            value =1
+
+        return value*(2*np.pi*width**2)**(-self.dim/2)*np.exp(-r2/(2*width**2))
 
     def calc_distance_squared_to_point(self,position):
         """Calculates the distance to a point given
