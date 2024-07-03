@@ -167,9 +167,9 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("The dimension of the system must be 3 for a disclination line configuration.")
 
         if position1 is None:
-            position1 = [self.xmid+self.xmax/3, self.ymid]
+            position1 = [self.xmid+(self.xmax-self.xmin)/3, self.ymid]
         if position2 is None:
-            position2 = [self.xmid - self.xmax / 3, self.ymid]
+            position2 = [self.xmid - (self.xmax-self.xmin) / 3, self.ymid]
 
 
         theta_1 = 1/2*np.arctan2((self.y-position1[1]),(self.x-position1[0]))
