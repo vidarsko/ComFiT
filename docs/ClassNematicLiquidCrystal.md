@@ -245,11 +245,11 @@ calculated/updated by the two functions
 
 ```python
 calc_pressure_f(self) 
-conf_u(self,Q)
+conf_velocity(self,Q)
 ```
 
 Note that `calc_pressure_f` only returns the Fourier transform of the
-pressure. The function `conf_u` updates both the velocity field `self.u`
+pressure. The function `conf_velocity` updates both the velocity field `self.u`
 and its Fourier transform `self.u_f`.
 
 ## Minimum of the free energy
