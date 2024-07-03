@@ -506,7 +506,7 @@ The $D$-field is calculated and it is decomposed into the above mentioned vector
 ```python
 calc_disclination_density_decoupled(self)
 ```
-which returns $\omega, \Omega, T,$ and $\text{Tr}(D)}$. 
+which returns $\omega, \Omega, T,$ and $\text{Tr}(D)$. 
 
 
 From Ref.[^schimming2023kinematics], we have
