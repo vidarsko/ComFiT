@@ -219,7 +219,7 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("The active channel is only permitted in two dimensions")
 
     ## calculations related to the flow field
-    def conf_u(self,Q):
+    def conf_velocity(self,Q):
         '''
         Updates the velocity and its fourier transform given a nematic field Q.
         
@@ -232,7 +232,7 @@ class NematicLiquidCrystal(BaseSystem):
         F_af = self.calc_active_force_f(Q)
         F_pf = self.calc_passive_force_f(Q)
         p_f = self.calc_pressure_f(F_af,F_pf)
-        grad_pf = self.calc_grad_p_f(p_f)
+        grad_pf = self.calc_gradient_pressure_f(p_f)
         self.u_f = (F_af + F_pf-grad_pf )/ (self.Gamma +self.eta*self.k2_press)
 
         self.u = np.real(sp.fft.ifftn(self.u_f, axes=(range(-self.dim, 0))))
@@ -380,7 +380,7 @@ class NematicLiquidCrystal(BaseSystem):
         return -(p_af + p_pf)/self.k2_press
 
     
-    def calc_grad_p_f(self,p_f):
+    def calc_gradient_pressure_f(self,p_f):
         """Caclulates the gradient of the pressure
         
         Args: 
@@ -446,7 +446,7 @@ class NematicLiquidCrystal(BaseSystem):
             The non-linear evolution function evaluated in Fourier space (numpy.narray) 
         """
         if self.dim == 2:
-            self.conf_u(Q)
+            self.conf_velocity(Q)
             Q_f = sp.fft.fftn(Q,axes=range(-self.dim,0))
             N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q,t)
             Omega =self.calc_vorticity_tensor()
@@ -460,7 +460,7 @@ class NematicLiquidCrystal(BaseSystem):
             return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
         elif self.dim == 3:
-            self.conf_u(Q)
+            self.conf_velocity(Q)
             Q_f = sp.fft.fftn(Q, axes=range(-self.dim, 0))
             N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q,t)
             Omega = self.calc_vorticity_tensor()
@@ -532,7 +532,7 @@ class NematicLiquidCrystal(BaseSystem):
                                                        self.calc_nonlinear_evolution_function_f,
                                                        self.Q, self.Q_f)
         self.Q = np.real(self.Q)
-        self.conf_u(self.Q)
+        self.conf_velocity(self.Q)
 
     def evolve_nematic_no_flow(self,number_of_steps,method = 'ETD2RK'):
         ''' Evolves the nematic system without the flow field
