@@ -244,13 +244,14 @@ by hand. This is set to zero. The pressure and velocity are
 calculated/updated by the two functions
 
 ```python
-calc_pressure_f(self) 
+calc_pressure_f(self,F_af,F_pf) 
 conf_velocity(self,Q)
 ```
 
 Note that `calc_pressure_f` only returns the Fourier transform of the
 pressure. The function `conf_velocity` updates both the velocity field `self.u`
-and its Fourier transform `self.u_f`.
+and its Fourier transform `self.u_f`. 
+The arguments `F_af` and `F_pf` are the active and passive forces respectivly.  
 
 ## Minimum of the free energy
 
