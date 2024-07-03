@@ -610,7 +610,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def calc_disclination_density_decoupled(self):
-        """Calculates the decoupled diclination density
+        """Calculates the decoupled disclination density
 
         Args:
             None
@@ -642,7 +642,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def calc_dt_psi(self,Q_prev,delta_t):
-        """Calculates the time derivative of the order parameter
+        """Calculates the time derivative of the order parameter as a complex field
 
         Args:
             Q_prev: the order parameter at the previous time step (numpy.narray)
@@ -662,7 +662,7 @@ class NematicLiquidCrystal(BaseSystem):
             None
 
         Returns:
-            equilibriums value of D (numpy.narray) 
+            equilibrium value of S (numpy.narray)
         '''
         if self.dim == 2:
             return  np.sqrt(self.B)
