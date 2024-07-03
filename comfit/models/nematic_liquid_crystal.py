@@ -603,7 +603,8 @@ class NematicLiquidCrystal(BaseSystem):
                                     for k in range(self.dim) for a in range(self.dim))
                     if gam == i:
                         D[gam,i] += term_trace
-            return D
+            S0 = self.calc_equilibrium_S()
+            return D/(S0**2 *np.pi)
         else:
             raise Exception("Only two and three dimensions are currently supported")
 
@@ -618,9 +619,9 @@ class NematicLiquidCrystal(BaseSystem):
             The disclination density (numpy.narray)
         """ 
         if self.dim == 3:
-            D = self.calc_disclination_density_nematic()
-            S0 = self.calc_equilibrium_S()
-            rho = D/(S0**2 *np.pi)
+            rho = self.calc_disclination_density_nematic()
+
+
             omega = np.sqrt(np.sum(rho[i,j]*rho[i,j] for i in range(self.dim) for j in range(self.dim)) )
 
             DDT = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
@@ -636,8 +637,8 @@ class NematicLiquidCrystal(BaseSystem):
 
             Omega = np.transpose(vecs_1[:,:,:,:,2], (3,0,1,2))
             T = np.transpose(vecs_2[:,:,:,:,2], (3,0,1,2))
-            trD = np.sum(D[i,i] for i in range(self.dim))
-            return omega, Omega, T, trD
+            trRho = np.sum(rho[i,i] for i in range(self.dim))
+            return omega, Omega, T, trRho
 
 
     def calc_dt_psi(self,Q_prev,delta_t):
