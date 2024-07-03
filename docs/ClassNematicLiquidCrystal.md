@@ -452,17 +452,17 @@ $$
 D_{33} = \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}
 $$
 
-```math
+$$
 = \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 1} \partial_l Q_{\nu 1}
 + \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 2} \partial_l Q_{\nu 2}
-```
+$$
 
 We have $Q_{\mu1} = \frac{1}{2} \psi_\mu$ and $Q_{\mu 2} = \frac{1}{2} \epsilon_{\mu q} \psi_q$, so
 
-```math
+$$
 D_{33} = \frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu)
 + \frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k  \epsilon_{\mu q} \psi_q) (\partial_l \epsilon_{\nu r} \psi_r)
-```
+$$
 
 And using that
 
