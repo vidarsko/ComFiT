@@ -235,9 +235,9 @@ pressure except the zero mode, i.e the pressure is determined up to a
 constant. We set this constant to zero. Once the pressure is found we
 obtain the velocity from
 
-```math
+$$
 (\Gamma + \eta k^2){{\mathbf u}_{\mathfrak  f}} = - i\mathbf k {{P}_{\mathfrak  f}} + {{F}_{\mathfrak  f}}.
-```
+$$
 
 Note that when $\Gamma = 0$ we need to set the zero mode of the velocity
 by hand. This is set to zero. The pressure and velocity are
