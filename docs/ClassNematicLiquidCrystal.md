@@ -507,12 +507,12 @@ $$
 so $\omega$ is the quantity we should integrate to find the nodes of the defects. 
 The unitvectors $\boldsymbol t$ and $\boldsymbol \Omega$ is found as the eigenvectors of the matrices $\rho^T \rho$ and $\rho \rho^T$ respectivly.
 Since the eigenvectors are determined up to a sign one have to make sure that $\boldsymbol t$ is continous along the defect and impose the condition $\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\text{Tr}(\rho))$.
-The $D$-field is calculated and it is decomposed into the above mentioned vectors by the function
+The $\rho$ tensor field is calculated decomposed into the above mentioned vectors by the function
 
 ```python
 calc_disclination_density_decoupled(self)
 ```
-which returns $\omega, \Omega, T,$ and $\text{Tr}(D)$. 
+which returns $\omega, \Omega, T,$ and $\text{Tr}(\rho)$. 
 
 
 From Ref.[^schimming2023kinematics], we have
