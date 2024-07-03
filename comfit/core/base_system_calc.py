@@ -69,8 +69,8 @@ class BaseSystemCalc:
         amp = np.exp(1j * theta)
 
         # Filter the angle field
-        width = 0.2 * np.min([self.xmax, self.ymax])
-        radius = 0.4 * np.min([self.xmax, self.ymax])
+        width = 0.2 * np.min([(self.xmax-self.xmin), (self.ymax-self.ymin)])
+        radius = 0.4 * np.min([(self.xmax-self.xmin), (self.ymax-self.ymin)])
 
         r2 = self.calc_distance_squared_to_point(self.rmid)
         filter = (1 + np.tanh((radius ** 2 - r2) / width ** 2)) / 2
