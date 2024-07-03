@@ -482,7 +482,13 @@ $$
 \rho_{\gamma i} = \frac{1}{\pi S_0^2} D_{\gamma i}
 $$
 
-In three dimenstions, the story is more complicated, because we have a tensor $\rho_{\gamma i}$.
+This fiel is found by the function 
+
+```python
+calc_disclination_density_nematic(self)
+```
+which returns a tensorfield in three dimensions and a scalar field ($\rho_{33}$) in two. 
+Since we have tensor in three dimenstions, the story is more complicated than usual. 
 This tensor contains two pieces of information, namely which direction the disclination is pointing, and around which axis $\boldsymbol \Omega$, near the disclination, the rods are rotating.
 In that way, it is similar to a dislocation density in a crystal structure, only that it allows for the orientation the "Burgers vector" to be any direction.
 It can be written like this [^schimming2023kinematics]
@@ -501,12 +507,12 @@ $$
 so $\omega$ is the quantity we should integrate to find the nodes of the defects. 
 The unitvectors $\boldsymbol t$ and $\boldsymbol \Omega$ is found as the eigenvectors of the matrices $\rho^T \rho$ and $\rho \rho^T$ respectivly.
 Since the eigenvectors are determined up to a sign one have to make sure that $\boldsymbol t$ is continous along the defect and impose the condition $\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\text{Tr}(\rho))$.
-The $D$-field is calculated and it is decomposed into the above mentioned vectors by the function
+The $\rho$ tensor field is calculated decomposed into the above mentioned vectors by the function
 
 ```python
 calc_disclination_density_decoupled(self)
 ```
-which returns $\omega, \Omega, T,$ and $\text{Tr}(D)$. 
+which returns $\omega, \Omega, T,$ and $\text{Tr}(\rho)$. 
 
 
 From Ref.[^schimming2023kinematics], we have
