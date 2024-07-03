@@ -774,8 +774,8 @@ class NematicLiquidCrystal(BaseSystem):
 
         elif self.dim == 3:
             omega, Omega, T, trD = self.calc_disclination_density_decoupled()
-
-            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=None)
+            S0 = self.calc_equilibrium_S()
+            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=S0/np.pi)
             position_list = []
 
             for disclination in disclination_nodes:
