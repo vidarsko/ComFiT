@@ -428,10 +428,18 @@ class NematicLiquidCrystal(BaseSystem):
         Returns: 
             The strainrate (numpy.ndarray) 
         """
-        E_f = np.zeros_like(self.Q_f)
-        for i in range(self.dim):
-            for j in range(self.dim):
-                E_f[i][j]= (1j*self.k[i]*self.u_f[j] +1j*self.k[j]*self.u_f[i])/2
+        trace_u = np.sum(1j*self.k[i]*self.u_f[i] for i in range(self.dim))
+        if self.dim == 2:
+            E_f = np.zeros((2,self.xRes,self.yRes),dtype=np.complex128)
+            E_f[0] = (1j*self.k[0] *self.u_f[0]) - trace_u/2
+            E_f[1] = (1j*self.k[0] *self.u_f[1] +1j*self.k[1] *self.u_f[0])/2
+        elif self.dim == 3:
+            E_f = np.zeros((5, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
+            E_f[0] = (1j*self.k[0] *self.u_f[0]) - trace_u/3
+            E_f[1] = (1j*self.k[0] *self.u_f[1] +1j*self.k[1] *self.u_f[0])/2
+            E_f[2] = (1j * self.k[0] * self.u_f[2] + 1j * self.k[2] * self.u_f[0]) / 2
+            E_f[3] =  (1j*self.k[1] *self.u_f[1]) - trace_u/3
+            E_f[4] = (1j * self.k[1] * self.u_f[2] + 1j * self.k[2] * self.u_f[1]) / 2
         return E_f
 
     ## Calculation of non-linear evolution terms
