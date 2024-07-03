@@ -198,7 +198,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 
 
-    def conf_active_channel(self,width,d=7):
+    def conf_active_channel(self,width = None,d=7):
         """Configures the activity to zero everywhere exept for inside a channel of width "width"
         
         Args:
@@ -211,6 +211,9 @@ class NematicLiquidCrystal(BaseSystem):
         if self.dim ==2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
             alpha_0 = self.alpha
+            if width is None:
+                width = (self.xmax-self.xmin)/3
+
             self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
         else:
             raise Exception("The active channel is only permitted in two dimensions")
