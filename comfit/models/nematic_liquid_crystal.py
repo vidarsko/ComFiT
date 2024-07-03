@@ -152,15 +152,13 @@ class NematicLiquidCrystal(BaseSystem):
         self.Q[1] = np.imag(psi)
         self.Q_f = sp.fft.fft2(self.Q)
 
-    def conf_initial_disclination_lines(self, position=None):
+    def conf_initial_disclination_lines(self, position1=None,position2 = None):
         """Sets the initial condition for a disclination line in a 3-dimensional system.
 
         The dislocation is parralell to the z-axis
 
         Args:
-            position (list): the position of the dislocation. Only the position in the xy plane is used
-            angle (float): the angle between the director and the z axis.
-            sign (float): +1 or -1. Charge of the dislocation in the xy-plain
+            position1 (list): the position of the first dislocation. Only the position in the xy plane is used
 
         Returns:
             Sets the value of self.Q and self.Q_f
@@ -168,9 +166,10 @@ class NematicLiquidCrystal(BaseSystem):
         if not (self.dim == 3):
             raise Exception("The dimension of the system must be 3 for a disclination line configuration.")
 
-        if position is None:
+        if position1 is None:
             position1 = [self.xmid+self.xmax/3, self.ymid]
-            position2 = [self.xmid - self.xmax/3, self.ymid]
+        if position2 is None:
+            position2 = [self.xmid - self.xmax / 3, self.ymid]
 
 
         theta_1 = 1/2*np.arctan2((self.y-position1[1]),(self.x-position1[0]))
