@@ -61,7 +61,7 @@ class QuantumMechanics(BaseSystem):
         if position == None:
             position = self.rmid
         if width == None:
-            width = self.xmax/10
+            width = (self.xmax-self.xmin)/10
     
 
         self.psi = np.sqrt(self.calc_Gaussian(position=position,width=width))
