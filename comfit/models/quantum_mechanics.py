@@ -93,7 +93,7 @@ class QuantumMechanics(BaseSystem):
         """
 
         if trapping_strength == None:
-            trapping_strength = 1/(0.25*self.xmax)**2
+            trapping_strength = 1/(0.25*(self.xmax-self.xmin))**2
 
 
         if self.dim ==1:
