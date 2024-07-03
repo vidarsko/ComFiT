@@ -146,8 +146,8 @@ $$
 
 where it is assumed that there is a single Frank elastic constant $K$.
 Here $Q^2 = QQ$ denote a standard matrix multiplication, and similar for $Q^3$.
-We therfore have that $text{Tr}(Q^2)^2 = Q_{kj}Q_{jk}$.
-The $\text{tr}(Q^3)$ only exists in three dimensons since it is zero in two dimensions.
+We therfore have that $\text{Tr}(Q^2)^2 = Q_{kj}Q_{jk}$.
+The $\text{Tr}(Q^3)$ only exists in three dimensons since in two dimensions it is zero for all symetric traceless matrices.
 The molecular field is then given as
 
 $$
