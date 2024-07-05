@@ -95,7 +95,7 @@ class PhaseFieldCrystal(BaseSystem):
     ############ CONFIGURATION FUNCTIONS #################
     #######################################################
 
-    def conf_PFC_from_amplitudes(self, eta=None):
+    def conf_PFC_from_amplitudes(self, eta=None, rotation=None):
         """Configures the PFC from the amplitudes.
 
         Args:
@@ -105,23 +105,7 @@ class PhaseFieldCrystal(BaseSystem):
             Configures self.psi and self.psi_f.
         """
 
-        self.psi = self.psi0
-
-        if eta is None:
-            eta = self.eta0
-
-        for n in range(self.number_of_reciprocal_lattice_modes):
-
-            if self.dim == 1:
-                self.psi += 2 * eta[n] * np.exp(1j * self.q[n][0] * self.x)
-
-            elif self.dim == 2:
-                self.psi += 2 * eta[n] * np.exp(1j * (self.q[n][0] * self.x + self.q[n][1] * self.y))
-
-            elif self.dim == 3:
-                self.psi += 2 * eta[n] * np.exp(1j * (self.q[n][0] * self.x + self.q[n][1] * self.y + self.q[n][2] * self.z))
-
-        self.psi = np.real(self.psi)
+        self.psi = self.calc_PFC_from_amplitudes(eta, rotation)
         self.psi_f = sp.fft.fftn(self.psi)
 
     def conf_advect_PFC(self,u):
