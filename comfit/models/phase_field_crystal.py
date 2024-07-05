@@ -890,9 +890,72 @@ class PhaseFieldCrystal(BaseSystem):
 
             return orientation_field
         
-        else:
-            raise Exception("The orientation field is only implemented for 2D systems.")
+        elif self.dim == 3:
 
+            # 1153 points
+            xRes = 17
+            yRes = 17
+            zRes = 9
+
+            x = np.linspace(-np.pi,np.pi, xRes)
+            y = np.linspace(-np.pi,np.pi, yRes)
+            z = np.linspace(0,np.pi, zRes)
+
+            [X,Y,Z] = np.meshgrid(x,y,z,indexing='ij')
+
+            # Flatten the meshgrid arrays into 1D arrays
+            X_flat = X.flatten()
+            Y_flat = Y.flatten()
+            Z_flat = Z.flatten()
+
+            # Compute the distance from the origin for each point
+            distances = np.sqrt(X_flat**2 + Y_flat**2 + Z_flat**2)
+
+            # Filter the points that lie inside the unit sphere
+            inside_sphere = distances <= np.pi
+
+            # Create a list of points that are inside the unit sphere
+            points_inside_sphere = np.vstack((X_flat[inside_sphere], Y_flat[inside_sphere], Z_flat[inside_sphere])).T
+
+            # Convert to a list of tuples
+            points_inside_sphere_list = [tuple(point) for point in points_inside_sphere]
+
+            # print(len(points_inside_sphere_list))
+            # fig = plt.figure(figsize=(12, 12))
+            # ax = fig.add_subplot(projection='3d')
+            # ax.scatter(*zip(*points_inside_sphere_list))
+            # plt.show()
+
+            orientation_field = np.zeros((4,self.xRes,self.yRes,self.zRes))
+
+            for point in points_inside_sphere_list:
+                rotation = sp.spatial.transform.Rotation.from_rotvec(point)
+                rotation_matrix = rotation.as_matrix()
+                q = (rotation_matrix@self.q.transpose()).transpose()
+
+                for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                    eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
+                            -1j*q[n][0]*self.x - 1j*q[n][1]*self.y)))
+                
+                Phi2 = np.zeros(self.dims)
+                for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                    Phi2 += abs(eta[n])**2
+
+                theta = np.sqrt(point[0]**2 + point[1]**2 + point[2]**2)
+                nx = point[0]/theta if theta != 0 else 0
+                ny = point[1]/theta if theta != 0 else 0
+                nz = point[2]/theta if theta != 0 else 0
+
+                orientation_field[0] += Phi2*np.cos(2*theta)
+                orientation_field[1] += Phi2*np.sin(2*theta)*nx
+                orientation_field[2] += Phi2*np.sin(2*theta)*ny
+                orientation_field[3] += Phi2*np.sin(2*theta)*nz
+            
+            return orientation_field
+                
+
+
+            
 
 
     #######################################################
@@ -927,6 +990,17 @@ class PhaseFieldCrystal(BaseSystem):
             kwargs['plot_method'] = 'phase_angle'
 
             return self.plot_complex_field(complex_field, **kwargs)
+
+        elif self.dim==3:
+            theta = np.arccos(orientation_field[0])/2
+            nnorm = np.sqrt(orientation_field[1]**2 + orientation_field[2]**2 + orientation_field[3]**2)
+            nx = orientation_field[1]/nnorm
+            ny = orientation_field[2]/nnorm 
+            nz = orientation_field[3]/nnorm 
+
+            vector_field = theta*np.array([nx,ny,nz])
+
+            return self.plot_vector_field(vector_field, spacing=5, **kwargs)
 
     def plot_dislocation_nodes(self, dislocation_nodes, **kwargs):
         """
