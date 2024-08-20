@@ -10,6 +10,7 @@ setup(
                       'scipy',
                       'matplotlib',
                       'plotly',
+                      'kaleido',
                       'scikit-image>=0.18.0,<0.23',
                       'moviepy',
                       'pillow'],

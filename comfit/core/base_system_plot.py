@@ -416,6 +416,7 @@ class BaseSystemPlot:
             # Keyword arguments particular to the 2D case
             kwargs['grid'] = kwargs.get('grid', False)
 
+            ### 2D field Matplotlib ###
             if self.plot_lib == 'matplotlib':
 
                 if ax == None:
@@ -477,7 +478,7 @@ class BaseSystemPlot:
                 else:
                     vlim = [np.min(field), np.max(field)]
                 
-                # Set the value limitses
+                # Set the value limits
                 if 'vlim' in kwargs:
                     vlim = kwargs['vlim']
                 else:
@@ -502,6 +503,8 @@ class BaseSystemPlot:
 
                 if colorbar:
                     cbar = plt.colorbar(pcm, ax=ax)
+
+            ### 2D field Plotly ### 
             elif self.plot_lib == 'plotly':
                 X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
