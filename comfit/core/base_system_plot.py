@@ -506,7 +506,10 @@ class BaseSystemPlot:
 
             ### 2D field Plotly ### 
             elif self.plot_lib == 'plotly':
-                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+
+                # X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+                X = self.x
+                Y = self.y
 
                 fig.add_trace(go.Heatmap(
                     x=X.flatten()/self.a0,

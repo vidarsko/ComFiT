@@ -498,8 +498,6 @@ This command is the same for both `matplotlib` and `plotly`.
         cf.save_plotly_plot(n, fig)
     cf.tool_make_animation_gif(n)
     ```
-    
-
 
 
 ## Angle color scheme
