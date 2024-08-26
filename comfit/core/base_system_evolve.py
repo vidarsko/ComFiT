@@ -1,10 +1,18 @@
+from typing import Callable
+
 import numpy as np
 import scipy as sp
 
 class BaseSystemEvolve:
     """ Evolution methods for the base system class"""
     ## Time evolution function
-    def evolve_ETD2RK_loop(self, integrating_factors_f, nonlinear_evolution_function_f, field, field_f):
+    def evolve_ETD2RK_loop(
+        self, 
+        integrating_factors_f: list[np.ndarray], 
+        nonlinear_evolution_function_f: Callable[[np.ndarray, float], np.ndarray], 
+        field: np.ndarray, 
+        field_f: np.ndarray
+    ) -> tuple[np.ndarray, np.ndarray]:
         """Evolves the given field using the ETD2RK scheme with a loop.
 
         Args:
@@ -31,7 +39,13 @@ class BaseSystemEvolve:
 
         return field, field_f
 
-    def evolve_ETD4RK_loop(self, integrating_factors_f, nonlinear_evolution_function_f, field, field_f):
+    def evolve_ETD4RK_loop(
+        self, 
+        integrating_factors_f: list[np.ndarray], 
+        nonlinear_evolution_function_f: Callable[[np.ndarray, float], np.ndarray], 
+        field: np.ndarray, 
+        field_f: np.ndarray
+    ) -> tuple[np.ndarray, np.ndarray]:
         """Evolves the given field using the ETD4RK scheme with a loop.
 
          Args:

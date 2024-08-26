@@ -1,3 +1,5 @@
+from typing import Literal
+
 import numpy as np
 import scipy as sp
 
@@ -8,9 +10,11 @@ class BaseSystemCalc:
     # CALCULATION FUNCTIONS
 
     # Calculation of angle fields for vortices of different types
-    def calc_angle_field_single_vortex(self,
-                                       position=None,
-                                       charge=1):
+    def calc_angle_field_single_vortex(
+        self,
+        position: list | None = None,
+        charge: int = 1
+    ) -> np.ndarray:
         """Calculate the angle field due to a single vortex.
 
         Args:
@@ -33,9 +37,11 @@ class BaseSystemCalc:
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
-    def calc_angle_field_vortex_dipole(self,
-                                       dipole_vector=None,
-                                       dipole_position=None):
+    def calc_angle_field_vortex_dipole(
+        self,
+        dipole_vector: list[float] | tuple[float] | None = None,
+        dipole_position: list[float] | None = None
+    ) -> np.ndarray:
         """Calculates the angle field for a double vortex system.
 
         Args:
@@ -86,7 +92,12 @@ class BaseSystemCalc:
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
-    def calc_angle_field_vortex_ring(self, position=None, radius=None, normal_vector=[0, 0, 1]):
+    def calc_angle_field_vortex_ring(
+        self,
+        position: list[float] | None = None,
+        radius: float | None = None,
+        normal_vector: np.ndarray = [0, 0, 1]
+    ) -> np.ndarray:
         """Calculates the angle field for a vortex ring.
 
         Args:
@@ -156,7 +167,7 @@ class BaseSystemCalc:
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
-    def calc_wavenums(self, x):
+    def calc_wavenums(self, x: np.ndarray) -> np.ndarray:
         """Calculates the wavenumbers corresponding to the input position vectors given by x.
 
         Args:
@@ -201,7 +212,7 @@ class BaseSystemCalc:
 
         return np.exp(-1 / 2 * a0 ** 2 * self.calc_k2())
 
-    def calc_determinant_field(self, psi):
+    def calc_determinant_field(self, psi: list[np.ndarray, np.ndarray]) -> np.ndarray:
         """Calculate the determinant transformation of a given field
 
         Args:
@@ -235,7 +246,7 @@ class BaseSystemCalc:
 
                 return np.array(result)
 
-    def calc_defect_density(self, psi, psi0=1):
+    def calc_defect_density(self, psi: list[np.ndarray, np.ndarray], psi0=1):
         """Calculate the defect density of a given psi field.
 
         Args:
@@ -248,7 +259,7 @@ class BaseSystemCalc:
 
         return 1 / (np.pi * psi0 ** 2) * self.calc_determinant_field(psi)
 
-    def calc_defect_density_singular(self, psi, psi0=1):
+    def calc_defect_density_singular(self, psi: np.ndarray, psi0=1) -> np.ndarray:
         """Calculate the singular defect density for a given psi field.
 
         Args:
@@ -260,7 +271,11 @@ class BaseSystemCalc:
         """
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
 
-    def calc_defect_velocity_field(self, psi, dt_psi):
+    def calc_defect_velocity_field(
+        self,
+        psi: list[np.ndarray, np.ndarray],
+        dt_psi: list[np.ndarray, np.ndarray]
+    ) -> list[np.ndarray, np.ndarray]:
         """Calculates the velocity field of the defects in the psi field.
 
         Args:
@@ -376,7 +391,7 @@ class BaseSystemCalc:
 
                 return [Jx, Jy]
 
-    def calc_delta_function(self, psi, psi0=1):
+    def calc_delta_function(self, psi: list[np.ndarray, np.ndarray], psi0=1):
         """Calculate the delta function for a given wavefunction.
 
         Args:
@@ -393,7 +408,7 @@ class BaseSystemCalc:
                 psi2 = psi[0] ** 2 + psi[1] ** 2
                 return 1 / (2 * np.pi * width ** 2) * np.exp(-psi2 / (2 * width ** 2))
 
-    def calc_region_interval(self,a,b):
+    def calc_region_interval(self, a: float, b: float) -> np.ndarray:
         """Calculates a boolean array indicating whether a point is within an interval.
         
         Args:
@@ -412,7 +427,7 @@ class BaseSystemCalc:
         return (a <= self.x) & (self.x <= b)
         
 
-    def calc_region_disk(self, position, radius):
+    def calc_region_disk(self, position: list[float], radius: float) -> np.ndarray:
         """Calculates a boolean array indicating whether a point is within a disk of a given radius.
         
         Args:
@@ -438,7 +453,7 @@ class BaseSystemCalc:
         else:
             raise Exception("Not valid for other dimensions.")
 
-    def calc_region_ball(self, position, radius):
+    def calc_region_ball(self, position: list[float], radius: float) -> np.ndarray:
         """Calculates a boolean array indicating whether a point is within a ball of a given radius.
         
         Args:
@@ -499,7 +514,7 @@ class BaseSystemCalc:
 
         return value*(2*np.pi*width**2)**(-self.dim/2)*np.exp(-r2/(2*width**2))
 
-    def calc_distance_squared_to_point(self,position):
+    def calc_distance_squared_to_point(self, position: float | list[float]) -> np.ndarray:
         """Calculates the distance to a point given
         
         Args:
@@ -543,7 +558,13 @@ class BaseSystemCalc:
 
         return r2
 
-    def calc_region_cylinder(self, position, radius, normal_vector, height):
+    def calc_region_cylinder(
+        self,
+        position: list[float],
+        radius: float,
+        normal_vector: np.ndarray,
+        height: float
+    ) -> np.ndarray:
         """Calculates a boolean array indicating whether a point is within a cylinder of a given radius and height.
         
         Args:
@@ -582,7 +603,7 @@ class BaseSystemCalc:
         else:
             raise Exception("Not valid for other dimensions.")
 
-    def calc_integrate_field(self, field, region=None):
+    def calc_integrate_field(self, field: np.ndarray, region: int | None = None) -> float:
         """Calculates the integrated field value within a specified region.
 
         Args:
@@ -603,7 +624,7 @@ class BaseSystemCalc:
         else:
             return np.sum(field[region]) * self.dV
 
-    def calc_integrating_factors_f_and_solver(self, omega_f, method):
+    def calc_integrating_factors_f_and_solver(self, omega_f, method: Literal["ETD2RK", "ETD4RK"]) -> tuple:
         """Calculates the integrating factors and the solver for the evolution equation.
         
         Args:
@@ -627,7 +648,13 @@ class BaseSystemCalc:
 
         return integrating_factors_f, solver
 
-    def calc_advect_field(self, field, u, field_f = None, order = 3):
+    def calc_advect_field(
+        self,
+        field: np.ndarray,
+        u: np.ndarray,
+        field_f: np.ndarray | None = None,
+        order: int = 3
+    ) -> np.ndarray:
         """Advects field accodring to the provided displacement field u, with a taylor expansion up to order 3.
 
         Args: 
@@ -671,7 +698,7 @@ class BaseSystemCalc:
         return field
 
 
-    def calc_evolution_integrating_factors_ETD2RK(self, omega_f, tol=10 ** (-4)):
+    def calc_evolution_integrating_factors_ETD2RK(self, omega_f: np.ndarray, tol: float = 10 ** (-4)) -> list:
         """Calculates integrating factors for ETD2RK
         
         Args:
@@ -693,7 +720,7 @@ class BaseSystemCalc:
         integrating_factors_f[2][np.abs(omega_f) < tol] = self.dt / 2
         return integrating_factors_f
 
-    def calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10 ** (-4)):
+    def calc_evolution_integrating_factors_ETD4RK(self, omega_f: np.ndarray, tol: float =10 ** (-4)) -> list:
         """Calculate the evolution integrating factors using the ETDRK4 method.
 
         Args:
@@ -733,9 +760,12 @@ class BaseSystemCalc:
 
         return integrating_factors_f
 
-    def calc_defect_nodes(self, defect_density,
-                          charge_tolerance=None,
-                          integration_radius=None):
+    def calc_defect_nodes(
+        self,
+        defect_density: np.ndarray,
+        charge_tolerance: float | None = None,
+        integration_radius: float | None = None
+    ):
         """Calculate the positions and charges of defect nodes based on the defect density.
         
         Args:

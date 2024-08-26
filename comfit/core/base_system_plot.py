@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import matplotlib.cm as cm
+import matplotlib.axes
+import matplotlib.figure
 
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
@@ -27,7 +29,7 @@ class BaseSystemPlot:
         elif self.plot_lib == 'plotly':
             go.show() #or fig.show?
 
-    def plot_tool_set_axis_properties(self, **kwargs):
+    def plot_tool_set_axis_properties(self, **kwargs) -> matplotlib.axes.Axes | go.Figure:
         """Sets the properties of the axis for a plot.
         
         Args:
@@ -246,7 +248,7 @@ class BaseSystemPlot:
         elif plot_lib == 'plotly':
             return fig
 
-    def plot_tool_surface_matplotlib(self, **kwargs):
+    def plot_tool_surface_matplotlib(self, **kwargs) -> matplotlib.axes.Axes:
         """Plots the surface of the given field.
 
         Args:
@@ -269,7 +271,7 @@ class BaseSystemPlot:
 
         return ax
 
-    def plot_tool_extend_field(self,field):
+    def plot_tool_extend_field(self, field: np.ndarray) -> np.ndarray:
         """Extends the field in case not a complete array is given. 
 
         For instance, if a field in 3 dimensions is calculated using only x, then the field is extended to the full 3D array.
@@ -313,7 +315,7 @@ class BaseSystemPlot:
 
         return field
 
-    def plot_tool_plotly_add_angle_colorbar3D(self,fig):
+    def plot_tool_plotly_add_angle_colorbar3D(self, fig: go.Figure) -> go.Figure:
         """Adds a colorbar to a 3D plot with the angle colormap.
 
         Args:
@@ -344,7 +346,7 @@ class BaseSystemPlot:
         return fig
 
 
-    def plot_field(self, field, **kwargs):
+    def plot_field(self, field: np.ndarray, **kwargs) -> matplotlib.axes.Axes | go.Figure:
         """Plots the given (real) field.
         
         Args:
@@ -357,7 +359,7 @@ class BaseSystemPlot:
             If self.plot_lib == 'matplotlib':
                 The axes containing the plot (matplotlib.axes.Axes).
             If self.plot_lib == 'plotly':
-                The figure containing the plot.
+                The figure containing the plot (plotly.graph_objects.Figure).
         """
 
         if field.dtype == bool:
@@ -639,7 +641,7 @@ class BaseSystemPlot:
 
         
 
-    def plot_complex_field(self, complex_field, **kwargs):
+    def plot_complex_field(self, complex_field: np.ndarray, **kwargs) -> matplotlib.axes.Axes | go.Figure:
         """
         Plot a complex field.
 
@@ -651,7 +653,10 @@ class BaseSystemPlot:
                 If not provided, a new 3D axes will be created.
         
         Returns:
-            matplotlib.axes.Axes: The axes containing the plot.
+            if self.plot_lib == 'matplotlib':
+                matplotlib.axes.Axes: The axes containing the plot.
+            if self.plot_lib == 'plotly':
+                go.Figure: The figure containing the plot.
         """
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
@@ -1070,7 +1075,7 @@ class BaseSystemPlot:
             self.plot_tool_set_axis_properties(**kwargs)
             return fig
 
-    def plot_angle_field(self, angle_field, **kwargs):
+    def plot_angle_field(self, angle_field: np.ndarray, **kwargs) -> matplotlib.axes.Axes:
         """Plot the angle field.
 
         Args:
@@ -1621,8 +1626,13 @@ class BaseSystemPlot:
             self.plot_tool_set_axis_properties(**kwargs)
             return fig
 
-    def plot_field_in_plane(self, field, normal_vector=None, position=None, 
-                        **kwargs):
+    def plot_field_in_plane(
+            self,
+            field: np.ndarray,
+            normal_vector: np.ndarray | None = None,
+            position: np.ndarray | None = None,
+            **kwargs
+        ):
         """Plots the field in a plane perpendicular to the given normal vector
         
         Uses scipy.interpolate.griddata and plt.plot_trisurf.
@@ -1716,7 +1726,13 @@ class BaseSystemPlot:
 
         return fig, ax
 
-    def plot_complex_field_in_plane(self, complex_field, normal_vector=None, position=None, **kwargs):
+    def plot_complex_field_in_plane(
+            self,
+            complex_field: np.ndarray,
+            normal_vector: np.ndarray | None = None,
+            position: np.ndarray | None = None,
+            **kwargs
+        ) -> matplotlib.axes.Axes:
         """Plots the complex field in a plane perpendicular to the given normal vector using
 
         Args:
@@ -1807,7 +1823,13 @@ class BaseSystemPlot:
 
         return fig, ax
 
-    def plot_angle_field_in_plane(self, angle_field, normal_vector=None, position=None,**kwargs):
+    def plot_angle_field_in_plane(
+            self,
+            angle_field: np.ndarray,
+            normal_vector: np.ndarray | None = None,
+            position: np.ndarray | None = None,
+            **kwargs
+        ) -> matplotlib.axes.Axes:
         """Plots the angle field in a plane.
 
         Args:
@@ -1834,7 +1856,14 @@ class BaseSystemPlot:
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
 
     
-    def plot_vector_field_in_plane(self,vector_field,position=None,normal_vector=None,spacing=2,**kwargs):
+    def plot_vector_field_in_plane(
+            self,
+            vector_field: tuple[np.ndarray, np.ndarray],
+            position: np.ndarray | None = None,
+            normal_vector: np.ndarray | None = None,
+            spacing: int = 2,
+            **kwargs
+        ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
         """
         Plots the vector field in a plane.
         
