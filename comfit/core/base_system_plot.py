@@ -1,3 +1,5 @@
+from typing import Union, Optional
+
 import numpy as np
 import scipy as sp
 
@@ -29,7 +31,7 @@ class BaseSystemPlot:
         elif self.plot_lib == 'plotly':
             go.show() #or fig.show?
 
-    def plot_tool_set_axis_properties(self, **kwargs) -> matplotlib.axes.Axes | go.Figure:
+    def plot_tool_set_axis_properties(self, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
         """Sets the properties of the axis for a plot.
         
         Args:
@@ -346,7 +348,7 @@ class BaseSystemPlot:
         return fig
 
 
-    def plot_field(self, field: np.ndarray, **kwargs) -> matplotlib.axes.Axes | go.Figure:
+    def plot_field(self, field: np.ndarray, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
         """Plots the given (real) field.
         
         Args:
@@ -641,7 +643,7 @@ class BaseSystemPlot:
 
         
 
-    def plot_complex_field(self, complex_field: np.ndarray, **kwargs) -> matplotlib.axes.Axes | go.Figure:
+    def plot_complex_field(self, complex_field: np.ndarray, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
         """
         Plot a complex field.
 
@@ -1629,8 +1631,8 @@ class BaseSystemPlot:
     def plot_field_in_plane(
             self,
             field: np.ndarray,
-            normal_vector: np.ndarray | None = None,
-            position: np.ndarray | None = None,
+            normal_vector: Optional[np.ndarray] = None,
+            position: Optional[np.ndarray] = None,
             **kwargs
         ):
         """Plots the field in a plane perpendicular to the given normal vector
@@ -1729,8 +1731,8 @@ class BaseSystemPlot:
     def plot_complex_field_in_plane(
             self,
             complex_field: np.ndarray,
-            normal_vector: np.ndarray | None = None,
-            position: np.ndarray | None = None,
+            normal_vector: Optional[np.ndarray] = None,
+            position: Optional[np.ndarray] = None,
             **kwargs
         ) -> matplotlib.axes.Axes:
         """Plots the complex field in a plane perpendicular to the given normal vector using
@@ -1826,8 +1828,8 @@ class BaseSystemPlot:
     def plot_angle_field_in_plane(
             self,
             angle_field: np.ndarray,
-            normal_vector: np.ndarray | None = None,
-            position: np.ndarray | None = None,
+            normal_vector: Optional[np.ndarray] = None,
+            position: Optional[np.ndarray] = None,
             **kwargs
         ) -> matplotlib.axes.Axes:
         """Plots the angle field in a plane.
@@ -1859,8 +1861,8 @@ class BaseSystemPlot:
     def plot_vector_field_in_plane(
             self,
             vector_field: tuple[np.ndarray, np.ndarray],
-            position: np.ndarray | None = None,
-            normal_vector: np.ndarray | None = None,
+            position: Optional[np.ndarray] = None,
+            normal_vector: Optional[np.ndarray] = None,
             spacing: int = 2,
             **kwargs
         ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:

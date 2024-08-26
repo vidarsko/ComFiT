@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Union, Optional
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -84,7 +84,7 @@ class BoseEinsteinCondensate(BaseSystem):
         self.psi = noise_strength * self.psi
         self.psi_f = sp.fft.fftn(self.psi)
 
-    def conf_external_potential(self, V_ext: Callable | float, additive: bool = False) -> None:
+    def conf_external_potential(self, V_ext: Union[Callable, float], additive: bool = False) -> None:
         """Sets the external potential of the system.
 
         Args:
@@ -124,7 +124,7 @@ class BoseEinsteinCondensate(BaseSystem):
         self.psi_f = sp.fft.fftn(self.psi)
 
     # CONFIGURATION FUNCTIONS
-    def conf_insert_vortex(self, charge: int = 1, position: list[float] | None = None):
+    def conf_insert_vortex(self, charge: int = 1, position: Optional[list[float]] = None):
         """Sets the initial condition for a vortex dipole
 
         Args:
@@ -151,8 +151,8 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def conf_insert_vortex_dipole(
         self,
-        dipole_vector: list[float] | None = None,
-        dipole_position: list[float] | None = None
+        dipole_vector: Optional[list[float]] = None,
+        dipole_position: Optional[list[float]] = None
     ):
         """Sets the initial condition for a vortex dipole configuration in a 2-dimensional system.
 
@@ -182,8 +182,8 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def conf_insert_vortex_ring(
         self,
-        position: list[float] | None = None,
-        radius: float | None = None,
+        position: Optional[list[float]] = None,
+        radius: Optional[float] = None,
         normal_vector: list[float] = [0, 0, 1]
     ) -> None:
         """Sets the initial condition for a vortex ring configuration in a 3-dimensional system
@@ -520,7 +520,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
 
     ## Functions for calculating vortex properties
-    def calc_vortex_density(self, psi: np.ndarray | None = None) -> np.ndarray:
+    def calc_vortex_density(self, psi: Optional[np.ndarray] = None) -> np.ndarray:
         """Calculates the vortex density of the system.
 
         Args:
@@ -546,7 +546,7 @@ class BoseEinsteinCondensate(BaseSystem):
         # TODO: Insert the correct value of the equilibrium of psi, based on theory (Vidar 03.12.23)
         return self.calc_defect_density([np.real(self.psi), np.imag(self.psi)])
 
-    def calc_vortex_velocity_field(self, dt_psi: np.ndarray, psi: np.ndarray | None = None) -> np.ndarray:
+    def calc_vortex_velocity_field(self, dt_psi: np.ndarray, psi: Optional[np.ndarray] = None) -> np.ndarray:
         """Calculates the vortex velocity field of the system.
 
         Args:
@@ -562,7 +562,7 @@ class BoseEinsteinCondensate(BaseSystem):
         return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
                                         [np.real(dt_psi), np.imag(dt_psi)])
 
-    def calc_vortex_nodes(self, dt_psi: np.ndarray | None = None) -> list[dict]:
+    def calc_vortex_nodes(self, dt_psi: Optional[np.ndarray] = None) -> list[dict]:
         """
         Calculate the positions and charges of vortex nodes based on the defect density.
 

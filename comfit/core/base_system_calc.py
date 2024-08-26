@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Optional, Union
 
 import numpy as np
 import scipy as sp
@@ -12,7 +12,7 @@ class BaseSystemCalc:
     # Calculation of angle fields for vortices of different types
     def calc_angle_field_single_vortex(
         self,
-        position: list | None = None,
+        position: Optional[list] = None,
         charge: int = 1
     ) -> np.ndarray:
         """Calculate the angle field due to a single vortex.
@@ -39,8 +39,8 @@ class BaseSystemCalc:
 
     def calc_angle_field_vortex_dipole(
         self,
-        dipole_vector: list[float] | tuple[float] | None = None,
-        dipole_position: list[float] | None = None
+        dipole_vector: Optional[Union[list[float], tuple[float]]] = None,
+        dipole_position: Optional[list[float]] = None
     ) -> np.ndarray:
         """Calculates the angle field for a double vortex system.
 
@@ -94,8 +94,8 @@ class BaseSystemCalc:
 
     def calc_angle_field_vortex_ring(
         self,
-        position: list[float] | None = None,
-        radius: float | None = None,
+        position: Optional[list[float]] = None,
+        radius: Optional[float] = None,
         normal_vector: np.ndarray = [0, 0, 1]
     ) -> np.ndarray:
         """Calculates the angle field for a vortex ring.
@@ -514,7 +514,7 @@ class BaseSystemCalc:
 
         return value*(2*np.pi*width**2)**(-self.dim/2)*np.exp(-r2/(2*width**2))
 
-    def calc_distance_squared_to_point(self, position: float | list[float]) -> np.ndarray:
+    def calc_distance_squared_to_point(self, position: Union[float, list[float]]) -> np.ndarray:
         """Calculates the distance to a point given
         
         Args:
@@ -603,7 +603,7 @@ class BaseSystemCalc:
         else:
             raise Exception("Not valid for other dimensions.")
 
-    def calc_integrate_field(self, field: np.ndarray, region: int | None = None) -> float:
+    def calc_integrate_field(self, field: np.ndarray, region: Optional[int] = None) -> float:
         """Calculates the integrated field value within a specified region.
 
         Args:
@@ -652,7 +652,7 @@ class BaseSystemCalc:
         self,
         field: np.ndarray,
         u: np.ndarray,
-        field_f: np.ndarray | None = None,
+        field_f: Optional[np.ndarray] = None,
         order: int = 3
     ) -> np.ndarray:
         """Advects field accodring to the provided displacement field u, with a taylor expansion up to order 3.
@@ -763,8 +763,8 @@ class BaseSystemCalc:
     def calc_defect_nodes(
         self,
         defect_density: np.ndarray,
-        charge_tolerance: float | None = None,
-        integration_radius: float | None = None
+        charge_tolerance: Optional[float] = None,
+        integration_radius: Optional[float] = None
     ):
         """Calculate the positions and charges of defect nodes based on the defect density.
         
