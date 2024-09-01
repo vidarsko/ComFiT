@@ -697,6 +697,20 @@ class BaseSystemCalc:
 
         return field
 
+    # def calc_advect_field_alot(
+    #     self,
+    #     field: np.ndarray,
+    #     u: np.ndarray,
+    #     field_f: Optional[np.ndarray] = None,
+    #     order: int = 3
+    # ) -> np.ndarray:
+
+    # if self.dim == 2:
+        
+    #     Ux = u[0]/self.dx
+    #     Uy = u[1]/self.dy
+
+
 
     def calc_evolution_integrating_factors_ETD2RK(self, omega_f: np.ndarray, tol: float = 10 ** (-4)) -> list:
         """Calculates integrating factors for ETD2RK

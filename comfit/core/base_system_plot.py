@@ -16,6 +16,7 @@ import matplotlib.figure
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import plotly.colors as pc
+import plotly.express as px
 
 from skimage.measure import marching_cubes
 
@@ -512,20 +513,46 @@ class BaseSystemPlot:
             elif self.plot_lib == 'plotly':
 
                 # X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-                X = self.x
-                Y = self.y
+                X = self.x.flatten()
+                Y = self.y.flatten()
 
-                fig.add_trace(go.Heatmap(
+                # fig = px.imshow(
+                #         field, 
+                #         x=X[:,0],  # Normalized x-coordinates for the columns
+                #         y=Y[0,:],  # Normalized y-coordinates for the rows
+                #         zmin=np.min(field), 
+                #         zmax=np.max(field),
+                #         color_continuous_scale='Viridis',
+                #         aspect='auto',
+                #     )
+
+                # fig.add_trace(go.Contour(
+                #     x=X/self.a0,
+                #     y=Y/self.a0,
+                #     z=field.flatten(),
+                #     colorscale='Viridis',
+                #     zmin=np.min(field),
+                #     zmax=np.max(field),
+                #     hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                #     name=''
+                # ))
+                
+                fig.add_trace(go.Scatter(
                     x=X.flatten()/self.a0,
                     y=Y.flatten()/self.a0,
-                    z=field.flatten(),
-                    zmin=np.min(field),
-                    zmax=np.max(field),
-                    colorscale='Viridis', 
-                    zsmooth='best',
-                    hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
-                    name=''
-                ))
+                    mode = 'markers',
+                    marker_color=field.flatten()))
+                # fig.add_trace(go.Heatmap(
+                #     x=X.flatten()/self.a0,
+                #     y=Y.flatten()/self.a0,
+                #     z=field.flatten(),
+                #     zmin=np.min(field),
+                #     zmax=np.max(field),
+                #     colorscale='Viridis', 
+                #     zsmooth='best',
+                #     hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                #     name=''
+                # ))
 
                 if axis_equal:
                     # Set axis to be equal
@@ -1354,53 +1381,6 @@ class BaseSystemPlot:
             
             elif self.plot_lib == 'plotly':
                 
-                # An attempt to use Cone. Not optimal
-                # fig = kwargs.get('fig', go.Figure())
-                # fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                #             y=Y.flatten()/self.a0, 
-                #             z=np.zeros(X.shape).flatten(), 
-                #             u=U.flatten(), 
-                #             v=V.flatten(), 
-                #             w=np.zeros(X.shape).flatten(),
-                #             colorscale='Viridis', 
-                #             sizemode='scaled', 
-                #             sizeref=1, showscale=True))
-                # fig.update_layout(
-                #         scene_camera=dict(
-                #             eye=dict(x=0, y=0, z=2.5),
-                #             up=dict(x=0, y=0, z=1)
-                #         ),
-                #         scene=dict(
-                #             zaxis=dict(showticklabels=False, title='')
-                #         )
-                #     )
-
-                def get_colors(values, colorscale='Viridis'):
-                    colorscale = pc.get_colorscale(colorscale)
-                    unique_magnitudes = np.unique(values)
-                    color_map = {val: pc.sample_colorscale(colorscale, val)[0] for val in unique_magnitudes}
-                    return np.vectorize(color_map.get)(values)
-
-                    
-                def plot_triangle(fig, position,direction,size,color):
-                    x = [position[0]+direction[0]*size/2, 
-                            position[0]-direction[0]*size/3 + direction[1]*size/4, 
-                            position[0]-direction[0]*size/3 - direction[1]*size/4]
-                    y = [position[1]+direction[1]*size/2, 
-                            position[1]-direction[1]*size/3 - direction[0]*size/4, 
-                            position[1]-direction[1]*size/3 + direction[0]*size/4]
-
-                    fig.add_trace(go.Scatter(
-                        x=x,
-                        y=y,
-                        fill='toself',
-                        mode='lines', 
-                        line=dict(color='rgba(0,0,0,0)'),
-                        fillcolor=color,
-                        showlegend=False,
-                        name=''
-                    ))
-
                 fig = kwargs.get('fig', go.Figure())
 
                 u = U.flatten()
@@ -1409,37 +1389,31 @@ class BaseSystemPlot:
                 magnitude = np.sqrt(u**2 + v**2)
                 magnitude_normalized = magnitude/np.max(magnitude)
 
-                colors = get_colors(magnitude_normalized, colorscale='viridis')
-
                 angle = np.arctan2(v, u)
-                
                 direction = np.array([np.cos(angle), np.sin(angle)]).T
-
-                x = X.flatten()/self.a0
-                y = Y.flatten()/self.a0
-
-                for i in range(len(x)):
-                    plot_triangle(fig, position=[x[i],y[i]], direction=direction[i], size=1.3*magnitude_normalized[i]*spacing*self.dx/self.a0, color=colors[i])
 
                 colorbar = kwargs.get('colorbar', True)
 
-                if colorbar:
-                    # Add a scatter trace to create the colorbar
-                    colorbar_trace = go.Scatter(
-                        x=[None],
-                        y=[None],
-                        mode='markers',
-                        marker=dict(
-                            colorscale=colormap,
-                            cmin=0,
-                            cmax=np.max(magnitude),
-                            colorbar=dict(
-                                title=''
-                            )
-                        ),
-                        showlegend=False
-                    )
-                    fig.add_trace(colorbar_trace)
+                fig.add_trace(go.Scatter(
+                x=X.flatten()/self.a0,
+                y=Y.flatten()/self.a0,
+                mode='markers',
+                marker=dict(symbol='arrow', 
+                    angle=90-angle.flatten()*180/np.pi, 
+                    size=10*magnitude_normalized.flatten(), 
+                    color=magnitude.flatten(), 
+                    colorscale='Viridis', 
+                    showscale=colorbar,
+                    line=dict(color='black')
+                    ),
+                    hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
+                                '<b>y:</b> %{y:.2f}a0<br>' +
+                                '<b>ux:</b> %{customdata[0]:.2f}<br>' +
+                                '<b>uy:</b> %{customdata[1]:.2f}<extra></extra>',
+                    customdata=np.stack((u.flatten(), v.flatten()), axis=-1)  # Adding ux, uy as customdata
+                )
+                )
+
 
         ###############################################################
         ########### DIMENSION: 2 - VECTOR-DIMENSION: 3 ################

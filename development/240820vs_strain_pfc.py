@@ -13,7 +13,7 @@ pfc.plot_lib = 'plotly'
 
 pfc.conf_PFC_from_amplitudes()
 
-strain = [0.1,0.1,0.1]
+strain = [-0.1,0.1,0.0]
 
 pfc.conf_apply_strain(strain)
 print(pfc.x)
