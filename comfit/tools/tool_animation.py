@@ -43,6 +43,25 @@ def tool_save_plot(counter,
     plt.gcf().set_size_inches(image_size_inches)
     plt.savefig(filename,dpi=dpi)
 
+def tool_save_plot_plotly(counter,fig, ID=None):
+    """
+    Saves the current Plotly figure as a PNG file.
+
+    Args:
+        counter (int): A unique identifier for the plot image file.
+        fig (plotly.graph_objects.Figure): The Plotly figure to save as an image.
+        ID (str, optional): A unique identifier for the plot image file. Defaults to None.
+    
+    Returns: 
+        None, saves the plot as a PNG file.
+    """
+
+    if ID is None:
+        filename = f'plot_{counter}.png'
+    else:
+        filename = f'plot_{counter}_{ID}.png'
+
+    fig.write_image(filename)
 
 def tool_make_animation_movie(counter, name=None, fps=24):
     """

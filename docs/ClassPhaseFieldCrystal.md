@@ -1249,6 +1249,98 @@ $$
 of which will indicate to which degree the orientation of the PFC aligns with that direction.
 
 
+## Straining the PFC
+
+In some simulations, it is useful to prescribe a strain to the PFC.
+This is done by updating the grid on which the PFC is defined.
+
+In one dimension, the only strain that can be applied is a compression or expansion of the grid, given by $\matfrak e_{xx}$.
+
+In this case, these variables are updated according to 
+
+```python 
+self.k[0] = self.k[0]/(1+strain)
+self.dif[0] = self.dif[0]/(1+strain)
+self.x = self.x*(1+strain)
+```
+
+In two dimensions, the strain tensor is given by three components $\matfrak e_{xx}$, $\matfrak e_{xy}$, and $\matfrak e_{yy}$.
+In principles, these components cannot be set arbitrarily, since the components must satisfy the compatibilit equations
+
+$$
+\partial_y^2 \matfrak e_{xx} + \partial_x^2 \matfrak e_{yy} = 2 \partial_x \partial_y \matfrak e_{xy}.
+$$
+
+In this case, however, we are limiting ourselves to a constant strain, in which case the compatibility equation is automatically satisfied and the deformation is given by
+
+$$
+\begin{array}{ll}
+u_x = \matfrak e_{xx} x + \matfrak e_{xy} y, \\
+u_y = \matfrak e_{xy} x + \matfrak e_{yy} y.
+\end{array}
+$$
+
+The coordinates will transform according to
+
+$$
+\begin{array}{ll}
+x \rightarrow x + u_x, \\
+y \rightarrow y + u_y.
+\end{array}
+$$
+
+which is is given by 
+
+$$
+\begin{array}{ll}
+x' \\
+y'
+\end{array}
+=
+\begin{array}{ll}
+1 + \matfrak e_{xx} & \matfrak e_{xy} \\
+\matfrak e_{xy} & 1 + \matfrak e_{yy} \\
+\end{array}
+\begin{array}{ll}
+x \\
+y
+\end{array}
+$$
+
+We save the components of the strain matrix $T = \begin{array}{ll}
+1 + \matfrak e_{xx} & \matfrak e_{xy} \\
+\matfrak e_{xy} & 1 + \matfrak e_{yy} \\
+\end{array}
+\begin{array}{ll}$ in the `strain_matrix` variable.
+The wave vectors are updated according to
+
+$$
+\begin{array}{ll}
+k_x' \\
+k_y'
+\end{array}
+=
+T^{-1}
+\begin{array}{ll}
+k_x \\
+k_y
+\end{array}
+$$
+
+!!! note "The grid components"
+
+    Normally, the grid components `x`, `y`, and `z` are set as 1-dimensional arrays, and the same with `self.k[0]`, `self.k[1]`, and `self.k[2]`.
+    When applying an external strain, however, the grid components will vary in the different directions and will become multi-dimensional arrays.
+    This increases the memory usage of the simulation. 
+
+The strain thus contains three components `strain[0]`, `strain[1]`, and `strain[2]`.
+
+, and the grid is updated according to
+
+```python
+
+```
+
 
 [^elderModelingElasticPlastic2004]: Elder, K. R., & Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Physical Review E, 70(5), 051605. [https://doi.org/10.1103/PhysRevE.70.051605](https://doi.org/10.1103/PhysRevE.70.051605)
 [^skogvollSymmetryTopologyCrystal2023]: Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo [https://www.duo.uio.no/handle/10852/102731](https://www.duo.uio.no/handle/10852/102731)

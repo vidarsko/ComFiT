@@ -451,6 +451,62 @@ The `plot_vector_field_in_plane` function is used to plot a vector field in a pl
 
 ## Animation
 
+Creating animations are typically done by exporting each frame to a `png`-file and then combining the frames together.
+If `plot_lib` is set to `matplotlib` (default), then the command to export a frame is given by
+
+```python
+cf.save_plot(n)
+```
+
+where `n` is the frame number (assumed to start at `0`).
+If `plot_lib` is set to `plotly`, then the command to export a frame is given by
+
+```python
+cf.save_plotly_plot(n, fig)
+```
+    
+where `n` is the frame number (assumed to start at `0`) and `fig` is the `plotly` figure.
+
+In both cases, an optional argument `ID` can be given, which assigns a unique identifier to the plot, which is useful in case of running multiple simulations in parallel.
+
+After producing the individual figures, they can be combined into an animation using the command
+
+```python
+cf.tool_make_animation_gif(n)
+```
+
+where `n` is the last frame number.
+This command is the same for both `matplotlib` and `plotly`.
+
+??? example "Example"
+    
+    Here is how one would create an animation of a field.
+
+    For `self.plot_lib = 'matplotlib'`:
+
+    ```python
+    # Initialize the field
+
+    for n in range(100):
+        # Update the field
+        # Plot the field 
+        cf.save_plot(n)
+    cf.tool_make_animation_gif(n)
+    ```
+
+    And for `self.plot_lib = 'plotly'`:
+
+    ```python
+    # Initialize the field
+
+    for n in range(100):
+        # Update the field
+        # Plot the field and save it in a figure object
+        cf.save_plotly_plot(n, fig)
+    cf.tool_make_animation_gif(n)
+    ```
+
+
 ## Angle color scheme
 
 In many of the plotting functions, we are plotting angles, for example in plotting the phase

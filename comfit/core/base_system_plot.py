@@ -1,3 +1,5 @@
+from typing import Union, Optional
+
 import numpy as np
 import scipy as sp
 
@@ -8,10 +10,13 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
 import matplotlib.cm as cm
+import matplotlib.axes
+import matplotlib.figure
 
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import plotly.colors as pc
+import plotly.express as px
 
 from skimage.measure import marching_cubes
 
@@ -27,7 +32,7 @@ class BaseSystemPlot:
         elif self.plot_lib == 'plotly':
             go.show() #or fig.show?
 
-    def plot_tool_set_axis_properties(self, **kwargs):
+    def plot_tool_set_axis_properties(self, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
         """Sets the properties of the axis for a plot.
         
         Args:
@@ -246,7 +251,7 @@ class BaseSystemPlot:
         elif plot_lib == 'plotly':
             return fig
 
-    def plot_tool_surface_matplotlib(self, **kwargs):
+    def plot_tool_surface_matplotlib(self, **kwargs) -> matplotlib.axes.Axes:
         """Plots the surface of the given field.
 
         Args:
@@ -269,7 +274,7 @@ class BaseSystemPlot:
 
         return ax
 
-    def plot_tool_extend_field(self,field):
+    def plot_tool_extend_field(self, field: np.ndarray) -> np.ndarray:
         """Extends the field in case not a complete array is given. 
 
         For instance, if a field in 3 dimensions is calculated using only x, then the field is extended to the full 3D array.
@@ -313,7 +318,7 @@ class BaseSystemPlot:
 
         return field
 
-    def plot_tool_plotly_add_angle_colorbar3D(self,fig):
+    def plot_tool_plotly_add_angle_colorbar3D(self, fig: go.Figure) -> go.Figure:
         """Adds a colorbar to a 3D plot with the angle colormap.
 
         Args:
@@ -344,7 +349,7 @@ class BaseSystemPlot:
         return fig
 
 
-    def plot_field(self, field, **kwargs):
+    def plot_field(self, field: np.ndarray, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
         """Plots the given (real) field.
         
         Args:
@@ -357,7 +362,7 @@ class BaseSystemPlot:
             If self.plot_lib == 'matplotlib':
                 The axes containing the plot (matplotlib.axes.Axes).
             If self.plot_lib == 'plotly':
-                The figure containing the plot.
+                The figure containing the plot (plotly.graph_objects.Figure).
         """
 
         if field.dtype == bool:
@@ -416,6 +421,7 @@ class BaseSystemPlot:
             # Keyword arguments particular to the 2D case
             kwargs['grid'] = kwargs.get('grid', False)
 
+            ### 2D field Matplotlib ###
             if self.plot_lib == 'matplotlib':
 
                 if ax == None:
@@ -477,7 +483,7 @@ class BaseSystemPlot:
                 else:
                     vlim = [np.min(field), np.max(field)]
                 
-                # Set the value limitses
+                # Set the value limits
                 if 'vlim' in kwargs:
                     vlim = kwargs['vlim']
                 else:
@@ -502,20 +508,51 @@ class BaseSystemPlot:
 
                 if colorbar:
                     cbar = plt.colorbar(pcm, ax=ax)
-            elif self.plot_lib == 'plotly':
-                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-                fig.add_trace(go.Heatmap(
+            ### 2D field Plotly ### 
+            elif self.plot_lib == 'plotly':
+
+                # X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+                X = self.x.flatten()
+                Y = self.y.flatten()
+
+                # fig = px.imshow(
+                #         field, 
+                #         x=X[:,0],  # Normalized x-coordinates for the columns
+                #         y=Y[0,:],  # Normalized y-coordinates for the rows
+                #         zmin=np.min(field), 
+                #         zmax=np.max(field),
+                #         color_continuous_scale='Viridis',
+                #         aspect='auto',
+                #     )
+
+                # fig.add_trace(go.Contour(
+                #     x=X/self.a0,
+                #     y=Y/self.a0,
+                #     z=field.flatten(),
+                #     colorscale='Viridis',
+                #     zmin=np.min(field),
+                #     zmax=np.max(field),
+                #     hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                #     name=''
+                # ))
+                
+                fig.add_trace(go.Scatter(
                     x=X.flatten()/self.a0,
                     y=Y.flatten()/self.a0,
-                    z=field.flatten(),
-                    zmin=np.min(field),
-                    zmax=np.max(field),
-                    colorscale='Viridis', 
-                    zsmooth='best',
-                    hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
-                    name=''
-                ))
+                    mode = 'markers',
+                    marker_color=field.flatten()))
+                # fig.add_trace(go.Heatmap(
+                #     x=X.flatten()/self.a0,
+                #     y=Y.flatten()/self.a0,
+                #     z=field.flatten(),
+                #     zmin=np.min(field),
+                #     zmax=np.max(field),
+                #     colorscale='Viridis', 
+                #     zsmooth='best',
+                #     hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                #     name=''
+                # ))
 
                 if axis_equal:
                     # Set axis to be equal
@@ -633,7 +670,7 @@ class BaseSystemPlot:
 
         
 
-    def plot_complex_field(self, complex_field, **kwargs):
+    def plot_complex_field(self, complex_field: np.ndarray, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
         """
         Plot a complex field.
 
@@ -645,7 +682,10 @@ class BaseSystemPlot:
                 If not provided, a new 3D axes will be created.
         
         Returns:
-            matplotlib.axes.Axes: The axes containing the plot.
+            if self.plot_lib == 'matplotlib':
+                matplotlib.axes.Axes: The axes containing the plot.
+            if self.plot_lib == 'plotly':
+                go.Figure: The figure containing the plot.
         """
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
@@ -1064,7 +1104,7 @@ class BaseSystemPlot:
             self.plot_tool_set_axis_properties(**kwargs)
             return fig
 
-    def plot_angle_field(self, angle_field, **kwargs):
+    def plot_angle_field(self, angle_field: np.ndarray, **kwargs) -> matplotlib.axes.Axes:
         """Plot the angle field.
 
         Args:
@@ -1341,53 +1381,6 @@ class BaseSystemPlot:
             
             elif self.plot_lib == 'plotly':
                 
-                # An attempt to use Cone. Not optimal
-                # fig = kwargs.get('fig', go.Figure())
-                # fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                #             y=Y.flatten()/self.a0, 
-                #             z=np.zeros(X.shape).flatten(), 
-                #             u=U.flatten(), 
-                #             v=V.flatten(), 
-                #             w=np.zeros(X.shape).flatten(),
-                #             colorscale='Viridis', 
-                #             sizemode='scaled', 
-                #             sizeref=1, showscale=True))
-                # fig.update_layout(
-                #         scene_camera=dict(
-                #             eye=dict(x=0, y=0, z=2.5),
-                #             up=dict(x=0, y=0, z=1)
-                #         ),
-                #         scene=dict(
-                #             zaxis=dict(showticklabels=False, title='')
-                #         )
-                #     )
-
-                def get_colors(values, colorscale='Viridis'):
-                    colorscale = pc.get_colorscale(colorscale)
-                    unique_magnitudes = np.unique(values)
-                    color_map = {val: pc.sample_colorscale(colorscale, val)[0] for val in unique_magnitudes}
-                    return np.vectorize(color_map.get)(values)
-
-                    
-                def plot_triangle(fig, position,direction,size,color):
-                    x = [position[0]+direction[0]*size/2, 
-                            position[0]-direction[0]*size/3 + direction[1]*size/4, 
-                            position[0]-direction[0]*size/3 - direction[1]*size/4]
-                    y = [position[1]+direction[1]*size/2, 
-                            position[1]-direction[1]*size/3 - direction[0]*size/4, 
-                            position[1]-direction[1]*size/3 + direction[0]*size/4]
-
-                    fig.add_trace(go.Scatter(
-                        x=x,
-                        y=y,
-                        fill='toself',
-                        mode='lines', 
-                        line=dict(color='rgba(0,0,0,0)'),
-                        fillcolor=color,
-                        showlegend=False,
-                        name=''
-                    ))
-
                 fig = kwargs.get('fig', go.Figure())
 
                 u = U.flatten()
@@ -1396,37 +1389,31 @@ class BaseSystemPlot:
                 magnitude = np.sqrt(u**2 + v**2)
                 magnitude_normalized = magnitude/np.max(magnitude)
 
-                colors = get_colors(magnitude_normalized, colorscale='viridis')
-
                 angle = np.arctan2(v, u)
-                
                 direction = np.array([np.cos(angle), np.sin(angle)]).T
-
-                x = X.flatten()/self.a0
-                y = Y.flatten()/self.a0
-
-                for i in range(len(x)):
-                    plot_triangle(fig, position=[x[i],y[i]], direction=direction[i], size=1.3*magnitude_normalized[i]*spacing*self.dx/self.a0, color=colors[i])
 
                 colorbar = kwargs.get('colorbar', True)
 
-                if colorbar:
-                    # Add a scatter trace to create the colorbar
-                    colorbar_trace = go.Scatter(
-                        x=[None],
-                        y=[None],
-                        mode='markers',
-                        marker=dict(
-                            colorscale=colormap,
-                            cmin=0,
-                            cmax=np.max(magnitude),
-                            colorbar=dict(
-                                title=''
-                            )
-                        ),
-                        showlegend=False
-                    )
-                    fig.add_trace(colorbar_trace)
+                fig.add_trace(go.Scatter(
+                x=X.flatten()/self.a0,
+                y=Y.flatten()/self.a0,
+                mode='markers',
+                marker=dict(symbol='arrow', 
+                    angle=90-angle.flatten()*180/np.pi, 
+                    size=10*magnitude_normalized.flatten(), 
+                    color=magnitude.flatten(), 
+                    colorscale='Viridis', 
+                    showscale=colorbar,
+                    line=dict(color='black')
+                    ),
+                    hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
+                                '<b>y:</b> %{y:.2f}a0<br>' +
+                                '<b>ux:</b> %{customdata[0]:.2f}<br>' +
+                                '<b>uy:</b> %{customdata[1]:.2f}<extra></extra>',
+                    customdata=np.stack((u.flatten(), v.flatten()), axis=-1)  # Adding ux, uy as customdata
+                )
+                )
+
 
         ###############################################################
         ########### DIMENSION: 2 - VECTOR-DIMENSION: 3 ################
@@ -1615,8 +1602,13 @@ class BaseSystemPlot:
             self.plot_tool_set_axis_properties(**kwargs)
             return fig
 
-    def plot_field_in_plane(self, field, normal_vector=None, position=None, 
-                        **kwargs):
+    def plot_field_in_plane(
+            self,
+            field: np.ndarray,
+            normal_vector: Optional[np.ndarray] = None,
+            position: Optional[np.ndarray] = None,
+            **kwargs
+        ):
         """Plots the field in a plane perpendicular to the given normal vector
         
         Uses scipy.interpolate.griddata and plt.plot_trisurf.
@@ -1710,7 +1702,13 @@ class BaseSystemPlot:
 
         return fig, ax
 
-    def plot_complex_field_in_plane(self, complex_field, normal_vector=None, position=None, **kwargs):
+    def plot_complex_field_in_plane(
+            self,
+            complex_field: np.ndarray,
+            normal_vector: Optional[np.ndarray] = None,
+            position: Optional[np.ndarray] = None,
+            **kwargs
+        ) -> matplotlib.axes.Axes:
         """Plots the complex field in a plane perpendicular to the given normal vector using
 
         Args:
@@ -1801,7 +1799,13 @@ class BaseSystemPlot:
 
         return fig, ax
 
-    def plot_angle_field_in_plane(self, angle_field, normal_vector=None, position=None,**kwargs):
+    def plot_angle_field_in_plane(
+            self,
+            angle_field: np.ndarray,
+            normal_vector: Optional[np.ndarray] = None,
+            position: Optional[np.ndarray] = None,
+            **kwargs
+        ) -> matplotlib.axes.Axes:
         """Plots the angle field in a plane.
 
         Args:
@@ -1828,7 +1832,14 @@ class BaseSystemPlot:
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
 
     
-    def plot_vector_field_in_plane(self,vector_field,position=None,normal_vector=None,spacing=2,**kwargs):
+    def plot_vector_field_in_plane(
+            self,
+            vector_field: tuple[np.ndarray, np.ndarray],
+            position: Optional[np.ndarray] = None,
+            normal_vector: Optional[np.ndarray] = None,
+            spacing: int = 2,
+            **kwargs
+        ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
         """
         Plots the vector field in a plane.
         

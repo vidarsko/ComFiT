@@ -3,7 +3,7 @@ import scipy as sp
 
 class BaseSystemGet:
     """ Get methods for the base system class"""
-    def get_sym(self,tensor,i,j):
+    def get_sym(self, tensor: np.ndarray, i: int, j: int) -> np.ndarray:
         """Gets the i,j component of a symmetric tensor saved in an array structure.
 
         Args: 
@@ -29,7 +29,7 @@ class BaseSystemGet:
             elif i == 2:
                 return tensor[2] if j == 0 else tensor[4] if j == 1 else tensor[5]
 
-    def get_sym_tl(self,tensor,i,j):
+    def get_sym_tl(self, tensor: np.ndarray, i: int, j: int) -> np.ndarray:
         """Gets the i,j component of a symmetric traceless tensor saved in an array structure.
 
         Args:
@@ -54,7 +54,7 @@ class BaseSystemGet:
             elif i == 2:
                 return tensor[2] if j == 0 else tensor[4] if j == 1 else -(tensor[0] + tensor[3])
 
-    def get_anti_sym(self,omega,i,j):
+    def get_anti_sym(self, omega: np.ndarray, i: int, j: int) -> np.ndarray:
         """Gets the i,j component of an anti-symmetric tensor saved in an array structure.
 
         Args:
@@ -75,4 +75,3 @@ class BaseSystemGet:
                 return 0
             else:
                 return np.sign(j-i)*omega[i+j-1]
-

@@ -135,8 +135,37 @@ class PhaseFieldCrystal(BaseSystem):
             self.k[0] = self.k[0]/(1+strain)
             self.dif[0] = self.dif[0]/(1+strain)
             self.x = self.x*(1+strain)
+
+        elif self.dim == 2:
+            # Creating 2D meshgrid
+            X,Y = np.meshgrid(self.x.flatten(),self.y.flatten(), indexing='ij')
+
+            # Strain matrix
+            e_xx = strain[0]
+            e_xy = strain[1]
+            e_yy = strain[2]
+            strain_matrix = np.array([[1 + e_xx, e_xy],
+                                    [e_xy, 1 + e_yy]])
+
+            # Applying the strain
+            X = strain_matrix[0,0]*X + strain_matrix[0,1]*Y
+            Y = strain_matrix[1,0]*X + strain_matrix[1,1]*Y
+
+            # Updating the x and y coordinates
+            self.x = X
+            self.y = Y
+
+            # Updating the k and dif vectors
+            inverse_strain_matrix = np.linalg.inv(strain_matrix)
+
+            self.k[0] = self.k[0]*inverse_strain_matrix[0,0] + self.k[1]*inverse_strain_matrix[0,1]
+            self.k[1] = self.k[0]*inverse_strain_matrix[1,0] + self.k[1]*inverse_strain_matrix[1,1]
+
+            self.dif[0] = 1j*self.k[0]
+            self.dif[1] = 1j*self.k[1]
+
         else:
-            raise ImplementationError("Applied strain is not implemented for dimensions other than 1D.")
+            raise ImplementationError("Applied strain is not implemented for 3 dimensions.")
 
     def conf_create_polycrystal(self, type, **kwargs):
         """Creates a polycrystal.

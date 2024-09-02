@@ -3,7 +3,7 @@ import scipy as sp
 
 class BaseSystemInit:
     """ Initialization methods for the base system class"""
-    def __init__(self, dim, **kwargs):
+    def __init__(self, dim: int, **kwargs):
         """
         Initialize the class with the given parameters.
 
@@ -191,7 +191,7 @@ class BaseSystemInit:
         self.rmin = [self.xmin, self.ymin, self.zmin]
         self.rmax = [self.xmax, self.ymax, self.zmax]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return a string representation of the class.
         
         Input:
