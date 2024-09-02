@@ -1,8 +1,10 @@
 # Plotting
 
-The `ComFiT` package uses `matplotlib` as the default plotting library.
-This is because `matplotlib` is a very versatile and well-documented library that is widely used in the scientific community.
-In order to master the use of `matplotlib`, one needs to understand the basic structure of the library.
+The `ComFiT` package comes with two plotting libraries: `matplotlib` and `plotly`.
+While `matplotlib` is a very versatile and well-documented library that is widely used in the scientific community, plotly has interactive features and works very well with the online tutorials.
+
+
+## Matplotlib
 
 The basic structure of `matplotlib` is that it has a `figure` object that contains `axes` objects.
 One can think of the `figure` object as the window in which the plot is drawn, and the `axes` object as the plot itself.
@@ -48,6 +50,11 @@ In order to draw the image and continue the simulation, as for instance when vie
 ```python
 plt.pause(0.01)
 ```
+
+## Plotly
+
+At the base of a plotly plot is a `figure` object. 
+
 
 
 ## Plotting keywords
