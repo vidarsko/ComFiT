@@ -16,7 +16,6 @@ import matplotlib.figure
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import plotly.colors as pc
-import plotly.express as px
 
 from skimage.measure import marching_cubes
 
