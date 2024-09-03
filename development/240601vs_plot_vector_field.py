@@ -24,7 +24,7 @@ gradpsi = ([1*(pfc.x), 1*(pfc.y)])
 # fig.show()
 
 start = time.time()
-fig = pfc.plot_vector_field(gradpsi, spacing=1)
+fig = pfc.plot_vector_field(gradpsi, spacing=5)
 # fig = pfc.plot_field(np.sqrt(gradpsi[0]**2+gradpsi[1]**2))
 # plt.show()
 fig.show()

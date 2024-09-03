@@ -13,6 +13,8 @@ import matplotlib.cm as cm
 import matplotlib.axes
 import matplotlib.figure
 
+import mpl_toolkits
+
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import plotly.colors as pc
@@ -31,7 +33,7 @@ class BaseSystemPlot:
         elif self.plot_lib == 'plotly':
             go.show() #or fig.show?
 
-    def plot_tool_set_axis_properties(self, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
+    def _plot_tool_set_axis_properties(self, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
         """Sets the properties of the axis for a plot.
         
         Args:
@@ -41,214 +43,202 @@ class BaseSystemPlot:
             The axis object with the properties set.
         """
 
-        plot_lib = kwargs.get('plot_lib', self.plot_lib)
-        
-        if plot_lib == 'matplotlib':
-            ax = kwargs.get('ax', plt.gca())
-        elif plot_lib == 'plotly':
-            fig = kwargs.get('fig', go.Figure())
-
-        xlabel = kwargs.get('xlabel', 'x/a₀')
-
-        if 'title' in kwargs:
-                ax.set_title(kwargs['title'])
-
-        #TODO: Check if I should instead include a fig object somewhere (Vidar 05.02.24)
-        suptitle = kwargs.get('suptitle', None)
-        if suptitle is not None:
-            if plot_lib == 'matplotlib':
-                ax.get_figure().suptitle(suptitle)
-            elif plot_lib == 'plotly':
-                fig.update_layout(title_text=suptitle)
-        
-        grid = kwargs.get('grid', True)
-        if plot_lib == 'matplotlib':
-            ax.grid(grid)
-
+        ##### AXIS LIMITS #####
+        # xlim is specified as a list
         xlim = [self.xmin/self.a0, (self.xmax-self.dx)/self.a0]
-
         if 'xmin' in kwargs:
             xlim[0] = kwargs['xmin'] / self.a0
-
         if 'xmax' in kwargs:
             xlim[1] = kwargs['xmax'] / self.a0
-
         if 'xlim' in kwargs:
             xlim = np.array(kwargs['xlim']) / self.a0
 
+        # ylim is specified as a list if dim>1 else as None
         ylim = [self.ymin/self.a0, (self.ymax-self.dy)/self.a0] if self.dim > 1 else None
-
         if 'ymin' in kwargs:
             ylim[0] = kwargs['ymin'] / self.a0 if self.dim > 1 else kwargs['ymin']
-        
         if 'ymax' in kwargs:
             ylim[1] = kwargs['ymax'] / self.a0 if self.dim > 1 else kwargs['ymax']
-        
         if 'ylim' in kwargs:
             ylim = np.array(kwargs['ylim'])/self.a0 if self.dim > 1 else kwargs['ylim']
 
+        # zlim is specified as a list if dim>2 else as None
         zlim = [self.zmin/self.a0, (self.zmax-self.dz)/self.a0] if self.dim > 2 else None
-
         if 'zmin' in kwargs:
              zlim[0] = kwargs['zmin'] / self.a0 if self.dim > 2 else kwargs['zmin']
-
         if 'zmax' in kwargs:
             zlim[1] = kwargs['zmax'] / self.a0 if self.dim > 2 else kwargs['zmax']
-
         if 'zlim' in kwargs:
             zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
 
-        # Custom x-ticks
-        xticks = kwargs.get('xticks', None)
-        if xticks is not None:
-            if plot_lib == 'matplotlib':
-                ax.set_xticks(xticks)
-        
+
+        ##### GRID AND TITLE #####
+        grid = kwargs.get('grid', True)
+        axis_equal = kwargs.get('axis_equal', True)
+        title = kwargs.get('title', None)
+        suptitle = kwargs.get('suptitle', None)
+
+        ##### SIZE #####
+        size = kwargs.get('size', None)
+
+        ##### TICKS #####
+        xticks = kwargs.get('xticks', None)  
         xticklabels = kwargs.get('xticklabels', None)
-        if xticklabels is not None:
-            if plot_lib == 'matplotlib':
-                ax.set_xticklabels(xticklabels)
-            elif plot_lib == 'plotly':
-                fig.update_layout(xaxis=dict(tickvals=xticks, ticktext=xticklabels))
 
         yticks = kwargs.get('yticks', None)
-        if yticks is not None:
-            if plot_lib == 'matplotlib':
-                ax.set_yticks(yticks)
-            elif plot_lib == 'plotly':
-                fig.update_layout(yaxis=dict(tickvals=yticks))
-        
         yticklabels = kwargs.get('yticklabels', None)
-        if yticklabels is not None:
-            if plot_lib == 'matplotlib':
-                ax.set_yticklabels(yticklabels)
-            elif plot_lib == 'plotly':
-                fig.update_layout(yaxis=dict(ticktext=yticklabels))
 
         zticks = kwargs.get('zticks', None)
-        if zticks is not None:
-            if plot_lib == 'matplotlib':
-                ax.set_zticks(zticks)
-            elif plot_lib == 'plotly':
-                fig.update_layout(zaxis=dict(tickvals=zticks))
-        
         zticklabels = kwargs.get('zticklabels', None)
-        if zticklabels is not None:
-            if plot_lib == 'matplotlib':
+
+        ##### LABELS #####
+        xlabel = kwargs.get('xlabel', 'x/a₀')
+        ylabel = kwargs.get('ylabel', 'y/a₀' if self.dim > 1 else None)
+        zlabel = kwargs.get('zlabel', 'z/a₀' if self.dim > 2 else None)
+
+        ##### PLOT LIBRARY #####
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+        
+        ####################
+        #### MATPLOTLIB ####
+        ####################
+        if plot_lib == 'matplotlib':
+            
+            ##### AXES #####
+            ax = kwargs.get('ax', plt.gca())
+
+            ##### SIZE #####
+            if size is not None:
+                print("\033[91mWarning: The size keyword is not valid for matplotlib plots.\033[0m")
+
+            ##### TICKS #####
+            if xticks is not None:
+                ax.set_xticks(xticks)
+            if xticklabels is not None:
+                ax.set_xticklabels(xticklabels)
+            
+            if yticks is not None:
+                ax.set_yticks(yticks)
+            if yticklabels is not None:
+                ax.set_yticklabels(yticklabels)
+
+            if zticks is not None:
+                ax.set_zticks(zticks)
+            if zticklabels is not None:
                 ax.set_zticklabels(zticklabels)
-            elif plot_lib == 'plotly':
-                fig.update_layout(zaxis=dict(ticktext=zticklabels))
-        
-        if self.dim == 1:
-            # Set the xlabel
-            if plot_lib == 'matplotlib':
-                ax.set_xlabel(xlabel)
-            elif plot_lib == 'plotly':
-                fig.update_layout(xaxis_title=xlabel)
 
-            # Set the ylabel
-            if 'ylabel' in kwargs:
-                if plot_lib == 'matplotlib':
-                    ax.set_ylabel(kwargs['ylabel'])
-                elif plot_lib == 'plotly':
-                    fig.update_layout(yaxis_title=kwargs['ylabel'])
+            ##### TITLE #####
+            if title is not None:
+                ax.set_title(title)
 
-            # Set the title
-            if 'title' in kwargs:
-                if plot_lib == 'matplotlib':
-                    ax.set_title(kwargs['title'])
-                elif plot_lib == 'plotly':
-                    fig.update_layout(title_text=kwargs['title'])
+            ##### SUPTITLE #####
+            if suptitle is not None:
+                ax.get_figure().suptitle(suptitle)
+
+            ##### AXIS LABELS #####
+            ax.set_xlabel(xlabel)
             
-            if plot_lib == 'matplotlib':
-                ax.set_xlim(xlim[0], xlim[1])
-            elif plot_lib == 'plotly':
-                fig.update_layout(xaxis_range=[xlim[0], xlim[1]])
-
-            if ylim is not None:
-                if plot_lib == 'matplotlib':
-                    ax.set_ylim(ylim[0], ylim[1])
-                elif plot_lib == 'plotly':
-                    fig.update_layout(yaxis_range=[ylim[0], ylim[1]])
-
-            if zlim is not None:
-                if plot_lib == 'matplotlib':
-                    ax.set_zlim(zlim[0], zlim[1])
-                elif plot_lib == 'plotly':
-                    fig.update_layout(zaxis_range=[zlim[0], zlim[1]])
-        
-        elif self.dim == 2:
-            
-            ylabel = kwargs.get('ylabel', 'y/a₀')
-
-            if plot_lib == 'matplotlib':
-                ax.set_xlabel(xlabel)
+            if ylabel is not None:
                 ax.set_ylabel(ylabel)
-            elif plot_lib == 'plotly':
-                fig.update_layout(xaxis_title=xlabel)
-                fig.update_layout(yaxis_title=ylabel)
             
-            if plot_lib == 'matplotlib':
-                ax.set_xlim(xlim[0], xlim[1])
-                ax.set_ylim(ylim[0], ylim[1])
-            elif plot_lib == 'plotly':
-                fig.update_layout(xaxis_range=[xlim[0], xlim[1]])
-                fig.update_layout(yaxis_range=[ylim[0], ylim[1]])
-
-            if zlim is not None:
-                if plot_lib == 'matplotlib':
-                    ax.set_zlim(zlim[0], zlim[1])
-                elif plot_lib == 'plotly':
-                    fig.update_layout(zaxis_range=[zlim[0], zlim[1]])
-
-            # Set the aspect ratio
-            axis_equal = kwargs.get('axis_equal', True)
-            if axis_equal:
-                if plot_lib == 'matplotlib':
-                    ax.set_aspect('equal')
-                elif plot_lib == 'plotly':
-                    fig.update_yaxes(
-                        scaleanchor="x",
-                        scaleratio=1,
-                    )
-                    pass
-
-        elif self.dim == 3:
-
-            ylabel = kwargs.get('ylabel', 'y/a₀')
-            zlabel = kwargs.get('zlabel', 'z/a₀')
-
-            if plot_lib == 'matplotlib':
-                ax.set_xlabel(xlabel)
-                ax.set_ylabel(ylabel)
+            if zlabel is not None:
                 ax.set_zlabel(zlabel)
 
+            ##### AXIS LIMITS #####
+            if isinstance(ax, mpl_toolkits.mplot3d.Axes3D):
                 ax.set_xlim3d(xlim[0], xlim[1])
-                ax.set_ylim3d(ylim[0], ylim[1])
-                ax.set_zlim3d(zlim[0], zlim[1])
-            elif plot_lib == 'plotly':
-                fig.update_layout(
-                scene = dict(
-                    xaxis=dict(title=xlabel, range=[xlim[0], xlim[1]]),
-                    yaxis=dict(title=ylabel, range=[ylim[0], ylim[1]]),
-                    zaxis=dict(title=zlabel, range=[zlim[0], zlim[1]])
-                    )       
-                    )
 
-            elif plot_lib == 'plotly':
-                fig.update_layout(xaxis_range=[xlim[0], xlim[1]])
-                fig.update_layout(yaxis_range=[ylim[0], ylim[1]])
-                fig.update_layout(zaxis_range=[zlim[0], zlim[1]])
+                if ylim is not None:
+                    ax.set_ylim3d(ylim[0], ylim[1])
 
-            # Set the aspect ratio
-            axis_equal = kwargs.get('axis_equal', True)
+                if zlim is not None:
+                    ax.set_zlim3d(zlim[0], zlim[1])
+
+            else:
+                ax.set_xlim(xlim[0], xlim[1])
+
+                if ylim is not None:
+                    ax.set_ylim(ylim[0], ylim[1])
+
+                if zlim is not None:
+                    ax.set_zlim(zlim[0], zlim[1])
+
+            ##### GRID #####
+            ax.grid(grid)
+
+            ##### AXIS ASPECT RATIO #####
             if axis_equal:
-                if plot_lib == 'matplotlib':
-                    ax.set_aspect('equal')  
-        if plot_lib == 'matplotlib':
-            return ax
+                ax.set_aspect('equal')
+        
+
+        ####################
+        ###### PLOTLY ######
+        ####################
         elif plot_lib == 'plotly':
-            return fig
+
+            ##### FIGURE #####
+            fig = kwargs.get('fig', go.Figure())
+
+            if size is None:
+                fig.update_layout(width=500, height=500)
+            else:
+                fig.update_layout(width=size[0], height=size[1])
+
+            ##### TICKS #####
+            if xticks is not None:
+                fig.update_layout(xaxis=dict(tickvals=xticks))
+            if xticklabels is not None:
+                fig.update_layout(xaxis=dict(ticktext=xticklabels))
+
+            if yticks is not None:
+                fig.update_layout(yaxis=dict(tickvals=yticks))
+            if yticklabels is not None:
+                fig.update_layout(yaxis=dict(ticktext=yticklabels))
+
+            if zticks is not None:
+                fig.update_layout(zaxis=dict(tickvals=zticks))
+            if zticklabels is not None:
+                fig.update_layout(zaxis=dict(ticktext=zticklabels))
+
+            ##### TITLE #####
+            if title is not None:
+                fig.update_layout(title_text=suptitle)
+
+            ##### SUPTITLE #####
+            if suptitle is not None:
+                print("\033[91mWarning: The suptitle keyword is not valid for plotly plots.\033[0m")
+
+            ##### AXIS LABELS #####
+            fig.update_layout(xaxis_title=xlabel)
+
+            if ylabel is not None:
+                fig.update_layout(yaxis_title=ylabel)
+            
+            if zlabel is not None:
+                fig.update_layout(zaxis_title=zlabel)
+
+            ##### AXIS LIMITS #####
+            fig.update_layout(xaxis_range=xlim)
+
+            if ylim is not None:
+                fig.update_layout(yaxis_range=ylim)
+
+            if zlim is not None:
+                fig.update_layout(zaxis_range=zlim)
+
+            ##### GRID #####
+            
+            fig.update_layout(
+                xaxis=dict(showgrid=grid),  # Show grid on x-axis
+                yaxis=dict(showgrid=grid)   # Show grid on y-axis
+            )
+
+            ##### AXIS ASPECT RATIO #####
+            if axis_equal:
+                fig.update_yaxes(
+                    scaleanchor="x",
+                    scaleratio=1)
+
 
     def plot_tool_surface_matplotlib(self, **kwargs) -> matplotlib.axes.Axes:
         """Plots the surface of the given field.
@@ -511,9 +501,9 @@ class BaseSystemPlot:
             ### 2D field Plotly ### 
             elif self.plot_lib == 'plotly':
 
-                # X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-                X = self.x.flatten()
-                Y = self.y.flatten()
+                X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+                # X = self.x.flatten()
+                # Y = self.y.flatten()
 
                 # fig = px.imshow(
                 #         field, 
@@ -536,22 +526,22 @@ class BaseSystemPlot:
                 #     name=''
                 # ))
                 
-                fig.add_trace(go.Scatter(
-                    x=X.flatten()/self.a0,
-                    y=Y.flatten()/self.a0,
-                    mode = 'markers',
-                    marker_color=field.flatten()))
-                # fig.add_trace(go.Heatmap(
+                # fig.add_trace(go.Scatter(
                 #     x=X.flatten()/self.a0,
                 #     y=Y.flatten()/self.a0,
-                #     z=field.flatten(),
-                #     zmin=np.min(field),
-                #     zmax=np.max(field),
-                #     colorscale='Viridis', 
-                #     zsmooth='best',
-                #     hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
-                #     name=''
-                # ))
+                #     mode = 'markers',
+                #     marker_color=field.flatten()))
+                fig.add_trace(go.Heatmap(
+                    x=X.flatten()/self.a0,
+                    y=Y.flatten()/self.a0,
+                    z=field.flatten(),
+                    zmin=np.min(field),
+                    zmax=np.max(field),
+                    colorscale='Viridis', 
+                    zsmooth='best',
+                    hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                    name=''
+                ))
 
                 if axis_equal:
                     # Set axis to be equal
@@ -659,12 +649,12 @@ class BaseSystemPlot:
         
         if plot_lib == 'matplotlib':
             kwargs['ax'] = ax
-            self.plot_tool_set_axis_properties(**kwargs)
+            self._plot_tool_set_axis_properties(**kwargs)
             return fig, ax
 
         elif plot_lib == 'plotly':
             kwargs['fig'] = fig
-            self.plot_tool_set_axis_properties(**kwargs)
+            self._plot_tool_set_axis_properties(**kwargs)
             return fig
 
         
@@ -1095,12 +1085,12 @@ class BaseSystemPlot:
         if plot_lib == 'matplotlib':
             kwargs['ax'] = ax
             kwargs['grid'] = grid
-            self.plot_tool_set_axis_properties(**kwargs)
+            self._plot_tool_set_axis_properties(**kwargs)
             return fig, ax
 
         elif plot_lib == 'plotly':
             kwargs['fig'] = fig
-            self.plot_tool_set_axis_properties(**kwargs)
+            self._plot_tool_set_axis_properties(**kwargs)
             return fig
 
     def plot_angle_field(self, angle_field: np.ndarray, **kwargs) -> matplotlib.axes.Axes:
@@ -1399,7 +1389,7 @@ class BaseSystemPlot:
                 mode='markers',
                 marker=dict(symbol='arrow', 
                     angle=90-angle.flatten()*180/np.pi, 
-                    size=10*magnitude_normalized.flatten(), 
+                    size=10*spacing*magnitude_normalized.flatten(), 
                     color=magnitude.flatten(), 
                     colorscale='Viridis', 
                     showscale=colorbar,
@@ -1593,12 +1583,12 @@ class BaseSystemPlot:
 
         if self.plot_lib == 'matplotlib':
             kwargs['ax'] = ax
-            self.plot_tool_set_axis_properties(**kwargs)
+            self._plot_tool_set_axis_properties(**kwargs)
             return fig, ax
 
         elif self.plot_lib == 'plotly':
             kwargs['fig'] = fig
-            self.plot_tool_set_axis_properties(**kwargs)
+            self._plot_tool_set_axis_properties(**kwargs)
             return fig
 
     def plot_field_in_plane(
@@ -1697,7 +1687,7 @@ class BaseSystemPlot:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        self._plot_tool_set_axis_properties(**kwargs)
 
         return fig, ax
 
@@ -1794,7 +1784,7 @@ class BaseSystemPlot:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        self._plot_tool_set_axis_properties(**kwargs)
 
         return fig, ax
 
@@ -1964,5 +1954,5 @@ class BaseSystemPlot:
         ax.quiver(x, y, z, U_verts, V_verts, W_verts, color='blue')
 
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
-        return fig, ax
+        self._plot_tool_set_axis_properties(**kwargs)
+        return fig, ax#
