@@ -1382,14 +1382,15 @@ class BaseSystemPlot:
                 direction = np.array([np.cos(angle), np.sin(angle)]).T
 
                 colorbar = kwargs.get('colorbar', True)
-
+                
                 fig.add_trace(go.Scatter(
                 x=X.flatten()/self.a0,
                 y=Y.flatten()/self.a0,
                 mode='markers',
                 marker=dict(symbol='arrow', 
                     angle=90-angle.flatten()*180/np.pi, 
-                    size=10*spacing*magnitude_normalized.flatten(), 
+                    size=2*spacing*magnitude_normalized.flatten(), 
+                    sizemode='diameter',
                     color=magnitude.flatten(), 
                     colorscale='Viridis', 
                     showscale=colorbar,
