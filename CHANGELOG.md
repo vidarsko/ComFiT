@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.6.1] - 2024-09-05
+- Added more plotly features for alternative plotting.
+
 ## [1.6.0] - 2024-06-30
 - Added plotly feature integration for alternative plotting (under development).
 - Added polycrystalline methods for the PFC models.
