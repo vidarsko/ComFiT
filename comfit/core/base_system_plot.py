@@ -1956,4 +1956,4 @@ class BaseSystemPlot:
 
         kwargs['ax'] = ax
         self._plot_tool_set_axis_properties(**kwargs)
-        return fig, ax#
+        return fig, ax

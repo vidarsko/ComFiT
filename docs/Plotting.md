@@ -53,7 +53,8 @@ plt.pause(0.01)
 
 ## Plotly
 
-At the base of a plotly plot is a `figure` object. 
+At the base of a plotly plot is a `figure` object.
+This contains 
 
 
 
@@ -502,7 +503,7 @@ This command is the same for both `matplotlib` and `plotly`.
     for n in range(100):
         # Update the field
         # Plot the field and save it in a figure object
-        cf.save_plotly_plot(n, fig)
+        cf.tool_save_plot_plotly(n, fig)
     cf.tool_make_animation_gif(n)
     ```
 
