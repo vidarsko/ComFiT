@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='comfit',
-    version='1.6.1',
+    version='1.6.2',
     packages=['comfit'],
     package_data={'comfit':['core/*','models/*','tools/*']},
     author='Vidar Skogvoll and Jonas Rønning',

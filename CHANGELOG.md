@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.6.2] - 2024-09-07
+- Bug fixes for plotly vector plots.
+
 ## [1.6.1] - 2024-09-05
 - Added more plotly features for alternative plotting.
 
