@@ -230,10 +230,6 @@ class BaseSystemPlot:
                     fig.update_layout(yaxis_title=ylabel)
 
                 
-                
-            # if zlabel is not None:
-            #     fig.update_layout(zaxis_title=zlabel)
-
             ##### AXIS LIMITS #####
             fig.update_layout(xaxis_range=xlim)
 
@@ -396,15 +392,24 @@ class BaseSystemPlot:
 
         # Kewyord arguments
         colorbar = kwargs.get('colorbar', True)
-        axis_equal = kwargs.get('axis_equal',True)
+        axis_equal = kwargs.get('axis_equal', None)
 
         # Extend the field if not a complete array is given
         field = self.plot_tool_extend_field(field)
-        
+
+        kwargs['plot_is_3D'] = False
+
+        ###############################################################
+        ###################### DIMENSION: 1 ###########################
+        ###############################################################
+
         if self.dim == 1:
 
             # Keyword arguments particular to the 1D case
             kwargs['grid'] = kwargs.get('grid', True)
+
+            if axis_equal is None:
+                kwargs['axis_equal'] = False
 
             if self.plot_lib == 'matplotlib':
                 if ax == None:
@@ -422,6 +427,9 @@ class BaseSystemPlot:
                     hovertemplate='x: %{x:.2f} a₀<br>field: %{y:.2f}'
                 ))
 
+        ###############################################################
+        ###################### DIMENSION: 2 ###########################
+        ###############################################################
 
         if self.dim == 2:
             
@@ -520,35 +528,7 @@ class BaseSystemPlot:
             elif self.plot_lib == 'plotly':
 
                 X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-                # X = self.x.flatten()
-                # Y = self.y.flatten()
-
-                # fig = px.imshow(
-                #         field, 
-                #         x=X[:,0],  # Normalized x-coordinates for the columns
-                #         y=Y[0,:],  # Normalized y-coordinates for the rows
-                #         zmin=np.min(field), 
-                #         zmax=np.max(field),
-                #         color_continuous_scale='Viridis',
-                #         aspect='auto',
-                #     )
-
-                # fig.add_trace(go.Contour(
-                #     x=X/self.a0,
-                #     y=Y/self.a0,
-                #     z=field.flatten(),
-                #     colorscale='Viridis',
-                #     zmin=np.min(field),
-                #     zmax=np.max(field),
-                #     hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
-                #     name=''
-                # ))
                 
-                # fig.add_trace(go.Scatter(
-                #     x=X.flatten()/self.a0,
-                #     y=Y.flatten()/self.a0,
-                #     mode = 'markers',
-                #     marker_color=field.flatten()))
                 fig.add_trace(go.Heatmap(
                     x=X.flatten()/self.a0,
                     y=Y.flatten()/self.a0,
@@ -561,19 +541,13 @@ class BaseSystemPlot:
                     name=''
                 ))
 
-                if axis_equal:
-                    # Set axis to be equal
-                    fig.update_yaxes(
-                        scaleanchor="x",
-                        scaleratio=1,
-                    )
-
-                    fig.update_xaxes(
-                        scaleanchor="y",
-                        scaleratio=1,
-                        ) 
+        ###############################################################
+        ###################### DIMENSION: 3 ###########################
+        ###############################################################
 
         elif self.dim == 3:
+
+            kwargs['plot_is_3D'] = True
 
             # Keyword arguments particular to the 3D case
 
@@ -636,7 +610,6 @@ class BaseSystemPlot:
                                                 color=colormap((layer_value-vmin) / (vmax-vmin)), 
                                                 alpha=alpha,
                                                 ax=ax)
-
 
                 if colorbar:
                     sm = plt.cm.ScalarMappable(cmap=colormap)
