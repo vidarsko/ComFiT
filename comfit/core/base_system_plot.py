@@ -28,7 +28,7 @@ class BaseSystemPlot:
 
     def show(self):
         """Show the plot."""
-        if self.plot_lib == 'matplotlib':
+        if self.plot_lib == 'matplotlib':   
             plt.show()
         elif self.plot_lib == 'plotly':
             go.show() #or fig.show?
@@ -95,6 +95,9 @@ class BaseSystemPlot:
         xlabel = kwargs.get('xlabel', 'x/a₀')
         ylabel = kwargs.get('ylabel', 'y/a₀' if self.dim > 1 else None)
         zlabel = kwargs.get('zlabel', 'z/a₀' if self.dim > 2 else None)
+
+        ##### PLOT NATURE #####
+        plot_is_3D = kwargs.get('plot_is_3D', False)
 
         ##### PLOT LIBRARY #####
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
@@ -209,13 +212,27 @@ class BaseSystemPlot:
                 print("\033[91mWarning: The suptitle keyword is not valid for plotly plots.\033[0m")
 
             ##### AXIS LABELS #####
-            fig.update_layout(xaxis_title=xlabel)
+            # Figure is a 3D plot
+            if plot_is_3D:
+                fig.update_layout(
+                    scene=dict(
+                        xaxis_title=xlabel,
+                        yaxis_title=ylabel,
+                        zaxis_title=zlabel
+                    )
+                )
 
-            if ylabel is not None:
-                fig.update_layout(yaxis_title=ylabel)
-            
-            if zlabel is not None:
-                fig.update_layout(zaxis_title=zlabel)
+            # Figure is not 3D plot
+            else:
+                fig.update_layout(xaxis_title=xlabel)
+                
+                if ylabel is not None:
+                    fig.update_layout(yaxis_title=ylabel)
+
+                
+                
+            # if zlabel is not None:
+            #     fig.update_layout(zaxis_title=zlabel)
 
             ##### AXIS LIMITS #####
             fig.update_layout(xaxis_range=xlim)
@@ -223,8 +240,8 @@ class BaseSystemPlot:
             if ylim is not None:
                 fig.update_layout(yaxis_range=ylim)
 
-            if zlim is not None:
-                fig.update_layout(zaxis_range=zlim)
+            # if zlim is not None:
+            #     fig.update_layout(zaxis_range=zlim)
 
             ##### GRID #####
             
@@ -395,6 +412,7 @@ class BaseSystemPlot:
                     ax = fig.add_subplot(111)
 
                 ax.plot(self.x/self.a0, field)
+
             elif self.plot_lib == 'plotly':
                 fig.add_trace(go.Scatter(
                     x=self.x/self.a0,
@@ -1148,7 +1166,7 @@ class BaseSystemPlot:
                 - The figure containing the plot.
                 - The axes containing the plot.
         """
-        spacing = kwargs.get('spacing', self.xRes//20)
+        spacing = kwargs.get('spacing', max(self.xRes//20,1))
 
         # Extend the field if not a complete array is given
         vector_field_copy = []
@@ -1189,16 +1207,13 @@ class BaseSystemPlot:
             return X,Y,Z,U,V,W            
 
 
+        kwargs['plot_is_3D'] = False
+
         ###############################################################
         ########### DIMENSION: 1 - VECTOR-DIMENSION: 1 ################
         ###############################################################
             
         if self.dim == 1 and vector_field.shape == (1,self.xRes):
-
-            if self.plot_lib == 'matplotlib':
-                if ax == None:
-                    fig.clf()
-                    ax = plt.gcf().add_subplot(111)
 
             X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
 
@@ -1210,21 +1225,28 @@ class BaseSystemPlot:
             X,Y,U,V = add_spacing_2D(X,Y,U,V,spacing)
 
             if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = plt.gcf().add_subplot(111)
+
                 ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
+                kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
+
+            elif self.plot_lib == 'plotly':
+                
+                fig = kwargs.get('fig', go.Figure())
+                fig = self.plot_field(vector_field[0], **kwargs)
+
             
-            kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
 
         ###############################################################
         ########### DIMENSION: 1 - VECTOR-DIMENSION: 2 ################
         ###############################################################
 
         elif self.dim == 1 and vector_field.shape == (2,self.xRes):
-            
-            if self.plot_lib == 'matplotlib':
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
-            
+
+            kwargs['plot_is_3D'] = True
+                
             X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
             U = np.zeros(X.shape)
@@ -1237,7 +1259,17 @@ class BaseSystemPlot:
             X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
             if self.plot_lib == 'matplotlib':
+
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+
                 ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+
+            elif self.plot_lib == 'plotly':
+                fig = kwargs.get('fig', go.Figure())
+                fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+
 
             kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
             delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
@@ -1257,10 +1289,14 @@ class BaseSystemPlot:
 
         elif self.dim == 1 and vector_field.shape == (3,self.xRes):
             
+            kwargs['plot_is_3D'] = True
+
             if self.plot_lib == 'matplotlib':
                 if ax == None:
                     fig.clf()
                     ax = fig.add_subplot(111, projection='3d')
+            elif self.plot_lib == 'plotly':
+                fig = kwargs.get('fig', go.Figure())
             
             X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -1296,6 +1332,11 @@ class BaseSystemPlot:
 
             if self.plot_lib == 'matplotlib':
                 ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+
+            elif self.plot_lib == 'plotly':
+                fig = kwargs.get('fig', go.Figure())
+                fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+
             
             kwargs['ylim'] = [-1,1]
             kwargs['zlim'] = [-1,1]
@@ -1333,12 +1374,48 @@ class BaseSystemPlot:
                     angles='xy', scale_units='xy', scale=1,
                     headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
+            elif self.plot_lib == 'plotly':
+                
+                fig = kwargs.get('fig', go.Figure())
+
+                u = U.flatten()
+                v = V.flatten()
+                
+                magnitude = np.sqrt(u**2 + v**2)
+                magnitude_normalized = magnitude/max(np.max(magnitude),1e-12)
+
+                angle = np.arctan2(v, u)
+                direction = np.array([np.cos(angle), np.sin(angle)]).T
+
+                colorbar = kwargs.get('colorbar', True)
+                
+                fig.add_trace(go.Scatter(
+                x=X.flatten()/self.a0,
+                y=Y.flatten()/self.a0,
+                mode='markers',
+                marker=dict(symbol='arrow', 
+                    angle=90-angle.flatten()*180/np.pi, 
+                    size=2*spacing*magnitude_normalized.flatten(), 
+                    sizemode='diameter',
+                    color=magnitude.flatten(), 
+                    colorscale='Viridis', 
+                    showscale=colorbar,
+                    line=dict(color='black')
+                    ),
+                    hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
+                                '<b>y:</b> %{y:.2f}a0<br>' +
+                                '<b>ux:</b> %{customdata[0]:.2f}<br>' +
+                                '<b>uy:</b> %{customdata[1]:.2f}<extra></extra>',
+                    customdata=np.stack((u.flatten(), v.flatten()), axis=-1)  # Adding ux, uy as customdata
+                )
+                )
+
         ###############################################################
         ########### DIMENSION: 2 - VECTOR-DIMENSION: 2 ################
         ###############################################################
 
         elif self.dim == 2 and vector_field.shape == (2,self.xRes,self.yRes):
-            
+
             if self.plot_lib == 'matplotlib':
                 if ax == None:
                     fig.clf()
@@ -1376,7 +1453,7 @@ class BaseSystemPlot:
                 v = V.flatten()
                 
                 magnitude = np.sqrt(u**2 + v**2)
-                magnitude_normalized = magnitude/np.max(magnitude)
+                magnitude_normalized = magnitude/max(np.max(magnitude),1e-12)
 
                 angle = np.arctan2(v, u)
                 direction = np.array([np.cos(angle), np.sin(angle)]).T
@@ -1411,15 +1488,8 @@ class BaseSystemPlot:
 
         elif self.dim == 2 and vector_field.shape == (3,self.xRes,self.yRes):
 
-            if self.plot_lib == 'plotly':
-                print('Plotly not yet implemented for this type of vector field.')
-                pass
-
-            elif self.plot_lib == 'matplotlib':
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
-
+            kwargs['plot_is_3D'] = True
+            
             X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
             U = np.zeros(X.shape)
             V = np.zeros(X.shape)
@@ -1447,11 +1517,21 @@ class BaseSystemPlot:
             U = vx_scale*U
             V = vy_scale*V
             W = vz_scale*W
+
             if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
                 ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+            elif self.plot_lib == 'plotly':
+                fig = kwargs.get('fig', go.Figure())
+                fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+
+
 
             kwargs['axis_equal'] = False
             kwargs['zlim'] = [-spacing,spacing]
+
 
         ###############################################################
         ########### DIMENSION: 3 - VECTOR-DIMENSION: 1 ################
@@ -1459,11 +1539,9 @@ class BaseSystemPlot:
 
         elif self.dim == 3 and vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
 
-            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-            if self.plot_lib == 'matplotlib':
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
+            kwargs['plot_is_3D'] = True
+
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')              
 
             # Define the vector field
             U = vector_field[0]
@@ -1484,10 +1562,14 @@ class BaseSystemPlot:
             U = vx_scale*U
 
             if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
                 ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+            
             elif self.plot_lib == 'plotly':
-                print('Plotly not yet implemented for this type of vector field.')
-                pass
+                fig = kwargs.get('fig', go.Figure())
+                fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
 
         ###############################################################
         ########### DIMENSION: 3 - VECTOR-DIMENSION: 2 ################
@@ -1495,12 +1577,10 @@ class BaseSystemPlot:
 
         elif self.dim == 3 and vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
 
+            kwargs['plot_is_3D'] = True
+
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-            if self.plot_lib == 'matplotlib':
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
-            
+
             # Define the vector field
             U = vector_field[0]
             V = vector_field[1]
@@ -1523,10 +1603,15 @@ class BaseSystemPlot:
             V = vy_scale*V
 
             if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+
                 ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+            
             elif self.plot_lib == 'plotly':
-                print('Plotly not yet implemented for this type of vector field.')
-                pass
+                fig = kwargs.get('fig', go.Figure())
+                fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
 
         ###############################################################
         ########### DIMENSION: 3 - VECTOR-DIMENSION: 3 ################
@@ -1534,14 +1619,10 @@ class BaseSystemPlot:
 
         elif self.dim == 3 and vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
 
-            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-            if self.plot_lib == 'matplotlib':
-                if ax == None:
-                    fig.clf()
-                    ax = fig.add_subplot(111, projection='3d')
+            kwargs['plot_is_3D'] = True
 
-                    
-            
+            X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+
             # Define the vector field
             U = vector_field[0]
             V = vector_field[1]
@@ -1549,9 +1630,12 @@ class BaseSystemPlot:
 
             X,Y,Z,U,V,W = add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-            
 
             if self.plot_lib == 'matplotlib':
+                if ax == None:
+                    fig.clf()
+                    ax = fig.add_subplot(111, projection='3d')
+
                 # Normalize the vectors
                 max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
 
