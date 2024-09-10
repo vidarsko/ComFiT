@@ -1,7 +1,7 @@
 import numpy as np
 from comfit.core.base_system import BaseSystem
 import matplotlib.pyplot as plt
-from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
+from comfit.tool.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
 import scipy as sp
 
 class QuantumMechanics(BaseSystem):

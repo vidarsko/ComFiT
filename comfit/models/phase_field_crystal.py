@@ -600,6 +600,8 @@ class PhaseFieldCrystal(BaseSystem):
         rotation_matrix = rotation.as_matrix()
 
         # Rotate q-vectors to the new orientation
+        if self.dim == 1:
+            q = self.q # No rotation in 1D
         if self.dim == 2:
             q = (rotation_matrix[0:2,0:2]@self.q.transpose()).transpose()
         elif self.dim == 3:
@@ -1082,7 +1084,7 @@ class PhaseFieldCrystal(BaseSystem):
             ax.quiver(x_coords/self.a0, y_coords/self.a0, Bx_coords, By_coords, color='red')
             
             kwargs['ax'] = ax
-            self._plot_tool_set_axis_properties(**kwargs)
+            self.plot_tool_set_axis_properties(**kwargs)
 
         elif self.dim == 3:
             # Plotting options

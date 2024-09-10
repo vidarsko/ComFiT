@@ -4,10 +4,10 @@ from comfit.core.base_system import BaseSystem
 import scipy as sp
 from tqdm import tqdm
 import matplotlib.pyplot as plt
-from comfit.tools.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
-from comfit.tools.tool_create_orthonormal_triad import tool_create_orthonormal_triad
+from comfit.tool.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
+from comfit.tool.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 
-from comfit.tools.tool_math_functions import levi_civita_symbol
+from comfit.tool.tool_math_functions import levi_civita_symbol
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.cm as cm
 from matplotlib.colors import Normalize
@@ -981,7 +981,7 @@ class NematicLiquidCrystal(BaseSystem):
         colorbar = kwargs.get('colorbar', True)
 
         # Extend the field if not a complete array is given
-        field = self.plot_tool_extend_field(field)
+        field = tool_complete_field(self, field)
 
         if self.dim == 2:
 
@@ -1077,5 +1077,5 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("This plotting function is currently only implemented in 2D! ")
 
         kwargs['ax'] = ax
-        self._plot_tool_set_axis_properties(**kwargs)
+        self.plot_tool_set_axis_properties(**kwargs)
         return fig, ax
