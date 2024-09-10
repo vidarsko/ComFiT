@@ -278,7 +278,7 @@ class BaseSystemPlot:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        plot_tool_set_plot_axis_properties_matplotlib(self, **kwargs)
+        tool_set_plot_axis_properties_matplotlib(self, **kwargs)
 
         return fig, ax
 
@@ -448,5 +448,5 @@ class BaseSystemPlot:
         ax.quiver(x, y, z, U_verts, V_verts, W_verts, color='blue')
 
         kwargs['ax'] = ax
-        plot_tool_set_plot_axis_properties_matplotlib(self, **kwargs)
+        tool_set_plot_axis_properties_matplotlib(self, **kwargs)
         return fig, ax
