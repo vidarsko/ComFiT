@@ -181,7 +181,7 @@ class BaseSystemPlot:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        tool_set_plot_axis_properties(self,**kwargs)
+        tool_set_plot_axis_properties_matplotlib(self,**kwargs)
 
         return fig, ax
 
