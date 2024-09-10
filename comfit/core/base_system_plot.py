@@ -181,7 +181,7 @@ class BaseSystemPlot:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        tool_set_plot_axis_properties(self,**kwargs)
 
         return fig, ax
 
@@ -208,7 +208,7 @@ class BaseSystemPlot:
             raise Exception("The plot in plane function is only defined for 3D fields.")
 
         # Extend the field if not a complete array is given
-        complex_field = tool_complete_field(complex_field)
+        complex_field = tool_complete_field(self, complex_field)
 
         # Default values of position and normal vector
         if position is None:
@@ -278,7 +278,7 @@ class BaseSystemPlot:
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        plot_tool_set_plot_axis_properties(self, **kwargs)
 
         return fig, ax
 
@@ -308,7 +308,7 @@ class BaseSystemPlot:
             angle_field = np.real(angle_field)
 
         # Extend the field if not a complete array is given
-        angle_field = tool_complete_field(angle_field)
+        angle_field = tool_complete_field(self, angle_field)
 
         complex_field = np.exp(1j * angle_field)
     
@@ -346,7 +346,7 @@ class BaseSystemPlot:
         # TODO: Make this part more efficient (Vidar 11.03.24)
         vector_field_copy = []
         for n in range(vector_field.shape[0]):
-            vector_field_copy.append(tool_complete_field(vector_field[n]))
+            vector_field_copy.append(tool_complete_field(self, vector_field[n]))
         vector_field = np.array(vector_field_copy)
 
         # Check if the vector field is complex
@@ -448,5 +448,5 @@ class BaseSystemPlot:
         ax.quiver(x, y, z, U_verts, V_verts, W_verts, color='blue')
 
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        plot_tool_set_plot_axis_properties(self, **kwargs)
         return fig, ax
