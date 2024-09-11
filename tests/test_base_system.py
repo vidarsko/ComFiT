@@ -732,21 +732,21 @@ class TestBaseSystem(unittest.TestCase):
 
         # Test xmin, xmax, ymin, ymax, zmin, zmax
         fig = bs.plot_field(field, xmin=-3, xmax=4, ymin=-5, ymax=6, zmin=-7, zmax=8)
-        self.assertEqual(fig['layout']['scene']['xaxis']['range'], [-3/bs.a0, 4/bs.a0])
-        self.assertEqual(fig['layout']['scene']['yaxis']['range'], [-5/bs.a0, 6/bs.a0])
-        self.assertEqual(fig['layout']['scene']['zaxis']['range'], [-7/bs.a0, 8/bs.a0])
+        self.assertEqual(fig['layout']['scene']['xaxis']['range'], (-3/bs.a0, 4/bs.a0))
+        self.assertEqual(fig['layout']['scene']['yaxis']['range'], (-5/bs.a0, 6/bs.a0))
+        self.assertEqual(fig['layout']['scene']['zaxis']['range'], (-7/bs.a0, 8/bs.a0))
 
         # Test xlim, ylim, zlim
         fig = bs.plot_field(field, xlim=(-3, 4), ylim=(-5, 6), zlim=(-7, 8))
-        self.assertEqual(fig['layout']['scene']['xaxis']['range'], [-3/bs.a0, 4/bs.a0])
-        self.assertEqual(fig['layout']['scene']['yaxis']['range'], [-5/bs.a0, 6/bs.a0])
-        self.assertEqual(fig['layout']['scene']['zaxis']['range'], [-7/bs.a0, 8/bs.a0])
+        self.assertEqual(fig['layout']['scene']['xaxis']['range'], (-3/bs.a0, 4/bs.a0))
+        self.assertEqual(fig['layout']['scene']['yaxis']['range'], (-5/bs.a0, 6/bs.a0))
+        self.assertEqual(fig['layout']['scene']['zaxis']['range'], (-7/bs.a0, 8/bs.a0))
 
         # Test xticks, yticks, zticks
         fig = bs.plot_field(field, xticks=[-3, 0, 4], yticks=[-5, 0, 6], zticks=[-7, 0, 8])
-        self.assertEqual(fig['layout']['scene']['xaxis']['tickvals'], [-3, 0, 4])
-        self.assertEqual(fig['layout']['scene']['yaxis']['tickvals'], [-5, 0, 6])
-        self.assertEqual(fig['layout']['scene']['zaxis']['tickvals'], [-7, 0, 8])
+        self.assertEqual(fig['layout']['scene']['xaxis']['tickvals'], (-3, 0, 4))
+        self.assertEqual(fig['layout']['scene']['yaxis']['tickvals'], (-5, 0, 6))
+        self.assertEqual(fig['layout']['scene']['zaxis']['tickvals'], (-7, 0, 8))
 
 
 if __name__ == '__main__':

@@ -11,10 +11,23 @@ import scipy as sp
 # pfc = cf.PhaseFieldCrystal1DPeriodic(10)
 # pfc = cf.PhaseFieldCrystal2DTriangular(10,5)
 pfc = cf.PhaseFieldCrystal3DBodyCenteredCubic(1,1,1)
+field = np.sin(pfc.x/pfc.a0)*np.sin(pfc.y/pfc.a0)*np.sin(pfc.z/pfc.a0)
+
+# fig = pfc.plot_field(field, title='test')
+# fig.show()
+fig = pfc.plot_field(field, xmin=-3, xmax=4, ymin=-5, ymax=6, zmin=-7, zmax=8)
+# fig.show()
+# print(fig['layout']['title']['text'])
+# print(fig['layout']['scene']['xaxis']['range'])
+
+# fig = pfc.plot_field(field, xticks=[-3, 0, 4], yticks=[-5, 0, 6], zticks=[-7, 0, 8])
+# fig.show()
+# print(fig['layout']['scene']['xaxis']['tickvals'])
+
 # pfc.conf_PFC_from_amplitudes()
-complex_field = 0.5+1j*np.sin(0.2*pfc.x)
-fig = pfc.plot_complex_field(complex_field)
-fig.show()
+# complex_field = 0.5+1j*np.sin(0.2*pfc.x)
+# fig = pfc.plot_complex_field(complex_field)
+# fig.show()
 # cf.plot_field_matplotlib(pfc, pfc.psi)
 
 # cf.plot_complex_field_matplotlib(pfc, complex_field)

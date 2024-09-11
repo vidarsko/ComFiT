@@ -85,24 +85,36 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
         fig.update_layout(width=size[0], height=size[1])
 
     ##### TICKS #####
-    if xticks is not None:
-        fig.update_layout(xaxis=dict(tickvals=xticks))
-    if xticklabels is not None:
-        fig.update_layout(xaxis=dict(ticktext=xticklabels))
+    if plot_is_3D:
+        if xticks is not None:
+            fig.update_layout(scene=dict(xaxis=dict(tickvals=xticks)))
+        if xticklabels is not None:
+            fig.update_layout(scene=dict(xaxis=dict(ticktext=xticklabels)))
 
-    if yticks is not None:
-        fig.update_layout(yaxis=dict(tickvals=yticks))
-    if yticklabels is not None:
-        fig.update_layout(yaxis=dict(ticktext=yticklabels))
+        if yticks is not None:
+            fig.update_layout(scene=dict(yaxis=dict(tickvals=yticks)))
+        if yticklabels is not None:
+            fig.update_layout(scene=dict(yaxis=dict(ticktext=yticklabels)))
 
-    if zticks is not None:
-        fig.update_layout(zaxis=dict(tickvals=zticks))
-    if zticklabels is not None:
-        fig.update_layout(zaxis=dict(ticktext=zticklabels))
+        if zticks is not None:
+            fig.update_layout(scene=dict(zaxis=dict(tickvals=zticks)))
+        if zticklabels is not None:
+            fig.update_layout(scene=dict(zaxis=dict(ticktext=zticklabels)))
+
+    else:
+        if xticks is not None:
+            fig.update_layout(xaxis=dict(tickvals=xticks))
+        if xticklabels is not None:
+            fig.update_layout(xaxis=dict(ticktext=xticklabels))
+
+        if yticks is not None:
+            fig.update_layout(yaxis=dict(tickvals=yticks))
+        if yticklabels is not None:
+            fig.update_layout(yaxis=dict(ticktext=yticklabels))
 
     ##### TITLE #####
     if title is not None:
-        fig.update_layout(title_text=suptitle)
+        fig.update_layout(title_text=title)
 
     ##### SUPTITLE #####
     if suptitle is not None:
@@ -128,13 +140,16 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
 
 
     ##### AXIS LIMITS #####
-    fig.update_layout(xaxis_range=xlim)
+    if plot_is_3D:
+        fig.update_layout(scene=dict(
+            xaxis=dict(range=xlim),  # Set x-axis range
+            yaxis=dict(range=ylim),  # Set y-axis range
+            zaxis=dict(range=zlim)   # Set z-axis range
+        ))
+    else:
+        fig.update_layout(xaxis=dict(range=xlim), 
+                          yaxis=dict(range=ylim))
 
-    if ylim is not None:
-        fig.update_layout(yaxis_range=ylim)
-
-    # if zlim is not None:
-    #     fig.update_layout(zaxis_range=zlim)
 
     ##### GRID #####
 
