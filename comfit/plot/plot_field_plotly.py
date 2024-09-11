@@ -46,6 +46,13 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
 
     kwargs['plot_is_3D'] = False
 
+    # Check if the plot is a subplot
+    row = kwargs.get('row', None)
+    col = kwargs.get('col', None)
+
+    fig_is_subplot = row is not None and col is not None
+    kwargs['fig_is_subplot'] = fig_is_subplot
+
     ###############################################################
     ###################### DIMENSION: 1 ###########################
     ###############################################################
@@ -58,13 +65,18 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         if axis_equal is None:
             kwargs['axis_equal'] = False
 
-        fig.add_trace(go.Scatter(
+        trace = go.Scatter(
             x=self.x/self.a0,
             y=field,
             mode='lines',
             name='',
             hovertemplate='x: %{x:.2f} a₀<br>field: %{y:.2f}'
-        ))
+        )
+        
+        if fig_is_subplot:
+            fig.add_trace(trace, row=row, col=col)
+        else:
+            fig.add_trace(trace)
 
     ###############################################################
     ###################### DIMENSION: 2 ###########################
@@ -78,7 +90,7 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
 
         X, Y = np.meshgrid(self.x, self.y, indexing='ij')
         
-        fig.add_trace(go.Heatmap(
+        trace = go.Heatmap(
             x=X.flatten()/self.a0,
             y=Y.flatten()/self.a0,
             z=field.flatten(),
@@ -88,7 +100,12 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
             zsmooth='best',
             hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
             name=''
-        ))
+        )
+
+        if fig_is_subplot:
+            fig.add_trace(trace, row=row, col=col)
+        else:
+            fig.add_trace(trace)
 
     ###############################################################
     ###################### DIMENSION: 3 ###########################
@@ -127,8 +144,8 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
         for layer_value in layer_values[1:-1]:
-
-            fig.add_trace(go.Isosurface(
+            
+            trace = go.Isosurface(
                 x=X.flatten()/self.a0,
                 y=Y.flatten()/self.a0,
                 z=Z.flatten()/self.a0,
@@ -142,7 +159,10 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
                 opacity=alpha,
                 showscale=bool(layer_value == layer_values[1])
             )
-                )
+            if fig_is_subplot:
+                fig.add_trace(trace, row=row, col=col)
+            else:
+                fig.add_trace(trace)
     
     kwargs['fig'] = fig
     tool_set_plot_axis_properties_plotly(self,**kwargs)

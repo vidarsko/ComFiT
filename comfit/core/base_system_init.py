@@ -15,8 +15,6 @@ class BaseSystemInit:
         Returns:
             None
         """
-        # Set default plotting library
-        self.plot_lib = 'matplotlib'
 
         if dim not in [1, 2, 3]:
             raise ValueError('Dimension must be 1, 2, or 3.')

@@ -1,11 +1,5 @@
-import matplotlib.pyplot as plt
 import numpy as np
-
-import matplotlib 
-import mpl_toolkits
 import plotly.graph_objects as go
-
-from typing import Union
 
 def tool_set_plot_axis_properties_plotly(self, **kwargs):
     """Sets the properties of the axis for a plot.
@@ -16,6 +10,53 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     Returns:
     The axis object with the properties set.
     """
+    # Create dictionaries to store the layout updates
+    layout_updates = {}
+    scene_updates = {}
+
+    ##### FIGURE #####
+    fig = kwargs.get('fig', go.Figure())
+
+    ##### SIZE #####
+    size = kwargs.get('size', None)
+
+    if size is None:
+        layout_updates['width'] = 500
+        layout_updates['height'] = 500
+    else:
+        layout_updates['width'] = size[0]
+        layout_updates['height'] = size[1]
+
+    ##### PLOT NATURE #####
+    fig_is_subplot = kwargs.get('fig_is_subplot', False)
+    row = kwargs.get('row', None)
+    col = kwargs.get('col', None)
+    if row is not None and col is not None:
+        fig_is_subplot = True
+    
+
+    plot_is_3D = kwargs.get('plot_is_3D', False)
+
+    ##### GRID #####
+    grid = kwargs.get('grid', True)
+    layout_updates['xaxis_showgrid'] = grid
+    layout_updates['yaxis_showgrid'] = grid
+
+    ##### AXIS EQUAL #####
+    axis_equal = kwargs.get('axis_equal', False if self.dim==1 else True)
+
+    if axis_equal:
+        if plot_is_3D:
+            scene_updates['aspectmode'] = 'cube'
+        else:
+            layout_updates['yaxis'] = dict(scaleanchor='x', scaleratio=1)
+    
+
+    ##### TITLE #####
+    title = kwargs.get('title', None)
+
+    if title is not None:
+        layout_updates['title'] = title
 
     ##### AXIS LIMITS #####
     # xlim is specified as a list
@@ -45,14 +86,31 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     if 'zlim' in kwargs:
         zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
 
-    ##### GRID AND TITLE #####
-    grid = kwargs.get('grid', True)
-    axis_equal = kwargs.get('axis_equal', True)
-    title = kwargs.get('title', None)
-    suptitle = kwargs.get('suptitle', None)
+    if plot_is_3D:
+        scene_updates['xaxis_range'] = xlim
+        scene_updates['yaxis_range'] = ylim
+        scene_updates['zaxis_range'] = zlim
 
-    ##### SIZE #####
-    size = kwargs.get('size', None)
+    else:
+        layout_updates['xaxis_range'] = xlim
+        layout_updates['yaxis_range'] = ylim
+
+    ##### AXIS LABELS #####
+    xlabel = kwargs.get('xlabel', 'x/a₀')
+    ylabel = kwargs.get('ylabel', 'y/a₀' if self.dim > 1 else None)
+    zlabel = kwargs.get('zlabel', 'z/a₀' if self.dim > 2 else None)
+
+    if plot_is_3D:
+        scene_updates['xaxis_title'] = xlabel
+        scene_updates['yaxis_title'] = ylabel
+        scene_updates['zaxis_title'] = zlabel
+
+    else: #plot is not 3D
+        layout_updates['xaxis_title'] = xlabel
+
+        if ylabel is not None:
+            layout_updates['yaxis_title'] = ylabel
+
 
     ##### TICKS #####
     xticks = kwargs.get('xticks', None)  
@@ -64,102 +122,53 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     zticks = kwargs.get('zticks', None)
     zticklabels = kwargs.get('zticklabels', None)
 
-    ##### LABELS #####
-    xlabel = kwargs.get('xlabel', 'x/a₀')
-    ylabel = kwargs.get('ylabel', 'y/a₀' if self.dim > 1 else None)
-    zlabel = kwargs.get('zlabel', 'z/a₀' if self.dim > 2 else None)
+    xtick_updates = {}
+    if xticks is not None:
+        xtick_updates['tickvals'] = xticks
+    if xticklabels is not None:
+        xtick_updates['ticktext'] = xticklabels
 
-    ##### PLOT NATURE #####
-    plot_is_3D = kwargs.get('plot_is_3D', False)
+    ytick_updates = {}
+    if yticks is not None:
+        ytick_updates['tickvals'] = yticks
+    if yticklabels is not None:
+        ytick_updates['ticktext'] = yticklabels
 
-    ##### PLOT LIBRARY #####
-    plot_lib = kwargs.get('plot_lib', self.plot_lib)
+    ztick_updates = {}
+    if zticks is not None:
+        ztick_updates['tickvals'] = zticks
+    if zticklabels is not None:
+        ztick_updates['ticktext'] = zticklabels
 
-
-    ##### FIGURE #####
-    fig = kwargs.get('fig', go.Figure())
-
-    if size is None:
-        fig.update_layout(width=500, height=500)
-    else:
-        fig.update_layout(width=size[0], height=size[1])
-
-    ##### TICKS #####
     if plot_is_3D:
-        if xticks is not None:
-            fig.update_layout(scene=dict(xaxis=dict(tickvals=xticks)))
-        if xticklabels is not None:
-            fig.update_layout(scene=dict(xaxis=dict(ticktext=xticklabels)))
 
-        if yticks is not None:
-            fig.update_layout(scene=dict(yaxis=dict(tickvals=yticks)))
-        if yticklabels is not None:
-            fig.update_layout(scene=dict(yaxis=dict(ticktext=yticklabels)))
+        if xtick_updates:
+            scene_updates['xaxis'] = xtick_updates
 
-        if zticks is not None:
-            fig.update_layout(scene=dict(zaxis=dict(tickvals=zticks)))
-        if zticklabels is not None:
-            fig.update_layout(scene=dict(zaxis=dict(ticktext=zticklabels)))
+        if ytick_updates:
+            scene_updates['yaxis'] = ytick_updates
+
+        if ztick_updates:
+            scene_updates['zaxis'] = ztick_updates
 
     else:
-        if xticks is not None:
-            fig.update_layout(xaxis=dict(tickvals=xticks))
-        if xticklabels is not None:
-            fig.update_layout(xaxis=dict(ticktext=xticklabels))
 
-        if yticks is not None:
-            fig.update_layout(yaxis=dict(tickvals=yticks))
-        if yticklabels is not None:
-            fig.update_layout(yaxis=dict(ticktext=yticklabels))
+        if xtick_updates:
+            layout_updates['xaxis'] = xtick_updates
 
-    ##### TITLE #####
-    if title is not None:
-        fig.update_layout(title_text=title)
+        if ytick_updates:
+            layout_updates['yaxis'] = ytick_updates
 
-    ##### SUPTITLE #####
-    if suptitle is not None:
-        print("\033[91mWarning: The suptitle keyword is not valid for plotly plots.\033[0m")
 
-    ##### AXIS LABELS #####
-    # Figure is a 3D plot
-    if plot_is_3D:
-        fig.update_layout(
-        scene=dict(
-            xaxis_title=xlabel,
-            yaxis_title=ylabel,
-            zaxis_title=zlabel
-        )
-    )
-
-    # Figure is not 3D plot
+    ##### UPDATE LAYOUT #####
+    if fig_is_subplot:
+        fig.update_layout(layout_updates, row=row, col=col)
+        if plot_is_3D:
+            fig.update_layout(scene_updates, row=row, col=col)
     else:
-        fig.update_layout(xaxis_title=xlabel)
+        fig.update_layout(layout_updates)
+        if plot_is_3D:
+            fig.update_layout(scene_updates)
 
-    if ylabel is not None:
-        fig.update_layout(yaxis_title=ylabel)
-
-
-    ##### AXIS LIMITS #####
-    if plot_is_3D:
-        fig.update_layout(scene=dict(
-            xaxis=dict(range=xlim),  # Set x-axis range
-            yaxis=dict(range=ylim),  # Set y-axis range
-            zaxis=dict(range=zlim)   # Set z-axis range
-        ))
-    else:
-        fig.update_layout(xaxis=dict(range=xlim), 
-                          yaxis=dict(range=ylim))
-
-
-    ##### GRID #####
-
-    fig.update_layout(
-    xaxis=dict(showgrid=grid),  # Show grid on x-axis
-    yaxis=dict(showgrid=grid)   # Show grid on y-axis
-    )
-
-    ##### AXIS ASPECT RATIO #####
-    if axis_equal:
-        fig.update_yaxes(
-        scaleanchor="x",
-        scaleratio=1)
+    
+    
