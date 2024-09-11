@@ -13,6 +13,8 @@ from comfit.plot import plot_field_matplotlib
 from comfit.plot import plot_field_plotly
 from comfit.plot import plot_complex_field_matplotlib
 from comfit.plot import plot_complex_field_plotly
+from comfit.plot import plot_angle_field_matplotlib
+from comfit.plot import plot_angle_field_plotly
 from comfit.plot import plot_vector_field_matplotlib
 from comfit.plot import plot_vector_field_plotly
 from comfit.plot import plot_field_in_plane_matplotlib
@@ -52,7 +54,7 @@ class BaseSystemPlot:
 
     def plot_angle_field(self, angle_field, **kwargs):
         return plot_angle_field_plotly(self, angle_field, **kwargs)
-        
+
     def plot_vector_field(self, vector_field, **kwargs):
         return plot_vector_field_plotly(self, vector_field, **kwargs)
 
