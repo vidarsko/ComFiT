@@ -9,8 +9,6 @@ from comfit.tool import tool_colormap_angle
 from comfit.tool import tool_set_plot_axis_properties_plotly
 
 
-
-
 def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.Figure:
     """
     Plot a complex field.
@@ -282,7 +280,24 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
         elif self.dim == 2:
             pass
         elif self.dim == 3:
-            fig = self.plot_tool_plotly_add_angle_colorbar3D(fig)
+            # Generate the custom colormap
+            custom_colormap = tool_colormap_angle(pyplot=True)
+
+            fig.add_trace(go.Isosurface(
+                x=[self.xmin/self.a0,self.xmax/self.a0], 
+                y=[self.ymin/self.a0,self.ymax/self.a0], 
+                z=[self.zmin/self.a0, self.zmax/self.a0],
+                value=[0,0],
+                cmin = -np.pi,
+                cmax = np.pi,
+                opacity=0,
+                colorscale=custom_colormap,
+                colorbar=dict(
+                    tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
+                    ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
+                ),
+                showscale=True
+            ))
 
 
     kwargs['fig'] = fig
