@@ -12,7 +12,12 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     """
     # Create dictionaries to store the layout updates
     layout_updates = {}
+    
+    # For 3D plots, create dictionaries to store the scene updates
     scene_updates = {}
+    xaxis_updates = {}
+    yaxis_updates = {}
+    zaxis_updates = {}
 
     ##### FIGURE #####
     fig = kwargs.get('fig', go.Figure())
@@ -87,9 +92,9 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
         zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
 
     if plot_is_3D:
-        scene_updates['xaxis_range'] = xlim
-        scene_updates['yaxis_range'] = ylim
-        scene_updates['zaxis_range'] = zlim
+        xaxis_updates['range'] = xlim
+        yaxis_updates['range'] = ylim
+        zaxis_updates['range'] = zlim
 
     else:
         layout_updates['xaxis_range'] = xlim
@@ -101,9 +106,9 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     zlabel = kwargs.get('zlabel', 'z/a₀' if self.dim > 2 else None)
 
     if plot_is_3D:
-        scene_updates['xaxis_title'] = xlabel
-        scene_updates['yaxis_title'] = ylabel
-        scene_updates['zaxis_title'] = zlabel
+        xaxis_updates['title'] = xlabel
+        yaxis_updates['title'] = ylabel
+        zaxis_updates['title'] = zlabel
 
     else: #plot is not 3D
         layout_updates['xaxis_title'] = xlabel
@@ -122,42 +127,40 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     zticks = kwargs.get('zticks', None)
     zticklabels = kwargs.get('zticklabels', None)
 
-    xtick_updates = {}
+    
     if xticks is not None:
-        xtick_updates['tickvals'] = xticks
+        xaxis_updates['tickvals'] = xticks
     if xticklabels is not None:
-        xtick_updates['ticktext'] = xticklabels
+        xaxis_updates['ticktext'] = xticklabels
 
-    ytick_updates = {}
     if yticks is not None:
-        ytick_updates['tickvals'] = yticks
+        yaxis_updates['tickvals'] = yticks
     if yticklabels is not None:
-        ytick_updates['ticktext'] = yticklabels
+        yaxis_updates['ticktext'] = yticklabels
 
-    ztick_updates = {}
+    
     if zticks is not None:
-        ztick_updates['tickvals'] = zticks
+        zaxis_updates['tickvals'] = zticks
     if zticklabels is not None:
-        ztick_updates['ticktext'] = zticklabels
+        zaxis_updates['ticktext'] = zticklabels
 
+    ##### UPDATE SCENE #####
     if plot_is_3D:
+        if xaxis_updates:
+            scene_updates['xaxis'] = xaxis_updates
 
-        if xtick_updates:
-            scene_updates['xaxis'] = xtick_updates
+        if yaxis_updates:
+            scene_updates['yaxis'] = yaxis_updates
 
-        if ytick_updates:
-            scene_updates['yaxis'] = ytick_updates
-
-        if ztick_updates:
-            scene_updates['zaxis'] = ztick_updates
+        if zaxis_updates:
+            scene_updates['zaxis'] = zaxis_updates
 
     else:
+        if xaxis_updates:
+            layout_updates['xaxis'] = xaxis_updates
 
-        if xtick_updates:
-            layout_updates['xaxis'] = xtick_updates
-
-        if ytick_updates:
-            layout_updates['yaxis'] = ytick_updates
+        if yaxis_updates:
+            layout_updates['yaxis'] = yaxis_updates
 
 
     ##### UPDATE LAYOUT #####

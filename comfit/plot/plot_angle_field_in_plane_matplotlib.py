@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib
 
 from comfit.plot.plot_complex_field_in_plane_matplotlib import plot_complex_field_in_plane_matplotlib
-
 from comfit.tool.tool_complete_field import tool_complete_field
 
 
