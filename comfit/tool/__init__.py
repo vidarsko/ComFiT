@@ -11,3 +11,5 @@ from .tool_complete_field import tool_complete_field
 
 from .tool_add_spacing_2D import tool_add_spacing_2D
 from .tool_add_spacing_3D import tool_add_spacing_3D
+
+from .tool_make_subplots import tool_make_subplots

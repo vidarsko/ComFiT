@@ -25,20 +25,13 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     ##### SIZE #####
     size = kwargs.get('size', None)
 
-    if size is None:
-        layout_updates['width'] = 500
-        layout_updates['height'] = 500
-    else:
+    if size is not None:
         layout_updates['width'] = size[0]
         layout_updates['height'] = size[1]
 
     ##### PLOT NATURE #####
-    fig_is_subplot = kwargs.get('fig_is_subplot', False)
     row = kwargs.get('row', None)
     col = kwargs.get('col', None)
-    if row is not None and col is not None:
-        fig_is_subplot = True
-    
 
     plot_is_3D = kwargs.get('plot_is_3D', False)
 
@@ -164,14 +157,9 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
 
 
     ##### UPDATE LAYOUT #####
-    if fig_is_subplot:
-        fig.update_layout(layout_updates, row=row, col=col)
-        if plot_is_3D:
-            fig.update_layout(scene = scene_updates, row=row, col=col)
-    else:
-        fig.update_layout(layout_updates)
-        if plot_is_3D:
-            fig.update_layout(scene = scene_updates)
+    fig.update_layout(layout_updates)
+    if plot_is_3D:
+        fig.update_layout(scene = scene_updates)
 
     
     
