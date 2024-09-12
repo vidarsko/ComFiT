@@ -167,11 +167,11 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     if fig_is_subplot:
         fig.update_layout(layout_updates, row=row, col=col)
         if plot_is_3D:
-            fig.update_layout(scene_updates, row=row, col=col)
+            fig.update_layout(scene = scene_updates, row=row, col=col)
     else:
         fig.update_layout(layout_updates)
         if plot_is_3D:
-            fig.update_layout(scene_updates)
+            fig.update_layout(scene = scene_updates)
 
     
     
