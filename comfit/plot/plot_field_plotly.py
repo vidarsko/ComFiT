@@ -25,6 +25,10 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
     if field.dtype == bool:
         field = field.astype(float)
 
+    field_is_nan = False
+    if np.all(np.isnan(field)):
+        field_is_nan = True
+
     if field.ndim == self.dim+1:
         print("\033[91mWarning - in plot_field: the provided field seems to be an order parameter containing several fields. Only the zeroth component will be plotted.\033[0m")
         field = field[0]
@@ -73,10 +77,11 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
             hovertemplate='x: %{x:.2f} a₀<br>field: %{y:.2f}'
         )
         
-        if fig_is_subplot:
-            fig.add_trace(trace, row=row, col=col)
-        else:
-            fig.add_trace(trace)
+        if not field_is_nan:
+            if fig_is_subplot:
+                fig.add_trace(trace, row=row, col=col)
+            else:
+                fig.add_trace(trace)
 
     ###############################################################
     ###################### DIMENSION: 2 ###########################
@@ -102,10 +107,11 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
             name=''
         )
 
-        if fig_is_subplot:
-            fig.add_trace(trace, row=row, col=col)
-        else:
-            fig.add_trace(trace)
+        if not field_is_nan:
+            if fig_is_subplot:
+                fig.add_trace(trace, row=row, col=col)
+            else:
+                fig.add_trace(trace)
 
     ###############################################################
     ###################### DIMENSION: 3 ###########################
@@ -143,26 +149,27 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         #Plotting the layers
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
-        for layer_value in layer_values[1:-1]:
-            
-            trace = go.Isosurface(
-                x=X.flatten()/self.a0,
-                y=Y.flatten()/self.a0,
-                z=Z.flatten()/self.a0,
-                value = field.flatten(),
-                isomin = layer_value,
-                isomax = layer_value,
-                cmin = vmin,
-                cmax = vmax,
-                surface=dict(count=3),  # Ensuring only one surface is shown
-                colorscale='Viridis',
-                opacity=alpha,
-                showscale=bool(layer_value == layer_values[1])
-            )
-            if fig_is_subplot:
-                fig.add_trace(trace, row=row, col=col)
-            else:
-                fig.add_trace(trace)
+        if not field_is_nan:
+            for layer_value in layer_values[1:-1]:
+                
+                trace = go.Isosurface(
+                    x=X.flatten()/self.a0,
+                    y=Y.flatten()/self.a0,
+                    z=Z.flatten()/self.a0,
+                    value = field.flatten(),
+                    isomin = layer_value,
+                    isomax = layer_value,
+                    cmin = vmin,
+                    cmax = vmax,
+                    surface=dict(count=3),  # Ensuring only one surface is shown
+                    colorscale='Viridis',
+                    opacity=alpha,
+                    showscale=bool(layer_value == layer_values[1])
+                )
+                if fig_is_subplot:
+                    fig.add_trace(trace, row=row, col=col)
+                else:
+                    fig.add_trace(trace)
     
     kwargs['fig'] = fig
     tool_set_plot_axis_properties_plotly(self,**kwargs)
