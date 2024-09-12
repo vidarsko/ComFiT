@@ -3,10 +3,11 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 
-fig = make_subplots(1,2, specs=[[{'type': 'surface'}, {'type': 'scatter3d'}]])
+fig = make_subplots(1,2, specs=[[{'type': 'scatter3d'}, {'type': 'scatter3d'}]])
+# fig = make_subplots(1,2)
 # fig = go.Figure()
 
-# fig.add_trace(go.Scatter(x=[1, 2, 3], y=[4, 5, 6]))
+# fig.add_trace(go.Scatter(x=[1, 2, 3], y=[4, 5, 6]),row=1, col=1)
 # fig.add_trace(go.Scatter3d(x=[1, 2, 3], y=[4, 5, 6], z=[7, 8, 9]), row=1, col=1)
 # fig.add_trace(go.Scatter3d(x=[3, 2, 1], y=[4, 5, 6], z=[7, 8, 9]))
 
