@@ -63,7 +63,7 @@ for rho0exp in range(-14,0,1):
 
 
         # plt.pause(0.01)
-        cf.tool_save_plot(n,image_size_inches=(15,5))
+        cf.tool_save_plot_matplotlib(n,image_size_inches=(15,5))
         
         fig.clear()
         fig = plt.figure(figsize=(15,5))

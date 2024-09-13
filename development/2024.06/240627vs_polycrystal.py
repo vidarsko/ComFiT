@@ -43,7 +43,7 @@ for n in range(100):
                     vlim=[0,0.02])
 
 
-    cf.tool_save_plot(n, ID=ID)
+    cf.tool_save_plot_matplotlib(n, ID=ID)
     fig.clear()     
     fig = plt.figure(figsize=(15,5))
     axs = fig.subplots(1,2)

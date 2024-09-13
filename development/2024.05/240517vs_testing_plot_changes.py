@@ -54,5 +54,5 @@ for n in range(10):
     ls.evolve(2)
     plt.clf() #Clearing current figure before plotting new one
     ls.plot_field(ls.psi)
-    cf.tool_save_plot(n,image_size_inches=(6,5), dpi=100+np.random.randint(2))
+    cf.tool_save_plot_matplotlib(n,image_size_inches=(6,5), dpi=100+np.random.randint(2))
 cf.tool_make_animation_gif(n,name='evolution_negative_r')

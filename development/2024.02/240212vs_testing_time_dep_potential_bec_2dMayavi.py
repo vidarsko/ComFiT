@@ -29,5 +29,5 @@ for n in range(200):
     # plt.pause(0.01)
     # mlab.show()
     mlab.savefig(f'plot_{n}.png')
-    # cf.tool_save_plot(n)
+    # cf.tool_save_plot_matplotlib(n)
 cf.tool_make_animation_gif(n)

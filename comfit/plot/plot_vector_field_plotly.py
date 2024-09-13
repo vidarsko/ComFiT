@@ -222,7 +222,8 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         v = V.flatten()
         
         magnitude = np.sqrt(u**2 + v**2)
-        magnitude_normalized = magnitude/max(np.max(magnitude),1e-12)
+        magnitude_max = max(np.max(magnitude),1e-12)
+        magnitude_normalized = magnitude/magnitude_max
 
         angle = np.arctan2(v, u)
         direction = np.array([np.cos(angle), np.sin(angle)]).T
@@ -240,6 +241,8 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
             color=magnitude.flatten(), 
             colorscale='Viridis', 
             showscale=colorbar,
+            cmin=0,
+            cmax=magnitude_max,
             line=dict(color='black')
             ),
             hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +

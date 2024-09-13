@@ -102,7 +102,7 @@ for n in range(51):
     
     fig.suptitle(f't={n*10}, sigma={bs.sigma}, A={bs.A}, T0={bs.T0}')
 
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 
     colorbar_on = False
 cf.tool_make_animation_gif(n)

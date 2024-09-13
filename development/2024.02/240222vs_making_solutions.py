@@ -14,7 +14,7 @@ pfc.conf_PFC_from_amplitudes(eta)
 for n in range(100):
     pfc.evolve_PFC(100)
     pfc.plot_field(pfc.psi, grid=False, colorbar=False)
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 
 cf.tool_make_animation_gif(n)
 
@@ -30,7 +30,7 @@ cf.tool_make_animation_gif(n)
 
 # for n in range(100):
 #     qm.plot(ylim=ymax)
-#     cf.tool_save_plot(n)
+#     cf.tool_save_plot_matplotlib(n)
 #     qm.evolve_schrodinger(5)
 
 # cf.tool_make_animation_gif(n)

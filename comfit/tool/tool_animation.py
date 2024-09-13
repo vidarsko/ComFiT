@@ -4,7 +4,7 @@ This module provides tool for saving Matplotlib plots as img and creating animat
 
 Functions:
 
-- tool_save_plot: Saves a Matplotlib plot as an image file.
+- tool_save_plot_matplotlib: Saves a Matplotlib plot as an image file.
 - tool_make_animation: Creates an animation from a sequence of image files and saves it as a video file.
 """
 
@@ -17,7 +17,7 @@ from datetime import datetime
 from PIL import Image
 
 
-def tool_save_plot(counter, 
+def tool_save_plot_matplotlib(counter, 
                 image_size_inches=(6,5), 
                 dpi=100,
                 ID=None):
@@ -43,7 +43,7 @@ def tool_save_plot(counter,
     plt.gcf().set_size_inches(image_size_inches)
     plt.savefig(filename,dpi=dpi)
 
-def tool_save_plot_plotly(counter,fig, ID=None):
+def tool_save_plot(counter,fig, ID=None):
     """
     Saves the current Plotly figure as a PNG file.
 

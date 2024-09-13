@@ -454,7 +454,7 @@ This command is the same for both `matplotlib` and `plotly`.
     for n in range(100):
         # Update the field
         # Plot the field and save it in a figure object
-        cf.tool_save_plot_plotly(n, fig)
+        cf.tool_save_plot(n, fig)
     cf.tool_make_animation_gif(n)
     ```
 

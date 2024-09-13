@@ -22,7 +22,7 @@ for i in range(500):
   #  nem.plot_disclination_nodes(disclination_nodes,ax=ax)
     plt.draw()
     plt.pause(0.01)
-    cf.tool_save_plot(i)
+    cf.tool_save_plot_matplotlib(i)
     plt.clf()
 
 cf.tool_make_animation_gif(i)

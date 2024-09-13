@@ -32,7 +32,7 @@ from mayavi import mlab
 #     # mlab.show()
 #     mlab.savefig(f'plot_{n}.png')
 #     mlab.close()
-#     # cf.tool_save_plot(n)
+#     # cf.tool_save_plot_matplotlib(n)
 cf.tool_make_animation_gif(211)
 # plt.show()
 

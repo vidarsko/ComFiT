@@ -19,7 +19,7 @@ qm.psi_f = sp.fft.fftn(qm.psi)
 for n in range(100):
     qm.evolve_schrodinger(10)
     qm.plot_complex_field(qm.psi,phase_blob_threshold=0.3)
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 cf.tool_make_animation_gif(n)
 # qm.plot_complex_field(psi,phase_blob_threshold=0.3)
 # plt.show()

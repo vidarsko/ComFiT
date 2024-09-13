@@ -74,6 +74,6 @@ for n in range(1000):
 
     bec.plot_vortex_nodes(Dnodes)
 
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 
 cf.tool_make_animation_movie(n)

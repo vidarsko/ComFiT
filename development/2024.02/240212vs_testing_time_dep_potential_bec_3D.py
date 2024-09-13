@@ -25,5 +25,5 @@ for n in range(1000):
     bec.plot_complex_field(bec.psi)
     plt.draw()
     plt.pause(0.01)
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 cf.tool_make_animation_gif(n)

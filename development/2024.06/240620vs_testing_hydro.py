@@ -64,7 +64,7 @@ for n in range(200):
 
 
     # plt.pause(0.01)
-    cf.tool_save_plot(n,image_size_inches=(15,5))
+    cf.tool_save_plot_matplotlib(n,image_size_inches=(15,5))
     
     fig.clear()
     fig = plt.figure(figsize=(15,5))

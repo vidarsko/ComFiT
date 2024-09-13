@@ -26,5 +26,5 @@ pfc.psi_f = sp.fft.fftn(pfc.psi)
 for n in range(100):
     pfc.evolve_PFC_hydrodynamic(100)
     pfc.plot_field(pfc.psi[0])
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 cf.tool_make_animation_gif(n,'Inclusion_PFC_hydrodynamic')

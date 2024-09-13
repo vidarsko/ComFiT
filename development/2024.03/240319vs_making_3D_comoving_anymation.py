@@ -34,7 +34,7 @@ for n in range(N):
 
     bec.plot_complex_field(bec.psi)
   
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 
 
 cf.tool_make_animation_gif(n)

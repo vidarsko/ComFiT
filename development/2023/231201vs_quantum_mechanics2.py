@@ -20,7 +20,7 @@ ymax = np.max(abs(qm.psi))**2
 for n in range(1000):
     qm.plot(ylim=ymax)
 
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 
     #plt.draw()
 

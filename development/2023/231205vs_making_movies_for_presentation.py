@@ -18,7 +18,7 @@ for n in range(300):
     bec.plot_field(abs(bec.psi),colormap='winter',cmap_symmetric=False,
 
                    clims=[0,1])
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 
 
 cf.tool_make_animation_movie(n)
@@ -36,7 +36,7 @@ cf.tool_make_animation_movie(n)
 #     bec.plot_field(abs(bec.psi),colormap='winter',cmap_symmetric=False,
 
 #                    clims=[0,1])
-#     cf.tool_save_plot(n)
+#     cf.tool_save_plot_matplotlib(n)
 #
 
 # cf.tool_make_animation(n)
@@ -56,7 +56,7 @@ for n in range(300):
     bec.plot_field(abs(bec.psi),colormap='winter',cmap_symmetric=False,
 
                    clims=[0,1])
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 
 
 cf.tool_make_animation_movie(n)
@@ -73,7 +73,7 @@ cf.tool_make_animation_movie(n)
 # #bec.plot_field(abs(bec.psi),colormap='winter',cmap_symmetric=False, clims=[0,1])
 
 # bec.plot_angle_field(np.angle(bec.psi))
-# #cf.tool_save_plot(0)
+# #cf.tool_save_plot_matplotlib(0)
 
 # plt.show()
 
@@ -89,7 +89,7 @@ cf.tool_make_animation_movie(n)
 #     bec.plot_field(abs(bec.psi),colormap='winter',cmap_symmetric=False,
 
 #                    clims=[0,1])
-#     cf.tool_save_plot(n)
+#     cf.tool_save_plot_matplotlib(n)
 #
 
 # cf.tool_make_animation(n)
@@ -108,7 +108,7 @@ cf.tool_make_animation_movie(n)
 #     bec.plot_field(abs(bec.psi),colormap='winter',cmap_symmetric=False,
 
 #                    clims=[0,1],layer_values=[0.6])
-#     cf.tool_save_plot(n)
+#     cf.tool_save_plot_matplotlib(n)
 #
 
 # cf.tool_make_animation(n)
@@ -129,7 +129,7 @@ cf.tool_make_animation_movie(n)
 # rho = bec.calc_vortex_density()
 
 # bec.plot_field(rho)
-# #cf.tool_save_plot(0)
+# #cf.tool_save_plot_matplotlib(0)
 
 # plt.show()
 
@@ -143,11 +143,11 @@ bec.evolve_relax(300)
 rho = bec.calc_vortex_density()
 
 bec.plot_field(rho)
-cf.tool_save_plot(0)
+cf.tool_save_plot_matplotlib(0)
 
 bec.plot_angle_field(np.angle(bec.psi))
 
-cf.tool_save_plot(1)
+cf.tool_save_plot_matplotlib(1)
 
 bec.plot_field(abs(bec.psi),colormap='winter',cmap_symmetric=False, clims=[0,1])
 

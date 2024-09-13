@@ -30,7 +30,7 @@ for i in range(300):
     # qm.plot_field(abs(qm.psi))
     qm.plot_complex_field(qm.psi,plotting_lib='matplotlib')
 
-    # cf.tool_save_plot(i)
+    # cf.tool_save_plot_matplotlib(i)
 
     qm.evolve_schrodinger(1)
     # mlab.show()

@@ -19,7 +19,7 @@ for n in range(N):
     bec.evolve_dGPE(30)
     fig,ax=bec.plot_field(abs(bec.psi)**2, vlim=[0,1])
     
-    cf.tool_save_plot(n)
+    cf.tool_save_plot_matplotlib(n)
 
 
 cf.tool_make_animation_gif(n)

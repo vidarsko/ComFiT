@@ -87,7 +87,7 @@ bs.evolve(1000)
 
 bs.plot_field_in_plane_with_mayavi(bs.T,normal_vector=[1,-1,0], colormap='bluewhitered')
 
-# cf.tool_save_plot(n)
+# cf.tool_save_plot_matplotlib(n)
 
 plt.show()
 # cf.tool_make_animation_gif(n)

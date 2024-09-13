@@ -21,7 +21,7 @@ nem = cf.NematicLiquidCrystal(3,xRes=31,yRes=31,zRes = 31,dx=1,dy=1,dt=0.1,alpha
 #    nem.plot_field(S,number_of_layers=2,vlim_symmetric=False)
 #    plt.draw()
 #    plt.pause(0.01)
-#    cf.tool_save_plot(i)
+#    cf.tool_save_plot_matplotlib(i)
 #    plt.clf()
 #cf.tool_make_animation_gif(539)
 

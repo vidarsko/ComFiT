@@ -12,6 +12,6 @@ qm.V_ext = qm.conf_harmonic_potential(0.0001)
 for i in range(150):
     qm.plot_complex_field(qm.psi)
     qm.evolve_schrodinger(100)
-    cf.tool_save_plot(i)
+    cf.tool_save_plot_matplotlib(i)
 cf.tool_make_animation(i)
 

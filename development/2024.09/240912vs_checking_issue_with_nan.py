@@ -15,6 +15,6 @@ field[:,:] = np.nan
 # field[50,50] = 0
 
 fig = bs.plot_field(field)
-cf.tool_save_plot_plotly(1,fig)
+cf.tool_save_plot(1,fig)
 # fig.show()
 

@@ -26,7 +26,7 @@ for i in range(1000):
     #theta = bec.calc_angle_field_vortex_ring(normal_vector=[0,0,1],radius=13)
 
     #bec.plot_angle_field(theta)
-    cf.tool_save_plot(i)
+    cf.tool_save_plot_matplotlib(i)
 
     #plt.draw()
 

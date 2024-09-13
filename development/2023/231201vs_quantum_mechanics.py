@@ -13,7 +13,7 @@ ymax = np.max(abs(qm.psi))**2
 for n in range(100):
     qm.evolve_schrodinger(100)
     qm.plot(ylim=ymax)
-    # cf.tool_save_plot(n)
+    # cf.tool_save_plot_matplotlib(n)
     plt.draw()
     plt.pause(0.01)
 # cf.tool_make_animation(n)
