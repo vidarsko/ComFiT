@@ -244,7 +244,18 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                 theta_values = theta.ravel()
 
                 # Interpolate theta at the vertices positions
-                theta_faces = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
+                reals = np.real(complex_field)
+                imags = np.imag(complex_field)
+
+                interpolation_method = kwargs.get('interpolation_method', 'linear')
+                print("Interpolating points with method ", interpolation_method, ".")
+                print("If this process is slow, consider passing 'interpolation='nearest' with the plot_complex_field function.")
+                print("That will speed up the process, but the plot may look less smooth.")
+                reals_faces = sp.interpolate.griddata(points, reals.ravel(), centroids, method='nearest')
+                imags_faces = sp.interpolate.griddata(points, imags.ravel(), centroids, method='nearest')
+                print("Interpolation done.")
+                
+                theta_faces = np.arctan2(imags_faces, reals_faces)
 
                 # Normalize theta values for color mapping
                 theta_faces_normalized = (theta_faces + np.pi) / (2*np.pi)
