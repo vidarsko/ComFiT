@@ -74,7 +74,7 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
             y=field,
             mode='lines',
             name='',
-            hovertemplate='x: %{x:.2f} a₀<br>field: %{y:.2f}'
+            hovertemplate='x: %{x:.1f} a₀<br>field: %{y:.1f}'
         )
         
         if not field_is_nan:

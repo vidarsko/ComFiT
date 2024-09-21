@@ -49,19 +49,27 @@ def tool_make_subplots(number_of_rows, number_of_columns, *args):
 
 
             for trace in subplot_fig.data:
-                if hasattr(trace, 'colorbar') and trace.colorbar is not None:
+                
+                trace_has_colorbar = hasattr(trace, 'colorbar') and trace.colorbar is not None
+                marker_trace_has_colorbar = hasattr(trace, 'marker') and hasattr(trace.marker, 'colorbar') and trace.marker.colorbar is not None
 
-                    trace.colorbar.xanchor = 'left'
-                    trace.colorbar.x = col/number_of_columns
 
-                    trace.colorbar.yanchor = 'bottom'
+                if trace_has_colorbar or marker_trace_has_colorbar:
+                    colorbar = trace.colorbar if trace_has_colorbar else trace.marker.colorbar
+
+                    colorbar.xanchor = 'left'
+                    colorbar.x = col/number_of_columns
+
+                    colorbar.yanchor = 'bottom'
                     #row=1, 2 - number_of_rows 2
-                    trace.colorbar.y =  (number_of_rows-row)/number_of_rows
+                    colorbar.y =  (number_of_rows-row)/number_of_rows
 
                     length = 1/number_of_rows
-                    trace.colorbar.len = length
+                    colorbar.len = length
                     
                     # trace.colorbar.yanchor = 'middle'  # Ensure the colorbar is centered
+                
+                trace.showlegend = False
                 fig.add_trace(trace, row=row, col=col)
                 
 
@@ -69,14 +77,15 @@ def tool_make_subplots(number_of_rows, number_of_columns, *args):
             if not plot_is_3D:
                 fig.update_xaxes(subplot_fig.layout.xaxis, row=row, col=col)
                 fig.update_yaxes(subplot_fig.layout.yaxis, row=row, col=col)
-                fig.update_yaxes(scaleanchor=xaxis_id, scaleratio=1, row=row, col=col)
+
+                if 'scaleanchor' in subplot_fig.layout.yaxis and subplot_fig.layout.yaxis.scaleanchor is 'x':
+                    fig.update_yaxes(scaleanchor=xaxis_id, scaleratio=1, row=row, col=col)
+                    
                 # fig.update_xaxes(scaleanchor=yaxis_id, scaleratio=1, row=row, col=col)
                 # Explicitly enable gridlines
                 fig.update_xaxes(showgrid=True, row=row, col=col)
                 fig.update_yaxes(showgrid=True, row=row, col=col)  
 
-                
-            
             # Update 3D scene layout for each subplot (for 3D plots)
             if plot_is_3D:
                 fig.update_scenes(subplot_fig.layout.scene, row=row, col=col)
