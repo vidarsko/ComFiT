@@ -17,5 +17,5 @@ pfc2.conf_PFC_from_amplitudes()
 
 fig2 = pfc2.plot_field(pfc2.psi)
 
-fig = cf.tool_make_subplots(2,2,fig2,fig1,fig1,fig1)
+fig = cf.tool_make_subplots(4,1,fig2,fig1,fig1,fig1)
 fig.show()

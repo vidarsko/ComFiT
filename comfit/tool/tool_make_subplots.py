@@ -50,10 +50,17 @@ def tool_make_subplots(number_of_rows, number_of_columns, *args):
 
             for trace in subplot_fig.data:
                 if hasattr(trace, 'colorbar') and trace.colorbar is not None:
-                    x_offset=0.15
-                    trace.colorbar.x = x_offset + (1-x_offset)*col/number_of_columns  # Adjust position based on column
-                    y_offset=0.3
-                    trace.colorbar.y = y_offset + (1-y_offset)*(1-row/number_of_rows)  # Centered vertically
+
+                    trace.colorbar.xanchor = 'left'
+                    trace.colorbar.x = col/number_of_columns
+
+                    trace.colorbar.yanchor = 'bottom'
+                    #row=1, 2 - number_of_rows 2
+                    trace.colorbar.y =  (number_of_rows-row)/number_of_rows
+
+                    length = 1/number_of_rows
+                    trace.colorbar.len = length
+                    
                     # trace.colorbar.yanchor = 'middle'  # Ensure the colorbar is centered
                 fig.add_trace(trace, row=row, col=col)
                 
