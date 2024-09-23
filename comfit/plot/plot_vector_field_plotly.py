@@ -81,20 +81,34 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
         fig = kwargs.get('fig', go.Figure())
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                y=Y.flatten()/self.a0, 
+                                z=Z.flatten()/self.a0, 
+                                u=U.flatten(), 
+                                v=V.flatten(), 
+                                w=W.flatten(), 
+                                colorscale='Viridis', 
+                                sizemode='scaled', 
+                                sizeref=1, 
+                                showscale=True,
+                                hovertemplate='x: %{x:.1f} a₀ <br>' +
+                                              'ux: %{u:.1f} <br>' +
+                                              'uy: %{v:.1f} <br>' +
+                                              'uz: %{w:.1f} <br>' +
+                                              '|u|: %{customdata:.1f}<extra></extra>',
+                                              customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
+        # kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
+        # delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
 
-        kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
-        delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
+        # kwargs['zlim'] = [np.min(vector_field[1]), np.max(vector_field[1])]
+        # delta_z = kwargs['zlim'][1] - kwargs['zlim'][0]
 
-        kwargs['zlim'] = [np.min(vector_field[1]), np.max(vector_field[1])]
-        delta_z = kwargs['zlim'][1] - kwargs['zlim'][0]
-
-        if delta_y < 0.15*delta_z:
-            kwargs['ylim'] = [kwargs['ylim'][0] - 0.15*delta_z, kwargs['ylim'][1] + 0.15*delta_z]
+        # if delta_y < 0.15*delta_z:
+        #     kwargs['ylim'] = [kwargs['ylim'][0] - 0.15*delta_z, kwargs['ylim'][1] + 0.15*delta_z]
         
-        if delta_z < 0.15*delta_y:
-            kwargs['zlim'] = [kwargs['zlim'][0] - 0.15*delta_y, kwargs['zlim'][1] + 0.15*delta_y]
+        # if delta_z < 0.15*delta_y:
+        #     kwargs['zlim'] = [kwargs['zlim'][0] - 0.15*delta_y, kwargs['zlim'][1] + 0.15*delta_y]
 
     ###############################################################
     ########### DIMENSION: 1 - VECTOR-DIMENSION: 3 ################
@@ -140,11 +154,26 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         W = vz_scale*W
 
         fig = kwargs.get('fig', go.Figure())
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                        y=Y.flatten()/self.a0, 
+                        z=Z.flatten()/self.a0, 
+                        u=U.flatten(), 
+                        v=V.flatten(), 
+                        w=W.flatten(), 
+                        colorscale='Viridis', 
+                        sizemode='scaled', 
+                        sizeref=1, 
+                        showscale=True, 
+                        hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                      '<b>ux:</b> %{u:.1f} <br>' +
+                                      '<b>uy:</b> %{v:.1f} <br>' +
+                                      '<b>uz:</b> %{w:.1f} <br>' +
+                                      '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                      customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
-        
-        kwargs['ylim'] = [-1,1]
-        kwargs['zlim'] = [-1,1]
+        kwargs['axis_equal'] = False
+        # kwargs['ylim'] = [-1,1]
+        # kwargs['zlim'] = [-1,1]
 
     ###############################################################
     ########### DIMENSION: 2 - VECTOR-DIMENSION: 1 ################
@@ -198,11 +227,12 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
             showscale=colorbar,
             line=dict(color='black')
             ),
-            hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
-                        '<b>y:</b> %{y:.2f}a0<br>' +
+            hovertemplate='<b>x:</b> %{x:.1f}a0<br>' +
+                        '<b>y:</b> %{y:.1f}a0<br>' +
                         '<b>ux:</b> %{customdata[0]:.2f}<br>' +
-                        '<b>uy:</b> %{customdata[1]:.2f}<extra></extra>',
-            customdata=np.stack((u.flatten(), v.flatten()), axis=-1)  # Adding ux, uy as customdata
+                        '<b>uy:</b> %{customdata[1]:.2f}<br>' +
+                        '<b>|u|:</b> %{customdata[2]:.2f}<extra></extra>',
+            customdata=np.stack((u.flatten(), v.flatten(),magnitude.flatten() ), axis=-1)  # Adding ux, uy and u as customdata
         )
         )
 
@@ -248,8 +278,9 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
             hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
                         '<b>y:</b> %{y:.2f}a0<br>' +
                         '<b>ux:</b> %{customdata[0]:.2f}<br>' +
-                        '<b>uy:</b> %{customdata[1]:.2f}<extra></extra>',
-            customdata=np.stack((u.flatten(), v.flatten()), axis=-1)  # Adding ux, uy as customdata
+                        '<b>uy:</b> %{customdata[1]:.2f}<br>' +
+                        '<b>|u|:</b> %{customdata[2]:.2f}<extra></extra>',
+            customdata=np.stack((u.flatten(), v.flatten(), magnitude.flatten()), axis=-1)  # Adding ux, uy and u as customdata
         )
         )
 
@@ -291,7 +322,24 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         W = vz_scale*W
 
         fig = kwargs.get('fig', go.Figure())
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                            y=Y.flatten()/self.a0, 
+                            z=Z.flatten()/self.a0, 
+                            u=U.flatten(), 
+                            v=V.flatten(), 
+                            w=W.flatten(), 
+                            colorscale='Viridis', 
+                            sizemode='scaled', 
+                            sizeref=1, 
+                            showscale=True,
+                            hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                            '<b>y:</b> %{y:.1f} a₀ <br>' +
+                                            '<b>z:</b> %{z:.1f} a₀ <br>' +
+                                            '<b>ux:</b> %{u:.1f} <br>' +
+                                            '<b>uy:</b> %{v:.1f} <br>' +
+                                            '<b>uz:</b> %{w:.1f} <br>' +
+                                            '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                            customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
 
 
@@ -328,7 +376,24 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         U = vx_scale*U
 
         fig = kwargs.get('fig', go.Figure())
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                y=Y.flatten()/self.a0, 
+                                z=Z.flatten()/self.a0, 
+                                u=U.flatten(), 
+                                v=V.flatten(), 
+                                w=W.flatten(), 
+                                colorscale='Viridis', 
+                                sizemode='scaled', 
+                                sizeref=1, 
+                                showscale=True,
+                                hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                                '<b>y:</b> %{y:.1f} a₀ <br>' +
+                                                '<b>z:</b> %{z:.1f} a₀ <br>' +
+                                                '<b>ux:</b> %{u:.1f} <br>' +
+                                                '<b>uy:</b> %{v:.1f} <br>' +
+                                                '<b>uz:</b> %{w:.1f} <br>' +
+                                                '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                                customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
     ###############################################################
     ########### DIMENSION: 3 - VECTOR-DIMENSION: 2 ################
@@ -363,7 +428,24 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
 
         fig = kwargs.get('fig', go.Figure())
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
+        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                y=Y.flatten()/self.a0, 
+                                z=Z.flatten()/self.a0, 
+                                u=U.flatten(), 
+                                v=V.flatten(), 
+                                w=W.flatten(), 
+                                colorscale='Viridis', 
+                                sizemode='scaled', 
+                                sizeref=1, 
+                                showscale=True,
+                                hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                                '<b>y:</b> %{y:.1f} a₀ <br>' +
+                                                '<b>z:</b> %{z:.1f} a₀ <br>' +
+                                                '<b>ux:</b> %{u:.1f} <br>' +
+                                                '<b>uy:</b> %{v:.1f} <br>' +
+                                                '<b>uz:</b> %{w:.1f} <br>' +
+                                                '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                                customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
     ###############################################################
     ########### DIMENSION: 3 - VECTOR-DIMENSION: 3 ################
@@ -383,8 +465,24 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
         fig = kwargs.get('fig', go.Figure())
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, y=Y.flatten()/self.a0, z=Z.flatten()/self.a0, u=U.flatten(), v=V.flatten(), w=W.flatten(), colorscale='Viridis', sizemode='scaled', sizeref=1, showscale=True))
-
+        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                y=Y.flatten()/self.a0, 
+                                z=Z.flatten()/self.a0, 
+                                u=U.flatten(), 
+                                v=V.flatten(), 
+                                w=W.flatten(), 
+                                colorscale='Viridis', 
+                                sizemode='scaled', 
+                                sizeref=1, 
+                                showscale=True,
+                                hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                                '<b>y:</b> %{y:.1f} a₀ <br>' +
+                                                '<b>z:</b> %{z:.1f} a₀ <br>' +
+                                                '<b>ux:</b> %{u:.1f} <br>' +
+                                                '<b>uy:</b> %{v:.1f} <br>' +
+                                                '<b>uz:</b> %{w:.1f} <br>' +
+                                                '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                                customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
     ###############################################################
     ###########     NON-VALID DIMENSION            ################
