@@ -1,10 +1,13 @@
 from .core import BaseSystem
 
-from .models import BoseEinsteinCondensate, QuantumMechanics, \
+from .models import QuantumMechanics, \
     PhaseFieldCrystal1DPeriodic, \
     PhaseFieldCrystal2DTriangular, PhaseFieldCrystal2DSquare, \
     PhaseFieldCrystal3DBodyCenteredCubic, PhaseFieldCrystal3DFaceCenteredCubic, \
     PhaseFieldCrystal3DSimpleCubic, NematicLiquidCrystal
+
+from .bose_einstein_condensate import BoseEinsteinCondensate, \
+    plot_vortex_nodes_matplotlib, plot_vortex_nodes_plotly
 
 from .plot import plot_field_plotly, plot_field_matplotlib, \
     plot_complex_field_matplotlib, plot_complex_field_plotly, \

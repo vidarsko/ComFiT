@@ -50,12 +50,8 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
 
     kwargs['plot_is_3D'] = False
 
-    # Check if the plot is a subplot
-    row = kwargs.get('row', None)
-    col = kwargs.get('col', None)
-
-    fig_is_subplot = row is not None and col is not None
-    kwargs['fig_is_subplot'] = fig_is_subplot
+    # Colormap
+    colormap = kwargs.get('colormap', 'Viridis')
 
     ###############################################################
     ###################### DIMENSION: 1 ###########################
@@ -78,10 +74,7 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         )
         
         if not field_is_nan:
-            if fig_is_subplot:
-                fig.add_trace(trace, row=row, col=col)
-            else:
-                fig.add_trace(trace)
+            fig.add_trace(trace)
 
     ###############################################################
     ###################### DIMENSION: 2 ###########################
@@ -101,17 +94,14 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
             z=field.flatten(),
             zmin=np.min(field),
             zmax=np.max(field),
-            colorscale='Viridis', 
+            colorscale=colormap, 
             zsmooth='best',
             hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
             name=''
         )
 
         if not field_is_nan:
-            if fig_is_subplot:
-                fig.add_trace(trace, row=row, col=col)
-            else:
-                fig.add_trace(trace)
+            fig.add_trace(trace)
 
     ###############################################################
     ###################### DIMENSION: 3 ###########################
@@ -166,10 +156,8 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
                     opacity=alpha,
                     showscale=bool(layer_value == layer_values[1])
                 )
-                if fig_is_subplot:
-                    fig.add_trace(trace, row=row, col=col)
-                else:
-                    fig.add_trace(trace)
+
+                fig.add_trace(trace)
     
     kwargs['fig'] = fig
     tool_set_plot_axis_properties_plotly(self,**kwargs)
