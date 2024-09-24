@@ -148,6 +148,17 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         v = self.v
         return 2*np.pi**3/np.sqrt(3)*(1944*A**4*v + 810*B**4*v + psi0**2*(32 + 18*r + 12*t*psi0 + 9*v*psi0**2) + 108*B**2*(r + psi0*(2*t + 3*v*psi0)) + 144*A**2*( r + 36*B**2*v + 6*B*(t + 3*v*psi0) + psi0*(2*t + 3*v*psi0)))
 
+    def calc_chemical_potential_linear_part_f(self):
+        """Calcuates the linear part of the chemical potential of the system.
+
+        Args:
+            None
+        Returns:
+            The linear part of the chemical potential of the system.
+        """
+        k2 = self.calc_k2()
+        return (self.r + (1 - k2)**2*(4/3-k2)**2)
+
     def calc_omega_f(self):
         """Calculates the linear evolution operator of the system.
 

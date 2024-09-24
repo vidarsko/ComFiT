@@ -1041,12 +1041,19 @@ where
 $$
 \tilde \mu_c =
 \frac{\delta \mathcal F}{\delta \psi} =
-\left ( \mathcal L^2 \psi + \texttt r \psi +  \psi^3 \right )
+\left ( \mathcal L^2 \psi + \texttt r \psi + \texttt t \psi^2 + \texttt v \psi^3 \right )
 $$
+
+The linear part $\mathcal L^2  + \texttt r$ of the chemical potential (not multiplied by psi) is calculated by 
+
+```python
+pfc.calc_chemical_potential_linear_part_f()
+```
 
 The PFC chemical potential
 
 which gives
+
 $$
 {{\omega }_{\mathfrak f}}= -\boldsymbol{k}^2 (\texttt r + {{\mathcal L}_{\mathfrak f}}^2)
 $$

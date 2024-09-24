@@ -275,6 +275,30 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi = np.real(self.psi)
             self.psi_f = sp.fft.fftn(self.psi)
 
+    def evolve_PFC_unconserved(self, time, method='ETD2RK'):
+        """ Evolves the PFC according to the unconserved PFC dynamics.
+
+        Args:
+            time: The time to evolve the PFC.
+            method: The method to use for the evolution (default: ETD2RK).
+        
+        Returns:
+            Updates self.psi and self.psi_f
+        """
+
+        number_of_steps = round(time/self.dt)
+        omega_f = -self.calc_chemical_potential_linear_part_f()
+
+        integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
+
+        for n in tqdm(range(number_of_steps), desc='Evolving the unconserved PFC'):
+            self.psi, self.psi_f = solver(integrating_factors_f,
+                                          self.calc_nonlinear_evolution_function_unconserved_f,
+                                          self.psi, self.psi_f)
+
+            self.psi = np.real(self.psi)
+            self.psi_f = sp.fft.fftn(self.psi)
+
     def evolve_PFC_mechanical_equilibrium(self, time, Delta_t = 10, method='ETD2RK'):
         """Evolves the PFC in mechanical equilibrium. 
 
@@ -419,6 +443,9 @@ class PhaseFieldCrystal(BaseSystem):
 
     def calc_nonlinear_evolution_function_f(self, psi, t):
         return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+
+    def calc_nonlinear_evolution_function_unconserved_f(self, psi, t):
+        return -sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
 
     def calc_displacement_field_to_equilibrium(self):
         """Calculates the displacement field needed to put the PFC in mechanical equilibrium.

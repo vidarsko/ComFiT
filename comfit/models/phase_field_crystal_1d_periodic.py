@@ -105,6 +105,17 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
 
         return 2*np.pi*(1/2*psi0**2 + 1/2*r*(psi0**2 + 2*A**2) + 1/3*t*(psi0**3 + 6*psi0*A**2) + 1/4*v*(psi0**4 + 12*psi0**2*A**2 + 6*A**4))
 
+    def calc_chemical_potential_linear_part_f(self):
+        """Calcuates the linear part of the chemical potential of the system.
+
+        Args:
+            None
+        Returns:
+            The linear part of the chemical potential of the system.
+        """
+        k2 = self.calc_k2()
+        return (self.r + (1 - k2)**2)
+
     def calc_omega_f(self):
         """Calculates the free energy of the system.
 
