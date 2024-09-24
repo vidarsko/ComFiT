@@ -115,9 +115,9 @@ def tool_make_animation_gif(counter,
     """
 
     if name is None:
-        name = datetime.now().strftime("%y%m%d_%H%M") + ' - output_animation.gif'
+        name = datetime.now().strftime("%y%m%d_%H%M%S") + ' - output_animation.gif'
     else:
-        name = datetime.now().strftime("%y%m%d_%H%M") + ' - ' + name + '.gif'
+        name = datetime.now().strftime("%y%m%d_%H%M%S") + ' - ' + name + '.gif'
 
     if ID is None:
         image_files = [f'plot_{counter}.png' for counter in range(counter+1)]

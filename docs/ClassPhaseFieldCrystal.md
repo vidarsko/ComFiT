@@ -1311,7 +1311,7 @@ We save the components of the strain matrix $T = \begin{array}{ll}
 1 + \matfrak e_{xx} & \matfrak e_{xy} \\
 \matfrak e_{xy} & 1 + \matfrak e_{yy} \\
 \end{array}
-\begin{array}{ll}$ in the `strain_matrix` variable.
+\begin{array}{ll}$ in the `distortion_matrix` variable.
 The wave vectors are updated according to
 
 $$

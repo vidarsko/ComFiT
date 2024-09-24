@@ -3,11 +3,10 @@ import numpy as np
 
 import matplotlib 
 import mpl_toolkits
-import plotly.graph_objects as go
 
 from typing import Union
 
-def tool_set_plot_axis_properties_matplotlib(self, **kwargs) -> Union[matplotlib.axes.Axes, go.Figure]:
+def tool_set_plot_axis_properties_matplotlib(self, **kwargs) -> matplotlib.axes.Axes:
     """Sets the properties of the axis for a plot.
     
     Args:
@@ -73,155 +72,70 @@ def tool_set_plot_axis_properties_matplotlib(self, **kwargs) -> Union[matplotlib
     ##### PLOT NATURE #####
     plot_is_3D = kwargs.get('plot_is_3D', False)
 
-    ##### PLOT LIBRARY #####
-    plot_lib = kwargs.get('plot_lib', self.plot_lib)
+    ##### AXES #####
+    ax = kwargs.get('ax', plt.gca())
+
+    ##### SIZE #####
+    if size is not None:
+        print("\033[91mWarning: The size keyword is not valid for matplotlib plots.\033[0m")
+
+    ##### TICKS #####
+    if xticks is not None:
+        ax.set_xticks(xticks)
+    if xticklabels is not None:
+        ax.set_xticklabels(xticklabels)
     
-    ####################
-    #### MATPLOTLIB ####
-    ####################
-    if plot_lib == 'matplotlib':
-        
-        ##### AXES #####
-        ax = kwargs.get('ax', plt.gca())
+    if yticks is not None:
+        ax.set_yticks(yticks)
+    if yticklabels is not None:
+        ax.set_yticklabels(yticklabels)
 
-        ##### SIZE #####
-        if size is not None:
-            print("\033[91mWarning: The size keyword is not valid for matplotlib plots.\033[0m")
+    if zticks is not None:
+        ax.set_zticks(zticks)
+    if zticklabels is not None:
+        ax.set_zticklabels(zticklabels)
 
-        ##### TICKS #####
-        if xticks is not None:
-            ax.set_xticks(xticks)
-        if xticklabels is not None:
-            ax.set_xticklabels(xticklabels)
-        
-        if yticks is not None:
-            ax.set_yticks(yticks)
-        if yticklabels is not None:
-            ax.set_yticklabels(yticklabels)
+    ##### TITLE #####
+    if title is not None:
+        ax.set_title(title)
 
-        if zticks is not None:
-            ax.set_zticks(zticks)
-        if zticklabels is not None:
-            ax.set_zticklabels(zticklabels)
+    ##### SUPTITLE #####
+    if suptitle is not None:
+        ax.get_figure().suptitle(suptitle)
 
-        ##### TITLE #####
-        if title is not None:
-            ax.set_title(title)
-
-        ##### SUPTITLE #####
-        if suptitle is not None:
-            ax.get_figure().suptitle(suptitle)
-
-        ##### AXIS LABELS #####
-        ax.set_xlabel(xlabel)
-        
-        if ylabel is not None:
-            ax.set_ylabel(ylabel)
-        
-        if zlabel is not None:
-            ax.set_zlabel(zlabel)
-
-        ##### AXIS LIMITS #####
-        if isinstance(ax, mpl_toolkits.mplot3d.Axes3D):
-            ax.set_xlim3d(xlim[0], xlim[1])
-
-            if ylim is not None:
-                ax.set_ylim3d(ylim[0], ylim[1])
-
-            if zlim is not None:
-                ax.set_zlim3d(zlim[0], zlim[1])
-
-        else:
-            ax.set_xlim(xlim[0], xlim[1])
-
-            if ylim is not None:
-                ax.set_ylim(ylim[0], ylim[1])
-
-            if zlim is not None:
-                ax.set_zlim(zlim[0], zlim[1])
-
-        ##### GRID #####
-        ax.grid(grid)
-
-        ##### AXIS ASPECT RATIO #####
-        if axis_equal:
-            ax.set_aspect('equal')
+    ##### AXIS LABELS #####
+    ax.set_xlabel(xlabel)
     
+    if ylabel is not None:
+        ax.set_ylabel(ylabel)
+    
+    if zlabel is not None:
+        ax.set_zlabel(zlabel)
 
-    ####################
-    ###### PLOTLY ######
-    ####################
-    elif plot_lib == 'plotly':
-
-        ##### FIGURE #####
-        fig = kwargs.get('fig', go.Figure())
-
-        if size is None:
-            fig.update_layout(width=500, height=500)
-        else:
-            fig.update_layout(width=size[0], height=size[1])
-
-        ##### TICKS #####
-        if xticks is not None:
-            fig.update_layout(xaxis=dict(tickvals=xticks))
-        if xticklabels is not None:
-            fig.update_layout(xaxis=dict(ticktext=xticklabels))
-
-        if yticks is not None:
-            fig.update_layout(yaxis=dict(tickvals=yticks))
-        if yticklabels is not None:
-            fig.update_layout(yaxis=dict(ticktext=yticklabels))
-
-        if zticks is not None:
-            fig.update_layout(zaxis=dict(tickvals=zticks))
-        if zticklabels is not None:
-            fig.update_layout(zaxis=dict(ticktext=zticklabels))
-
-        ##### TITLE #####
-        if title is not None:
-            fig.update_layout(title_text=suptitle)
-
-        ##### SUPTITLE #####
-        if suptitle is not None:
-            print("\033[91mWarning: The suptitle keyword is not valid for plotly plots.\033[0m")
-
-        ##### AXIS LABELS #####
-        # Figure is a 3D plot
-        if plot_is_3D:
-            fig.update_layout(
-                scene=dict(
-                    xaxis_title=xlabel,
-                    yaxis_title=ylabel,
-                    zaxis_title=zlabel
-                )
-            )
-
-        # Figure is not 3D plot
-        else:
-            fig.update_layout(xaxis_title=xlabel)
-            
-            if ylabel is not None:
-                fig.update_layout(yaxis_title=ylabel)
-
-            
-        ##### AXIS LIMITS #####
-        fig.update_layout(xaxis_range=xlim)
+    ##### AXIS LIMITS #####
+    if isinstance(ax, mpl_toolkits.mplot3d.Axes3D):
+        ax.set_xlim3d(xlim[0], xlim[1])
 
         if ylim is not None:
-            fig.update_layout(yaxis_range=ylim)
+            ax.set_ylim3d(ylim[0], ylim[1])
 
-        # if zlim is not None:
-        #     fig.update_layout(zaxis_range=zlim)
+        if zlim is not None:
+            ax.set_zlim3d(zlim[0], zlim[1])
 
-        ##### GRID #####
-        
-        fig.update_layout(
-            xaxis=dict(showgrid=grid),  # Show grid on x-axis
-            yaxis=dict(showgrid=grid)   # Show grid on y-axis
-        )
+    else:
+        ax.set_xlim(xlim[0], xlim[1])
 
-        ##### AXIS ASPECT RATIO #####
-        if axis_equal:
-            fig.update_yaxes(
-                scaleanchor="x",
-                scaleratio=1)
+        if ylim is not None:
+            ax.set_ylim(ylim[0], ylim[1])
+
+        if zlim is not None:
+            ax.set_zlim(zlim[0], zlim[1])
+
+    ##### GRID #####
+    ax.grid(grid)
+
+    ##### AXIS ASPECT RATIO #####
+    if axis_equal:
+        ax.set_aspect('equal')
+
+    return ax

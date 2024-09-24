@@ -6,6 +6,10 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from pprint import pprint
 
+# Plot functions
+from comfit.plot.plot_field_plotly import plot_field_plotly
+from comfit.plot.plot_field_matplotlib import plot_field_matplotlib
+
 
 class PhaseFieldCrystal(BaseSystem):
 
@@ -121,45 +125,51 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
         self.psi_f = sp.fft.fftn(self.psi)
 
-    def conf_apply_strain(self, strain):
-        """Applies a strain to the PFC.
+    def conf_apply_distortion(self, distortion):
+        """Applies a distortion to the PFC.
 
         Args:
-            strain: The strain to apply to the PFC.
+            distortion: The distortion to apply to the PFC.
         
         Returns:
             None, but updates the PFC.
         """
 
+        self.bool_is_distorted = True
+
+        distortion = np.array(distortion)
+
         if self.dim == 1:
-            self.k[0] = self.k[0]/(1+strain)
-            self.dif[0] = self.dif[0]/(1+strain)
-            self.x = self.x*(1+strain)
+            self.k[0] = self.k[0]/(1+distortion)
+            self.dif[0] = self.dif[0]/(1+distortion)
+            self.x = self.x*(1+distortion)
 
         elif self.dim == 2:
             # Creating 2D meshgrid
             X,Y = np.meshgrid(self.x.flatten(),self.y.flatten(), indexing='ij')
 
             # Strain matrix
-            e_xx = strain[0]
-            e_xy = strain[1]
-            e_yy = strain[2]
-            strain_matrix = np.array([[1 + e_xx, e_xy],
-                                    [e_xy, 1 + e_yy]])
+            u_xx = distortion[0,0]
+            u_xy = distortion[0,1]
+            u_yx = distortion[1,0]
+            u_yy = distortion[1,1]
+
+            distortion_matrix = np.array([[1 + u_xx, u_xy    ],
+                                          [u_yx,     1 + u_yy]])
 
             # Applying the strain
-            X = strain_matrix[0,0]*X + strain_matrix[0,1]*Y
-            Y = strain_matrix[1,0]*X + strain_matrix[1,1]*Y
+            X = distortion_matrix[0,0]*X + distortion_matrix[0,1]*Y
+            Y = distortion_matrix[1,0]*X + distortion_matrix[1,1]*Y
 
             # Updating the x and y coordinates
             self.x = X
             self.y = Y
 
             # Updating the k and dif vectors
-            inverse_strain_matrix = np.linalg.inv(strain_matrix)
+            inverse_distortion_matrix = np.linalg.inv(distortion_matrix)
 
-            self.k[0] = self.k[0]*inverse_strain_matrix[0,0] + self.k[1]*inverse_strain_matrix[0,1]
-            self.k[1] = self.k[0]*inverse_strain_matrix[1,0] + self.k[1]*inverse_strain_matrix[1,1]
+            self.k[0] = self.k[0]*inverse_distortion_matrix[0,0] + self.k[1]*inverse_distortion_matrix[0,1]
+            self.k[1] = self.k[0]*inverse_distortion_matrix[1,0] + self.k[1]*inverse_distortion_matrix[1,1]
 
             self.dif[0] = 1j*self.k[0]
             self.dif[1] = 1j*self.k[1]
@@ -305,10 +315,10 @@ class PhaseFieldCrystal(BaseSystem):
             Updates self.psi and self.psi_f
         """
         
-        if hasattr(self,'velocity_field'):
+        if hasattr(self,'bool_has_velocity_field'):
             pass
         else:
-            self.velocity_field = True
+            self.bool_has_velocity_field = True
             self.psi = np.array([self.psi]+[np.zeros_like(self.psi)]*self.dim)
             self.psi_f = np.array([self.psi_f]+[np.zeros_like(self.psi_f)]*self.dim)
             # print("psi shape", self.psi.shape)
@@ -798,6 +808,10 @@ class PhaseFieldCrystal(BaseSystem):
             The dislocation nodes
         """
 
+        # At the moment (24.09.24 - Vidar), this function only works for unstrained PFCs
+        if hasattr(self,'bool_is_distorted') and self.bool_is_distorted:
+            raise Exception("Dislocation nodes cannot be calculated for distorted PFCs.")
+
         alpha = self.calc_dislocation_density()
 
         if self.dim == 2:
@@ -992,6 +1006,46 @@ class PhaseFieldCrystal(BaseSystem):
     #######################################################
     ############### PLOTTING FUNCTIONS ####################
     #######################################################
+
+    def plot_field(self, field, **kwargs):
+        """Plots the PFC
+
+        Args:
+            field: The field to plot.
+            **kwargs: Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.
+        Returns:
+            ax, fig: The axes and figure containing the plot.
+        """
+        
+        PFC_is_distorted = True if hasattr(self, 'bool_is_distorted') and self.bool_is_distorted else False
+
+        if PFC_is_distorted:
+            print("\033[91mNote: plotting a strained PFC currently only possible using matplotlib. \033[0m")
+            print("\033[91mOutput of plot_PFC will therefore be matplotlib ax and fig. \033[0m")
+            kwargs['xmin'] = np.min(self.x)
+            kwargs['xmax'] = np.max(self.x)
+            kwargs['ymin'] = np.min(self.y)
+            kwargs['ymax'] = np.max(self.y)
+            return plot_field_matplotlib(self, field, **kwargs)
+        else:
+            return plot_field_plotly(self, field, **kwargs)
+
+    def plot_PFC(self, **kwargs):
+        """Plots the PFC
+
+        Args:
+            **kwargs: Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.
+        Returns:
+            ax, fig: The axes and figure containing the plot.
+        """
+        PFC_has_velocity_field = hasattr(self, 'bool_has_velocity_field') and self.bool_has_velocity_field
+    
+        if PFC_has_velocity_field:
+            return self.plot_field(self.psi[0], **kwargs)
+        else:
+            return self.plot_field(self.psi, **kwargs)
+
+
 
     def plot_orientation_field(self, orientation_field=None, **kwargs):
         """Plots the orientation field of the phase-field crystal.

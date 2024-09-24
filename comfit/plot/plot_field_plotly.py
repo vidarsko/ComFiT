@@ -85,8 +85,13 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         # Keyword arguments particular to the 2D case
         kwargs['grid'] = kwargs.get('grid', False)
 
-
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        # Check the dimension of self.x and self.y
+        if self.x.size == field.shape[0]:
+            print("\033[91mNote: Plotly plot function called with non-single dimensioned x-axis. Intentional?  \033[0m")
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        else:
+            X = self.x
+            Y = self.y
         
         trace = go.Heatmap(
             x=X.flatten()/self.a0,

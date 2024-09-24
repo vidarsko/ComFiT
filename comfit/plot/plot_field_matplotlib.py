@@ -103,7 +103,12 @@ def plot_field_matplotlib(self, field: np.ndarray, **kwargs) -> matplotlib.axes.
         # Value limits symmetric
         vlim_symmetric = kwargs.get('vlim_symmetric', False)
 
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        # Check the dimension of self.x and self.y
+        if self.x.size == field.shape[0]:
+            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        else:
+            X = self.x
+            Y = self.y
 
         pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
 
@@ -246,5 +251,5 @@ def plot_field_matplotlib(self, field: np.ndarray, **kwargs) -> matplotlib.axes.
             plt.colorbar(sm, ax=ax, pad=0.2)
 
     kwargs['ax'] = ax
-    tool_set_plot_axis_properties_matplotlib(self, **kwargs)
+    ax = tool_set_plot_axis_properties_matplotlib(self, **kwargs)
     return fig, ax
