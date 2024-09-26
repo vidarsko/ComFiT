@@ -1261,7 +1261,7 @@ of which will indicate to which degree the orientation of the PFC aligns with th
 In some simulations, it is useful to prescribe a strain to the PFC.
 This is done by updating the grid on which the PFC is defined.
 
-In one dimension, the only strain that can be applied is a compression or expansion of the grid, given by $\matfrak e_{xx}$.
+In one dimension, the only strain that can be applied is a compression or expansion of the grid, given by $\mathfrak e_{xx}$.
 
 In this case, these variables are updated according to 
 
@@ -1271,19 +1271,19 @@ self.dif[0] = self.dif[0]/(1+strain)
 self.x = self.x*(1+strain)
 ```
 
-In two dimensions, the strain tensor is given by three components $\matfrak e_{xx}$, $\matfrak e_{xy}$, and $\matfrak e_{yy}$.
+In two dimensions, the strain tensor is given by three components $\mathfrak e_{xx}$, $\mathfrak e_{xy}$, and $\mathfrak e_{yy}$.
 In principles, these components cannot be set arbitrarily, since the components must satisfy the compatibilit equations
 
 $$
-\partial_y^2 \matfrak e_{xx} + \partial_x^2 \matfrak e_{yy} = 2 \partial_x \partial_y \matfrak e_{xy}.
+\partial_y^2 \mathfrak e_{xx} + \partial_x^2 \mathfrak e_{yy} = 2 \partial_x \partial_y \mathfrak e_{xy}.
 $$
 
 In this case, however, we are limiting ourselves to a constant strain, in which case the compatibility equation is automatically satisfied and the deformation is given by
 
 $$
 \begin{array}{ll}
-u_x = \matfrak e_{xx} x + \matfrak e_{xy} y, \\
-u_y = \matfrak e_{xy} x + \matfrak e_{yy} y.
+u_x = \mathfrak e_{xx} x + \mathfrak e_{xy} y, \\
+u_y = \mathfrak e_{xy} x + \mathfrak e_{yy} y.
 \end{array}
 $$
 
@@ -1305,8 +1305,8 @@ y'
 \end{array}
 =
 \begin{array}{ll}
-1 + \matfrak e_{xx} & \matfrak e_{xy} \\
-\matfrak e_{xy} & 1 + \matfrak e_{yy} \\
+1 + \mathfrak e_{xx} & \mathfrak e_{xy} \\
+\mathfrak e_{xy} & 1 + \mathfrak e_{yy} \\
 \end{array}
 \begin{array}{ll}
 x \\
@@ -1315,8 +1315,8 @@ y
 $$
 
 We save the components of the strain matrix $T = \begin{array}{ll}
-1 + \matfrak e_{xx} & \matfrak e_{xy} \\
-\matfrak e_{xy} & 1 + \matfrak e_{yy} \\
+1 + \mathfrak e_{xx} & \mathfrak e_{xy} \\
+\mathfrak e_{xy} & 1 + \mathfrak e_{yy} \\
 \end{array}
 \begin{array}{ll}$ in the `distortion_matrix` variable.
 The wave vectors are updated according to

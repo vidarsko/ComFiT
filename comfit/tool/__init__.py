@@ -13,3 +13,5 @@ from .tool_add_spacing_2D import tool_add_spacing_2D
 from .tool_add_spacing_3D import tool_add_spacing_3D
 
 from .tool_make_subplots import tool_make_subplots
+
+from .tool_print_in_color import tool_print_in_color

@@ -132,28 +132,16 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         v = self.v
         return (108*A**4*v + 108*B**4*v + psi0**2*(24 + 6*r + 4*t*psi0 + 3*v*psi0**2) + 24*B**2*(r + psi0*(2*t + 3*v*psi0)) + 24*A**2*(r + 18*B**2*v + 4*B*(t + 3*v*psi0) + psi0*(2*t*+ 3*v*psi0)))
 
-    def calc_chemical_potential_linear_part_f(self):
-        """Calcuates the linear part of the chemical potential of the system.
+    def calc_L_f(self):
+        """Calculates the L operator in Fourier space.
 
         Args:
             None
         Returns:
-            The linear part of the chemical potential of the system.
+            The L operator in Fourier space.
         """
         k2 = self.calc_k2()
-        return (self.r + (1 - k2)**2*(2-k2)**2)
-
-    def calc_omega_f(self):
-        """Calculates the linear time evolution operator in Fourier space.
-
-        Args:
-            None
-
-        Returns:
-            The linear time evolution operator in Fourier space.
-        """
-        k2 = self.calc_k2()
-        return - k2 * (self.r + (1 - k2)**2*(2-k2)**2)
+        return (1 - k2)*(2 - k2)
 
     def calc_stress_tensor_microscopic(self):
         """Calculates the microscopic stress of the phase-field crystal.

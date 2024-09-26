@@ -10,6 +10,8 @@ from pprint import pprint
 from comfit.plot.plot_field_plotly import plot_field_plotly
 from comfit.plot.plot_field_matplotlib import plot_field_matplotlib
 
+from comfit.tool.tool_print_in_color import tool_print_in_color
+
 
 class PhaseFieldCrystal(BaseSystem):
 
@@ -162,8 +164,8 @@ class PhaseFieldCrystal(BaseSystem):
             Y = distortion_matrix[1,0]*X + distortion_matrix[1,1]*Y
 
             # Updating the x and y coordinates
-            self.x = X
-            self.y = Y
+            self.X = X
+            self.Y = Y
 
             # Updating the k and dif vectors
             inverse_distortion_matrix = np.linalg.inv(distortion_matrix)
@@ -268,7 +270,7 @@ class PhaseFieldCrystal(BaseSystem):
             Updates self.psi and self.psi_f
         """
 
-        omega_f = -self.calc_k2()*self.calc_chemical_potential_linear_part_f()
+        omega_f = -self.calc_k2()*(self.r + self.calc_L_f()**2)
 
         integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
 
@@ -301,7 +303,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
 
         number_of_steps = round(time/self.dt)
-        omega_f = -self.calc_chemical_potential_linear_part_f()
+        omega_f = -(self.r + self.calc_L_f()**2)
 
         integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
 
@@ -456,19 +458,23 @@ class PhaseFieldCrystal(BaseSystem):
         psi3 = psi2*psi
         psi4 = psi2**2
 
-        free_energy_density = 1/2*self.calc_Lpsi(psi_f)**2 \
+        Lpsi = sp.fft.ifftn(self.calc_L_f()*psi_f)
+
+        free_energy_density = 1/2*Lpsi**2 \
             + 1/2*self.r*psi2 + 1/3*self.t*psi3 + 1/4*self.v*psi4
         
         # print("Lpsi shape",self.calc_Lpsi(psi_f).shape)
 
-        chemical_potential = self.calc_L2psi(psi_f)*psi \
+        L2psi = sp.fft.ifftn(self.calc_L_f()**2*psi_f)
+
+        chemical_potential =L2psi*psi \
             + self.r*psi + self.t*psi2 + self.v*psi3
         
         # print("L2psi shape",self.calc_L2psi(psi_f).shape)
         
         # print("Free energy density shape", free_energy_density.shape)
         # print("Chem pot shape", chemical_potential.shape)
-        return free_energy_density, chemical_potential
+        return np.real(free_energy_density), np.real(chemical_potential)
     
 
     def calc_displacement_field_to_equilibrium(self):
@@ -1051,9 +1057,6 @@ class PhaseFieldCrystal(BaseSystem):
                 
 
 
-            
-
-
     #######################################################
     ############### PLOTTING FUNCTIONS ####################
     #######################################################
@@ -1071,12 +1074,14 @@ class PhaseFieldCrystal(BaseSystem):
         PFC_is_distorted = True if hasattr(self, 'bool_is_distorted') and self.bool_is_distorted else False
 
         if PFC_is_distorted:
-            print("\033[91mNote: plotting a strained PFC currently only possible using matplotlib. \033[0m")
-            print("\033[91mOutput of plot_PFC will therefore be matplotlib ax and fig. \033[0m")
-            kwargs['xmin'] = np.min(self.x)
-            kwargs['xmax'] = np.max(self.x)
-            kwargs['ymin'] = np.min(self.y)
-            kwargs['ymax'] = np.max(self.y)
+            tool_print_in_color("Note: plotting a strained PFC currently only possible using matplotlib.", 'yellow')
+            tool_print_in_color("Output of plot_PFC will therefore be matplotlib ax and fig.", 'yellow')
+            kwargs['xmin'] = np.min(self.X)
+            kwargs['xmax'] = np.max(self.X)
+            kwargs['ymin'] = np.min(self.Y)
+            kwargs['ymax'] = np.max(self.Y)
+            kwargs['X'] = self.X
+            kwargs['Y'] = self.Y
             return plot_field_matplotlib(self, field, **kwargs)
         else:
             return plot_field_plotly(self, field, **kwargs)
