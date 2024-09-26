@@ -8,11 +8,12 @@ import plotly.graph_objects as go
 import scipy as sp
 
 pfc = cf.PhaseFieldCrystal2DTriangular(20,round(20/np.sqrt(3)))
-
+print(pfc.psi0)
+print(pfc.A)
 pfc.conf_PFC_from_amplitudes()
 
-distortion = [[0.3,0.0],
-              [0.0,0]]
+distortion = [[0.0,0.15],
+              [0.15,0]]
 
 pfc.conf_apply_distortion(distortion)
 # fig = pfc.plot_field(pfc.psi)

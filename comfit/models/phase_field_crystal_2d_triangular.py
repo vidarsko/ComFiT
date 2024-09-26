@@ -53,10 +53,12 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         self.dy = np.sqrt(3) * a0 / self.micro_resolution[1]
 
         self.type_of_evolution = kwargs.get('type_of_evolution', 'conserved')
-        if self.type_of_evolution == 'conserved':
-            self.A = self.calc_proto_amplitudes_conserved()
+        if self.type_of_evolution == 'unconserved':
+            self.psi0, self.A = self.calc_proto_amplitudes_unconserved()
         else:
-            self.psi0, self.A = self.calc_proto_amplitudes_unconserved()   
+            if self.type_of_evolution != 'conserved':
+                print('Warning: type_of_evolution should be either conserved or unconserved. Setting to conserved.')
+            self.A = self.calc_proto_amplitudes_conserved()   
 
         self.eta0 = np.array([self.A, self.A, self.A])
 
@@ -141,7 +143,7 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         
         psi0, A = vars
         eq1 = 12*A**3*self.v + 6*A**2*(self.t + 3*self.v*psi0) + psi0*(1 + self.r + self.t*psi0 + self.v*psi0**2)
-        eq2 = A*(self.r + 15*A**2*self.v + 2*A*(self.t + 3*self.v*psi0) + psi0*(2*self.t + 3*self.v*psi0))  
+        eq2 = self.r + 15*A**2*self.v + 2*A*(self.t + 3*self.v*psi0) + psi0*(2*self.t + 3*self.v*psi0) #*A not necessary  
 
         return [eq1, eq2]
 

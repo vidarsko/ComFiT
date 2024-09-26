@@ -9,7 +9,7 @@ import scipy as sp
 
 
 size = 20
-pfc = cf.PhaseFieldCrystal2DTriangular(size,round(size/np.sqrt(3)),type_of_evolution='unconserved', r=-0.02)       
+pfc = cf.PhaseFieldCrystal2DTriangular(size,round(size/np.sqrt(3)),type_of_evolution='', t=1/2, r=0.02)       
 print(pfc.psi0)
 print(pfc.A)                            
 # pfc.conf_PFC_from_amplitudes()

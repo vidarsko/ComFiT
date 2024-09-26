@@ -248,9 +248,15 @@ class PhaseFieldCrystal(BaseSystem):
 
 
     #######################################################
+    #######################################################
     ############### EVOLUTION FUNCTIONS ###################
     #######################################################
+    #######################################################
 
+
+    #######################################################
+    ############## CONSERVED (STANDARD) ###################
+    #######################################################
     def evolve_PFC(self, number_of_steps, method='ETD2RK'):
         """Evolves the PFC according to classical PFC dynamics.
 
@@ -262,11 +268,11 @@ class PhaseFieldCrystal(BaseSystem):
             Updates self.psi and self.psi_f
         """
 
-        omega_f = self.calc_omega_f()
+        omega_f = -self.calc_k2()*self.calc_chemical_potential_linear_part_f()
 
         integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
 
-        for n in tqdm(range(number_of_steps), desc='Evolving the PFC'):
+        for n in tqdm(range(number_of_steps), desc='Evolving the PFC (conserved)'):
             self.psi, self.psi_f = solver(integrating_factors_f,
                                           self.calc_nonlinear_evolution_function_f,
                                           self.psi, self.psi_f)
@@ -275,6 +281,14 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi = np.real(self.psi)
             self.psi_f = sp.fft.fftn(self.psi)
 
+    # Nonlinear part
+    def calc_nonlinear_evolution_function_f(self, psi, t):
+        return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+    #######################################################
+    
+    #######################################################
+    ################### UNCONSERVED #######################
+    #######################################################
     def evolve_PFC_unconserved(self, time, method='ETD2RK'):
         """ Evolves the PFC according to the unconserved PFC dynamics.
 
@@ -299,6 +313,13 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi = np.real(self.psi)
             self.psi_f = sp.fft.fftn(self.psi)
 
+    def calc_nonlinear_evolution_function_unconserved_f(self, psi, t):
+        return -sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+    #######################################################
+
+    #######################################################
+    ##### MECHANICAL EQUILIBRIUM (CONSERVED) ##############
+    #######################################################
     def evolve_PFC_mechanical_equilibrium(self, time, Delta_t = 10, method='ETD2RK'):
         """Evolves the PFC in mechanical equilibrium. 
 
@@ -318,8 +339,11 @@ class PhaseFieldCrystal(BaseSystem):
         for n in tqdm(range(number_of_iterations), desc='Evolving the PFC in mechanical equilibrium'):
             self.conf_advect_PFC(self.calc_displacement_field_to_equilibrium())
             self.evolve_PFC(number_of_steps_per_iteration, method)
-            
+    #######################################################
 
+    #######################################################
+    ######### HYDRODYNAMIC (CONSERVED) ####################
+    #######################################################
     def evolve_PFC_hydrodynamic(self, number_of_steps, 
                                 method = 'ETD2RK',
                                 gamma_S = 2**-4,
@@ -364,9 +388,7 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi = np.real(self.psi)
             self.psi_f = sp.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
 
-    ############################################################
-    ################# CALCULATION FUNCTIONS ####################
-    ############################################################
+    # Linear part
     def calc_omega_hydrodynamic_f(self):
         """Calculates the hydrodynamic evolution function omega_f.
 
@@ -379,7 +401,36 @@ class PhaseFieldCrystal(BaseSystem):
         k2 = self.calc_k2()
         return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*k2]*self.dim)
 
+    # Nonlinear part
+    def calc_nonlinear_hydrodynamic_evolution_function_f(self, field, t):
+        """Calculates the hydrodynamic evolution function of the PFC.
 
+        Args:
+            field: The field to calculate the evolution function of.
+            t: The time.
+
+        Returns:
+            The nonlinear evolution function for the hydrodynamic PFC.
+        """
+
+        field_f = sp.fft.fftn(field, axes =( range ( - self . dim , 0) ))
+
+        k2 = self.calc_k2()
+
+        N0_f = -k2*sp.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
+            - sp.fft.fftn(sum([field[i+1]*sp.fft.ifftn(self.dif[i]*field_f[0]) for i in range(self.dim)]))
+        
+        force_density_f = self.calc_stress_divergence_f(field_f[0])
+
+        return np.array([N0_f] + [1/self.rho0*(force_density_f[i]+self.external_force_density_f[i]) for i in range(self.dim)])
+    #######################################################
+
+    #######################################################
+    #######################################################
+    ############## CALCULATION FUNCTIONS ##################
+    #######################################################
+    #######################################################
+    
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
         """Calculates the free energy density and chemical potential of the PFC.
 
@@ -418,34 +469,7 @@ class PhaseFieldCrystal(BaseSystem):
         # print("Free energy density shape", free_energy_density.shape)
         # print("Chem pot shape", chemical_potential.shape)
         return free_energy_density, chemical_potential
-
-    def calc_nonlinear_hydrodynamic_evolution_function_f(self, field, t):
-        """Calculates the hydrodynamic evolution function of the PFC.
-
-        Args:
-            field: The field to calculate the evolution function of.
-            t: The time.
-
-        Returns:
-            The nonlinear evolution function for the hydrodynamic PFC.
-        """
-
-        field_f = sp.fft.fftn(field, axes =( range ( - self . dim , 0) ))
-
-        k2 = self.calc_k2()
-
-        N0_f = -k2*sp.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
-            - sp.fft.fftn(sum([field[i+1]*sp.fft.ifftn(self.dif[i]*field_f[0]) for i in range(self.dim)]))
-        
-        force_density_f = self.calc_stress_divergence_f(field_f[0])
-
-        return np.array([N0_f] + [1/self.rho0*(force_density_f[i]+self.external_force_density_f[i]) for i in range(self.dim)])
-
-    def calc_nonlinear_evolution_function_f(self, psi, t):
-        return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
-
-    def calc_nonlinear_evolution_function_unconserved_f(self, psi, t):
-        return -sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+    
 
     def calc_displacement_field_to_equilibrium(self):
         """Calculates the displacement field needed to put the PFC in mechanical equilibrium.
