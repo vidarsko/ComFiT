@@ -172,7 +172,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
             The L operator in Fourier space.
         """
         k2 = self.calc_k2()
-        return (1 - k2)(2 - k2)(3 - k2)
+        return (1 - k2)*(2 - k2)*(3 - k2)
 
     def calc_stress_tensor_microscopic(self):
         """Calculates the microscopic stress of the phase-field crystal.

@@ -63,103 +63,103 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
                 print('Warning: type_of_evolution should be either conserved or unconserved. Setting to conserved.')
             self.A = self.calc_proto_amplitudes_conserved()   
 
-        bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
+        # bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
 
-        if not bool_is_for_properties_calculation:
-            pfc = PhaseFieldCrystal2DTriangular(1,1,for_properties_calculation=True)
-            pfc.conf_PFC_from_amplitudes()
-            pfc.evolve_PFC(1000)
+        # if not bool_is_for_properties_calculation:
+        #     pfc = PhaseFieldCrystal2DTriangular(1,1,for_properties_calculation=True)
+        #     pfc.conf_PFC_from_amplitudes()
+        #     pfc.evolve_PFC(1000)
 
-            free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
-            free_energy = pfc.calc_integrate_field(free_energy_density)
+        #     free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
+        #     free_energy = pfc.calc_integrate_field(free_energy_density)
 
-            tool_print_in_color('Creating a 2D triangular PFC system with the following parameters:', 'blue')
-            print('Free energy: ', free_energy)
+        #     tool_print_in_color('Creating a 2D triangular PFC system with the following parameters:', 'blue')
+        #     print('Free energy: ', free_energy)
 
-            strain = 0
-            strain_increment = 0.0001
-            strain += strain_increment
+        #     strain = 0
+        #     strain_increment = 0.0001
+        #     strain += strain_increment
 
-            # Unaltered k-vectors
-            k0 = pfc.k[0].copy()
-            k1 = pfc.k[1].copy()
-            dx0 = pfc.dx
-            dy0 = pfc.dy
+        #     # Unaltered k-vectors
+        #     k0 = pfc.k[0].copy()
+        #     k1 = pfc.k[1].copy()
+        #     dx0 = pfc.dx
+        #     dy0 = pfc.dy
 
-            pfc.k[0] = k0/(1+strain)
-            pfc.k[1] = k1/(1+strain)
-            pfc.dx = dx0*(1+strain)
-            pfc.dy = dy0*(1+strain)
+        #     pfc.k[0] = k0/(1+strain)
+        #     pfc.k[1] = k1/(1+strain)
+        #     pfc.dx = dx0*(1+strain)
+        #     pfc.dy = dy0*(1+strain)
 
-            number_of_steps = 200
+        #     number_of_steps = 200
 
-            pfc.evolve_PFC(number_of_steps)
-            free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
-            free_energy_tmp = pfc.calc_integrate_field(free_energy_density)
-            print('Free energy at strain: ', strain, ' is: ', free_energy_tmp)
+        #     pfc.evolve_PFC(number_of_steps)
+        #     free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
+        #     free_energy_tmp = pfc.calc_integrate_field(free_energy_density)
+        #     print('Free energy at strain: ', strain, ' is: ', free_energy_tmp)
 
-            positive_strain_required = False
-            while free_energy_tmp < free_energy:
-                positive_strain_required = True
-                print('Positive strain required')
-                free_energy = free_energy_tmp
+        #     positive_strain_required = False
+        #     while free_energy_tmp < free_energy:
+        #         positive_strain_required = True
+        #         print('Positive strain required')
+        #         free_energy = free_energy_tmp
 
-                strain += strain_increment
+        #         strain += strain_increment
 
-                pfc.k[0] = k0/(1+strain)
-                pfc.k[1] = k1/(1+strain)
-                pfc.dx = dx0*(1+strain)
-                pfc.dy = dy0*(1+strain)
+        #         pfc.k[0] = k0/(1+strain)
+        #         pfc.k[1] = k1/(1+strain)
+        #         pfc.dx = dx0*(1+strain)
+        #         pfc.dy = dy0*(1+strain)
 
 
-                pfc.evolve_PFC(number_of_steps)
-                free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
-                free_energy_tmp = pfc.calc_integrate_field(free_energy_density)
+        #         pfc.evolve_PFC(number_of_steps)
+        #         free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
+        #         free_energy_tmp = pfc.calc_integrate_field(free_energy_density)
             
-            if positive_strain_required:
-                # Going one back to get the lowest free energy
-                final_strain = strain - strain_increment
-                pfc.k[0] = k0/(1+final_strain)
-                pfc.k[1] = k1/(1+final_strain)
-                pfc.dx = dx0*(1+strain)
-                pfc.dy = dy0*(1+strain)
+        #     if positive_strain_required:
+        #         # Going one back to get the lowest free energy
+        #         final_strain = strain - strain_increment
+        #         pfc.k[0] = k0/(1+final_strain)
+        #         pfc.k[1] = k1/(1+final_strain)
+        #         pfc.dx = dx0*(1+strain)
+        #         pfc.dy = dy0*(1+strain)
 
-                tool_print_in_color('Lowest free energy found at strain: ' + str(final_strain), 'green')
+        #         tool_print_in_color('Lowest free energy found at strain: ' + str(final_strain), 'green')
 
-            else: #negative strain required
+        #     else: #negative strain required
 
-                strain = - strain_increment
+        #         strain = - strain_increment
 
-                pfc.k[0] = k0/(1+strain)
-                pfc.k[1] = k1/(1+strain)
-                pfc.dx = dx0*(1+strain)
-                pfc.dy = dy0*(1+strain)
+        #         pfc.k[0] = k0/(1+strain)
+        #         pfc.k[1] = k1/(1+strain)
+        #         pfc.dx = dx0*(1+strain)
+        #         pfc.dy = dy0*(1+strain)
 
-                pfc.evolve_PFC(number_of_steps)
-                free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
-                free_energy_tmp = pfc.calc_integrate_field(free_energy_density) 
-                print('Free energy at strain: ', strain, ' is: ', free_energy_tmp)
+        #         pfc.evolve_PFC(number_of_steps)
+        #         free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
+        #         free_energy_tmp = pfc.calc_integrate_field(free_energy_density) 
+        #         print('Free energy at strain: ', strain, ' is: ', free_energy_tmp)
 
-                while free_energy_tmp < free_energy:
+        #         while free_energy_tmp < free_energy:
 
-                    free_energy = free_energy_tmp
+        #             free_energy = free_energy_tmp
 
-                    strain -= strain_increment
+        #             strain -= strain_increment
 
-                    pfc.k[0] = k0/(1+strain)
-                    pfc.k[1] = k1/(1+strain)
-                    pfc.dx = dx0*(1+strain)
-                    pfc.dy = dy0*(1+strain)
+        #             pfc.k[0] = k0/(1+strain)
+        #             pfc.k[1] = k1/(1+strain)
+        #             pfc.dx = dx0*(1+strain)
+        #             pfc.dy = dy0*(1+strain)
 
-                    pfc.evolve_PFC(number_of_steps)
-                    free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
-                    free_energy_tmp = pfc.calc_integrate_field(free_energy_density)
+        #             pfc.evolve_PFC(number_of_steps)
+        #             free_energy_density = pfc.calc_PFC_free_energy_density_and_chemical_potential()
+        #             free_energy_tmp = pfc.calc_integrate_field(free_energy_density)
 
-                # Going one back to get the lowest free energy
-                final_strain = strain + strain_increment
-                pfc.k[0] = k0/(1+final_strain)
-                pfc.k[1] = k1/(1+final_strain)
-                tool_print_in_color('Lowest free energy found at strain: ' + str(final_strain), 'green')              
+        #         # Going one back to get the lowest free energy
+        #         final_strain = strain + strain_increment
+        #         pfc.k[0] = k0/(1+final_strain)
+        #         pfc.k[1] = k1/(1+final_strain)
+        #         tool_print_in_color('Lowest free energy found at strain: ' + str(final_strain), 'green')              
 
 
         self.eta0 = np.array([self.A, self.A, self.A])
