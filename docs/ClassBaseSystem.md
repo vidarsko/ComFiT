@@ -44,6 +44,9 @@ These are the optional keywords for the `BaseSystem` class.
 | `zlim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $z$-direction. Trumps `zmin` and `zmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,1) \\  (0,101) \\ \end{array} \right \rbrace$|
 | `time` | Float specifying the time of initialization | $0$ |
 | `a0` | Characteristic length scale associated with the system, in units of which all plots will be scaled. This is also the default width used with the coarse-graining operation. | $1$ |
+| `X` | 2D numpy array with position coordinates. Typically used when the coordinates are not a regular grid. | `None` |
+| `Y` | 2D numpy array with position coordinates. Typically used when the coordinates are not a regular grid. | `None` |
+| `Z` | 2D numpy array with position coordinates. Typically used when the coordinates are not a regular grid. | `None` |
 
 From these keywords, a number of useful parameters are constructed, given in the table below.
 

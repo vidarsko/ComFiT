@@ -1,7 +1,7 @@
 # Plotting
 
-The `ComFiT` package comes with two plotting libraries: `matplotlib` and `plotly`.
-While `matplotlib` is a very versatile and well-documented library that is widely used in the scientific community, plotly has interactive features and works very well with the online tutorials.
+The `ComFiT` package uses the plotting library `plotly`.
+plotly has interactive features and works very well with the online tutorials.
 
 ## Plotly
 

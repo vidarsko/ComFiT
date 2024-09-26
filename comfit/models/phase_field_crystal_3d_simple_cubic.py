@@ -163,18 +163,16 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
 
         return [eq1, eq2, eq3]
 
-    def calc_omega_f(self):
-        """Calculates the linear evolution operator of the system.
+    def calc_L_f(self):
+        """Calculates the L operator in Fourier space.
 
         Args:
             None
-
         Returns:
-            The linear evolution operator of the system.
+            The L operator in Fourier space.
         """
-
         k2 = self.calc_k2()
-        return - k2 * (self.r + (1 - k2)**2*(2-k2)**2*(3-k2)**2)
+        return (1 - k2)(2 - k2)(3 - k2)
 
     def calc_stress_tensor_microscopic(self):
         """Calculates the microscopic stress of the phase-field crystal.
@@ -198,6 +196,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         stress[5] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[2]*self.dif[2]*self.psi_f))
 
         return stress
+
 
     def calc_stress_divergence_f(self, field_f = None):
         """Calculates the divergence of the stress tensor in Fourier space.

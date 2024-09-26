@@ -13,16 +13,23 @@ pfc.plot_lib = 'plotly'
 
 pfc.conf_PFC_from_amplitudes()
 
-strain = [-0.1,0.1,0.0]
+distortion = [[0,0.6],
+              [0.0,0]]
 
-pfc.conf_apply_distortion(strain)
-print(pfc.x)
-print(pfc.y)
+pfc.conf_apply_distortion(distortion)
+# fig = pfc.plot_field(pfc.psi)
+# fig.show()
 
-print(pfc.k)
-fig = pfc.plot_field(pfc.psi)
-fig.show()
+ax, fig = pfc.plot_PFC()
 
+alpha = pfc.calc_dislocation_density()
+fig, ax1 = pfc.plot_field(alpha[0]**2+alpha[1]**2)
+plt.show()
+# plt.show()
+
+
+# fig = pfc.plot_field(alpha[0]**2+alpha[1]**2)
+# fig.show()
 # for n in range(10):
 #     pfc.evolve_PFC(10)
 #     fig = pfc.plot_field(pfc.psi)

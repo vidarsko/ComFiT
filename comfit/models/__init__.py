@@ -1,4 +1,3 @@
-from .bose_einstein_condensate import BoseEinsteinCondensate
 from .phase_field_crystal_1d_periodic import PhaseFieldCrystal1DPeriodic
 from .phase_field_crystal_2d_triangular import PhaseFieldCrystal2DTriangular
 from .phase_field_crystal_2d_square import PhaseFieldCrystal2DSquare

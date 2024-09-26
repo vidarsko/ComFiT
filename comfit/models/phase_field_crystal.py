@@ -6,6 +6,12 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from pprint import pprint
 
+# Plot functions
+from comfit.plot.plot_field_plotly import plot_field_plotly
+from comfit.plot.plot_field_matplotlib import plot_field_matplotlib
+
+from comfit.tool.tool_print_in_color import tool_print_in_color
+
 
 class PhaseFieldCrystal(BaseSystem):
 
@@ -121,45 +127,51 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
         self.psi_f = sp.fft.fftn(self.psi)
 
-    def conf_apply_strain(self, strain):
-        """Applies a strain to the PFC.
+    def conf_apply_distortion(self, distortion):
+        """Applies a distortion to the PFC.
 
         Args:
-            strain: The strain to apply to the PFC.
+            distortion: The distortion to apply to the PFC.
         
         Returns:
             None, but updates the PFC.
         """
 
+        self.bool_is_distorted = True
+
+        distortion = np.array(distortion)
+
         if self.dim == 1:
-            self.k[0] = self.k[0]/(1+strain)
-            self.dif[0] = self.dif[0]/(1+strain)
-            self.x = self.x*(1+strain)
+            self.k[0] = self.k[0]/(1+distortion)
+            self.dif[0] = self.dif[0]/(1+distortion)
+            self.x = self.x*(1+distortion)
 
         elif self.dim == 2:
             # Creating 2D meshgrid
             X,Y = np.meshgrid(self.x.flatten(),self.y.flatten(), indexing='ij')
 
             # Strain matrix
-            e_xx = strain[0]
-            e_xy = strain[1]
-            e_yy = strain[2]
-            strain_matrix = np.array([[1 + e_xx, e_xy],
-                                    [e_xy, 1 + e_yy]])
+            u_xx = distortion[0,0]
+            u_xy = distortion[0,1]
+            u_yx = distortion[1,0]
+            u_yy = distortion[1,1]
+
+            distortion_matrix = np.array([[1 + u_xx, u_xy    ],
+                                          [u_yx,     1 + u_yy]])
 
             # Applying the strain
-            X = strain_matrix[0,0]*X + strain_matrix[0,1]*Y
-            Y = strain_matrix[1,0]*X + strain_matrix[1,1]*Y
+            X = distortion_matrix[0,0]*X + distortion_matrix[0,1]*Y
+            Y = distortion_matrix[1,0]*X + distortion_matrix[1,1]*Y
 
             # Updating the x and y coordinates
-            self.x = X
-            self.y = Y
+            self.X = X
+            self.Y = Y
 
             # Updating the k and dif vectors
-            inverse_strain_matrix = np.linalg.inv(strain_matrix)
+            inverse_distortion_matrix = np.linalg.inv(distortion_matrix)
 
-            self.k[0] = self.k[0]*inverse_strain_matrix[0,0] + self.k[1]*inverse_strain_matrix[0,1]
-            self.k[1] = self.k[0]*inverse_strain_matrix[1,0] + self.k[1]*inverse_strain_matrix[1,1]
+            self.k[0] = self.k[0]*inverse_distortion_matrix[0,0] + self.k[1]*inverse_distortion_matrix[0,1]
+            self.k[1] = self.k[0]*inverse_distortion_matrix[1,0] + self.k[1]*inverse_distortion_matrix[1,1]
 
             self.dif[0] = 1j*self.k[0]
             self.dif[1] = 1j*self.k[1]
@@ -238,9 +250,15 @@ class PhaseFieldCrystal(BaseSystem):
 
 
     #######################################################
+    #######################################################
     ############### EVOLUTION FUNCTIONS ###################
     #######################################################
+    #######################################################
 
+
+    #######################################################
+    ############## CONSERVED (STANDARD) ###################
+    #######################################################
     def evolve_PFC(self, number_of_steps, method='ETD2RK'):
         """Evolves the PFC according to classical PFC dynamics.
 
@@ -252,11 +270,11 @@ class PhaseFieldCrystal(BaseSystem):
             Updates self.psi and self.psi_f
         """
 
-        omega_f = self.calc_omega_f()
+        omega_f = -self.calc_k2()*(self.r + self.calc_L_f()**2)
 
         integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
 
-        for n in tqdm(range(number_of_steps), desc='Evolving the PFC'):
+        for n in tqdm(range(number_of_steps), desc='Evolving the PFC (conserved)'):
             self.psi, self.psi_f = solver(integrating_factors_f,
                                           self.calc_nonlinear_evolution_function_f,
                                           self.psi, self.psi_f)
@@ -265,6 +283,45 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi = np.real(self.psi)
             self.psi_f = sp.fft.fftn(self.psi)
 
+    # Nonlinear part
+    def calc_nonlinear_evolution_function_f(self, psi, t):
+        return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+    #######################################################
+    
+    #######################################################
+    ################### UNCONSERVED #######################
+    #######################################################
+    def evolve_PFC_unconserved(self, time, method='ETD2RK'):
+        """ Evolves the PFC according to the unconserved PFC dynamics.
+
+        Args:
+            time: The time to evolve the PFC.
+            method: The method to use for the evolution (default: ETD2RK).
+        
+        Returns:
+            Updates self.psi and self.psi_f
+        """
+
+        number_of_steps = round(time/self.dt)
+        omega_f = -(self.r + self.calc_L_f()**2)
+
+        integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
+
+        for n in tqdm(range(number_of_steps), desc='Evolving the unconserved PFC'):
+            self.psi, self.psi_f = solver(integrating_factors_f,
+                                          self.calc_nonlinear_evolution_function_unconserved_f,
+                                          self.psi, self.psi_f)
+
+            self.psi = np.real(self.psi)
+            self.psi_f = sp.fft.fftn(self.psi)
+
+    def calc_nonlinear_evolution_function_unconserved_f(self, psi, t):
+        return -sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+    #######################################################
+
+    #######################################################
+    ##### MECHANICAL EQUILIBRIUM (CONSERVED) ##############
+    #######################################################
     def evolve_PFC_mechanical_equilibrium(self, time, Delta_t = 10, method='ETD2RK'):
         """Evolves the PFC in mechanical equilibrium. 
 
@@ -284,8 +341,11 @@ class PhaseFieldCrystal(BaseSystem):
         for n in tqdm(range(number_of_iterations), desc='Evolving the PFC in mechanical equilibrium'):
             self.conf_advect_PFC(self.calc_displacement_field_to_equilibrium())
             self.evolve_PFC(number_of_steps_per_iteration, method)
-            
+    #######################################################
 
+    #######################################################
+    ######### HYDRODYNAMIC (CONSERVED) ####################
+    #######################################################
     def evolve_PFC_hydrodynamic(self, number_of_steps, 
                                 method = 'ETD2RK',
                                 gamma_S = 2**-4,
@@ -305,10 +365,10 @@ class PhaseFieldCrystal(BaseSystem):
             Updates self.psi and self.psi_f
         """
         
-        if hasattr(self,'velocity_field'):
+        if hasattr(self,'bool_has_velocity_field'):
             pass
         else:
-            self.velocity_field = True
+            self.bool_has_velocity_field = True
             self.psi = np.array([self.psi]+[np.zeros_like(self.psi)]*self.dim)
             self.psi_f = np.array([self.psi_f]+[np.zeros_like(self.psi_f)]*self.dim)
             # print("psi shape", self.psi.shape)
@@ -330,9 +390,7 @@ class PhaseFieldCrystal(BaseSystem):
             self.psi = np.real(self.psi)
             self.psi_f = sp.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
 
-    ############################################################
-    ################# CALCULATION FUNCTIONS ####################
-    ############################################################
+    # Linear part
     def calc_omega_hydrodynamic_f(self):
         """Calculates the hydrodynamic evolution function omega_f.
 
@@ -345,7 +403,36 @@ class PhaseFieldCrystal(BaseSystem):
         k2 = self.calc_k2()
         return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*k2]*self.dim)
 
+    # Nonlinear part
+    def calc_nonlinear_hydrodynamic_evolution_function_f(self, field, t):
+        """Calculates the hydrodynamic evolution function of the PFC.
 
+        Args:
+            field: The field to calculate the evolution function of.
+            t: The time.
+
+        Returns:
+            The nonlinear evolution function for the hydrodynamic PFC.
+        """
+
+        field_f = sp.fft.fftn(field, axes =( range ( - self . dim , 0) ))
+
+        k2 = self.calc_k2()
+
+        N0_f = -k2*sp.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
+            - sp.fft.fftn(sum([field[i+1]*sp.fft.ifftn(self.dif[i]*field_f[0]) for i in range(self.dim)]))
+        
+        force_density_f = self.calc_stress_divergence_f(field_f[0])
+
+        return np.array([N0_f] + [1/self.rho0*(force_density_f[i]+self.external_force_density_f[i]) for i in range(self.dim)])
+    #######################################################
+
+    #######################################################
+    #######################################################
+    ############## CALCULATION FUNCTIONS ##################
+    #######################################################
+    #######################################################
+    
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
         """Calculates the free energy density and chemical potential of the PFC.
 
@@ -371,44 +458,24 @@ class PhaseFieldCrystal(BaseSystem):
         psi3 = psi2*psi
         psi4 = psi2**2
 
-        free_energy_density = 1/2*self.calc_Lpsi(psi_f)**2 \
+        Lpsi = sp.fft.ifftn(self.calc_L_f()*psi_f)
+
+        free_energy_density = 1/2*Lpsi**2 \
             + 1/2*self.r*psi2 + 1/3*self.t*psi3 + 1/4*self.v*psi4
         
         # print("Lpsi shape",self.calc_Lpsi(psi_f).shape)
 
-        chemical_potential = self.calc_L2psi(psi_f)*psi \
+        L2psi = sp.fft.ifftn(self.calc_L_f()**2*psi_f)
+
+        chemical_potential =L2psi*psi \
             + self.r*psi + self.t*psi2 + self.v*psi3
         
         # print("L2psi shape",self.calc_L2psi(psi_f).shape)
         
         # print("Free energy density shape", free_energy_density.shape)
         # print("Chem pot shape", chemical_potential.shape)
-        return free_energy_density, chemical_potential
-
-    def calc_nonlinear_hydrodynamic_evolution_function_f(self, field, t):
-        """Calculates the hydrodynamic evolution function of the PFC.
-
-        Args:
-            field: The field to calculate the evolution function of.
-            t: The time.
-
-        Returns:
-            The nonlinear evolution function for the hydrodynamic PFC.
-        """
-
-        field_f = sp.fft.fftn(field, axes =( range ( - self . dim , 0) ))
-
-        k2 = self.calc_k2()
-
-        N0_f = -k2*sp.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
-            - sp.fft.fftn(sum([field[i+1]*sp.fft.ifftn(self.dif[i]*field_f[0]) for i in range(self.dim)]))
-        
-        force_density_f = self.calc_stress_divergence_f(field_f[0])
-
-        return np.array([N0_f] + [1/self.rho0*(force_density_f[i]+self.external_force_density_f[i]) for i in range(self.dim)])
-
-    def calc_nonlinear_evolution_function_f(self, psi, t):
-        return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+        return np.real(free_energy_density), np.real(chemical_potential)
+    
 
     def calc_displacement_field_to_equilibrium(self):
         """Calculates the displacement field needed to put the PFC in mechanical equilibrium.
@@ -798,6 +865,10 @@ class PhaseFieldCrystal(BaseSystem):
             The dislocation nodes
         """
 
+        # At the moment (24.09.24 - Vidar), this function only works for unstrained PFCs
+        if hasattr(self,'bool_is_distorted') and self.bool_is_distorted:
+            raise Exception("Dislocation nodes cannot be calculated for distorted PFCs.")
+
         alpha = self.calc_dislocation_density()
 
         if self.dim == 2:
@@ -986,12 +1057,51 @@ class PhaseFieldCrystal(BaseSystem):
                 
 
 
-            
-
-
     #######################################################
     ############### PLOTTING FUNCTIONS ####################
     #######################################################
+
+    def plot_field(self, field, **kwargs):
+        """Plots the PFC
+
+        Args:
+            field: The field to plot.
+            **kwargs: Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.
+        Returns:
+            ax, fig: The axes and figure containing the plot.
+        """
+        
+        PFC_is_distorted = True if hasattr(self, 'bool_is_distorted') and self.bool_is_distorted else False
+
+        if PFC_is_distorted:
+            tool_print_in_color("Note: plotting a strained PFC currently only possible using matplotlib.", 'yellow')
+            tool_print_in_color("Output of plot_PFC will therefore be matplotlib ax and fig.", 'yellow')
+            kwargs['xmin'] = np.min(self.X)
+            kwargs['xmax'] = np.max(self.X)
+            kwargs['ymin'] = np.min(self.Y)
+            kwargs['ymax'] = np.max(self.Y)
+            kwargs['X'] = self.X
+            kwargs['Y'] = self.Y
+            return plot_field_matplotlib(self, field, **kwargs)
+        else:
+            return plot_field_plotly(self, field, **kwargs)
+
+    def plot_PFC(self, **kwargs):
+        """Plots the PFC
+
+        Args:
+            **kwargs: Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.
+        Returns:
+            ax, fig: The axes and figure containing the plot.
+        """
+        PFC_has_velocity_field = hasattr(self, 'bool_has_velocity_field') and self.bool_has_velocity_field
+    
+        if PFC_has_velocity_field:
+            return self.plot_field(self.psi[0], **kwargs)
+        else:
+            return self.plot_field(self.psi, **kwargs)
+
+
 
     def plot_orientation_field(self, orientation_field=None, **kwargs):
         """Plots the orientation field of the phase-field crystal.

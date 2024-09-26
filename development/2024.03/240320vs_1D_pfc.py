@@ -8,7 +8,7 @@ import scipy as sp
 
 pfc = cf.PhaseFieldCrystal1DPeriodic(9,micro_resolution=[31])
 pfc.conf_PFC_from_amplitudes()
-pfc.conf_apply_strain(0.05)
+pfc.conf_apply_distortion(0.05)
 for i in range(100):
     pfc.evolve_PFC(200)
     pfc.plot_field(pfc.psi)
