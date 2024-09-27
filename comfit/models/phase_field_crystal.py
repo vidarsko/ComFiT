@@ -179,6 +179,149 @@ class PhaseFieldCrystal(BaseSystem):
         else:
             raise ImplementationError("Applied strain is not implemented for 3 dimensions.")
 
+    def conf_strain_to_equilibrium(self):
+        """Configures 
+        Strains the pfc to equilibrium by adjusting the position variables and k-space variables.
+
+        Args:
+            None
+
+        Returns:
+            None, configures the PFC.
+        """
+        
+        # Evolve PFC to reach initial state of equilibrium (100 time steps ok)
+        number_of_initial_steps = 100
+        self.evolve_PFC(number_of_initial_steps, suppress_output=True)
+        number_of_steps = 10 # 10 steps is enough to reach equilibrium
+
+        # Calculate average free energy to compare
+        average_free_energy = self.calc_free_energy()/self.volume
+        # print('Average free energy at initial state: ', average_free_energy)
+
+        strain = 0
+        strain_increment = 0.00001
+        strain += strain_increment
+
+        # Unaltered k-vectors
+        k0 = self.k[0].copy()
+        dx0 = self.dx
+        x0 = self.x.copy()
+        xmin0 = self.xmin
+        xmax0 = self.xmax
+        size_x0 = self.size_x
+        a00 = self.a0
+
+        if self.dim > 1:
+            k1 = self.k[1].copy()
+            dy0 = self.dy
+            y0 = self.y.copy()
+            ymin0 = self.ymin
+            ymax0 = self.ymax
+            size_y0 = self.size_y
+
+            
+        if self.dim > 2:
+            k2 = self.k[2].copy()
+            dz0 = self.dz
+            z0 = self.z.copy()
+            zmin0 = self.zmin
+            zmax0 = self.zmax
+            size_z0 = self.size_z
+
+        volume0 = self.volume
+        dV0 = self.dV
+        
+        def update_lengths(self, strain):
+            self.k[0] = k0/(1+strain)
+            self.dx = dx0*(1+strain)
+            self.x = x0*(1+strain)
+            self.xmax = xmax0*(1+strain)
+            self.xmin = xmin0*(1+strain)
+            self.size_x = size_x0*(1+strain)
+            self.a0 = a00*(1+strain)
+            
+            if self.dim > 1:
+                self.k[1] = k1/(1+strain)
+                self.dy = dy0*(1+strain)
+                self.y = y0*(1+strain)
+                self.ymax = ymax0*(1+strain)
+                self.ymin = ymin0*(1+strain)
+                self.size_y = size_y0*(1+strain)
+                
+            if self.dim > 2:
+                self.k[2] = k2/(1+strain)
+                self.dz = dz0*(1+strain)
+                self.z = z0*(1+strain)
+                self.zmax = zmax0*(1+strain)
+                self.zmin = zmin0*(1+strain)
+                self.size_z = size_z0*(1+strain)
+
+            self.dV = self.dx*self.dy*self.dz
+            self.volume = self.size_x*self.size_y*self.size_z
+
+        update_lengths(self,strain)
+
+        # Evolve PFC
+        self.evolve_PFC(number_of_steps, suppress_output=True)
+
+        # Calculate free energy to compare
+        average_free_energy_tmp = self.calc_free_energy()/self.volume
+
+        # print('Free energy at strain: ', strain, ' is: ', free_energy_tmp)
+
+        positive_strain_required = False
+        while average_free_energy_tmp < average_free_energy:
+
+            positive_strain_required = True
+
+            average_free_energy = average_free_energy_tmp
+
+            strain += strain_increment
+
+            update_lengths(self,strain)
+            
+            self.evolve_PFC(number_of_steps, suppress_output=True)
+
+            average_free_energy_tmp = self.calc_free_energy()/self.volume
+            # print('Average free energy at strain: ', strain, ' is: ', average_free_energy_tmp)
+        
+        if positive_strain_required:
+            # Going one back to get the lowest free energy
+            final_strain = strain - strain_increment
+            update_lengths(self,strain)
+            # tool_print_in_color('Lowest average free energy found at strain: ' + str(final_strain), 'green')
+
+        else: #negative strain required
+
+            strain = - strain_increment
+
+            update_lengths(self,strain)
+            self.evolve_PFC(number_of_steps, suppress_output=True)
+            average_free_energy_tmp = self.calc_free_energy()/self.volume
+            print('Average Free energy at strain: ', strain, ' is: ', average_free_energy_tmp)
+
+            while average_free_energy_tmp < average_free_energy:
+
+                average_free_energy = average_free_energy_tmp
+
+                strain -= strain_increment
+
+                update_lengths(self, strain)
+
+                self.evolve_PFC(number_of_steps, suppress_output=True)
+
+                average_free_energy_tmp = self.calc_free_energy()/self.volume
+
+                # print('Average free energy at strain: ', strain, ' is: ', average_free_energy_tmp)
+
+            # Going one back to get the lowest free energy
+            final_strain = strain + strain_increment
+            update_lengths(self, final_strain)
+            # tool_print_in_color('Lowest average free energy found at strain: ' + str(final_strain), 'green')   
+
+        return final_strain
+
     def conf_create_polycrystal(self, type, **kwargs):
         """Creates a polycrystal.
 
@@ -197,7 +340,7 @@ class PhaseFieldCrystal(BaseSystem):
 
             rotation = kwargs.get('rotation', np.pi/6)
             position = kwargs.get('position', self.rmid)
-            radius = kwargs.get('radius', self.Lmin/4)
+            radius = kwargs.get('radius', self.size_min/4)
 
             # Create the rotated field
             psi_rotated = self.calc_PFC_from_amplitudes(rotation=[0,0,rotation])
@@ -257,9 +400,9 @@ class PhaseFieldCrystal(BaseSystem):
 
 
     #######################################################
-    ############## CONSERVED (STANDARD) ###################
+    #################### STANDARD #########################
     #######################################################
-    def evolve_PFC(self, number_of_steps, method='ETD2RK'):
+    def evolve_PFC(self, number_of_steps, method='ETD2RK', suppress_output=False):
         """Evolves the PFC according to classical PFC dynamics.
 
         Args:
@@ -270,51 +413,29 @@ class PhaseFieldCrystal(BaseSystem):
             Updates self.psi and self.psi_f
         """
 
-        omega_f = -self.calc_k2()*(self.r + self.calc_L_f()**2)
+        if self.type_of_evolution == 'conserved':
+            omega_f = -self.calc_k2()*(self.r + self.calc_L_f()**2)
+            non_linear_evolution_function_f = self.calc_nonlinear_evolution_function_conserved_f
+        elif self.type_of_evolution == 'unconserved':
+            omega_f = -(self.r + self.calc_L_f()**2)
+            non_linear_evolution_function_f = self.calc_nonlinear_evolution_function_unconserved_f
 
         integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
 
-        for n in tqdm(range(number_of_steps), desc='Evolving the PFC (conserved)'):
+        for n in tqdm(range(number_of_steps), desc='Evolving the PFC (conserved)', disable=suppress_output):
             self.psi, self.psi_f = solver(integrating_factors_f,
-                                          self.calc_nonlinear_evolution_function_f,
+                                          self.calc_nonlinear_evolution_function_conserved_f,
                                           self.psi, self.psi_f)
 
             # These steps seem to be necessary for numerical stability (Vidar 18.12.23)
             self.psi = np.real(self.psi)
             self.psi_f = sp.fft.fftn(self.psi)
 
-    # Nonlinear part
-    def calc_nonlinear_evolution_function_f(self, psi, t):
+    # Nonlinear part conserved
+    def calc_nonlinear_evolution_function_conserved_f(self, psi, t):
         return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
-    #######################################################
-    
-    #######################################################
-    ################### UNCONSERVED #######################
-    #######################################################
-    def evolve_PFC_unconserved(self, time, method='ETD2RK'):
-        """ Evolves the PFC according to the unconserved PFC dynamics.
 
-        Args:
-            time: The time to evolve the PFC.
-            method: The method to use for the evolution (default: ETD2RK).
-        
-        Returns:
-            Updates self.psi and self.psi_f
-        """
-
-        number_of_steps = round(time/self.dt)
-        omega_f = -(self.r + self.calc_L_f()**2)
-
-        integrating_factors_f, solver = self.calc_integrating_factors_f_and_solver(omega_f, method)
-
-        for n in tqdm(range(number_of_steps), desc='Evolving the unconserved PFC'):
-            self.psi, self.psi_f = solver(integrating_factors_f,
-                                          self.calc_nonlinear_evolution_function_unconserved_f,
-                                          self.psi, self.psi_f)
-
-            self.psi = np.real(self.psi)
-            self.psi_f = sp.fft.fftn(self.psi)
-
+    # Non-linear part unconserved
     def calc_nonlinear_evolution_function_unconserved_f(self, psi, t):
         return -sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
     #######################################################
@@ -433,6 +554,70 @@ class PhaseFieldCrystal(BaseSystem):
     #######################################################
     #######################################################
     
+    def calc_strained_amplitudes(self):
+        """ Straines the PFC to equilibrium and returns the amplitudes.
+    
+        Args:
+            None
+
+        Returns:
+            The amplitudes of the strained PFC.
+        """
+        tool_print_in_color('Proto amplitudes', 'blue')
+        tool_print_in_color('---', 'blue')
+        print(f'psi0: {self.psi0:.02f}')
+        print(f'A: {self.A:.05f}')
+        if self.type in ['PhaseFieldCrystal2DSquare','PhaseFieldCrystal3DFaceCenteredCubic','PhaseFieldCrystal3DSimpleCubic']:
+            print(f'B: {self.B:.05f}')
+        if self.type in ['PhaseFieldCrystal3DSimpleCubic']:
+            print(f'C: {self.C:.05f}')
+
+        # Strain PFC to equilibrium
+        self.conf_PFC_from_amplitudes()
+        final_strain = self.conf_strain_to_equilibrium()
+        tool_print_in_color('Amplitudes after strain', 'blue')
+        tool_print_in_color('---', 'blue')
+        print(f'Equilibrium strain: {final_strain:.05f}')
+        print(f'Equilibrium q-vector: {1/(1+final_strain):.05f}')
+
+
+        psi0 = np.mean(self.psi)
+        print(f'psi0: {psi0:.02f}')
+
+        eta = self.calc_demodulate_PFC()
+        A = np.mean(np.real(eta[0]))
+        number_of_independent_amplitudes = 1
+
+        if self.type == 'PhaseFieldCrystal2DSquare':
+            number_of_independent_amplitudes = 2
+            B = np.mean(np.real(eta[2]))
+        
+        if self.type == 'PhaseFieldCrystal3DFaceCenteredCubic':
+            number_of_independent_amplitudes = 2
+            B = np.mean(np.real(eta[4]))
+
+        if self.type == 'PhaseFieldCrystal3DSimpleCubic':
+            number_of_independent_amplitudes = 3
+            B = np.mean(np.real(eta[3]))
+            C = np.mean(np.real(eta[9]))
+
+        if number_of_independent_amplitudes >= 1:
+            print(f'A: {A:.05f}')
+            print('Ratio A strained/A unstrained: {:.05f}'.format(A/self.A))
+        if number_of_independent_amplitudes >= 2:
+            print(f'B: {B:.05f}')
+            print('Ratio B strained/B unstrained: {:.05f}'.format(B/self.B))
+        if number_of_independent_amplitudes >= 3:
+            print(f'C: {C:.05f}')
+            print('Ratio C strained/C unstrained: {:.05f}'.format(C/self.C))
+        
+        #Finding elastic constants, starting with mu
+        
+
+
+
+
+
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
         """Calculates the free energy density and chemical potential of the PFC.
 
@@ -1055,7 +1240,9 @@ class PhaseFieldCrystal(BaseSystem):
             
             return orientation_field
                 
-
+    def calc_free_energy(self):
+        free_energy_density, _ = self.calc_PFC_free_energy_density_and_chemical_potential()
+        return self.calc_integrate_field(free_energy_density)
 
     #######################################################
     ############### PLOTTING FUNCTIONS ####################

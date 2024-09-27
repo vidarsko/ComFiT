@@ -8,17 +8,17 @@ import plotly.graph_objects as go
 import scipy as sp
 from scipy.integrate import simps
 
-pfc = cf.PhaseFieldCrystal2DTriangular(1,1)
-# pfc = cf.PhaseFieldCrystal2DSquare(1,1, micro_resolution=[7,7])
+# pfc = cf.PhaseFieldCrystal2DTriangular(1,1)
+# pfc = cf.PhaseFieldCrystal2DSquare(1,1)
 # pfc = cf.PhaseFieldCrystal3DBodyCenteredCubic(1,1,1)
 # pfc = cf.PhaseFieldCrystal3DFaceCenteredCubic(1,1,1)
-# pfc = cf.PhaseFieldCrystal3DSimpleCubic(1,1,1)
+pfc = cf.PhaseFieldCrystal3DSimpleCubic(1,1,1)
 pfc.conf_PFC_from_amplitudes()
 
 N=300
 t = np.linspace(0,N,N-1)
 free_energy = np.zeros(len(t))
-X,Y = np.meshgrid(pfc.x,pfc.y, indexing='ij')
+# X,Y = np.meshgrid(pfc.x,pfc.y, indexing='ij')
 for n in range(len(t)):
     pfc.evolve_PFC(1)
     free_energy_density, _ = pfc.calc_PFC_free_energy_density_and_chemical_potential()

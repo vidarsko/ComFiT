@@ -1211,7 +1211,7 @@ The available types are
     This creates a circular inclusion valid in 2 and 3 dimensions. 
     The type opens for two additional keywords:
 
-    - `radius` which specifies the radius of the inclusion (default `self.Lmin/4`).
+    - `radius` which specifies the radius of the inclusion (default `self.size_min/4`).
 
     - `position` which specifies the position of the center of the inclusion (default `self.rmid`).
     

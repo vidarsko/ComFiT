@@ -31,8 +31,6 @@ These are the optional keywords for the `BaseSystem` class.
 | `xmax`  | Maximum value of $x$ of the simulation domain. | $100$ |
 | `ymax`  | Maximum value of $y$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 100 \\ 100 \\ \end{array} \right \rbrace$ |
 | `zmax`  | Maximum value of $z$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  100 \\ \end{array} \right \rbrace$ |
-| `Lmin` | Minimum value of the simulation domain | $\left \lbrace \begin{array}{c} \texttt{xmax}-\texttt{xmin} \\ \texttt{min}(\texttt{xmax}-\texttt{xmin},\texttt{ymax}-\texttt{ymin}) \\ \texttt{min}(\texttt{xmax}-\texttt{xmin},\texttt{ymax}-\texttt{ymin}, \texttt{zmax}-\texttt{zmin}) \\ \end{array} \right \rbrace$ |
-| `Lmax` | Maximum value of the simulation domain | $\left \lbrace \begin{array}{c} \texttt{xmax}-\texttt{xmin} \\ \texttt{max}(\texttt{xmax}-\texttt{xmin},\texttt{ymax}-\texttt{ymin}) \\ \texttt{max}(\texttt{xmax}-\texttt{xmin},\texttt{ymax}-\texttt{ymin}, \texttt{zmax}-\texttt{zmin}) \\ \end{array} \right \rbrace$   |
 | `xRes`  | Resolution of the $x$ axis | $101$ |
 | `yRes`  | Resolution of the $y$ axis | $\left \lbrace \begin{array}{c} 1 \\ 101 \\  101 \\ \end{array} \right \rbrace$ |
 | `zRes`  | Resolution of the $z$ axis | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  101 \\ \end{array} \right \rbrace$ |
@@ -50,8 +48,8 @@ These are the optional keywords for the `BaseSystem` class.
 
 From these keywords, a number of useful parameters are constructed, given in the table below.
 
-| Parameter      | Definition   |
-| -------------- | --------------|
+| Parameter      | Definition   | Value |
+| -------------- | --------------| ----- |
 | `x`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} \texttt{xRes} \\ \texttt{xRes}\times 1  \\ \texttt{xRes}\times 1 \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `xmin` to (including) `xmax-dx`. |
 | `y`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1 \times \texttt{yRes}  \\ 1 \times \texttt{yRes} \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `ymin` to (including) `ymax-dy`. |
 | `z`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1  \\ 1 \times 1 \times \texttt{zRes} \\ \end{array} \right \rbrace$ consisting of the grid points from `zmin` to (including) `zmax-dz`. |
@@ -61,6 +59,13 @@ From these keywords, a number of useful parameters are constructed, given in the
 | `ymid`         | The $y$ value given by `ymidi`. |
 | `zmidi`        | Index of the mid $z$-value. In the case of an odd `zRes`, this midpoint index will not hit the middle exactly but undershoot by `dz/2`. |
 | `zmid`         | The $z$ value given by `zmidi`. |
+| `size_x` | Size of the $x$-axis | $\texttt{xmax} - \texttt{xmin}$ |
+| `size_y` | Size of the $y$-axis |  $\texttt{ymax} - \texttt{ymin}$ (1 if `dim` $<2$) |
+| `size_z` | Size of the $z$-axis |  $\texttt{zmax} - \texttt{zmin}$ (1 if `dim` $<3$)|
+| `size_min` | Minimum value of the simulation domain | $\left \lbrace \begin{array}{c} \texttt{size_x} \\ \texttt{min}(\texttt{size_x}, \texttt{size_y})\\ \texttt{min}(\texttt{size_x}, \texttt{size_y}, \texttt{size_z}) \\ \end{array} \right \rbrace$ |
+| `size_max` | Maximum value of the simulation domain | $\left \lbrace \begin{array}{c} \texttt{size_x} \\ \texttt{max}(\texttt{size_x}, \texttt{size_y})\\ \texttt{max}(\texttt{size_x}, \texttt{size_y}, \texttt{size_z}) \\ \end{array} \right \rbrace$ |
+| `dV`          | Volume element of the grid. | $\left \lbrace \begin{array}{l} \texttt{dx} \\ \texttt{dx} \times \texttt{dy}  \\ \texttt{dx} \times \texttt{dy} \times \texttt{dz}  \\ \end{array} \right \rbrace$.|
+| `volume` | Volume of the simulation domain | $\texttt{size_x} \times \texttt{size_y} \times \texttt{size_z}$ |
 
 Note that even though variables like `yRes`, `zRes` etc. are defined in cases where they are not relevant, such as for a $1$-dimensional system, they play no significant role in any calculations in such situations.
 
