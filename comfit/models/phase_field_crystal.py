@@ -5,6 +5,7 @@ from scipy.optimize import fsolve
 import scipy as sp
 import matplotlib.pyplot as plt
 from pprint import pprint
+import copy
 
 # Plot functions
 from comfit.plot.plot_field_plotly import plot_field_plotly
@@ -145,6 +146,10 @@ class PhaseFieldCrystal(BaseSystem):
             self.k[0] = self.k[0]/(1+distortion)
             self.dif[0] = self.dif[0]/(1+distortion)
             self.x = self.x*(1+distortion)
+            self.xmax = self.xmax*(1+distortion)
+            self.xmin = self.xmin*(1+distortion)
+            self.size_x = self.size_x*(1+distortion)
+            self.dx = self.dx*(1+distortion)
 
         elif self.dim == 2:
             # Creating 2D meshgrid
@@ -176,8 +181,30 @@ class PhaseFieldCrystal(BaseSystem):
             self.dif[0] = 1j*self.k[0]
             self.dif[1] = 1j*self.k[1]
 
+            # Updating the dx and dy
+            original_dx = self.dx
+            original_dy = self.dy
+            self.dx = np.sqrt((distortion_matrix[0,0]*original_dx)**2 + (distortion_matrix[0,1]*original_dy)**2)
+            self.dy = np.sqrt((distortion_matrix[1,0]*original_dx)**2 + (distortion_matrix[1,1]*original_dy)**2)
+
+            # Updating the size_x and size_y
+            original_size_x = self.size_x
+            original_size_y = self.size_y
+            self.size_x = np.sqrt((distortion_matrix[0,0]*original_size_x)**2 + (distortion_matrix[0,1]*original_size_y)**2)
+            self.size_y = np.sqrt((distortion_matrix[1,0]*original_size_x)**2 + (distortion_matrix[1,1]*original_size_y)**2)
+
+            # Updating the x and y coordinate limits
+            self.xmax = np.max(X)
+            self.xmin = np.min(X)
+
+            self.ymax = np.max(Y)
+            self.ymin = np.min(Y)
+
+            self.volume = abs(np.linalg.det(distortion_matrix))*self.volume
+
+
         else:
-            raise ImplementationError("Applied strain is not implemented for 3 dimensions.")
+            raise ImplementationError("Applied distortion is not yet implemented for 3 dimensions.")
 
     def conf_strain_to_equilibrium(self):
         """Configures 
@@ -611,8 +638,19 @@ class PhaseFieldCrystal(BaseSystem):
             print(f'C: {C:.05f}')
             print('Ratio C strained/C unstrained: {:.05f}'.format(C/self.C))
         
+
         #Finding elastic constants, starting with mu
-        
+        pfc_strained = copy.deepcopy(self)
+        f0 = pfc_strained.calc_free_energy()/pfc_strained.volume
+
+        shear_strain=-0.01
+        pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[shear_strain,0.0]]))
+        f = pfc_strained.calc_free_energy()/pfc_strained.volume
+
+        # TO be refined
+        mu = (f-f0)/(shear_strain**2)/2
+        print(f'Mu0: {self.el_mu:.05f}')
+        print(f'Mu: {mu:.05f}')
 
 
 
