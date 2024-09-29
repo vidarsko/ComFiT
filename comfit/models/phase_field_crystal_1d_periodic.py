@@ -48,6 +48,7 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         # Set the grid
         self.dx = a0 / self.micro_resolution[0]
 
+        self.type_of_evolution = kwargs.get('type_of_evolution', 'conserved')
         self.A = self.calc_proto_amplitudes_conserved()
         self.eta0 = np.array([self.A])
 

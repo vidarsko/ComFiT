@@ -52,6 +52,7 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.dx = a0 / self.micro_resolution[0]
         self.dy = a0 / self.micro_resolution[1]
 
+        self.type_of_evolution = kwargs.get('type_of_evolution', 'conserved')
         self.A, self.B = self.calc_proto_amplitudes_conserved()
         self.eta0 = np.array([self.A, self.A, self.B, self.B])
 
