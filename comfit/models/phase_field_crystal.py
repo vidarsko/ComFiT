@@ -150,6 +150,7 @@ class PhaseFieldCrystal(BaseSystem):
             self.xmin = self.xmin*(1+distortion)
             self.size_x = self.size_x*(1+distortion)
             self.dx = self.dx*(1+distortion)
+            self.volume = self.volume*(1+distortion)
 
         elif self.dim == 2:
             # Creating 2D meshgrid
@@ -200,7 +201,9 @@ class PhaseFieldCrystal(BaseSystem):
             self.ymax = np.max(Y)
             self.ymin = np.min(Y)
 
-            self.volume = abs(np.linalg.det(distortion_matrix))*self.volume
+            volume_factor = np.linalg.det(distortion_matrix)
+            self.dV = self.dV*volume_factor
+            self.volume = self.volume*volume_factor
 
 
         else:
@@ -611,11 +614,10 @@ class PhaseFieldCrystal(BaseSystem):
         print(f'Equilibrium strain: {final_strain:.05f}')
         print(f'Equilibrium q-vector: {1/(1+final_strain):.05f}')
 
-
         psi0 = np.mean(self.psi)
         print(f'Eq. psi0: {psi0:.02f}')
 
-        eta = self.calc_demodulate_PFC()
+        eta = self.calc_demodulate_PFC(only_primary_modes=False)
         A = np.mean(np.real(eta[0]))
         number_of_independent_amplitudes = 1
 
@@ -642,13 +644,16 @@ class PhaseFieldCrystal(BaseSystem):
             print(f'C: {C:.05f}')
             print('Ratio C eq./C proto: {:.05f}'.format(C/self.C))
         
-
         #Finding elastic constants, starting with mu
         pfc_strained = copy.deepcopy(self)
-        f0 = pfc_strained.calc_free_energy()/pfc_strained.volume
+        # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
+        # f0 = np.mean(free_energy_density)
+        f0 = self.calc_free_energy()/self.volume
 
         shear_strain=-0.001
         pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[0.0,0.0]]))
+        # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
+        # f = np.mean(free_energy_density)
         f = pfc_strained.calc_free_energy()/pfc_strained.volume
 
         # TO be refined
@@ -659,23 +664,48 @@ class PhaseFieldCrystal(BaseSystem):
 
         # gamma
         pfc_strained = copy.deepcopy(self)
-        f0 = pfc_strained.calc_free_energy()/pfc_strained.volume
+        # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
+        # f0 = np.mean(free_energy_density)
+        f0 = self.calc_free_energy()/self.volume
 
-        compression_strain1=0.0001
-        pfc_strained.conf_apply_distortion(np.array([[compression_strain1,0],[0,-compression_strain1]]))
-        # print('Volume ratio after compression: {:.05f}'.format(pfc_strained.volume/self.volume))
-        f1 = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+        a = 0.01
+        pfc_strained.conf_apply_distortion(np.array([[a,0],[0,-a]]))
+        # free_energy_density = np.mean(pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0])
+        # f1 = np.mean(free_energy_density)
+        f1 = pfc_strained.calc_free_energy()/pfc_strained.volume
 
-        pfc_strained = copy.deepcopy(self)
-        compression_strain2=0.0002
-        pfc_strained.conf_apply_distortion(np.array([[compression_strain2,0],[0,-compression_strain2]]))
-        f2 = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
-
-        # gamma = (f-f0 - 2*mu*compression_strain**2)/(compression_strain**2)
-        gamma = (f1 - f2)/(compression_strain1**2-compression_strain2**2) - 2*mu
+        gamma = (f1-f0 - 2*mu*a**2)/(a**2)
+        # print('Energy difference: ', f1-f0)
+        # print('energy accounted for: ', 2*mu*a**2)
         print(f'Eq. gamma: {gamma:.05f}')
         print('Ratio gamma eq./gamma proto: {:.05f}'.format(gamma/self.el_gamma))
 
+        # compression_strain1=0.001
+        # pfc_strained.conf_apply_distortion(np.array([[compression_strain1,0],[0,-compression_strain1]]))
+        # # print('Volume ratio after compression: {:.05f}'.format(pfc_strained.volume/self.volume))
+        # f1 = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+
+        # pfc_strained = copy.deepcopy(self)
+        # compression_strain2=0.002
+        # pfc_strained.conf_apply_distortion(np.array([[compression_strain2,0],[0,-compression_strain2]]))
+        # f2 = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+
+        # # gamma = (f-f0 - 2*mu*compression_strain**2)/(compression_strain**2)
+        # gamma = (f2 - f1)/(compression_strain2**2-compression_strain1**2) - 2*mu
+        # print(f'Eq. gamma: {gamma:.05f}')
+        # print('Ratio gamma eq./gamma proto: {:.05f}'.format(gamma/self.el_gamma))
+
+        # Applying a compression strain to find lambda  
+
+        compression_strain = 0.001
+        pfc_strained = copy.deepcopy(self)
+        pfc_strained.conf_apply_distortion(np.array([[compression_strain,0],[0,compression_strain]]))
+        f1 = pfc_strained.calc_free_energy()/pfc_strained.volume
+
+        el_lambda = (f1-f0 - 2*mu*compression_strain**2 - gamma*compression_strain**2)/(2*compression_strain**2)
+
+        print(f'Eq. lambda: {el_lambda:.05f}')
+        print('Ratio lambda eq./lambda proto: {:.05f}'.format(el_lambda/self.el_lambda))
 
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
         """Calculates the free energy density and chemical potential of the PFC.
@@ -934,7 +964,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         return np.real(psi)
 
-    def calc_demodulate_PFC(self):
+    def calc_demodulate_PFC(self, only_primary_modes=True):
         """Demodulates the PFC.
 
         Args:
@@ -943,8 +973,10 @@ class PhaseFieldCrystal(BaseSystem):
         Returns:
             The amplitudes corresponding to the demodulated PFC.
         """
+        
+        number_of_modes = self.number_of_primary_reciprocal_lattice_modes if only_primary_modes else self.number_of_reciprocal_lattice_modes
 
-        eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
+        eta = np.zeros([number_of_modes] + self.dims, 
                        dtype=complex)
 
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
@@ -952,12 +984,12 @@ class PhaseFieldCrystal(BaseSystem):
         order_parameter = self.psi if self.psi.ndim == self.dim else self.psi[0]
 
         if self.dim == 2:
-                for n in range(self.number_of_primary_reciprocal_lattice_modes):
+                for n in range(number_of_modes):
                     eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
                         -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y)))
 
         elif self.dim == 3:
-            for n in range(self.number_of_primary_reciprocal_lattice_modes):
+            for n in range(number_of_modes):
                 eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
                     -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y - 1j*self.q[n][2]*self.z  
                     )))

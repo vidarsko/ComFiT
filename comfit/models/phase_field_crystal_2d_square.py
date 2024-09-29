@@ -7,6 +7,8 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from pprint import pprint
 
+from comfit.tool.tool_print_in_color import tool_print_in_color
+
 class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
     def __init__(self, nx, ny, **kwargs):
         """Initializes a phase field crystal system in 2D with a square crystal structure.
@@ -59,7 +61,14 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         # Set the elastic constants
         self.el_lambda = 16 * self.B ** 2
         self.el_mu = 16 * self.B ** 2
-        self.el_gamma = 0
+        self.el_gamma = 8 * self.A ** 2 - 32 * self.B ** 2
+
+        bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
+
+        if not bool_is_for_properties_calculation:
+            tool_print_in_color('Initiating a 2D triangular PFC model.', 'green')
+            pfc = PhaseFieldCrystal2DSquare(1,1,for_properties_calculation=True)
+            pfc.calc_strained_amplitudes()
 
 
         # Initialize the BaseSystem

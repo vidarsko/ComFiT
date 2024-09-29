@@ -22,7 +22,10 @@ pfc_strained = copy.deepcopy(pfc)
 f0 = pfc.calc_free_energy()/pfc.volume
 
 
-strain_limit = 0.1
+# def elastic_energy(U, el_lambda, el_mu, el_gamma):
+#     return el_lambda/2*np.sum(U**2) + el_mu*np.sum(U**2) + el_gamma*np.sum(U**4) #Something like, but not exactly, this
+
+strain_limit = 0.01
 shear_strains=np.linspace(-strain_limit,strain_limit,100)
 free_energies = np.zeros_like(shear_strains)
 for n in range(len(shear_strains)):
@@ -35,18 +38,18 @@ for n in range(len(shear_strains)):
 params,_ = curve_fit(lambda x, mu: mu*x**2/2, shear_strains, free_energies)
 mu = params[0]
 print(f'Eq. mu: {mu:.05f}')
-# plt.plot(shear_strains, free_energies)
-# plt.plot(shear_strains, mu*shear_strains**2/2, 'r--')
-plt.show()
+plt.plot(shear_strains, free_energies)
+plt.plot(shear_strains, mu*shear_strains**2/2, 'r--')
+# plt.show()
 
 # TO be refined
-# mu = 2*(f-f0)/(shear_strain**2)
-# print(f'Eq. mu: {mu:.05f}')
-# print('Ratio mu eq./mu proto: {:.05f}'.format(mu/pfc.el_mu))
+mu = 2*(f-f0)/(shear_strain**2)
+print(f'Eq. mu: {mu:.05f}')
+print('Ratio mu eq./mu proto: {:.05f}'.format(mu/pfc.el_mu))
 
 
-# # gamma
-strain_limit = 0.05
+# gamma
+strain_limit = 0.01
 squeeze_strains = np.linspace(-strain_limit,strain_limit,100)
 free_energies = np.zeros_like(squeeze_strains)
 for n in range(len(squeeze_strains)):
@@ -56,8 +59,11 @@ for n in range(len(squeeze_strains)):
     f = pfc_strained.calc_free_energy()/pfc_strained.volume
     free_energies[n] = f-f0
 
-#Basically zero. But how do we account for that? 
-# plt.plot(squeeze_strains, free_energies - 2*mu*squeeze_strains**2)
+# Basically zero. But how do we account for that? 
+plt.plot(squeeze_strains, free_energies - 2*mu*squeeze_strains**2)
+params,_ = curve_fit(lambda x, gamma: gamma*x**2, squeeze_strains, free_energies - 2*mu*squeeze_strains**2)
+gamma = params[0]
+print(f'Eq. gamma: {gamma:.05f}')
 # plt.show()
 
 
