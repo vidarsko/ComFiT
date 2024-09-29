@@ -590,14 +590,18 @@ class PhaseFieldCrystal(BaseSystem):
         Returns:
             The amplitudes of the strained PFC.
         """
-        tool_print_in_color('Proto amplitudes', 'blue')
+        tool_print_in_color('Proto amplitudes and elastic constants', 'blue')
         tool_print_in_color('---', 'blue')
-        print(f'psi0: {self.psi0:.02f}')
-        print(f'A: {self.A:.05f}')
+        print(f'Proto psi0: {self.psi0:.02f}')
+        print(f'Proto A: {self.A:.05f}')
         if self.type in ['PhaseFieldCrystal2DSquare','PhaseFieldCrystal3DFaceCenteredCubic','PhaseFieldCrystal3DSimpleCubic']:
-            print(f'B: {self.B:.05f}')
+            print(f'Proto B: {self.B:.05f}')
         if self.type in ['PhaseFieldCrystal3DSimpleCubic']:
-            print(f'C: {self.C:.05f}')
+            print(f'Proto C: {self.C:.05f}')
+
+        print(f'Proto mu: {self.el_mu:.05f}')
+        print(f'Proto lambda: {self.el_lambda:.05f}')
+        print(f'Proto gamma: {self.el_gamma:.05f}')
 
         # Strain PFC to equilibrium
         self.conf_PFC_from_amplitudes()
@@ -609,7 +613,7 @@ class PhaseFieldCrystal(BaseSystem):
 
 
         psi0 = np.mean(self.psi)
-        print(f'psi0: {psi0:.02f}')
+        print(f'Eq. psi0: {psi0:.02f}')
 
         eta = self.calc_demodulate_PFC()
         A = np.mean(np.real(eta[0]))
@@ -629,31 +633,48 @@ class PhaseFieldCrystal(BaseSystem):
             C = np.mean(np.real(eta[9]))
 
         if number_of_independent_amplitudes >= 1:
-            print(f'A: {A:.05f}')
-            print('Ratio A strained/A unstrained: {:.05f}'.format(A/self.A))
+            print(f'Eq. A: {A:.05f}')
+            print('A eq./A proto: {:.05f}'.format(A/self.A))
         if number_of_independent_amplitudes >= 2:
-            print(f'B: {B:.05f}')
-            print('Ratio B strained/B unstrained: {:.05f}'.format(B/self.B))
+            print(f'Eq. B: {B:.05f}')
+            print('Ratio B eq./B proto: {:.05f}'.format(B/self.B))
         if number_of_independent_amplitudes >= 3:
             print(f'C: {C:.05f}')
-            print('Ratio C strained/C unstrained: {:.05f}'.format(C/self.C))
+            print('Ratio C eq./C proto: {:.05f}'.format(C/self.C))
         
 
         #Finding elastic constants, starting with mu
         pfc_strained = copy.deepcopy(self)
         f0 = pfc_strained.calc_free_energy()/pfc_strained.volume
 
-        shear_strain=-0.01
-        pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[shear_strain,0.0]]))
+        shear_strain=-0.001
+        pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[0.0,0.0]]))
         f = pfc_strained.calc_free_energy()/pfc_strained.volume
 
         # TO be refined
-        mu = (f-f0)/(shear_strain**2)/2
-        print(f'Mu0: {self.el_mu:.05f}')
-        print(f'Mu: {mu:.05f}')
+        mu = 2*(f-f0)/(shear_strain**2)
+        print(f'Eq. mu: {mu:.05f}')
+        print('Ratio mu eq./mu proto: {:.05f}'.format(mu/self.el_mu))
 
 
+        # gamma
+        pfc_strained = copy.deepcopy(self)
+        f0 = pfc_strained.calc_free_energy()/pfc_strained.volume
 
+        compression_strain1=0.0001
+        pfc_strained.conf_apply_distortion(np.array([[compression_strain1,0],[0,-compression_strain1]]))
+        # print('Volume ratio after compression: {:.05f}'.format(pfc_strained.volume/self.volume))
+        f1 = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+
+        pfc_strained = copy.deepcopy(self)
+        compression_strain2=0.0002
+        pfc_strained.conf_apply_distortion(np.array([[compression_strain2,0],[0,-compression_strain2]]))
+        f2 = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+
+        # gamma = (f-f0 - 2*mu*compression_strain**2)/(compression_strain**2)
+        gamma = (f1 - f2)/(compression_strain1**2-compression_strain2**2) - 2*mu
+        print(f'Eq. gamma: {gamma:.05f}')
+        print('Ratio gamma eq./gamma proto: {:.05f}'.format(gamma/self.el_gamma))
 
 
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
