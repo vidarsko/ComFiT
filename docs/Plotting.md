@@ -1,12 +1,68 @@
 # Plotting
 
-The `ComFiT` package uses the plotting library `plotly`.
-plotly has interactive features and works very well with the online tutorials.
+The `ComFiT` package supports both the plotting library `plotly` (default) and `matplotlib`.
+
 
 ## Plotly
 
 At the base of a plotly plot is a `figure` object.
-This contains 
+The plotting functions return a `figure` object, which can be used to plot the field.
+Multple `figure` objects can be organized into a subplot using the `tool_make_subplots` function.
+
+## Matplotlib structure
+
+The standard plotting library of comfit is `plotly`.
+However, the library was originally built on `matplotlib`, and the plotting functions are still available by calling 
+
+```python
+cf.plot_field(comfit_instance, field)
+```
+
+which will return a `figure` and `axes` object that can be used to plot the field.
+The basic structure of `matplotlib` is that it has a `figure` object that contains `axes` objects.
+One can think of the `figure` object as the window in which the plot is drawn, and the `axes` object as the plot itself.
+A new figure is made as follows
+
+```python
+import matplotlib.pyplot as plt
+
+fig1 = plt.figure()
+```
+
+Given a figure object, one may define a new `axes` object on it as follows
+
+```python
+ax = fig.add_subplot(111)
+```
+The `111` is a shorthand for `1,1,1` and means that the 
+If you are plotting a 3D object, then you will need to specify that
+
+```python
+ax = fig.add_subplot(111, projection='3d')
+```
+
+which will construct a 3D `axes` object.
+
+The convention followed in `ComFiT` are as follows:
+
+* When a plotting function is called *without* a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
+This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
+* If a figure is provided by the keyword `fig=myfig` with, then it will be cleared and the new plot will be plotted on `myfig`.
+This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
+* If an axes object is provided by the keyword `ax`, then the `ax` instance will be cleared and the new plot will be plotted on `ax`, unless the keyword `hold=True` is provided, in which case the new plot will be plotted ontop of the old plot.
+
+To show the current plot, one writes
+
+```python
+plt.show()
+```
+
+which will pause the simulation until the plot window has been closed.
+In order to draw the image and continue the simulation, as for instance when viewing a simulation live, one needs to write
+
+```python
+plt.pause(0.01)
+```
 
 
 ## Plotting keywords
@@ -473,60 +529,7 @@ This has the benefit of wrapping around itself at θ = ±π, stressing that thes
 
 *Angle color scheme.* The color scheme follows the hsv color circle going through  $\theta=0$ (Red), $\theta=\pi/3$ (Yellow), $\theta=2\pi/3$ (Lime), $\theta = \pm \pi$ (Aqua), $\theta = -2\pi/3$ (Blue), $\theta = -\pi/3$ (Fuchsia).
 
-## Deprecated: Matplotlib
 
-The standard plotting library of comfit is `plotly`.
-However, the library was originally built on `matplotlib`, and the plotting functions are still available by calling 
-
-```python
-cf.plot_field(comfit_instance, field)
-```
-
-which will return a `figure` and `axes` object that can be used to plot the field.
-The basic structure of `matplotlib` is that it has a `figure` object that contains `axes` objects.
-One can think of the `figure` object as the window in which the plot is drawn, and the `axes` object as the plot itself.
-A new figure is made as follows
-
-```python
-import matplotlib.pyplot as plt
-
-fig1 = plt.figure()
-```
-
-Given a figure object, one may define a new `axes` object on it as follows
-
-```python
-ax = fig.add_subplot(111)
-```
-The `111` is a shorthand for `1,1,1` and means that the 
-If you are plotting a 3D object, then you will need to specify that
-
-```python
-ax = fig.add_subplot(111, projection='3d')
-```
-
-which will construct a 3D `axes` object.
-
-The convention followed in `ComFiT` are as follows:
-
-* When a plotting function is called *without* a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
-This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
-* If a figure is provided by the keyword `fig=myfig` with, then it will be cleared and the new plot will be plotted on `myfig`.
-This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
-* If an axes object is provided by the keyword `ax`, then the `ax` instance will be cleared and the new plot will be plotted on `ax`, unless the keyword `hold=True` is provided, in which case the new plot will be plotted ontop of the old plot.
-
-To show the current plot, one writes
-
-```python
-plt.show()
-```
-
-which will pause the simulation until the plot window has been closed.
-In order to draw the image and continue the simulation, as for instance when viewing a simulation live, one needs to write
-
-```python
-plt.pause(0.01)
-```
 
 ### Technicality: The `marching_cubes` function and interpolation
 
