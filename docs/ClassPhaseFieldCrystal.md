@@ -740,8 +740,9 @@ The figure below shows an example of the evolution of the PFC for a triangular l
 
 ## Elasticity
 
-This quantity is the Poisson ratio, under some conditions. I think. To
-be fixed. $$\nu = \frac{\lambda}{(d-1)\lambda + 2\mu + \gamma}$$
+This quantity is the Poisson ratio, under some conditions. I think. 
+To be fixed. 
+$$\nu = \frac{\lambda}{(d-1)\lambda + 2\mu + \gamma}$$
 
 Elastic constants are saved in these quantities
 
@@ -851,6 +852,17 @@ $$
     $$\mu = 16 B^2 + 128 C^2$$
 
     $$\gamma = 32 A^2 - 16 B^2 - 256 C^2$$
+
+As one sees, the expressions for the stress tensor all on the format
+
+$$
+h_{ij} = -2\left \langle (\mathcal L \psi)(\mathcal L_{\sum} \partial_{ij} \psi \right \rangle,
+$$
+
+where $\mathcal L$ is as defined previously (as the product $\mathcal L_1 ...$), and $\mathcal L_{\sum}$ is a particular sum of $\mathcal L_i$ operators.
+$\mathcal L$ is calculated (in Fourier space) by the function `calc_L_f`, and the $\mathcal L_{\sum}$ is calculated by the function `calc_L_sum_f` in the `pfc` class.
+The stress tensor is then calculated by the function `calc_microscopic_stress_tensor` in the `pfc` class. 
+
 
 ### Strains
 

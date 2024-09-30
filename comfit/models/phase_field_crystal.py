@@ -6,6 +6,7 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from pprint import pprint
 import copy
+from scipy.optimize import curve_fit
 
 # Plot functions
 from comfit.plot.plot_field_plotly import plot_field_plotly
@@ -593,29 +594,33 @@ class PhaseFieldCrystal(BaseSystem):
         Returns:
             The amplitudes of the strained PFC.
         """
-        tool_print_in_color('Proto amplitudes and elastic constants', 'blue')
-        tool_print_in_color('---', 'blue')
-        print(f'Proto psi0: {self.psi0:.02f}')
-        print(f'Proto A: {self.A:.05f}')
-        if self.type in ['PhaseFieldCrystal2DSquare','PhaseFieldCrystal3DFaceCenteredCubic','PhaseFieldCrystal3DSimpleCubic']:
-            print(f'Proto B: {self.B:.05f}')
-        if self.type in ['PhaseFieldCrystal3DSimpleCubic']:
-            print(f'Proto C: {self.C:.05f}')
+        # tool_print_in_color('Proto amplitudes and elastic constants', 'blue')
+        # tool_print_in_color('---', 'blue')
+        # print(f'Proto psi0: {self.psi0:.02f}')
+        # # print(f'Proto A: {self.A:.05f}')
+        # if self.type in ['PhaseFieldCrystal2DSquare','PhaseFieldCrystal3DFaceCenteredCubic','PhaseFieldCrystal3DSimpleCubic']:
+        #     print(f'Proto B: {self.B:.05f}')
+        # if self.type in ['PhaseFieldCrystal3DSimpleCubic']:
+        #     print(f'Proto C: {self.C:.05f}')
 
-        print(f'Proto mu: {self.el_mu:.05f}')
-        print(f'Proto lambda: {self.el_lambda:.05f}')
-        print(f'Proto gamma: {self.el_gamma:.05f}')
+        # print(f'Proto mu: {self.el_mu:.05f}')
+        # print(f'Proto lambda: {self.el_lambda:.05f}')
+        # print(f'Proto gamma: {self.el_gamma:.05f}')
+
+        print('---')
+        tool_print_in_color('Straining PFC to reach equilibrium', 'blue')
+        print('---')
 
         # Strain PFC to equilibrium
         self.conf_PFC_from_amplitudes()
         final_strain = self.conf_strain_to_equilibrium()
-        tool_print_in_color('Amplitudes after strain', 'blue')
-        tool_print_in_color('---', 'blue')
+        # tool_print_in_color('Amplitudes after strain', 'blue')
+        # tool_print_in_color('---', 'blue')
         print(f'Equilibrium strain: {final_strain:.05f}')
         print(f'Equilibrium q-vector: {1/(1+final_strain):.05f}')
 
         psi0 = np.mean(self.psi)
-        print(f'Eq. psi0: {psi0:.02f}')
+        # print(f'Eq. psi0: {psi0:.02f}')
 
         eta = self.calc_demodulate_PFC(only_primary_modes=False)
         A = np.mean(np.real(eta[0]))
@@ -634,51 +639,131 @@ class PhaseFieldCrystal(BaseSystem):
             B = np.mean(np.real(eta[3]))
             C = np.mean(np.real(eta[9]))
 
+        print('---')
+        tool_print_in_color('Equilibrium amplitudes:', 'blue')
+        print('---')
+        print(f'Proto mean density psi0      : {self.psi0:.02f}')
+        print(f'Equilibrium mean density psi0: {psi0:.02f}')
+        print('Ratio (equilibrium/proto)     : {:.05f}'.format(psi0/self.psi0))
+
         if number_of_independent_amplitudes >= 1:
-            print(f'Eq. A: {A:.05f}')
-            print('A eq./A proto: {:.05f}'.format(A/self.A))
+            print('---')
+            print(f'Proto amplitude       A : {self.A:.05f}')
+            print(f'Equilibrium amplitude A : {A:.05f}')
+            print('Ratio (equilibrium/proto): {:.05f}'.format(A/self.A))
         if number_of_independent_amplitudes >= 2:
-            print(f'Eq. B: {B:.05f}')
-            print('Ratio B eq./B proto: {:.05f}'.format(B/self.B))
-        if number_of_independent_amplitudes >= 3:
-            print(f'C: {C:.05f}')
-            print('Ratio C eq./C proto: {:.05f}'.format(C/self.C))
+            print('---')
+            print(f'Proto amplitude       B : {self.B:.05f}')
+            print(f'Equilibrium amplitude B : {B:.05f}')
+            print('Ratio (equilibrium/proto): {:.05f}'.format(B/self.B))
         
+        if number_of_independent_amplitudes >= 3:
+            print('---')
+            print(f'Proto amplitude       C : {self.C:.05f}')
+            print(f'Equilibrium amplitude C : {C:.05f}')
+            print('Ratio (equilibrium/proto): {:.05f}'.format(C/self.C))
+        
+        # Finding elastic constants
+        def elastic_energy(strain, el_lambda, el_mu, el_gamma):
+            exx, exy, eyy = strain
+            return el_lambda/2*(exx+eyy)**2 + el_mu*(exx**2 + 2*exy**2 + eyy**2) + el_gamma/2*(exx**2 + eyy**2)
+
+        strain_magnitudes = np.linspace(-0.01,0.01,21)
+        exx = np.array([[a,0,a] for a in strain_magnitudes]).flatten()
+        exy = np.array([[0,a,0] for a in strain_magnitudes]).flatten()
+        eyy = np.array([[a,0,-a] for a in strain_magnitudes]).flatten()
+
+        f0 = self.calc_free_energy()/self.volume
+        free_energies = np.zeros_like(exx)
+        for n in range(len(exx)):
+            distortion = [[exx[n], exy[n]],[exy[n], eyy[n]]]
+            pfc_strained = copy.deepcopy(self)
+            pfc_strained.conf_apply_distortion(distortion)
+            f = pfc_strained.calc_free_energy()/pfc_strained.volume
+            free_energies[n] = f-f0
+
+        params,_ = curve_fit(elastic_energy, (exx, exy, eyy), free_energies)
+        el_lambda, el_mu, el_gamma = params
+
+        if self.type == 'PhaseFieldCrystal1DPeriodic':
+            el_lambda_from_eq_amplitudes = 2*(A**2)
+        elif self.type == 'PhaseFieldCrystal2DTriangular':
+            el_lambda_from_eq_amplitudes = 3*(A**2)
+            el_mu_from_eq_amplitudes = 3*(A**2)
+            el_gamma_from_eq_amplitudes = 0
+        elif self.type == 'PhaseFieldCrystal2DSquare':
+            el_lambda_from_eq_amplitudes = 16*(B**2)
+            el_mu_from_eq_amplitudes = 16*(B**2)
+            el_gamma_from_eq_amplitudes = 8*A**2 - 32*B**2
+        elif self.type == 'PhaseFieldCrystal3DBodyCenteredCubic':
+            el_lambda_from_eq_amplitudes = 4*(A**2)
+            el_mu_from_eq_amplitudes = 4*(A**2)
+            el_gamma_from_eq_amplitudes = -4*(A**2)
+        elif self.type == 'PhaseFieldCrystal3DFaceCenteredCubic':
+            el_lambda_from_eq_amplitudes = 32/81*(A**2)
+            el_mu_from_eq_amplitudes = 32/81*(B**2)
+            el_gamma_from_eq_amplitudes = 32/81*(2*B**2-A**2)
+        elif self.type == 'PhaseFieldCrystal3DSimpleCubic':
+            el_lambda_from_eq_amplitudes = 16*(B**2) + 128*(C**2)
+            el_mu_from_eq_amplitudes = 16*(B**2) + 128*(C**2)
+            el_gamma_from_eq_amplitudes = 32*(A**2) - 16*(B**2) - 256*(C**2)
+
+        print('---')
+        tool_print_in_color('Equilibrium elastic constants:', 'blue')
+        print('---')
+        print('Proto lambda                             : {:.05f}'.format(self.el_lambda))
+        print('Equilibrium lambda (numerical)           : {:.05f}'.format(el_lambda))
+        print('Equilibrium lambda (from eq. amplitudes) : {:.05f}'.format(el_lambda_from_eq_amplitudes))
+        print('Ratio (equilibrium/proto)                : {:.05f}'.format(el_lambda/self.el_lambda))
+
+        print('---')
+        print('Proto mu                             : {:.05f}'.format(self.el_mu))
+        print('Equilibrium mu (numerical)           : {:.05f}'.format(el_mu))
+        print('Equilibrium mu (from eq. amplitudes) : {:.05f}'.format(el_mu_from_eq_amplitudes))
+        print('Ratio (equilibrium/proto)            : {:.05f}'.format(el_mu/self.el_mu))
+
+        print('---')
+        print('Proto gamma                             : {:.05f}'.format(self.el_gamma))
+        print('Equilibrium gamma (numerical)           : {:.05f}'.format(el_gamma))
+        print('Equilibrium gamma (from eq. amplitudes) : {:.05f}'.format(el_gamma_from_eq_amplitudes))
+        print('Ratio (equilibrium/proto)               : {:.05f}'.format(el_gamma/self.el_gamma))
+
+
         #Finding elastic constants, starting with mu
-        pfc_strained = copy.deepcopy(self)
-        # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
-        # f0 = np.mean(free_energy_density)
-        f0 = self.calc_free_energy()/self.volume
+        # pfc_strained = copy.deepcopy(self)
+        # # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
+        # # f0 = np.mean(free_energy_density)
+        # f0 = self.calc_free_energy()/self.volume
 
-        shear_strain=-0.001
-        pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[0.0,0.0]]))
-        # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
-        # f = np.mean(free_energy_density)
-        f = pfc_strained.calc_free_energy()/pfc_strained.volume
+        # shear_strain=-0.001
+        # pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[0.0,0.0]]))
+        # # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
+        # # f = np.mean(free_energy_density)
+        # f = pfc_strained.calc_free_energy()/pfc_strained.volume
 
-        # TO be refined
-        mu = 2*(f-f0)/(shear_strain**2)
-        print(f'Eq. mu: {mu:.05f}')
-        print('Ratio mu eq./mu proto: {:.05f}'.format(mu/self.el_mu))
+        # # TO be refined
+        # mu = 2*(f-f0)/(shear_strain**2)
+        # print(f'Eq. mu: {mu:.05f}')
+        # print('Ratio mu eq./mu proto: {:.05f}'.format(mu/self.el_mu))
 
 
-        # gamma
-        pfc_strained = copy.deepcopy(self)
-        # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
-        # f0 = np.mean(free_energy_density)
-        f0 = self.calc_free_energy()/self.volume
+        # # gamma
+        # pfc_strained = copy.deepcopy(self)
+        # # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
+        # # f0 = np.mean(free_energy_density)
+        # f0 = self.calc_free_energy()/self.volume
 
-        a = 0.01
-        pfc_strained.conf_apply_distortion(np.array([[a,0],[0,-a]]))
-        # free_energy_density = np.mean(pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0])
-        # f1 = np.mean(free_energy_density)
-        f1 = pfc_strained.calc_free_energy()/pfc_strained.volume
+        # a = 0.01
+        # pfc_strained.conf_apply_distortion(np.array([[a,0],[0,-a]]))
+        # # free_energy_density = np.mean(pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0])
+        # # f1 = np.mean(free_energy_density)
+        # f1 = pfc_strained.calc_free_energy()/pfc_strained.volume
 
-        gamma = (f1-f0 - 2*mu*a**2)/(a**2)
-        # print('Energy difference: ', f1-f0)
-        # print('energy accounted for: ', 2*mu*a**2)
-        print(f'Eq. gamma: {gamma:.05f}')
-        print('Ratio gamma eq./gamma proto: {:.05f}'.format(gamma/self.el_gamma))
+        # gamma = (f1-f0 - 2*mu*a**2)/(a**2)
+        # # print('Energy difference: ', f1-f0)
+        # # print('energy accounted for: ', 2*mu*a**2)
+        # print(f'Eq. gamma: {gamma:.05f}')
+        # print('Ratio gamma eq./gamma proto: {:.05f}'.format(gamma/self.el_gamma))
 
         # compression_strain1=0.001
         # pfc_strained.conf_apply_distortion(np.array([[compression_strain1,0],[0,-compression_strain1]]))
@@ -697,15 +782,14 @@ class PhaseFieldCrystal(BaseSystem):
 
         # Applying a compression strain to find lambda  
 
-        compression_strain = 0.001
-        pfc_strained = copy.deepcopy(self)
-        pfc_strained.conf_apply_distortion(np.array([[compression_strain,0],[0,compression_strain]]))
-        f1 = pfc_strained.calc_free_energy()/pfc_strained.volume
+        # compression_strain = 0.001
+        # pfc_strained = copy.deepcopy(self)
+        # pfc_strained.conf_apply_distortion(np.array([[compression_strain,0],[0,compression_strain]]))
+        # f1 = pfc_strained.calc_free_energy()/pfc_strained.volume
 
-        el_lambda = (f1-f0 - 2*mu*compression_strain**2 - gamma*compression_strain**2)/(2*compression_strain**2)
+        # el_lambda = (f1-f0 - 2*mu*compression_strain**2 - gamma*compression_strain**2)/(2*compression_strain**2)
 
-        print(f'Eq. lambda: {el_lambda:.05f}')
-        print('Ratio lambda eq./lambda proto: {:.05f}'.format(el_lambda/self.el_lambda))
+        # print(f'Eq. lambda: {el_lbda proto: {:.05f}'.format(el_lambda/self.el_lambda))
 
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
         """Calculates the free energy density and chemical potential of the PFC.
@@ -996,6 +1080,36 @@ class PhaseFieldCrystal(BaseSystem):
                 
         return eta
 
+    def calc_microscopic_stress_tensor(self):
+        """Calculates the microscopic stress of the phase-field crystal.
+
+        Args:
+            None
+
+        Returns:
+            The microscopic stress of the phase-field crystal.
+        """
+        if self.dim==1:
+            raise Exception("The stress tensor is not yet defined in 1D.")
+        elif self.dim==2:
+            stress = np.zeros((3,self.xRes,self.yRes))
+
+            Lpsi = np.real(sp.fft.ifftn(self.calc_L_f()*self.psi_f))
+            stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[0]*self.psi_f))
+            stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[1]*self.psi_f))
+            stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[1]*self.dif[1]*self.psi_f))
+        
+        elif self.dim==3:
+            stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
+
+            Lpsi = np.real(sp.fft.ifftn(self.calc_L_f()*self.psi_f))
+            stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[0]*self.psi_f))
+            stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[1]*self.psi_f))
+            stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[2]*self.psi_f))
+            stress[3] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[1]*self.dif[1]*self.psi_f))
+            stress[4] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[1]*self.dif[2]*self.psi_f))
+            stress[5] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[2]*self.dif[2]*self.psi_f))
+
     def calc_stress_tensor(self):
         """Calculates the stress of the phase-field crystal.
 
@@ -1022,6 +1136,37 @@ class PhaseFieldCrystal(BaseSystem):
             stress[n] = Gaussian_filter_f*sp.fft.fftn(stress[n])
 
         return np.real(sp.fft.ifftn(stress, axes = (range( - self.dim , 0) )))
+
+    def calc_stress_divergence_f(self, field_f = None):
+        """Calculates the divergence of the stress tensor in Fourier space.
+        
+        Args:
+            field_f: The field in Fourier space.
+        
+        Returns:
+            The divergence of the stress tensor in Fourier space.
+        """
+        if field_f is None:
+            PFC_has_velocity_field = hasattr(self, 'bool_has_velocity_field') and self.bool_has_velocity_field
+            if PFC_has_velocity_field:
+                field_f = self.psi_f[0]
+            else:
+                field_f = self.psi_f
+
+        L_f = self.calc_L_f()
+        L_sum_f = self.calc_L_sum_f()
+        k2 = self.calc_k2()
+
+        return np.array([
+            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(
+                sum([
+                sp.fft.ifftn(L_f*self.dif[i]*field_f)*sp.fft.ifftn(L_sum_f*self.dif[i]*self.dif[j]*field_f) 
+                for i in range(self.dim)
+                ]) 
+                +sp.fft.ifftn(L_f**field_f)*sp.fft.ifftn(L_sum_f*self.dif[j]*(-k2)*field_f)) 
+                for j in range(self.dim)]
+                )
+
 
     def calc_structure_tensor(self):
         """Calculates the structure tensor of the phase-field crystal.

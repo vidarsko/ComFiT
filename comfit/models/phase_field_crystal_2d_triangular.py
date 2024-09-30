@@ -186,43 +186,14 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         """
         k2 = self.calc_k2()
         return 1 - k2
-    
-    def calc_stress_tensor_microscopic(self):
-        """Calculates the microscopic stress of the phase-field crystal.
+
+    def calc_L_sum_f(self):
+        """Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
 
         Args:
             None
-
         Returns:
-            The microscopic stress of the phase-field crystal.
+            The L operator in Fourier space.
         """
-        stress = np.zeros((3,self.xRes,self.yRes))
-        
-        Lpsi = np.real(sp.fft.ifftn((1-self.calc_k2())*self.psi_f))
-        stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.dif[0]*self.dif[0]*self.psi_f))
-        stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.dif[0]*self.dif[1]*self.psi_f))
-        stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.dif[1]*self.dif[1]*self.psi_f))
-
-        return stress
-
+        return 1
     
-    def calc_stress_divergence_f(self, field_f = None):
-        """Calculates the divergence of the stress tensor in Fourier space.
-
-        Args:
-            field_f: The field in Fourier space.
-
-        Returns:
-            The divergence of the stress tensor in Fourier space.
-        """
-
-        if field_f is None:
-            field_f = self.psi_f
-        
-        k2 = self.calc_k2()
-
-        return np.array([
-            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(sum([
-                sp.fft.ifftn((1-k2)*self.dif[i]*field_f)*sp.fft.ifftn(self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
-                ]) + sp.fft.ifftn((1-k2)*field_f)*sp.fft.ifftn(self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
-                )

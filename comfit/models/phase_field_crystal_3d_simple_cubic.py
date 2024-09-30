@@ -175,47 +175,12 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         k2 = self.calc_k2()
         return (1 - k2)*(2 - k2)*(3 - k2)
 
-    def calc_stress_tensor_microscopic(self):
-        """Calculates the microscopic stress of the phase-field crystal.
+    def calc_L_sum_f(self):
+        """Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
 
         Args:
             None
-
         Returns:
-            The microscopic stress of the phase-field crystal.
+            The L operator in Fourier space.
         """
-        stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
-        
-        k2 = self.calc_k2()
-        L1L2L3psi = np.real(sp.fft.ifftn((1-k2)*(2-k2)*(3-k2)*self.psi_f))
-        L2L3_p_L1L3_p_L1L2_f = 11 - 12*k2 + 3*k2**2
-        stress[0] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[0]*self.dif[0]*self.psi_f))
-        stress[1] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[0]*self.dif[1]*self.psi_f))
-        stress[2] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[0]*self.dif[2]*self.psi_f))
-        stress[3] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[1]*self.dif[1]*self.psi_f))
-        stress[4] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[1]*self.dif[2]*self.psi_f))
-        stress[5] = -2*L1L2L3psi*np.real(sp.fft.ifftn(L2L3_p_L1L3_p_L1L2_f*self.dif[2]*self.dif[2]*self.psi_f))
-
-        return stress
-
-
-    def calc_stress_divergence_f(self, field_f = None):
-        """Calculates the divergence of the stress tensor in Fourier space.
-
-        Args:
-            field_f: The field in Fourier space.
-
-        Returns:
-            The divergence of the stress tensor in Fourier space.
-        """
-
-        if field_f is None:
-            field_f = self.psi_f
-        
-        k2 = self.calc_k2()
-
-        return np.array([
-            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(sum([
-                sp.fft.ifftn((1-k2)*(2-k2)*(3-k2)*self.dif[i]*field_f)*sp.fft.ifftn((11-12*k2+3*k2**2)*self.dif[i]*self.dif[j]*field_f) for i in range(self.dim)
-                ]) + sp.fft.ifftn((1-k2)*(2-k2)*(3-k2)*field_f)*sp.fft.ifftn((11-12*k2+3*k2**2)*self.dif[j]*(-k2)*field_f)) for j in range(self.dim)]
-                )
+        return 11 - 12*k2 + 3*k2**2

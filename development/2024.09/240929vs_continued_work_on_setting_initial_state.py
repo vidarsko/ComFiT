@@ -11,59 +11,84 @@ import copy
 
 from scipy.optimize import curve_fit
 
-pfc = cf.PhaseFieldCrystal2DTriangular(1,1, for_properties_calculation=True)
-# pfc = cf.PhaseFieldCrystal2DSquare(1,1)
+pfc = cf.PhaseFieldCrystal2DTriangular(1,1, for_properties_calculation=False)
+# pfc = cf.PhaseFieldCrystal2DSquare(1,1, for_properties_calculation=False)
 
-pfc.conf_PFC_from_amplitudes()
-final_strain = pfc.conf_strain_to_equilibrium()
+# pfc.conf_PFC_from_amplitudes()
+# final_strain = pfc.conf_strain_to_equilibrium()
 
-#Finding elastic constants, starting with mu
-pfc_strained = copy.deepcopy(pfc)
-f0 = pfc.calc_free_energy()/pfc.volume
+# #Finding elastic constants, starting with mu
+# pfc_strained = copy.deepcopy(pfc)
+# f0 = pfc.calc_free_energy()/pfc.volume
 
+# def elastic_energy(strain, el_lambda, el_mu, el_gamma):
+#     exx, exy, eyy = strain
+#     return el_lambda/2*(exx+eyy)**2 + el_mu*(exx**2 + 2*exy**2 + eyy**2) + el_gamma/2*(exx**2 + eyy**2)
+
+# strain_magnitudes = np.linspace(-0.01,0.01,21)
+# exx = np.array([[a,0,a] for a in strain_magnitudes]).flatten()
+# exy = np.array([[0,a,0] for a in strain_magnitudes]).flatten()
+# eyy = np.array([[a,0,-a] for a in strain_magnitudes]).flatten()
+# # exx = [ 0.01,  0.00,  0.01, -0.01,  0.00, -0.01, 0.02,  0.00,  0.02, -0.02,  0.00, -0.02]
+# # exy = [ 0.00,  0.01,  0.00,  0.00, -0.01,  0.00, 0.00,  0.02,  0.00,  0.00, -0.02,  0.00]
+# # eyy = [ 0.01,  0.00, -0.01, -0.01,  0.00,  0.01, 0.02,  0.00, -0.02, -0.02,  0.00,  0.02]   
+
+# free_energies = np.zeros_like(exx)
+# for n in range(len(exx)):
+#     distortion = [[exx[n], exy[n]],[exy[n], eyy[n]]]
+#     pfc_strained = copy.deepcopy(pfc)
+#     pfc_strained.conf_apply_distortion(distortion)
+#     f = pfc_strained.calc_free_energy()/pfc_strained.volume
+#     free_energies[n] = f-f0
+
+# params,_ = curve_fit(elastic_energy, (exx, exy, eyy), free_energies)
+# el_lambda, el_mu, el_gamma = params
+# print(f'Eq. lambda: {el_lambda:.05f}')
+# print(f'Eq. mu: {el_mu:.05f}')
+# print(f'Eq. gamma: {el_gamma:.05f}')
 
 # def elastic_energy(U, el_lambda, el_mu, el_gamma):
 #     return el_lambda/2*np.sum(U**2) + el_mu*np.sum(U**2) + el_gamma*np.sum(U**4) #Something like, but not exactly, this
 
-strain_limit = 0.01
-shear_strains=np.linspace(-strain_limit,strain_limit,100)
-free_energies = np.zeros_like(shear_strains)
-for n in range(len(shear_strains)):
-    shear_strain=shear_strains[n]
-    pfc_strained = copy.deepcopy(pfc)
-    pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[0,0.0]]))
-    f = pfc_strained.calc_free_energy()/pfc_strained.volume
-    free_energies[n] = f-f0
+# strain_limit = 0.01
+# shear_strains=np.linspace(-strain_limit,strain_limit,100)
+# free_energies = np.zeros_like(shear_strains)
+# for n in range(len(shear_strains)):
+#     shear_strain=shear_strains[n]
+#     pfc_strained = copy.deepcopy(pfc)
+#     pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[0,0.0]]))
+#     f = pfc_strained.calc_free_energy()/pfc_strained.volume
+#     free_energies[n] = f-f0
 
-params,_ = curve_fit(lambda x, mu: mu*x**2/2, shear_strains, free_energies)
-mu = params[0]
-print(f'Eq. mu: {mu:.05f}')
-plt.plot(shear_strains, free_energies)
-plt.plot(shear_strains, mu*shear_strains**2/2, 'r--')
-# plt.show()
+# params,_ = curve_fit(lambda x, mu: mu*x**2/2, shear_strains, free_energies)
+# mu = params[0]
+# print(f'Eq. mu: {mu:.05f}')
+# plt.plot(shear_strains, free_energies)
+# plt.plot(shear_strains, mu*shear_strains**2/2, 'r--')
+# # plt.show()
 
-# TO be refined
-mu = 2*(f-f0)/(shear_strain**2)
-print(f'Eq. mu: {mu:.05f}')
-print('Ratio mu eq./mu proto: {:.05f}'.format(mu/pfc.el_mu))
+# # TO be refined
+# mu = 2*(f-f0)/(shear_strain**2)
+# print(f'Eq. mu: {mu:.05f}')
+# print('Ratio mu eq./mu proto: {:.05f}'.format(mu/pfc.el_mu))
 
 
-# gamma
-strain_limit = 0.01
-squeeze_strains = np.linspace(-strain_limit,strain_limit,100)
-free_energies = np.zeros_like(squeeze_strains)
-for n in range(len(squeeze_strains)):
-    squeeze_strain=squeeze_strains[n]
-    pfc_strained = copy.deepcopy(pfc)
-    pfc_strained.conf_apply_distortion(np.array([[squeeze_strain,0],[0,-squeeze_strain]]))
-    f = pfc_strained.calc_free_energy()/pfc_strained.volume
-    free_energies[n] = f-f0
+# # gamma
+# strain_limit = 0.01
+# squeeze_strains = np.linspace(-strain_limit,strain_limit,100)
+# free_energies = np.zeros_like(squeeze_strains)
+# for n in range(len(squeeze_strains)):
+#     squeeze_strain=squeeze_strains[n]
+#     pfc_strained = copy.deepcopy(pfc)
+#     pfc_strained.conf_apply_distortion(np.array([[squeeze_strain,0],[0,-squeeze_strain]]))
+#     f = pfc_strained.calc_free_energy()/pfc_strained.volume
+#     free_energies[n] = f-f0
 
-# Basically zero. But how do we account for that? 
-plt.plot(squeeze_strains, free_energies - 2*mu*squeeze_strains**2)
-params,_ = curve_fit(lambda x, gamma: gamma*x**2, squeeze_strains, free_energies - 2*mu*squeeze_strains**2)
-gamma = params[0]
-print(f'Eq. gamma: {gamma:.05f}')
+# # Basically zero. But how do we account for that? 
+# plt.plot(squeeze_strains, free_energies - 2*mu*squeeze_strains**2)
+# params,_ = curve_fit(lambda x, gamma: gamma*x**2, squeeze_strains, free_energies - 2*mu*squeeze_strains**2)
+# gamma = params[0]
+# print(f'Eq. gamma: {gamma:.05f}')
 # plt.show()
 
 
