@@ -1163,7 +1163,7 @@ class PhaseFieldCrystal(BaseSystem):
                 sp.fft.ifftn(L_f*self.dif[i]*field_f)*sp.fft.ifftn(L_sum_f*self.dif[i]*self.dif[j]*field_f) 
                 for i in range(self.dim)
                 ]) 
-                +sp.fft.ifftn(L_f**field_f)*sp.fft.ifftn(L_sum_f*self.dif[j]*(-k2)*field_f)) 
+                +sp.fft.ifftn(L_f*field_f)*sp.fft.ifftn(L_sum_f*self.dif[j]*(-k2)*field_f)) 
                 for j in range(self.dim)]
                 )
 
@@ -1295,6 +1295,7 @@ class PhaseFieldCrystal(BaseSystem):
         if self.dim == 2:
             # self.plot_field(np.sqrt(alpha[0]**2 + alpha[1]**2))
             # plt.show()
+            # print(alpha)
             dislocation_nodes = self.calc_defect_nodes(np.sqrt(alpha[0]**2 + alpha[1]**2),
                                                        charge_tolerance=0.2*self.a0)
             
