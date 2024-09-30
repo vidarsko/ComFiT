@@ -710,6 +710,15 @@ We refer to these amplitudes $A,B,C$ as *proto amplitudes* and they are calculat
 The proto amplitudes are saved in the `pfc` instance as `eta0`.
 The function `calc_free_energy_from_proto_amplitudes` calculates the free energy $\mathcal F_{UC}$ from the proto amplitudes, including $\psi_0$.
 
+### Straining the ground state to equilibrium
+While the q-vector given above and the proto amplitudes are good approximations to the ground state, they are not exact.
+In fact, if the PFC is initialized with these values, it will experience a slight residual stress [^punkeEvaluationElasticField2023].
+To account for this, when initializing a PFC, the code will automatically strain the field to find the optimal value of $q_0$, which is typically a few percent off the primary RLV.
+This is done numerically by simulating a $1\times 1$ unit cell and using the function `self.conf_strain_to_equilibrium` in the `pfc` class.
+
+Given the equilibrium configuration, we can find more accurate estimates for the equilibrium amplitudes, but evolving the PFC for a few time steps and calculating the amplitudes from the demodulation of the field with the primary RLVs.
+This is done in the `calc_strained_amplitudes` function in the `pfc` class, which also calculates new values for the elastic constants (see below).
+
 ## The amplitude approximation - deviations from the ground state
 
 So far, we have only looked at the equilibrium state of the PFC, which has a specific symmetry, and the few-mode approximations that can be used to describe the PFC in this state.
@@ -862,6 +871,57 @@ $$
 where $\mathcal L$ is as defined previously (as the product $\mathcal L_1 ...$), and $\mathcal L_{\sum}$ is a particular sum of $\mathcal L_i$ operators.
 $\mathcal L$ is calculated (in Fourier space) by the function `calc_L_f`, and the $\mathcal L_{\sum}$ is calculated by the function `calc_L_sum_f` in the `pfc` class.
 The stress tensor is then calculated by the function `calc_microscopic_stress_tensor` in the `pfc` class. 
+
+### Equilibrium elastic constants
+
+As mentioned above, the equilbrium state of the PFC is not exactly given by $q_0=1$, and the proto amplitudes are not exact.
+However, in the process of deriving the equilibrium amplitudes after straining, we can also use the $1\times 1$ unit cell to calculate the elastic constants.
+This is done numerically by deforming the unit cell and calculating the increase in the elastic energy. 
+To illustrate this, consider a distortion of pure shear, i.e., 
+
+$$
+\mathfrak u = \begin{pmatrix} 0 & \epsilon & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}.
+$$
+
+The corresponding strain is given by
+
+$$
+\varepsilon = \begin{pmatrix} 0 & \frac 1 2 \epsilon & 0 \\ \frac 1 2 \epsilon & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}.
+$$
+
+Under this deformation, the elastic energy 
+
+$$
+F_{el} = \frac{1}{2} \mathcal C_{ijkl} \varepsilon_{ij} \varepsilon_{kl}
+$$
+
+is given by
+
+$$
+F_{el} =  \mu e_{ij} e_{ij} = \frac{1}{2} \mu \epsilon^2.
+$$
+
+We can apply the distortion $\mathfrak u$ with the function `conf_apply_distortion` in the `pfc` class.
+The result of this procedure for a $4\times 4$ square PFC is shown in the figure below
+
+![](img/phase_field_crystal_strain_elastic_constants.png#only-light)
+![](img/phase_field_crystal_strain_elastic_constants-colorinverted.png#only-dark)
+
+**Figure:** The elastic constants of a 2D square PFC model as a function of the strain $\epsilon$ in the $x$-direction. The fit shows the numerical fit of the elastic constant $\mu$ to the applied strain, showing excellent agreement.
+
+While this works for the elastic constant $\mu$, the full elastic free energy is determined by three elastic constants, $\lambda$, $\mu$, and $\gamma$
+
+$$
+F_{el} = F_{el} = \frac{1}{2} \lambda (\varepsilon_{kk})^2 + \mu \varepsilon_{ij} \varepsilon_{ij} + \frac{1}{2} \gamma (\varepsilon_{11}^2 + \varepsilon_{22}^2 + \varepsilon_{33}^2).
+$$
+
+To find these, we apply a series of deformations to the unit cell and use `scipy.optimize.curve_fit` to fit the elastic energy to the applied strain.
+This is done in the `calc_strained_amplitudes` and set to the `pfc` instance as `el_lambda`, `el_mu`, and `el_gamma` upon initialization. 
+The values are also printed to the terminal at initialization.
+
+The expression for the elastic constants in terms of the proto amplitudes were derived by inserting the amplitude approximation into the expression for the stress tensor.
+It is interesting to see that elastic constants obtained by using the equilibrium values of amplitudes match the elastic constants obtained by straining the PFC to equilibrium and performing the fit. 
+
 
 
 ### Strains

@@ -11,8 +11,8 @@ import copy
 
 from scipy.optimize import curve_fit
 
-pfc = cf.PhaseFieldCrystal2DTriangular(1,1, for_properties_calculation=True)
-# pfc = cf.PhaseFieldCrystal2DSquare(1,1)
+# pfc = cf.PhaseFieldCrystal2DTriangular(1,1, for_properties_calculation=True)
+pfc = cf.PhaseFieldCrystal2DSquare(1,1, for_properties_calculation=True)
 
 pfc.conf_PFC_from_amplitudes()
 final_strain = pfc.conf_strain_to_equilibrium()
@@ -22,7 +22,7 @@ pfc_strained = copy.deepcopy(pfc)
 f0 = pfc.calc_free_energy()/pfc.volume
 
 
-strain_limit = 0.1
+strain_limit = 0.05
 shear_strains=np.linspace(-strain_limit,strain_limit,100)
 free_energies = np.zeros_like(shear_strains)
 for n in range(len(shear_strains)):
@@ -35,9 +35,20 @@ for n in range(len(shear_strains)):
 params,_ = curve_fit(lambda x, mu: mu*x**2/2, shear_strains, free_energies)
 mu = params[0]
 print(f'Eq. mu: {mu:.05f}')
-# plt.plot(shear_strains, free_energies)
-# plt.plot(shear_strains, mu*shear_strains**2/2, 'r--')
+# fig = go.Figure()
+# fig.add_trace(go.Scatter(x=shear_strains, y=free_energies, mode='lines', name='Free energy'))
+# fig.show
+# fig.add_trace(go.Scatter(x=shear_strains, y=mu*shear_strains**2/2, mode='lines', name='Fit'))
+plt.plot(shear_strains, free_energies)
+plt.plot(shear_strains, mu*shear_strains**2/2, 'r--')
+legend = ['Elastic energy density', '$\mu \epsilon^2/2$ (fit)']
+plt.legend(legend)
+plt.xlabel('Shear strain')
+# plt.ylabel('Elastic energy')
+plt.grid()
+
 plt.show()
+
 
 # TO be refined
 # mu = 2*(f-f0)/(shear_strain**2)
@@ -46,15 +57,15 @@ plt.show()
 
 
 # # gamma
-strain_limit = 0.05
-squeeze_strains = np.linspace(-strain_limit,strain_limit,100)
-free_energies = np.zeros_like(squeeze_strains)
-for n in range(len(squeeze_strains)):
-    squeeze_strain=squeeze_strains[n]
-    pfc_strained = copy.deepcopy(pfc)
-    pfc_strained.conf_apply_distortion(np.array([[squeeze_strain,0],[0,-squeeze_strain]]))
-    f = pfc_strained.calc_free_energy()/pfc_strained.volume
-    free_energies[n] = f-f0
+# strain_limit = 0.05
+# squeeze_strains = np.linspace(-strain_limit,strain_limit,100)
+# free_energies = np.zeros_like(squeeze_strains)
+# for n in range(len(squeeze_strains)):
+#     squeeze_strain=squeeze_strains[n]
+#     pfc_strained = copy.deepcopy(pfc)
+#     pfc_strained.conf_apply_distortion(np.array([[squeeze_strain,0],[0,-squeeze_strain]]))
+#     f = pfc_strained.calc_free_energy()/pfc_strained.volume
+#     free_energies[n] = f-f0
 
 #Basically zero. But how do we account for that? 
 # plt.plot(squeeze_strains, free_energies - 2*mu*squeeze_strains**2)
