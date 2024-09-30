@@ -124,8 +124,6 @@ class BaseSystemInit:
             self.size_max = np.max([self.size_x, self.size_y, self.size_z])
         
 
-
-
         #  Setting default value of time
         self.time = kwargs.get('time', 0)
         self.dt = kwargs.get('dt', 0.1)
@@ -197,6 +195,10 @@ class BaseSystemInit:
 
         self.rmin = [self.xmin, self.ymin, self.zmin]
         self.rmax = [self.xmax, self.ymax, self.zmax]
+
+
+        # Plot lib
+        self.plot_lib = 'plotly'
 
     def __str__(self) -> str:
         """Return a string representation of the class.

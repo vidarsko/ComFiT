@@ -14,10 +14,6 @@ from comfit.plot import plot_surface_matplotlib
 
 import matplotlib
 
-####################################################################
-########################## DEPRECATED ##############################
-####################################################################
-
 def plot_field_matplotlib(self, field: np.ndarray, **kwargs) -> matplotlib.axes.Axes:
     """Plots the given (real) field.
     

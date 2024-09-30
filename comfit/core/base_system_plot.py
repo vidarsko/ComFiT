@@ -47,25 +47,49 @@ class BaseSystemPlot:
     """ Plotting methods for the base system class"""
 
     def plot_field(self, field, **kwargs):
-        return plot_field_plotly(self, field, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_field_plotly(self, field, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_field_matplotlib(self, field, **kwargs)
 
     def plot_complex_field(self, complex_field, **kwargs):
-        return plot_complex_field_plotly(self, complex_field, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_complex_field_plotly(self, complex_field, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_complex_field_matplotlib(self, complex_field, **kwargs)
 
     def plot_angle_field(self, angle_field, **kwargs):
-        return plot_angle_field_plotly(self, angle_field, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_angle_field_plotly(self, angle_field, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_angle_field_matplotlib(self, angle_field, **kwargs)
 
     def plot_vector_field(self, vector_field, **kwargs):
-        return plot_vector_field_plotly(self, vector_field, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_vector_field_plotly(self, vector_field, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_vector_field_matplotlib(self, vector_field, **kwargs)
 
     def plot_field_in_plane(self, field, **kwargs):
-        return plot_field_in_plane_plotly(self, field, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_field_in_plane_plotly(self, field, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_field_in_plane_matplotlib(self, field, **kwargs)
     
     def plot_complex_field_in_plane(self, complex_field, **kwargs):
-        return plot_complex_field_in_plane_plotly(self, complex_field, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_complex_field_in_plane_plotly(self, complex_field, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_complex_field_in_plane_plotly(self, complex_field, **kwargs)
 
     def plot_angle_field_in_plane(self, angle_field, **kwargs):
-        return plot_angle_field_in_plane_plotly(self, angle_field, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_angle_field_in_plane_plotly(self, angle_field, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_angle_field_in_plane_plotly(self, angle_field, **kwargs)
 
     def plot_vector_field_in_plane(self, vector_field, **kwargs):
-        return plot_vector_field_in_plane_plotly(self, vector_field, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_vector_field_in_plane_plotly(self, vector_field, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_vector_field_in_plane_matplotlib(self, vector_field, **kwargs)

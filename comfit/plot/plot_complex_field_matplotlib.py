@@ -10,10 +10,6 @@ from comfit.plot.plot_surface_matplotlib import plot_surface_matplotlib
 
 from skimage.measure import marching_cubes
 
-####################################################################
-########################## DEPRECATED ##############################
-####################################################################
-
 def plot_complex_field_matplotlib(self, complex_field: np.ndarray, **kwargs) -> matplotlib.axes.Axes:
     """
     Plot a complex field.
