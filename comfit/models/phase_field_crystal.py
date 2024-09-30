@@ -36,6 +36,7 @@ class PhaseFieldCrystal(BaseSystem):
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():
             setattr(self, key, value)
+            
 
         self.dislocation_charges = np.array(
             [[np.round(np.dot(an, qn) / (2 * np.pi), decimals=8) for qn in self.q] for an in self.a])
@@ -139,8 +140,6 @@ class PhaseFieldCrystal(BaseSystem):
             None, but updates the PFC.
         """
 
-        self.bool_is_distorted = True
-
         distortion = np.array(distortion)
 
         if self.dim == 1:
@@ -154,31 +153,59 @@ class PhaseFieldCrystal(BaseSystem):
             self.volume = self.volume*(1+distortion)
 
         elif self.dim == 2:
-            # Creating 2D meshgrid
-            X,Y = np.meshgrid(self.x.flatten(),self.y.flatten(), indexing='ij')
 
             # Strain matrix
+            distortion_is_shear = False
             u_xx = distortion[0,0]
             u_xy = distortion[0,1]
+            if u_xy != 0:
+                distortion_is_shear = True
             u_yx = distortion[1,0]
+            if u_yx != 0:
+                distortion_is_shear = True
             u_yy = distortion[1,1]
 
             distortion_matrix = np.array([[1 + u_xx, u_xy    ],
                                           [u_yx,     1 + u_yy]])
 
-            # Applying the strain
-            X = distortion_matrix[0,0]*X + distortion_matrix[0,1]*Y
-            Y = distortion_matrix[1,0]*X + distortion_matrix[1,1]*Y
-
-            # Updating the x and y coordinates
-            self.X = X
-            self.Y = Y
-
             # Updating the k and dif vectors
             inverse_distortion_matrix = np.linalg.inv(distortion_matrix)
 
-            self.k[0] = self.k[0]*inverse_distortion_matrix[0,0] + self.k[1]*inverse_distortion_matrix[0,1]
-            self.k[1] = self.k[0]*inverse_distortion_matrix[1,0] + self.k[1]*inverse_distortion_matrix[1,1]
+            if distortion_is_shear:  
+                self.bool_is_shear_distorted = True
+
+                # Creating 2D meshgrid
+                X,Y = np.meshgrid(self.x.flatten(),self.y.flatten(), indexing='ij')
+
+                # Applying the strain
+                X = distortion_matrix[0,0]*X + distortion_matrix[0,1]*Y
+                Y = distortion_matrix[1,0]*X + distortion_matrix[1,1]*Y
+
+                self.a[:,0] = self.a[:,0]*distortion_matrix[0,0] + self.a[:,1]*distortion_matrix[0,1]
+                self.a[:,1] = self.a[:,0]*distortion_matrix[1,0] + self.a[:,1]*distortion_matrix[1,1]
+
+                # Updating the x and y coordinates
+                self.X = X
+                self.Y = Y
+
+                self.k[0] = self.k[0]*inverse_distortion_matrix[0,0] + self.k[1]*inverse_distortion_matrix[0,1]
+                self.k[1] = self.k[0]*inverse_distortion_matrix[1,0] + self.k[1]*inverse_distortion_matrix[1,1]
+
+            else:
+                self.x = self.x*distortion_matrix[0,0]
+                self.y = self.y*distortion_matrix[1,1] 
+
+                X = self.x
+                Y = self.y
+
+                self.a[:,0] = self.a[:,0]*distortion_matrix[0,0]
+                self.a[:,1] = self.a[:,1]*distortion_matrix[1,1]
+            
+                self.k[0] = self.k[0]*inverse_distortion_matrix[0,0]
+                self.k[1] = self.k[1]*inverse_distortion_matrix[1,1]
+
+                self.q[:,0] = self.q[:,0]*inverse_distortion_matrix[0,0]
+                self.q[:,1] = self.q[:,1]*inverse_distortion_matrix[1,1]
 
             self.dif[0] = 1j*self.k[0]
             self.dif[1] = 1j*self.k[1]
@@ -186,6 +213,7 @@ class PhaseFieldCrystal(BaseSystem):
             # Updating the dx and dy
             original_dx = self.dx
             original_dy = self.dy
+
             self.dx = np.sqrt((distortion_matrix[0,0]*original_dx)**2 + (distortion_matrix[0,1]*original_dy)**2)
             self.dy = np.sqrt((distortion_matrix[1,0]*original_dx)**2 + (distortion_matrix[1,1]*original_dy)**2)
 
@@ -242,6 +270,7 @@ class PhaseFieldCrystal(BaseSystem):
         xmax0 = self.xmax
         size_x0 = self.size_x
         a00 = self.a0
+        q0 = self.q.copy()
 
         if self.dim > 1:
             k1 = self.k[1].copy()
@@ -288,6 +317,7 @@ class PhaseFieldCrystal(BaseSystem):
                 self.zmin = zmin0*(1+strain)
                 self.size_z = size_z0*(1+strain)
 
+            self.q = q0/(1+strain)
             self.dV = self.dx*self.dy*self.dz
             self.volume = self.size_x*self.size_y*self.size_z
 
@@ -728,68 +758,12 @@ class PhaseFieldCrystal(BaseSystem):
         print('Equilibrium gamma (from eq. amplitudes) : {:.05f}'.format(el_gamma_from_eq_amplitudes))
         print('Ratio (equilibrium/proto)               : {:.05f}'.format(el_gamma/self.el_gamma))
 
-
-        #Finding elastic constants, starting with mu
-        # pfc_strained = copy.deepcopy(self)
-        # # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
-        # # f0 = np.mean(free_energy_density)
-        # f0 = self.calc_free_energy()/self.volume
-
-        # shear_strain=-0.001
-        # pfc_strained.conf_apply_distortion(np.array([[0,shear_strain],[0.0,0.0]]))
-        # # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
-        # # f = np.mean(free_energy_density)
-        # f = pfc_strained.calc_free_energy()/pfc_strained.volume
-
-        # # TO be refined
-        # mu = 2*(f-f0)/(shear_strain**2)
-        # print(f'Eq. mu: {mu:.05f}')
-        # print('Ratio mu eq./mu proto: {:.05f}'.format(mu/self.el_mu))
-
-
-        # # gamma
-        # pfc_strained = copy.deepcopy(self)
-        # # free_energy_density = pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0]
-        # # f0 = np.mean(free_energy_density)
-        # f0 = self.calc_free_energy()/self.volume
-
-        # a = 0.01
-        # pfc_strained.conf_apply_distortion(np.array([[a,0],[0,-a]]))
-        # # free_energy_density = np.mean(pfc_strained.calc_PFC_free_energy_density_and_chemical_potential()[0])
-        # # f1 = np.mean(free_energy_density)
-        # f1 = pfc_strained.calc_free_energy()/pfc_strained.volume
-
-        # gamma = (f1-f0 - 2*mu*a**2)/(a**2)
-        # # print('Energy difference: ', f1-f0)
-        # # print('energy accounted for: ', 2*mu*a**2)
-        # print(f'Eq. gamma: {gamma:.05f}')
-        # print('Ratio gamma eq./gamma proto: {:.05f}'.format(gamma/self.el_gamma))
-
-        # compression_strain1=0.001
-        # pfc_strained.conf_apply_distortion(np.array([[compression_strain1,0],[0,-compression_strain1]]))
-        # # print('Volume ratio after compression: {:.05f}'.format(pfc_strained.volume/self.volume))
-        # f1 = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
-
-        # pfc_strained = copy.deepcopy(self)
-        # compression_strain2=0.002
-        # pfc_strained.conf_apply_distortion(np.array([[compression_strain2,0],[0,-compression_strain2]]))
-        # f2 = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
-
-        # # gamma = (f-f0 - 2*mu*compression_strain**2)/(compression_strain**2)
-        # gamma = (f2 - f1)/(compression_strain2**2-compression_strain1**2) - 2*mu
-        # print(f'Eq. gamma: {gamma:.05f}')
-        # print('Ratio gamma eq./gamma proto: {:.05f}'.format(gamma/self.el_gamma))
-
-        # Applying a compression strain to find lambda  
-
-        # compression_strain = 0.001
-        # pfc_strained = copy.deepcopy(self)
-        # pfc_strained.conf_apply_distortion(np.array([[compression_strain,0],[0,compression_strain]]))
-        # f1 = pfc_strained.calc_free_energy()/pfc_strained.volume
-
-        # el_lambda = (f1-f0 - 2*mu*compression_strain**2 - gamma*compression_strain**2)/(2*compression_strain**2)
-
-        # print(f'Eq. lambda: {el_lbda proto: {:.05f}'.format(el_lambda/self.el_lambda))
+        if number_of_independent_amplitudes == 1:
+            return final_strain, psi0, A, el_lambda, el_mu, el_gamma
+        elif number_of_independent_amplitudes == 2:
+            return final_strain, psi0, A, B, el_lambda, el_mu, el_gamma
+        elif number_of_independent_amplitudes == 3:
+            return final_strain, psi0, A, B, C, el_lambda, el_mu, el_gamma
 
     def calc_PFC_free_energy_density_and_chemical_potential(self,field=None,field_f=None):
         """Calculates the free energy density and chemical potential of the PFC.
@@ -1080,7 +1054,7 @@ class PhaseFieldCrystal(BaseSystem):
                 
         return eta
 
-    def calc_microscopic_stress_tensor(self):
+    def calc_stress_tensor_microscopic(self):
         """Calculates the microscopic stress of the phase-field crystal.
 
         Args:
@@ -1095,20 +1069,22 @@ class PhaseFieldCrystal(BaseSystem):
             stress = np.zeros((3,self.xRes,self.yRes))
 
             Lpsi = np.real(sp.fft.ifftn(self.calc_L_f()*self.psi_f))
-            stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[0]*self.psi_f))
-            stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[1]*self.psi_f))
-            stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[1]*self.dif[1]*self.psi_f))
+            stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*self.psi_f))
+            stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*self.psi_f))
+            stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*self.psi_f))
         
         elif self.dim==3:
             stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
 
             Lpsi = np.real(sp.fft.ifftn(self.calc_L_f()*self.psi_f))
-            stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[0]*self.psi_f))
-            stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[1]*self.psi_f))
-            stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[0]*self.dif[2]*self.psi_f))
-            stress[3] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[1]*self.dif[1]*self.psi_f))
-            stress[4] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[1]*self.dif[2]*self.psi_f))
-            stress[5] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_fself.dif[2]*self.dif[2]*self.psi_f))
+            stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*self.psi_f))
+            stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*self.psi_f))
+            stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[2]*self.psi_f))
+            stress[3] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*self.psi_f))
+            stress[4] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[1]*self.dif[2]*self.psi_f))
+            stress[5] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[2]*self.dif[2]*self.psi_f))
+
+        return stress
 
     def calc_stress_tensor(self):
         """Calculates the stress of the phase-field crystal.
@@ -1121,6 +1097,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         
         stress = self.calc_stress_tensor_microscopic()
+
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
 
         # Number of independent stress components
@@ -1135,6 +1112,10 @@ class PhaseFieldCrystal(BaseSystem):
         for n in range(number_of_stress_components):
             stress[n] = Gaussian_filter_f*sp.fft.fftn(stress[n])
 
+            print("Hello")
+
+        # return stress
+        # return np.real(sp.fft.ifftn(Gaussian_filter_f))
         return np.real(sp.fft.ifftn(stress, axes = (range( - self.dim , 0) )))
 
     def calc_stress_divergence_f(self, field_f = None):
@@ -1287,7 +1268,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
 
         # At the moment (24.09.24 - Vidar), this function only works for unstrained PFCs
-        if hasattr(self,'bool_is_distorted') and self.bool_is_distorted:
+        if hasattr(self,'bool_is_shear_distorted') and self.bool_is_shear_distorted:
             raise Exception("Dislocation nodes cannot be calculated for distorted PFCs.")
 
         alpha = self.calc_dislocation_density()
@@ -1495,7 +1476,7 @@ class PhaseFieldCrystal(BaseSystem):
             ax, fig: The axes and figure containing the plot.
         """
         
-        PFC_is_distorted = True if hasattr(self, 'bool_is_distorted') and self.bool_is_distorted else False
+        PFC_is_distorted = True if hasattr(self, 'bool_is_shear_distorted') and self.bool_is_shear_distorted else False
 
         if PFC_is_distorted:
             tool_print_in_color("Note: plotting a strained PFC currently only possible using matplotlib.", 'yellow')

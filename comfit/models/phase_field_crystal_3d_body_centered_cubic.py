@@ -74,6 +74,11 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         self.el_mu = 4 * self.A ** 2
         self.el_gamma = - 4*self.A**2
 
+        if not bool_is_for_properties_calculation:
+            tool_print_in_color('Initiating a 2D triangular PFC model.', 'green')
+            pfc = PhaseFieldCrystal2DTriangular(1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution)
+            final_strain, self.psi0, self.A, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()  
+
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
                          dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)

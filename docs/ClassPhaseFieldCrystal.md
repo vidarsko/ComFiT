@@ -716,6 +716,14 @@ In fact, if the PFC is initialized with these values, it will experience a sligh
 To account for this, when initializing a PFC, the code will automatically strain the field to find the optimal value of $q_0$, which is typically a few percent off the primary RLV.
 This is done numerically by simulating a $1\times 1$ unit cell and using the function `self.conf_strain_to_equilibrium` in the `pfc` class.
 
+In this function, we apply the following distortion
+
+$$
+\mathcal u_{ij} = \epsilon \delta_{ij}
+$$
+
+
+
 Given the equilibrium configuration, we can find more accurate estimates for the equilibrium amplitudes, but evolving the PFC for a few time steps and calculating the amplitudes from the demodulation of the field with the primary RLVs.
 This is done in the `calc_strained_amplitudes` function in the `pfc` class, which also calculates new values for the elastic constants (see below).
 

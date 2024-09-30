@@ -56,7 +56,6 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
 
         self.type_of_evolution = kwargs.get('type_of_evolution', 'conserved')
         self.A, self.B = self.calc_proto_amplitudes_conserved()
-        self.eta0 = np.array([self.A, self.A, self.B, self.B])
 
         # Set the elastic constants
         self.el_lambda = 16 * self.B ** 2
@@ -68,8 +67,9 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         if not bool_is_for_properties_calculation:
             tool_print_in_color('Initiating a 2D triangular PFC model.', 'green')
             pfc = PhaseFieldCrystal2DSquare(1,1,for_properties_calculation=True)
-            pfc.calc_strained_amplitudes()
+            final_strain, self.psi0, self.A, self.B, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()
 
+        self.eta0 = np.array([self.A, self.A, self.B, self.B])
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
@@ -79,6 +79,9 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         self.a0 = a0
         self.defined_length_scale = True
 
+        if not bool_is_for_properties_calculation:
+            self.conf_apply_distortion([[final_strain,0],[0,final_strain]])
+            self.a0 = self.a0 * (1+final_strain)
         
     def calc_proto_amplitudes_conserved(self):
         """Calculates the proto-amplitudes for the system.
