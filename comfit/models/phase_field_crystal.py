@@ -1549,16 +1549,16 @@ class PhaseFieldCrystal(BaseSystem):
         PFC_is_distorted = True if hasattr(self, 'bool_is_shear_distorted') and self.bool_is_shear_distorted else False
 
         if PFC_is_distorted:
-            tool_print_in_color("Note: plotting a strained PFC currently only possible using matplotlib.", 'yellow')
-            tool_print_in_color("Output of plot_PFC will therefore be matplotlib ax and fig.", 'yellow')
             kwargs['xmin'] = np.min(self.X)
             kwargs['xmax'] = np.max(self.X)
             kwargs['ymin'] = np.min(self.Y)
             kwargs['ymax'] = np.max(self.Y)
             kwargs['X'] = self.X
             kwargs['Y'] = self.Y
+        
+        if self.plot_lib == 'matplotlib':
             return plot_field_matplotlib(self, field, **kwargs)
-        else:
+        elif self.plot_lib == 'plotly':
             return plot_field_plotly(self, field, **kwargs)
 
     def plot_PFC(self, **kwargs):

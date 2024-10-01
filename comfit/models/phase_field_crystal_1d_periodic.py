@@ -63,7 +63,7 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
 
         # Set the a0
         self.a0 = a0
-        self.defined_length_scale = True
+        self.bool_has_defined_length_scale = True
 
     def calc_proto_amplitudes_conserved(self):
         """Calculates the proto-amplitudes for the system. 

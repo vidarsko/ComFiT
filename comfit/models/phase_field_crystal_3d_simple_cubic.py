@@ -102,7 +102,11 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
 
         # Set the a0
         self.a0 = a0
-        self.defined_length_scale = True
+        self.bool_has_defined_length_scale = True
+
+        if not bool_is_for_properties_calculation:
+            self.conf_apply_distortion([[final_strain,0,0],[0,final_strain,0],[0,0,final_strain]], update_q_and_a_vectors=True)
+            self.a0 = self.a0 * (1+final_strain)
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A, B, C):
         """Calculates the free energy of the system from the proto-amplitudes.
