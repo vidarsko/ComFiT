@@ -8,9 +8,11 @@ import plotly.graph_objects as go
 import scipy as sp
 
 
-# pfc = cf.PhaseFieldCrystal2DTriangular(30, 15, for_properties_calculation=True)
+# pfc = cf.PhaseFieldCrystal2DTriangular(30, 15, for_properties_calculation=False)
 # pfc = cf.PhaseFieldCrystal2DSquare(2,2)
-pfc = cf.PhaseFieldCrystal3DBodyCenteredCubic(30, 15, 15)
+# pfc = cf.PhaseFieldCrystal3DBodyCenteredCubic(1,1,1)
+# pfc = cf.PhaseFieldCrystal3DFaceCenteredCubic(1, 1, 1)
+pfc = cf.PhaseFieldCrystal3DSimpleCubic(1, 1, 1)
 # print(pfc.a)
 # eta = pfc.calc_amplitudes_with_dislocation_dipole()
 # pfc.conf_PFC_from_amplitudes(eta)

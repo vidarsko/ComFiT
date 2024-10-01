@@ -6,6 +6,8 @@ from scipy.optimize import fsolve
 import scipy as sp
 import matplotlib.pyplot as plt
 from pprint import pprint
+from comfit.tool.tool_print_in_color import tool_print_in_color
+
 
 class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
@@ -67,17 +69,19 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
 
         self.type_of_evolution = kwargs.get('type_of_evolution', 'conserved')
         self.A = self.calc_proto_amplitudes_conserved()
-        self.eta0 = np.array([self.A, self.A, self.A, self.A, self.A, self.A])
 
         # Set the elastic constants
         self.el_lambda = 4 * self.A ** 2
         self.el_mu = 4 * self.A ** 2
         self.el_gamma = - 4*self.A**2
 
+        bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
         if not bool_is_for_properties_calculation:
             tool_print_in_color('Initiating a 3D bcc PFC model.', 'green')
-            pfc = PhaseFieldCrystal2DTriangular(1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution)
+            pfc = PhaseFieldCrystal3DBodyCenteredCubic(1,1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution)
             final_strain, self.psi0, self.A, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()  
+
+        self.eta0 = np.array([self.A, self.A, self.A, self.A, self.A, self.A])
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,

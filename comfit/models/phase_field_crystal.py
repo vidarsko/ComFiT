@@ -130,7 +130,7 @@ class PhaseFieldCrystal(BaseSystem):
         self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
         self.psi_f = sp.fft.fftn(self.psi)
 
-    def conf_apply_distortion(self, distortion):
+    def conf_apply_distortion(self, distortion, update_q_and_a_vectors=False):
         """Applies a distortion to the PFC.
 
         Args:
@@ -139,8 +139,6 @@ class PhaseFieldCrystal(BaseSystem):
         Returns:
             None, but updates the PFC.
         """
-
-        distortion = np.array(distortion)
 
         if self.dim == 1:
             self.k[0] = self.k[0]/(1+distortion)
@@ -153,20 +151,15 @@ class PhaseFieldCrystal(BaseSystem):
             self.volume = self.volume*(1+distortion)
 
         elif self.dim == 2:
-
-            # Strain matrix
+            
             distortion_is_shear = False
-            u_xx = distortion[0,0]
-            u_xy = distortion[0,1]
-            if u_xy != 0:
-                distortion_is_shear = True
-            u_yx = distortion[1,0]
-            if u_yx != 0:
-                distortion_is_shear = True
-            u_yy = distortion[1,1]
+            if isinstance(distortion, float):
+                distortion_matrix = np.array([[1+distortion,0],[0,1+distortion]])
+            else:
+                distortion_matrix = np.eye(2) + np.array(distortion)
 
-            distortion_matrix = np.array([[1 + u_xx, u_xy    ],
-                                          [u_yx,     1 + u_yy]])
+                if abs(distortion_matrix[0,1]) + abs(distortion_matrix[1,0])> 0:
+                    distortion_is_shear = True
 
             # Updating the k and dif vectors
             inverse_distortion_matrix = np.linalg.inv(distortion_matrix)
@@ -178,37 +171,48 @@ class PhaseFieldCrystal(BaseSystem):
                 X,Y = np.meshgrid(self.x.flatten(),self.y.flatten(), indexing='ij')
 
                 # Applying the strain
-                X = distortion_matrix[0,0]*X + distortion_matrix[0,1]*Y
-                Y = distortion_matrix[1,0]*X + distortion_matrix[1,1]*Y
-
-                self.a[:,0] = self.a[:,0]*distortion_matrix[0,0] + self.a[:,1]*distortion_matrix[0,1]
-                self.a[:,1] = self.a[:,0]*distortion_matrix[1,0] + self.a[:,1]*distortion_matrix[1,1]
+                X0 = X.copy()
+                Y0 = Y.copy()
+                X = distortion_matrix[0,0]*X0 + distortion_matrix[0,1]*Y0
+                Y = distortion_matrix[1,0]*X0 + distortion_matrix[1,1]*Y0
 
                 # Updating the x and y coordinates
                 self.X = X
                 self.Y = Y
 
-                self.k[0] = self.k[0]*inverse_distortion_matrix[0,0] + self.k[1]*inverse_distortion_matrix[0,1]
-                self.k[1] = self.k[0]*inverse_distortion_matrix[1,0] + self.k[1]*inverse_distortion_matrix[1,1]
+                k00 = self.k[0].copy()
+                k01 = self.k[1].copy()
+                self.k[0] = k00*inverse_distortion_matrix[0,0] + k01*inverse_distortion_matrix[0,1]
+                self.k[1] = k00*inverse_distortion_matrix[1,0] + k01*inverse_distortion_matrix[1,1]
 
             else:
-                self.x = self.x*distortion_matrix[0,0]
-                self.y = self.y*distortion_matrix[1,1] 
+                
+                x0 = self.x.copy()
+                y0 = self.y.copy()
+                self.x = x0*distortion_matrix[0,0]
+                self.y = y0*distortion_matrix[1,1] 
 
                 X = self.x
                 Y = self.y
 
-                self.a[:,0] = self.a[:,0]*distortion_matrix[0,0]
-                self.a[:,1] = self.a[:,1]*distortion_matrix[1,1]
-            
-                self.k[0] = self.k[0]*inverse_distortion_matrix[0,0]
-                self.k[1] = self.k[1]*inverse_distortion_matrix[1,1]
-
-                self.q[:,0] = self.q[:,0]*inverse_distortion_matrix[0,0]
-                self.q[:,1] = self.q[:,1]*inverse_distortion_matrix[1,1]
+                k00 = self.k[0].copy()
+                k01 = self.k[1].copy()
+                self.k[0] = k00*inverse_distortion_matrix[0,0]
+                self.k[1] = k01*inverse_distortion_matrix[1,1]
 
             self.dif[0] = 1j*self.k[0]
             self.dif[1] = 1j*self.k[1]
+
+            if update_q_and_a_vectors:
+                    a00 = self.a[:,0].copy()
+                    a01 = self.a[:,1].copy()
+                    self.a[:,0] = a00*distortion_matrix[0,0] + a01*distortion_matrix[0,1]
+                    self.a[:,1] = a00*distortion_matrix[1,0] + a01*distortion_matrix[1,1]
+
+                    q00 = self.q[:,0].copy()
+                    q01 = self.q[:,1].copy()
+                    self.q[:,0] = q00*inverse_distortion_matrix[0,0] + q01*inverse_distortion_matrix[0,1]
+                    self.q[:,1] = q00*inverse_distortion_matrix[1,0] + q01*inverse_distortion_matrix[1,1]
 
             # Updating the dx and dy
             original_dx = self.dx
@@ -235,8 +239,126 @@ class PhaseFieldCrystal(BaseSystem):
             self.volume = self.volume*volume_factor
 
 
-        else:
-            raise ImplementationError("Applied distortion is not yet implemented for 3 dimensions.")
+        elif self.dim == 3:
+            # Distortion is shear
+            distortion_is_shear = False
+            if isinstance(distortion, float):
+                distortion_matrix = np.array([[1+distortion,0,0],[0,1+distortion,0],[0,0,1+distortion]])
+            else:
+                distortion_matrix = np.eye(3) + np.array(distortion)
+
+                if abs(distortion_matrix[0,1]) +\
+                    abs(distortion_matrix[1,0]) + \
+                    abs(distortion_matrix[0,2]) + \
+                    abs(distortion_matrix[2,0]) + \
+                    abs(distortion_matrix[1,2]) + \
+                    abs(distortion_matrix[2,1]) > 0:
+                    distortion_is_shear = True
+
+            # Updating the k and dif vectors
+            inverse_distortion_matrix = np.linalg.inv(distortion_matrix)
+
+            # if distortion_is_shear:
+            if distortion_is_shear:  
+                self.bool_is_shear_distorted = True
+
+                # Creating 2D meshgrid
+                X,Y,Z = np.meshgrid(self.x.flatten(),self.y.flatten(), self.z.flatten(), indexing='ij')
+
+                # Applying the strain
+                X0 = X.copy()
+                Y0 = Y.copy()
+                Z0 = Z.copy()
+
+                X = distortion_matrix[0,0]*X0 + distortion_matrix[0,1]*Y0 + distortion_matrix[0,2]*Z0
+                Y = distortion_matrix[1,0]*X0 + distortion_matrix[1,1]*Y0 + distortion_matrix[1,2]*Z0
+                Z = distortion_matrix[2,0]*X0 + distortion_matrix[2,1]*Y0 + distortion_matrix[2,2]*Z0
+
+                # Updating the x and y coordinates
+                self.X = X
+                self.Y = Y
+                self.Z = Z
+
+                k00 = self.k[0].copy()
+                k01 = self.k[1].copy()
+                k02 = self.k[2].copy()
+                self.k[0] = k00*inverse_distortion_matrix[0,0] + k01*inverse_distortion_matrix[0,1] + k02*inverse_distortion_matrix[0,2]
+                self.k[1] = k00*inverse_distortion_matrix[1,0] + k01*inverse_distortion_matrix[1,1] + k02*inverse_distortion_matrix[1,2]
+                self.k[2] = k00*inverse_distortion_matrix[2,0] + k01*inverse_distortion_matrix[2,1] + k02*inverse_distortion_matrix[2,2]
+
+            else:
+                
+                x0 = self.x.copy()
+                y0 = self.y.copy()
+                z0 = self.z.copy()
+
+                self.x = x0*distortion_matrix[0,0]
+                self.y = y0*distortion_matrix[1,1] 
+                self.z = z0*distortion_matrix[2,2]
+
+                X = self.x
+                Y = self.y
+                Z = self.z
+
+                k00 = self.k[0].copy()
+                k01 = self.k[1].copy()
+                k02 = self.k[2].copy()
+
+                self.k[0] = k00*inverse_distortion_matrix[0,0]
+                self.k[1] = k01*inverse_distortion_matrix[1,1]
+                self.k[2] = k02*inverse_distortion_matrix[2,2]
+
+            self.dif[0] = 1j*self.k[0]
+            self.dif[1] = 1j*self.k[1]
+            self.dif[2] = 1j*self.k[2]
+
+            if update_q_and_a_vectors:
+                    a00 = self.a[:,0].copy()
+                    a01 = self.a[:,1].copy()
+                    a02 = self.a[:,2].copy()
+                    self.a[:,0] = a00*distortion_matrix[0,0] + a01*distortion_matrix[0,1] + a02*distortion_matrix[0,2]
+                    self.a[:,1] = a00*distortion_matrix[1,0] + a01*distortion_matrix[1,1] + a02*distortion_matrix[1,2]
+                    self.a[:,2] = a00*distortion_matrix[2,0] + a01*distortion_matrix[2,1] + a02*distortion_matrix[2,2]
+
+                    q00 = self.q[:,0].copy()
+                    q01 = self.q[:,1].copy()
+                    q02 = self.q[:,2].copy()
+                    self.q[:,0] = q00*inverse_distortion_matrix[0,0] + q01*inverse_distortion_matrix[0,1] + q02*inverse_distortion_matrix[0,2]
+                    self.q[:,1] = q00*inverse_distortion_matrix[1,0] + q01*inverse_distortion_matrix[1,1] + q02*inverse_distortion_matrix[1,2]
+                    self.q[:,2] = q00*inverse_distortion_matrix[2,0] + q01*inverse_distortion_matrix[2,1] + q02*inverse_distortion_matrix[2,2]
+
+            # Updating the dx and dy
+            original_dx = self.dx
+            original_dy = self.dy
+            original_dz = self.dz
+
+            self.dx = np.sqrt((distortion_matrix[0,0]*original_dx)**2 + (distortion_matrix[0,1]*original_dy)**2 + (distortion_matrix[0,2]*original_dz)**2)
+            self.dy = np.sqrt((distortion_matrix[1,0]*original_dx)**2 + (distortion_matrix[1,1]*original_dy)**2 + (distortion_matrix[1,2]*original_dz)**2)
+            self.dz = np.sqrt((distortion_matrix[2,0]*original_dx)**2 + (distortion_matrix[2,1]*original_dy)**2 + (distortion_matrix[2,2]*original_dz)**2)
+
+            # Updating the size_x and size_y
+            original_size_x = self.size_x
+            original_size_y = self.size_y
+            original_size_z = self.size_z
+
+            self.size_x = np.sqrt((distortion_matrix[0,0]*original_size_x)**2 + (distortion_matrix[0,1]*original_size_y)**2 + (distortion_matrix[0,2]*original_size_z)**2)
+            self.size_y = np.sqrt((distortion_matrix[1,0]*original_size_x)**2 + (distortion_matrix[1,1]*original_size_y)**2 + (distortion_matrix[1,2]*original_size_z)**2)
+            self.size_z = np.sqrt((distortion_matrix[2,0]*original_size_x)**2 + (distortion_matrix[2,1]*original_size_y)**2 + (distortion_matrix[2,2]*original_size_z)**2)
+
+            # Updating the x and y coordinate limits
+            self.xmax = np.max(X)
+            self.xmin = np.min(X)
+
+            self.ymax = np.max(Y)
+            self.ymin = np.min(Y)
+
+            self.zmax = np.max(Z)
+            self.zmin = np.min(Z)
+
+            volume_factor = np.linalg.det(distortion_matrix)
+            self.dV = self.dV*volume_factor
+            self.volume = self.volume*volume_factor
+            
 
     def conf_strain_to_equilibrium(self):
         """Configures 
@@ -262,74 +384,14 @@ class PhaseFieldCrystal(BaseSystem):
         strain_increment = 0.00001
         strain += strain_increment
 
-        # Unaltered k-vectors
-        k0 = self.k[0].copy()
-        dx0 = self.dx
-        x0 = self.x.copy()
-        xmin0 = self.xmin
-        xmax0 = self.xmax
-        size_x0 = self.size_x
-        a00 = self.a0
-        q0 = self.q.copy()
-
-        if self.dim > 1:
-            k1 = self.k[1].copy()
-            dy0 = self.dy
-            y0 = self.y.copy()
-            ymin0 = self.ymin
-            ymax0 = self.ymax
-            size_y0 = self.size_y
-
-            
-        if self.dim > 2:
-            k2 = self.k[2].copy()
-            dz0 = self.dz
-            z0 = self.z.copy()
-            zmin0 = self.zmin
-            zmax0 = self.zmax
-            size_z0 = self.size_z
-
-        volume0 = self.volume
-        dV0 = self.dV
-        
-        def update_lengths(self, strain):
-            self.k[0] = k0/(1+strain)
-            self.dx = dx0*(1+strain)
-            self.x = x0*(1+strain)
-            self.xmax = xmax0*(1+strain)
-            self.xmin = xmin0*(1+strain)
-            self.size_x = size_x0*(1+strain)
-            self.a0 = a00*(1+strain)
-            
-            if self.dim > 1:
-                self.k[1] = k1/(1+strain)
-                self.dy = dy0*(1+strain)
-                self.y = y0*(1+strain)
-                self.ymax = ymax0*(1+strain)
-                self.ymin = ymin0*(1+strain)
-                self.size_y = size_y0*(1+strain)
-                
-            if self.dim > 2:
-                self.k[2] = k2/(1+strain)
-                self.dz = dz0*(1+strain)
-                self.z = z0*(1+strain)
-                self.zmax = zmax0*(1+strain)
-                self.zmin = zmin0*(1+strain)
-                self.size_z = size_z0*(1+strain)
-
-            self.q = q0/(1+strain)
-            self.dV = self.dx*self.dy*self.dz
-            self.volume = self.size_x*self.size_y*self.size_z
-
-        update_lengths(self,strain)
+        pfc_strained = copy.deepcopy(self)
+        pfc_strained.conf_apply_distortion(strain, update_q_and_a_vectors=True)
 
         # Evolve PFC
-        self.evolve_PFC(number_of_steps, suppress_output=True)
+        pfc_strained.evolve_PFC(number_of_steps, suppress_output=True)
 
         # Calculate free energy to compare
-        average_free_energy_tmp = self.calc_free_energy()/self.volume
-
-        # print('Free energy at strain: ', strain, ' is: ', free_energy_tmp)
+        average_free_energy_tmp = pfc_strained.calc_free_energy()/pfc_strained.volume
 
         positive_strain_required = False
         while average_free_energy_tmp < average_free_energy:
@@ -340,27 +402,30 @@ class PhaseFieldCrystal(BaseSystem):
 
             strain += strain_increment
 
-            update_lengths(self,strain)
+            pfc_strained = copy.deepcopy(self)
+            pfc_strained.conf_apply_distortion(strain, update_q_and_a_vectors=True)
             
-            self.evolve_PFC(number_of_steps, suppress_output=True)
+            pfc_strained.evolve_PFC(number_of_steps, suppress_output=True)
 
-            average_free_energy_tmp = self.calc_free_energy()/self.volume
+            average_free_energy_tmp = pfc_strained.calc_free_energy()/pfc_strained.volume
             # print('Average free energy at strain: ', strain, ' is: ', average_free_energy_tmp)
         
         if positive_strain_required:
             # Going one back to get the lowest free energy
             final_strain = strain - strain_increment
-            update_lengths(self,strain)
+            self.conf_apply_distortion(final_strain, update_q_and_a_vectors=True)
             # tool_print_in_color('Lowest average free energy found at strain: ' + str(final_strain), 'green')
 
         else: #negative strain required
 
             strain = - strain_increment
 
-            update_lengths(self,strain)
-            self.evolve_PFC(number_of_steps, suppress_output=True)
-            average_free_energy_tmp = self.calc_free_energy()/self.volume
-            print('Average Free energy at strain: ', strain, ' is: ', average_free_energy_tmp)
+            pfc_strained = copy.deepcopy(self)
+            pfc_strained.conf_apply_distortion(strain, update_q_and_a_vectors=True)
+
+            pfc_strained.evolve_PFC(number_of_steps, suppress_output=True)
+            average_free_energy_tmp = pfc_strained.calc_free_energy()/pfc_strained.volume
+            # print('Average Free energy at strain: ', strain, ' is: ', average_free_energy_tmp)
 
             while average_free_energy_tmp < average_free_energy:
 
@@ -368,17 +433,18 @@ class PhaseFieldCrystal(BaseSystem):
 
                 strain -= strain_increment
 
-                update_lengths(self, strain)
+                pfc_strained = copy.deepcopy(self)
+                pfc_strained.conf_apply_distortion(strain, update_q_and_a_vectors=True)
 
-                self.evolve_PFC(number_of_steps, suppress_output=True)
+                pfc_strained.evolve_PFC(number_of_steps, suppress_output=True)
 
-                average_free_energy_tmp = self.calc_free_energy()/self.volume
+                average_free_energy_tmp = pfc_strained.calc_free_energy()/pfc_strained.volume
 
                 # print('Average free energy at strain: ', strain, ' is: ', average_free_energy_tmp)
 
             # Going one back to get the lowest free energy
             final_strain = strain + strain_increment
-            update_lengths(self, final_strain)
+            self.conf_apply_distortion(final_strain, update_q_and_a_vectors=True)
             # tool_print_in_color('Lowest average free energy found at strain: ' + str(final_strain), 'green')   
 
         return final_strain
@@ -706,7 +772,11 @@ class PhaseFieldCrystal(BaseSystem):
         f0 = self.calc_free_energy()/self.volume
         free_energies = np.zeros_like(exx)
         for n in range(len(exx)):
-            distortion = [[exx[n], exy[n]],[exy[n], eyy[n]]]
+            if self.dim == 2:
+                distortion = [[exx[n], exy[n]],[exy[n], eyy[n]]]
+            elif self.dim == 3:
+                distortion = [[exx[n], exy[n], 0],[exy[n], eyy[n], 0],[0,0,0]]
+
             pfc_strained = copy.deepcopy(self)
             pfc_strained.conf_apply_distortion(distortion)
             f = pfc_strained.calc_free_energy()/pfc_strained.volume

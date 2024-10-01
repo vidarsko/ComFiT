@@ -44,7 +44,7 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
 
         a0 = 2 * np.pi
         self.a = a0 * np.array([[1, 0], [0, 1]])
-        self.q = np.array([[1, 0], [0, 1], [1, -1], [1, 1]])
+        self.q = np.array([[1, 0], [0, 1], [1, -1], [1, 1]], dtype=float)
 
         # Set the number of reciprocal modes
         self.number_of_reciprocal_lattice_modes = 4

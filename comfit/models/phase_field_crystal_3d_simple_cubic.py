@@ -7,6 +7,8 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from pprint import pprint
 
+from comfit.tool.tool_print_in_color import tool_print_in_color
+
 class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
         """Initializes a phase field crystal system in 3D with a simple cubic crystal structure.
@@ -61,7 +63,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
                            [-1, 1, 1],
                            [1, -1, 1],
                            [1, 1, -1],
-                           [1, 1, 1]])
+                           [1, 1, 1]], dtype=float)
 
         # Set the number of reciprocal modes
         self.number_of_reciprocal_lattice_modes = 13
@@ -82,6 +84,17 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.el_lambda = 16 * self.B ** 2 + 128 * self.C ** 2
         self.el_mu = 16 * self.B ** 2 + 128 * self.C ** 2
         self.el_gamma = 32*self.A**2 - 16*self.B**2 - 256*self.C**2
+
+        bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
+
+        if not bool_is_for_properties_calculation:
+            tool_print_in_color('Initiating a 3D simple cubic PFC model.', 'green')
+            pfc = PhaseFieldCrystal3DSimpleCubic(1,1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution)
+            final_strain, self.psi0, self.A, self.B, self.C, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()     
+            
+        self.eta0 = np.array([self.A, self.A, self.A,
+                     self.B, self.B, self.B, self.B, self.B, self.B,
+                     self.C, self.C, self.C, self.C])
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
