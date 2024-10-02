@@ -7,14 +7,22 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import scipy as sp
 
-nx = 20
-pfc = cf.PhaseFieldCrystal2DTriangular(nx,round(nx/np.sqrt(3)))
-# pfc = cf.PhaseFieldCrystal2DSquare(20,20)
+
+nx=20
+B_x=0.98
+psi0=0
+r = 0.02/B_x #Delta B
+t=1/2/B_x
+v=1/3/B_x
+
+pfc = cf.PhaseFieldCrystal2DTriangular(nx,round(nx/np.sqrt(3)), t=t, r=r, v=v, psi0=psi0)
+pfc.conf_PFC_from_amplitudes()  
+
 pfc.plot_lib = 'matplotlib'
 pfc.conf_PFC_from_amplitudes()
 
-distortion = [[0.0,0.15],
-              [0.15,0.0]]
+distortion = [[0.08,0.0],
+              [0.0,0.08]]
 
 pfc.conf_apply_distortion(distortion)
 print(pfc.psi)
@@ -36,6 +44,7 @@ def plot():
 
 noise_strength = 0.01
 max_alpha = 0
+
 for n in range(100):
     pfc.psi = pfc.psi + noise_strength*np.random.randn(*pfc.psi.shape)
     pfc.psi_f = sp.fft.fftn(pfc.psi)
@@ -46,4 +55,3 @@ for n in range(100):
     cf.tool_save_plot_matplotlib(n)
 # print(max_alpha)
 cf.tool_make_animation_gif(n)
-

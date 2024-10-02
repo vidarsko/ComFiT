@@ -6,6 +6,10 @@ venv/
 *.venv/
 .env/
 
+# Data files
+*.json
+*.pkl
+
 # ----- Compiled Python Files -----
 *.pyc
 __pycache__/

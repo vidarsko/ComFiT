@@ -89,7 +89,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
 
         if not bool_is_for_properties_calculation:
             tool_print_in_color('Initiating a 3D simple cubic PFC model.', 'green')
-            pfc = PhaseFieldCrystal3DSimpleCubic(1,1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution)
+            pfc = PhaseFieldCrystal3DSimpleCubic(1,1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.B, self.C, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()     
             
         self.eta0 = np.array([self.A, self.A, self.A,
