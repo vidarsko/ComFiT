@@ -71,19 +71,25 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         self.dz = a0 / self.micro_resolution[2]
 
         self.type_of_evolution = kwargs.get('type_of_evolution', 'conserved')
-        self.A, self.B = self.calc_proto_amplitudes_conserved()
+        self.A_proto, self.B_proto = self.calc_proto_amplitudes_conserved()
     
         # Set the elastic constants
-        self.el_lambda = 32/81 * self.A ** 2
-        self.el_mu = 32/81 * self.A ** 2
-        self.el_gamma = 32/81 * (2*self.B**2 - self.A**2)
+        self.el_lambda_proto = 32/81 * self.A_proto ** 2
+        self.el_mu_proto = 32/81 * self.A_proto ** 2
+        self.el_gamma_proto = 32/81 * (2*self.B_proto**2 - self.A_proto**2)
 
         bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
         if not bool_is_for_properties_calculation:
             tool_print_in_color('Initiating a 3D fcc PFC model.', 'green')
             pfc = PhaseFieldCrystal3DFaceCenteredCubic(1,1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.B, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()  
-    
+        else:
+            self.A = self.A_proto
+            self.B = self.B_proto
+            self.el_lambda = self.el_lambda_proto
+            self.el_mu = self.el_mu_proto
+            self.el_gamma = self.el_gamma_proto
+            
         self.eta0 = np.array([self.A, self.A, self.A, self.A, self.B, self.B, self.B])
 
         # Initialize the BaseSystem

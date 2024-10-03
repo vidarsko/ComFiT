@@ -75,15 +75,12 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         self.dz = a0 / self.micro_resolution[2]
 
         self.type_of_evolution = kwargs.get('type_of_evolution', 'conserved')
-        self.A, self.B, self.C = self.calc_proto_amplitudes_conserved()
-        self.eta0 = np.array([self.A, self.A, self.A,
-                     self.B, self.B, self.B, self.B, self.B, self.B,
-                     self.C, self.C, self.C, self.C])
+        self.A_proto, self.B_proto, self.C_proto = self.calc_proto_amplitudes_conserved()
 
         # Set the elastic constants
-        self.el_lambda = 16 * self.B ** 2 + 128 * self.C ** 2
-        self.el_mu = 16 * self.B ** 2 + 128 * self.C ** 2
-        self.el_gamma = 32*self.A**2 - 16*self.B**2 - 256*self.C**2
+        self.el_lambda_proto = 16 * self.B_proto ** 2 + 128 * self.C_proto ** 2
+        self.el_mu_proto = 16 * self.B_proto ** 2 + 128 * self.C_proto ** 2
+        self.el_gamma_proto = 32*self.A_proto**2 - 16*self.B_proto**2 - 256*self.C_proto**2
 
         bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
 
@@ -91,7 +88,15 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
             tool_print_in_color('Initiating a 3D simple cubic PFC model.', 'green')
             pfc = PhaseFieldCrystal3DSimpleCubic(1,1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.B, self.C, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()     
-            
+        else:
+            self.A = self.A_proto
+            self.B = self.B_proto
+            self.C = self.C_proto
+            self.el_lambda = self.el_lambda_proto
+            self.el_mu = self.el_mu_proto
+            self.el_gamma = self.el_gamma_proto
+
+
         self.eta0 = np.array([self.A, self.A, self.A,
                      self.B, self.B, self.B, self.B, self.B, self.B,
                      self.C, self.C, self.C, self.C])
