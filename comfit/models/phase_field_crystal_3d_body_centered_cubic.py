@@ -78,6 +78,7 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
         bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
         if not bool_is_for_properties_calculation:
             tool_print_in_color('Initiating a 3D bcc PFC model.', 'green')
+            kwargs.pop('for_properties_calculation', None)
             pfc = PhaseFieldCrystal3DBodyCenteredCubic(1,1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()  
 
@@ -85,7 +86,7 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
-                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt)
+                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt, **kwargs)
 
         # Set the a0
         self.a0 = a0

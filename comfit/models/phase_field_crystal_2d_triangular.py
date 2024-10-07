@@ -72,6 +72,7 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
 
         if not bool_is_for_properties_calculation:
             tool_print_in_color('Initiating a 2D triangular PFC model.', 'green')
+            kwargs.pop('for_properties_calculation', None)
             pfc = PhaseFieldCrystal2DTriangular(1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()     
             
@@ -79,7 +80,7 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
-                         dx=self.dx, dy=self.dy, dt=self.dt)
+                         dx=self.dx, dy=self.dy, dt=self.dt, **kwargs)
         
         # Set the a0
         self.a0 = a0

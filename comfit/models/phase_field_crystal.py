@@ -596,8 +596,8 @@ class PhaseFieldCrystal(BaseSystem):
     #######################################################
     def evolve_PFC_hydrodynamic(self, number_of_steps, 
                                 method = 'ETD2RK',
-                                gamma_S = 2**-4,
-                                rho0 = 2**-4):
+                                gamma_S = 2**-6,
+                                rho0 = 2**-6):
         """Evolves the PFC according to hydrodynamic PFC dynamics.
 
         This requires introducing a velocity field. 
@@ -649,7 +649,13 @@ class PhaseFieldCrystal(BaseSystem):
             The hydrodynamic evolution function omega_f.
         """
         k2 = self.calc_k2()
-        return np.array([self.calc_omega_f()]+[-self.gamma_S/self.rho0*k2]*self.dim)
+
+        if self.type_of_evolution == 'conserved':
+            omega_f = -self.calc_k2()*(self.r + self.calc_L_f()**2)
+        elif self.type_of_evolution == 'unconserved':
+            omega_f = -(self.r + self.calc_L_f()**2)
+
+        return np.array([omega_f]+[-self.gamma_S/self.rho0*k2]*self.dim)
 
     # Nonlinear part
     def calc_nonlinear_hydrodynamic_evolution_function_f(self, field, t):
@@ -710,6 +716,7 @@ class PhaseFieldCrystal(BaseSystem):
         # Strain PFC to equilibrium
         self.conf_PFC_from_amplitudes()
         final_strain = self.conf_strain_to_equilibrium()
+        self.evolve_PFC(200, suppress_output=True)
         # tool_print_in_color('Amplitudes after strain', 'blue')
         # tool_print_in_color('---', 'blue')
         print(f'Equilibrium strain: {final_strain:.05f}')
@@ -760,30 +767,66 @@ class PhaseFieldCrystal(BaseSystem):
             print('Ratio (equilibrium/proto): {:.05f}'.format(C/self.C))
         
         # Finding elastic constants
-        def elastic_energy(strain, el_lambda, el_mu, el_gamma):
-            exx, exy, eyy = strain
-            return el_lambda/2*(exx+eyy)**2 + el_mu*(exx**2 + 2*exy**2 + eyy**2) + el_gamma/2*(exx**2 + eyy**2)
+        # def elastic_energy(strain, el_lambda, el_mu, el_gamma):
+        #     exx, exy, eyy = strain
+        #     return el_lambda/2*(exx+eyy)**2 + el_mu*(exx**2 + 2*exy**2 + eyy**2) + el_gamma/2*(exx**2 + eyy**2)
 
-        strain_magnitudes = np.linspace(-0.01,0.01,21)
-        exx = np.array([[a,0,a] for a in strain_magnitudes]).flatten()
-        exy = np.array([[0,a,0] for a in strain_magnitudes]).flatten()
-        eyy = np.array([[a,0,-a] for a in strain_magnitudes]).flatten()
+        # strain_magnitudes = np.linspace(-0.01,0.01,21)
+        # exx = np.array([[a,0,a] for a in strain_magnitudes]).flatten()
+        # exy = np.array([[0,a,0] for a in strain_magnitudes]).flatten()
+        # eyy = np.array([[a,0,-a] for a in strain_magnitudes]).flatten()
 
         f0 = self.calc_free_energy()/self.volume
-        free_energies = np.zeros_like(exx)
-        for n in range(len(exx)):
-            if self.dim == 2:
-                distortion = [[exx[n], exy[n]],[exy[n], eyy[n]]]
-            elif self.dim == 3:
-                distortion = [[exx[n], exy[n], 0],[exy[n], eyy[n], 0],[0,0,0]]
+        # free_energies = np.zeros_like(exx)
+        # for n in range(len(exx)):
+        #     if self.dim == 2:
+        #         distortion = [[exx[n], exy[n]],[exy[n], eyy[n]]]
+        #     elif self.dim == 3:
+        #         distortion = [[exx[n], exy[n], 0],[exy[n], eyy[n], 0],[0,0,0]]
 
-            pfc_strained = copy.deepcopy(self)
-            pfc_strained.conf_apply_distortion(distortion)
-            f = pfc_strained.calc_free_energy()/pfc_strained.volume
-            free_energies[n] = f-f0
+        #     pfc_strained = copy.deepcopy(self)
+        #     pfc_strained.conf_apply_distortion(distortion)
+        #     f = pfc_strained.calc_free_energy()/pfc_strained.volume
+        #     free_energies[n] = f-f0
 
-        params,_ = curve_fit(elastic_energy, (exx, exy, eyy), free_energies)
-        el_lambda, el_mu, el_gamma = params
+        # params,_ = curve_fit(elastic_energy, (exx, exy, eyy), free_energies)
+        # el_lambda, el_mu, el_gamma = params
+
+        epsilon=0.01
+        
+        if self.dim == 2:
+            pure_shear_distortion = [[0,epsilon],[epsilon,0]]
+            volume_conserving_compression = [[epsilon,0],[0,-epsilon]]
+            pure_compression_pos = [[epsilon,0],[0,epsilon]]
+            pure_compression_neg = [[-epsilon,0],[0,-epsilon]]
+        else:
+            pure_shear_distortion = [[0,epsilon,0],[epsilon,0,0],[0,0,0]]
+            volume_conserving_compression = [[epsilon,0,0],[0,-epsilon,0],[0,0,0]]
+            pure_compression_pos = [[epsilon,0,0],[0,epsilon,0],[0,0,0]]
+            pure_compression_neg = [[-epsilon,0,0],[0,-epsilon,0],[0,0,0]]
+
+        pfc_strained = copy.deepcopy(self)
+        pfc_strained.conf_apply_distortion(pure_shear_distortion)
+        f_pure_shear = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+
+        pfc_strained = copy.deepcopy(self)
+        pfc_strained.conf_apply_distortion(volume_conserving_compression)
+        f_volume_conserving_compression = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+
+        pfc_strained = copy.deepcopy(self)
+        pfc_strained.conf_apply_distortion(pure_compression_pos)
+        f_pure_compression_pos = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+
+        pfc_strained = copy.deepcopy(self)
+        pfc_strained.conf_apply_distortion(pure_compression_neg)
+        f_pure_compression_neg = pfc_strained.calc_free_energy()/pfc_strained.volume - f0
+
+        f_pure_compression = (f_pure_compression_pos + f_pure_compression_neg)/2
+
+        el_lambda = (0.5*f_pure_compression - 0.5*f_volume_conserving_compression)/(epsilon**2)
+        el_mu = (0.5*f_pure_shear)/(epsilon**2)
+        el_gamma = (-f_pure_shear + f_volume_conserving_compression)/(epsilon**2)
+
 
         if self.type == 'PhaseFieldCrystal1DPeriodic':
             el_lambda_from_eq_amplitudes = 2*(A**2)
@@ -1205,6 +1248,8 @@ class PhaseFieldCrystal(BaseSystem):
                 field_f = self.psi_f
 
         L_f = self.calc_L_f()
+        Lpsi = sp.fft.ifftn(L_f*field_f)
+
         L_sum_f = self.calc_L_sum_f()
         k2 = self.calc_k2()
 
@@ -1214,24 +1259,30 @@ class PhaseFieldCrystal(BaseSystem):
                 sp.fft.ifftn(L_f*self.dif[i]*field_f)*sp.fft.ifftn(L_sum_f*self.dif[i]*self.dif[j]*field_f) 
                 for i in range(self.dim)
                 ]) 
-                +sp.fft.ifftn(L_f*field_f)*sp.fft.ifftn(L_sum_f*self.dif[j]*(-k2)*field_f)) 
+                +Lpsi*sp.fft.ifftn(L_sum_f*self.dif[j]*(-k2)*field_f)) 
                 for j in range(self.dim)]
                 )
 
 
-    def calc_structure_tensor(self):
-        """Calculates the structure tensor of the phase-field crystal.
+    def calc_structure_tensor_f(self):
+        """Calculates the structure tensor of the phase-field crystal in Fourier space.
 
         Args:
             None
 
         Returns:
-            The structure tensor
+            The structure tensor in Fourier space.
         """
+
+        if hasattr(self,'bool_has_velocity_field') and self.bool_has_velocity_field:
+            field_f = self.psi_f[0]
+        else:
+            field_f = self.psi_f
+
         # Calculate the gradient
         diPsi = np.zeros([self.dim] + self.dims, dtype=complex)
         for i in range(self.dim):
-            diPsi[i] = self.dif[i]*self.psi_f
+            diPsi[i] = self.dif[i]*field_f
         diPsi = np.real(sp.fft.ifftn(diPsi, axes = (range( - self.dim , 0) )))
 
         if self.dim == 1:
@@ -1241,28 +1292,37 @@ class PhaseFieldCrystal(BaseSystem):
         elif self.dim == 3:
             number_of_independent_strain_components = 6
 
-        structure_tensor = np.zeros([number_of_independent_strain_components] + self.dims, dtype=complex)
+        structure_tensor_f = np.zeros([number_of_independent_strain_components] + self.dims, dtype=complex)
 
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
         if self.dim == 1:
-            structure_tensor[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
+            structure_tensor_f[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
         elif self.dim == 2:
-            structure_tensor[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
-            structure_tensor[1] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[1])
-            structure_tensor[2] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[1])
+            structure_tensor_f[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
+            structure_tensor_f[1] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[1])
+            structure_tensor_f[2] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[1])
         elif self.dim == 3:
-            structure_tensor[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
-            structure_tensor[1] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[1])
-            structure_tensor[2] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[2])
-            structure_tensor[3] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[1])
-            structure_tensor[4] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[2])
-            structure_tensor[5] = Gaussian_filter_f*sp.fft.fftn(diPsi[2]*diPsi[2])
-        
-        structure_tensor = np.real(sp.fft.ifftn(structure_tensor, axes = (range( - self.dim , 0) )))
+            structure_tensor_f[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
+            structure_tensor_f[1] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[1])
+            structure_tensor_f[2] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[2])
+            structure_tensor_f[3] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[1])
+            structure_tensor_f[4] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[2])
+            structure_tensor_f[5] = Gaussian_filter_f*sp.fft.fftn(diPsi[2]*diPsi[2])
 
-        return structure_tensor
+        return structure_tensor_f
             
 
+    def calc_structure_tensor(self):
+        """Calculates the structure tensor of the phase-field crystal.
+
+        Args:
+            None
+        Returns:
+            The structure tensor.
+        """
+        structure_tensor_f = self.calc_structure_tensor_f()
+        return np.real(sp.fft.ifftn(structure_tensor_f, axes = (range( - self.dim , 0) )))
+        
 
     def calc_strain_tensor(self):
         """Calculates the strain of the phase-field crystal.

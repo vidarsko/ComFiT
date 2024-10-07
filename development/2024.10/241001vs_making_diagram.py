@@ -51,12 +51,12 @@ for i in range(len(Delta_Bs)):
     pfc0.plot_lib = 'matplotlib'
     from_low_strain=True
     finished_with_Delta_B = False
-    counter = 0
+    strain_counter = 0
     for m in range(len(strains)):
         if not finished_with_Delta_B:
-            strain = strains[counter] if from_low_strain else strains[-counter-1]
-            j = counter if from_low_strain else -counter-1
-            counter += 1
+            strain = strains[strain_counter] if from_low_strain else strains[-strain_counter-1]
+            j = strain_counter if from_low_strain else -strain_counter-1
+            strain_counter += 1
             print("Testing Delta_B = ", Delta_B, " and strain = ", strain)
 
             pfc = copy.deepcopy(pfc0)
@@ -67,7 +67,7 @@ for i in range(len(Delta_Bs)):
             max_alpha = 0
             time_to_nucleation[i,j] = 0
             
-            time_array = np.arange(0,time_limit,time_step)
+            time_array = np.arange(0, time_limit + time_step, time_step)
 
             A1max = np.nan*np.zeros(time_array.shape)
             A1mean = np.nan*np.zeros(time_array.shape)
@@ -80,7 +80,9 @@ for i in range(len(Delta_Bs)):
 
             is_liquid = False
 
-            counter=0
+            
+
+            time_counter = 0
 
             def update_variables():
                 alpha = pfc.calc_dislocation_density()
@@ -88,16 +90,16 @@ for i in range(len(Delta_Bs)):
                 
                 eta = pfc.calc_demodulate_PFC()
                 eta0 = np.abs(eta[0])
-                A1max[counter] = eta0.max()
-                A1mean[counter] = eta0.mean()
+                A1max[time_counter] = eta0.max()
+                A1mean[time_counter] = eta0.mean()
 
                 eta1 = np.abs(eta[1])
-                A2max[counter] = eta1.max()
-                A2mean[counter] = eta1.mean()
+                A2max[time_counter] = eta1.max()
+                A2mean[time_counter] = eta1.mean()
 
                 eta2 = np.abs(eta[2])
-                A3max[counter] = eta2.max()
-                A3mean[counter] = eta2.mean()
+                A3max[time_counter] = eta2.max()
+                A3mean[time_counter] = eta2.mean()
 
                 max_amp = np.max([A1max[int(time_to_nucleation[i,j]/time_step)], A2max[int(time_to_nucleation[i,j]/time_step)], A3max[int(time_to_nucleation[i,j]/time_step)]])
                 return max_alpha, max_amp
@@ -108,7 +110,7 @@ for i in range(len(Delta_Bs)):
                 pfc.psi = pfc.psi + noise_strength*np.random.randn(*pfc.psi.shape)
                 pfc.psi_f = sp.fft.fftn(pfc.psi)
                 pfc.evolve_PFC(time_step)
-                counter += 1
+                time_counter += 1
 
                 time_to_nucleation[i,j] += time_step
 
@@ -124,7 +126,7 @@ for i in range(len(Delta_Bs)):
             if time_to_nucleation[i,j] == time_limit:
                 if from_low_strain:
                     from_low_strain = False
-                    counter=0
+                    strain_counter=0
                 else:
                     finished_with_Delta_B = True
 
@@ -146,7 +148,7 @@ for i in range(len(Delta_Bs)):
                 'A3mean': A3mean.tolist()
             }
 
-            filename = os.path.join(folder_name, f"data_DeltaB_{Delta_B:+07.5f}_strain_{strain:.2f}_time_{time}.json")
+            filename = os.path.join(folder_name, f"data_DeltaB_{Delta_B:+07.5f}_strain_{strain:+01.5f}_time_{time}.json")
             with open(filename, 'w') as f:
                 json.dump(data, f)
             # plt.savefig(os.path.join(folder_name, f"DeltaB_{Delta_B:+07.5f}_strain_{strain:.2f}_time_{time}.png"))

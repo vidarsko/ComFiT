@@ -65,7 +65,8 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
 
         if not bool_is_for_properties_calculation:
-            tool_print_in_color('Initiating a 2D triangular PFC model.', 'green')
+            tool_print_in_color('Initiating a 2D square PFC model.', 'green')
+            kwargs.pop('for_properties_calculation', None)
             pfc = PhaseFieldCrystal2DSquare(1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.B, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()
 
@@ -73,7 +74,7 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
 
         # Initialize the BaseSystem
         super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
-                         dx=self.dx, dy=self.dy, dt=self.dt)
+                         dx=self.dx, dy=self.dy, dt=self.dt, **kwargs)
 
         # Set the a0
         self.a0 = a0
@@ -165,4 +166,4 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
             The sum of the L operators in Fourier space.
         """
         k2 = self.calc_k2()
-        return 2 - 3*k2
+        return 3 - 2*k2
