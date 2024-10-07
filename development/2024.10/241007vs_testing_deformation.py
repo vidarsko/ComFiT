@@ -12,8 +12,8 @@ for_properties_calculation = False
 
 # pfc0 = cf.PhaseFieldCrystal2DTriangular(1,1, for_properties_calculation = for_properties_calculation)
 # pfc0 = cf.PhaseFieldCrystal2DSquare(1,1, for_properties_calculation = for_properties_calculation)
-pfc0 = cf.PhaseFieldCrystal3DBodyCenteredCubic(1,1,1, for_properties_calculation = for_properties_calculation)
-# pfc0 = cf.PhaseFieldCrystal3DFaceCenteredCubic(1,1,1, for_properties_calculation = for_properties_calculation)
+# pfc0 = cf.PhaseFieldCrystal3DBodyCenteredCubic(1,1,1, for_properties_calculation = for_properties_calculation)
+pfc0 = cf.PhaseFieldCrystal3DFaceCenteredCubic(1,1,1, for_properties_calculation = for_properties_calculation)
 # pfc0 = cf.PhaseFieldCrystal3DSimpleCubic(1,1,1, for_properties_calculation = for_properties_calculation)
 
 pfc0.conf_PFC_from_amplitudes()
