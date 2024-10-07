@@ -84,8 +84,12 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         self.eta0 = np.array([self.A, self.A, self.A])
 
         # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes,
-                         dx=self.dx, dy=self.dy, dt=self.dt, **kwargs)
+        kwargs['xRes'] = self.xRes
+        kwargs['yRes'] = self.yRes
+        kwargs['dx'] = self.dx
+        kwargs['dy'] = self.dy
+        kwargs['dt'] = self.dt
+        super().__init__(self.dim,  **kwargs)
         
         # Set the a0
         self.a0 = a0

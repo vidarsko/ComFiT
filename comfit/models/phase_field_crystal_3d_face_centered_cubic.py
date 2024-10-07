@@ -94,8 +94,14 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         self.eta0 = np.array([self.A, self.A, self.A, self.A, self.B, self.B, self.B])
 
         # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, yRes=self.yRes, zRes=self.zRes,
-                         dx=self.dx, dy=self.dy, dz=self.dz, dt=self.dt, **kwargs)
+        kwargs['xRes'] = self.xRes
+        kwargs['yRes'] = self.yRes
+        kwargs['zRes'] = self.zRes
+        kwargs['dx'] = self.dx
+        kwargs['dy'] = self.dy
+        kwargs['dz'] = self.dz
+        kwargs['dt'] = self.dt
+        super().__init__(self.dim, **kwargs)
 
         # Set the a0
         self.a0 = a0
