@@ -198,7 +198,7 @@ class BaseSystemInit:
 
 
         # Plot lib
-        self.plot_lib = 'plotly'
+        self.plot_lib = kwargs.get('plot_lib', 'plotly')
 
     def __str__(self) -> str:
         """Return a string representation of the class.

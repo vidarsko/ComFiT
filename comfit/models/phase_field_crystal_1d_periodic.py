@@ -58,8 +58,10 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         self.el_gamma = 0
 
         # Initialize the BaseSystem
-        super().__init__(self.dim, xRes=self.xRes, 
-                         dx=self.dx,  dt=self.dt)
+        kwargs['xRes'] = self.xRes
+        kwargs['dx'] = self.dx
+        kwargs['dt'] = self.dt
+        super().__init__(self.dim, **kwargs)
 
         # Set the a0
         self.a0 = a0
