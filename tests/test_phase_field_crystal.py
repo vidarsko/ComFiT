@@ -70,7 +70,7 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 try:
                     pfc = cf.PhaseFieldCrystal2DTriangular(**p)
                     pfc.conf_PFC_from_amplitudes()
-                    self.assertAlmostEqual(pfc.A, A, places=5)
+                    self.assertAlmostEqual(pfc.A_proto, A, places=5)
                 except Exception as e:
                     self.fail(f"PFC Triangular amplitude calculation failed with {p}: {e}")
 
@@ -161,8 +161,8 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 try:
                     pfc = cf.PhaseFieldCrystal2DSquare(**p)
                     pfc.conf_PFC_from_amplitudes()
-                    self.assertAlmostEqual(pfc.A, A, places=5)
-                    self.assertAlmostEqual(pfc.B, B, places=5)
+                    self.assertAlmostEqual(pfc.A_proto, A, places=5)
+                    self.assertAlmostEqual(pfc.B_proto, B, places=5)
                 except Exception as e:
                     self.fail(f"PFC Square amplitude calculation failed with {p}: {e}")
 
@@ -224,7 +224,7 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 try:
                     pfc = cf.PhaseFieldCrystal3DBodyCenteredCubic(**p)
                     pfc.conf_PFC_from_amplitudes()
-                    self.assertAlmostEqual(pfc.A, A, places=5)
+                    self.assertAlmostEqual(pfc.A_proto, A, places=5)
                 except Exception as e:
                     self.fail(f"PFC BCC amplitude calculation failed with {p}: {e}")
 
@@ -252,8 +252,8 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 try:
                     pfc = cf.PhaseFieldCrystal3DFaceCenteredCubic(**p)
                     pfc.conf_PFC_from_amplitudes()
-                    self.assertAlmostEqual(pfc.A, A, places=5)
-                    self.assertAlmostEqual(pfc.B, B, places=5)
+                    self.assertAlmostEqual(pfc.A_proto, A, places=5)
+                    self.assertAlmostEqual(pfc.B_proto, B, places=5)
                 except Exception as e:
                     self.fail(f"PFC FCC amplitude calculation failed with {p}: {e}")
 
@@ -368,9 +368,9 @@ class TestPhaseFieldCrystal(unittest.TestCase):
                 try:
                     pfc = cf.PhaseFieldCrystal3DSimpleCubic(**p)
                     pfc.conf_PFC_from_amplitudes()
-                    self.assertAlmostEqual(pfc.A, A, places=5)
-                    self.assertAlmostEqual(pfc.B, B, places=5)
-                    self.assertAlmostEqual(pfc.C, C, places=5)
+                    self.assertAlmostEqual(pfc.A_proto, A, places=5)
+                    self.assertAlmostEqual(pfc.B_proto, B, places=5)
+                    self.assertAlmostEqual(pfc.C_proto, C, places=5)
                 except Exception as e:
                     self.fail(f"PFC Simple Cubic amplitude calculation failed with {p}: {e}")
 

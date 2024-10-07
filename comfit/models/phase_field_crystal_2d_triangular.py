@@ -57,16 +57,16 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
 
         self.type_of_evolution = kwargs.get('type_of_evolution', 'conserved')
         if self.type_of_evolution == 'unconserved':
-            self.psi0, self.A = self.calc_proto_amplitudes_unconserved()
+            self.psi0_proto, self.A_proto = self.calc_proto_amplitudes_unconserved()
         else:
             if self.type_of_evolution != 'conserved':
-                print('Warning: type_of_evolution should be either conserved or unconserved. Setting to conserved.')
-            self.A = self.calc_proto_amplitudes_conserved()   
+                tool_print_in_color('Warning: type_of_evolution should be either conserved or unconserved. Setting to conserved.', 'red')
+            self.A_proto = self.calc_proto_amplitudes_conserved()   
 
         # Set the elastic constants
-        self.el_lambda = 3 * self.A ** 2
-        self.el_mu = 3 * self.A ** 2
-        self.el_gamma = 0
+        self.el_lambda_proto = 3 * self.A_proto ** 2
+        self.el_mu_proto = 3 * self.A_proto ** 2
+        self.el_gamma_proto = 0
 
         bool_is_for_properties_calculation = kwargs.get('for_properties_calculation', False)
 
@@ -75,6 +75,11 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
             kwargs.pop('for_properties_calculation', None)
             pfc = PhaseFieldCrystal2DTriangular(1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()     
+        else:
+            self.A = self.A_proto
+            self.el_lambda = self.el_lambda_proto
+            self.el_mu = self.el_mu_proto
+            self.el_gamma = self.el_gamma_proto
             
         self.eta0 = np.array([self.A, self.A, self.A])
 
