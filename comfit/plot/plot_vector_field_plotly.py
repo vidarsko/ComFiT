@@ -276,10 +276,10 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
             line=dict(color='black')
             ),
             hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
-                        '<b>y:</b> %{y:.2f}a0<br>' +
-                        '<b>ux:</b> %{customdata[0]:.2f}<br>' +
-                        '<b>uy:</b> %{customdata[1]:.2f}<br>' +
-                        '<b>|u|:</b> %{customdata[2]:.2f}<extra></extra>',
+                '<b>y:</b> %{y:.2f}a0<br>' +
+                '<b>ux:</b> %{customdata[0]:.2e}<br>' +  
+                '<b>uy:</b> %{customdata[1]:.2e}<br>' +
+                '<b>|u|:</b> %{customdata[2]:.2e}<extra></extra>',
             customdata=np.stack((u.flatten(), v.flatten(), magnitude.flatten()), axis=-1)  # Adding ux, uy and u as customdata
         )
         )
