@@ -103,6 +103,7 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                         hoverinfo='skip',
                         fillcolor=color_str))
 
+
         fig.add_trace(go.Scatter(
             x=self.x/self.a0,
             y=rho,
@@ -113,6 +114,22 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
             name='',
             line=dict(color='black')
         ))
+
+        if colorbar:
+            custom_colormap = tool_colormap_angle(pyplot=True)
+            fig.add_trace(go.Scatter(
+            x=[None], y=[None], mode='markers',
+            showlegend=False,
+            marker=dict(
+                colorscale=custom_colormap,
+                cmin=-np.pi, cmax=np.pi,
+                colorbar=dict(
+                tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
+                ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
+                )
+            ),
+            hoverinfo='none'
+            ))
         
     ###############################################################
     ###################### DIMENSION: 2 ###########################

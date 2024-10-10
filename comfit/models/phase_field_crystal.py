@@ -717,6 +717,7 @@ class PhaseFieldCrystal(BaseSystem):
         self.conf_PFC_from_amplitudes()
         final_strain = self.conf_strain_to_equilibrium()
         self.evolve_PFC(200, suppress_output=True)
+
         # tool_print_in_color('Amplitudes after strain', 'blue')
         # tool_print_in_color('---', 'blue')
         print(f'Equilibrium strain: {final_strain:.05f}')
@@ -777,6 +778,8 @@ class PhaseFieldCrystal(BaseSystem):
         # eyy = np.array([[a,0,-a] for a in strain_magnitudes]).flatten()
 
         f0 = self.calc_free_energy()/self.volume
+        print('FREE ENERGY ZERO IN THE PFC CLASS:', f0)
+
         # free_energies = np.zeros_like(exx)
         # for n in range(len(exx)):
         #     if self.dim == 2:
@@ -844,7 +847,7 @@ class PhaseFieldCrystal(BaseSystem):
             el_gamma_from_eq_amplitudes = -4*(A**2)
         elif self.type == 'PhaseFieldCrystal3DFaceCenteredCubic':
             el_lambda_from_eq_amplitudes = 32/81*(A**2)
-            el_mu_from_eq_amplitudes = 32/81*(B**2)
+            el_mu_from_eq_amplitudes = 32/81*(A**2)
             el_gamma_from_eq_amplitudes = 32/81*(2*B**2-A**2)
         elif self.type == 'PhaseFieldCrystal3DSimpleCubic':
             el_lambda_from_eq_amplitudes = 16*(B**2) + 128*(C**2)

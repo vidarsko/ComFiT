@@ -12,7 +12,7 @@ from datetime import datetime
 import json 
 import pickle
 
-nx=20
+nx=40
 B_x=0.98
 psi0=0
 r = 0.02/B_x #Delta B
@@ -22,17 +22,21 @@ time_limit = 100000
 time_step = 1000
 
 # Create a folder with the current date and time
-folder_name = f"nx_{nx}_Bx_{B_x}_psi0_{psi0}_r_{B_x*r}_t_{B_x*t}_v_{B_x*v}_time_limit_{time_limit}_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+folder_name = datetime.now().strftime("%Y%m%d_%H%M%S")+f"_nx_{nx}_Bx_{B_x}_psi0_{psi0}_r_{B_x*r}_t_{B_x*t}_v_{B_x*v}_time_limit_{time_limit}"
 if not os.path.exists(folder_name):
     os.makedirs(folder_name)
 
 
 # pfc.plot_lib = 'matplotlib'
 
-
 res = 101
 Delta_Bs = np.linspace(-0.02,0.06,res)
 strains = np.linspace(-0.1,0.1,res)
+
+# delta_Blimit = (B_x*t)**2/(15*B_x*v) - B_x*(1-(1-strains)**2)**2
+# plt.plot(strains,delta_Blimit)
+# plt.show()
+# raise Exception("This script is not finished yet. Please do not run it.")
 Delta_Bs_mesh, strains_mesh = np.meshgrid(Delta_Bs,strains)
 time_to_nucleation = np.nan*np.zeros_like(Delta_Bs_mesh)
 
@@ -105,6 +109,11 @@ for i in range(len(Delta_Bs)):
                 return max_alpha, max_amp
 
             max_alpha, max_amp = update_variables()
+
+            if Delta_B > (B_x*pfc.t)**2/(15*B_x*pfc.v) - B_x*(1-(1-strain)**2)**2:
+                print("Delta_B too high compared to strain - is liquid")
+                is_liquid = True
+                time_to_nucleation[i,j] = np.nan
 
             while max_alpha < 0.004 and time_to_nucleation[i,j] < time_limit and not is_liquid:
                 pfc.psi = pfc.psi + noise_strength*np.random.randn(*pfc.psi.shape)

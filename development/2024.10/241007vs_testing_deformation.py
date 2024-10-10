@@ -20,14 +20,14 @@ pfc0.conf_PFC_from_amplitudes()
 pfc0.evolve_PFC(200)
 f0 = pfc0.calc_free_energy()/pfc0.volume
 
-strain_limit = 0.01
+strain_limit = 0.1
 res = 101
 strains = np.linspace(-strain_limit,strain_limit,res)
 
 if pfc0.dim == 2:
     pure_shears = [[[0,a],[a,0]] for a in strains]
 elif pfc0.dim == 3:
-    pure_shears = [[[0,a,0],[0,a,0],[0,0,0]] for a in strains]
+    pure_shears = [[[0,a,0],[a,0,0],[0,0,0]] for a in strains]
 
 pure_shear_energies = np.zeros(res)
 pure_shear_analytical = 2*pfc0.el_mu*(strains**2)
@@ -37,6 +37,7 @@ for i in range(res):
     pfc.conf_apply_distortion(pure_shears[i])
     f = pfc.calc_free_energy()/pfc.volume
     pure_shear_energies[i] = f-f0
+
 
 if pfc0.dim == 2:
     pure_compressions = [[[a,0],[0,a]] for a in strains]
