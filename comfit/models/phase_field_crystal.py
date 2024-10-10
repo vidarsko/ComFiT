@@ -551,7 +551,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         for n in tqdm(range(number_of_steps), desc='Evolving the PFC (conserved)', disable=suppress_output):
             self.psi, self.psi_f = solver(integrating_factors_f,
-                                          self.calc_nonlinear_evolution_function_conserved_f,
+                                          non_linear_evolution_function_f,
                                           self.psi, self.psi_f)
 
             # These steps seem to be necessary for numerical stability (Vidar 18.12.23)
