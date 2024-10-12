@@ -12,18 +12,21 @@ file: comfit/models/bose_einstein_condensate.py
 class: BoseEinsteinCondensate
 ```
 
-## Variables and parameters
+## Variables and Parameters
 
-The primary field is the complex wave function $\psi$
+The primary field in the Bose-Einstein condensate model is the complex wave function $\psi$:
 
 ```python
-bec.psi 
+bec.psi
 ```
-The Bose-Einstein condensate takes the same keyword arguments as the BaseSystem in addition to
 
-| Keyword | Definition | Default value|
-|---------|------------|--------------|
-| `gamma`  | dissipative factor | $0.01$ |
+The `BoseEinsteinCondensate` class accepts the same keyword arguments as the `BaseSystem` class, with the addition of the following specific parameters:
+
+| Keyword | Definition           | Default Value |
+|---------|----------------------|---------------|
+| `gamma` | Dissipative factor   | $0.01$        |
+
+These parameters allow for the customization and fine-tuning of the Bose-Einstein condensate simulation.
 
 ## Model
 
