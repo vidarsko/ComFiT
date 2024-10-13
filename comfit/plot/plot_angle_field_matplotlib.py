@@ -6,7 +6,10 @@ from comfit.tool import tool_complete_field
 
 
 
-def plot_angle_field_matplotlib(self, angle_field: np.ndarray, **kwargs) -> matplotlib.axes.Axes:
+def plot_angle_field_matplotlib(self, 
+       angle_field: np.ndarray, 
+        **kwargs
+        ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     """Plot the angle field.
 
     Args:
@@ -14,7 +17,9 @@ def plot_angle_field_matplotlib(self, angle_field: np.ndarray, **kwargs) -> matp
         ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
     
     Returns:
-        The axes containing the plot. (matplotlib.axes.Axes)
+        tuple: A tuple containing:
+            - matplotlib.figure.Figure: The figure containing the plot.
+            - matplotlib.axes.Axes: The axes containing the plot.
     """
 
     # Check if the vector field is complex

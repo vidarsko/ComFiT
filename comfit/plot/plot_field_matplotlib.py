@@ -14,7 +14,10 @@ from comfit.plot import plot_surface_matplotlib
 
 import matplotlib
 
-def plot_field_matplotlib(self, field: np.ndarray, **kwargs) -> matplotlib.axes.Axes:
+def plot_field_matplotlib(self, 
+        field: np.ndarray, 
+        **kwargs
+        ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     """Plots the given (real) field.
     
     Args:
@@ -24,7 +27,9 @@ def plot_field_matplotlib(self, field: np.ndarray, **kwargs) -> matplotlib.axes.
             for a full list of keyword arguments.
     
     Returns:
-        The axes containing the plot (matplotlib.axes.Axes).
+        tuple: A tuple containing:
+            - matplotlib.figure.Figure: The figure containing the plot.
+            - matplotlib.axes.Axes: The axes containing the plot
     """
 
     if field.dtype == bool:

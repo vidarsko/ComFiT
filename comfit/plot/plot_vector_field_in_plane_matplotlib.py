@@ -9,8 +9,7 @@ from comfit.tool.tool_complete_field import tool_complete_field
 
 from skimage.measure import marching_cubes
 
-def plot_vector_field_in_plane_matplotlib(
-        self,
+def plot_vector_field_in_plane_matplotlib(self,
         vector_field: tuple[np.ndarray, np.ndarray],
         position: Optional[np.ndarray] = None,
         normal_vector: Optional[np.ndarray] = None,

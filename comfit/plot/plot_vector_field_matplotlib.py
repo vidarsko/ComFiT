@@ -4,7 +4,9 @@ from comfit.tool.tool_add_spacing_2D import tool_add_spacing_2D
 from comfit.tool.tool_add_spacing_3D import tool_add_spacing_3D
 
 
-def plot_vector_field_matplotlib(self, vector_field, **kwargs):
+def plot_vector_field_matplotlib(self, 
+        vector_field, 
+        **kwargs) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     """Plots a vector field.
 
     Args:

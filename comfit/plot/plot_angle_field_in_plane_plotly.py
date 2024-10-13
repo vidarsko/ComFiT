@@ -24,7 +24,7 @@ def plot_angle_field_in_plane_plotly(
         **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
     Returns:
-        The axes containing the plot. (matplotlib.axes.Axes)
+        plotly.graph_objects.Figure: The figure containing the plot.
     """
 
     print('\033[93mWarning: The plot_angle_field_in_plane function is not yet supported with plotly.\033[0m')

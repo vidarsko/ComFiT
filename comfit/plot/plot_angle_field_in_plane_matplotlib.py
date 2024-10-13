@@ -5,15 +5,13 @@ import matplotlib
 from comfit.plot.plot_complex_field_in_plane_matplotlib import plot_complex_field_in_plane_matplotlib
 from comfit.tool.tool_complete_field import tool_complete_field
 
-
 def plot_angle_field_in_plane_matplotlib(
-        self,
-        angle_field: np.ndarray,
-        normal_vector: Optional[np.ndarray] = None,
-        position: Optional[np.ndarray] = None,
-        **kwargs
-    ) -> matplotlib.axes.Axes:
-
+    self,
+    angle_field: np.ndarray,
+    normal_vector: Optional[np.ndarray] = None,
+    position: Optional[np.ndarray] = None,
+    **kwargs
+    ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     """Plots the angle field in a plane.
 
     Args:
@@ -23,7 +21,9 @@ def plot_angle_field_in_plane_matplotlib(
         **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
     Returns:
-        The axes containing the plot. (matplotlib.axes.Axes)
+        tuple: A tuple containing:
+            - matplotlib.figure.Figure: The figure containing the plot.
+            - matplotlib.axes.Axes: The axes containing the plot.
     """
 
     # Check if the vector field is complex

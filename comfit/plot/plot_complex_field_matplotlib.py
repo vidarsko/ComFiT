@@ -10,7 +10,10 @@ from comfit.plot.plot_surface_matplotlib import plot_surface_matplotlib
 
 from skimage.measure import marching_cubes
 
-def plot_complex_field_matplotlib(self, complex_field: np.ndarray, **kwargs) -> matplotlib.axes.Axes:
+def plot_complex_field_matplotlib(self, 
+        complex_field: np.ndarray, 
+        **kwargs
+        ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     """
     Plot a complex field.
 
@@ -22,8 +25,9 @@ def plot_complex_field_matplotlib(self, complex_field: np.ndarray, **kwargs) -> 
             If not provided, a new 3D axes will be created.
     
     Returns:
-        matplotlib.axes.Axes: The axes containing the plot.
-
+        tuple: A tuple containing:
+            - matplotlib.figure.Figure: The figure containing the plot.
+            - matplotlib.axes.Axes: The axes containing the plot.
     """
 
     fig = kwargs.get('fig', plt.gcf())
