@@ -76,9 +76,9 @@ def plot_complex_field_in_plane_plotly(
         # theta_verts = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
         # rho_verts = sp.interpolate.griddata(points, rho_values, centroids, method='nearest')
 
-        interpolation_method = kwargs.get('interpolation_method', 'linear')
+        interpolation_method = kwargs.get('interpolation_method', 'linear') #TODO: This line is inconsistent in naming with
         print("Interpolating points with method: ' ", interpolation_method, "'.")
-        print("If this process is slow, consider passing 'interpolation='nearest' with the plot_complex_field_in_plane function.")
+        print("If this process is slow, consider passing 'interpolation_method='nearest' with the plot_complex_field_in_plane function.") #TODO: this line. (interpolation vs interpolation_method)
         print("That will speed up the process, but the plot may look less smooth.")
         reals_verts = sp.interpolate.griddata(points, reals.ravel(), centroids, method=interpolation_method)
         imags_verts = sp.interpolate.griddata(points, imags.ravel(), centroids, method=interpolation_method)

@@ -266,7 +266,7 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
 
                 interpolation_method = kwargs.get('interpolation_method', 'linear')
                 print("Interpolating points with method ", interpolation_method, ".")
-                print("If this process is slow, consider passing 'interpolation='nearest' with the plot_complex_field function.")
+                print("If this process is slow, consider passing 'interpolation_method='nearest' with the plot_complex_field function.")
                 print("That will speed up the process, but the plot may look less smooth.")
                 reals_faces = sp.interpolate.griddata(points, reals.ravel(), centroids, method='nearest')
                 imags_faces = sp.interpolate.griddata(points, imags.ravel(), centroids, method='nearest')
