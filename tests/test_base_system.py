@@ -163,14 +163,14 @@ class TestBaseSystem(unittest.TestCase):
         psi[0] = bs.xmax/(2*np.pi)*np.sin((bs.x - bs.xmid)/bs.xmax*2*np.pi)
         psi[1] = bs.ymax/(2*np.pi)*np.sin((bs.y - bs.ymid)/bs.ymax*2*np.pi)
         D = bs.calc_determinant_field(psi)
-        self.assertAlmostEquals(D[bs.xmidi,bs.ymidi], 1.0)
+        self.assertAlmostEqual(D[bs.xmidi,bs.ymidi], 1.0)
 
         # Testing a -1 charge field
         # Making the field respecting the periodicity
         psi[0] = bs.xmax/(2*np.pi)*np.sin((bs.x - bs.xmid)/bs.xmax*2*np.pi)
         psi[1] = -bs.ymax/(2*np.pi)*np.sin((bs.y - bs.ymid)/bs.ymax*2*np.pi)
         D = bs.calc_determinant_field(psi)
-        self.assertAlmostEquals(D[bs.xmidi,bs.ymidi], -1.0)
+        self.assertAlmostEqual(D[bs.xmidi,bs.ymidi], -1.0)
 
         # 3 dimensions
         # Testing a 0-field
