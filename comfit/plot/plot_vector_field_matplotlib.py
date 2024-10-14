@@ -1,3 +1,6 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
 
 from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_add_spacing_2D import tool_add_spacing_2D
@@ -394,5 +397,5 @@ def plot_vector_field_matplotlib(self,
         raise Exception("You have entered an invalid field to the plot_vector_field function.")
 
     kwargs['ax'] = ax
-    plot_tool_set_axis_properties_matplotlib(self, **kwargs)
+    plot_tool_set_axis_properties_matplotlib(self, **kwargs) # TODO: Fix this. Possibly tool_set_plot_axis_properties_matplotlib
     return fig, ax

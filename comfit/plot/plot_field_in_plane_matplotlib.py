@@ -1,11 +1,15 @@
+from typing import Optional
+
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import scipy as sp
-from typing import Optional
+from skimage.measure import marching_cubes
+
 from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
+from comfit.tool.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
 
-from skimage.measure import marching_cubes
 
 def plot_field_in_plane_matplotlib(
         self,
