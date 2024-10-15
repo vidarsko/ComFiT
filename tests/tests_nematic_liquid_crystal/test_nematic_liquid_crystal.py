@@ -4,7 +4,7 @@ import os
 
 # Run 
 # Adjust the path to import the comfit package
-sys.path.append(os.path.abspath('../'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 import comfit as cf
 import numpy as np
 import matplotlib.pyplot as plt
