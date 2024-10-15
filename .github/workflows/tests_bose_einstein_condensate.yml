@@ -1,0 +1,41 @@
+name: Run bose_einstein_condensate tests
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'comfit/bose_einstein_condensate/**.py'  # Trigger when any Python file in comfit/bose_einstein_condensate directory is changed
+      - 'tests/tests_bose_einstein_condensate/**.py'  # Trigger when any test file in tests/tests_bose_einstein_condensate directory is changed
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'comfit/bose_einstein_condensate/**.py'  # Trigger when any Python file in comfit/bose_einstein_condensate directory is changed
+      - 'tests/tests_bose_einstein_condensate/**.py'  # Trigger when any test file in tests/tests_bose_einstein_condensate directory is changed
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'  # Specify your Python version here
+
+    - name: Install ffmpeg and xvfb
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --fix-missing ffmpeg xvfb
+
+    - name: Install dependencies
+      run: |
+        pip install .
+
+    - name: Run bose_einstein_condensate tests
+      run: |
+        xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest discover tests/tests_bose_einstein_condensate/
