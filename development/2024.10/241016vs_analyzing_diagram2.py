@@ -25,14 +25,14 @@ time_limit = 100000
 
 # Create a folder with the current date and time
 # folder_name = 'nx_20_Bx_0.98_psi0_0_r_0.02_t_0.5_v_0.3333333333333333_time_limit_100000_20241002_230447'
-# folder_name = r'C:\Users\vidar\UiO Dropbox\Vidar Skogvoll\My projects\241001 - Data from exploring\nx_20_Bx_0.98_psi0_0_r_0.02_t_0.5_v_0.3333333333333333_time_limit_100000_20241002_230447'
+folder_name = r'C:\Users\vidar\Desktop\ComFiT\20241016_213811_nx_40_Bx_0.98_psi0_0_t_0.5_v_0.3333333333333333_time_limit_100000'
 # if not os.path.exists(folder_name):
 #     os.makedirs(folder_name)
 
 # Parameters for plotting
 res = 101
-Delta_Bs = np.linspace(-0.02, 0.06, res)
-strains = np.linspace(-0.1, 0.1, res)
+Delta_Bs = np.linspace(-0.15,0.06,res)
+strains = np.linspace(-0.2,0.2,res)
 Delta_Bs_mesh, strains_mesh = np.meshgrid(Delta_Bs, strains)
 time_to_nucleation = np.nan * np.zeros_like(Delta_Bs_mesh)
 
