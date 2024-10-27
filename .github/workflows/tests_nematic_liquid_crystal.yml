@@ -1,0 +1,41 @@
+name: Run nematic_liquid_crystal tests
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'comfit/nematic_liquid_crystal/**.py'  # Trigger when any Python file in comfit/nematic_liquid_crystal directory is changed
+      - 'tests/tests_nematic_liquid_crystal/**.py'  # Trigger when any test file in tests/tests_nematic_liquid_crystal directory is changed
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'comfit/nematic_liquid_crystal/**.py'  # Trigger when any Python file in comfit/nematic_liquid_crystal directory is changed
+      - 'tests/tests_nematic_liquid_crystal/**.py'  # Trigger when any test file in tests/tests_nematic_liquid_crystal directory is changed
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'  # Specify your Python version here
+
+    - name: Install ffmpeg and xvfb
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --fix-missing ffmpeg xvfb
+
+    - name: Install dependencies
+      run: |
+        pip install .
+
+    - name: Run nematic_liquid_crystal tests
+      run: |
+        xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest discover tests/tests_nematic_liquid_crystal/

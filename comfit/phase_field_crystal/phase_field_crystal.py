@@ -778,7 +778,6 @@ class PhaseFieldCrystal(BaseSystem):
         # eyy = np.array([[a,0,-a] for a in strain_magnitudes]).flatten()
 
         f0 = self.calc_free_energy()/self.volume
-        print('FREE ENERGY ZERO IN THE PFC CLASS:', f0)
 
         # free_energies = np.zeros_like(exx)
         # for n in range(len(exx)):

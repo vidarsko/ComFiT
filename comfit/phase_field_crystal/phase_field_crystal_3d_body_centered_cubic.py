@@ -1,4 +1,4 @@
-from comfit.models.phase_field_crystal import PhaseFieldCrystal
+from comfit.phase_field_crystal.phase_field_crystal import PhaseFieldCrystal
 
 import numpy as np
 from tqdm import tqdm

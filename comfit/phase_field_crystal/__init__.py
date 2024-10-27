@@ -4,6 +4,3 @@ from .phase_field_crystal_2d_square import PhaseFieldCrystal2DSquare
 from .phase_field_crystal_3d_body_centered_cubic import PhaseFieldCrystal3DBodyCenteredCubic
 from .phase_field_crystal_3d_face_centered_cubic import PhaseFieldCrystal3DFaceCenteredCubic
 from .phase_field_crystal_3d_simple_cubic import PhaseFieldCrystal3DSimpleCubic
-from .quantum_mechanics import QuantumMechanics
-from .nematic_liquid_crystal import NematicLiquidCrystal
-
