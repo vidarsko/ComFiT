@@ -160,7 +160,11 @@ class QuantumMechanics(BaseSystem):
             The nonlinear evolution function f.
         """
 
-        return sp.fft.fftn((1j) * (-self.V_ext) * psi)
+        if callable(self.V_ext):
+            potential = self.V_ext(t)
+        else:
+            potential = self.V_ext
+        return sp.fft.fftn((1j) * (-potential) * psi)
 
 
     ## Time evolution functions
