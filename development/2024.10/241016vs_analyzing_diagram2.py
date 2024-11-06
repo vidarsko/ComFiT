@@ -25,7 +25,9 @@ time_limit = 100000
 
 # Create a folder with the current date and time
 # folder_name = 'nx_20_Bx_0.98_psi0_0_r_0.02_t_0.5_v_0.3333333333333333_time_limit_100000_20241002_230447'
-folder_name = r'C:\Users\vidar\Desktop\ComFiT\20241016_213811_nx_40_Bx_0.98_psi0_0_t_0.5_v_0.3333333333333333_time_limit_100000'
+# folder_name = r'C:\Users\vidar\Desktop\ComFiT\20241016_213811_nx_40_Bx_0.98_psi0_0_t_0.5_v_0.3333333333333333_time_limit_100000'
+# folder_name = r'C:\Users\vidar\Desktop\ComFiT\20241019_063449_nx_40_Bx_0.98_psi0_0_t_0.5_v_0.3333333333333333_time_limit_100000'
+folder_name = r'C:\Users\vidar\Desktop\ComFiT\20241019_063409_nx_40_Bx_0.98_psi0_0_t_0.5_v_0.3333333333333333_time_limit_100000'
 # if not os.path.exists(folder_name):
 #     os.makedirs(folder_name)
 
