@@ -13,22 +13,15 @@ import json
 import pickle
 
 
-nx=40
 B_x=0.98
 psi0=0
 t=1/2/B_x
 v=1/3/B_x
 Delta_B = -0.14
-time_limit = 100000
-time_step = 1000
-
-pfc0 = cf.PhaseFieldCrystal2DTriangular(nx,round(nx/np.sqrt(3)), t=t, r=Delta_B/B_x, v=v, psi0=psi0)
-pfc0.conf_PFC_from_amplitudes()  
 
 res = 101
 strains = np.linspace(-0.2,0.2,81)
 time_to_nucleation = np.nan*np.zeros_like(strains)
-
 
 strain_counter = 0
 finished = False
@@ -39,7 +32,22 @@ for m in range(len(strains)):
         j = strain_counter if from_low_strain else -strain_counter-1
         strain_counter += 1
         print(f"Considering strain = {strains[j]:.3f}")
-        
+
+        xmax = 1000*0.63
+        ax = 4*np.pi/(np.sqrt(3)*(1-strain))
+        ay = 4*np.pi/(1-strain)
+
+        nx = int(xmax/ax + 0.5)
+        ny = int(xmax/ay + 0.5)
+
+        dx = nx*ax/1000
+        dy = ny*ay/1000
+
+        micro_resolution = ax/dx 
+
+        pfc0 = cf.PhaseFieldCrystal2DTriangular(nx,ny, t=t, r=Delta_B/B_x, v=v, psi0=psi0)
+        pfc0.conf_PFC_from_amplitudes()  
+
         pfc = copy.deepcopy(pfc0)
         distortion = np.eye(2)*strain
         pfc.conf_apply_distortion(distortion, update_q_and_a_vectors=False)
