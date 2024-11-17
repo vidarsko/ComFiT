@@ -17,13 +17,13 @@ from comfit.tool.tool_print_in_color import tool_print_in_color
 
 class PhaseFieldCrystal(BaseSystem):
 
-    def __init__(self, dimension, **kwargs):
+    def __init__(self, dim, **kwargs):
         """
         Initializes a system to simulate a Phase Field Crystal. This class is the base of the other
         phase field crystal models implemented in comfit
 
         Args:
-            dimension: The dimension of the system.
+            dim: The dimension of the system.
             kwargs :keyword arguments to set additional parameters. See https://comfitlib.com/ClassPhaseFieldCrystal/
 
         Returns:
@@ -31,7 +31,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         
         # First initialize the BaseSystem class
-        super().__init__(dimension, **kwargs)
+        super().__init__(dim, **kwargs)
 
         # If there are additional arguments provided, set them as attributes
         for key, value in kwargs.items():

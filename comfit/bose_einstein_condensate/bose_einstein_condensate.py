@@ -10,11 +10,11 @@ import scipy as sp
 from comfit.bose_einstein_condensate.plot_vortex_nodes_plotly import plot_vortex_nodes_plotly
 
 class BoseEinsteinCondensate(BaseSystem):
-    def __init__(self, dimension: int, **kwargs):
+    def __init__(self, dim: int, **kwargs):
         """Initializes a system to simulate a Bose-Einstein Condensate using the Gross-Pitaevskii equation.
 
         Args:
-            dimension : int
+            dim : int
                 The dimension of the system.
             kwargs : dict, optional
                 Optional keyword arguments to set additional parameters. see
@@ -30,7 +30,7 @@ class BoseEinsteinCondensate(BaseSystem):
         """
 
         # First initialize the BaseSystem class
-        super().__init__(dimension, **kwargs)
+        super().__init__(dim, **kwargs)
 
         # Type of the system
         self.psi = None
@@ -236,7 +236,7 @@ class BoseEinsteinCondensate(BaseSystem):
                 self.conf_insert_vortex(charge=-1 * vortex['charge'], position=[x_coord + self.dx, y_coord])
                 # self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
 
-    def conf_dissipative_frame(self, d: float = 7, wx: float = 50, wy: float = 50, wz: float = 50):
+    def conf_dissipative_frame(self, interface_width: float = 7, wx: float = 50, wy: float = 50, wz: float = 50):
         '''Configures a dissipative frame around the computational domain
 
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
@@ -253,14 +253,14 @@ class BoseEinsteinCondensate(BaseSystem):
         '''
         if self.dim == 2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X - self.xmid - wx) / d) - np.tanh((X - self.xmid + wx) / d))
-            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y - self.ymid - wy) / d) - np.tanh((Y - self.ymid + wy) / d))
+            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X - self.xmid - wx) /interface_width) - np.tanh((X - self.xmid + wx) /interface_width))
+            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y - self.ymid - wy) /interface_width) - np.tanh((Y - self.ymid + wy) /interface_width))
             self.gamma = np.real(np.maximum(gammax, gammay))
         elif self.dim == 3:
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X - self.xmid - wx) / d) - np.tanh((X - self.xmid + wx) / d))
-            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y - self.ymid - wy) / d) - np.tanh((Y - self.ymid + wy) / d))
-            gammaz = self.gamma + 1 / 2 * (2 + np.tanh((Z - self.zmid - wz) / d) - np.tanh((Z - self.zmid + wz) / d))
+            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X - self.xmid - wx) /interface_width) - np.tanh((X - self.xmid + wx) /interface_width))
+            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y - self.ymid - wy) /interface_width) - np.tanh((Y - self.ymid + wy) /interface_width))
+            gammaz = self.gamma + 1 / 2 * (2 + np.tanh((Z - self.zmid - wz) /interface_width) - np.tanh((Z - self.zmid + wz) /interface_width))
             self.gamma = np.real(np.maximum(gammax, gammay, gammaz))
         else:
             raise Exception("This feature is not yet available for the given dimension.")

@@ -14,7 +14,7 @@ from matplotlib.colors import Normalize
 
 class NematicLiquidCrystal(BaseSystem):
 
-    def __init__(self, dimension, **kwargs):
+    def __init__(self, dim, **kwargs):
         """Initializes a system to simulate a (active) nematic liquid crystal
 
         Args:
@@ -32,7 +32,7 @@ class NematicLiquidCrystal(BaseSystem):
             Creates a nematic liquid crystal with 2 dimensions and a spatial resolution of 100.
             The activity alpha is set to -0.5.
         """
-        super().__init__(dimension, **kwargs)
+        super().__init__(dim, **kwargs)
 
         # Type of the system
         self.Q = None
