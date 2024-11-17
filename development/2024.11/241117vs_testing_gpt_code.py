@@ -33,4 +33,13 @@ import scipy as sp
 # fig.show()
 
 
-bs = cf.BaseSystem(2, xmin=0, xmax=20, xlim=[-2,22], dx = 3, xRes=256, ylim = [0, 20], ymax = 20, dy = 3, yRes = 256)
+# bs = cf.BaseSystem(2, xmin=0, xmax=20, xlim=[-2,22], dx = 3, xRes=256, ylim = [0, 20], ymax = 20, dy = 3, yRes = 256)
+
+
+bec = cf.BoseEinsteinCondensate(2,xRes=31,yRes=31)
+print(bec.xmax)
+# bec.conf_insert_vortex_dipole(
+#     dipole_vector=[bec.xmax/3,0],
+#     dipole_position=bec.rmid)
+# bec.evolve_relax(100)
+# Dnodes = bec.calc_vortex_nodes()

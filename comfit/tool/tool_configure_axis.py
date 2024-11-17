@@ -59,7 +59,7 @@ def tool_configure_axis(dim, name, xlim=None, xmin=None, xmax=None, xRes=None, d
             # E.g. xRes = 56
 
             xmin = 0
-            xmax = 101
+            xmax = xRes
             dx = (xmax - xmin) / xRes
             xlim = [xmin, xmax]
         
