@@ -15,7 +15,7 @@ bec.conf_external_potential(pot, additive=False)
 bec.conf_initial_condition_Thomas_Fermi()
 bec.evolve_relax(100)
 
-bec.conf_dissipative_frame(wx=25,wy=25,wz=25)
+bec.conf_dissipative_frame(frame_width_x=25,frame_width_y=25,frame_width_z=25)
 
 
 
