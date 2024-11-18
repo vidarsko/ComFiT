@@ -631,7 +631,11 @@ class BoseEinsteinCondensate(BaseSystem):
 
     # Plot functions
     def plot_vortex_nodes(self, vortex_nodes, **kwargs):
-        return plot_vortex_nodes_plotly(self, vortex_nodes, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_vortex_nodes_plotly(self, vortex_nodes, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return self.plot_vortex_nodes_matplotlib(vortex_nodes, **kwargs)
+
 
 
     

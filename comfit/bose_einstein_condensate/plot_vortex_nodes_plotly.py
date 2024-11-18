@@ -167,4 +167,4 @@ def plot_vortex_nodes_plotly(self, vortex_nodes, **kwargs):
         kwargs['fig'] = fig
         tool_set_plot_axis_properties_plotly(self, **kwargs)
 
-        return fig
+        return fig, ax
