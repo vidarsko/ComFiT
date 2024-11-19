@@ -50,31 +50,66 @@ def plot_vortex_nodes_plotly(self, vortex_nodes, **kwargs):
                     vx_coords_neg.append(vortex['velocity'][0])
                     vy_coords_neg.append(vortex['velocity'][1])
 
-            # print(x_coords_pos,y_coords_pos)
-            # print(x_coords_neg,y_coords_neg)
-            fig.add_trace(go.Scatter(x=x_coords_pos, y=y_coords_pos, mode='markers', marker=dict(symbol='cross', color='red')))
-            fig.add_trace(go.Scatter(x=x_coords_neg, y=y_coords_neg, mode='markers', marker=dict(symbol='star', color='blue')))
+            velociy_scale = 0.1*min(self.size_x, self.size_y)
 
             vx_coords_neg = np.array(vx_coords_neg)
             vy_coords_neg = np.array(vy_coords_neg)
-            vnorm_neg = np.sqrt(vx_coords_neg**2 + vy_coords_neg**2)
-            
-            vx_coords_neg = vx_coords_neg/vnorm_neg*self.a0
-            vy_coords_neg = vy_coords_neg/vnorm_neg*self.a0
 
-            fig1 = ff.create_quiver(x=x_coords_pos, y=y_coords_pos, u=vx_coords_pos, v=vy_coords_pos, line=dict(width=1, color='black'))
-
+            if len(vx_coords_neg) > 0:
+                vnorm_neg = np.max(np.sqrt(vx_coords_neg**2 + vy_coords_neg**2))
+            else: 
+                vnorm_neg = 0
+    
             vx_coords_pos = np.array(vx_coords_pos)
             vy_coords_pos = np.array(vy_coords_pos)
-            vnorm_pos = np.sqrt(vx_coords_pos**2 + vy_coords_pos**2)
 
-            vx_coords_pos = vx_coords_pos/vnorm_pos*self.a0
-            vy_coords_pos = vy_coords_pos/vnorm_pos*self.a0
+            if len(vx_coords_pos) > 0:
+                vnorm_pos = np.max(np.sqrt(vx_coords_pos**2 + vy_coords_pos**2))
+            else:
+                vnorm_pos = 0
 
-            fig2 = ff.create_quiver(x=x_coords_neg, y=y_coords_neg, u=vx_coords_neg, v=vy_coords_neg, line=dict(width=1, color='black'))
-            
-            fig.add_traces(data=fig1.data)
-            fig.add_traces(data=fig2.data)
+            vnorm = max(vnorm_neg, vnorm_pos)
+
+            if len(x_coords_neg) > 0:
+                fig.add_trace(go.Scatter(x=x_coords_neg, 
+                                        y=y_coords_neg, 
+                                        mode='markers', 
+                                        marker=dict(symbol='star', color='blue'),
+                                        showlegend=False))
+                
+                vx_coords_neg = velociy_scale*vx_coords_neg/vnorm
+                vy_coords_neg = velociy_scale*vy_coords_neg/vnorm
+
+                fig1 = ff.create_quiver(x=x_coords_neg, 
+                                        y=y_coords_neg, 
+                                        u=vx_coords_neg, 
+                                        v=vy_coords_neg, 
+                                        line=dict(width=1, color='black'), 
+                                        scale=1,
+                                        showlegend=False)
+
+                fig.add_traces(data=fig1.data)
+
+            if len(x_coords_pos) > 0:
+                fig.add_trace(go.Scatter(x=x_coords_pos, 
+                                        y=y_coords_pos, 
+                                        mode='markers', 
+                                        marker=dict(symbol='cross', color='red'),
+                                        showlegend=False))
+
+                
+                vx_coords_pos = velociy_scale*vx_coords_pos/vnorm
+                vy_coords_pos = velociy_scale*vy_coords_pos/vnorm
+
+                fig2 = ff.create_quiver(x=x_coords_pos, 
+                                        y=y_coords_pos, 
+                                        u=vx_coords_pos, 
+                                        v=vy_coords_pos, 
+                                        line=dict(width=1, color='black'),
+                                        scale=1,
+                                        showlegend=False)
+                
+                fig.add_traces(data=fig2.data)
 
         elif self.dim == 3:
             # Plotting options
@@ -120,15 +155,16 @@ def plot_vortex_nodes_plotly(self, vortex_nodes, **kwargs):
             else:
                 v_norm = 1
 
-            #ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')\
-            fig.add_trace(go.Scatter(x=x_coords, y=y_coords, mode='markers', marker=dict(symbol='circle', color='black')))
+            if len(x_coords) > 0:
+                #ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')\
+                fig.add_trace(go.Scatter(x=x_coords, y=y_coords, mode='markers', marker=dict(symbol='circle', color='black')))
 
-            fig.add_trace(go.Cone(x=x_coords, y=y_coords, z=z_coords, u=tx, v=ty, w=tz, colorscale='Blues', sizemode='scaled', sizeref=0))
+                fig.add_trace(go.Cone(x=x_coords, y=y_coords, z=z_coords, u=tx, v=ty, w=tz, colorscale='Blues', sizemode='scaled', sizeref=0))
 
-            fig.add_trace(go.Cone(x=x_coords, y=y_coords, z=z_coords, u=vx, v=vy, w=vz, colorscale='Greens', sizemode='scaled', sizeref=0))
+                fig.add_trace(go.Cone(x=x_coords, y=y_coords, z=z_coords, u=vx, v=vy, w=vz, colorscale='Greens', sizemode='scaled', sizeref=0))
             
 
         kwargs['fig'] = fig
         tool_set_plot_axis_properties_plotly(self, **kwargs)
 
-        return fig
+        return fig, ax

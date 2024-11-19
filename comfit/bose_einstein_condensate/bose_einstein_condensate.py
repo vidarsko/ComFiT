@@ -233,7 +233,11 @@ class BoseEinsteinCondensate(BaseSystem):
                 self.conf_insert_vortex(charge=-1 * vortex['charge'], position=[x_coord + self.dx, y_coord])
                 # self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
 
-    def conf_dissipative_frame(self, interface_width: float = 7, wx: float = 50, wy: float = 50, wz: float = 50):
+    def conf_dissipative_frame(self, interface_width: float = 7, 
+                                    frame_width_x: float = None, 
+                                    frame_width_y: float = None, 
+                                    frame_width_z: float = None) -> None:
+
         '''Configures a dissipative frame around the computational domain
 
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
@@ -241,23 +245,37 @@ class BoseEinsteinCondensate(BaseSystem):
         
         Args:
             d: length of the interface between the low gamma and high gamma regions (float)
-            wx: distance fom center to the frame in x-direction (float)
-            wy:    -- " --                         y-direction (float)
-            wz:     -- " --                         z-direction (float)
-        
+            frame_width_x: distance fom center to the frame in x-direction (float)
+            frame_width_y:    -- " --                         y-direction (float)
+            frame_width_z:     -- " --                         z-direction (float)
+
         Returns:
             modify self.gamma
         '''
+
+        # If configuration is called for the first time, set initial_gamma
+        if not hasattr(self, 'initial_gamma'):
+            self.initial_gamma = self.gamma
+
+        # Set default values for frame_width
+        if frame_width_x is None:
+            frame_width_x = 0.8*self.size_x
+        if frame_width_y is None:
+            frame_width_y = 0.8*self.size_y
+        if frame_width_z is None:
+            frame_width_z = 0.8*self.size_z
+
+        # Set the frame
         if self.dim == 2:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X - self.xmid - wx) /interface_width) - np.tanh((X - self.xmid + wx) /interface_width))
-            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y - self.ymid - wy) /interface_width) - np.tanh((Y - self.ymid + wy) /interface_width))
+            gammax = self.initial_gamma + 0.5 * (2 + np.tanh((X - self.xmid - frame_width_x/2) /interface_width) - np.tanh((X - self.xmid + frame_width_x/2) /interface_width))
+            gammay = self.initial_gamma + 0.5 * (2 + np.tanh((Y - self.ymid - frame_width_y/2) /interface_width) - np.tanh((Y - self.ymid + frame_width_y/2) /interface_width))
             self.gamma = np.real(np.maximum(gammax, gammay))
         elif self.dim == 3:
             X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-            gammax = self.gamma + 1 / 2 * (2 + np.tanh((X - self.xmid - wx) /interface_width) - np.tanh((X - self.xmid + wx) /interface_width))
-            gammay = self.gamma + 1 / 2 * (2 + np.tanh((Y - self.ymid - wy) /interface_width) - np.tanh((Y - self.ymid + wy) /interface_width))
-            gammaz = self.gamma + 1 / 2 * (2 + np.tanh((Z - self.zmid - wz) /interface_width) - np.tanh((Z - self.zmid + wz) /interface_width))
+            gammax = self.initial_gamma + 0.5 * (2 + np.tanh((X - self.xmid - frame_width_x/2) /interface_width) - np.tanh((X - self.xmid + frame_width_x/2) /interface_width))
+            gammay = self.initial_gamma + 0.5 * (2 + np.tanh((Y - self.ymid - frame_width_y/2) /interface_width) - np.tanh((Y - self.ymid + frame_width_y/2) /interface_width))
+            gammaz = self.initial_gamma + 0.5 * (2 + np.tanh((Z - self.zmid - frame_width_z/2) /interface_width) - np.tanh((Z - self.zmid + frame_width_z/2) /interface_width))
             self.gamma = np.real(np.maximum(gammax, gammay, gammaz))
         else:
             raise Exception("This feature is not yet available for the given dimension.")
@@ -613,7 +631,11 @@ class BoseEinsteinCondensate(BaseSystem):
 
     # Plot functions
     def plot_vortex_nodes(self, vortex_nodes, **kwargs):
-        return plot_vortex_nodes_plotly(self, vortex_nodes, **kwargs)
+        if self.plot_lib == 'plotly':
+            return plot_vortex_nodes_plotly(self, vortex_nodes, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return self.plot_vortex_nodes_matplotlib(vortex_nodes, **kwargs)
+
 
 
     
