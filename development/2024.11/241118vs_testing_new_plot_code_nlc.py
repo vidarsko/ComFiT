@@ -24,12 +24,12 @@ dt_Q = (nem.Q -Q_prev)/(10*nem.dt)
 
 polarization = nem.calc_disclination_polarization_field()
 D = nem.calc_disclination_density_nematic()
-S,director =nem.calc_order_and_director()
+S, director =nem.calc_order_and_director()
 
 Dnodes =nem.calc_disclination_nodes_nem(dt_Q=dt_Q)
 
-fig = nem.plot_field_velocity_and_director(D,nem.u,director)
-# nem.plot_disclination_nodes(Dnodes,fig=fig)
+fig = nem.plot_field_velocity_and_director(D, nem.u, director)
+nem.plot_disclination_nodes(Dnodes,fig=fig)
 fig.show()
 
 

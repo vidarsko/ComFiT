@@ -39,27 +39,54 @@ def plot_field_velocity_and_director_plotly(self, field, velocity, director, **k
     field = tool_complete_field(self, field)
 
     fig_tmp = plot_field_plotly(self, field, **kwargs)
-    fig.add_trace(fig_tmp.data[0])
+    fig.add_trace(fig_tmp.data[0].update(showlegend=False))
 
     # Plot the director field using quiver
     X, Y = np.meshgrid(self.x, self.y, indexing='ij')
-    fig_tmp = ff.create_quiver(x=X.flatten()/self.a0,
-                               y=Y.flatten()/self.a0,
-                               u=director[0].flatten(),
-                               v=director[1].flatten(),
-                               scale=0.1,
-                               arrow_scale=0.3,
-                               name='Director')
 
-    fig.add_trace(fig_tmp.data[0])
+    u = director[0].flatten()
+    v = director[1].flatten()
+    
+    magnitude = np.sqrt(u**2 + v**2)
+    magnitude_max = max(np.max(magnitude),1e-12)
+    magnitude_normalized = magnitude/magnitude_max
+
+    angle = np.arctan2(v, u)
+    direction = np.array([np.cos(angle), np.sin(angle)]).T
+
+    spacing = 10
+
+    fig.add_trace(go.Scatter(
+        x=X.flatten()/self.a0,
+        y=Y.flatten()/self.a0,
+        mode='markers',
+        marker=dict(symbol='line-ew', 
+            angle=90-angle.flatten()*180/np.pi, 
+            size=0.5*spacing*magnitude_normalized.flatten(), 
+            sizemode='diameter',
+            color=magnitude.flatten(), 
+            cmin=0,
+            cmax=magnitude_max,
+            line=dict(color='black')
+            ),
+            hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
+                '<b>y:</b> %{y:.2f}a0<br>' +
+                '<b>nx:</b> %{customdata[0]:.2e}<br>' +  
+                '<b>ny:</b> %{customdata[1]:.2e}<br>' +
+                '<b>|S|:</b> %{customdata[2]:.2e}<extra></extra>',
+            customdata=np.stack((u.flatten(), v.flatten(), field.flatten()), axis=-1), showlegend=False  # Adding ux, uy and u as customdata
+        )
+        )
 
     fig_tmp = ff.create_streamline(x=self.x/self.a0, 
                                     y=self.y.flatten()/self.a0, 
                                     u=velocity[0].T, 
                                     v=velocity[1].T, 
-                                    name='Velocity',
                                     arrow_scale=1, 
                                     density=1)
+    for trace in fig_tmp.data:
+        trace.showlegend = False
+
     fig.add_trace(fig_tmp.data[0])
 
     kwargs['fig'] = fig
