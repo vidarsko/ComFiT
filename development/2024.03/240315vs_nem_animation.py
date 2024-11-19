@@ -33,7 +33,7 @@ for n in range(200):
     plt.clf()
     ax =nem.plot_field_velocity_and_director(D,nem.u,director,colormap='spring',cmin=-0.15, cmax=0.15)
 
-    nem.plot_disclination_nodes(Dnodes,ax=ax)
+    nem.plot_nodes(Dnodes,ax=ax)
     cf.tool_save_plot_matplotlib(n)
 
 cf.tool_make_animation_gif(n)

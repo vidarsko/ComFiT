@@ -7,8 +7,6 @@ from tqdm import tqdm
 from mpl_toolkits.mplot3d import Axes3D  
 import scipy as sp
 
-from comfit.bose_einstein_condensate.plot_vortex_nodes_plotly import plot_vortex_nodes_plotly
-
 class BoseEinsteinCondensate(BaseSystem):
     def __init__(self, dim: int, **kwargs):
         """Initializes a system to simulate a Bose-Einstein Condensate using the Gross-Pitaevskii equation.
@@ -628,13 +626,6 @@ class BoseEinsteinCondensate(BaseSystem):
                     vortex['velocity'] = [float('nan'), float('nan'), float('nan')]
 
         return vortex_nodes
-
-    # Plot functions
-    def plot_vortex_nodes(self, vortex_nodes, **kwargs):
-        if self.plot_lib == 'plotly':
-            return plot_vortex_nodes_plotly(self, vortex_nodes, **kwargs)
-        elif self.plot_lib == 'matplotlib':
-            return self.plot_vortex_nodes_matplotlib(vortex_nodes, **kwargs)
 
 
 

@@ -29,6 +29,8 @@ from comfit.plot import plot_angle_field_in_plane_matplotlib
 from comfit.plot import plot_angle_field_in_plane_plotly
 from comfit.plot import plot_vector_field_in_plane_matplotlib
 from comfit.plot import plot_vector_field_in_plane_plotly
+from comfit.plot import plot_nodes_matplotlib
+from comfit.plot import plot_nodes_plotly
 
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -139,3 +141,9 @@ class BaseSystemPlot:
             return plot_vector_field_in_plane_matplotlib(
                 self, vector_field, normal_vector, position, spacing, **kwargs
             )
+
+    def plot_nodes(self, disclination_nodes, **kwargs):
+        if self.plot_lib == 'plotly':
+            return plot_nodes_plotly(self, disclination_nodes, **kwargs)
+        elif self.plot_lib == 'matplotlib':
+            return plot_nodes_matplotlib(self, disclination_nodes, **kwargs)

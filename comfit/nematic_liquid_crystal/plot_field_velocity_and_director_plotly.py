@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
+from comfit.tool.tool_add_spacing_2D import tool_add_spacing_2D
 
 from comfit.plot.plot_field_plotly import plot_field_plotly
 
@@ -32,11 +33,11 @@ def plot_field_velocity_and_director_plotly(self, field, velocity, director, **k
     # Check if an axis object is provided
     fig = kwargs.get('fig', go.Figure())
 
-    # Kewyord arguments
-    colorbar = kwargs.get('colorbar', True)
-
     # Extend the field if not a complete array is given
     field = tool_complete_field(self, field)
+
+    kwargs['colormap'] = kwargs.get('colormap', 'Picnic')
+    kwargs['vlim_symmetric'] = kwargs.get('vlim_symmetric', True)
 
     fig_tmp = plot_field_plotly(self, field, **kwargs)
     fig.add_trace(fig_tmp.data[0].update(showlegend=False))
@@ -44,25 +45,27 @@ def plot_field_velocity_and_director_plotly(self, field, velocity, director, **k
     # Plot the director field using quiver
     X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
-    u = director[0].flatten()
-    v = director[1].flatten()
-    
+    spacing = kwargs.get('spacing', 5)
+
+    X, Y, U, V = tool_add_spacing_2D(X,Y,director[0],director[1],spacing)
+
+    u = U.flatten()
+    v = V.flatten()
+
     magnitude = np.sqrt(u**2 + v**2)
     magnitude_max = max(np.max(magnitude),1e-12)
     magnitude_normalized = magnitude/magnitude_max
 
     angle = np.arctan2(v, u)
     direction = np.array([np.cos(angle), np.sin(angle)]).T
-
-    spacing = 10
-
+    
     fig.add_trace(go.Scatter(
         x=X.flatten()/self.a0,
         y=Y.flatten()/self.a0,
         mode='markers',
         marker=dict(symbol='line-ew', 
             angle=90-angle.flatten()*180/np.pi, 
-            size=0.5*spacing*magnitude_normalized.flatten(), 
+            size=2*spacing*magnitude_normalized.flatten(), 
             sizemode='diameter',
             color=magnitude.flatten(), 
             cmin=0,
@@ -72,9 +75,8 @@ def plot_field_velocity_and_director_plotly(self, field, velocity, director, **k
             hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
                 '<b>y:</b> %{y:.2f}a0<br>' +
                 '<b>nx:</b> %{customdata[0]:.2e}<br>' +  
-                '<b>ny:</b> %{customdata[1]:.2e}<br>' +
-                '<b>|S|:</b> %{customdata[2]:.2e}<extra></extra>',
-            customdata=np.stack((u.flatten(), v.flatten(), field.flatten()), axis=-1), showlegend=False  # Adding ux, uy and u as customdata
+                '<b>ny:</b> %{customdata[1]:.2e}<br>',
+            customdata=np.stack((u.flatten(), v.flatten()), axis=-1), showlegend=False  # Adding ux, uy and u as customdata
         )
         )
 
@@ -84,10 +86,11 @@ def plot_field_velocity_and_director_plotly(self, field, velocity, director, **k
                                     v=velocity[1].T, 
                                     arrow_scale=1, 
                                     density=1)
+        
     for trace in fig_tmp.data:
         trace.showlegend = False
 
-    fig.add_trace(fig_tmp.data[0])
+    # fig.add_trace(fig_tmp.data[0])
 
     kwargs['fig'] = fig
     tool_set_plot_axis_properties_plotly(self, **kwargs)

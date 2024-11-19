@@ -53,6 +53,22 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
     # Colormap
     colormap = kwargs.get('colormap', 'Viridis')
 
+    # Field limits
+    field_min = np.min(field)
+    field_max = np.max(field)
+
+    if 'vlim' in kwargs:
+        vlim = kwargs['vlim']
+        vmin = vlim[0]
+        vmax = vlim[1]
+    else:
+        vmin = field_min
+        vmax = field_max
+        if 'vlim_symmetric' in kwargs:
+            if kwargs['vlim_symmetric']:
+                vmax = max(abs(vmin), abs(vmax))
+                vmin = -vmax
+
     ###############################################################
     ###################### DIMENSION: 1 ###########################
     ###############################################################
@@ -95,8 +111,8 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
             x=X.flatten()/self.a0,
             y=Y.flatten()/self.a0,
             z=field.flatten(),
-            zmin=np.min(field),
-            zmax=np.max(field),
+            zmin=vmin,
+            zmax=vmax,
             colorscale=colormap, 
             zsmooth='best',
             hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
@@ -115,19 +131,9 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
 
         # Keyword arguments particular to the 3D case
 
-        field_min = np.min(field)
-        field_max = np.max(field)
-
         number_of_layers = kwargs.get('number_of_layers', 1)
         alpha = kwargs.get('alpha', 0.5)
         
-        if 'vlim' in kwargs:
-            vlim = kwargs['vlim']
-            vmin = vlim[0]
-            vmax = vlim[1]
-        else:
-            vmin = field_min
-            vmax = field_max
 
         if 'layer_values' in kwargs:
             layer_values = np.concatenate([[-np.inf], kwargs['layer_values'], [np.inf]])

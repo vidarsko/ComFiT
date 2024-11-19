@@ -72,7 +72,7 @@ for n in range(1000):
 
     Dnodes = bec.calc_vortex_nodes((bec.psi-psi_old)/bec.dt)
 
-    bec.plot_vortex_nodes(Dnodes)
+    bec.plot_nodes(Dnodes)
 
     cf.tool_save_plot_matplotlib(n)
 

@@ -4,14 +4,17 @@ from comfit.core.base_system import BaseSystem
 import scipy as sp
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+
+from comfit.plot.plot_nodes_plotly import plot_nodes_plotly
+
 from comfit.tool.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
 from comfit.tool.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 
-from comfit.nematic_liquid_crystal.plot_disclination_nodes_matplotlib import plot_disclination_nodes_matplotlib
 from comfit.nematic_liquid_crystal.plot_field_velocity_and_director_matplotlib import plot_field_velocity_and_director_matplotlib
 
-from comfit.nematic_liquid_crystal.plot_disclination_nodes_plotly import plot_disclination_nodes_plotly
 from comfit.nematic_liquid_crystal.plot_field_velocity_and_director_plotly import plot_field_velocity_and_director_plotly
+
+
 
 from comfit.tool.tool_math_functions import levi_civita_symbol
 from mpl_toolkits.mplot3d import axes3d
@@ -807,12 +810,6 @@ class NematicLiquidCrystal(BaseSystem):
 
 
         return disclination_nodes
-
-    def plot_disclination_nodes(self, disclination_nodes, **kwargs):
-        if self.plot_lib == 'plotly':
-            return plot_disclination_nodes_plotly(self, disclination_nodes, **kwargs)
-        elif self.plot_lib == 'matplotlib':
-            return plot_disclination_nodes_matplotlib(self, disclination_nodes, **kwargs)
 
     def plot_field_velocity_and_director(self, field, velocity, director, **kwargs):
         if self.plot_lib == 'plotly':

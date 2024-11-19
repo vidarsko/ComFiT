@@ -26,6 +26,6 @@ for n in range(30):
     bec.evolve_dGPE(10)
     dt_psi = (bec.psi - psi_old)/(10*bec.dt)
     Dnodes = bec.calc_vortex_nodes(dt_psi=dt_psi)
-    bec.plot_vortex_nodes(Dnodes, ax=ax)
+    bec.plot_nodes(Dnodes, ax=ax)
     plt.pause(0.01)
 plt.show()

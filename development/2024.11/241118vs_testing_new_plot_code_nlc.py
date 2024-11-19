@@ -28,9 +28,13 @@ S, director =nem.calc_order_and_director()
 
 Dnodes =nem.calc_disclination_nodes_nem(dt_Q=dt_Q)
 
-fig = nem.plot_field_velocity_and_director(D, nem.u, director)
-nem.plot_disclination_nodes(Dnodes,fig=fig)
-fig.show()
+fig = nem.plot_field_velocity_and_director(D, nem.u, director, spacing=5)
+nem.plot_nodes(Dnodes,fig=fig)
+
+
+
+# fig = nem.plot_nodes(Dnodes)
+fig.write_image('test.png')
 
 
 # nem.plot_lib='matplotlib'

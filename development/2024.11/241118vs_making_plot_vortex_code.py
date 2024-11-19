@@ -38,7 +38,6 @@ bec.conf_dissipative_frame(interface_width=7, frame_width_x=200, frame_width_y=1
 vel_x = 0.40
 
 
-
 bec.evolve_comoving_dGPE(1000,vel_x,method='ETD4RK')
 
 psi_prev = np.copy(bec.psi)
@@ -49,5 +48,5 @@ dt_psi = (bec.psi - psi_prev)/(bec.dt*10)
 nodes = bec.calc_vortex_nodes(dt_psi=dt_psi)
 
 fig=bec.plot_field(np.abs(bec.psi)**2,vlim=[0,1],colormap = 'gray')
-bec.plot_vortex_nodes(nodes, fig=fig)
+bec.plot_nodes(nodes, fig=fig)
 fig.show()

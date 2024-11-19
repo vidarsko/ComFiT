@@ -24,5 +24,5 @@ print(Dnodes)
 
 #bec.plot_field(velocity_field[1])
 
-bec.plot_vortex_nodes(Dnodes)
+bec.plot_nodes(Dnodes)
 plt.show()
