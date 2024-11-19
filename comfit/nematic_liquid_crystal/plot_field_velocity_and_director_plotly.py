@@ -41,12 +41,25 @@ def plot_field_velocity_and_director_plotly(self, field, velocity, director, **k
     fig_tmp = plot_field_plotly(self, field, **kwargs)
     fig.add_trace(fig_tmp.data[0])
 
+    # Plot the director field using quiver
+    X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+    fig_tmp = ff.create_quiver(x=X.flatten()/self.a0,
+                               y=Y.flatten()/self.a0,
+                               u=director[0].flatten(),
+                               v=director[1].flatten(),
+                               scale=0.1,
+                               arrow_scale=0.3,
+                               name='Director')
+
+    fig.add_trace(fig_tmp.data[0])
+
     fig_tmp = ff.create_streamline(x=self.x/self.a0, 
                                     y=self.y.flatten()/self.a0, 
-                                    u=velocity[0], 
-                                    v=velocity[1], 
+                                    u=velocity[0].T, 
+                                    v=velocity[1].T, 
                                     name='Velocity',
-                                    arrow_scale=1)
+                                    arrow_scale=1, 
+                                    density=1)
     fig.add_trace(fig_tmp.data[0])
 
     kwargs['fig'] = fig
