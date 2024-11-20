@@ -1227,8 +1227,6 @@ class PhaseFieldCrystal(BaseSystem):
         for n in range(number_of_stress_components):
             stress[n] = Gaussian_filter_f*sp.fft.fftn(stress[n])
 
-            print("Hello")
-
         # return stress
         # return np.real(sp.fft.ifftn(Gaussian_filter_f))
         return np.real(sp.fft.ifftn(stress, axes = (range( - self.dim , 0) )))

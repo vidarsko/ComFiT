@@ -194,4 +194,5 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         Returns:
             The L operator in Fourier space.
         """
+        k2 = self.calc_k2()
         return 7/3 - 2*k2

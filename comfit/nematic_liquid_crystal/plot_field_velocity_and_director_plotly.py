@@ -90,7 +90,7 @@ def plot_field_velocity_and_director_plotly(self, field, velocity, director, **k
     for trace in fig_tmp.data:
         trace.showlegend = False
 
-    # fig.add_trace(fig_tmp.data[0])
+    fig.add_trace(fig_tmp.data[0])
 
     kwargs['fig'] = fig
     tool_set_plot_axis_properties_plotly(self, **kwargs)

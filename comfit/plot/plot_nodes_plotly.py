@@ -25,6 +25,10 @@ def plot_nodes_plotly(self, nodes, **kwargs):
         # Check if an axis object is provided
         fig = kwargs.get('fig', go.Figure())
 
+        # Check if there are nodes to be plotted
+        if not nodes:
+            return fig
+
         if self.dim == 2:
 
             # Positions
