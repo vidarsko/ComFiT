@@ -9,7 +9,7 @@ class BaseSystemCalc:
     """Calculation method for the base system class"""
     # CALCULATION FUNCTIONS
 
-    # Calculation of angle fields for vortices of different types.
+    # Calculation of angle fields for vortices of different types
     def calc_angle_field_single_vortex(
         self,
         position: Optional[list] = None,
