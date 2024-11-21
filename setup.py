@@ -18,6 +18,6 @@ setup(
                       'plotly',
                       'kaleido<=0.2.1',
                       'scikit-image>=0.18.0,<0.23',
-                      'moviepy<=1.0.3',
+                      'moviepy',
                       'pillow'],
 )
