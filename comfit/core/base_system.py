@@ -10,4 +10,28 @@ class BaseSystem(BaseSystemInit, BaseSystemConf, BaseSystemEvolve, BaseSystemCal
     """
     The BaseSystem class is the base class for all systems in ComFiT.
     """
-    pass
+    
+    def fft(self, field):
+        """
+        Perform a fast Fourier transform on a field.
+
+        Args: 
+            field (array): The field to transform.
+        Returns:
+            array: The transformed field
+        """
+        
+        return sp.fft.fftn(field, axes=range(-self.dim, 0))
+
+    def ifft(self, field):
+        """
+        Perform an inverse fast Fourier transform on a field.
+
+        Args:
+            field (array): The field to transform
+        
+        Return:
+            array: The transformed field
+        """
+        
+        return sp.fft.ifftn(field, axes=range(-self.dim, 0))
