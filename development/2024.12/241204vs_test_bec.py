@@ -16,3 +16,5 @@ fig1 = bec.plot_complex_field(bec.psi)
 fig2 = bec.plot_field(abs(bec.psi))
 fig = cf.tool_make_subplots(1, 2, fig1, fig2)
 fig.show()
+
+cf.tool_make_animation_gif
