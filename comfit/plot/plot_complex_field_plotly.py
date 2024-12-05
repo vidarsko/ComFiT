@@ -13,8 +13,6 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
     """
     Plot a complex field.
 
-    ax=None, plot_method=None, colorbar=False
-
     Args:
         complex_field (numpy.ndarray): The complex field to plot.
         ax (matplotlib.axes.Axes, optional): The matplotlib axes on which to plot the field.
@@ -216,8 +214,23 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                     scaleratio=1,
                     ) 
     
+        if colorbar:
+            custom_colormap = tool_colormap_angle(pyplot=True)
+            fig.add_trace(go.Scatter(
+            x=[None], y=[None], mode='markers',
+            showlegend=False,
+            marker=dict(
+                colorscale=custom_colormap,
+                cmin=-np.pi, cmax=np.pi,
+                colorbar=dict(
+                tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
+                ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
+                )
+            ),
+            hoverinfo='none'
+            ))
     ###############################################################
-    ###################### DIMENSION: 1 ###########################
+    ###################### DIMENSION: 3 ###########################
     ###############################################################
 
     elif self.dim == 3:

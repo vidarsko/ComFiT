@@ -62,7 +62,7 @@ def tool_make_subplots(number_of_rows, number_of_columns, *args):
                     colorbar = trace.colorbar if trace_has_colorbar else trace.marker.colorbar
 
                     colorbar.xanchor = 'left'
-                    colorbar.x = (col / number_of_columns)**(7/6)
+                    colorbar.x = (col / number_of_columns)**(9/8)
 
                     colorbar.yanchor = 'bottom'
                     colorbar.y = (number_of_rows - row) / number_of_rows
