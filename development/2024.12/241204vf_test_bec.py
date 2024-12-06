@@ -1,8 +1,8 @@
 import comfit as cf     # type: ignore
 
 
-bec = cf.BoseEinsteinCondensate(2)
-bec.conf_insert_vortex_dipole()
+bec = cf.BoseEinsteinCondensate(3,xRes=51,yRes=51,zRes=51)
+bec.conf_initial_condition_disordered()
 
 bec.evolve_relax(100)
 # fig1 = bec.plot_complex_field(bec.psi)
