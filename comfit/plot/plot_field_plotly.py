@@ -114,6 +114,7 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
             zmin=vmin,
             zmax=vmax,
             colorscale=colormap, 
+            showscale=colorbar,
             zsmooth='best',
             hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
             name=''
