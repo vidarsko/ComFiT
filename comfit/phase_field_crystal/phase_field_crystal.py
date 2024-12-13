@@ -115,7 +115,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
 
         self.psi = self.calc_PFC_from_amplitudes(eta, rotation)
-        self.psi_f = sp.fft.fftn(self.psi)
+        self.psi_f = self.fft(self.psi)
 
     def conf_advect_PFC(self,u):
         """Advects the PFC according to the displacement field u.
@@ -128,7 +128,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
 
         self.psi = np.real(self.calc_advect_field(self.psi, u, self.psi_f))
-        self.psi_f = sp.fft.fftn(self.psi)
+        self.psi_f = self.fft(self.psi)
 
     def conf_apply_distortion(self, distortion, update_q_and_a_vectors=False):
         """Applies a distortion to the PFC.
@@ -475,7 +475,7 @@ class PhaseFieldCrystal(BaseSystem):
             # Set the rotated field in the inclusion region
             region  = self.calc_region_disk(position, radius)
             self.psi[region] = psi_rotated[region]
-            self.psi_f = sp.fft.fftn(self.psi)
+            self.psi_f = self.fft(self.psi)
 
             # Smooth the interface
             relaxation_time = kwargs.get('relaxation_time', 10)
@@ -512,7 +512,7 @@ class PhaseFieldCrystal(BaseSystem):
             region = np.bool_((l1*~(l4)*~(l5) + ~(l1)*l4*l9)*zdir)
             self.psi[region] = pfcRotated[region]
 
-            self.psi_f = sp.fft.fftn(self.psi)
+            self.psi_f = self.fft(self.psi)
 
             relaxation_time = kwargs.get('relaxation_time', 10)
             
@@ -556,15 +556,15 @@ class PhaseFieldCrystal(BaseSystem):
 
             # These steps seem to be necessary for numerical stability (Vidar 18.12.23)
             self.psi = np.real(self.psi)
-            self.psi_f = sp.fft.fftn(self.psi)
+            self.psi_f = self.fft(self.psi)
 
     # Nonlinear part conserved
     def calc_nonlinear_evolution_function_conserved_f(self, psi, t):
-        return -self.calc_k2()*sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+        return -self.calc_k2()*self.fft(self.t * psi ** 2 + self.v * psi ** 3)
 
     # Non-linear part unconserved
     def calc_nonlinear_evolution_function_unconserved_f(self, psi, t):
-        return -sp.fft.fftn(self.t * psi ** 2 + self.v * psi ** 3)
+        return -self.fft(self.t * psi ** 2 + self.v * psi ** 3)
     #######################################################
 
     #######################################################
@@ -636,7 +636,7 @@ class PhaseFieldCrystal(BaseSystem):
                                           self.psi, self.psi_f)
             
             self.psi = np.real(self.psi)
-            self.psi_f = sp.fft.fftn(self.psi, axes = (range ( - self.dim , 0) ) )
+            self.psi_f = self.fft(self.psi )
 
     # Linear part
     def calc_omega_hydrodynamic_f(self):
@@ -669,12 +669,12 @@ class PhaseFieldCrystal(BaseSystem):
             The nonlinear evolution function for the hydrodynamic PFC.
         """
 
-        field_f = sp.fft.fftn(field, axes =( range ( - self . dim , 0) ))
+        field_f = self.fft(field)
 
         k2 = self.calc_k2()
 
-        N0_f = -k2*sp.fft.fftn(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
-            - sp.fft.fftn(sum([field[i+1]*sp.fft.ifftn(self.dif[i]*field_f[0]) for i in range(self.dim)]))
+        N0_f = -k2*self.fft(self.t * field[0] ** 2 + self.v * field[0] ** 3) \
+            - self.fft(sum([field[i+1]*self.ifft(self.dif[i]*field_f[0]) for i in range(self.dim)]))
         
         force_density_f = self.calc_stress_divergence_f(field_f[0])
 
@@ -905,14 +905,14 @@ class PhaseFieldCrystal(BaseSystem):
         psi3 = psi2*psi
         psi4 = psi2**2
 
-        Lpsi = sp.fft.ifftn(self.calc_L_f()*psi_f)
+        Lpsi = self.ifft(self.calc_L_f()*psi_f)
 
         free_energy_density = 1/2*Lpsi**2 \
             + 1/2*self.r*psi2 + 1/3*self.t*psi3 + 1/4*self.v*psi4
         
         # print("Lpsi shape",self.calc_Lpsi(psi_f).shape)
 
-        L2psi = sp.fft.ifftn(self.calc_L_f()**2*psi_f)
+        L2psi = self.ifft(self.calc_L_f()**2*psi_f)
 
         chemical_potential =L2psi*psi \
             + self.r*psi + self.t*psi2 + self.v*psi3
@@ -964,7 +964,7 @@ class PhaseFieldCrystal(BaseSystem):
 
             # print(u_f[i])
 
-        return np.real(sp.fft.ifftn(u_f, axes = (range ( - self . dim , 0) )))
+        return np.real(self.ifft(u_f))
 
         
     # Initial configuration methods
@@ -1158,12 +1158,12 @@ class PhaseFieldCrystal(BaseSystem):
 
         if self.dim == 2:
                 for n in range(number_of_modes):
-                    eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
+                    eta[n] = self.ifft(Gaussian_filter_f*self.fft(order_parameter*np.exp(
                         -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y)))
 
         elif self.dim == 3:
             for n in range(number_of_modes):
-                eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
+                eta[n] = self.ifft(Gaussian_filter_f*self.fft(order_parameter*np.exp(
                     -1j*self.q[n][0]*self.x - 1j*self.q[n][1]*self.y - 1j*self.q[n][2]*self.z  
                     )))
                 
@@ -1183,21 +1183,21 @@ class PhaseFieldCrystal(BaseSystem):
         elif self.dim==2:
             stress = np.zeros((3,self.xRes,self.yRes))
 
-            Lpsi = np.real(sp.fft.ifftn(self.calc_L_f()*self.psi_f))
-            stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*self.psi_f))
-            stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*self.psi_f))
-            stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*self.psi_f))
+            Lpsi = np.real(self.ifft(self.calc_L_f()*self.psi_f))
+            stress[0] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*self.psi_f))
+            stress[1] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*self.psi_f))
+            stress[2] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*self.psi_f))
         
         elif self.dim==3:
             stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
 
-            Lpsi = np.real(sp.fft.ifftn(self.calc_L_f()*self.psi_f))
-            stress[0] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*self.psi_f))
-            stress[1] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*self.psi_f))
-            stress[2] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[0]*self.dif[2]*self.psi_f))
-            stress[3] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*self.psi_f))
-            stress[4] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[1]*self.dif[2]*self.psi_f))
-            stress[5] = -2*Lpsi*np.real(sp.fft.ifftn(self.calc_L_sum_f()*self.dif[2]*self.dif[2]*self.psi_f))
+            Lpsi = np.real(self.ifft(self.calc_L_f()*self.psi_f))
+            stress[0] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*self.psi_f))
+            stress[1] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*self.psi_f))
+            stress[2] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[2]*self.psi_f))
+            stress[3] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*self.psi_f))
+            stress[4] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[2]*self.psi_f))
+            stress[5] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[2]*self.dif[2]*self.psi_f))
 
         return stress
 
@@ -1225,11 +1225,11 @@ class PhaseFieldCrystal(BaseSystem):
 
         # Coarse-grain the microscopic stress
         for n in range(number_of_stress_components):
-            stress[n] = Gaussian_filter_f*sp.fft.fftn(stress[n])
+            stress[n] = Gaussian_filter_f*self.fft(stress[n])
 
         # return stress
-        # return np.real(sp.fft.ifftn(Gaussian_filter_f))
-        return np.real(sp.fft.ifftn(stress, axes = (range( - self.dim , 0) )))
+        # return np.real(self.ifft(Gaussian_filter_f))
+        return np.real(self.ifft(stress))
 
     def calc_stress_divergence_f(self, field_f = None):
         """Calculates the divergence of the stress tensor in Fourier space.
@@ -1248,18 +1248,18 @@ class PhaseFieldCrystal(BaseSystem):
                 field_f = self.psi_f
 
         L_f = self.calc_L_f()
-        Lpsi = sp.fft.ifftn(L_f*field_f)
+        Lpsi = self.ifft(L_f*field_f)
 
         L_sum_f = self.calc_L_sum_f()
         k2 = self.calc_k2()
 
         return np.array([
-            -2*self.calc_Gaussian_filter_f()*sp.fft.fftn(
+            -2*self.calc_Gaussian_filter_f()*self.fft(
                 sum([
-                sp.fft.ifftn(L_f*self.dif[i]*field_f)*sp.fft.ifftn(L_sum_f*self.dif[i]*self.dif[j]*field_f) 
+                self.ifft(L_f*self.dif[i]*field_f)*self.ifft(L_sum_f*self.dif[i]*self.dif[j]*field_f) 
                 for i in range(self.dim)
                 ]) 
-                +Lpsi*sp.fft.ifftn(L_sum_f*self.dif[j]*(-k2)*field_f)) 
+                +Lpsi*self.ifft(L_sum_f*self.dif[j]*(-k2)*field_f)) 
                 for j in range(self.dim)]
                 )
 
@@ -1283,7 +1283,7 @@ class PhaseFieldCrystal(BaseSystem):
         diPsi = np.zeros([self.dim] + self.dims, dtype=complex)
         for i in range(self.dim):
             diPsi[i] = self.dif[i]*field_f
-        diPsi = np.real(sp.fft.ifftn(diPsi, axes = (range( - self.dim , 0) )))
+        diPsi = np.real(self.ifft(diPsi))
 
         if self.dim == 1:
             number_of_independent_strain_components = 1
@@ -1296,18 +1296,18 @@ class PhaseFieldCrystal(BaseSystem):
 
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
         if self.dim == 1:
-            structure_tensor_f[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
+            structure_tensor_f[0] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[0])
         elif self.dim == 2:
-            structure_tensor_f[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
-            structure_tensor_f[1] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[1])
-            structure_tensor_f[2] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[1])
+            structure_tensor_f[0] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[0])
+            structure_tensor_f[1] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[1])
+            structure_tensor_f[2] = Gaussian_filter_f*self.fft(diPsi[1]*diPsi[1])
         elif self.dim == 3:
-            structure_tensor_f[0] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[0])
-            structure_tensor_f[1] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[1])
-            structure_tensor_f[2] = Gaussian_filter_f*sp.fft.fftn(diPsi[0]*diPsi[2])
-            structure_tensor_f[3] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[1])
-            structure_tensor_f[4] = Gaussian_filter_f*sp.fft.fftn(diPsi[1]*diPsi[2])
-            structure_tensor_f[5] = Gaussian_filter_f*sp.fft.fftn(diPsi[2]*diPsi[2])
+            structure_tensor_f[0] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[0])
+            structure_tensor_f[1] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[1])
+            structure_tensor_f[2] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[2])
+            structure_tensor_f[3] = Gaussian_filter_f*self.fft(diPsi[1]*diPsi[1])
+            structure_tensor_f[4] = Gaussian_filter_f*self.fft(diPsi[1]*diPsi[2])
+            structure_tensor_f[5] = Gaussian_filter_f*self.fft(diPsi[2]*diPsi[2])
 
         return structure_tensor_f
             
@@ -1321,7 +1321,7 @@ class PhaseFieldCrystal(BaseSystem):
             The structure tensor.
         """
         structure_tensor_f = self.calc_structure_tensor_f()
-        return np.real(sp.fft.ifftn(structure_tensor_f, axes = (range( - self.dim , 0) )))
+        return np.real(self.ifft(structure_tensor_f))
         
 
     def calc_strain_tensor(self):
@@ -1513,7 +1513,7 @@ class PhaseFieldCrystal(BaseSystem):
                 rotation_matrix = rotation.as_matrix()
                 q = (rotation_matrix[0:2,0:2]@self.q.transpose()).transpose()
                 for n in range(self.number_of_primary_reciprocal_lattice_modes):
-                    eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
+                    eta[n] = self.ifft(Gaussian_filter_f*self.fft(order_parameter*np.exp(
                             -1j*q[n][0]*self.x - 1j*q[n][1]*self.y)))
                 
                 Phi2 = np.zeros(self.dims)
@@ -1569,7 +1569,7 @@ class PhaseFieldCrystal(BaseSystem):
                 q = (rotation_matrix@self.q.transpose()).transpose()
 
                 for n in range(self.number_of_primary_reciprocal_lattice_modes):
-                    eta[n] = sp.fft.ifftn(Gaussian_filter_f*sp.fft.fftn(order_parameter*np.exp(
+                    eta[n] = self.ifft(Gaussian_filter_f*self.fft(order_parameter*np.exp(
                             -1j*q[n][0]*self.x - 1j*q[n][1]*self.y)))
                 
                 Phi2 = np.zeros(self.dims)

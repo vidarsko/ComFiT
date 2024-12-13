@@ -5,6 +5,7 @@ from comfit.core.base_system_calc import BaseSystemCalc
 from comfit.core.base_system_plot import BaseSystemPlot
 from comfit.core.base_system_get import BaseSystemGet
 
+import scipy as sp
 
 class BaseSystem(BaseSystemInit, BaseSystemConf, BaseSystemEvolve, BaseSystemCalc, BaseSystemPlot, BaseSystemGet):
     """
