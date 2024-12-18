@@ -62,7 +62,7 @@ def tool_make_subplots(number_of_rows, number_of_columns, *args):
                     colorbar = trace.colorbar if trace_has_colorbar else trace.marker.colorbar
 
                     colorbar.xanchor = 'left'
-                    colorbar.x = (col / number_of_columns)**(7/6)
+                    colorbar.x = (col / number_of_columns)**(9/8)
 
                     colorbar.yanchor = 'bottom'
                     colorbar.y = (number_of_rows - row) / number_of_rows
@@ -70,7 +70,9 @@ def tool_make_subplots(number_of_rows, number_of_columns, *args):
                     length = 1 / number_of_rows
                     colorbar.len = length
 
-                trace.showlegend = False
+                if hasattr(trace, 'showlegend'):
+                    trace.showlegend = False
+                    
                 fig.add_trace(trace, row=row, col=col)
 
             # Update x and y axes layout for each subplot (for 2D plots)

@@ -32,6 +32,6 @@ pprint(pfc.a[dislocation_type-1])
 for dislocation in Dnodes:
     print((dislocation['Burgers_vector'] == pfc.a[dislocation_type-1]).all())
 
-# pfc.plot_dislocation_nodes(Dnodes)
+# pfc.plot_nodes(Dnodes)
 #print(eta[1])
 # plt.show()

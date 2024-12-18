@@ -1,5 +1,7 @@
 import numpy as np
 import scipy as sp
+from comfit.tool.tool_print_in_color import tool_print_in_color
+from comfit.tool.tool_configure_axis import tool_configure_axis
 
 class BaseSystemInit:
     """ Initialization methods for the base system class"""
@@ -21,90 +23,32 @@ class BaseSystemInit:
 
         self.dim = dim
 
-        if 'xlim' in kwargs:
-            # Providing xlim trumps providing xmin and xmax
-            self.xmin = kwargs['xlim'][0]
-            self.xmax = kwargs['xlim'][1]
-            
-            self.xRes = kwargs.get('xRes', 101)
-            self.dx = (self.xmax - self.xmin) / self.xRes
-        
-        else:
-            self.xmin = kwargs.get('xmin', 0)
-            self.xRes = kwargs.get('xRes', 101)
+        # Checking what x-values were provided
+        self.xlim = kwargs.get('xlim', None)
+        self.xmin = kwargs.get('xmin', None)
+        self.xmax = kwargs.get('xmax', None)
+        self.xRes = kwargs.get('xRes', None)
+        self.dx = kwargs.get('dx', None)
 
-            self.dx = kwargs.get('dx', 1.0)
+        self.xlim, self.xmin, self.xmax, self.xRes, self.dx = tool_configure_axis(self.dim, 'x',self.xlim, self.xmin, self.xmax, self.xRes, self.dx)
 
-            if 'xmax' in kwargs:
-                self.xmax = kwargs['xmax']
-            else:
-                self.xmax = self.xmin + self.xRes * self.dx
+        # Checking what y-values were provided
+        self.ylim = kwargs.get('ylim', None)
+        self.ymin = kwargs.get('ymin', None)
+        self.ymax = kwargs.get('ymax', None)
+        self.yRes = kwargs.get('yRes', None)
+        self.dy = kwargs.get('dy', None)
 
-        self.xlim = [self.xmin, self.xmax]
+        self.ylim, self.ymin, self.ymax, self.yRes, self.dy = tool_configure_axis(self.dim, 'y',self.ylim, self.ymin, self.ymax, self.yRes, self.dy)
 
-        # Providing dx trumps providing xRes
-        if 'dx' in kwargs:
-            self.dx = kwargs['dx']
-            self.xRes = round((self.xmax - self.xmin) / self.dx)
+        # Checking what z-values were provided
+        self.zlim = kwargs.get('zlim', None)
+        self.zmin = kwargs.get('zmin', None)
+        self.zmax = kwargs.get('zmax', None)
+        self.zRes = kwargs.get('zRes', None)
+        self.dz = kwargs.get('dz', None)
 
-        # Setting default values for y and z for 1 dimensional systems
-        self.ymin = kwargs.get('ymin', 0)
-        self.zmin = kwargs.get('zmin', 0)
-        
-        self.dy = kwargs.get('dy', 1.0)
-        self.dz = kwargs.get('dz', 1.0)
-
-        self.ymax = kwargs.get('ymax',1)
-        self.zmax = kwargs.get('zmax',1)
-
-        self.yRes = kwargs.get('yRes', 1)
-        self.zRes = kwargs.get('zRes', 1)
-
-        if self.dim > 1:
-            if 'ylim' in kwargs:
-                self.ymin = kwargs['ylim'][0]
-                self.ymax = kwargs['ylim'][1]
-                
-                self.yRes = kwargs.get('yRes', 101)
-                self.dy = (self.ymax - self.ymin) / self.yRes
-            
-            else:
-                self.ymin = kwargs.get('ymin', 0)
-                self.yRes = kwargs.get('yRes', 101)
-                self.dy = kwargs.get('dy', 1.0)
-
-                if 'ymax' in kwargs:
-                    self.ymax = kwargs['ymax']
-                else:
-                    self.ymax = self.ymin + self.yRes * self.dy
-
-            # Providing dy trumps providing yRes
-            if 'dy' in kwargs:
-                self.dy = kwargs['dy']
-                self.yRes = round((self.ymax - self.ymin) / self.dy)
-        
-        if self.dim > 2:
-            if 'zlim' in kwargs:
-                self.zmin = kwargs['zlim'][0]
-                self.zmax = kwargs['zlim'][1]
-                
-                self.zRes = kwargs.get('zRes', 101)
-                self.dz = (self.zmax - self.zmin) / self.zRes
-
-            else:
-                self.zmin = kwargs.get('zmin', 0)
-                self.zRes = kwargs.get('zRes', 101)
-                self.dz = kwargs.get('dz', 1.0)
-
-                if 'zmax' in kwargs:
-                    self.zmax = kwargs['zmax']
-                else:
-                    self.zmax = self.zmin + self.zRes * self.dz
-
-            # Providing dz trumps providing zRes
-            if 'dz' in kwargs:
-                self.dz = kwargs['dz']
-                self.zRes = round((self.zmax - self.zmin) / self.dz)
+        self.zlim, self.zmin, self.zmax, self.zRes, self.dz = tool_configure_axis(self.dim, 'z',self.zlim, self.zmin, self.zmax, self.zRes, self.dz)
 
         # Minimum and maximum sizes of the domain
         self.size_x = self.xmax - self.xmin

@@ -17,6 +17,6 @@ dt_psi_vec = [np.real(dt_psi),np.imag(dt_psi)]
 Dnodes = bec.calc_vortex_nodes(dt_psi)
 # print(Dnodes)
 bec.plot_field(abs(bec.psi),colorbar=False)
-bec.plot_vortex_nodes(Dnodes)
+bec.plot_nodes(Dnodes)
 plt.show()
 

@@ -19,7 +19,7 @@ for i in range(500):
     D = nem.calc_disclination_density_nematic()
     disclination_nodes = nem.calc_disclination_nodes_nem(charge_tolerance=0.0005)
     ax =nem.plot_field(S, vlim_symmetric=False,colormap='winter')
-  #  nem.plot_disclination_nodes(disclination_nodes,ax=ax)
+  #  nem.plot_nodes(disclination_nodes,ax=ax)
     plt.draw()
     plt.pause(0.01)
     cf.tool_save_plot_matplotlib(i)

@@ -35,7 +35,7 @@ for i in range(200):
 
     bec.plot_field(abs(bec.psi), colorbar=False,clims=[0,1],layer_values=[0.6])
 
-    bec.plot_vortex_nodes(Dnodes)
+    bec.plot_nodes(Dnodes)
 
     #theta = bec.calc_angle_field_vortex_ring(normal_vector=[0,0,1],radius=13)
 

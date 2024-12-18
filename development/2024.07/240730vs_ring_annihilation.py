@@ -14,5 +14,5 @@ pfc.conf_PFC_from_amplitudes(eta)
 pfc.evolve_PFC(10)
 
 Dnodes = pfc.calc_dislocation_nodes()
-pfc.plot_dislocation_nodes(Dnodes)
+pfc.plot_nodes(Dnodes)
 plt.show()

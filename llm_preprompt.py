@@ -113,7 +113,7 @@ conf_insert_vortex(charge,position)
 conf_dissipative_frame(interface_width)
 evolve_relax(number_of_steps)
 calc_vortex_nodes()
-plot_vortex_nodes(vortex_nodes)
+plot_nodes(vortex_nodes)
 
 NematicLiquidCrystal (nlc) Contains 
 evolve_nematic
@@ -126,7 +126,7 @@ calc_passive_force_f
 calc_pressure_f
 calc_disclination_density_nematic
 calc_order_and_director
-plot_disclination_nodes
+plot_nodes
 
 PhaseFieldCrystal (pfc): 
 evolve_PFC

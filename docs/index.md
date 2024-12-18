@@ -7,6 +7,9 @@ If you use ComFiT in your research, please cite the following paper:
 !!! quote ""
     Skogvoll, V., & Rønning, J. (2024). ComFiT: A Python library for computational field theory with topological defects. Journal of Open Source Software, 9(98), 6599. [https://doi.org/10.21105/joss.06599](https://doi.org/10.21105/joss.06599)
 
+You can get custom help from the ComFiT assistant by using the GPT model below.
+!!! quote ""
+    <div style="color: inherit; fill: inherit;"><div style="display: flex;"><div class="notranslate" spellcheck="true" placeholder="Write something, or press 'space' for AI, ' / ' for commands…" contenteditable="true" data-content-editable-leaf="true" style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px;"><a href="https://chatgpt.com/g/g-6739fa0d28d08191ac2ad0395cd27a6a-comfit-assistant" class="notion-link-mention-token notion-text-mention-token notion-focusable-token notion-enable-hover" data-token-index="0" contenteditable="false" tabindex="0" target="_blank" style="color:inherit;text-decoration:inherit;cursor:pointer" rel="noopener noreferrer"><img style="width:1.2em;height:1.2em;border-radius:3px;vertical-align:-0.15em;margin-right:0.3em" src="https://cdn.oaistatic.com/assets/apple-touch-icon-mz9nytnj.webp"><span class=""><span style="color:rgba(55, 53, 47, 0.65);margin-right:0.3em">ChatGPT</span><span style="border-bottom:0.05em solid solid rgba(55,53,47,.25);font-weight:500;flex-shrink:0">ChatGPT - ComFiT assistant</span></span></a>​</div><div style="position: relative; left: 0px;"></div></div></div>
 
 ## Tutorials
 

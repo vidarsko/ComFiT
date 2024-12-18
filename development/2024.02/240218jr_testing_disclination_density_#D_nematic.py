@@ -21,6 +21,6 @@ omega,Omega,T,trD = nem.calc_disclination_density_decoupled()
 
 nodes = nem.calc_disclination_nodes_nem()
 #print(nodes)
-nem.plot_disclination_nodes(nodes)
+nem.plot_nodes(nodes)
 
 plt.show()

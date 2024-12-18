@@ -1,4 +1,1 @@
 from .bose_einstein_condensate import BoseEinsteinCondensate
-
-from .plot_vortex_nodes_matplotlib import plot_vortex_nodes_matplotlib
-from .plot_vortex_nodes_plotly import plot_vortex_nodes_plotly

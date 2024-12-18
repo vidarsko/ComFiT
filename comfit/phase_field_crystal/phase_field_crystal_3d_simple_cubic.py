@@ -212,4 +212,5 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         Returns:
             The L operator in Fourier space.
         """
+        k2 = self.calc_k2()
         return 11 - 12*k2 + 3*k2**2

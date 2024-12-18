@@ -67,7 +67,7 @@ $$
 \partial_t \psi =-(\mathfrak i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.
 $$ -->
 
-!!! equation "The danmped Gross-Pitaevski equation (`evolve_dGPE`)"
+!!! equation "The damped Gross-Pitaevski equation (`evolve_dGPE`)"
     $$
     \partial_t \psi =-(\mathfrak i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.
     $$

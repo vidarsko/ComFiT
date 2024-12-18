@@ -27,7 +27,7 @@ Dnodes =nem.calc_disclination_nodes_nem(dt_Q =dt_Q)
 
 ax =nem.plot_field_velocity_and_director(D,nem.u,director,colormap='spring')
 
-nem.plot_disclination_nodes(Dnodes,ax=ax)
+nem.plot_nodes(Dnodes,ax=ax)
 
 
 plt.show()

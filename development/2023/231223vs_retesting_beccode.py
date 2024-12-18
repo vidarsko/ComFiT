@@ -12,5 +12,5 @@ bec.conf_insert_vortex_dipole(
 bec.evolve_relax(100)
 Dnodes = bec.calc_vortex_nodes()
 bec.plot_field(abs(bec.psi),colorbar=False)
-bec.plot_vortex_nodes(Dnodes)
+bec.plot_nodes(Dnodes)
 plt.show()

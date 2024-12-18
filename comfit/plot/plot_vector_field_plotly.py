@@ -266,7 +266,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         mode='markers',
         marker=dict(symbol='arrow', 
             angle=90-angle.flatten()*180/np.pi, 
-            size=2*spacing*magnitude_normalized.flatten(), 
+            size=4*spacing*magnitude_normalized.flatten(), 
             sizemode='diameter',
             color=magnitude.flatten(), 
             colorscale='Viridis', 

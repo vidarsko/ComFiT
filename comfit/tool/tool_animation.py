@@ -11,7 +11,11 @@ Functions:
 
 import matplotlib.pyplot as plt
 
-from moviepy.editor import ImageSequenceClip
+try:
+    from moviepy import ImageSequenceClip
+except ImportError:
+    from moviepy.editor import ImageSequenceClip
+    
 import os
 from datetime import datetime
 from PIL import Image
