@@ -70,7 +70,6 @@ class QuantumMechanics(BaseSystem):
             position = self.rmid
         if width is None:
             width = (self.xmax-self.xmin)/10
-    
 
         self.psi = np.sqrt(self.calc_Gaussian(position=position,width=width))
         
@@ -138,25 +137,7 @@ class QuantumMechanics(BaseSystem):
             Configures self.psi and self.psi_f.
         """
         self.psi = psi
-        self.psi_f = sp.fft.fftn(self.psi)
-
-    def conf_external_potential(self, V_ext: np.ndarray, smoothen: bool = True, filter_strength: float = 1) -> None:
-        """Sets the external potential.
-        
-        Args:
-            V_ext: The external potential.
-            smoothen: If True, the potential is smoothened using a Gaussian filter.
-            filter_strength: The strength of the Gaussian filter."""
-        
-        if not isinstance(V_ext, np.ndarray):
-            raise ValueError('V_ext must be a of type np.ndarray')
-        
-        if smoothen:
-            V_ext = np.real(sp.fft.ifftn(self.calc_Gaussian_filter_f(a0=filter_strength)*sp.fft.fftn(V_ext)))
-            print("Warning: we are smoothening the potential with a Gaussian filter. You can turn this off by setting smoothen=False.")
-        
-        self.V_ext = V_ext
-        
+        self.psi_f = sp.fft.fftn(self.psi)   
 
     def calc_hydrogen_state(self, n: int, l: int, m: int) -> np.ndarray:
         """Calculates the hydrogen state with quantum numbers n,l,m
@@ -182,7 +163,6 @@ class QuantumMechanics(BaseSystem):
         Y = sp.special.sph_harm(m,l,phi,theta)
         
         return R*Y
-
     
 
     ## Calculation functions
@@ -205,18 +185,16 @@ class QuantumMechanics(BaseSystem):
 
 
     ## Time evolution functions
-    def evolve_schrodinger(self, T, method: Literal['ETD2RK', 'ETD4RK'] = 'ETD2RK') -> None:
+    def evolve_schrodinger(self, number_of_steps: int, method: Literal['ETD2RK', 'ETD4RK'] = 'ETD4RK') -> None:
         """Evolve the system according to the Schrödinger equation
 
         Args:
-            T: Time to evolve the system for. (Gets rounded down to a multiple of self.dt)
+            number_of_steps: Number of time steps to evolve the system.
             method: The method to use for the time evolution. 
         
         Returns:
             None: Does not return anything. Just evolves the system according to the Schrödinger equation.
         """
-        number_of_steps = int(T/self.dt)
-
 
         omega_f = -1j / 2 * self.calc_k2()
         if method == 'ETD2RK':
