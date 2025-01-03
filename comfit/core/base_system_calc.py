@@ -125,7 +125,6 @@ class BaseSystemCalc:
         theta = 0
         position = np.array(position)
 
-        position = self.rmid
 
         m2 = n[0] * (X - position[0]) \
              + n[1] * (Y - position[1]) \
