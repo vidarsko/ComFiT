@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.7.0] - 2025-01-08
+- Changed default plotting library to plotly
+- Changes to PFC class
+
 ## [1.6.2] - 2024-09-07
 - Bug fixes for plotly vector plots.
 
