@@ -21,5 +21,6 @@ def clear_outputs_in_directory(directory_path):
             print(f"Cleared outputs in {file}")
 
 # Replace '/path/to/notebooks' with the path to your folder containing .ipynb files
-directory_path = 'tutorial/'
-clear_outputs_in_directory(directory_path)
+directory_paths = ['tutorial/', 'tutorial/qm_assignment/']
+for directory_path in directory_paths:
+    clear_outputs_in_directory(directory_path)
