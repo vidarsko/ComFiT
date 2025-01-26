@@ -69,6 +69,11 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
             kwargs.pop('for_properties_calculation', None)
             pfc = PhaseFieldCrystal2DSquare(1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.B, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()
+
+            # Calculate S1111_eq
+            dxpsi = pfc.ifft(pfc.dif[0] * pfc.fft(pfc.psi)).real
+            self.S1111_eq = np.mean(dxpsi ** 4)
+            
         else:
             self.A = self.A_proto
             self.B = self.B_proto
@@ -93,6 +98,7 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
         if not bool_is_for_properties_calculation:
             self.conf_apply_distortion([[final_strain,0],[0,final_strain]], update_q_and_a_vectors=True)
             self.a0 = self.a0 * (1+final_strain)
+        
         
     def calc_proto_amplitudes_conserved(self):
         """Calculates the proto-amplitudes for the system.

@@ -501,14 +501,19 @@ class PhaseFieldCrystal(BaseSystem):
             zdir = 1 if self.dim == 2 else np.ones((1,1,self.zRes))
 
             pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,-22.5/180*np.pi])
+            pfcRotated = np.roll(pfcRotated, -round(self.yRes/2), axis=1)
+            pfcRotated = np.roll(pfcRotated, -round(self.xRes/3), axis=0)
             region = np.bool_((l4*~(l7)*~(l8) + ~(l1)*~(l3)*~(l7))*zdir)
             self.psi[region] = pfcRotated[region]
 
             pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,22.5/180*np.pi])
+            pfcRotated = np.roll(pfcRotated, -round(self.yRes/2), axis=1)
+            pfcRotated = np.roll(pfcRotated, round(self.xRes/3), axis=0)
             region = np.bool_((l1*l6*l7 + l7*l10*~(l4))*zdir)
             self.psi[region] = pfcRotated[region]
 
             pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,45/180*np.pi])
+            pfcRotated = np.roll(pfcRotated, -round(self.xRes/2), axis=0)
             region = np.bool_((l1*~(l4)*~(l5) + ~(l1)*l4*l9)*zdir)
             self.psi[region] = pfcRotated[region]
 
@@ -1029,7 +1034,7 @@ class PhaseFieldCrystal(BaseSystem):
         if y2 == None:
             y2 = self.ymax / 2
 
-        if eta == None:
+        if eta is None:
             eta = self.eta0.reshape(self.number_of_reciprocal_lattice_modes,1,1)\
                 *np.ones([self.number_of_reciprocal_lattice_modes] + self.dims, dtype=complex)
 
