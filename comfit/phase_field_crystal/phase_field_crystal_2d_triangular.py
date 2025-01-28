@@ -75,6 +75,15 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
             kwargs.pop('for_properties_calculation', None)
             pfc = PhaseFieldCrystal2DTriangular(1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()     
+
+            # Calculate S1111_ref
+            dxxxpsi = pfc.ifft(pfc.dif[0] * pfc.dif[0] * pfc.dif[0] * pfc.fft(pfc.psi)).real
+            dxyypsi = pfc.ifft(pfc.dif[0] * pfc.dif[1] * pfc.dif[1] * pfc.fft(pfc.psi)).real
+            dyyypsi = pfc.ifft(pfc.dif[1] * pfc.dif[1] * pfc.dif[1] * pfc.fft(pfc.psi)).real
+
+            self.S111111_ref = np.mean(dxxxpsi ** 2)
+            self.Skkllmm_ref = np.mean(dxxxpsi ** 2 + 3 * dxxxpsi*dxyypsi + 3 * dxyypsi**2 + dyyypsi**2)
+
         else:
             self.A = self.A_proto
             self.el_lambda = self.el_lambda_proto
@@ -98,7 +107,7 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         if not bool_is_for_properties_calculation:
             self.conf_apply_distortion([[final_strain,0],[0,final_strain]], update_q_and_a_vectors=True)
             self.a0 = self.a0 *(1+final_strain)
-        
+
 
 
     def calc_proto_amplitudes_conserved(self):
