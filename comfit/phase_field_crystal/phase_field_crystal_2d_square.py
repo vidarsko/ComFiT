@@ -70,14 +70,13 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
             pfc = PhaseFieldCrystal2DSquare(1,1,for_properties_calculation=True, type_of_evolution=self.type_of_evolution, **kwargs)
             final_strain, self.psi0, self.A, self.B, self.el_lambda, self.el_mu, self.el_gamma = pfc.calc_strained_amplitudes()
 
-            # Calculate Sii_eq
-            dxpsi = pfc.ifft(pfc.dif[0] * pfc.fft(pfc.psi)).real
-            dypsi = pfc.ifft(pfc.dif[1] * pfc.fft(pfc.psi)).real
-            self.Sii_eq = np.mean(dxpsi ** 2 + dypsi ** 2)
-
+            # Calculate S1111_ref
             dxxpsi = pfc.ifft(pfc.dif[0] * pfc.dif[0] * pfc.fft(pfc.psi)).real
+            dxypsi = pfc.ifft(pfc.dif[0] * pfc.dif[1] * pfc.fft(pfc.psi)).real
             dyypsi = pfc.ifft(pfc.dif[1] * pfc.dif[1] * pfc.fft(pfc.psi)).real
-            self.Siijj_eq = np.mean((dxxpsi + dyypsi)**2)
+
+            self.S1111_ref = np.mean(dxxpsi ** 2)
+            self.Skkll_ref = np.mean(dxxpsi ** 2 + 2 * dxypsi ** 2 + dyypsi ** 2 )
             
         else:
             self.A = self.A_proto

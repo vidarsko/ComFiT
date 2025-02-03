@@ -711,7 +711,7 @@ class BaseSystemCalc:
 
 
 
-    def calc_evolution_integrating_factors_ETD2RK(self, omega_f: np.ndarray, tol: float = 10 ** (-4)) -> list:
+    def calc_evolution_integrating_factors_ETD2RK(self, omega_f: np.ndarray, tol: float = 10 ** (-5)) -> list:
         """Calculates integrating factors for ETD2RK
         
         Args:
@@ -727,13 +727,13 @@ class BaseSystemCalc:
         If1 = integrating_factors_f[0]
 
         integrating_factors_f[1] = (If1 - 1) / omega_f
-        integrating_factors_f[1][np.abs(omega_f) < tol] = self.dt
+        integrating_factors_f[1][np.abs(omega_f) * self.dt < tol] = self.dt
 
         integrating_factors_f[2] = 1 / (self.dt * omega_f ** 2) * (If1 - 1 - omega_f * self.dt)
-        integrating_factors_f[2][np.abs(omega_f) < tol] = self.dt / 2
+        integrating_factors_f[2][np.abs(omega_f) * self.dt < tol] = self.dt / 2
         return integrating_factors_f
 
-    def calc_evolution_integrating_factors_ETD4RK(self, omega_f: np.ndarray, tol: float =10 ** (-4)) -> list:
+    def calc_evolution_integrating_factors_ETD4RK(self, omega_f: np.ndarray, tol: float =10 ** (-5)) -> list:
         """Calculate the evolution integrating factors using the ETDRK4 method.
 
         Args:
@@ -766,10 +766,10 @@ class BaseSystemCalc:
 
 
         #Small omega_f limits
-        integrating_factors_f[1][np.abs(omega_f) < tol] = self.dt / 2
-        integrating_factors_f[3][np.abs(omega_f) < tol] = self.dt / 6
-        integrating_factors_f[4][np.abs(omega_f) < tol] = self.dt / 3
-        integrating_factors_f[5][np.abs(omega_f) < tol] = self.dt / 6
+        integrating_factors_f[1][np.abs(omega_f) * self.dt < tol] = self.dt / 2
+        integrating_factors_f[3][np.abs(omega_f) * self.dt < tol] = self.dt / 6
+        integrating_factors_f[4][np.abs(omega_f) * self.dt < tol] = self.dt / 3
+        integrating_factors_f[5][np.abs(omega_f) * self.dt < tol] = self.dt / 6
 
         return integrating_factors_f
 
