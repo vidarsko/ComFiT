@@ -24,3 +24,9 @@ from .plot_vector_field_in_plane_plotly import plot_vector_field_in_plane_plotly
 
 from .plot_nodes_matplotlib import plot_nodes_matplotlib
 from .plot_nodes_plotly import plot_nodes_plotly
+
+from .plot_subplots_matplotlib import plot_subplots_matplotlib
+from .plot_subplots_plotly import plot_subplots_plotly
+
+from .plot_save_matplotlib import plot_save_matplotlib
+from .plot_save_plotly import plot_save_plotly

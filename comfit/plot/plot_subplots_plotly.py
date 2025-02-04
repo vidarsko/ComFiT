@@ -1,6 +1,6 @@
 from plotly.subplots import make_subplots
 
-def tool_make_subplots(number_of_rows, number_of_columns, *args):
+def plot_subplots_plotly(number_of_rows, number_of_columns, *args):
     """Makes subplots from a series of plotly figures.
 
     Args:
@@ -8,8 +8,8 @@ def tool_make_subplots(number_of_rows, number_of_columns, *args):
     Returns:
         A plotly figure with subplots.
     """
-    if len(args) != number_of_rows * number_of_columns:
-        raise Exception("The number of subplots does not match the number of rows and columns.")
+    if len(args) > number_of_rows * number_of_columns:
+        raise Exception("There are too many subplots wrt. the number of rows and columns.")
 
     specs_list = [[{} for _ in range(number_of_columns)] for _ in range(number_of_rows)]
 

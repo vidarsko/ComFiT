@@ -32,6 +32,12 @@ from comfit.plot import plot_vector_field_in_plane_plotly
 from comfit.plot import plot_nodes_matplotlib
 from comfit.plot import plot_nodes_plotly
 
+from comfit.plot import plot_subplots_matplotlib
+from comfit.plot import plot_subplots_plotly
+
+from comfit.plot import plot_save_matplotlib
+from comfit.plot import plot_save_plotly
+
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.tri as mtri
@@ -147,3 +153,17 @@ class BaseSystemPlot:
             return plot_nodes_plotly(self, disclination_nodes, **kwargs)
         elif self.plot_lib == 'matplotlib':
             return plot_nodes_matplotlib(self, disclination_nodes, **kwargs)
+
+
+    # Figure handling methods
+    def plot_subplots(self, *args, **kwargs):
+        if self.plot_lib == "plotly":
+            return plot_subplots_plotly(number_of_rows, number_of_columns, *args, **kwargs)
+        elif self.plot_lib == "matplotlib":
+            return plot_subplots_matplotlib(number_of_rows, number_of_columns, *args, **kwargs)
+
+    def plot_save(self, counter, fig, ID=None):
+        if self.plot_lib == "plotly":
+            return plot_save_plotly(counter, fig, **kwargs)
+        elif self.plot_lib == "matplotlib":
+            return plot_save_matplotlib(counter, fig, **kwargs)

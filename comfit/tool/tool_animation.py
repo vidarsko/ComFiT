@@ -5,6 +5,7 @@ This module provides tool for saving Matplotlib plots as img and creating animat
 Functions:
 
 - tool_save_plot_matplotlib: Saves a Matplotlib plot as an image file.
+- tool_save_plot_plotly: Saves a Plotly figure as an image file.
 - tool_make_animation: Creates an animation from a sequence of image files and saves it as a video file.
 """
 
@@ -20,52 +21,6 @@ import os
 from datetime import datetime
 from PIL import Image
 
-
-def tool_save_plot_matplotlib(counter, 
-                image_size_inches=(6,5), 
-                dpi=100,
-                ID=None):
-    """
-
-    Saves the current Matplotlib plot as a PNG file.
-
-    Args:
-        counter (int): A unique identifier for the plot image file.
-        image_size (tuple, optional): The size of the image in inches. Defaults to (5,5).
-        dpi (int, optional): The resolution of the image in dots per inch. Defaults to 100.
-        ID (str, optional): A unique identifier for the plot image file. Defaults to None.
-    
-    Returns: 
-        None, saves the plot as a PNG file.
-    """
-
-    if ID is None:
-        filename = f'plot_{counter}.png'
-    else:
-        filename = f'plot_{counter}_{ID}.png'
-
-    plt.gcf().set_size_inches(image_size_inches)
-    plt.savefig(filename,dpi=dpi)
-
-def tool_save_plot(counter,fig, ID=None):
-    """
-    Saves the current Plotly figure as a PNG file.
-
-    Args:
-        counter (int): A unique identifier for the plot image file.
-        fig (plotly.graph_objects.Figure): The Plotly figure to save as an image.
-        ID (str, optional): A unique identifier for the plot image file. Defaults to None.
-    
-    Returns: 
-        None, saves the plot as a PNG file.
-    """
-
-    if ID is None:
-        filename = f'plot_{counter}.png'
-    else:
-        filename = f'plot_{counter}_{ID}.png'
-
-    fig.write_image(filename)
 
 def tool_make_animation_movie(counter, name=None, fps=24):
     """
