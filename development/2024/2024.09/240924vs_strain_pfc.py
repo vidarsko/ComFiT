@@ -33,6 +33,6 @@ plt.show()
 # for n in range(10):
 #     pfc.evolve_PFC(10)
 #     fig = pfc.plot_field(pfc.psi)
-#     cf.tool_save_plot(n,fig)
+#     pfc.plot_save(n,fig)
 
 # cf.tool_make_animation_gif(n)
