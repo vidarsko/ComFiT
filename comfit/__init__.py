@@ -28,7 +28,7 @@ from .tool import tool_colormap_bluewhitered, tool_colormap_angle,  \
     tool_make_animation_movie, tool_make_animation_gif, \
     tool_export_rotating_plot, tool_zoom_plot, tool_colormap_sunburst, tool_multinom, \
     tool_set_plot_axis_properties_matplotlib, tool_set_plot_axis_properties_plotly, \
-    tool_complete_field, tool_add_spacing_2D, tool_add_spacing_3D, tool_make_subplots, \
+    tool_complete_field, tool_add_spacing_2D, tool_add_spacing_3D, \
     tool_print_in_color, tool_configure_axis
         
 
