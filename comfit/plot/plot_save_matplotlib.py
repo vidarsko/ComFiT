@@ -29,5 +29,14 @@ def plot_save_matplotlib(counter, fig, **kwargs):
     else:
         filename = f'plot_{counter}_{ID}.png'
 
-    fig[0].set_size_inches(image_size_inches)
-    fig[0].savefig(filename,dpi=dpi)
+    import matplotlib.pyplot as plt
+
+    if isinstance(fig, tuple) and len(fig) == 2 and isinstance(fig[0], plt.Figure) and isinstance(fig[1], plt.Axes):
+        fig, ax = fig
+    elif isinstance(fig, plt.Figure):
+        fig = fig
+    else:
+        raise ValueError("fig must be a matplotlib Figure or a tuple of (Figure, Axes)")
+
+    fig.set_size_inches(image_size_inches)
+    fig.savefig(filename,dpi=dpi)

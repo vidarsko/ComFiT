@@ -7,7 +7,7 @@ eta = pfc.calc_amplitudes_with_dislocation_dipole()
 pfc.conf_PFC_from_amplitudes(eta)
 pfc.evolve_PFC(100)
 
-pfc.plot_lib = 'plotly'
+pfc.plot_lib = 'matplotlib'
 
-fig = pfc.plot_field(pfc.psi)
+fig,ax = pfc.plot_field(pfc.psi)
 pfc.plot_save(1, fig)
