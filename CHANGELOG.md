@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.8.0] - 2025-02-04
+- Created more seamless transition between plotly and matplotlib. 
+
 ## [1.7.0] - 2025-01-08
 - Changed default plotting library to plotly
 - Changes to PFC class

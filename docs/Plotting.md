@@ -463,7 +463,7 @@ Creating animations are typically done by exporting each frame to a `png`-file a
 For a ComFiT instance `cfi`, the command to export a frame is given by
 
 ```python
-cfi.save_plot(n fig)
+cfi.save_plot(n, fig)
 ```
 
 where `n` is the frame number (assumed to start at `0`) and `fig` is the output of a plotting function.
