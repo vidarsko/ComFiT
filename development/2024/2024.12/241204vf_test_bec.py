@@ -20,5 +20,5 @@ for i in range(100):
     fig1 = bec.plot_complex_field(bec.psi)
     fig2 = bec.plot_field(abs(bec.psi))
     fig = cf.tool_make_subplots(1, 2, fig1, fig2)
-    cf.tool_save_plot(i, fig)
+    bec.plot_save(i, fig)
 cf.tool_make_animation_gif(i)

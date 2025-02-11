@@ -5,24 +5,13 @@ import tempfile
 from pathlib import Path
 import time
 
-def modify_notebook(notebook_path):
+def open_notebook(notebook_path):
     with open(notebook_path, 'r') as f:
         nb = nbformat.read(f, as_version=4)
-    
-    # Replace the first cell content
-    first_cell = nb.cells[0]
-    if first_cell.cell_type == 'code' and first_cell.source.startswith('!pip install comfit -q'):
-        first_cell.source = """import sys
-from pathlib import Path
-current_dir = Path().resolve()
-parent_dir = current_dir.parent
-sys.path.append(str(parent_dir))
-import comfit as cf"""
-    
     return nb
 
 def run_notebook(notebook_path):
-    nb = modify_notebook(notebook_path)
+    nb = open_notebook(notebook_path)
     ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
 
     # Create a temporary directory to save the modified notebook

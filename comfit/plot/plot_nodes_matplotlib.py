@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
 
 def plot_nodes_matplotlib(self, nodes, **kwargs):
     """
@@ -52,7 +53,7 @@ def plot_nodes_matplotlib(self, nodes, **kwargs):
         ax.quiver(x_coords/self.a0, y_coords/self.a0, Bx_coords, By_coords, color='red')
         
         kwargs['ax'] = ax
-        self.plot_tool_set_axis_properties(**kwargs)
+        tool_set_plot_axis_properties_matplotlib(**kwargs)
 
     elif self.dim == 3:
         # Plotting options

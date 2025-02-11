@@ -14,7 +14,7 @@ class BaseSystem(BaseSystemInit, BaseSystemConf, BaseSystemEvolve, BaseSystemCal
     
     def fft(self, field):
         """
-        Perform a fast Fourier transform on a field.
+        Perform a fast Fourier transform on a field. 
 
         Args: 
             field (array): The field to transform.
