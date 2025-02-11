@@ -1,7 +1,42 @@
 # Plotting
 
-The `ComFiT` package supports both the plotting library `plotly` (default) and `matplotlib`.
+The `ComFiT` package supports both the `plotly` (default) and `matplotlib` plotting libraries. You can easily switch between the two by setting the `plot_lib` attribute of the `BaseSystem` class to either `plotly` or `matplotlib`. Every plotting function returns a `fig` object and an `ax` object.
 
+=== `matplotlib`
+    The `fig` object is the figure object of the plot, while the `ax` object represents the individual axes of the plot.
+
+=== `plotly`
+    The `fig` object is the figure for the plot, and the `ax` object is a tuple containing the figure's row and column indices (default is `(0,0)`).
+
+## Subplots
+
+To plot multiple graphs in the same figure, use the `plot_subplots` function before any plotting functions. This function accepts the following arguments:
+
+* `nrows` (int): The number of rows in the subplot grid.
+* `ncols` (int): The number of columns in the subplot grid.
+* `figsize` (tuple): The size of the figure.
+
+The function returns a tuple `(fig, axs)`, where `fig` is the figure object and `axs` is a list of axis objects. If the subplot grid is one-dimensional, `axs` is a one-dimensional list of axis objects; otherwise, `axs` is a two-dimensional list of lists (so `axs[i][j]` is the axis object at the ith row and jth column).
+
+=== `matplotlib`
+    The `axs` object is a list (or array) of axis objects.
+
+=== `plotly`
+    The `axs` object is a list of `(row, col)` tuples; thus, `axs[i][j]` corresponds to the `(row, col)` position of the axis object in the ith row and jth column.
+
+When plotting, pass the `fig` and `ax` objects to the plotting functions, e.g.
+
+```python
+cfi = cf.BoseEinsteinCondensate(2)
+cfi.psi = cfi.x + 1j * cfi.y
+cfi.plot_lib = 'matplotlib'
+
+fig, axs = cf.plot_subplots(nrows=2, ncols=2, figsize=(10, 10))
+
+cfi.plot_complexfield(cfi.psi, fig=fig, ax=axs[0][0])
+cfi.plot_field(abs(cfi.psi), fig=fig, ax=axs[0][1])
+cfi.plot_anglefield(np.angle(cfi.psi), fig=fig, ax=axs[1][0])
+```
 
 ## Plotly
 
