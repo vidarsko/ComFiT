@@ -156,11 +156,11 @@ class BaseSystemPlot:
 
 
     # Figure handling methods
-    def plot_subplots(self, number_of_rows, number_of_columns, *args, **kwargs):
+    def plot_subplots(self, number_of_rows, number_of_columns, **kwargs):
         if self.plot_lib == "plotly":
-            return plot_subplots_plotly(number_of_rows, number_of_columns, *args, **kwargs)
+            return plot_subplots_plotly(number_of_rows, number_of_columns, **kwargs)
         elif self.plot_lib == "matplotlib":
-            return plot_subplots_matplotlib(number_of_rows, number_of_columns, *args, **kwargs)
+            return plot_subplots_matplotlib(number_of_rows, number_of_columns, **kwargs)
 
     def plot_save(self, counter, fig, **kwargs):
         if self.plot_lib == "plotly":
