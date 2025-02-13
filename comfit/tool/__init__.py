@@ -15,3 +15,5 @@ from .tool_print_in_color import tool_print_in_color
 from .tool_configure_axis import tool_configure_axis
 
 from .tool_animation import tool_make_animation_movie, tool_make_animation_gif
+
+from .tool_plotly_colorbar_angle import tool_plotly_colorbar_angle

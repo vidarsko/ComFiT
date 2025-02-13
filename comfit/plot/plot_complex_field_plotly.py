@@ -7,6 +7,7 @@ from skimage.measure import marching_cubes
 from comfit.tool import tool_complete_field
 from comfit.tool import tool_colormap_angle
 from comfit.tool import tool_set_plot_axis_properties_plotly
+from comfit.tool import tool_plotly_colorbar_angle
 
 
 def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.Figure:
@@ -23,6 +24,7 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
     """
 
     fig = kwargs.get('fig', go.Figure())
+    ax = kwargs.get('ax', None)
 
     # Kewyord arguments
     colorbar = kwargs.get('colorbar', True)
@@ -178,7 +180,7 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
             if fig == None:
                 fig = go.Figure()
 
-            fig.add_trace(go.Image(z=image_data, 
+            trace = go.Image(z=image_data, 
                             dx=self.dx/self.a0, 
                             dy=self.dy/self.a0, 
                             x0=self.xmin/self.a0, 
@@ -186,8 +188,12 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                             hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
                             customdata=np.stack((np.transpose(theta/np.pi), np.transpose(rho)), axis=-1),
                             name=''
-                            ))  
+                            )
 
+            if ax is None:
+                fig.add_trace(trace)
+            else:
+                fig.add_trace(trace, row=ax[0,0], col=ax[1,0])
 
                 # fig.add_trace(go.Heatmap(
                 #     x=X.flatten()/self.a0,
@@ -215,24 +221,14 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                     ) 
     
         if colorbar:
-            custom_colormap = tool_colormap_angle(pyplot=True)
-            fig.add_trace(go.Scatter(
-            x=[None], y=[None], mode='markers',
-            showlegend=False,
-            marker=dict(
-                colorscale=custom_colormap,
-                cmin=-np.pi, cmax=np.pi,
-                colorbar=dict(
-                tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
-                ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
-                )
-            ),
-            hoverinfo='none'
-            ))
+            if ax is None:
+                fig.add_trace(tool_plotly_colorbar_angle())
+            else:
+                fig.add_trace(tool_plotly_colorbar_angle(ax), row=ax[0,0], col=ax[1,0])
+
     ###############################################################
     ###################### DIMENSION: 3 ###########################
     ###############################################################
-
     elif self.dim == 3:
         kwargs['plot_is_3D'] = True
 
@@ -344,4 +340,5 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
     kwargs['fig'] = fig
     kwargs['axis_equal'] = axis_equal
     tool_set_plot_axis_properties_plotly(self, **kwargs)
-    return fig
+
+    return fig, ax
