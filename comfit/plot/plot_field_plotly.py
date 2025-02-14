@@ -40,6 +40,7 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         field = np.real(field)
 
     fig = kwargs.get('fig', go.Figure())
+    ax = kwargs.get('ax', None)
 
     # Kewyord arguments
     colorbar = kwargs.get('colorbar', True)
@@ -90,7 +91,10 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         )
         
         if not field_is_nan:
-            fig.add_trace(trace)
+            if ax is None:
+                fig.add_trace(trace)
+            else:
+                fig.add_trace(trace, row=ax[0,0], col=ax[1,0])
 
     ###############################################################
     ###################### DIMENSION: 2 ###########################
@@ -170,5 +174,6 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
                 fig.add_trace(trace)
     
     kwargs['fig'] = fig
-    tool_set_plot_axis_properties_plotly(self,**kwargs)
-    return fig
+    kwargs['ax'] = ax
+    tool_set_plot_axis_properties_plotly(self, **kwargs)
+    return fig, ax

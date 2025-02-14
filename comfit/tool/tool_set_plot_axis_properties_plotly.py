@@ -21,6 +21,7 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
 
     ##### FIGURE #####
     fig = kwargs.get('fig', go.Figure())
+    ax = kwargs.get('ax', None)
 
     ##### SIZE #####
     size = kwargs.get('size', None)
@@ -157,9 +158,25 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
 
 
     ##### UPDATE LAYOUT #####
-    fig.update_layout(layout_updates)
-    if plot_is_3D:
-        fig.update_layout(scene = scene_updates)
+    if ax is None:
+        fig.update_layout(layout_updates)
+        if plot_is_3D:
+            fig.update_layout(scene = scene_updates)
 
-    
-    
+    else:
+        dummy_fig = go.Figure()
+        dummy_fig.update_layout(layout_updates)
+        if plot_is_3D:
+            dummy_fig.update_layout(scene=scene_updates)
+
+        row = int(ax[0,0])
+        nrows = int(ax[0,1])
+        col = int(ax[1,0])
+        ncols = int(ax[1,1])
+
+        if not plot_is_3D:
+            fig.update_xaxes(dummy_fig.layout.xaxis, row = row, col = col)
+            fig.update_yaxes(dummy_fig.layout.yaxis, row = row, col = col)
+        
+        else:
+            fig.update_scenes(dummy_fig.layout.scene, rows = [row], cols = [col])

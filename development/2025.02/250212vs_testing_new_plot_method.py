@@ -1,7 +1,7 @@
 import comfit as cf
 import numpy as np
 
-cfi = cf.BoseEinsteinCondensate(2)
+cfi = cf.BoseEinsteinCondensate(2,xRes=51)
 cfi.psi = cfi.x + 1j * cfi.y
 
 cfi.plot_lib = 'plotly'
