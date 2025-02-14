@@ -50,6 +50,10 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
         
         axis_equal = kwargs.get('axis_equal',False)
 
+        vlim = kwargs.get('vlim', None)
+        if vlim is not None:
+            kwargs['ylim'] = vlim
+
         if fig == None:
             fig = go.Figure()
 
