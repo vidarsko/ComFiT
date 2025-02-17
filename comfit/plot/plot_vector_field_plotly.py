@@ -6,6 +6,10 @@ from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_add_spacing_2D import tool_add_spacing_2D
 from comfit.tool.tool_add_spacing_3D import tool_add_spacing_3D
 
+from comfit.tool import tool_plotly_define_2D_plot_ax
+from comfit.tool import tool_plotly_define_3D_plot_ax
+from comfit.tool import tool_plotly_colorbar
+
 def plot_vector_field_plotly(self, vector_field, **kwargs):
     """Plots a vector field.
 
@@ -38,7 +42,9 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         print('Max imaginary part: ', np.max(np.imag(vector_field)))
         vector_field = np.real(vector_field)
      
-    kwargs['plot_is_3D'] = False
+
+    fig = kwargs.get('fig', go.Figure())
+    ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
 
     ###############################################################
     ########### DIMENSION: 1 - VECTOR-DIMENSION: 1 ################
@@ -46,8 +52,12 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         
     if self.dim == 1 and vector_field.shape == (1,self.xRes):
 
-        X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
+        ax = tool_plotly_define_2D_plot_ax(ax, fig)
 
+        ax['colorbar'] = kwargs.get('colorbar', False)
+        
+        X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
+        
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
 
@@ -55,19 +65,21 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
         X,Y,U,V = tool_add_spacing_2D(X,Y,U,V,spacing)
 
-            
-        fig = kwargs.get('fig', go.Figure())
-        fig = self.plot_field(vector_field[0], **kwargs)
+        kwargs['fig'] = fig
+        kwargs['ax'] = ax
+
+        fig, ax = self.plot_field(vector_field[0], **kwargs)
 
         
-
     ###############################################################
     ########### DIMENSION: 1 - VECTOR-DIMENSION: 2 ################
     ###############################################################
 
     elif self.dim == 1 and vector_field.shape == (2,self.xRes):
 
-        kwargs['plot_is_3D'] = True
+        ax = tool_plotly_define_3D_plot_ax(ax, fig)
+
+        ax['colorbar'] = kwargs.get('colorbar', True)
             
         X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -78,6 +90,9 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         V[:,0,0] = vector_field[0]
         W[:,0,0] = vector_field[1]
 
+        ax['vmin'] = kwargs.get('vmin', 0)
+        ax['vmax'] = kwargs.get('vmax', np.max(np.sqrt(vector_field[0]**2 + vector_field[1]**2)))
+
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
         fig = kwargs.get('fig', go.Figure())
@@ -87,16 +102,19 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
                                 u=U.flatten(), 
                                 v=V.flatten(), 
                                 w=W.flatten(), 
-                                colorscale='Viridis', 
+                                colorscale=colormap, 
                                 sizemode='scaled', 
                                 sizeref=1, 
-                                showscale=True,
+                                showscale=False,
+                                scene = ax['sceneN'],
                                 hovertemplate='x: %{x:.1f} a₀ <br>' +
                                               'ux: %{u:.1f} <br>' +
                                               'uy: %{v:.1f} <br>' +
                                               'uz: %{w:.1f} <br>' +
                                               '|u|: %{customdata:.1f}<extra></extra>',
                                               customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
+
+
 
         # kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
         # delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
@@ -116,10 +134,10 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
     elif self.dim == 1 and vector_field.shape == (3,self.xRes):
         
-        kwargs['plot_is_3D'] = True
 
+        ax = tool_plotly_define_3D_plot_ax(ax, fig)
 
-        fig = kwargs.get('fig', go.Figure())
+        ax['colorbar'] = kwargs.get('colorbar', True)
         
         X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -138,6 +156,9 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
 
+        ax['vmin'] = kwargs.get('vmin', 0)
+        ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
+
         # Normalizing
         U = U/max_vector
         V = V/max_vector
@@ -153,7 +174,6 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         V = vy_scale*V
         W = vz_scale*W
 
-        fig = kwargs.get('fig', go.Figure())
         fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
                         y=Y.flatten()/self.a0, 
                         z=Z.flatten()/self.a0, 
@@ -163,7 +183,8 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
                         colorscale='Viridis', 
                         sizemode='scaled', 
                         sizeref=1, 
-                        showscale=True, 
+                        showscale=False, 
+                        scene = ax['sceneN'],
                         hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
                                       '<b>ux:</b> %{u:.1f} <br>' +
                                       '<b>uy:</b> %{v:.1f} <br>' +
@@ -181,6 +202,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
     elif self.dim == 2 and vector_field.shape == (1,self.xRes,self.yRes):
   
+        ax = tool_plotly_define_2D_plot_ax(ax, fig)
 
         X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
@@ -192,6 +214,9 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2))
         
+        ax['vmin'] = kwargs.get('vmin', 0)
+        ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
+
         U = U / max_vector
 
         # Scale factors
@@ -212,19 +237,22 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         angle = np.arctan2(v, u)
         direction = np.array([np.cos(angle), np.sin(angle)]).T
 
-        colorbar = kwargs.get('colorbar', True)
+        ax['colorbar'] = kwargs.get('colorbar', True)
         
         fig.add_trace(go.Scatter(
         x=X.flatten()/self.a0,
         y=Y.flatten()/self.a0,
+        xaxis=ax['xN'],
+        yaxis=ax['yN'],
         mode='markers',
+        showlegend=False,
         marker=dict(symbol='arrow', 
             angle=90-angle.flatten()*180/np.pi, 
             size=2*spacing*magnitude_normalized.flatten(), 
             sizemode='diameter',
             color=magnitude.flatten(), 
             colorscale='Viridis', 
-            showscale=colorbar,
+            showscale=False,
             line=dict(color='black')
             ),
             hovertemplate='<b>x:</b> %{x:.1f}a0<br>' +
@@ -242,35 +270,42 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
     elif self.dim == 2 and vector_field.shape == (2,self.xRes,self.yRes):
 
+        ax = tool_plotly_define_2D_plot_ax(ax, fig)
+
         X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
         X, Y, U, V = tool_add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
-        
-        fig = kwargs.get('fig', go.Figure())
 
         u = U.flatten()
         v = V.flatten()
         
         magnitude = np.sqrt(u**2 + v**2)
+
+        ax['vmin'] = kwargs.get('vmin', 0)
+        ax['vmax'] = kwargs.get('vmax', np.max(magnitude))
+
         magnitude_max = max(np.max(magnitude),1e-12)
         magnitude_normalized = magnitude/magnitude_max
 
         angle = np.arctan2(v, u)
         direction = np.array([np.cos(angle), np.sin(angle)]).T
 
-        colorbar = kwargs.get('colorbar', True)
+        ax['colorbar'] = kwargs.get('colorbar', True)
         
         fig.add_trace(go.Scatter(
         x=X.flatten()/self.a0,
         y=Y.flatten()/self.a0,
         mode='markers',
+        xaxis=ax['xN'],
+        yaxis=ax['yN'],
+        showlegend=False,
         marker=dict(symbol='arrow', 
             angle=90-angle.flatten()*180/np.pi, 
             size=4*spacing*magnitude_normalized.flatten(), 
             sizemode='diameter',
             color=magnitude.flatten(), 
             colorscale='Viridis', 
-            showscale=colorbar,
+            showscale=False,
             cmin=0,
             cmax=magnitude_max,
             line=dict(color='black')
@@ -291,7 +326,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
     elif self.dim == 2 and vector_field.shape == (3,self.xRes,self.yRes):
 
-        kwargs['plot_is_3D'] = True
+        ax = tool_plotly_define_3D_plot_ax(ax, fig)
         
         X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
         U = np.zeros(X.shape)
@@ -305,6 +340,11 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+
+        ax['colorbar'] = kwargs.get('colorbar', True)
+
+        ax['vmin'] = kwargs.get('vmin', 0)
+        ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
 
         # Normalizing
         U = U / max_vector
@@ -321,7 +361,6 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         V = vy_scale*V
         W = vz_scale*W
 
-        fig = kwargs.get('fig', go.Figure())
         fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
                             y=Y.flatten()/self.a0, 
                             z=Z.flatten()/self.a0, 
@@ -331,7 +370,8 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
                             colorscale='Viridis', 
                             sizemode='scaled', 
                             sizeref=1, 
-                            showscale=True,
+                            showscale=False,
+                            scene=ax['sceneN'],
                             hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
                                             '<b>y:</b> %{y:.1f} a₀ <br>' +
                                             '<b>z:</b> %{z:.1f} a₀ <br>' +
@@ -353,7 +393,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
     elif self.dim == 3 and vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
 
-        kwargs['plot_is_3D'] = True
+        ax = tool_plotly_define_3D_plot_ax(ax, fig)
 
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')              
 
@@ -367,6 +407,12 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2))
+
+        ax['colorbar'] = kwargs.get('colorbar', True)
+
+        ax['vmin'] = kwargs.get('vmin', 0)
+        ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
+
         U = U / max_vector
 
         # Scale factors
@@ -375,7 +421,6 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         # Scaling
         U = vx_scale*U
 
-        fig = kwargs.get('fig', go.Figure())
         fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
                                 y=Y.flatten()/self.a0, 
                                 z=Z.flatten()/self.a0, 
@@ -385,7 +430,8 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
                                 colorscale='Viridis', 
                                 sizemode='scaled', 
                                 sizeref=1, 
-                                showscale=True,
+                                showscale=False,
+                                scene=ax['sceneN'],
                                 hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
                                                 '<b>y:</b> %{y:.1f} a₀ <br>' +
                                                 '<b>z:</b> %{z:.1f} a₀ <br>' +
@@ -401,7 +447,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
     elif self.dim == 3 and vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
 
-        kwargs['plot_is_3D'] = True
+        ax = tool_plotly_define_3D_plot_ax(ax, fig)
 
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
@@ -415,6 +461,12 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
+
+        ax['colorbar'] = kwargs.get('colorbar', True)
+
+        ax['vmin'] = kwargs.get('vmin', 0)
+        ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
+
         U = U / max_vector
         V = V / max_vector
 
@@ -426,8 +478,6 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         U = vx_scale*U
         V = vy_scale*V
 
-
-        fig = kwargs.get('fig', go.Figure())
         fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
                                 y=Y.flatten()/self.a0, 
                                 z=Z.flatten()/self.a0, 
@@ -437,7 +487,8 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
                                 colorscale='Viridis', 
                                 sizemode='scaled', 
                                 sizeref=1, 
-                                showscale=True,
+                                showscale=False,
+                                scene=ax['sceneN'],
                                 hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
                                                 '<b>y:</b> %{y:.1f} a₀ <br>' +
                                                 '<b>z:</b> %{z:.1f} a₀ <br>' +
@@ -453,7 +504,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
     elif self.dim == 3 and vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
 
-        kwargs['plot_is_3D'] = True
+        ax = tool_plotly_define_3D_plot_ax(ax, fig)
 
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
@@ -464,7 +515,11 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-        fig = kwargs.get('fig', go.Figure())
+        max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
+        ax['vmin'] = kwargs.get('vmin', 0)
+        ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
+        ax['colorbar'] = kwargs.get('colorbar', True)
+
         fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
                                 y=Y.flatten()/self.a0, 
                                 z=Z.flatten()/self.a0, 
@@ -474,7 +529,8 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
                                 colorscale='Viridis', 
                                 sizemode='scaled', 
                                 sizeref=1, 
-                                showscale=True,
+                                showscale=False,
+                                scene=ax['sceneN'],
                                 hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
                                                 '<b>y:</b> %{y:.1f} a₀ <br>' +
                                                 '<b>z:</b> %{z:.1f} a₀ <br>' +
@@ -492,7 +548,10 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         raise Exception("You have entered an invalid field to the plot_vector_field function.")
 
 
+    if ax['colorbar']:
+        fig.add_trace(tool_plotly_colorbar(ax, type='normal'))
 
     kwargs['fig'] = fig
+    kwargs['ax'] = ax
     tool_set_plot_axis_properties_plotly(self, **kwargs)
-    return fig
+    return fig, ax

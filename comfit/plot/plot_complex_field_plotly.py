@@ -7,7 +7,10 @@ from skimage.measure import marching_cubes
 from comfit.tool import tool_complete_field
 from comfit.tool import tool_colormap_angle
 from comfit.tool import tool_set_plot_axis_properties_plotly
-from comfit.tool import tool_plotly_colorbar_angle
+from comfit.tool import tool_plotly_colorbar
+
+from comfit.tool import tool_plotly_define_2D_plot_ax
+from comfit.tool import tool_plotly_define_3D_plot_ax
 
 
 def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.Figure:
@@ -44,18 +47,15 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
 
     if self.dim == 1:
 
+        ax = tool_plotly_define_2D_plot_ax(ax, fig)
 
         # Keyword arguments particular to the 1D case
         grid = kwargs.get('grid', False)
-        
         axis_equal = kwargs.get('axis_equal',False)
 
         vlim = kwargs.get('vlim', None)
         if vlim is not None:
             kwargs['ylim'] = vlim
-
-        if fig == None:
-            fig = go.Figure()
 
         # Color in the graph based on the argument of the complex field
         blend_factor=0.3 # The degree to which the color is blended with white
@@ -71,7 +71,9 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                         fill='tozeroy',
                         showlegend=False,
                         hoverinfo='skip',
-                        fillcolor=color_str))
+                        fillcolor=color_str,
+                        xaxis=ax['xN'],
+                        yaxis=ax['yN']))
 
         for i in range(1,self.xRes-1):
             color = (1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
@@ -83,7 +85,9 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                         fill='tozeroy',
                         showlegend=False,
                         hoverinfo='skip',
-                        fillcolor=color_str))
+                        fillcolor=color_str, 
+                        xaxis=ax['xN'],
+                        yaxis=ax['yN']))
 
             color = (1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
             color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
@@ -94,7 +98,9 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                         fill='tozeroy',
                         showlegend=False,
                         hoverinfo='skip',
-                        fillcolor=color_str))
+                        fillcolor=color_str,
+                        xaxis=ax['xN'],
+                        yaxis=ax['yN']))
 
         color = (1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
         color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
@@ -105,7 +111,9 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                         fill='tozeroy',
                         showlegend=False,
                         hoverinfo='skip',
-                        fillcolor=color_str))
+                        fillcolor=color_str,
+                        xaxis=ax['xN'],
+                        yaxis=ax['yN']))
 
 
         fig.add_trace(go.Scatter(
@@ -116,30 +124,18 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
             customdata=np.stack((theta/np.pi, rho), axis=-1),
             hovertemplate='x: %{x:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
             name='',
-            line=dict(color='black')
+            line=dict(color='black'),
+            xaxis=ax['xN'],
+            yaxis=ax['yN']
         ))
 
-        if colorbar:
-            custom_colormap = tool_colormap_angle(pyplot=True)
-            fig.add_trace(go.Scatter(
-            x=[None], y=[None], mode='markers',
-            showlegend=False,
-            marker=dict(
-                colorscale=custom_colormap,
-                cmin=-np.pi, cmax=np.pi,
-                colorbar=dict(
-                tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
-                ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
-                )
-            ),
-            hoverinfo='none'
-            ))
         
     ###############################################################
     ###################### DIMENSION: 2 ###########################
     ###############################################################
 
     elif self.dim == 2:
+        
         # Keyword arguments particular to the 2D case
         plot_method = kwargs.get('plot_method', 'phase_angle')
 
@@ -155,6 +151,7 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
 
         elif plot_method == 'phase_angle':
             
+            ax = tool_plotly_define_2D_plot_ax(ax, fig)
 
             # Keyword arguments particular to the phase angle plot
             grid = kwargs.get('grid', False)
@@ -191,13 +188,12 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                             y0=self.ymin/self.a0,
                             hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
                             customdata=np.stack((np.transpose(theta/np.pi), np.transpose(rho)), axis=-1),
-                            name=''
+                            name='',
+                            xaxis=ax['xN'],
+                            yaxis=ax['yN']
                             )
 
-            if ax is None:
-                fig.add_trace(trace)
-            else:
-                fig.add_trace(trace, row=ax[0,0], col=ax[1,0])
+            fig.add_trace(trace)
 
                 # fig.add_trace(go.Heatmap(
                 #     x=X.flatten()/self.a0,
@@ -212,40 +208,20 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                 #         )
                 # ))
 
-            if axis_equal:
-                # Set axis to be equal
-                fig.update_yaxes(
-                    scaleanchor="x",
-                    scaleratio=1,
-                )
 
-                fig.update_xaxes(
-                    scaleanchor="y",
-                    scaleratio=1,
-                    ) 
-    
-        if colorbar:
-            if ax is None:
-                fig.add_trace(tool_plotly_colorbar_angle())
-            else:
-                fig.add_trace(tool_plotly_colorbar_angle(ax), row=ax[0,0], col=ax[1,0])
 
     ###############################################################
     ###################### DIMENSION: 3 ###########################
     ###############################################################
     elif self.dim == 3:
-        kwargs['plot_is_3D'] = True
 
-        axis_equal = kwargs.get('axis_equal',True)
+        ax = tool_plotly_define_3D_plot_ax(ax, fig)
 
-        grid = kwargs.get('grid', True)
-
+        # Keyword arguments particular to the 3D case
         plot_method = kwargs.get('plot_method', 'phase_blob')
         
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
-
         rho_normalized = rho / np.max(rho)
-
         colormap = tool_colormap_angle()
 
         if plot_method == 'phase_angle':
@@ -309,40 +285,18 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
                     j=faces[:, 1], 
                     k=faces[:, 2],
                     facecolor=colors,  # Set color for each face
-                    showscale=True
+                    showscale=True,
+                    scene=ax['sceneN']
                 )
 
-                fig = go.Figure(data=[mesh])
+                fig.add_trace(mesh)
 
+    
     if colorbar:
-        # Add a colorbar to the plot
-        if self.dim == 1:
-            pass
-        elif self.dim == 2:
-            pass
-        elif self.dim == 3:
-            # Generate the custom colormap
-            custom_colormap = tool_colormap_angle(pyplot=True)
-
-            fig.add_trace(go.Isosurface(
-                x=[self.xmin/self.a0,self.xmax/self.a0], 
-                y=[self.ymin/self.a0,self.ymax/self.a0], 
-                z=[self.zmin/self.a0, self.zmax/self.a0],
-                value=[0,0],
-                cmin = -np.pi,
-                cmax = np.pi,
-                opacity=0,
-                colorscale=custom_colormap,
-                colorbar=dict(
-                    tickvals=[-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi],
-                    ticktext=['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
-                ),
-                showscale=True
-            ))
-
+        fig.add_trace(tool_plotly_colorbar(ax, type='angle'))
 
     kwargs['fig'] = fig
-    kwargs['axis_equal'] = axis_equal
+    kwargs['ax'] = ax
     tool_set_plot_axis_properties_plotly(self, **kwargs)
 
     return fig, ax

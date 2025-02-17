@@ -16,4 +16,10 @@ from .tool_configure_axis import tool_configure_axis
 
 from .tool_animation import tool_make_animation_movie, tool_make_animation_gif
 
-from .tool_plotly_colorbar_angle import tool_plotly_colorbar_angle
+from .tool_plotly_colorbar import tool_plotly_colorbar
+
+from .tool_plotly_find_next_xN import tool_plotly_find_next_xN
+from .tool_plotly_define_2D_plot_ax import tool_plotly_define_2D_plot_ax
+
+from .tool_plotly_find_next_sceneN import tool_plotly_find_next_sceneN
+from .tool_plotly_define_3D_plot_ax import tool_plotly_define_3D_plot_ax

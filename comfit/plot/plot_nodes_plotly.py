@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
-from comfit.tool import tool_set_plot_axis_properties_plotly
+from comfit.tool import tool_set_plot_axis_properties_plotly, tool_plotly_define_2D_plot_ax, tool_plotly_define_3D_plot_ax
 
 def plot_nodes_plotly(self, nodes, **kwargs):
         """Plots the  nodes in the system.
@@ -24,12 +24,15 @@ def plot_nodes_plotly(self, nodes, **kwargs):
 
         # Check if an axis object is provided
         fig = kwargs.get('fig', go.Figure())
+        ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
 
         # Check if there are nodes to be plotted
         if not nodes:
-            return fig
+            return fig, ax
 
         if self.dim == 2:
+
+            ax = tool_plotly_define_2D_plot_ax(ax, fig)
 
             # Positions
             x_coords = []
@@ -71,14 +74,18 @@ def plot_nodes_plotly(self, nodes, **kwargs):
                                             y=np.array(y_coords_neg)/self.a0, 
                                             mode='markers', 
                                             marker=dict(symbol='star', color='blue'),
-                                            showlegend=False))
+                                            showlegend=False,
+                                            xaxis=ax['xN'],
+                                            yaxis=ax['yN']))
 
                 if len(x_coords_pos) > 0:
                     fig.add_trace(go.Scatter(x=np.array(x_coords_pos)/self.a0, 
                                             y=np.array(y_coords_pos)/self.a0, 
                                             mode='markers', 
                                             marker=dict(symbol='cross', color='red'),
-                                            showlegend=False))
+                                            showlegend=False, 
+                                            xaxis=ax['xN'],
+                                            yaxis=ax['yN']))
             
             else: # If no charge is provided, plot all nodes as positive
                 print("Hello", x_coords, y_coords)
@@ -86,7 +93,9 @@ def plot_nodes_plotly(self, nodes, **kwargs):
                                         y=np.array(y_coords)/self.a0, 
                                         mode='markers', 
                                         marker=dict(symbol='circle', color='black'),
-                                        showlegend=False))
+                                        showlegend=False,
+                                        xaxis=ax['xN'],
+                                        yaxis=ax['yN']))
             
             # Velocities
             if 'velocity' in nodes[0].keys():
@@ -113,7 +122,9 @@ def plot_nodes_plotly(self, nodes, **kwargs):
                                         v=vy, 
                                         line=dict(width=1, color='black'),
                                         scale=1,
-                                        showlegend=False)
+                                        showlegend=False,
+                                        xaxis=ax['xN'],
+                                        yaxis=ax['yN'])
                     
                 fig.add_traces(data=fig1.data)
 
@@ -142,11 +153,16 @@ def plot_nodes_plotly(self, nodes, **kwargs):
                                         v=bvy, 
                                         line=dict(width=1, color='red'),
                                         scale=1,
-                                        showlegend=False)
+                                        showlegend=False,
+                                        xaxis=ax['xN'],
+                                        yaxis=ax['yN'])
                     
                 fig.add_traces(data=fig1.data)
 
         elif self.dim == 3:
+
+            ax = tool_plotly_define_3D_plot_ax(ax, fig)
+
             # Plotting options
             quiver_scale = 2 # The scale of the quiver arrows
 
@@ -192,11 +208,32 @@ def plot_nodes_plotly(self, nodes, **kwargs):
 
             if len(x_coords) > 0:
                 #ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')\
-                fig.add_trace(go.Scatter(x=x_coords/self.a0, y=y_coords/self.a0, mode='markers', marker=dict(symbol='circle', color='black')))
+                # fig.add_trace(go.Scatter(x=x_coords/self.a0, 
+                #                             y=y_coords/self.a0, 
+                #                             mode='markers', 
+                #                             marker=dict(symbol='circle', color='black')))   #TODO: Check if this works
 
-                fig.add_trace(go.Cone(x=x_coords/self.a0, y=y_coords/self.a0, z=z_coords/self.a0, u=tx, v=ty, w=tz, colorscale='Blues', sizemode='scaled', sizeref=0))
+                fig.add_trace(go.Cone(x=x_coords/self.a0, 
+                                        y=y_coords/self.a0, 
+                                        z=z_coords/self.a0, 
+                                        u=tx, 
+                                        v=ty, 
+                                        w=tz, 
+                                        scene=ax['sceneN'],
+                                        colorscale='Blues', 
+                                        sizemode='scaled', 
+                                        sizeref=0))
 
-                fig.add_trace(go.Cone(x=x_coords/self.a0, y=y_coords/self.a0, z=z_coords/self.a0, u=vx, v=vy, w=vz, colorscale='Greens', sizemode='scaled', sizeref=0))
+                fig.add_trace(go.Cone(x=x_coords/self.a0, 
+                                        y=y_coords/self.a0, 
+                                        z=z_coords/self.a0, 
+                                        u=vx, 
+                                        v=vy, 
+                                        w=vz, 
+                                        scene=ax['sceneN'],
+                                        colorscale='Greens', 
+                                        sizemode='scaled', 
+                                        sizeref=0))
             
 
         kwargs['fig'] = fig

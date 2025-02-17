@@ -6,6 +6,7 @@ from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_colormaps import tool_colormap_angle
 from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
 
+from comfit.tool import tool_plotly_define_3D_plot_ax, tool_plotly_colorbar
 
 from skimage.measure import marching_cubes
 import plotly.graph_objects as go
@@ -35,6 +36,9 @@ def plot_complex_field_in_plane_plotly(
             raise Exception("The plot in plane function is only defined for 3D fields.")
 
         fig = kwargs.get('fig', go.Figure())
+        ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
+
+        ax = tool_plotly_define_3D_plot_ax(ax, fig) #Defines sceneN, plot_dimension
 
         # Extend the field if not a complete array is given
         complex_field = tool_complete_field(self, complex_field)
@@ -76,7 +80,7 @@ def plot_complex_field_in_plane_plotly(
         # theta_verts = sp.interpolate.griddata(points, theta_values, centroids, method='nearest')
         # rho_verts = sp.interpolate.griddata(points, rho_values, centroids, method='nearest')
 
-        interpolation_method = kwargs.get('interpolation_method', 'linear') #TODO: This line is inconsistent in naming with
+        interpolation_method = kwargs.get('interpolation_method', 'nearest') #TODO: This line is inconsistent in naming with
         print("Interpolating points with method: ' ", interpolation_method, "'.")
         print("If this process is slow, consider passing 'interpolation_method='nearest' with the plot_complex_field_in_plane function.") #TODO: this line. (interpolation vs interpolation_method)
         print("That will speed up the process, but the plot may look less smooth.")
@@ -110,7 +114,8 @@ def plot_complex_field_in_plane_plotly(
                     j=faces[:, 1], 
                     k=faces[:, 2],
                     facecolor=colors,  # Set color for each face
-                    showscale=True
+                    showscale=False,
+                    scene=ax['sceneN']
                 )
         fig.add_trace(mesh)
 
@@ -123,6 +128,9 @@ def plot_complex_field_in_plane_plotly(
         #     cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
         #     cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
+
+        if colorbar:
+            fig.add_trace(tool_plotly_colorbar(ax, type='angle'))
 
         kwargs['plot_is_3D'] = True
         kwargs['fig'] = fig

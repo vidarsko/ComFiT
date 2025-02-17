@@ -1,14 +1,17 @@
 # Plotting
 
-The `ComFiT` package supports both the `plotly` (default) and `matplotlib` plotting libraries. You can easily switch between the two by setting the `plot_lib` attribute of the `BaseSystem` class to either `plotly` or `matplotlib`. 
-Every plotting function returns a `figax` object, which is a tuple containing a `fig` and an `ax` object.
+The `ComFiT` package supports both the `plotly` (default) and `matplotlib` plotting libraries. 
+You can easily switch between the two by setting the `plot_lib` attribute of the `BaseSystem` class to either `plotly` or `matplotlib`.
+Every plotting function returns a tuple containing a `fig` and an `ax` object.
 
 === "`matplotlib`"
     The `fig` object is the figure object of the plot, while the `ax` object represents the individual axes of the plot.
 
 === "`plotly`"
-    The `fig` object is the figure for the plot, and the `ax` object is a tuple containing the figure's row and column indices (default is `(0,0)`).
+    The `fig` object is the figure for the plot, and the `ax` object is a dictionary containing properties necessary for correct placement of subplots. 
+    Default is `ax = {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1}`.
 
+    
 ## Subplots
 
 To plot multiple graphs in the same figure, use the `plot_subplots` function before any plotting functions. This function accepts the following arguments:
@@ -43,45 +46,7 @@ cfi.plot_angle_field(np.angle(cfi.psi), fig=fig, ax=axs[1][0])
 cfi.show(fig)
 ```
 
-## Plotly
-
-At the base of a plotly plot is a `figure` object.
-The plotting functions return a `figure` object, which can be used to plot the field.
-Multple `figure` objects can be organized into a subplot using the `tool_make_subplots` function.
-
-## Matplotlib structure
-
-The standard plotting library of comfit is `plotly`.
-However, the library was originally built on `matplotlib`, and the plotting functions are still available by calling 
-
-```python
-cf.plot_field(comfit_instance, field)
-```
-
-which will return a `figure` and `axes` object that can be used to plot the field.
-The basic structure of `matplotlib` is that it has a `figure` object that contains `axes` objects.
-One can think of the `figure` object as the window in which the plot is drawn, and the `axes` object as the plot itself.
-A new figure is made as follows
-
-```python
-import matplotlib.pyplot as plt
-
-fig1 = plt.figure()
-```
-
-Given a figure object, one may define a new `axes` object on it as follows
-
-```python
-ax = fig.add_subplot(111)
-```
-The `111` is a shorthand for `1,1,1` and means that the 
-If you are plotting a 3D object, then you will need to specify that
-
-```python
-ax = fig.add_subplot(111, projection='3d')
-```
-
-which will construct a 3D `axes` object.
+## Matplotlib convention
 
 The convention followed in `ComFiT` are as follows:
 
@@ -103,6 +68,55 @@ In order to draw the image and continue the simulation, as for instance when vie
 ```python
 plt.pause(0.01)
 ```
+
+## Plotly 3D properties
+
+Plotly handles manipulating figures differently in 2 and 3 dimensions.
+In the `tool_set_plot_axis_properties_plotly`-function, several help dictionaries are constructed to set the proper plotting properties. 
+Belo is an overview. 
+
+Properties of the `ax`-object:
+
+```python
+row, nrows, 
+col, ncols
+xaxis = 'xaxis1' #etc. 
+yaxis = 'yaxis1' #etc. 
+plot_dimension
+```
+
+2D updates are saved in `layout_updates`:
+
+```python
+layout_updates = {	'xaxis_range':[0,10], (same for y)
+			     'xaxis_title': 'x/a0',	 } 
+```
+
+
+In 3D, updates are saved in several dictionaries:
+
+```python
+xaxis_updates = {	'range': [0,10], 
+			'title': 'x/a0',
+			'tickvals': [0,1,2,...],
+			'ticktext': ['0','pi',...]}
+```
+        
+And similarly for y,z. A
+Also, we have the `scene_updates` dictionary:
+
+```python
+scene_updates = {	'xaxis': xaxis_updates,
+			'yaxis': yaxis_updates,
+			'zaxis': zaxis_updates}
+```
+
+In all of the plot functions, confusion might arise between the difference of the `kwargs` and the `ax` dictionary. 
+In short, the difference is gvien by:
+
+`kwargs`: here goes everythign specici to the current plot, whil
+
+`ax`: here goes things valid for all plots in the given subplot.
 
 
 ## Plotting keywords

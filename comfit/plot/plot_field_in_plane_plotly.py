@@ -7,6 +7,9 @@ import plotly.graph_objects as go
 from skimage.measure import marching_cubes
 from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
 
+from comfit.tool import tool_plotly_define_3D_plot_ax, tool_plotly_colorbar
+
+
 def plot_field_in_plane_plotly(
         self,
         field: np.ndarray,
@@ -32,7 +35,10 @@ def plot_field_in_plane_plotly(
     if self.dim != 3:
         raise Exception("The plot in plane function is only defined for 3D fields.")
 
-    kwargs['plot_is_3D'] = True
+    fig = kwargs.get('fig', None)
+    ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
+
+    ax = tool_plotly_define_3D_plot_ax(ax, fig) #Defines sceneN, plot_dimension
 
     # Extend the field if not a complete array is given
     field = tool_complete_field(self, field)
@@ -43,8 +49,8 @@ def plot_field_in_plane_plotly(
         print('Max imaginary part: ', np.max(np.imag(field)))
         field = np.real(field)
 
-    fig = kwargs.get('fig', go.Figure())
-    colorbar = kwargs.get('colorbar', True)
+    kwargs['colorbar'] = kwargs.get('colorbar', True)
+    colormap = kwargs.get('colormap', 'Viridis')
 
     # Default values of position and normal vector
     if position is None:
@@ -71,6 +77,9 @@ def plot_field_in_plane_plotly(
     # Interpolate field at the vertices positions
     field_verts = griddata(points, field_values, centroids, method='nearest')
 
+    ax['vmin'] = kwargs.get('vmin', np.min(field_verts))
+    ax['vmax'] = kwargs.get('vmax', np.max(field_verts))
+
     # Add trace
     fig.add_trace(go.Mesh3d(
         x=(self.xmin + verts[:, 0] * self.dx) / self.a0,
@@ -81,10 +90,15 @@ def plot_field_in_plane_plotly(
         k=faces[:, 2],
         intensity=field_verts,  
         intensitymode='cell',  
-        colorscale='Viridis',
-        showscale=colorbar
+        colorscale=colormap,
+        showscale=False,
+        scene=ax['sceneN']
     ))
 
+    if kwargs['colorbar']:
+        fig.add_trace(tool_plotly_colorbar(ax, type='normal'))
+
     kwargs['fig'] = fig
+    kwargs['ax'] = ax
     tool_set_plot_axis_properties_plotly(self, **kwargs)
-    return fig
+    return fig, ax

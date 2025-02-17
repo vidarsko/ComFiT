@@ -10,9 +10,11 @@ from comfit.tool import tool_set_plot_axis_properties_plotly
 
 from comfit.tool import tool_colormap_bluewhitered
 from comfit.tool import tool_colormap_sunburst
-from comfit.plot import plot_surface_matplotlib
+
+from comfit.plot.plot_surface_matplotlib import plot_surface_matplotlib
 
 import matplotlib
+from mpl_toolkits.mplot3d import Axes3D
 
 def plot_field_matplotlib(self, 
         field: np.ndarray, 
@@ -182,6 +184,19 @@ def plot_field_matplotlib(self,
     elif self.dim == 3:
 
         kwargs['plot_is_3D'] = True
+
+        if ax is not None and ax is not isinstance(ax, Axes3D):
+            # Get row and column
+            subplotspec = ax.get_subplotspec()
+            gridspec = subplotspec.get_gridspec()
+            row = subplotspec.rowspan.start
+            col = subplotspec.colspan.start
+
+            ax.remove()
+
+            fig.add_subplot(gridspec[row, col], projection='3d')
+            ax = fig.get_axes()[-1]
+            
 
         # Keyword arguments particular to the 3D case
 

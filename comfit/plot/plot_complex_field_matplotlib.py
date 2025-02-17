@@ -7,6 +7,7 @@ from comfit.tool import tool_colormap_angle
 from comfit.tool import tool_set_plot_axis_properties_matplotlib
 
 from comfit.plot.plot_surface_matplotlib import plot_surface_matplotlib
+from mpl_toolkits.mplot3d import Axes3D
 
 from skimage.measure import marching_cubes
 
@@ -153,7 +154,18 @@ def plot_complex_field_matplotlib(self,
         if ax == None:
             fig.clf()
             ax = fig.add_subplot(111, projection='3d')
-        
+
+        if ax is not None and ax is not isinstance(ax, Axes3D):
+            # Get row and column
+            subplotspec = ax.get_subplotspec()
+            gridspec = subplotspec.get_gridspec()
+            row = subplotspec.rowspan.start
+            col = subplotspec.colspan.start
+
+            ax.remove()
+
+            fig.add_subplot(gridspec[row, col], projection='3d')
+            ax = fig.get_axes()[-1]
     
         if plot_method == 'phase_angle':
             

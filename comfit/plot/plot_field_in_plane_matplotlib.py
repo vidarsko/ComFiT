@@ -10,6 +10,7 @@ from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
 from comfit.tool.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
 
+from mpl_toolkits.mplot3d import Axes3D
 
 def plot_field_in_plane_matplotlib(
         self,
@@ -52,6 +53,18 @@ def plot_field_in_plane_matplotlib(
     # Check if an axis object is provided
     fig = kwargs.get('fig', plt.gcf())
     ax = kwargs.get('ax', None)
+
+    if ax is not None and ax is not isinstance(ax, Axes3D):
+        # Get row and column
+        subplotspec = ax.get_subplotspec()
+        gridspec = subplotspec.get_gridspec()
+        row = subplotspec.rowspan.start
+        col = subplotspec.colspan.start
+
+        ax.remove()
+
+        fig.add_subplot(gridspec[row, col], projection='3d')
+        ax = fig.get_axes()[-1]
 
     # Kewyord arguments
     colorbar = kwargs.get('colorbar', True)

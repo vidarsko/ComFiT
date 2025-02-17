@@ -15,6 +15,7 @@ def plot_surface_matplotlib(self, **kwargs) -> matplotlib.axes.Axes:
     field = kwargs['field']
     value = kwargs['value']
     ax = kwargs.get('ax', plt.gca())
+    
     alpha = kwargs.get('alpha', 0.5)
     color = kwargs.get('color', 'b')
 

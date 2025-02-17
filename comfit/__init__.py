@@ -29,7 +29,9 @@ from .tool import tool_colormap_bluewhitered, tool_colormap_angle,  \
     tool_export_rotating_plot, tool_zoom_plot, tool_colormap_sunburst, tool_multinom, \
     tool_set_plot_axis_properties_matplotlib, tool_set_plot_axis_properties_plotly, \
     tool_complete_field, tool_add_spacing_2D, tool_add_spacing_3D, \
-    tool_print_in_color, tool_configure_axis
+    tool_print_in_color, \
+    tool_plotly_find_next_xN, tool_plotly_define_2D_plot_ax, \
+    tool_plotly_find_next_sceneN, tool_plotly_define_3D_plot_ax \
         
 
 

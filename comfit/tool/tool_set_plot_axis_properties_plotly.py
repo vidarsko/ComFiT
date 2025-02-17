@@ -20,8 +20,13 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     zaxis_updates = {}
 
     ##### FIGURE #####
-    fig = kwargs.get('fig', go.Figure())
-    ax = kwargs.get('ax', None)
+    if 'fig' not in kwargs:
+        raise ValueError("'fig' parameter is required")
+    if 'ax' not in kwargs:
+        raise ValueError("'ax' parameter is required")
+    
+    fig = kwargs['fig']
+    ax = kwargs['ax']
 
     ##### SIZE #####
     size = kwargs.get('size', None)
@@ -31,24 +36,25 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
         layout_updates['height'] = size[1]
 
     ##### PLOT NATURE #####
-    row = kwargs.get('row', None)
-    col = kwargs.get('col', None)
+    row = ax['row']
+    col = ax['col']
 
     plot_is_3D = kwargs.get('plot_is_3D', False)
 
     ##### GRID #####
     grid = kwargs.get('grid', True)
-    layout_updates['xaxis_showgrid'] = grid
-    layout_updates['yaxis_showgrid'] = grid
+    if ax['plot_dimension'] == 2:
+        layout_updates[f'{ax["xaxisN"]}_showgrid'] = grid
+        layout_updates[f'{ax["yaxisN"]}_showgrid'] = grid
 
     ##### AXIS EQUAL #####
     axis_equal = kwargs.get('axis_equal', False if self.dim==1 else True)
 
     if axis_equal:
-        if plot_is_3D:
+        if ax['plot_dimension'] == 2:
+            layout_updates[ax['yaxisN']] = dict(scaleanchor=ax['xN'], scaleratio=1)
+        elif ax['plot_dimension'] == 3:
             scene_updates['aspectmode'] = 'cube'
-        else:
-            layout_updates['yaxis'] = dict(scaleanchor='x', scaleratio=1)
     
 
     ##### TITLE #####
@@ -85,32 +91,32 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     if 'zlim' in kwargs:
         zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
 
-    if plot_is_3D:
+    if ax['plot_dimension'] == 2:
+        layout_updates['xaxis_range'] = xlim
+        layout_updates['yaxis_range'] = ylim
+    
+    elif ax['plot_dimension'] == 3:
         xaxis_updates['range'] = xlim
         yaxis_updates['range'] = ylim
         zaxis_updates['range'] = zlim
-
-    else:
-        layout_updates['xaxis_range'] = xlim
-        layout_updates['yaxis_range'] = ylim
+        
 
     ##### AXIS LABELS #####
     xlabel = kwargs.get('xlabel', 'x/a₀')
     ylabel = kwargs.get('ylabel', 'y/a₀' if self.dim > 1 else None)
     zlabel = kwargs.get('zlabel', 'z/a₀' if self.dim > 2 else None)
 
-    if plot_is_3D:
+    if ax['plot_dimension'] == 2:
+        layout_updates[f"{ax['xaxisN']}_title"] = xlabel
+        if ylabel is not None:
+            layout_updates[f"{ax['yaxisN']}_title"] = ylabel
+
+    elif ax['plot_dimension'] == 3:
         xaxis_updates['title'] = xlabel
         yaxis_updates['title'] = ylabel
         zaxis_updates['title'] = zlabel
 
-    else: #plot is not 3D
-        layout_updates['xaxis_title'] = xlabel
-
-        if ylabel is not None:
-            layout_updates['yaxis_title'] = ylabel
-
-
+        
     ##### TICKS #####
     xticks = kwargs.get('xticks', None)  
     xticklabels = kwargs.get('xticklabels', None)
@@ -132,14 +138,13 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     if yticklabels is not None:
         yaxis_updates['ticktext'] = yticklabels
 
-    
     if zticks is not None:
         zaxis_updates['tickvals'] = zticks
     if zticklabels is not None:
         zaxis_updates['ticktext'] = zticklabels
 
     ##### UPDATE SCENE #####
-    if plot_is_3D:
+    if ax['plot_dimension'] == 3:
         if xaxis_updates:
             scene_updates['xaxis'] = xaxis_updates
 
@@ -149,34 +154,58 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
         if zaxis_updates:
             scene_updates['zaxis'] = zaxis_updates
 
-    else:
-        if xaxis_updates:
-            layout_updates['xaxis'] = xaxis_updates
+    # else: (reinclude?)
+    #     if xaxis_updates:
+    #         layout_updates['xaxis'] = xaxis_updates
 
-        if yaxis_updates:
-            layout_updates['yaxis'] = yaxis_updates
-
+    #     if yaxis_updates:
+    #         layout_updates['yaxis'] = yaxis_updates
 
     ##### UPDATE LAYOUT #####
-    if ax is None:
+    # if ax is None:
+
+    ##### ADJUST SUBPLOT POSITION #####
+    padding = 0.07
+
+    x_domain_start = (ax['col']-1)/ax['ncols']+padding*ax['col']/ax['ncols']
+    x_domain_end = ax['col']/ax['ncols']-padding*(1-ax['col']/ax['ncols'])
+    y_domain_start = 1-ax['row']/ax['nrows']+padding*(ax['nrows']-ax['row'])/ax['nrows']
+    y_domain_end = 1-(ax['row']-1)/ax['nrows']-padding*(ax['row']-1)/ax['nrows']
+
+    if ax['plot_dimension'] == 2:
+        fig.update_layout({ax['xaxisN']: dict( domain=[x_domain_start, 
+                                                        x_domain_end],
+                                                        anchor=ax['yN'])})
+
+        fig.update_layout({ax['yaxisN']: dict(domain=[y_domain_start, 
+                                                      y_domain_end],
+                                                            anchor=ax['xN'])})
+
         fig.update_layout(layout_updates)
-        if plot_is_3D:
-            fig.update_layout(scene = scene_updates)
 
-    else:
-        dummy_fig = go.Figure()
-        dummy_fig.update_layout(layout_updates)
-        if plot_is_3D:
-            dummy_fig.update_layout(scene=scene_updates)
+    elif ax['plot_dimension'] == 3:
+        scene_updates['domain'] = {'x': [x_domain_start, x_domain_end],
+                                   'y': [y_domain_start, y_domain_end]}
+                                   
+        fig.update_layout({ax['sceneN']: scene_updates})
 
-        row = int(ax[0,0])
-        nrows = int(ax[0,1])
-        col = int(ax[1,0])
-        ncols = int(ax[1,1])
 
-        if not plot_is_3D:
-            fig.update_xaxes(dummy_fig.layout.xaxis, row = row, col = col)
-            fig.update_yaxes(dummy_fig.layout.yaxis, row = row, col = col)
+    
+
+    # else:
+    #     dummy_fig = go.Figure()
+    #     dummy_fig.update_layout(layout_updates)
+    #     if plot_is_3D:
+    #         dummy_fig.update_layout(scene=scene_updates)
+
+    #     row = int(ax[0,0])
+    #     nrows = int(ax[0,1])
+    #     col = int(ax[1,0])
+    #     ncols = int(ax[1,1])
+
+    #     if not plot_is_3D:
+    #         fig.update_xaxes(dummy_fig.layout.xaxis, row = row, col = col)
+    #         fig.update_yaxes(dummy_fig.layout.yaxis, row = row, col = col)
         
-        else:
-            fig.update_scenes(dummy_fig.layout.scene, rows = [row], cols = [col])
+    #     else:
+    #         fig.update_scenes(dummy_fig.layout.scene, rows = [row], cols = [col])

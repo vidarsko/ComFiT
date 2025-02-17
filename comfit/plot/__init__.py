@@ -30,3 +30,5 @@ from .plot_subplots_plotly import plot_subplots_plotly
 
 from .plot_save_matplotlib import plot_save_matplotlib
 from .plot_save_plotly import plot_save_plotly
+
+from .plot_surface_matplotlib import plot_surface_matplotlib
