@@ -57,12 +57,6 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
             scene_updates['aspectmode'] = 'cube'
     
 
-    ##### TITLE #####
-    title = kwargs.get('title', None)
-
-    if title is not None:
-        layout_updates['title'] = title
-
     ##### AXIS LIMITS #####
     # xlim is specified as a list
     xlim = [self.xmin/self.a0, (self.xmax-self.dx)/self.a0]
@@ -189,7 +183,17 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
                                    
         fig.update_layout({ax['sceneN']: scene_updates})
 
-
+    ##### TITLE #####
+    title = kwargs.get('title', None)
+    
+    if title is not None:
+        fig.add_annotation(x=(x_domain_start), 
+        y=y_domain_end+0.07, 
+        xref='paper',
+        yref='paper',
+        text=title, 
+        showarrow=False, 
+        align='left')
     
 
     # else:

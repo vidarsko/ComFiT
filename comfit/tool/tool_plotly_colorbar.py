@@ -1,27 +1,32 @@
 import numpy as np
 import plotly.graph_objects as go
 from comfit.tool import tool_colormap_angle
+import math
+
+
+superscripts = {'0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
+                '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹',
+                '-': '⁻'}
 
 def format_tick_value(val):
     if val == 0:
         return '0'
 
-    superscripts = {'0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
-                   '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹',
-                   '-': '⁻'}
 
-    prefixes = {exp: f'×10{"".join(superscripts[digit] for digit in str(exp))}' for exp in range(-18, 19, 3)}
-    prefix_letters = {
-         -15: 'f', -12: 'p', -9: 'n', -6: 'µ', -3: 'm',
-        0: '', 3: 'k', 6: 'M', 9: 'G', 12: 'T'
-    }
-    for key in prefix_letters.keys():
-        prefixes[key] = prefix_letters[key]
+    # prefixes = {exp: f'×10{"".join(superscripts[digit] for digit in str(exp))}' for exp in range(-18, 19, 3)}
+    # prefix_letters = {
+    #      -15: 'f', -12: 'p', -9: 'n', -6: 'µ', -3: 'm',
+    #     0: '', 3: 'k', 6: 'M', 9: 'G', 12: 'T'
+    # }
+    # for key in prefix_letters.keys():
+    #     prefixes[key] = prefix_letters[key]
 
 
     abs_val = abs(val)
     exp = int(np.floor(np.log10(abs_val) / 3) * 3)  # Round to nearest power of 1000
     
+    prefixes = {}
+
     if exp in prefixes:
         scaled_val = val / 10**exp
         # Format based on the magnitude of scaled_val
@@ -32,8 +37,32 @@ def format_tick_value(val):
         else:
             return f'{scaled_val:.0f}{prefixes[exp]}'  # 200m
     else:
-        return f'{val:.2e}'  # Fallback to scientific notation
+        return f'{val:.0e}'  # Fallback to scientific notation
 
+
+def generate_numbers_between(cmin, cmax):
+    if cmin > cmax:
+        raise ValueError("cmin must be less than cmax")
+
+    delta = (cmax - cmin)
+
+    if delta == 0:
+        return [0], 0
+    
+    delta_exp = np.floor(np.log10(delta))
+
+    tick_min = np.ceil(cmin/10**delta_exp)*10**delta_exp
+    tick_max = np.floor(cmax/10**delta_exp)*10**delta_exp
+
+    number_of_steps = np.floor(delta/10**delta_exp)
+    if number_of_steps <= 5:
+        numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 10**delta_exp)
+    else:
+        numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 2*10**delta_exp)
+    
+    return numbers_between, delta_exp
+     
+        
 
 def tool_plotly_colorbar(ax, type='normal'):
     """Add a colorbar for the angle field to a plotly figure.
@@ -49,10 +78,20 @@ def tool_plotly_colorbar(ax, type='normal'):
         colormap = 'Viridis'
         cmin = ax['vmin']
         cmax = ax['vmax']
-        tickvals = np.linspace(cmin, cmax, 7)
-        ticktext = [format_tick_value(val) for val in tickvals]
+
+        numbers_between = generate_numbers_between(cmin, cmax)
+
+        tickvals, delta_exp = numbers_between
+        
+        ticktext = [round(tickval/10**delta_exp) for tickval in tickvals]
+
+        title='×10' + ''.join([superscripts[digit] for digit in str(int(delta_exp))])
+        
+        # tickvals = np.linspace(cmin, cmax, 7)
+        # ticktext = [format_tick_value(val) for val in tickvals]
 
     elif type == 'angle':
+        title=None
         colormap = tool_colormap_angle(pyplot=True)
         cmin = -np.pi
         cmax = np.pi
@@ -93,14 +132,17 @@ def tool_plotly_colorbar(ax, type='normal'):
     
     # The idea here is to place the colorbar in the middle of the subplot
     # It is not perfect yet (Vidar, 13.02.25)
-    padding=0.0
+    # padding=0.0
     trace.marker.colorbar.update(
+        title=title,
             len=1/ax['nrows'],
             thickness=10,
             xanchor='left',
             x=ax['col']/ax['ncols']-0.1*(1-ax['col']/ax['ncols']),
             yanchor='middle',
-            y=1-1/ax['nrows']/2-(ax['row']-1)/ax['nrows'] - 0.2*(ax['row']-ax['nrows']/2)/ax['nrows']
+            y=1-1/ax['nrows']/2 -(ax['row']-1)/ax['nrows'] \
+                - 0.5*(ax['row']-(1+ax['nrows'])/ax['nrows'])/(2*ax['nrows']-1)/ax['nrows']\
+                    +0.00
         )
 
     return trace
