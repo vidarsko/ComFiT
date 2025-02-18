@@ -92,17 +92,18 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         if axis_equal is None:
             kwargs['axis_equal'] = False
 
-        trace = go.Scatter(
-            x=self.x/self.a0,
-            y=field,
-            mode='lines',
-            name='',
-            hovertemplate='x: %{x:.1f} a₀<br>field: %{y:.1f}',
-            xaxis=ax['xN'],
-            yaxis=ax['yN'],
-            showlegend=False
-        )
-        fig.add_trace(trace)
+        if not field_is_nan:
+            trace = go.Scatter(
+                x=self.x/self.a0,
+                y=field,
+                mode='lines',
+                name='',
+                hovertemplate='x: %{x:.1f} a₀<br>field: %{y:.1f}',
+                xaxis=ax['xN'],
+                yaxis=ax['yN'],
+                showlegend=False
+            )
+            fig.add_trace(trace)
 
     ###############################################################
     ###################### DIMENSION: 2 ###########################
@@ -123,23 +124,24 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         if X is None or Y is None:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
             
-        # Trace
-        trace = go.Heatmap(
-            x=X.flatten()/self.a0,
-            y=Y.flatten()/self.a0,
-            z=field.flatten(),
-            zmin=vmin,
-            zmax=vmax,
-            zsmooth='best',
-            hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
-            name='',
-            colorscale=colormap,
-            showscale=False,
-            xaxis=ax['xN'],
-            yaxis=ax['yN']
-        )
+        if not field_is_nan:
+            # Trace
+            trace = go.Heatmap(
+                x=X.flatten()/self.a0,
+                y=Y.flatten()/self.a0,
+                z=field.flatten(),
+                zmin=vmin,
+                zmax=vmax,
+                zsmooth='best',
+                hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                name='',
+                colorscale=colormap,
+                showscale=False,
+                xaxis=ax['xN'],
+                yaxis=ax['yN']
+            )
 
-        fig.add_trace(trace)
+            fig.add_trace(trace)
         
 
     ###############################################################
@@ -185,7 +187,7 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
 
                 fig.add_trace(trace)
     
-    if kwargs['colorbar']:
+    if kwargs['colorbar'] and not field_is_nan:
         fig.add_trace(tool_plotly_colorbar(ax, type='normal'))
 
     kwargs['fig'] = fig

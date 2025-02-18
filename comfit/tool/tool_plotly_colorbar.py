@@ -5,8 +5,6 @@ from comfit.tool import tool_colormap_angle
 def format_tick_value(val):
     if val == 0:
         return '0'
-        
-    
 
     superscripts = {'0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
                    '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹',
@@ -21,7 +19,6 @@ def format_tick_value(val):
         prefixes[key] = prefix_letters[key]
 
 
-    
     abs_val = abs(val)
     exp = int(np.floor(np.log10(abs_val) / 3) * 3)  # Round to nearest power of 1000
     
@@ -47,7 +44,7 @@ def tool_plotly_colorbar(ax, type='normal'):
     Returns:
         plotly.graph_objects.Scatter: A scatter plot with no data that can be used as a colorbar.
     """
-
+ 
     if type == 'normal':
         colormap = 'Viridis'
         cmin = ax['vmin']
@@ -62,7 +59,6 @@ def tool_plotly_colorbar(ax, type='normal'):
         tickvals = [-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi]
         ticktext = ['-π', '-2π/3', '-π/3', '0', 'π/3', '2π/3', 'π']
     
-
     if ax['plot_dimension'] == 2:
         trace = go.Scatter(
                 x=[None], y=[None], mode='markers',
@@ -97,12 +93,14 @@ def tool_plotly_colorbar(ax, type='normal'):
     
     # The idea here is to place the colorbar in the middle of the subplot
     # It is not perfect yet (Vidar, 13.02.25)
+    padding=0.0
     trace.marker.colorbar.update(
             len=1/ax['nrows'],
-            xanchor='right',
-            x=ax['col']/ax['ncols'],
+            thickness=10,
+            xanchor='left',
+            x=ax['col']/ax['ncols']-0.1*(1-ax['col']/ax['ncols']),
             yanchor='middle',
-            y=1-1/ax['nrows']/2-(ax['row']-1)/ax['nrows']
+            y=1-1/ax['nrows']/2-(ax['row']-1)/ax['nrows'] - 0.2*(ax['row']-ax['nrows']/2)/ax['nrows']
         )
 
     return trace

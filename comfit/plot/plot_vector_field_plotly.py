@@ -41,7 +41,11 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         print("\033[91mWarning: the provided vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
         print('Max imaginary part: ', np.max(np.imag(vector_field)))
         vector_field = np.real(vector_field)
-     
+    
+    # Check if field is nan
+    field_is_nan = False
+    if np.all(np.isnan(vector_field)):
+        field_is_nan = True
 
     fig = kwargs.get('fig', go.Figure())
     ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
@@ -67,7 +71,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
         kwargs['fig'] = fig
         kwargs['ax'] = ax
-
+        
         fig, ax = self.plot_field(vector_field[0], **kwargs)
 
         
@@ -95,24 +99,24 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-        fig = kwargs.get('fig', go.Figure())
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                y=Y.flatten()/self.a0, 
-                                z=Z.flatten()/self.a0, 
-                                u=U.flatten(), 
-                                v=V.flatten(), 
-                                w=W.flatten(), 
-                                colorscale=colormap, 
-                                sizemode='scaled', 
-                                sizeref=1, 
-                                showscale=False,
-                                scene = ax['sceneN'],
-                                hovertemplate='x: %{x:.1f} a₀ <br>' +
-                                              'ux: %{u:.1f} <br>' +
-                                              'uy: %{v:.1f} <br>' +
-                                              'uz: %{w:.1f} <br>' +
-                                              '|u|: %{customdata:.1f}<extra></extra>',
-                                              customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
+        if not field_is_nan:
+            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                    y=Y.flatten()/self.a0, 
+                                    z=Z.flatten()/self.a0, 
+                                    u=U.flatten(), 
+                                    v=V.flatten(), 
+                                    w=W.flatten(), 
+                                    colorscale=colormap, 
+                                    sizemode='scaled', 
+                                    sizeref=1, 
+                                    showscale=False,
+                                    scene = ax['sceneN'],
+                                    hovertemplate='x: %{x:.1f} a₀ <br>' +
+                                                'ux: %{u:.1f} <br>' +
+                                                'uy: %{v:.1f} <br>' +
+                                                'uz: %{w:.1f} <br>' +
+                                                '|u|: %{customdata:.1f}<extra></extra>',
+                                                customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
 
 
@@ -174,23 +178,24 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         V = vy_scale*V
         W = vz_scale*W
 
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                        y=Y.flatten()/self.a0, 
-                        z=Z.flatten()/self.a0, 
-                        u=U.flatten(), 
-                        v=V.flatten(), 
-                        w=W.flatten(), 
-                        colorscale='Viridis', 
-                        sizemode='scaled', 
-                        sizeref=1, 
-                        showscale=False, 
-                        scene = ax['sceneN'],
-                        hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
-                                      '<b>ux:</b> %{u:.1f} <br>' +
-                                      '<b>uy:</b> %{v:.1f} <br>' +
-                                      '<b>uz:</b> %{w:.1f} <br>' +
-                                      '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
-                                      customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
+        if not field_is_nan:
+            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                            y=Y.flatten()/self.a0, 
+                            z=Z.flatten()/self.a0, 
+                            u=U.flatten(), 
+                            v=V.flatten(), 
+                            w=W.flatten(), 
+                            colorscale='Viridis', 
+                            sizemode='scaled', 
+                            sizeref=1, 
+                            showscale=False, 
+                            scene = ax['sceneN'],
+                            hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                        '<b>ux:</b> %{u:.1f} <br>' +
+                                        '<b>uy:</b> %{v:.1f} <br>' +
+                                        '<b>uz:</b> %{w:.1f} <br>' +
+                                        '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                        customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
         kwargs['axis_equal'] = False
         # kwargs['ylim'] = [-1,1]
@@ -292,32 +297,33 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
 
         ax['colorbar'] = kwargs.get('colorbar', True)
         
-        fig.add_trace(go.Scatter(
-        x=X.flatten()/self.a0,
-        y=Y.flatten()/self.a0,
-        mode='markers',
-        xaxis=ax['xN'],
-        yaxis=ax['yN'],
-        showlegend=False,
-        marker=dict(symbol='arrow', 
-            angle=90-angle.flatten()*180/np.pi, 
-            size=4*spacing*magnitude_normalized.flatten(), 
-            sizemode='diameter',
-            color=magnitude.flatten(), 
-            colorscale='Viridis', 
-            showscale=False,
-            cmin=0,
-            cmax=magnitude_max,
-            line=dict(color='black')
-            ),
-            hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
-                '<b>y:</b> %{y:.2f}a0<br>' +
-                '<b>ux:</b> %{customdata[0]:.2e}<br>' +  
-                '<b>uy:</b> %{customdata[1]:.2e}<br>' +
-                '<b>|u|:</b> %{customdata[2]:.2e}<extra></extra>',
-            customdata=np.stack((u.flatten(), v.flatten(), magnitude.flatten()), axis=-1)  # Adding ux, uy and u as customdata
-        )
-        )
+        if not field_is_nan:
+            fig.add_trace(go.Scatter(
+            x=X.flatten()/self.a0,
+            y=Y.flatten()/self.a0,
+            mode='markers',
+            xaxis=ax['xN'],
+            yaxis=ax['yN'],
+            showlegend=False,
+            marker=dict(symbol='arrow', 
+                angle=90-angle.flatten()*180/np.pi, 
+                size=4*spacing*magnitude_normalized.flatten(), 
+                sizemode='diameter',
+                color=magnitude.flatten(), 
+                colorscale='Viridis', 
+                showscale=False,
+                cmin=0,
+                cmax=magnitude_max,
+                line=dict(color='black')
+                ),
+                hovertemplate='<b>x:</b> %{x:.2f}a0<br>' +
+                    '<b>y:</b> %{y:.2f}a0<br>' +
+                    '<b>ux:</b> %{customdata[0]:.2e}<br>' +  
+                    '<b>uy:</b> %{customdata[1]:.2e}<br>' +
+                    '<b>|u|:</b> %{customdata[2]:.2e}<extra></extra>',
+                customdata=np.stack((u.flatten(), v.flatten(), magnitude.flatten()), axis=-1)  # Adding ux, uy and u as customdata
+            )
+            )
 
 
     ###############################################################
@@ -361,25 +367,26 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         V = vy_scale*V
         W = vz_scale*W
 
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                            y=Y.flatten()/self.a0, 
-                            z=Z.flatten()/self.a0, 
-                            u=U.flatten(), 
-                            v=V.flatten(), 
-                            w=W.flatten(), 
-                            colorscale='Viridis', 
-                            sizemode='scaled', 
-                            sizeref=1, 
-                            showscale=False,
-                            scene=ax['sceneN'],
-                            hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
-                                            '<b>y:</b> %{y:.1f} a₀ <br>' +
-                                            '<b>z:</b> %{z:.1f} a₀ <br>' +
-                                            '<b>ux:</b> %{u:.1f} <br>' +
-                                            '<b>uy:</b> %{v:.1f} <br>' +
-                                            '<b>uz:</b> %{w:.1f} <br>' +
-                                            '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
-                                            customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
+        if not field_is_nan:
+            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                y=Y.flatten()/self.a0, 
+                                z=Z.flatten()/self.a0, 
+                                u=U.flatten(), 
+                                v=V.flatten(), 
+                                w=W.flatten(), 
+                                colorscale='Viridis', 
+                                sizemode='scaled', 
+                                sizeref=1, 
+                                showscale=False,
+                                scene=ax['sceneN'],
+                                hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                                '<b>y:</b> %{y:.1f} a₀ <br>' +
+                                                '<b>z:</b> %{z:.1f} a₀ <br>' +
+                                                '<b>ux:</b> %{u:.1f} <br>' +
+                                                '<b>uy:</b> %{v:.1f} <br>' +
+                                                '<b>uz:</b> %{w:.1f} <br>' +
+                                                '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                                customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
 
 
@@ -421,25 +428,26 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         # Scaling
         U = vx_scale*U
 
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                y=Y.flatten()/self.a0, 
-                                z=Z.flatten()/self.a0, 
-                                u=U.flatten(), 
-                                v=V.flatten(), 
-                                w=W.flatten(), 
-                                colorscale='Viridis', 
-                                sizemode='scaled', 
-                                sizeref=1, 
-                                showscale=False,
-                                scene=ax['sceneN'],
-                                hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
-                                                '<b>y:</b> %{y:.1f} a₀ <br>' +
-                                                '<b>z:</b> %{z:.1f} a₀ <br>' +
-                                                '<b>ux:</b> %{u:.1f} <br>' +
-                                                '<b>uy:</b> %{v:.1f} <br>' +
-                                                '<b>uz:</b> %{w:.1f} <br>' +
-                                                '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
-                                                customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
+        if not field_is_nan:
+            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                    y=Y.flatten()/self.a0, 
+                                    z=Z.flatten()/self.a0, 
+                                    u=U.flatten(), 
+                                    v=V.flatten(), 
+                                    w=W.flatten(), 
+                                    colorscale='Viridis', 
+                                    sizemode='scaled', 
+                                    sizeref=1, 
+                                    showscale=False,
+                                    scene=ax['sceneN'],
+                                    hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                                    '<b>y:</b> %{y:.1f} a₀ <br>' +
+                                                    '<b>z:</b> %{z:.1f} a₀ <br>' +
+                                                    '<b>ux:</b> %{u:.1f} <br>' +
+                                                    '<b>uy:</b> %{v:.1f} <br>' +
+                                                    '<b>uz:</b> %{w:.1f} <br>' +
+                                                    '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                                    customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
     ###############################################################
     ########### DIMENSION: 3 - VECTOR-DIMENSION: 2 ################
@@ -478,25 +486,26 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         U = vx_scale*U
         V = vy_scale*V
 
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                y=Y.flatten()/self.a0, 
-                                z=Z.flatten()/self.a0, 
-                                u=U.flatten(), 
-                                v=V.flatten(), 
-                                w=W.flatten(), 
-                                colorscale='Viridis', 
-                                sizemode='scaled', 
-                                sizeref=1, 
-                                showscale=False,
-                                scene=ax['sceneN'],
-                                hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
-                                                '<b>y:</b> %{y:.1f} a₀ <br>' +
-                                                '<b>z:</b> %{z:.1f} a₀ <br>' +
-                                                '<b>ux:</b> %{u:.1f} <br>' +
-                                                '<b>uy:</b> %{v:.1f} <br>' +
-                                                '<b>uz:</b> %{w:.1f} <br>' +
-                                                '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
-                                                customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
+        if not field_is_nan:
+            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                    y=Y.flatten()/self.a0, 
+                                    z=Z.flatten()/self.a0, 
+                                    u=U.flatten(), 
+                                    v=V.flatten(), 
+                                    w=W.flatten(), 
+                                    colorscale='Viridis', 
+                                    sizemode='scaled', 
+                                    sizeref=1, 
+                                    showscale=False,
+                                    scene=ax['sceneN'],
+                                    hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                                    '<b>y:</b> %{y:.1f} a₀ <br>' +
+                                                    '<b>z:</b> %{z:.1f} a₀ <br>' +
+                                                    '<b>ux:</b> %{u:.1f} <br>' +
+                                                    '<b>uy:</b> %{v:.1f} <br>' +
+                                                    '<b>uz:</b> %{w:.1f} <br>' +
+                                                    '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                                    customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
     ###############################################################
     ########### DIMENSION: 3 - VECTOR-DIMENSION: 3 ################
@@ -520,25 +529,26 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
         ax['colorbar'] = kwargs.get('colorbar', True)
 
-        fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                y=Y.flatten()/self.a0, 
-                                z=Z.flatten()/self.a0, 
-                                u=U.flatten(), 
-                                v=V.flatten(), 
-                                w=W.flatten(), 
-                                colorscale='Viridis', 
-                                sizemode='scaled', 
-                                sizeref=1, 
-                                showscale=False,
-                                scene=ax['sceneN'],
-                                hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
-                                                '<b>y:</b> %{y:.1f} a₀ <br>' +
-                                                '<b>z:</b> %{z:.1f} a₀ <br>' +
-                                                '<b>ux:</b> %{u:.1f} <br>' +
-                                                '<b>uy:</b> %{v:.1f} <br>' +
-                                                '<b>uz:</b> %{w:.1f} <br>' +
-                                                '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
-                                                customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
+        if not field_is_nan:
+            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
+                                    y=Y.flatten()/self.a0, 
+                                    z=Z.flatten()/self.a0, 
+                                    u=U.flatten(), 
+                                    v=V.flatten(), 
+                                    w=W.flatten(), 
+                                    colorscale='Viridis', 
+                                    sizemode='scaled', 
+                                    sizeref=1, 
+                                    showscale=False,
+                                    scene=ax['sceneN'],
+                                    hovertemplate='<b>x:</b> %{x:.1f} a₀ <br>' +
+                                                    '<b>y:</b> %{y:.1f} a₀ <br>' +
+                                                    '<b>z:</b> %{z:.1f} a₀ <br>' +
+                                                    '<b>ux:</b> %{u:.1f} <br>' +
+                                                    '<b>uy:</b> %{v:.1f} <br>' +
+                                                    '<b>uz:</b> %{w:.1f} <br>' +
+                                                    '<b>|u|:</b> %{customdata:.1f}<extra></extra>',
+                                                    customdata=np.sqrt(U**2 + V**2 + W**2).flatten()))
 
     ###############################################################
     ###########     NON-VALID DIMENSION            ################
@@ -548,7 +558,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         raise Exception("You have entered an invalid field to the plot_vector_field function.")
 
 
-    if ax['colorbar']:
+    if ax['colorbar'] and not field_is_nan:
         fig.add_trace(tool_plotly_colorbar(ax, type='normal'))
 
     kwargs['fig'] = fig

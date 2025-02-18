@@ -230,9 +230,6 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
             pass
         
         elif plot_method == 'phase_blob':
-            # TODO: change the function so that it used plot_surface_matplotlib (Vidar 11.03.24)
-            # Padding for the colorbar
-            padding=0.2
             
             phase_blob_threshold = kwargs.get('phase_blob_threshold', 0.5)
 

@@ -165,7 +165,7 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     # if ax is None:
 
     ##### ADJUST SUBPLOT POSITION #####
-    padding = 0.07
+    padding = 0.1
 
     x_domain_start = (ax['col']-1)/ax['ncols']+padding*ax['col']/ax['ncols']
     x_domain_end = ax['col']/ax['ncols']-padding*(1-ax['col']/ax['ncols'])
