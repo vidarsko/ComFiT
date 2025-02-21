@@ -23,6 +23,7 @@ def make_plot(dim):
 
 
 cfi = cf.BaseSystem(1,xRes=41, plot_lib=plot_lib)
+
 field = 10**random.randint(logmin,logmax)*cfi.x
 
 cfi = cf.BaseSystem(2,xRes=41,yRes=61)
