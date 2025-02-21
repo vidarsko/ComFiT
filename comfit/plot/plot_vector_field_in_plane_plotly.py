@@ -59,7 +59,7 @@ def plot_vector_field_in_plane_plotly(
 
     # # Check if an axis object is provided
     # fig = kwargs.get('fig', plt.gcf())
-    # ax = kwargs.get('ax', None)
+    # ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
 
     # if ax == None:
     #     ax = fig.add_subplot(111, projection='3d')

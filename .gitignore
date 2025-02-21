@@ -40,3 +40,6 @@ build/
 !/JOSS_paper/*.gif
 !/JOSS_paper/*.png
 .DS_Store
+
+
+*solution.ipynb
