@@ -133,6 +133,13 @@ def tool_plotly_colorbar(ax, type='normal'):
     # The idea here is to place the colorbar in the middle of the subplot
     # It is not perfect yet (Vidar, 13.02.25)
     # padding=0.0
+
+    y_axis_placement = 1-1/ax['nrows']/2 -(ax['row']-1)/ax['nrows'] 
+    #0.5 if nrows = 1, 0.33, 0.66 if nrows = 2, 0.25, 0.5, 0.75 if nrows = 3 etc. 
+    y_axis_correction = 0 if ax['nrows'] == 1 else -(ax['row']-(1+ax['nrows'])/2)/(ax['nrows']-(1+ax['nrows'])/2) 
+    #Goes from 1 (row=1) to -1 (row=nrows) (zero if nrows = 1)
+    y_axis_constant = 0
+                    
     trace.marker.colorbar.update(
         title=title,
             len=1/ax['nrows'],
@@ -140,9 +147,7 @@ def tool_plotly_colorbar(ax, type='normal'):
             xanchor='left',
             x=ax['col']/ax['ncols']-0.1*(1-ax['col']/ax['ncols']),
             yanchor='middle',
-            y=1-1/ax['nrows']/2 -(ax['row']-1)/ax['nrows'] \
-                - 0.5*(ax['row']-(1+ax['nrows'])/ax['nrows'])/(2*ax['nrows']-1)/ax['nrows']\
-                    +0.00
+            y= y_axis_placement + 0.03*y_axis_correction + y_axis_constant,
         )
 
     return trace

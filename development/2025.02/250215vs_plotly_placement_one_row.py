@@ -21,7 +21,7 @@ def make_plot(dim):
 
     return cfi, field
 
-nrows = 3
+nrows = 1
 ncols = 2
 cfi = cf.BaseSystem(1,xRes=41, plot_lib=plot_lib)
 fig, axs = cfi.plot_subplots(nrows, ncols)
@@ -31,8 +31,20 @@ fig, axs = cfi.plot_subplots(nrows, ncols)
 for i in range(nrows):
     for j in range(ncols):
         cfi, field = make_plot(random.randint(2,3))
-        cfi.plot_field(field, fig=fig, ax=axs[i][j])
+        cfi.plot_field(field, fig=fig, ax=axs[j])
 
 # print(axs)
 cfi.show(fig)
 
+
+# row = 1
+# nrow = 3
+
+
+# a = 1-1/nrow/2 -(row-1)/nrow 
+# b = 0 if nrow == 1 else (row-(1+nrow)/2)/(nrow-(1+nrow)/2)
+# c = 0.00
+
+# print("a: ", a)
+# print("b: ", b)
+# print("c: ", c)

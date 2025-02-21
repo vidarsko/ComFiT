@@ -3,7 +3,10 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
-## [1.8.1] - 2025-02-04
+## [1.8.2] - 2025-02-21
+- Fixed plotly colorbar placement.
+
+## [1.8.1] - 2025-02-21
 - Plotly now returns a fig, ax object, like the matplotlib functions.
 
 ## [1.8.0] - 2025-02-04
