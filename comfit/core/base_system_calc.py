@@ -726,11 +726,14 @@ class BaseSystemCalc:
         integrating_factors_f[0] = np.exp(omega_f * self.dt)
         If1 = integrating_factors_f[0]
 
-        integrating_factors_f[1] = (If1 - 1) / omega_f
-        integrating_factors_f[1][np.abs(omega_f) * self.dt < tol] = self.dt
+        integrating_factors_f[1] = np.divide(If1 - 1, omega_f, 
+                                    out=np.full_like(omega_f, self.dt), #Small omega_f * self.dt values are set to low value limit
+                                    where=np.abs(omega_f) * self.dt >= tol)
 
-        integrating_factors_f[2] = 1 / (self.dt * omega_f ** 2) * (If1 - 1 - omega_f * self.dt)
-        integrating_factors_f[2][np.abs(omega_f) * self.dt < tol] = self.dt / 2
+        integrating_factors_f[2] = np.divide(If1 - 1 - omega_f * self.dt, self.dt * omega_f ** 2,
+                                    out=np.full_like(omega_f, self.dt / 2), #Small omega_f * self.dt values are set to low value limit
+                                    where=np.abs(omega_f) * self.dt >= tol)
+
         return integrating_factors_f
 
     def calc_evolution_integrating_factors_ETD4RK(self, omega_f: np.ndarray, tol: float =10 ** (-5)) -> list:
@@ -748,29 +751,31 @@ class BaseSystemCalc:
         integrating_factors_f[0] = np.exp(omega_f * self.dt / 2)
         If1 = integrating_factors_f[0]
 
-        integrating_factors_f[1] = (If1 - 1) / omega_f
+        integrating_factors_f[1] = np.divide(If1 - 1, omega_f,
+                        out=np.full_like(omega_f, self.dt / 2), #Small omega_f * self.dt values are set to low value limit
+                        where=np.abs(omega_f) * self.dt >= tol)
 
         integrating_factors_f[2] = np.exp(omega_f * self.dt)
         If2 = integrating_factors_f[2]
 
-        integrating_factors_f[3] = 1 / ( omega_f ** 3 * self.dt ** 2) \
-                                   * (-4 - omega_f * self.dt + If2 * (
-                4 - 3 * omega_f * self.dt +  omega_f ** 2 * self.dt ** 2))
+        integrating_factors_f[3] = np.divide(
+            -4 - omega_f * self.dt + If2 * (4 - 3 * omega_f * self.dt + omega_f ** 2 * self.dt ** 2),
+            omega_f ** 3 * self.dt ** 2,
+            out=np.full_like(omega_f, self.dt / 6), #Small omega_f * self.dt values are set to low value limit
+            where=np.abs(omega_f) * self.dt >= tol)
 
-        integrating_factors_f[4] = 2 / (omega_f ** 3 * self.dt ** 2) \
-                                   * (2 + omega_f*self.dt + If2 * (-2 + omega_f * self.dt))
+        integrating_factors_f[4] = np.divide(
+            2 * (2 + omega_f * self.dt + If2 * (-2 + omega_f * self.dt)),
+            omega_f ** 3 * self.dt ** 2,
+            out=np.full_like(omega_f, self.dt / 3), #Small omega_f * self.dt values are set to low value limit
+            where=np.abs(omega_f) * self.dt >= tol)
 
-        integrating_factors_f[5] = 1 / (omega_f ** 3 * self.dt ** 2) \
-                                   * (-4 - 3 * omega_f * self.dt - omega_f ** 2 * self.dt ** 2 + If2 * (
-                4 - omega_f*self.dt))
-
-
-        #Small omega_f limits
-        integrating_factors_f[1][np.abs(omega_f) * self.dt < tol] = self.dt / 2
-        integrating_factors_f[3][np.abs(omega_f) * self.dt < tol] = self.dt / 6
-        integrating_factors_f[4][np.abs(omega_f) * self.dt < tol] = self.dt / 3
-        integrating_factors_f[5][np.abs(omega_f) * self.dt < tol] = self.dt / 6
-
+        integrating_factors_f[5] = np.divide(
+            -4 - 3 * omega_f * self.dt - omega_f ** 2 * self.dt ** 2 + If2 * (4 - omega_f * self.dt),
+            omega_f ** 3 * self.dt ** 2,
+            out=np.full_like(omega_f, self.dt / 6), #Small omega_f * self.dt values are set to low value limit
+            where=np.abs(omega_f) * self.dt >= tol)
+        
         return integrating_factors_f
 
     def calc_defect_nodes(
