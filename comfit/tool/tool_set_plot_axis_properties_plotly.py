@@ -159,7 +159,7 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     # if ax is None:
 
     ##### ADJUST SUBPLOT POSITION #####
-    padding = 0.1
+    padding = 0.15
 
     x_domain_start = (ax['col']-1)/ax['ncols']+padding*ax['col']/ax['ncols']
     x_domain_end = ax['col']/ax['ncols']-padding*(1-ax['col']/ax['ncols'])
@@ -188,7 +188,7 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     
     if title is not None:
         fig.add_annotation(x=(x_domain_start), 
-        y=y_domain_end+0.07, 
+        y=y_domain_end+0.05, 
         xref='paper',
         yref='paper',
         text=title, 
