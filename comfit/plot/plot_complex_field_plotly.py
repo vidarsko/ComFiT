@@ -27,7 +27,7 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
     """
 
     fig = kwargs.get('fig', go.Figure())
-    ax = kwargs.get('ax', None)
+    ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
 
     # Kewyord arguments
     colorbar = kwargs.get('colorbar', True)

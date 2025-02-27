@@ -39,4 +39,8 @@ build/
 !/docs/img/*.gif
 !/JOSS_paper/*.gif
 !/JOSS_paper/*.png
+!/tutorial/qm_assignment/differential_figure.png
 .DS_Store
+
+
+*solution.ipynb
