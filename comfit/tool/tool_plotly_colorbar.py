@@ -49,7 +49,7 @@ def generate_numbers_between(cmin, cmax):
     if delta == 0:
         return [0], 0
     
-    delta_exp = np.floor(np.log10(delta))
+    delta_exp = np.floor(np.log10(max(abs(cmin), abs(cmax))))
 
     tick_min = np.ceil(cmin/10**delta_exp)*10**delta_exp
     tick_max = np.floor(cmax/10**delta_exp)*10**delta_exp
@@ -57,9 +57,13 @@ def generate_numbers_between(cmin, cmax):
     number_of_steps = np.floor(delta/10**delta_exp)
     if number_of_steps <= 5:
         numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 10**delta_exp)
-    else:
+    elif number_of_steps <= 10:
         numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 2*10**delta_exp)
-    
+    elif number_of_steps <= 15:
+        numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 3*10**delta_exp)
+    elif number_of_steps <= 20:
+        numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 4*10**delta_exp)
+
     return numbers_between, delta_exp
      
         
