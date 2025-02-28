@@ -40,6 +40,7 @@ build/
 !/JOSS_paper/*.gif
 !/JOSS_paper/*.png
 !/tutorial/qm_assignment/differential_figure.png
+!/tutorial/preprompt_demo.gif
 .DS_Store
 
 
