@@ -740,7 +740,7 @@ class BaseSystemCalc:
         """Calculate the evolution integrating factors using the ETDRK4 method.
 
         Args:
-            omega_f: The value of omega_f.  (numpy.ndarray)
+            omega_f: The value of omega_f  (numpy.ndarray)
             tol: tolerance for when to expand the integrating factors that divide by omega (float,optional)
          
         Returns:
