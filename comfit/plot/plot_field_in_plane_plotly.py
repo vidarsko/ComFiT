@@ -35,7 +35,7 @@ def plot_field_in_plane_plotly(
     if self.dim != 3:
         raise Exception("The plot in plane function is only defined for 3D fields.")
 
-    fig = kwargs.get('fig', None)
+    fig = kwargs.get('fig', go.Figure())
     ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
 
     ax = tool_plotly_define_3D_plot_ax(ax, fig) #Defines sceneN, plot_dimension

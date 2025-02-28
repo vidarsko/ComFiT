@@ -134,6 +134,7 @@ def plot_complex_field_in_plane_plotly(
 
         kwargs['plot_is_3D'] = True
         kwargs['fig'] = fig
+        kwargs['ax'] = ax
         tool_set_plot_axis_properties_plotly(self, **kwargs)
 
         return fig

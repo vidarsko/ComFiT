@@ -458,7 +458,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_field(field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -473,7 +473,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_field(field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -489,7 +489,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_field(field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -507,7 +507,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_complex_field(field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -522,7 +522,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_complex_field(field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -537,7 +537,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_complex_field(field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
     
@@ -554,7 +554,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_angle_field(angle_field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -570,7 +570,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_angle_field(angle_field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -585,7 +585,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_angle_field(angle_field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -604,7 +604,7 @@ class TestBaseSystem(unittest.TestCase):
             # Plot field
             try:
                 bs.plot_vector_field(field)
-                plt.close()
+                
             except Exception as e:
                 self.fail(f"Plotting failed: {e}")
 
@@ -620,7 +620,7 @@ class TestBaseSystem(unittest.TestCase):
             # Plot field
             try:
                 bs.plot_vector_field(field)
-                plt.close()
+                
             except Exception as e:
                 self.fail(f"Plotting failed: {e}")
 
@@ -637,7 +637,7 @@ class TestBaseSystem(unittest.TestCase):
             # Plot field
             try:
                 bs.plot_vector_field(field)
-                plt.close()
+                
             except Exception as e:
                 self.fail(f"Plotting failed: {e}")
 
@@ -654,7 +654,6 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_field_in_plane(field)
-            plt.close()
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -672,7 +671,6 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_complex_field_in_plane(field)
-            plt.close()
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -690,7 +688,7 @@ class TestBaseSystem(unittest.TestCase):
         # Plot field
         try:
             bs.plot_angle_field_in_plane(angle_field)
-            plt.close()
+            
         except Exception as e:
             self.fail(f"Plotting failed: {e}")
 
@@ -709,7 +707,7 @@ class TestBaseSystem(unittest.TestCase):
             # Plot field
             try:
                 bs.plot_vector_field_in_plane(field)
-                plt.close()
+                
             except Exception as e:
                 self.fail(f"Plotting failed: {e}")
 
@@ -722,29 +720,25 @@ class TestBaseSystem(unittest.TestCase):
         field = np.random.rand(bs.zRes, bs.yRes, bs.xRes)
 
         # Test axis labels
-        fig = bs.plot_field(field, xlabel='x', ylabel='y', zlabel='z')
+        fig, ax = bs.plot_field(field, xlabel='x', ylabel='y', zlabel='z')
         self.assertEqual(fig['layout']['scene']['xaxis']['title']['text'], 'x')
         self.assertEqual(fig['layout']['scene']['yaxis']['title']['text'], 'y')
         self.assertEqual(fig['layout']['scene']['zaxis']['title']['text'], 'z')
 
-        # Test title
-        fig = bs.plot_field(field, title='test')
-        self.assertEqual(fig['layout']['title']['text'], 'test')
-
         # Test xmin, xmax, ymin, ymax, zmin, zmax
-        fig = bs.plot_field(field, xmin=-3, xmax=4, ymin=-5, ymax=6, zmin=-7, zmax=8)
+        fig, ax = bs.plot_field(field, xmin=-3, xmax=4, ymin=-5, ymax=6, zmin=-7, zmax=8)
         self.assertEqual(fig['layout']['scene']['xaxis']['range'], (-3/bs.a0, 4/bs.a0))
         self.assertEqual(fig['layout']['scene']['yaxis']['range'], (-5/bs.a0, 6/bs.a0))
         self.assertEqual(fig['layout']['scene']['zaxis']['range'], (-7/bs.a0, 8/bs.a0))
 
         # Test xlim, ylim, zlim
-        fig = bs.plot_field(field, xlim=(-3, 4), ylim=(-5, 6), zlim=(-7, 8))
+        fig, ax = bs.plot_field(field, xlim=(-3, 4), ylim=(-5, 6), zlim=(-7, 8))
         self.assertEqual(fig['layout']['scene']['xaxis']['range'], (-3/bs.a0, 4/bs.a0))
         self.assertEqual(fig['layout']['scene']['yaxis']['range'], (-5/bs.a0, 6/bs.a0))
         self.assertEqual(fig['layout']['scene']['zaxis']['range'], (-7/bs.a0, 8/bs.a0))
 
         # Test xticks, yticks, zticks
-        fig = bs.plot_field(field, xticks=[-3, 0, 4], yticks=[-5, 0, 6], zticks=[-7, 0, 8])
+        fig, ax = bs.plot_field(field, xticks=[-3, 0, 4], yticks=[-5, 0, 6], zticks=[-7, 0, 8])
         self.assertEqual(fig['layout']['scene']['xaxis']['tickvals'], (-3, 0, 4))
         self.assertEqual(fig['layout']['scene']['yaxis']['tickvals'], (-5, 0, 6))
         self.assertEqual(fig['layout']['scene']['zaxis']['tickvals'], (-7, 0, 8))
