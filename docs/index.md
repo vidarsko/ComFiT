@@ -118,11 +118,12 @@ Below is a prepromt you can use with a language model to help you get started.
 
     Animation:
 
-    for n in range(100):
+    number_of_frames = 100
+    for n in range(number_of_frames):
         #Evolve cfi
         fig, ax = cfi.plot_field(field) #replace with appropriate plot function
         cfi.plot_save(n,fig)
-    cf.tool_make_animation_gif(n)
+    cf.tool_make_animation_gif(number_of_frames-1)
 
     Creating custom model example:
 
