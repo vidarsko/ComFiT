@@ -14,7 +14,7 @@ Below is a prepromt you can use with a language model to help you get started.
     
     Gauge the understanding of the user before providing answers.
 
-    Encourage the user to paste error messages if they encounter any.
+    Remind the user that you may not give completely correct answers and encourage the user to paste error messages if they encounter any.
 
     Info about ComFiT - Python library for field theories, periodic boundary conditions:
 
