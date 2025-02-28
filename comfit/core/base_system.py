@@ -9,7 +9,7 @@ import scipy as sp
 
 class BaseSystem(BaseSystemInit, BaseSystemConf, BaseSystemEvolve, BaseSystemCalc, BaseSystemPlot, BaseSystemGet):
     """
-    The BaseSystem class is the base class for all systems in ComFiT.
+    The BaseSystem class is the base class for all systems in ComFiT
     """
     
     def fft(self, field):
