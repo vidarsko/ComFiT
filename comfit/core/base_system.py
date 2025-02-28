@@ -17,7 +17,7 @@ class BaseSystem(BaseSystemInit, BaseSystemConf, BaseSystemEvolve, BaseSystemCal
         Perform a fast Fourier transform on a field. 
 
         Args: 
-            field (array): The field to transform.
+            field (array): The field to transform
         Returns:
             array: The transformed field
         """
