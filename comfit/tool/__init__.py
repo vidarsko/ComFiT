@@ -23,3 +23,4 @@ from .tool_plotly_define_2D_plot_ax import tool_plotly_define_2D_plot_ax
 
 from .tool_plotly_find_next_sceneN import tool_plotly_find_next_sceneN
 from .tool_plotly_define_3D_plot_ax import tool_plotly_define_3D_plot_ax
+from .tool_extract_node_arrays import tool_extract_node_arrays

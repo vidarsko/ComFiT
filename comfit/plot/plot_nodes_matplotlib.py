@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
+from comfit.tool import tool_extract_node_arrays
+
 
 def plot_nodes_matplotlib(self, nodes, **kwargs):
     """
@@ -22,119 +24,63 @@ def plot_nodes_matplotlib(self, nodes, **kwargs):
     if not nodes:
         return fig, ax
 
-    velocity_given = ('velocity' in nodes[0].keys())
-    Burgers_vector_given = ('Burgers_vector' in nodes[0].keys())
-    tangent_vector_given = ('tangent_vector' in nodes[0].keys())
-
+    node_arrays = tool_extract_node_arrays(self, nodes)
+    
     if self.dim == 2:
 
         if ax == None:
             fig.clf()
             ax = fig.add_subplot(111)
 
-        x_coords = []
-        y_coords = []
+        x_coords = np.array(node_arrays['x_coordinates'])
+        y_coords = np.array(node_arrays['y_coordinates'])
 
-        if velocity_given:
-            vx_coords = []
-            vy_coords = []
+        if node_arrays['charge_given']:
+            x_coords_positive = np.array(node_arrays['x_coordinates_positive'])
+            y_coords_positive = np.array(node_arrays['y_coordinates_positive'])
 
-        if Burgers_vector_given:
-            Bx_coords = []
-            By_coords = []
+            ax.scatter(x_coords_positive/self.a0, y_coords_positive/self.a0, marker='+', color='red')
 
-        
-        for node in nodes:
+            x_coords_negative = np.array(node_arrays['x_coordinates_negative'])
+            y_coords_negative = np.array(node_arrays['y_coordinates_negative'])
 
-            x_coords.append(node['position'][0])
-            y_coords.append(node['position'][1])
+            ax.scatter(x_coords_negative/self.a0, y_coords_negative/self.a0, marker='o', color='blue')
+            
+        else:
+            ax.scatter(x_coords/self.a0, y_coords/self.a0, marker='o', color='black')
 
-            if velocity_given:
-                vx_coords = node['velocity'][0]
-                vy_coords = node['velocity'][1]
+        if node_arrays['velocity_given']:
+            vx_coords = np.array(node_arrays['velocity_x_coordinates'])
+            vy_coords = np.array(node_arrays['velocity_y_coordinates'])
+            ax.quiver(x_coords/self.a0, y_coords/self.a0, vx_coords, vy_coords, color='black')
 
-            if Burgers_vector_given:
-                Bx_coords.append(node['Burgers_vector'][0])
-                By_coords.append(node['Burgers_vector'][1])
-
-        x_coords = np.array(x_coords)
-        y_coords = np.array(y_coords)
-
-        # print(x_coords_pos,y_coords_pos)
-        # print(x_coords_neg,y_coords_neg)
-        ax.scatter(x_coords/self.a0, y_coords/self.a0, marker='o', color='black')
-
-        if velocity_given:
-            ax.quiver(x_coords, y_coords, vx_coords, vy_coords, color='black')
-
-        if Burgers_vector_given:
+        if node_arrays['Burgers_vector_given']:
+            Bx_coords = np.array(node_arrays['Burgers_vector_x_coordinates'])
+            By_coords = np.array(node_arrays['Burgers_vector_y_coordinates'])
             ax.quiver(x_coords/self.a0, y_coords/self.a0, Bx_coords, By_coords, color='red')
 
     elif self.dim == 3:
         # Plotting options
         quiver_scale = 2 # The scale of the quiver arrows
 
-        if ax == None:
-            plt.clf()
-            ax = plt.gcf().add_subplot(111, projection='3d')
+        x_coords = node_arrays['x_coordinates']
+        y_coords = node_arrays['y_coordinates']
+        z_coords = node_arrays['z_coordinates']
 
-        x_coords = []
-        y_coords = []
-        z_coords = []
+        if node_arrays['tangent_vector_given']:
+            tx = np.array(node_arrays['tangent_vector_x_coordinates'])
+            ty = np.array(node_arrays['tangent_vector_y_coordinates'])
+            tz = np.array(node_arrays['tangent_vector_z_coordinates'])
+        
+        if node_arrays['velocity_given']:
+            vx = np.array(node_arrays['velocity_x_coordinates'])
+            vy = np.array(node_arrays['velocity_y_coordinates'])
+            vz = np.array(node_arrays['velocity_z_coordinates'])
 
-        tx = []
-        ty = []
-        tz = []
-
-        # vx = []
-        # vy = []
-        # vz = []
-
-        Bx = []
-        By = []
-        Bz = []
-
-
-        for node in nodes:
-            x_coords.append(node['position'][0])
-            y_coords.append(node['position'][1])
-            z_coords.append(node['position'][2])
-
-            if tangent_vector_given:
-                tx.append(node['tangent_vector'][0])
-                ty.append(node['tangent_vector'][1])
-                tz.append(node['tangent_vector'][2])
-
-            if velocity_given:
-                vx.append(node['velocity'][0])
-                vy.append(node['velocity'][1])
-                vz.append(node['velocity'][2])
-
-            if Burgers_vector_given:
-                Bx.append(node['Burgers_vector'][0])
-                By.append(node['Burgers_vector'][1])
-                Bz.append(node['Burgers_vector'][2])
-
-        if tangent_vector_given:
-            tx = np.array(tx)
-            ty = np.array(ty)
-            tz = np.array(tz)
-
-        if velocity_given:
-            vx = np.array(vx)
-            vy = np.array(vy)
-            vz = np.array(vz)
-
-        if Burgers_vector_given:
-            Bx = np.array(Bx)
-            By = np.array(By)
-            Bz = np.array(Bz)
-
-        # if not len(vx) == 0:
-        #     v2 =vx**2 + vy**2 + vz**2
-        #     v_norm = np.sqrt(max(v2))
-        # else:
-        #     v_norm = 1
+        if node_arrays['Burgers_vector_given']:
+            Bx = np.array(node_arrays['Burgers_vector_x_coordinates'])
+            By = np.array(node_arrays['Burgers_vector_y_coordinates'])
+            Bz = np.array(node_arrays['Burgers_vector_z_coordinates'])
 
         if not len(Bx) == 0:
             B2 =Bx**2 + By**2 + Bz**2
@@ -155,3 +101,5 @@ def plot_nodes_matplotlib(self, nodes, **kwargs):
     kwargs['fig'] = fig
     kwargs['ax'] = ax
     tool_set_plot_axis_properties_matplotlib(self, **kwargs)
+
+    return fig, ax
