@@ -34,7 +34,7 @@ def V_t():
 
     pos_y = bec.ymid + stirrer_radius * np.sin(freq * bec.t)
 
-    stirrer = bec.calc_gaussian_stirring_potential(size, strength, [pos_x, pos_y])
+    stirrer = bec.calc_Gaussian(width = size/np.sqrt(2), top = strength, position =  [pos_x, pos_y])
 
     harmonic = bec.conf_harmonic_potential(R_tf)
 

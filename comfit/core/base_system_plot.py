@@ -148,11 +148,11 @@ class BaseSystemPlot:
                 self, vector_field, normal_vector, position, spacing, **kwargs
             )
 
-    def plot_nodes(self, disclination_nodes, **kwargs):
+    def plot_nodes(self, nodes, **kwargs):
         if self.plot_lib == 'plotly':
-            return plot_nodes_plotly(self, disclination_nodes, **kwargs)
+            return plot_nodes_plotly(self, nodes, **kwargs)
         elif self.plot_lib == 'matplotlib':
-            return plot_nodes_matplotlib(self, disclination_nodes, **kwargs)
+            return plot_nodes_matplotlib(self, nodes, **kwargs)
 
 
     # Figure handling methods

@@ -492,29 +492,6 @@ class BoseEinsteinCondensate(BaseSystem):
                                         + ((self.y - self.ymid) ** 2).reshape(1, self.yRes, 1)
                                         + ((self.z - self.zmid) ** 2).reshape(1, 1, self.zRes))
 
-    def calc_gaussian_stirring_potential(self, size: float, strength: float, position: np.ndarray) -> np.ndarray:
-        """Calculates a gaussian potential
-        
-        Args:
-            size (float) size of the stirrer
-            strength (float) strength of the stirrer, i.e how large the potential is at the stirrers position
-            position (array) the position of the stirrer
-       
-        Retuns:
-            A gaussian potential (numpy.ndarray) 
-        """
-
-        if self.dim == 1:
-            return strength * np.exp(-(self.x - position[0]) ** 2 / size ** 2)
-
-        elif self.dim == 2:
-            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1)
-                                       + ((self.y - position[1]) ** 2).reshape(1, self.yRes)) / (size ** 2))
-        elif self.dim == 3:
-            return strength * np.exp(-(((self.x - position[0]) ** 2).reshape(self.xRes, 1, 1)
-                                       + ((self.y - position[1]) ** 2).reshape(1, self.yRes, 1)
-                                       + ((self.z - position[2]) ** 2).reshape(1, 1, self.zRes)) / (size ** 2))
-
     def calc_force_on_external_potential(self) -> np.ndarray: 
         """Calculates the average force acting on the external potential.
         

@@ -484,7 +484,11 @@ class BaseSystemCalc:
         else:
             raise Exception("Not valid for other dimensions.")
 
-    def calc_Gaussian(self, position= None, width=None, top=None,value=None):
+    def calc_Gaussian(self, 
+            position= None, 
+            width=None, 
+            top=None,
+            value=None):
         """Calculated the Gaussian function 
 
         Args:

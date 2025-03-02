@@ -4,7 +4,7 @@ import comfit as cf
 
 bec = cf.BoseEinsteinCondensate(3,xRes=64,yRes=64,zRes=64,gamma=0,dt=0.1)
 
-bec.V0 = bec.calc_gaussian_stirring_potential(2,4,[bec.xmid,bec.ymid,bec.zmid])
+bec.V0 = bec.calc_Gaussian(width=2/np.sqrt(2),top=4,position=[bec.xmid,bec.ymid,bec.zmid])
 
 bec.conf_initial_condition_Thomas_Fermi()
 bec.evolve_relax(100)

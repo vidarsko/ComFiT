@@ -88,7 +88,6 @@ def plot_nodes_plotly(self, nodes, **kwargs):
                                             yaxis=ax['yN']))
             
             else: # If no charge is provided, plot all nodes as positive
-                print("Hello", x_coords, y_coords)
                 fig.add_trace(go.Scatter(x=np.array(x_coords)/self.a0, 
                                         y=np.array(y_coords)/self.a0, 
                                         mode='markers', 

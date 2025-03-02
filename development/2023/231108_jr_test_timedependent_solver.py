@@ -14,7 +14,7 @@ def V_t(t):
     pos_x = bec.xmid + stirrer_radius * np.cos(freq * t)
     pos_y = bec.ymid + stirrer_radius * np.sin(freq * t)
     pos_z = bec.zmid
-    return  bec.calc_gaussian_stirring_potential(size, strength, [pos_x, pos_y,pos_z])
+    return  bec.calc_Gaussian(width=size/np.sqrt(2), top=strength,position= [pos_x, pos_y,pos_z])
 
 #bec.conf_time_dependent_potential(V_t)
 

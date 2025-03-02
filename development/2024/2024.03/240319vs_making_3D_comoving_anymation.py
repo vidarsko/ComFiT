@@ -8,7 +8,7 @@ import scipy as sp
 
 bec = cf.BoseEinsteinCondensate(3,xRes=64,yRes=64,zRes=64,gamma=0,dt=0.05)
 
-pot = bec.calc_gaussian_stirring_potential(3.5,4,[bec.xmid,bec.ymid,bec.zmid])
+pot = bec.calc_Gaussian(width=3.5/np.sqrt(2),top = 4,position = [bec.xmid,bec.ymid,bec.zmid])
 
 bec.conf_external_potential(pot, additive=False)
 

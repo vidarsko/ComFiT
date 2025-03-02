@@ -17,7 +17,7 @@ bec = cf.BoseEinsteinCondensate(2,xRes=256,yRes=128,gamma=0,dt=0.05)
 
 bec = cf.BoseEinsteinCondensate(2,xRes=256,yRes=128,gamma=0,dt=0.05)
 
-pot = bec.calc_gaussian_stirring_potential(5, 4, [bec.xmid+50,bec.ymid] )
+pot = bec.calc_Gaussian(width = 5/np.sqrt(2), top = 4, position =  [bec.xmid+50,bec.ymid] )
 bec.conf_external_potential(pot, additive=False)
 
 ### task 2: Initialise the wavefunction using the Thomas-Fermi ground state and relax the system in imaginary time 
