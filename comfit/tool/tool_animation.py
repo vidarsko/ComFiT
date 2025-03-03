@@ -47,7 +47,10 @@ def tool_make_animation_movie(counter,
         name = datetime.now().strftime("%y%m%d_%H%M") + (' - ' + ID if ID else '') + ' - ' + name + '.mp4'
 
     # List of saved plot filenames
-    image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
+    if ID is None:
+        image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
+    else:
+        image_files = [f'plot_{counter}_{ID}.png' for counter in range(counter+1)]
 
     # Create the video clip from the image files
     video_clip = ImageSequenceClip(image_files, fps=fps)
