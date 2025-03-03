@@ -364,8 +364,8 @@ The positions are in the xy-plane.
 If no positions are given the defects are placed at the positions 
 
 ```python
-    position1 = [self.xmid+(self.xmax-self.xmin)/3, self.ymid]
-    position2 = [self.xmid - (self.xmax-self.xmin) / 3, self.ymid]
+    position1 = [self.xmid+self.size_x/3, self.ymid]
+    position2 = [self.xmid - self.size_x / 3, self.ymid]
 ```
 
 ## Spatially varying activity

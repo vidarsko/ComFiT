@@ -169,7 +169,7 @@ class BoseEinsteinCondensate(BaseSystem):
             self.conf_initial_condition_Thomas_Fermi()
 
         if dipole_vector is None:
-            dipole_vector = [(self.xmax-self.xmin) / 3, 0]
+            dipole_vector = [self.size_x / 3, 0]
 
         if dipole_position is None:
             dipole_position = self.rmid
@@ -200,7 +200,7 @@ class BoseEinsteinCondensate(BaseSystem):
             position = self.rmid
 
         if radius is None:
-            radius = (self.xmax -self.xmin)/ 3
+            radius = self.size_x/ 3
 
         theta = self.calc_angle_field_vortex_ring(position=position, radius=radius, normal_vector=normal_vector)
 

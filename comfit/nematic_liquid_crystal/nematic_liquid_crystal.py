@@ -151,7 +151,7 @@ class NematicLiquidCrystal(BaseSystem):
             self.conf_initial_condition_ordered(noise_strength=0)
 
         if dipole_vector is None:
-            dipole_vector = [(self.xmax -self.xmin)/ 3, 0]
+            dipole_vector = [self.size_x/ 3, 0]
 
         if dipole_position is None:
             dipole_position = self.rmid
@@ -176,9 +176,9 @@ class NematicLiquidCrystal(BaseSystem):
             raise Exception("The dimension of the system must be 3 for a disclination line configuration.")
 
         if position1 is None:
-            position1 = [self.xmid+(self.xmax-self.xmin)/3, self.ymid]
+            position1 = [self.xmid+self.size_x/3, self.ymid]
         if position2 is None:
-            position2 = [self.xmid - (self.xmax-self.xmin) / 3, self.ymid]
+            position2 = [self.xmid - self.size_x / 3, self.ymid]
 
 
         theta_1 = 1/2*np.arctan2((self.y-position1[1]),(self.x-position1[0]))
@@ -221,7 +221,7 @@ class NematicLiquidCrystal(BaseSystem):
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
             alpha_0 = self.alpha
             if width is None:
-                width = (self.xmax-self.xmin)/3
+                width = self.size_x/3
 
             self.alpha = alpha_0*(1- 1 / 2 * (2 + np.tanh((X - self.xmid - width/2) / d) - np.tanh((X - self.xmid + width/2) / d)))
         else:

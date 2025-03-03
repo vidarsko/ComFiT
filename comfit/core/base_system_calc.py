@@ -60,7 +60,7 @@ class BaseSystemCalc:
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
 
         if dipole_vector is None:
-            dipole_vector = [(self.xmax-self.xmin) / 3, 0]
+            dipole_vector = [self.size_x / 3, 0]
 
         if dipole_position is None:
             dipole_position = self.rmid
@@ -75,8 +75,8 @@ class BaseSystemCalc:
         amp = np.exp(1j * theta)
 
         # Filter the angle field
-        width = 0.2 * np.min([(self.xmax-self.xmin), (self.ymax-self.ymin)])
-        radius = 0.4 * np.min([(self.xmax-self.xmin), (self.ymax-self.ymin)])
+        width = 0.2 * np.min([self.size_x, self.size_y])
+        radius = 0.4 * np.min([self.size_x, self.size_y])
 
         r2 = self.calc_distance_squared_to_point(self.rmid)
         filter = (1 + np.tanh((radius ** 2 - r2) / width ** 2)) / 2
@@ -112,9 +112,9 @@ class BaseSystemCalc:
             position = self.rmid
 
         if radius is None:
-            radius = np.min([(self.xmax-self.xmin), (self.ymax-self.ymin), (self.zmax-self.zmin)]) / 3
+            radius = np.min([self.size_x, self.size_y, self.size_z]) / 3
 
-        if radius > np.min([(self.xmax-self.xmin), (self.ymax-self.ymin), (self.zmax-self.zmin)]) / 3:
+        if radius > np.min([self.size_x, self.size_y, self.size_z]) / 3:
             print("Warning: The radius of the suggested vortex ring is large."
                   "This can cause unwanted boundary effects.")
 
@@ -143,8 +143,8 @@ class BaseSystemCalc:
         amp = np.exp(1j * theta)
 
         # Filter the angle field
-        width = 0.2 * np.min([(self.xmax-self.xmin), (self.ymax-self.ymin), (self.zmax-self.zmin)])
-        radius = 0.4 * np.min([(self.xmax-self.xmin), (self.ymax-self.ymin), (self.zmax-self.zmin)])
+        width = 0.2 * np.min([self.size_x, self.size_y, self.size_z])
+        radius = 0.4 * np.min([self.size_x, self.size_y, self.size_z])
         # TODO: This radius shares name with the one defining the ring. May cause trouble down the line (Vidar 01.12.23)
 
         r2 = (self.x.reshape((self.xRes, 1, 1)) - self.xmid) ** 2 \
@@ -437,22 +437,14 @@ class BaseSystemCalc:
             A boolean array indicating whether a point is within the disk. np.ndarray.
         """
         if self.dim == 2:
-            rx2m = (self.x - position[0] - self.xmax) ** 2
-            rx2 = (self.x - position[0]) ** 2
-            rx2p = (self.x - position[0] + self.xmax) ** 2
-            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes, 1))
-
-            ry2m = (self.y - position[1] - self.ymax) ** 2
-            ry2 = (self.y - position[1]) ** 2
-            ry2p = (self.y - position[1] + self.ymax) ** 2
-            ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes))
-
-            return rx2 + ry2 <= radius ** 2
+            return self.calc_distance_squared_to_point(position) <= radius ** 2
 
         else:
             raise Exception("Not valid for other dimensions.")
 
-    def calc_region_ball(self, position: list[float], radius: float) -> np.ndarray:
+    def calc_region_ball(self, 
+            position: list[float], 
+            radius: float) -> np.ndarray:
         """Calculates a boolean array indicating whether a point is within a ball of a given radius.
         
         Args:
@@ -463,23 +455,7 @@ class BaseSystemCalc:
             A boolean array indicating whether a point is within the ball. np.ndarray.
         """
         if self.dim == 3:
-            # This code ensures that the region is periodic
-            rx2m = (self.x - position[0] - self.xmax) ** 2
-            rx2 = (self.x - position[0]) ** 2
-            rx2p = (self.x - position[0] + self.xmax) ** 2
-            rx2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes, 1, 1))
-
-            ry2m = (self.y - position[1] - self.ymax) ** 2
-            ry2 = (self.y - position[1]) ** 2
-            ry2p = (self.y - position[1] + self.ymax) ** 2
-            ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes, 1))
-
-            rz2m = (self.z - position[2] - self.zmax) ** 2
-            rz2 = (self.z - position[2]) ** 2
-            rz2p = (self.z - position[2] + self.zmax) ** 2
-            rz2 = np.min(np.stack((rz2m, rz2, rz2p)), axis=0).reshape((1, 1, self.zRes))
-
-            return rx2 + ry2 + rz2 <= radius ** 2
+            return self.calc_distance_squared_to_point(position) <= radius ** 2
 
         else:
             raise Exception("Not valid for other dimensions.")
@@ -530,20 +506,18 @@ class BaseSystemCalc:
         if self.dim == 1:
             position = [position]
         
-        delta_x = self.xmax-self.xmin
-        rx2m = (self.x - position[0] - delta_x) ** 2
+        rx2m = (self.x - position[0] - self.size_x) ** 2
         rx2 = (self.x - position[0]) ** 2
-        rx2p = (self.x - position[0] + delta_x) ** 2
+        rx2p = (self.x - position[0] + self.size_x) ** 2
 
         r2 = np.min(np.stack((rx2m, rx2, rx2p)), axis=0).reshape((self.xRes))
 
         if self.dim > 1:
             r2 = r2.reshape((self.xRes, 1))
 
-            delta_y = self.ymax-self.ymin
-            ry2m = (self.y - position[1] - delta_y) ** 2
+            ry2m = (self.y - position[1] - self.size_y) ** 2
             ry2 = (self.y - position[1]) ** 2
-            ry2p = (self.y - position[1] + delta_y) ** 2
+            ry2p = (self.y - position[1] + self.size_y) ** 2
             ry2 = np.min(np.stack((ry2m, ry2, ry2p)), axis=0).reshape((1, self.yRes))
 
             r2 = r2 + ry2
@@ -551,10 +525,9 @@ class BaseSystemCalc:
         if self.dim > 2:
             r2 = r2.reshape((self.xRes, self.yRes, 1))
             
-            delta_z = self.zmax-self.zmin
-            rz2m = (self.z - position[2] - delta_z) ** 2
+            rz2m = (self.z - position[2] - self.size_z) ** 2
             rz2 = (self.z - position[2]) ** 2
-            rz2p = (self.z - position[2] + delta_z) ** 2
+            rz2p = (self.z - position[2] + self.size_z) ** 2
             rz2 = np.min(np.stack((rz2m, rz2, rz2p)), axis=0).reshape((1, 1, self.zRes))
 
             r2 = r2 + rz2
@@ -579,18 +552,19 @@ class BaseSystemCalc:
         Returns:
             A boolean array indicating whether a point is within the cylinder. np.ndarray.
         """
+
         if self.dim == 3:
             t = normal_vector / np.linalg.norm(np.array(normal_vector))
 
-            rx = (self.x - position[0]).reshape((self.xRes, 1, 1))
+            rx = (self.x - position[0])
             rx[rx > self.xmax / 2] = rx[rx > self.xmax / 2] - self.xmax
             rx[rx < -self.xmax / 2] = rx[rx < -self.xmax / 2] + self.xmax
 
-            ry = (self.y - position[1]).reshape((1, self.yRes, 1))
+            ry = (self.y - position[1])
             ry[ry > self.ymax / 2] = ry[ry > self.ymax / 2] - self.ymax
             ry[ry < -self.ymax / 2] = ry[ry < -self.ymax / 2] + self.ymax
 
-            rz = (self.z - position[2]).reshape((1, 1, self.zRes))
+            rz = (self.z - position[2])
             rz[rz > self.zmax / 2] = rz[rz > self.zmax / 2] - self.zmax
             rz[rz < -self.zmax / 2] = rz[rz < -self.zmax / 2] + self.zmax
 

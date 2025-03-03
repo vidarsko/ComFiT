@@ -69,7 +69,7 @@ class QuantumMechanics(BaseSystem):
         if position is None:
             position = self.rmid
         if width is None:
-            width = (self.xmax-self.xmin)/10
+            width = self.size_x/10
 
         self.psi = np.sqrt(self.calc_Gaussian(position=position,width=width))
         
@@ -100,7 +100,7 @@ class QuantumMechanics(BaseSystem):
         """
 
         if trapping_strength is None:
-            trapping_strength = 1/(0.25*(self.xmax-self.xmin))**2
+            trapping_strength = 1/(0.25*self.size_x)**2
 
         if self.dim == 1:
             return  trapping_strength*(self.x - self.xmid )**2
