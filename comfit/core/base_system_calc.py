@@ -557,16 +557,17 @@ class BaseSystemCalc:
             t = normal_vector / np.linalg.norm(np.array(normal_vector))
 
             rx = (self.x - position[0])
-            rx[rx > self.xmax / 2] = rx[rx > self.xmax / 2] - self.xmax
-            rx[rx < -self.xmax / 2] = rx[rx < -self.xmax / 2] + self.xmax
+            # Points that are further away than half the size of the box are moved to the other side
+            rx[rx > self.size_x / 2] = rx[rx > self.size_x / 2] - self.size_x
+            rx[rx < -self.size_x / 2] = rx[rx < -self.size_x / 2] + self.size_x
 
             ry = (self.y - position[1])
-            ry[ry > self.ymax / 2] = ry[ry > self.ymax / 2] - self.ymax
-            ry[ry < -self.ymax / 2] = ry[ry < -self.ymax / 2] + self.ymax
+            ry[ry > self.size_y / 2] = ry[ry > self.size_y / 2] - self.size_y
+            ry[ry < -self.size_y / 2] = ry[ry < -self.size_y / 2] + self.size_y
 
             rz = (self.z - position[2])
-            rz[rz > self.zmax / 2] = rz[rz > self.zmax / 2] - self.zmax
-            rz[rz < -self.zmax / 2] = rz[rz < -self.zmax / 2] + self.zmax
+            rz[rz > self.size_z / 2] = rz[rz > self.size_z / 2] - self.size_z
+            rz[rz < -self.size_z / 2] = rz[rz < -self.size_z / 2] + self.size_z
 
             zt = rx * t[0] + ry * t[1] + rz * t[2]
 

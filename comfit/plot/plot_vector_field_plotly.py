@@ -169,7 +169,7 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         W = W/max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.xmax/15/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*self.size_x/15/self.a0)
         vy_scale = kwargs.get('vy_scale', 1)
         vz_scale = kwargs.get('vz_scale', 1)
 
@@ -358,8 +358,8 @@ def plot_vector_field_plotly(self, vector_field, **kwargs):
         W = W / max_vector
         
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', 2*spacing*self.xmax/max_vector/self.a0)
-        vy_scale = kwargs.get('vy_scale', 2*spacing*self.ymax/max_vector/self.a0)
+        vx_scale = kwargs.get('vx_scale', 2*spacing*self.size_x/max_vector/self.a0)
+        vy_scale = kwargs.get('vy_scale', 2*spacing*self.size_y/max_vector/self.a0)
         vz_scale = kwargs.get('vz_scale', spacing/self.a0)
 
         # Scaling

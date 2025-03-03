@@ -397,8 +397,8 @@ V = V / max_vector
 W = W / max_vector
 
 # Scale factors
-vx_scale = kwargs.get('vx_scale', 2*spacing*self.xmax/max_vector)
-vy_scale = kwargs.get('vy_scale', 2*spacing*self.ymax/max_vector)
+vx_scale = kwargs.get('vx_scale', 2*spacing*self.size_x/max_vector)
+vy_scale = kwargs.get('vy_scale', 2*spacing*self.size_y/max_vector)
 vz_scale = kwargs.get('vz_scale', spacing)
 
 # Scaling
