@@ -11,6 +11,7 @@ from comfit.tool import (
 from comfit.tool import tool_create_orthonormal_triad
 from comfit.tool import tool_set_plot_axis_properties_matplotlib
 from comfit.tool import tool_complete_field
+from comfit.tool import tool_print_in_color
 
 from comfit.plot import plot_surface_matplotlib
 from comfit.plot import plot_field_matplotlib
@@ -34,9 +35,6 @@ from comfit.plot import plot_nodes_plotly
 
 from comfit.plot import plot_subplots_matplotlib
 from comfit.plot import plot_subplots_plotly
-
-from comfit.plot import plot_save_matplotlib
-from comfit.plot import plot_save_plotly
 
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -162,11 +160,43 @@ class BaseSystemPlot:
         elif self.plot_lib == "matplotlib":
             return plot_subplots_matplotlib(number_of_rows, number_of_columns, **kwargs)
 
-    def plot_save(self, counter, fig, **kwargs):
+    def plot_save(self, fig, counter=None, **kwargs):
+
+        # Check if the figure is the first argument (deprecated)
+        if isinstance(fig, int):
+            tool_print_in_color("Warning: The plot_save method has been called with the figure as the second argument. This is deprecated. Please call the method with the figure as the first argument, then counter.")
+            counter_tmp = fig
+            fig = counter
+            counter = counter_tmp
+        
+        # Get ID
+        ID=kwargs.get('ID', None)
+
+        # Keyword arguments
+        image_size_inches=kwargs.get('image_size_inches', (6,5))
+        dpi=kwargs.get('dpi', 100)
+
+        # Set filename
+        if counter is None:
+            if ID is None:
+                filename = 'plot.png'
+            else:
+                filename = f'plot_{ID}.png'
+        else:
+            if ID is None:
+                filename = f'plot_{counter}.png'
+            else:
+                filename = f'plot_{counter}_{ID}.png'
+
+
+        # Save the figure
         if self.plot_lib == "plotly":
-            return plot_save_plotly(counter, fig, **kwargs)
+            fig.write_image(filename)
+
         elif self.plot_lib == "matplotlib":
-            return plot_save_matplotlib(counter, fig, **kwargs)
+            fig.set_size_inches(image_size_inches)
+            fig.savefig(filename, dpi=dpi)
+
 
     def show(self, fig):
         if self.plot_lib == "matplotlib":

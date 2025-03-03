@@ -14,6 +14,6 @@ for n in range(100):
     width=1000,
     height=400,
     )
-    bec.plot_save(n, fig)
+    bec.plot_save(fig, n)
 
 cf.tool_make_animation_gif(n)

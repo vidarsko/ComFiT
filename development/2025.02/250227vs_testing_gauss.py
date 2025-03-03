@@ -18,7 +18,7 @@ for n in range(100):
 
     # Plot and save frame - showing probability density
     fig, ax = qm.plot_field(np.abs(qm.psi)**2, title=f'Time: {qm.time:.2f}')
-    qm.plot_save(n, fig)
+    qm.plot_save(fig, n)
 
 # Generate the final animation from saved frames
 cf.tool_make_animation_gif(n)  # Number of frames

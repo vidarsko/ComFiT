@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.8.4] - 2025-03-03
+- Changed plotting convention cfi.plot_save(n,fig) -> cfi.plot_save(fig,n)
+
 ## [1.8.3] - 2025-02-28
 - Changed calculation of integrating factors in base system class remove division by zero errors.
 
