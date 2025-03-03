@@ -22,7 +22,11 @@ from datetime import datetime
 from PIL import Image
 
 
-def tool_make_animation_movie(counter, name=None, fps=24):
+def tool_make_animation_movie(counter, 
+                                name=None, 
+                                fps=24,
+                                ID=None,
+                                delete_png=True):
     """
 
     Creates an animation from a series of plot img and saves it as an MP4 video file.
@@ -38,9 +42,9 @@ def tool_make_animation_movie(counter, name=None, fps=24):
     """
     
     if name is None:
-        name = datetime.now().strftime("%y%m%d_%H%M") + ' - output_video.mp4'
+        name = datetime.now().strftime("%y%m%d_%H%M") + (' - ' + ID if ID else '') + ' - output_video.mp4'
     else:
-        name = datetime.now().strftime("%y%m%d_%H%M") + ' - ' + name + '.mp4'
+        name = datetime.now().strftime("%y%m%d_%H%M") + (' - ' + ID if ID else '') + ' - ' + name + '.mp4'
 
     # List of saved plot filenames
     image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
@@ -52,14 +56,16 @@ def tool_make_animation_movie(counter, name=None, fps=24):
     video_clip.write_videofile(name)
 
     # Delete the png files
-    for file in image_files:
-        os.remove(file)
+    if delete_png:
+        for file in image_files:
+            os.remove(file)
 
 
 def tool_make_animation_gif(counter, 
                             name=None, 
                             fps=24,
-                            ID=None):
+                            ID=None,
+                            delete_png=True):
     """
     Creates an animation from a series of plot img and saves it as a GIF file.
 
@@ -74,9 +80,9 @@ def tool_make_animation_gif(counter,
     """
 
     if name is None:
-        name = datetime.now().strftime("%y%m%d_%H%M%S") + ' - output_animation.gif'
+        name = datetime.now().strftime("%y%m%d_%H%M%S") + (' - ' + ID if ID else '') + ' - output_animation.gif'
     else:
-        name = datetime.now().strftime("%y%m%d_%H%M%S") + ' - ' + name + '.gif'
+        name = datetime.now().strftime("%y%m%d_%H%M%S") + (' - ' + ID if ID else '') + ' - ' + name + '.gif'
 
     if ID is None:
         image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
@@ -100,6 +106,7 @@ def tool_make_animation_gif(counter,
     cropped_images[0].save(name, save_all=True, append_images=cropped_images[1:], duration=1000/fps, loop=0)
 
     # Delete the png files
-    for file in image_files:
-        os.remove(file)
+    if delete_png:
+        for file in image_files:
+            os.remove(file)
 
