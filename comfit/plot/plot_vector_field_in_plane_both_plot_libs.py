@@ -12,6 +12,8 @@ def plot_vector_field_in_plane_both_plot_libs(self, vector_field, position=None,
 
     """
 
+    plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
     if self.dim != 3:
         raise Exception("The plot_vector_field_in_plane function is only defined for 3D fields.")
 
@@ -99,7 +101,7 @@ def plot_vector_field_in_plane_both_plot_libs(self, vector_field, position=None,
     V_verts = V_verts[::spacing]
     W_verts = W_verts[::spacing]
 
-    if self.plot_lib == "plotly":
+    if plot_lib == "plotly":
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
@@ -134,7 +136,7 @@ def plot_vector_field_in_plane_both_plot_libs(self, vector_field, position=None,
         kwargs['ax'] = ax
         tool_set_plot_axis_properties_plotly(self, **kwargs)
 
-    elif self.plot_lib == "matplotlib":
+    elif plot_lib == "matplotlib":
         
         ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
