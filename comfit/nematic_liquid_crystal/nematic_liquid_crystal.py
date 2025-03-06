@@ -302,7 +302,7 @@ class NematicLiquidCrystal(BaseSystem):
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
         elif self.dim == 3:
-            # TODO optimise
+
             H = self.calc_molecular_field(Q)
 
             Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
@@ -489,7 +489,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             Antisym_Omega_Q[0] = -2 * (Q[1]*Omega[0] + Q[2]*Omega[1] )
             Antisym_Omega_Q[1] = Omega[0]*(Q[0]-Q[3]) - Omega[2]*Q[2] -Omega[1]*Q[4]
-            Antisym_Omega_Q[2] = Omega[1]*(2*Q[0] + Q[3] ) + Omega[1]*Q[1] - Omega[0]*Q[4]
+            Antisym_Omega_Q[2] = Omega[1]*(2*Q[0] + Q[3] ) + Omega[2]*Q[1] - Omega[0]*Q[4]
             Antisym_Omega_Q[3] = 2*(Q[1]*Omega[0] -Q[4]*Omega[2])
             Antisym_Omega_Q[4] = Omega[2]*(2*Q[3]+Q[0]) + Omega[1]*Q[1] + Omega[0]*Q[2]
 
