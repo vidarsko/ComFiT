@@ -302,7 +302,7 @@ class NematicLiquidCrystal(BaseSystem):
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
         elif self.dim == 3:
-            # TODO optimise
+
             H = self.calc_molecular_field(Q)
 
             Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
@@ -489,7 +489,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             Antisym_Omega_Q[0] = -2 * (Q[1]*Omega[0] + Q[2]*Omega[1] )
             Antisym_Omega_Q[1] = Omega[0]*(Q[0]-Q[3]) - Omega[2]*Q[2] -Omega[1]*Q[4]
-            Antisym_Omega_Q[2] = Omega[1]*(2*Q[0] + Q[3] ) + Omega[1]*Q[1] - Omega[0]*Q[4]
+            Antisym_Omega_Q[2] = Omega[1]*(2*Q[0] + Q[3] ) + Omega[2]*Q[1] - Omega[0]*Q[4]
             Antisym_Omega_Q[3] = 2*(Q[1]*Omega[0] -Q[4]*Omega[2])
             Antisym_Omega_Q[4] = Omega[2]*(2*Q[3]+Q[0]) + Omega[1]*Q[1] + Omega[0]*Q[2]
 
@@ -644,10 +644,29 @@ class NematicLiquidCrystal(BaseSystem):
             vals_1,vecs_1 =  numpy.linalg.eigh(DDT)
             vals_2, vecs_2 = numpy.linalg.eigh(DTD)
 
-            Omega = np.transpose(vecs_1[:,:,:,:,2], (3,0,1,2))
+            Omega_R = np.transpose(vecs_1[:,:,:,:,2], (3,0,1,2))
             T = np.transpose(vecs_2[:,:,:,:,2], (3,0,1,2))
             trRho = np.sum(rho[i,i] for i in range(self.dim))
-            return omega, Omega, T, trRho
+            return omega, Omega_R, T, trRho
+
+    def calc_g_matrix(self,dt_Q):
+        """Calculates the matrix g, that is used to find the disclination velocity in 3D
+
+                Args:
+                    None
+
+                Returns:
+                    The disclination density (numpy.narray)
+                """
+        if not self.dim == 3:
+            raise Exception("The g matrix is only relevant in 3D")
+        g =  np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
+        for gamma in range(self.dim):
+            for k in range(self.dim):
+                g[gamma,k] = np.sum(levi_civita_symbol(gamma,mu,nu) * self.get_sym_tl(dt_Q,mu,alpha)
+                       * np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,nu,alpha)))
+                       for mu in range(self.dim) for nu in range(self.dim) for alpha in range(self.dim))
+        return g
 
 
     def calc_dt_psi(self,Q_prev,delta_t):
@@ -709,7 +728,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             return S, n
 
-    def calc_disclination_velocity_field(self, dt_Q):
+    def calc_disclination_velocity_field(self, dt_Q, T =None, Omega_R = None, g =None, omega=None):
         """
         Calculates the velocity field of the disclination in two dimensions
         
@@ -717,7 +736,8 @@ class NematicLiquidCrystal(BaseSystem):
             dt_Q: the time derivative of the order parameter (numpy.narray)
 
         Returns:
-            The velocity field (numpy.narray) 
+            The velocity field (numpy.narray).
+             Note in 2D this returns a field while in 3D this is returning a vector
         """
         if self.dim ==2:
 
@@ -727,6 +747,19 @@ class NematicLiquidCrystal(BaseSystem):
 
             return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
                                                    [np.real(dt_psi), np.imag(dt_psi)])
+        if self.dim ==3:
+            if (T is not None) and (Omega_R is not None) and (g is not None) and (omega is not None):
+                dot_Omega_g = np.zeros((self.dim))
+                for i in range(self.dim):
+                    dot_Omega_g = np.sum(Omega_R[k] * g[i,k] for k in range(self.dim))
+
+                dislocation_velocity = np.zeros((self.dim))
+                for i in range(self.dim):
+                    dislocation_velocity[i] = np.sum(
+                        levi_civita_symbol(i,j,k)*T[j]* dot_Omega_g[k] for j in range(self.dim)
+                        for k in range(self.dim)
+                    )
+                return 2*dislocation_velocity/omega
 
 
     def calc_disclination_polarization_field(self):
@@ -782,15 +815,18 @@ class NematicLiquidCrystal(BaseSystem):
                     disclination['polarization'] = [float('nan'), float('nan')]
 
         elif self.dim == 3:
-            omega, Omega, T, trD = self.calc_disclination_density_decoupled()
+            omega, Omega_R, T, trD = self.calc_disclination_density_decoupled()
             S0 = self.calc_equilibrium_S()
             disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=S0/np.pi)
             position_list = []
+            if dt_Q is not None:
+                g_matrix = self.calc_g_matrix(dt_Q)
 
             for disclination in disclination_nodes:
 
                 tangent_vector = np.array([T[i][disclination['position_index']] for i in range(3)])
-                rotation_vector = np.array([Omega[i][disclination['position_index']] for i in range(3)])
+                rotation_vector = np.array([Omega_R[i][disclination['position_index']] for i in range(3)])
+                omega_at_dislocation = omega[disclination['position_index']]
 
                 for i in range(len(position_list)):
                     pos = position_list[i]
@@ -804,10 +840,15 @@ class NematicLiquidCrystal(BaseSystem):
                 if np.sign(np.dot(tangent_vector, rotation_vector)) != np.sign(trD[disclination['position_index']]):
                     rotation_vector = -1*rotation_vector
 
+                if dt_Q is not None:
+                    g = g_matrix[np.array([g_matrix[i,j][disclination['position_index']] for i in range(3) for j in range(3)])]
+                    disclination_velocity = self.calc_disclination_velocity_field(dt_Q,T=tangent_vector, Omega_R=rotation_vector, g= g,omega=omega_at_dislocation)
+                    disclination['velocity'] = disclination_velocity
+
                 disclination['Tangent_vector'] = tangent_vector
                 disclination['Rotation_vector'] = rotation_vector
-                position_list.append(disclination['position'])
 
+                position_list.append(disclination['position'])
 
         return disclination_nodes
 
