@@ -21,7 +21,7 @@ pfc.conf_PFC_from_amplitudes()
 gradpsi = np.zeros((2,pfc.xRes,pfc.yRes))
 # print(gradpsi)
 
-# fig = go.Figure(data=[go.Scatter(x=pfc.x, y=pfc.y, mode='markers', marker=dict(size=5, color=pfc.psi, colorscale='Viridis', showscale=True))])
+# fig = go.Figure(data=[go.Scatter(x=pfc.x, y=pfc.y, mode='markers', marker=dict(size=5, color=pfc.psi, colorscale='viridis', showscale=True))])
 # fig.show()
 
 start = time.time()

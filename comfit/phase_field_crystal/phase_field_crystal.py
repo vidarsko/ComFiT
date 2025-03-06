@@ -1636,7 +1636,7 @@ class PhaseFieldCrystal(BaseSystem):
         """
         PFC_has_velocity_field = hasattr(self, 'bool_has_velocity_field') and self.bool_has_velocity_field
     
-        kwargs['colormap'] = kwargs.get('colormap', 'Viridis' if self.plot_lib == 'plotly' else 'viridis')
+        kwargs['colormap'] = kwargs.get('colormap', 'viridis' if self.plot_lib == 'plotly' else 'viridis')
         if PFC_has_velocity_field:
             return self.plot_field(self.psi[0], **kwargs)
         else:

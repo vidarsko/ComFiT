@@ -1,6 +1,6 @@
 from comfit.tool.tool_plotly_find_next_sceneN import tool_plotly_find_next_sceneN
 
-def tool_plotly_define_3D_plot_ax(ax,fig):
+def tool_plotly_define_3D_plot_ax(fig, ax):
 
     ax['plot_dimension'] = ax.get('plot_dimension', 3)
     if ax['plot_dimension'] != 3:

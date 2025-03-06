@@ -8,7 +8,8 @@ from skimage.measure import marching_cubes
 
 from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
-from comfit.tool.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
+from comfit.tool.tool_colormap import tool_colormap
+from comfit.tool import tool_matplotlib_define_3D_plot_ax
 
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -41,33 +42,9 @@ def plot_field_in_plane_matplotlib(
     if self.dim != 3:
         raise Exception("The plot in plane function is only defined for 3D fields.")
 
-    # Extend the field if not a complete array is given
-    field = tool_complete_field(self, field)
+    field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
-    # Check if the vector field is complex
-    if np.iscomplexobj(field):
-        print("\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
-        print('Max imaginary part: ', np.max(np.imag(field)))
-        field = np.real(field)
-
-    # Check if an axis object is provided
-    fig = kwargs.get('fig', plt.gcf())
-    ax = kwargs.get('ax', None)
-
-    if ax is not None and ax is not isinstance(ax, Axes3D):
-        # Get row and column
-        subplotspec = ax.get_subplotspec()
-        gridspec = subplotspec.get_gridspec()
-        row = subplotspec.rowspan.start
-        col = subplotspec.colspan.start
-
-        ax.remove()
-
-        fig.add_subplot(gridspec[row, col], projection='3d')
-        ax = fig.get_axes()[-1]
-
-    # Kewyord arguments
-    colorbar = kwargs.get('colorbar', True)
+    ax = tool_matplotlib_define_3D_plot_ax(fig, ax) 
 
     # Default values of position and normal vector
     if position is None:
@@ -78,15 +55,6 @@ def plot_field_in_plane_matplotlib(
 
     if ax is None:
         ax = fig.add_subplot(111, projection='3d')
-
-    colormap = kwargs.get('colormap', 'viridis')
-
-    if colormap == 'angle':
-        colormap = tool_colormap_angle()
-    elif colormap == 'bluewhitered':
-        colormap = tool_colormap_bluewhitered()
-    else:
-        colormap = plt.get_cmap(colormap)
 
     normal_vector = np.array(normal_vector)/np.linalg.norm(normal_vector)
     height_above_plane = (self.x-position[0])*normal_vector[0] + (self.y-position[1])*normal_vector[1] + (self.z-position[2])*normal_vector[2]
@@ -110,7 +78,7 @@ def plot_field_in_plane_matplotlib(
     field_normalized = (field_verts - np.min(field_verts)) / (np.max(field_verts) - np.min(field_verts))
 
     # Map normalized field values to colors
-    colors = colormap(field_normalized)
+    colors = kwargs['colormap_object'](field_normalized)
 
     ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0,
                     (self.ymin+verts[:, 1]*self.dy)/self.a0,
@@ -118,13 +86,11 @@ def plot_field_in_plane_matplotlib(
                     (self.zmin+verts[:, 2]*self.dz)/self.a0,
                     facecolor=colors, antialiased=False)
 
-    if colorbar:
-        sm = plt.cm.ScalarMappable(cmap=colormap)  
-        sm.set_clim(np.min(field_verts),np.max(field_verts))  
-        cbar = plt.colorbar(sm, ax=ax, pad=0.2)
+    if kwargs['colorbar']:
+            sm = plt.cm.ScalarMappable(cmap=kwargs['colormap_object'])
+            sm.set_clim(kwargs['vmin'], kwargs['vmax'])
+            plt.colorbar(sm, ax=ax, pad=0.2)
 
-    kwargs['grid'] = kwargs.get('grid', True)
     kwargs['ax'] = ax
-    tool_set_plot_axis_properties_matplotlib(self,**kwargs)
-
+    ax = tool_set_plot_axis_properties_matplotlib(self, **kwargs)
     return fig, ax

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy as sp
 from typing import Optional
 from comfit.tool.tool_complete_field import tool_complete_field
-from comfit.tool.tool_colormaps import tool_colormap_angle
+from comfit.tool.tool_colormap import tool_colormap
 from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
 
 from comfit.tool import tool_plotly_define_3D_plot_ax, tool_plotly_colorbar
@@ -35,10 +35,9 @@ def plot_complex_field_in_plane_plotly(
         if self.dim != 3:
             raise Exception("The plot in plane function is only defined for 3D fields.")
 
-        fig = kwargs.get('fig', go.Figure())
-        ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
+        complex_field, fig, ax, kwargs = self.plot_prepare(complex_field, field_type = 'complex', **kwargs)
 
-        ax = tool_plotly_define_3D_plot_ax(ax, fig) #Defines sceneN, plot_dimension
+        ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
         # Extend the field if not a complete array is given
         complex_field = tool_complete_field(self, complex_field)
@@ -58,8 +57,6 @@ def plot_complex_field_in_plane_plotly(
         imags = np.imag(complex_field)
 
         # Kewyord arguments
-        colorbar = kwargs.get('colorbar', True)
-
         normal_vector = np.array(normal_vector)/np.linalg.norm(normal_vector)
         height_above_plane = (self.x-position[0])*normal_vector[0] + (self.y-position[1])*normal_vector[1] + (self.z-position[2])*normal_vector[2]
 
@@ -95,8 +92,8 @@ def plot_complex_field_in_plane_plotly(
         theta_normalized = (theta_verts+np.pi) / (2*np.pi)
 
         # Map normalized field values to colors
-        colormap = tool_colormap_angle()
-        colors = colormap(theta_normalized)
+        plt_colormap_object = tool_colormap(kwargs['colormap'], plot_lib='matplotlib')
+        colors = plt_colormap_object(theta_normalized)
 
         # Blend the colors with white according to rho (normalized)
         colors[:,3] = (rho_verts/np.max(rho_verts)).ravel()
@@ -129,12 +126,13 @@ def plot_complex_field_in_plane_plotly(
         #     cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
 
 
-        if colorbar:
+        if kwargs['colorbar'] and not(ax['colorbar']) and not(kwargs['field_is_nan']):
+            ax['colormap_object'] = kwargs['colormap_object']
             fig.add_trace(tool_plotly_colorbar(ax, type='angle'))
+            ax['colorbar'] = True
 
-        kwargs['plot_is_3D'] = True
         kwargs['fig'] = fig
         kwargs['ax'] = ax
         tool_set_plot_axis_properties_plotly(self, **kwargs)
 
-        return fig
+        return fig, ax

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import scipy as sp
 
 from comfit.core.base_system import BaseSystem
-from comfit.tool.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered
+from comfit.tool.tool_colormap import tool_colormap
 
 class QuantumMechanics(BaseSystem):
     def __init__(self, dimension: int, **kwargs) -> None:

@@ -27,8 +27,8 @@ z = np.sin(np.sqrt(x**2 + y**2))
 #                            mode='markers', marker=dict(size=5, color='blue')))
 
 # Add surface trace
-# fig.add_trace(go.Surface(z=z, x=x, y=y, colorscale='Viridis', opacity=0.7), row=1, col=1)
-fig.add_trace(go.Surface(z=z, x=x, y=y, colorscale='Viridis', opacity=0.7))
+# fig.add_trace(go.Surface(z=z, x=x, y=y, colorscale='viridis', opacity=0.7), row=1, col=1)
+fig.add_trace(go.Surface(z=z, x=x, y=y, colorscale='viridis', opacity=0.7))
 
 
 for trace in fig.data:

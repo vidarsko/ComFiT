@@ -1,6 +1,6 @@
 import numpy as np
 import plotly.graph_objects as go
-from comfit.tool import tool_colormap_angle
+from comfit.tool import tool_colormap
 import math
 
 
@@ -79,7 +79,8 @@ def tool_plotly_colorbar(ax, type='normal'):
     """
  
     if type == 'normal':
-        colormap = 'Viridis'
+        
+
         cmin = ax['vmin']
         cmax = ax['vmax']
 
@@ -96,7 +97,6 @@ def tool_plotly_colorbar(ax, type='normal'):
 
     elif type == 'angle':
         title=None
-        colormap = tool_colormap_angle(pyplot=True)
         cmin = -np.pi
         cmax = np.pi
         tickvals = [-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi]
@@ -107,12 +107,12 @@ def tool_plotly_colorbar(ax, type='normal'):
                 x=[None], y=[None], mode='markers',
                 showlegend=False,
                 marker=dict(
-                    colorscale=colormap,
+                    colorscale=ax['colormap_object'],
                     cmin=cmin, 
                     cmax=cmax,
                     colorbar=dict(
-                    tickvals=tickvals,
-                    ticktext=ticktext
+                        tickvals=tickvals,
+                        ticktext=ticktext
                     )
                 ),
                 hoverinfo='none'
@@ -123,7 +123,7 @@ def tool_plotly_colorbar(ax, type='normal'):
                 x=[None], y=[None], z=[None], mode='markers',
                 showlegend=False,
                 marker=dict(
-                    colorscale=colormap,
+                    colorscale=ax['colormap_object'],
                     cmin=cmin, 
                     cmax=cmax,
                     colorbar=dict(

@@ -36,7 +36,7 @@ def plot_nodes_plotly(self, nodes, **kwargs):
 
         if self.dim == 2:
 
-            ax = tool_plotly_define_2D_plot_ax(ax, fig)
+            ax = tool_plotly_define_2D_plot_ax(fig, ax)
 
             if node_arrays['charge_given']:
                 if len(node_arrays['x_coordinates_negative']) > 0:
@@ -118,7 +118,7 @@ def plot_nodes_plotly(self, nodes, **kwargs):
 
         elif self.dim == 3:
 
-            ax = tool_plotly_define_3D_plot_ax(ax, fig)
+            ax = tool_plotly_define_3D_plot_ax(fig, ax)
 
             # Plotting options
             quiver_scale = 2 # The scale of the quiver arrows

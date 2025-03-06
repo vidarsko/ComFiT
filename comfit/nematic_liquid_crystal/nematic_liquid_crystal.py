@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from comfit.plot.plot_nodes_plotly import plot_nodes_plotly
 
-from comfit.tool.tool_colormaps import tool_colormap_angle, tool_colormap_bluewhitered, tool_colormap_sunburst
+from comfit.tool.tool_colormap import tool_colormap
 from comfit.tool.tool_create_orthonormal_triad import tool_create_orthonormal_triad
 
 from comfit.nematic_liquid_crystal.plot_field_velocity_and_director_matplotlib import plot_field_velocity_and_director_matplotlib

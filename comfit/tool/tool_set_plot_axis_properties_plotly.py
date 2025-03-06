@@ -71,10 +71,15 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     ylim = [self.ymin/self.a0, (self.ymax-self.dy)/self.a0] if self.dim > 1 else None
     if 'ymin' in kwargs:
         ylim[0] = kwargs['ymin'] / self.a0 if self.dim > 1 else kwargs['ymin']
+
     if 'ymax' in kwargs:
         ylim[1] = kwargs['ymax'] / self.a0 if self.dim > 1 else kwargs['ymax']
+
     if 'ylim' in kwargs:
         ylim = np.array(kwargs['ylim'])/self.a0 if self.dim > 1 else kwargs['ylim']
+    elif 'vlim' in kwargs:
+        if self.dim == 1:
+            ylim = kwargs['vlim']
 
     # zlim is specified as a list if dim>2 else as None
     zlim = [self.zmin/self.a0, (self.zmax-self.dz)/self.a0] if self.dim > 2 else None
@@ -148,12 +153,12 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
         if zaxis_updates:
             scene_updates['zaxis'] = zaxis_updates
 
-    # else: (reinclude?)
-    #     if xaxis_updates:
-    #         layout_updates['xaxis'] = xaxis_updates
+    else:
+        if xaxis_updates:
+            layout_updates['xaxis'] = xaxis_updates
 
-    #     if yaxis_updates:
-    #         layout_updates['yaxis'] = yaxis_updates
+        if yaxis_updates:
+            layout_updates['yaxis'] = yaxis_updates
 
     ##### UPDATE LAYOUT #####
     # if ax is None:

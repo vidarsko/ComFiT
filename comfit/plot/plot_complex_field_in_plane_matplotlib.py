@@ -5,7 +5,9 @@ from typing import Optional
 from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
 
-from comfit.tool.tool_colormaps import tool_colormap_angle
+from comfit.tool.tool_colormap import tool_colormap
+
+from comfit.tool import tool_matplotlib_define_2D_plot_ax, tool_matplotlib_define_3D_plot_ax
 
 from skimage.measure import marching_cubes
 import matplotlib
@@ -33,9 +35,12 @@ def plot_complex_field_in_plane_matplotlib(
 
         if self.dim != 3:
             raise Exception("The plot in plane function is only defined for 3D fields.")
+    
+        complex_field, fig, ax, kwargs = self.plot_prepare(complex_field, field_type = 'complex', **kwargs)
 
-        # Extend the field if not a complete array is given
-        complex_field = tool_complete_field(self, complex_field)
+        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+
+        kwargs['plot_is_3D'] = True
 
         # Default values of position and normal vector
         if position is None:
@@ -47,17 +52,6 @@ def plot_complex_field_in_plane_matplotlib(
         # Calculate the magnitude and phase of the complex field
         rho = np.abs(complex_field)
         theta = np.angle(complex_field)
-        
-        # Check if an axis object is provided
-        fig = kwargs.get('fig', plt.gcf())
-        ax = kwargs.get('ax', None)
-
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111, projection='3d')
-
-        # Kewyord arguments
-        colorbar = kwargs.get('colorbar', True)
 
         normal_vector = np.array(normal_vector)/np.linalg.norm(normal_vector)
         height_above_plane = (self.x-position[0])*normal_vector[0] + (self.y-position[1])*normal_vector[1] + (self.z-position[2])*normal_vector[2]
@@ -82,7 +76,7 @@ def plot_complex_field_in_plane_matplotlib(
         theta_normalized = (theta_verts+np.pi) / (2*np.pi)
 
         # Map normalized field values to colors
-        colormap = tool_colormap_angle()
+        colormap = kwargs['colormap_object']
         colors = colormap(theta_normalized)
 
         # Blend the colors with white according to rho (normalized)
@@ -94,14 +88,20 @@ def plot_complex_field_in_plane_matplotlib(
                         (self.zmin+verts[:, 2]*self.dz)/self.a0,
                         facecolor=colors, antialiased=True)
 
+
         # Create a colorbar
-        if colorbar:
-            mappable = plt.cm.ScalarMappable(cmap=tool_colormap_angle())
+        if kwargs['colorbar']:
+            padding=0.2
+            mappable = plt.cm.ScalarMappable(cmap=kwargs['colormap_object'])
             mappable.set_array([])
             mappable.set_clim(-np.pi, np.pi)
-            cbar = plt.colorbar(mappable, ax=ax, pad=0.2)
-            cbar.set_ticks(np.array([-np.pi, -2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3, np.pi]))
-            cbar.set_ticklabels([r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+            cbar = plt.colorbar(mappable, ax=ax, pad=padding)
+
+            cticks = kwargs.get('cticks', [-np.pi, -2*np.pi/3, -np.pi/3, 0, np.pi/3, 2*np.pi/3, np.pi])
+            cbar.set_ticks(cticks)
+
+            cticklabelse = kwargs.get('cticklabels', [r'$-\pi$', r'$-2\pi/3$', r'$-\pi/3$', r'$0$', r'$\pi/3$', r'$2\pi/3$', r'$\pi$'])
+            cbar.set_ticklabels(cticklabelse)
 
         kwargs['grid'] = kwargs.get('grid', True)
         kwargs['ax'] = ax

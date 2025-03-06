@@ -1,6 +1,6 @@
 from comfit.tool import tool_plotly_find_next_xN
 
-def tool_plotly_define_2D_plot_ax(ax, fig): #Defines xN, yN and plot_dimension
+def tool_plotly_define_2D_plot_ax(fig, ax): #Defines xN, yN and plot_dimension
     #Plot nature
     ax['xN'] = ax.get('xN', tool_plotly_find_next_xN(fig))
     ax['yN'] = 'y' if ax['xN'] == 'x' else f'y{ax["xN"][1:]}'

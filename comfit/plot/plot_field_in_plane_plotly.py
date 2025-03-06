@@ -9,7 +9,6 @@ from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_
 
 from comfit.tool import tool_plotly_define_3D_plot_ax, tool_plotly_colorbar
 
-
 def plot_field_in_plane_plotly(
         self,
         field: np.ndarray,
@@ -35,22 +34,10 @@ def plot_field_in_plane_plotly(
     if self.dim != 3:
         raise Exception("The plot in plane function is only defined for 3D fields.")
 
-    fig = kwargs.get('fig', go.Figure())
-    ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1})
+    field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
-    ax = tool_plotly_define_3D_plot_ax(ax, fig) #Defines sceneN, plot_dimension
+    ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
-    # Extend the field if not a complete array is given
-    field = tool_complete_field(self, field)
-
-    # Check if the vector field is complex
-    if np.iscomplexobj(field):
-        print("\033[91mWarning: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
-        print('Max imaginary part: ', np.max(np.imag(field)))
-        field = np.real(field)
-
-    kwargs['colorbar'] = kwargs.get('colorbar', True)
-    colormap = kwargs.get('colormap', 'Viridis')
 
     # Default values of position and normal vector
     if position is None:
@@ -90,13 +77,15 @@ def plot_field_in_plane_plotly(
         k=faces[:, 2],
         intensity=field_verts,  
         intensitymode='cell',  
-        colorscale=colormap,
+        colorscale=kwargs['colormap_object'],
         showscale=False,
         scene=ax['sceneN']
     ))
 
-    if kwargs['colorbar']:
+    if kwargs['colorbar'] and not(ax['colorbar']) and not(kwargs['field_is_nan']):
+        ax['colormap_object'] = kwargs['colormap_object']
         fig.add_trace(tool_plotly_colorbar(ax, type='normal'))
+        ax['colorbar'] = True
 
     kwargs['fig'] = fig
     kwargs['ax'] = ax

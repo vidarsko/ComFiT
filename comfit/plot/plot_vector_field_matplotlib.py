@@ -6,6 +6,9 @@ from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_add_spacing_2D import tool_add_spacing_2D
 from comfit.tool.tool_add_spacing_3D import tool_add_spacing_3D
 
+from comfit.tool import tool_matplotlib_define_2D_plot_ax
+from comfit.tool import tool_matplotlib_define_3D_plot_ax
+
 from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
 
 
@@ -27,35 +30,16 @@ def plot_vector_field_matplotlib(self,
     """
     spacing = kwargs.get('spacing', max(self.xRes//20,1))
 
-    # Extend the field if not a complete array is given
-    vector_field_copy = []
-    for n in range(len(vector_field)):
-        vector_field_copy.append(tool_complete_field(self, vector_field[n]))
-    vector_field = np.array(vector_field_copy)
-    
-    # Keyword arguments
-    axis_equal = kwargs.get('axis_equal',True)
-    colormap = kwargs.get('colormap', 'viridis')
+    vector_field, fig, ax, kwargs = self.plot_prepare(vector_field, field_type = 'vector', **kwargs)
 
-    # Check if the vector field is complex
-    if np.iscomplexobj(vector_field):
-        print("\033[91mWarning: the provided vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
-        print('Max imaginary part: ', np.max(np.imag(vector_field)))
-        vector_field = np.real(vector_field)
-
-
-    # Check if an axis object is provided
-    fig = kwargs.get('fig', plt.gcf())
-    ax = kwargs.get('ax', None)          
-
-
-    kwargs['plot_is_3D'] = False
 
     ###############################################################
     ########### DIMENSION: 1 - VECTOR-DIMENSION: 1 ################
     ###############################################################
         
     if self.dim == 1 and vector_field.shape == (1,self.xRes):
+
+        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
         X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
 
@@ -65,11 +49,6 @@ def plot_vector_field_matplotlib(self,
         V[:,0] = vector_field[0]
 
         X,Y,U,V = tool_add_spacing_2D(X,Y,U,V,spacing)
-
-
-        if ax == None:
-            fig.clf()
-            ax = plt.gcf().add_subplot(111)
 
         ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
         kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
@@ -81,6 +60,7 @@ def plot_vector_field_matplotlib(self,
 
     elif self.dim == 1 and vector_field.shape == (2,self.xRes):
 
+        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
             
         X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
@@ -93,11 +73,6 @@ def plot_vector_field_matplotlib(self,
         W[:,0,0] = vector_field[1]
 
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
-
-
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111, projection='3d')
 
         ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
 
@@ -119,13 +94,9 @@ def plot_vector_field_matplotlib(self,
 
     elif self.dim == 1 and vector_field.shape == (3,self.xRes):
         
+        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
-       
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111, projection='3d')
-        
         X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
 
         U = np.zeros(X.shape)
@@ -169,10 +140,7 @@ def plot_vector_field_matplotlib(self,
 
     elif self.dim == 2 and vector_field.shape == (1,self.xRes,self.yRes):
         
-      
-        if ax == None:
-            fig.clf()
-            ax = plt.gcf().add_subplot(111)
+        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
         X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
@@ -202,15 +170,11 @@ def plot_vector_field_matplotlib(self,
 
     elif self.dim == 2 and vector_field.shape == (2,self.xRes,self.yRes):
 
-        if ax == None:
-            fig.clf()
-            ax = plt.gcf().add_subplot(111)
+        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
         X, Y = np.meshgrid(self.x, self.y, indexing='ij')
 
         X, Y, U, V = tool_add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
-
-   
 
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
     
@@ -236,6 +200,7 @@ def plot_vector_field_matplotlib(self,
 
     elif self.dim == 2 and vector_field.shape == (3,self.xRes,self.yRes):
 
+        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
         
         X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
@@ -264,12 +229,8 @@ def plot_vector_field_matplotlib(self,
         # Scaling
         U = vx_scale*U
         V = vy_scale*V
-        W = vz_scale*W
-
+        W = vz_scale*W 
         
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111, projection='3d')
         ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
        
         kwargs['axis_equal'] = False
@@ -282,6 +243,7 @@ def plot_vector_field_matplotlib(self,
 
     elif self.dim == 3 and vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
 
+        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')              
@@ -304,10 +266,6 @@ def plot_vector_field_matplotlib(self,
         # Scaling
         U = vx_scale*U
 
-
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111, projection='3d')
         ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
         
     ###############################################################
@@ -316,6 +274,7 @@ def plot_vector_field_matplotlib(self,
 
     elif self.dim == 3 and vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
 
+        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
@@ -340,11 +299,7 @@ def plot_vector_field_matplotlib(self,
         # Scaling
         U = vx_scale*U
         V = vy_scale*V
-
-      
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111, projection='3d')
+        
 
         ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
         
@@ -355,6 +310,7 @@ def plot_vector_field_matplotlib(self,
 
     elif self.dim == 3 and vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
 
+        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
         X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
@@ -368,9 +324,7 @@ def plot_vector_field_matplotlib(self,
 
 
 
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111, projection='3d')
+        
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))

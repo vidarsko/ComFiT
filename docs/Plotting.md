@@ -167,6 +167,22 @@ $$
 | `cticklabels` | List of labels for the ticks on the colorbar | None |
 | `alpha` | The alpha value of the plot | 0.5 |
 
+## Colormaps
+
+There is a large overlap of colormaps between `matplotlib` and `plotly`, but there are some differences.
+Here is an overview over *some* of the available colormaps in `ComFiT`.
+
+![Colormaps](img/plotting_colormaps.png)
+
+All the colormaps can be reversed by adding the `_r` suffix, e.g., `viridis_r`.
+The colormaps `sunburst`, `bluewhitered` and `angle` have been custom made for ComFiT.
+The colormap `winter` is not native in `plotly` but has been ported.
+
+`colormap`: Strings describing the colormap.
+
+`colorbar`: Boolean parameter indicating whether or not to plot the colorbar.
+
+`colormap_object`: The colormap object, which is called in plot commands.
 
 ## Plotting functions
 

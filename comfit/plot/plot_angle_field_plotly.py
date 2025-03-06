@@ -13,15 +13,6 @@ def plot_angle_field_plotly(self, angle_field: np.ndarray, **kwargs):
         The axes containing the plot. (matplotlib.axes.Axes)
     """
 
-    # # Check if the vector field is complex
-    if np.iscomplexobj(angle_field):
-        print("\033[91mWarning: the angle vector field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
-        print('Max imaginary part: ', np.max(np.imag(angle_field)))
-        angle_field = np.real(angle_field)
-
-    # Extend the field if not a complete array is given
-    angle_field = tool_complete_field(self, angle_field)
-
     # Normalize around 0
     angle_field = np.mod(angle_field + np.pi, 2 * np.pi) - np.pi        
 

@@ -8,8 +8,9 @@ from comfit.tool import tool_complete_field
 from comfit.tool import tool_set_plot_axis_properties_matplotlib
 from comfit.tool import tool_set_plot_axis_properties_plotly
 
-from comfit.tool import tool_colormap_bluewhitered
-from comfit.tool import tool_colormap_sunburst
+from comfit.tool import tool_colormap
+from comfit.tool import tool_matplotlib_define_2D_plot_ax
+from comfit.tool import tool_matplotlib_define_3D_plot_ax
 
 from comfit.plot.plot_surface_matplotlib import plot_surface_matplotlib
 
@@ -34,31 +35,7 @@ def plot_field_matplotlib(self,
             - matplotlib.axes.Axes: The axes containing the plot
     """
 
-    if field.dtype == bool:
-        field = field.astype(float)
-
-    if field.ndim == self.dim+1:
-        print("\033[91mWarning - in plot_field: the provided field seems to be an order parameter containing several fields. Only the zeroth component will be plotted.\033[0m")
-        field = field[0]
-
-    # Check if the vector field is complex
-    if np.iscomplexobj(field):
-        print("\033[91mWarning - in plot_field: the provided field was complex. This might be due to residual imaginary parts from the Fourier transform. The imaginary parts will be removed.\033[0m")
-        print('Max imaginary part: ', np.max(np.imag(field)))
-        field = np.real(field)
-
-    # Check if an axis object is provided
-    fig = kwargs.get('fig', plt.gcf())
-    ax = kwargs.get('ax', None)
-
-    # Kewyord arguments
-    colorbar = kwargs.get('colorbar', True)
-    axis_equal = kwargs.get('axis_equal', None)
-
-    # Extend the field if not a complete array is given
-    field = tool_complete_field(self, field)
-
-    kwargs['plot_is_3D'] = False
+    field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
     ###############################################################
     ###################### DIMENSION: 1 ###########################
@@ -66,15 +43,7 @@ def plot_field_matplotlib(self,
 
     if self.dim == 1:
 
-        # Keyword arguments particular to the 1D case
-        kwargs['grid'] = kwargs.get('grid', True)
-
-        if axis_equal is None:
-            kwargs['axis_equal'] = False
-
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111)
+        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
         ax.plot(self.x/self.a0, field)
 
@@ -87,22 +56,12 @@ def plot_field_matplotlib(self,
         # Keyword arguments particular to the 2D case
         kwargs['grid'] = kwargs.get('grid', False)
 
-
-        if ax == None:
-            fig.clf()
-            ax = fig.add_subplot(111)
+        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
             
         # Set the colormap
-        colormap = kwargs.get('colormap', 'viridis')
-
-        if colormap == 'bluewhitered':
-            colormap = tool_colormap_bluewhitered()
-
-        elif colormap == 'sunburst':
-            colormap = tool_colormap_sunburst()
-        else:
-            colormap = plt.get_cmap(colormap)
-
+        colormap_string = kwargs.get('colormap', 'viridis')
+        colormap = tool_colormap(colormap_string, plot_lib='matplotlib')
+        
         # Value limits symmetric
         vlim_symmetric = kwargs.get('vlim_symmetric', False)
 
@@ -183,72 +142,28 @@ def plot_field_matplotlib(self,
 
     elif self.dim == 3:
 
+        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
-
-        if ax is not None and ax is not isinstance(ax, Axes3D):
-            # Get row and column
-            subplotspec = ax.get_subplotspec()
-            gridspec = subplotspec.get_gridspec()
-            row = subplotspec.rowspan.start
-            col = subplotspec.colspan.start
-
-            ax.remove()
-
-            fig.add_subplot(gridspec[row, col], projection='3d')
-            ax = fig.get_axes()[-1]
             
-
         # Keyword arguments particular to the 3D case
-
-        field_min = np.min(field)
-        field_max = np.max(field)
-
         number_of_layers = kwargs.get('number_of_layers', 1)
         alpha = kwargs.get('alpha', 0.5)
-        
-        if 'vlim' in kwargs:
-            vlim = kwargs['vlim']
-            vmin = vlim[0]
-            vmax = vlim[1]
-        else:
-            vmin = field_min
-            vmax = field_max
+
+        vmin = kwargs['vmin']
+        vmax = kwargs['vmax']
 
         if 'layer_values' in kwargs:
             layer_values = np.concatenate([[-np.inf], kwargs['layer_values'], [np.inf]])
         else: 
             layer_values = np.linspace(vmin, vmax, number_of_layers + 2)
 
-        if 'colormap' in kwargs:
-            colormap = kwargs['colormap']
-            if colormap == 'bluewhitered':
-                colormap = tool_colormap_bluewhitered()
-
-            elif colormap == 'sunburst':
-                colormap = tool_colormap_sunburst()
-
-            else:
-                colormap = plt.get_cmap(colormap)
-        else: 
-            colormap = plt.get_cmap('viridis')
-        
-
-        if 'colorbar' in kwargs:
-            colorbar = kwargs['colorbar']
-        else:
-            colorbar = True
-
-        #Plotting the layers
-
-        if ax == None:
-            plt.clf()
-            ax = plt.gcf().add_subplot(111, projection='3d')
-
+        field_min = np.min(field)
+        field_max = np.max(field)
 
         if field_min < layer_values[1] < field_max:
             plot_surface_matplotlib(self, field=field, 
                                     value=layer_values[1], 
-                                    color=colormap((layer_values[1]-vmin) / (vmax-vmin)), 
+                                    color=kwargs['colormap_object']((layer_values[1]-vmin) / (vmax-vmin)), 
                                     alpha=alpha,
                                     ax=ax)
 
@@ -256,13 +171,13 @@ def plot_field_matplotlib(self,
             if field_min < layer_value < field_max:
                 plot_surface_matplotlib(self, field=field, 
                                         value=layer_value, 
-                                        color=colormap((layer_value-vmin) / (vmax-vmin)), 
+                                        color=kwargs['colormap_object']((layer_value-vmin) / (vmax-vmin)), 
                                         alpha=alpha,
                                         ax=ax)
 
-        if colorbar:
-            sm = plt.cm.ScalarMappable(cmap=colormap)
-            sm.set_clim(vmin, vmax)
+        if kwargs['colorbar']:
+            sm = plt.cm.ScalarMappable(cmap=kwargs['colormap_object'])
+            sm.set_clim(kwargs['vmin'], kwargs['vmax'])
             plt.colorbar(sm, ax=ax, pad=0.2)
 
     kwargs['ax'] = ax
