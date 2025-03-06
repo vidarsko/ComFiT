@@ -40,6 +40,8 @@ for n in range(61):
 cf.tool_make_animation_gif(n)  # Creates animation.gif
 ```
 
+![Quantum Mechanics](../img/quantum_mechanics_barrier_reflection.gif#only-light)
+![Quantum Mechanics](../img/quantum_mechanics_barrier_reflection-colorinverted.gif#only-dark)
 
 ## The Schrödinger equation
 
