@@ -748,11 +748,11 @@ class NematicLiquidCrystal(BaseSystem):
                                                    [np.real(dt_psi), np.imag(dt_psi)])
         if self.dim ==3:
             if (T is not None) and (Omega_R is not None) and (g is not None):
-                dot_Omega_g = np.zeros((self.dim,self.xRes,self.yRes,self.zRes))
+                dot_Omega_g = np.zeros((self.dim))
                 for i in range(self.dim):
                     dot_Omega_g = np.sum(Omega_R[k] * g[i,k] for k in range(self.dim))
 
-                dislocation_velocity = np.zeros((self.dim,self.xRes,self.yRes,self.zRes))
+                dislocation_velocity = np.zeros((self.dim))
                 for i in range(self.dim):
                     dislocation_velocity[i] = np.sum(
                         levi_civita_symbol(i,j,k)*T[j]* dot_Omega_g[k] for j in range(self.dim)
