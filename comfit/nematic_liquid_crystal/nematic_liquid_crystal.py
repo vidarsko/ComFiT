@@ -748,7 +748,7 @@ class NematicLiquidCrystal(BaseSystem):
             return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
                                                    [np.real(dt_psi), np.imag(dt_psi)])
         if self.dim ==3:
-            if (T is not None) and (Omega_R is not None) and (g is not None) and (omega=None):
+            if (T is not None) and (Omega_R is not None) and (g is not None) and (omega is not None):
                 dot_Omega_g = np.zeros((self.dim))
                 for i in range(self.dim):
                     dot_Omega_g = np.sum(Omega_R[k] * g[i,k] for k in range(self.dim))
