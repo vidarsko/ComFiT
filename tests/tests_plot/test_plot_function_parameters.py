@@ -10,6 +10,11 @@ import numpy as np
 import scipy as sp
 
 class TestBaseSystem(unittest.TestCase):
+
+    def tearDown(self):
+        import matplotlib.pyplot as plt
+        plt.close('all')
+
     def test_plot_field_no_parameters(self):
         """ Test plotting of field """
 

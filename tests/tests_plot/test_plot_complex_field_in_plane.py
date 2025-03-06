@@ -11,6 +11,11 @@ import scipy as sp
 
 
 class TestPlotComplexFieldInPlane(unittest.TestCase):
+
+    def tearDown(self):
+        import matplotlib.pyplot as plt
+        plt.close('all')
+
     def test(self):
         for plot_lib in ['matplotlib', 'plotly']:
             # Initialize BaseSystem object
