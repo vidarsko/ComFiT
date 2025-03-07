@@ -48,6 +48,12 @@ jobs:
         - name: Check the build output
           run: |
             ls -la
+            cd library_reference/
+            ls -la
+            cd _build
+            ls -la
+            cd html
+            ls -la
             
         - name: Deploy to GitHub Pages
           uses: peaceiris/actions-gh-pages@v3
