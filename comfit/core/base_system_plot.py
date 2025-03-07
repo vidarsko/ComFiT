@@ -54,12 +54,14 @@ class BaseSystemPlot:
 
     def plot_prepare(self, field, field_type, **kwargs):
 
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+        
         ## Define figure
-        if self.plot_lib == "plotly":
+        if plot_lib == "plotly":
             fig = kwargs.get('fig', go.Figure())
             ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1, 'colorbar': False})
 
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             fig = kwargs['fig'] if 'fig' in kwargs else plt.figure()
             ax = kwargs.get('ax', None)
 
@@ -97,14 +99,14 @@ class BaseSystemPlot:
 
         ## Define default kwarg values
         kwargs['colormap'] = kwargs.get('colormap', 'viridis')
-        kwargs['colormap_object'] = tool_colormap(kwargs['colormap'], plot_lib=self.plot_lib)
+        kwargs['colormap_object'] = tool_colormap(kwargs['colormap'], plot_lib=plot_lib)
 
         colorbar_default = False
         if field_type == 'complex':
             colorbar_default = True
         if field_type in ['real','angle'] and self.dim>1:
             colorbar_default = True
-        if field_type == 'vector' and self.plot_lib == 'plotly':
+        if field_type == 'vector' and plot_lib == 'plotly':
             colorbar_default = True
         kwargs['colorbar'] = kwargs.get('colorbar',  colorbar_default)
 
@@ -139,7 +141,7 @@ class BaseSystemPlot:
                         vmax = max(abs(vmin), abs(vmax))
                         vmin = -vmax
             
-            if self.plot_lib == 'plotly':
+            if plot_lib == 'plotly':
                 ax['vmin'] = min(vmin, ax.get('vmin', vmin)) 
                 ax['vmax'] = max(vmax, ax.get('vmax', vmax))
 
@@ -150,27 +152,39 @@ class BaseSystemPlot:
         return field, fig, ax, kwargs
 
     def plot_field(self, field: np.ndarray, **kwargs):
-        if self.plot_lib == "plotly":
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == "plotly":
             return plot_field_plotly(self, field, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_field_matplotlib(self, field, **kwargs)
 
     def plot_complex_field(self, complex_field: np.ndarray, **kwargs):
-        if self.plot_lib == "plotly":
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == "plotly":
             return plot_complex_field_plotly(self, complex_field, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_complex_field_matplotlib(self, complex_field, **kwargs)
 
     def plot_angle_field(self, angle_field: np.ndarray, **kwargs):
-        if self.plot_lib == "plotly":
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == "plotly":
             return plot_angle_field_plotly(self, angle_field, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_angle_field_matplotlib(self, angle_field, **kwargs)
 
     def plot_vector_field(self, vector_field: np.ndarray, **kwargs):
-        if self.plot_lib == "plotly":
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == "plotly":
             return plot_vector_field_plotly(self, vector_field, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_vector_field_matplotlib(self, vector_field, **kwargs)
 
     def plot_field_in_plane(
@@ -180,11 +194,14 @@ class BaseSystemPlot:
         position: Optional[np.ndarray] = None,
         **kwargs
     ):
-        if self.plot_lib == "plotly":
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == "plotly":
             return plot_field_in_plane_plotly(
                 self, field, normal_vector, position, **kwargs
             )
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_field_in_plane_matplotlib(
                 self, field, normal_vector, position, **kwargs
             )
@@ -195,12 +212,16 @@ class BaseSystemPlot:
         normal_vector: Optional[np.ndarray] = None,
         position: Optional[np.ndarray] = None,
         **kwargs
-    ):
-        if self.plot_lib == "plotly":
+        ):
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+
+        if plot_lib == "plotly":
             return plot_complex_field_in_plane_plotly(
                 self, complex_field, normal_vector, position, **kwargs
             )
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_complex_field_in_plane_matplotlib(
                 self, complex_field, normal_vector, position, **kwargs
             )
@@ -211,7 +232,11 @@ class BaseSystemPlot:
         normal_vector: Optional[np.ndarray] = None,
         position: Optional[np.ndarray] = None,
         **kwargs
-    ):
+        ):
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+
         complex_field = np.exp(1j * angle_field)
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
 
@@ -222,21 +247,31 @@ class BaseSystemPlot:
         position: Optional[np.ndarray] = None,
         spacing = None,
         **kwargs
-    ):
+        ):
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+
         return plot_vector_field_in_plane_both_plot_libs(self, vector_field, normal_vector, position, spacing, **kwargs)
 
     def plot_nodes(self, nodes, **kwargs):
-        if self.plot_lib == 'plotly':
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == 'plotly':
             return plot_nodes_plotly(self, nodes, **kwargs)
-        elif self.plot_lib == 'matplotlib':
+        elif plot_lib == 'matplotlib':
             return plot_nodes_matplotlib(self, nodes, **kwargs)
 
 
     # Figure handling methods
     def plot_subplots(self, number_of_rows, number_of_columns, **kwargs):
-        if self.plot_lib == "plotly":
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == "plotly":
             return plot_subplots_plotly(number_of_rows, number_of_columns, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_subplots_matplotlib(number_of_rows, number_of_columns, **kwargs)
 
     def plot_save(self, fig, counter=None, **kwargs):
@@ -269,16 +304,23 @@ class BaseSystemPlot:
 
 
         # Save the figure
-        if self.plot_lib == "plotly":
+        # Determine the plotting library based on figure type
+        plot_lib = "plotly" if isinstance(fig, go.Figure) else "matplotlib"
+
+        if plot_lib == "plotly":
             fig.write_image(filename)
 
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             fig.set_size_inches(image_size_inches)
             fig.savefig(filename, dpi=dpi)
+            plt.close(fig)
 
 
     def show(self, fig):
-        if self.plot_lib == "matplotlib":
+
+        plot_lib = "plotly" if isinstance(fig, go.Figure) else "matplotlib"
+
+        if plot_lib == "matplotlib":
             plt.show()
-        elif self.plot_lib == "plotly":
+        elif plot_lib == "plotly":
             fig.show()

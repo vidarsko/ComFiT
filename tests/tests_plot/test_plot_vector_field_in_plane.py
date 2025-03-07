@@ -12,6 +12,10 @@ import scipy as sp
 
 class TestPlotVectorField(unittest.TestCase):
 
+    def tearDown(self):
+        import matplotlib.pyplot as plt
+        plt.close('all')
+
     def test_all_matplotlib(self):
         plot_lib = 'matplotlib'
 

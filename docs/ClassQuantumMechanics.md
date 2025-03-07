@@ -10,11 +10,38 @@ file: comfit/models/quantum_mechanics.py
 class: QuantumMechanics
 ```
 
-## Functions
+## Example
 
-Let `qm` be an instance of the class `QuantumMechanics`.
+The following example demonstrates how to set up a 1D quantum system with a Gaussian wave packet and a potential barrier.
+It runs smoothly with `comfit 1.8.4`. 
 
-- `qm.evolve_schrodinger()`: 
+```python
+import comfit as cf
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Set up a 1D quantum system
+qm = cf.QuantumMechanics(1, xlim=[-50,50], xRes=1001, dt=0.1)
+
+# Initialize a Gaussian wavepacket at x=5 with velocity=1
+qm.conf_initial_condition_Gaussian(position=5, width=1, initial_velocity=1)
+
+# Add a potential barrier (optional)
+qm.V_ext = 0.5 * (qm.x > 10) * (qm.x < 12)  # Barrier from x=10 to 12
+
+height = np.max(abs(qm.psi))  # Get the maximum value of the wavefunction
+
+# Optional: Animate it
+for n in range(61):
+    qm.evolve_schrodinger(5)
+    fig, ax = qm.plot_complex_field(qm.psi)
+    qm.plot_field(qm.V_ext, fig=fig, ax=ax, ylim=[0,height], xlim=[0,20])
+    qm.plot_save(fig, n)
+cf.tool_make_animation_gif(n)  # Creates animation.gif
+```
+
+![Quantum Mechanics](../img/quantum_mechanics_barrier_reflection.gif#only-light)
+![Quantum Mechanics](../img/quantum_mechanics_barrier_reflection-colorinverted.gif#only-dark)
 
 ## The Schrödinger equation
 
@@ -55,13 +82,35 @@ $$
 | Energy         | 27.2 eV (electron volts)  |
 | Time           | 24.2 aS (atto seconds)    |
 
+
+## Central methods
+
+`evolve_schrodinger(number_of_steps)`: Evolves the wave function psi of the quantum mechanical system for a specified number of steps.
+
+Parameters:
+`number_of_steps(int)`: The total number of time evolution steps to perform.
+`conf_initial_condition_Gaussian(position, width, initial_velocity)`: Configures the initial condition of the wave function to be a Gaussian.
+
+Parameters:
+`position` (tuple or list): Initial position of the Gaussian peak.
+`width` (float or tuple/list of floats): Width of the Gaussian.
+`initial_velocity` (tuple or list): Initial velocity of the Gaussian.
+
+`conf_wavefunction(psi)`: Explicitly sets the wave function to a specified field.
+
+Parameters:
+`psi (array-like)`: The wave function to set as the initial condition.
+
+
 ## The Born rule
 
 The Born rule states that the probability $p$ of measuring a particle in the interval $[a,b]$ is given by 
 
 $$
-p = \int_a^b dx |\psi(x)|^2. 
+p = \int_a^b dx |\psi(x)|^2.
 $$
+
+
 
 ## A wave packet
 
