@@ -14,8 +14,8 @@ def plot_angle_field_matplotlib(self,
     """Plot the angle field.
 
     Args:
-        field (array-like): The angle field values.
-        ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
+        - field (array-like): The angle field values.
+        - ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
     
     Returns:
         tuple: A tuple containing:
