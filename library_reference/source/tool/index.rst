@@ -5,9 +5,9 @@ Tool Functions
    :maxdepth: 1
 
 .. automodule:: tool_add_plotly_angle_colorbar_3D
-:members:
-:undoc-members:
-:show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 .. automodule:: comfit.tool.tool_add_spacing_2D
     :members:
