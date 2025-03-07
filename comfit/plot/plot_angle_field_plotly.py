@@ -3,7 +3,8 @@ from comfit.tool import tool_complete_field
 from comfit.plot import plot_field_plotly, plot_complex_field_plotly
 
 def plot_angle_field_plotly(self, angle_field: np.ndarray, **kwargs):
-    """Plot the angle field.
+    """
+    Plot the angle field.
 
     Args:
         field (array-like): The angle field values.
