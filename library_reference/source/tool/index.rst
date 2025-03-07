@@ -4,7 +4,7 @@ Tool Functions
 .. toctree::
    :maxdepth: 1
 
-.. automodule:: tool_add_plotly_angle_colorbar_3D
+.. automodule:: comfit.tool.tool_add_plotly_angle_colorbar_3D
     :members:
     :undoc-members:
     :show-inheritance:
