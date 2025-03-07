@@ -26,7 +26,7 @@ jobs:
 
       - name: Build Documentation
         run: |
-          cd source
+          cd library_reference
           make html  # This assumes you've set up a make file; if not, adjust accordingly
 
       - name: Deploy to GitHub Pages
