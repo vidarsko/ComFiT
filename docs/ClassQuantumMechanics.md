@@ -10,6 +10,12 @@ file: comfit/models/quantum_mechanics.py
 class: QuantumMechanics
 ```
 
+## Functions
+
+Let `qm` be an instance of the class `QuantumMechanics`.
+
+- `qm.evolve_schrodinger()`: 
+
 ## The Schrödinger equation
 
 Evolving according to the Schrödinger equation with electron mass

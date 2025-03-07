@@ -28,6 +28,7 @@ The `BoseEinsteinCondensate` class accepts the same keyword arguments as the `Ba
 
 These parameters allow for the customization and fine-tuning of the Bose-Einstein condensate simulation.
 
+
 ## Model
 
 The BEC is in the mean field regime described by the GPE[^dalfovo1999theory] [^kevrekidis2007emergent]. 
