@@ -44,8 +44,11 @@ jobs:
           run: |
             cd library_reference
             make html  # This assumes you've set up a make file; if not, adjust accordingly
-            ls
-
+      
+        - name: Check the build output
+          run: |
+            ls -la
+            
         - name: Deploy to GitHub Pages
           uses: peaceiris/actions-gh-pages@v3
           with:
