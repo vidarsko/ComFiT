@@ -23,7 +23,7 @@ jobs:
       - run: mkdocs gh-deploy --force
 
       - name: Wait before deploying Sphinx
-        run: sleep 120  # Wait X seconds before starting to ensure any previous Git operations are complete
+        run: sleep 30  # Wait X seconds before starting to ensure any previous Git operations are complete
 
   build:
       runs-on: ubuntu-latest
@@ -42,6 +42,15 @@ jobs:
             python -m pip install --upgrade pip
             pip install sphinx sphinx_autodoc_typehints
             pip install sphinx_rtd_theme # Or any other theme you're using
+
+        - name: Install ffmpeg and xvfb
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y --fix-missing ffmpeg xvfb
+            
+        - name: Install comfit dependencies
+          run: |
+            pip install .
 
         - name: Build Documentation
           run: |
