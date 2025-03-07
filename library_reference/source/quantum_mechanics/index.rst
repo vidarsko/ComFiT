@@ -1,5 +1,5 @@
 Class: Quantum Mechanics
-===========
+========================
 
 .. toctree::
    :maxdepth: 1

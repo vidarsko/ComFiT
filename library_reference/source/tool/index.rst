@@ -1,5 +1,5 @@
 Tool Functions
-===========
+==============
 
 .. toctree::
    :maxdepth: 1

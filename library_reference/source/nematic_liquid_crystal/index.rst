@@ -1,5 +1,5 @@
 Class: Nematic Liquid Crystal
-===========
+=============================
 
 .. toctree::
    :maxdepth: 1

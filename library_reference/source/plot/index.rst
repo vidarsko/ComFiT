@@ -1,5 +1,5 @@
 Plot Functions
-===========
+==============
 
 .. toctree::
    :maxdepth: 1

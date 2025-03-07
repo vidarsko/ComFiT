@@ -1,5 +1,5 @@
 Class: Bose Einstein Condensate
-===========
+===============================
 
 .. toctree::
    :maxdepth: 1

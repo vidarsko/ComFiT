@@ -1,5 +1,5 @@
 Class: Phase Field Crystal
-===========
+==========================
 
 .. toctree::
    :maxdepth: 1
