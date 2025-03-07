@@ -13,7 +13,7 @@ class: QuantumMechanics
 ## Example
 
 The following example demonstrates how to set up a 1D quantum system with a Gaussian wave packet and a potential barrier.
-It runs smoothly with `comfit 1.8.4`. 
+It runs smoothly with `comfit 1.8.4`.
 
 ```python
 import comfit as cf
