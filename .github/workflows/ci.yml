@@ -22,6 +22,9 @@ jobs:
       - run: pip install pillow cairosvg
       - run: mkdocs gh-deploy --force
 
+      - name: Wait before deploying Sphinx
+        run: sleep 120  # Wait X seconds before starting to ensure any previous Git operations are complete
+
   build:
       runs-on: ubuntu-latest
       needs: deploy  # This ensures the build job runs after the deploy job
