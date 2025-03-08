@@ -1,0 +1,1005 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: Phase Field Crystal &mdash; ComFiT Library Reference 1.8.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=496f73d5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Class: Nematic Liquid Crystal" href="../nematic_liquid_crystal/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ComFiT Library Reference
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../core/index.html">Base System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tool/index.html">Tool Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum_mechanics/index.html">Class: Quantum Mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bose_einstein_condensate/index.html">Class: Bose Einstein Condensate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nematic_liquid_crystal/index.html">Class: Nematic Liquid Crystal</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Class: Phase Field Crystal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_PFC_free_energy_density_and_chemical_potential"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_PFC_free_energy_density_and_chemical_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_PFC_from_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_PFC_from_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_amplitudes_with_dislocation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation_dipole"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_amplitudes_with_dislocation_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation_ring"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_amplitudes_with_dislocation_ring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_demodulate_PFC"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_demodulate_PFC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_dislocation_density"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_dislocation_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_dislocation_nodes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_dislocation_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_displacement_field_to_equilibrium"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_displacement_field_to_equilibrium()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_free_energy"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_free_energy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_evolution_function_conserved_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_nonlinear_evolution_function_conserved_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_evolution_function_unconserved_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_nonlinear_evolution_function_unconserved_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_hydrodynamic_evolution_function_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_nonlinear_hydrodynamic_evolution_function_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_omega_hydrodynamic_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_omega_hydrodynamic_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_orientation_field"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_orientation_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_strain_tensor"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_strain_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_strained_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_strained_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_divergence_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_stress_divergence_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_tensor"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_stress_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_tensor_microscopic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_stress_tensor_microscopic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_structure_tensor"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_structure_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_structure_tensor_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_structure_tensor_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_PFC_from_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_PFC_from_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_advect_PFC"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_advect_PFC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_apply_distortion"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_apply_distortion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_create_polycrystal"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_create_polycrystal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_strain_to_equilibrium"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_strain_to_equilibrium()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.evolve_PFC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC_hydrodynamic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.evolve_PFC_hydrodynamic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC_mechanical_equilibrium"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.evolve_PFC_mechanical_equilibrium()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_PFC"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.plot_PFC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_field"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.plot_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_orientation_field"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.plot_orientation_field()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_omega_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.calc_omega_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_proto_amplitude_equations_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_proto_amplitude_equations_conserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitude_equations_unconserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_proto_amplitude_equations_unconserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_conserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_unconserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_unconserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitude_equations_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitude_equations_conserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitude_equations_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitude_equations_conserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ComFiT Library Reference</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: Phase Field Crystal</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/phase_field_crystal/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-phase-field-crystal">
+<h1>Class: Phase Field Crystal<a class="headerlink" href="#class-phase-field-crystal" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py class" id="module-comfit.phase_field_crystal.phase_field_crystal">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.phase_field_crystal.phase_field_crystal.</span></span><span class="sig-name descname"><span class="pre">PhaseFieldCrystal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../core/index.html#comfit.core.base_system.BaseSystem" title="comfit.core.base_system.BaseSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystem</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_PFC_free_energy_density_and_chemical_potential">
+<span class="sig-name descname"><span class="pre">calc_PFC_free_energy_density_and_chemical_potential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_PFC_free_energy_density_and_chemical_potential" title="Link to this definition"></a></dt>
+<dd><p>Calculates the free energy density and chemical potential of the PFC.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>field: The field to calculate the free energy density and chemical potential of.
+field_f: The Fourier transform of the field.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The free energy density and chemical potential of the PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_PFC_from_amplitudes">
+<span class="sig-name descname"><span class="pre">calc_PFC_from_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_PFC_from_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the PFC from the amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>eta: The amplitudes to calculate the PFC from.
+rotation : The rotation of the PFC</p>
+</dd>
+<dt>Returns:</dt><dd><p>The PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation">
+<span class="sig-name descname"><span class="pre">calc_amplitudes_with_dislocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dislocation_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation" title="Link to this definition"></a></dt>
+<dd><p>Calculates the amplitudes with a single point dislocation inserted.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>eta: The amplitudes to insert the dislocation in.
+x: The x-coordinate of the dislocation.
+y: The y-coordinate of the dislocation.
+dislocation_type: The dislocation type to insert.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The amplitudes containing the dislocation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation_dipole">
+<span class="sig-name descname"><span class="pre">calc_amplitudes_with_dislocation_dipole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dislocation_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation_dipole" title="Link to this definition"></a></dt>
+<dd><p>Inserts a  dislocation dipole in the system corresponding to dislocation type and its negative</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>eta: The amplitudes to insert the dislocation dipole in
+x1: The x-coordinate of the first dislocation
+y1: The y-coordinate of the first dislocation
+x2: The x-coordinate of the second dislocation
+y2: The y-coordinate of the second dislocation
+dislocation_type: The dislocation type to insert</p>
+</dd>
+<dt>Returns:</dt><dd><p>The amplitudes with the dislocation dipole inserted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation_ring">
+<span class="sig-name descname"><span class="pre">calc_amplitudes_with_dislocation_ring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dislocation_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation_ring" title="Link to this definition"></a></dt>
+<dd><p>Inserts a  dislocation ring in the system corresponding to dislocation type.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>eta: The amplitudes to insert the dislocation ring in
+position: The position of the dislocation ring
+radius: The radius of the dislocation ring
+normal_vector: The normal vector of the dislocation ring
+dislocation_type: The dislocation type to insert</p>
+</dd>
+<dt>Returns:</dt><dd><p>The amplitudes with the dislocation ring inserted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_demodulate_PFC">
+<span class="sig-name descname"><span class="pre">calc_demodulate_PFC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">only_primary_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_demodulate_PFC" title="Link to this definition"></a></dt>
+<dd><p>Demodulates the PFC.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The amplitudes corresponding to the demodulated PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_dislocation_density">
+<span class="sig-name descname"><span class="pre">calc_dislocation_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_dislocation_density" title="Link to this definition"></a></dt>
+<dd><p>Calculates the dislocation density</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>eta: The amplitudes to calculate the dislocation density from.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The dislocation density</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_dislocation_nodes">
+<span class="sig-name descname"><span class="pre">calc_dislocation_nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_dislocation_nodes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the dislocation nodes</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The dislocation nodes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_displacement_field_to_equilibrium">
+<span class="sig-name descname"><span class="pre">calc_displacement_field_to_equilibrium</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_displacement_field_to_equilibrium" title="Link to this definition"></a></dt>
+<dd><p>Calculates the displacement field needed to put the PFC in mechanical equilibrium.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The displacement field u</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_free_energy">
+<span class="sig-name descname"><span class="pre">calc_free_energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_free_energy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_evolution_function_conserved_f">
+<span class="sig-name descname"><span class="pre">calc_nonlinear_evolution_function_conserved_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_evolution_function_conserved_f" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_evolution_function_unconserved_f">
+<span class="sig-name descname"><span class="pre">calc_nonlinear_evolution_function_unconserved_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_evolution_function_unconserved_f" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_hydrodynamic_evolution_function_f">
+<span class="sig-name descname"><span class="pre">calc_nonlinear_hydrodynamic_evolution_function_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_hydrodynamic_evolution_function_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the hydrodynamic evolution function of the PFC.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>field: The field to calculate the evolution function of.
+t: The time.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The nonlinear evolution function for the hydrodynamic PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_omega_hydrodynamic_f">
+<span class="sig-name descname"><span class="pre">calc_omega_hydrodynamic_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_omega_hydrodynamic_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the hydrodynamic evolution function omega_f.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The hydrodynamic evolution function omega_f.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_orientation_field">
+<span class="sig-name descname"><span class="pre">calc_orientation_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_orientation_field" title="Link to this definition"></a></dt>
+<dd><p>Calculates the orientation field of the phase-field crystal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>An orientation field, which is a vector field specifying the orientation of the crystal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_strain_tensor">
+<span class="sig-name descname"><span class="pre">calc_strain_tensor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_strain_tensor" title="Link to this definition"></a></dt>
+<dd><p>Calculates the strain of the phase-field crystal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The strain tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_strained_amplitudes">
+<span class="sig-name descname"><span class="pre">calc_strained_amplitudes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_strained_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Straines the PFC to equilibrium and returns the amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The amplitudes of the strained PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_divergence_f">
+<span class="sig-name descname"><span class="pre">calc_stress_divergence_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_divergence_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the divergence of the stress tensor in Fourier space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>field_f: The field in Fourier space.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The divergence of the stress tensor in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_tensor">
+<span class="sig-name descname"><span class="pre">calc_stress_tensor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_tensor" title="Link to this definition"></a></dt>
+<dd><p>Calculates the stress of the phase-field crystal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The stress tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_tensor_microscopic">
+<span class="sig-name descname"><span class="pre">calc_stress_tensor_microscopic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_tensor_microscopic" title="Link to this definition"></a></dt>
+<dd><p>Calculates the microscopic stress of the phase-field crystal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The microscopic stress of the phase-field crystal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_structure_tensor">
+<span class="sig-name descname"><span class="pre">calc_structure_tensor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_structure_tensor" title="Link to this definition"></a></dt>
+<dd><p>Calculates the structure tensor of the phase-field crystal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The structure tensor.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_structure_tensor_f">
+<span class="sig-name descname"><span class="pre">calc_structure_tensor_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_structure_tensor_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the structure tensor of the phase-field crystal in Fourier space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The structure tensor in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_PFC_from_amplitudes">
+<span class="sig-name descname"><span class="pre">conf_PFC_from_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_PFC_from_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Configures the PFC from the amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>eta: The amplitudes to configure the PFC from.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Configures self.psi and self.psi_f.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_advect_PFC">
+<span class="sig-name descname"><span class="pre">conf_advect_PFC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_advect_PFC" title="Link to this definition"></a></dt>
+<dd><p>Advects the PFC according to the displacement field u.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>u: The displacement field to advect the PFC with.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None, but updates the PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_apply_distortion">
+<span class="sig-name descname"><span class="pre">conf_apply_distortion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distortion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_q_and_a_vectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_apply_distortion" title="Link to this definition"></a></dt>
+<dd><p>Applies a distortion to the PFC.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>distortion: The distortion to apply to the PFC.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None, but updates the PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_create_polycrystal">
+<span class="sig-name descname"><span class="pre">conf_create_polycrystal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_create_polycrystal" title="Link to this definition"></a></dt>
+<dd><p>Creates a polycrystal.</p>
+<dl>
+<dt>Args:</dt><dd><p>type: The type of polycrystal to create.
+kwargs: Additional arguments for the polycrystal creation. Including:</p>
+<blockquote>
+<div><p>relaxation_time: The relaxation time to use for the polycrystal creation.</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><p>None, but updates the PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_strain_to_equilibrium">
+<span class="sig-name descname"><span class="pre">conf_strain_to_equilibrium</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_strain_to_equilibrium" title="Link to this definition"></a></dt>
+<dd><p>Configures 
+Strains the pfc to equilibrium by adjusting the position variables and k-space variables.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>None, configures the PFC.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC">
+<span class="sig-name descname"><span class="pre">evolve_PFC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD2RK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suppress_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC" title="Link to this definition"></a></dt>
+<dd><p>Evolves the PFC according to classical PFC dynamics.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>number_of_steps: The number of steps to evolve the PFC.
+method: The method to use for the evolution (default: ETD2RK).</p>
+</dd>
+<dt>Returns:</dt><dd><p>Updates self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC_hydrodynamic">
+<span class="sig-name descname"><span class="pre">evolve_PFC_hydrodynamic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD2RK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma_S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.015625</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.015625</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC_hydrodynamic" title="Link to this definition"></a></dt>
+<dd><p>Evolves the PFC according to hydrodynamic PFC dynamics.</p>
+<p>This requires introducing a velocity field. 
+If psi does not contain this field, it is added to the components psi[1],psi[2],psi[3].</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>number_of_steps: The number of steps to evolve the PFC.
+method: The method to use for the evolution (default: ETD2RK).
+gamma_S: The surface tension coefficient.
+rho0: The mass density.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Updates self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC_mechanical_equilibrium">
+<span class="sig-name descname"><span class="pre">evolve_PFC_mechanical_equilibrium</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Delta_t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD2RK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC_mechanical_equilibrium" title="Link to this definition"></a></dt>
+<dd><p>Evolves the PFC in mechanical equilibrium.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>number_of_steps: The number of steps to evolve the PFC
+Delta_t: The time step for the mechanical equilibrium evolution
+method: The method to use for the evolution</p>
+</dd>
+<dt>Returns:</dt><dd><p>Updates self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_PFC">
+<span class="sig-name descname"><span class="pre">plot_PFC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_PFC" title="Link to this definition"></a></dt>
+<dd><p>Plots the PFC</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a> for a full list of keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>ax, fig: The axes and figure containing the plot.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_field">
+<span class="sig-name descname"><span class="pre">plot_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_field" title="Link to this definition"></a></dt>
+<dd><p>Plots the PFC</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>field: The field to plot.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a> for a full list of keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>ax, fig: The axes and figure containing the plot.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_orientation_field">
+<span class="sig-name descname"><span class="pre">plot_orientation_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orientation_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_orientation_field" title="Link to this definition"></a></dt>
+<dd><p>Plots the orientation field of the phase-field crystal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>orientation_field: The orientation field to plot.
+<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a> for a full list of keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The axes containing the plot.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.phase_field_crystal.phase_field_crystal_1d_periodic">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.phase_field_crystal.phase_field_crystal_1d_periodic.</span></span><span class="sig-name descname"><span class="pre">PhaseFieldCrystal1DPeriodic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal" title="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhaseFieldCrystal</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_L_f">
+<span class="sig-name descname"><span class="pre">calc_L_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_L_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the L operator in Fourier space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_free_energy_from_proto_amplitudes">
+<span class="sig-name descname"><span class="pre">calc_free_energy_from_proto_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_free_energy_from_proto_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the free energy of the system from the proto-amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi0: The average value of psi.
+A: The proto-amplitude.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The free energy of the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_omega_f">
+<span class="sig-name descname"><span class="pre">calc_omega_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_omega_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the free energy of the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The free energy of the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_proto_amplitudes_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitudes_conserved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_proto_amplitudes_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the proto-amplitudes for the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.phase_field_crystal.phase_field_crystal_2d_square">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.phase_field_crystal.phase_field_crystal_2d_square.</span></span><span class="sig-name descname"><span class="pre">PhaseFieldCrystal2DSquare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal" title="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhaseFieldCrystal</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_L_f">
+<span class="sig-name descname"><span class="pre">calc_L_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_L_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the L operator in Fourier space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_L_sum_f">
+<span class="sig-name descname"><span class="pre">calc_L_sum_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_L_sum_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The sum of the L operators in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_free_energy_from_proto_amplitudes">
+<span class="sig-name descname"><span class="pre">calc_free_energy_from_proto_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_free_energy_from_proto_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the free energy of the system from the proto-amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi0: The average value of psi.
+A: The proto-amplitude.
+B: The proto-amplitude.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The free energy of the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_proto_amplitude_equations_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitude_equations_conserved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_proto_amplitude_equations_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>vars: The proto-amplitudes for the system.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The equations for the proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_proto_amplitudes_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitudes_conserved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_proto_amplitudes_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the proto-amplitudes for the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.phase_field_crystal.phase_field_crystal_2d_triangular">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.phase_field_crystal.phase_field_crystal_2d_triangular.</span></span><span class="sig-name descname"><span class="pre">PhaseFieldCrystal2DTriangular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal" title="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhaseFieldCrystal</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_L_f">
+<span class="sig-name descname"><span class="pre">calc_L_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_L_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the L operator in Fourier space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_L_sum_f">
+<span class="sig-name descname"><span class="pre">calc_L_sum_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_L_sum_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_free_energy_from_proto_amplitudes">
+<span class="sig-name descname"><span class="pre">calc_free_energy_from_proto_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_free_energy_from_proto_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the free energy of the system from the proto-amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi0: The average value of psi.
+A: The proto-amplitude.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The free energy of the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitude_equations_unconserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitude_equations_unconserved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitude_equations_unconserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>vars: The proto-amplitudes for the system.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The equations for the proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitudes_conserved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the proto-amplitudes for the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_unconserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitudes_unconserved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_unconserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the proto-amplitudes for the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.</span></span><span class="sig-name descname"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal" title="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhaseFieldCrystal</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_L_f">
+<span class="sig-name descname"><span class="pre">calc_L_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_L_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the L operator in Fourier space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_L_sum_f">
+<span class="sig-name descname"><span class="pre">calc_L_sum_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_L_sum_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_free_energy_from_proto_amplitudes">
+<span class="sig-name descname"><span class="pre">calc_free_energy_from_proto_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_free_energy_from_proto_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the free energy of the phase-field crystal from the proto amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi0: The average value of psi.
+A: The proto-amplitude.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The free energy of the phase-field crystal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_proto_amplitudes_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitudes_conserved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_proto_amplitudes_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the proto-amplitudes for the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.</span></span><span class="sig-name descname"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal" title="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhaseFieldCrystal</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_L_f">
+<span class="sig-name descname"><span class="pre">calc_L_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_L_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the L operator in Fourier space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_L_sum_f">
+<span class="sig-name descname"><span class="pre">calc_L_sum_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_L_sum_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_free_energy_from_proto_amplitudes">
+<span class="sig-name descname"><span class="pre">calc_free_energy_from_proto_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_free_energy_from_proto_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the free energy of the system from the proto-amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi0: The average value of psi.
+A: The proto-amplitude.
+B: The proto-amplitude.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The free energy of the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitude_equations_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitude_equations_conserved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitude_equations_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>vars: The proto-amplitudes for the system.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The equations for the proto-amplitudes for the system in the case of conserved dynamics.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitudes_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitudes_conserved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitudes_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the proto-amplitudes for the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.</span></span><span class="sig-name descname"><span class="pre">PhaseFieldCrystal3DSimpleCubic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal" title="comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhaseFieldCrystal</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_L_f">
+<span class="sig-name descname"><span class="pre">calc_L_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_L_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the L operator in Fourier space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_L_sum_f">
+<span class="sig-name descname"><span class="pre">calc_L_sum_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_L_sum_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The L operator in Fourier space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_free_energy_from_proto_amplitudes">
+<span class="sig-name descname"><span class="pre">calc_free_energy_from_proto_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_free_energy_from_proto_amplitudes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the free energy of the system from the proto-amplitudes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi0: The value of psi0.
+A: The value of A.
+B: The value of B.
+C: The value of C.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The free energy of the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitude_equations_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitude_equations_conserved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitude_equations_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>vars: The proto-amplitudes for the system.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The equations for the proto-amplitudes for the system in the case of conserved dynamics.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitudes_conserved">
+<span class="sig-name descname"><span class="pre">calc_proto_amplitudes_conserved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitudes_conserved" title="Link to this definition"></a></dt>
+<dd><p>Calculates the proto-amplitudes for the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The proto-amplitudes for the system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../nematic_liquid_crystal/index.html" class="btn btn-neutral float-left" title="Class: Nematic Liquid Crystal" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vidar Skogvoll and Jonas Rønning.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
