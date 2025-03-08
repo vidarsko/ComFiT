@@ -11,15 +11,17 @@ def plot_angle_field_matplotlib(self,
        angle_field: np.ndarray, 
         **kwargs
         ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
-    """
-    Plot the angle field.
+    """Plot the angle field.
+
+    A description.
 
     Args:
+        - self (Comfit): a Comfit instance.
         - field (array-like): The angle field values.
-        - ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
+        - **kwargs: Additional arguments to pass to the plot_field_matplotlib function.
     
     Returns:
-        tuple: A tuple containing:
+        - tuple: A tuple containing:
             - matplotlib.figure.Figure: The figure containing the plot.
             - matplotlib.axes.Axes: The axes containing the plot.
     """
