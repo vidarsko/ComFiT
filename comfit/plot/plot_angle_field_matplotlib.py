@@ -13,6 +13,7 @@ from comfit.plot import plot_field_matplotlib, plot_complex_field_matplotlib
 from comfit.tool import tool_complete_field
 
 def plot_angle_field_matplotlib(
+        self: 'BaseSystem',
         angle_field: np.ndarray,
         **kwargs: Any
         ) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:

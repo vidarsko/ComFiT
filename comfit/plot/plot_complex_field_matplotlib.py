@@ -19,7 +19,7 @@ from comfit.tool import (
     tool_matplotlib_define_2D_plot_ax,
     tool_matplotlib_define_3D_plot_ax
 )
-from comfit.plot import plot_surface_matplotlib
+from .plot_surface_matplotlib import plot_surface_matplotlib
 
 def plot_complex_field_matplotlib(
         self: 'BaseSystem',
