@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Tuple
+from typing import TYPE_CHECKING, Any, Tuple, Union, List
 
 if TYPE_CHECKING:
     from comfit.core.base_system import BaseSystem
@@ -22,13 +22,15 @@ from comfit.tool import (
 
 def plot_vector_field_matplotlib(
         self: 'BaseSystem',
-        vector_field: np.ndarray,
+        vector_field: Union[np.ndarray, List],
         **kwargs: Any
         ) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
-    """Plot a vector field using matplotlib.
+    """Plot the vector field using matplotlib.
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     vector_field : np.ndarray
         Array containing the components of the vector field
     \*\*kwargs : Any

@@ -20,6 +20,8 @@ def plot_angle_field_plotly(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     angle_field : np.ndarray
         The angle field values to plot.
     \*\*kwargs : Any

@@ -30,6 +30,8 @@ def plot_field_plotly(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     field : np.ndarray
         The field to be plotted.
     \*\*kwargs : Any

@@ -16,6 +16,8 @@ def plot_surface_matplotlib(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     \*\*kwargs : Any
         field : ndarray
             3D array containing the field values

@@ -37,6 +37,8 @@ def plot_vector_field_in_plane_both_plot_libs(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     vector_field : np.ndarray
         The vector field to plot. Shape must be (1,xRes,yRes,zRes), 
         (2,xRes,yRes,zRes), or (3,xRes,yRes,zRes).

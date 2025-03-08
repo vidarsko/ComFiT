@@ -34,6 +34,8 @@ def plot_field_matplotlib(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     field : np.ndarray
         The field to be plotted.
     \*\*kwargs : Any

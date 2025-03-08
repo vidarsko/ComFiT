@@ -36,6 +36,8 @@ def plot_complex_field_plotly(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     complex_field : np.ndarray
         The complex field to plot
     \*\*kwargs : Any

@@ -29,6 +29,8 @@ def plot_complex_field_in_plane_matplotlib(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     complex_field : np.ndarray
         The complex field to be plotted.
     normal_vector : np.ndarray, optional

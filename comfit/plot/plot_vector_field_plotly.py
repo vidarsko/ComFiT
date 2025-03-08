@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Tuple
+from typing import TYPE_CHECKING, Any, Tuple, Union, List
 
 if TYPE_CHECKING:
     from comfit.core.base_system import BaseSystem
@@ -23,13 +23,15 @@ from comfit.tool import (
 
 def plot_vector_field_plotly(
     self: 'BaseSystem',
-    vector_field: np.ndarray,
+    vector_field: Union[np.ndarray, List],
     **kwargs: Any
 ) -> Tuple[go.Figure, dict]:
-    """Plot a vector field using Plotly.
+    """Plot the vector field using Plotly.
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     vector_field : np.ndarray
         Array containing the vector field components. Shape depends on dimensionality.
     \*\*kwargs : Any

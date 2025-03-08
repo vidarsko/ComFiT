@@ -24,6 +24,8 @@ def plot_nodes_plotly(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     nodes : List[Dict]
         A list of dictionaries representing nodes. Each dictionary must contain:
             - 'position': The position of the node in the defect density array

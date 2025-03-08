@@ -23,6 +23,8 @@ def plot_nodes_matplotlib(
 
     Parameters
     ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
     nodes : List[Dict]
         List of node dictionaries containing position and property information
     \*\*kwargs : Any
