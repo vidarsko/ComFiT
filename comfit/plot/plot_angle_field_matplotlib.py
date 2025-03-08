@@ -11,7 +11,8 @@ def plot_angle_field_matplotlib(self,
        angle_field: np.ndarray, 
         **kwargs
         ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
-    """Plot the angle field.
+    """
+    Plot the angle field.
 
     Args:
         - field (array-like): The angle field values.
