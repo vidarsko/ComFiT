@@ -41,7 +41,7 @@ for i in range(200):
 
     #bec.plot_angle_field(theta)
 
-    cf.tool_zoom_plot(2)
+    cf.tool_zoom_plot_matplotlib(2)
     cf.tool_save_plot_matplotlib(i)
 
     #plt.draw()

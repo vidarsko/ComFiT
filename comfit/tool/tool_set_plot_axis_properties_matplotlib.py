@@ -1,18 +1,27 @@
+from typing import Union, TYPE_CHECKING, Any
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# General packages
 import matplotlib.pyplot as plt
 import numpy as np
-
 import matplotlib 
 import mpl_toolkits
 
-from typing import Union
+def tool_set_plot_axis_properties_matplotlib(
+        self : 'BaseSystem', 
+        **kwargs : Any
+        ) -> matplotlib.axes.Axes:
+    """Set the properties of the axis for a plot.
 
-def tool_set_plot_axis_properties_matplotlib(self, **kwargs) -> matplotlib.axes.Axes:
-    """Sets the properties of the axis for a plot.
-    
-    Args:
-        kwargs: keyword arguments for the axis properties
+    Parameters
+    ----------
+    kwargs : dict
+        Keyword arguments for the axis properties.
 
-    Returns:
+    Returns
+    -------
+    matplotlib.axes.Axes
         The axis object with the properties set.
     """
 

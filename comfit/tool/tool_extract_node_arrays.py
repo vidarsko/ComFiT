@@ -1,13 +1,30 @@
+from typing import TYPE_CHECKING, List, Dict, Any
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
 
 
-def tool_extract_node_arrays(cfi, nodes):
-    """Extracts node arrays from a dictionary of nodes. 
+def tool_extract_node_arrays(
+        self : 'BaseSystem', 
+        nodes : List[Dict]
+        ) -> Dict[str, Any]:
+    """Extracts node arrays from a dictionary of nodes.
 
-    Args:
-        cfi: Comfit instance.
-    
-    Returns:
-        A dictionary of node arrays.
+    Parameters
+    ----------
+    self : 'BaseSystem'
+        A BaseSystem (or derived) instance.
+    nodes : List[Dict]
+        List of node dictionaries containing position and other properties
+
+    Returns
+    -------
+    Dict[str, Any]
+        Dictionary containing arrays of node properties including:
+        - coordinates (x,y,z)
+        - velocity components if present
+        - charge-separated coordinates if charges present
+        - Burgers vector components if present
+        - tangent vector components if present
     """
 
     node_arrays = {}

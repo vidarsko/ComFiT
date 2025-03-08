@@ -24,7 +24,7 @@ from .plot import plot_field_plotly, plot_field_matplotlib, \
 
 from .tool import tool_colormap, \
     tool_make_animation_movie, tool_make_animation_gif, \
-    tool_export_rotating_plot, tool_zoom_plot, tool_multinom, \
+    tool_zoom_plot_matplotlib, tool_multinom, \
     tool_set_plot_axis_properties_matplotlib, tool_set_plot_axis_properties_plotly, \
     tool_complete_field, tool_add_spacing_2D, tool_add_spacing_3D, \
     tool_print_in_color, \

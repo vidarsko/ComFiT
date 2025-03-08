@@ -1,6 +1,8 @@
 Tool Functions
 ==============
 
+Auxiliary functions for the manipulation of data and plots.
+
 .. toctree::
    :maxdepth: 1
 
@@ -14,7 +16,7 @@ Tool Functions
     :undoc-members:
     :show-inheritance:
 
-.. automodule:: comfit.tool.tool_animation
+.. automodule:: comfit.tool.tool_make_animation
     :members:
     :undoc-members:
     :show-inheritance:
@@ -39,22 +41,7 @@ Tool Functions
     :undoc-members:
     :show-inheritance:
 
-.. automodule:: comfit.tool.tool_export_plot_functions
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: comfit.tool.tool_extend_field
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 .. automodule:: comfit.tool.tool_extract_node_arrays
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: comfit.tool.tool_extract_plot_data
     :members:
     :undoc-members:
     :show-inheritance:

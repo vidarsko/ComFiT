@@ -1,7 +1,13 @@
+from typing import Optional, Union
 
+# General packages
 from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
 
-def tool_matplotlib_define_3D_plot_ax(fig,ax):
+def tool_matplotlib_define_3D_plot_ax(
+        fig : plt,
+        ax : Optional[Union[Axes3D, plt.Axes]] = None
+        ) -> Axes3D:
     """
     Defines the axes for a 3D plot in matplotlib.
     

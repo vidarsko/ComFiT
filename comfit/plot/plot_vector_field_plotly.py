@@ -22,10 +22,10 @@ from comfit.tool import (
 )
 
 def plot_vector_field_plotly(
-    self: 'BaseSystem',
-    vector_field: Union[np.ndarray, List],
-    **kwargs: Any
-) -> Tuple[go.Figure, dict]:
+        self: 'BaseSystem',
+        vector_field: Union[np.ndarray, List],
+        **kwargs: Any
+        ) -> Tuple[go.Figure, dict]:
     """Plot the vector field using Plotly.
 
     Parameters
@@ -35,8 +35,7 @@ def plot_vector_field_plotly(
     vector_field : np.ndarray
         Array containing the vector field components. Shape depends on dimensionality.
     \*\*kwargs : Any
-        spacing : int, optional
-            The spacing for the quiver plot. Defaults to max(self.xRes//20, 1).
+        spacing : int, optional. The spacing for the quiver plot. Defaults to max(self.xRes//20, 1).
         Additional keyword arguments for plot customization, see https://comfitlib.com/Plotting/
 
     Returns
@@ -49,7 +48,7 @@ def plot_vector_field_plotly(
     Exception
         If an invalid field is provided to the plot_vector_field function.
     """
-    
+
     spacing = kwargs.get('spacing', max(self.xRes//20,1))
 
     vector_field, fig, ax, kwargs = self.plot_prepare(vector_field, field_type = 'vector', **kwargs)

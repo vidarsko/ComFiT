@@ -1,6 +1,5 @@
 from .tool_colormap import tool_colormap
-from .tool_export_plot_functions import tool_export_rotating_plot
-from .tool_plot_manipulation_functions import tool_zoom_plot
+from .tool_plot_manipulation_functions import tool_zoom_plot_matplotlib
 from .tool_math_functions import tool_multinom
 
 from .tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
@@ -14,7 +13,7 @@ from .tool_add_spacing_3D import tool_add_spacing_3D
 from .tool_print_in_color import tool_print_in_color
 from .tool_configure_axis import tool_configure_axis
 
-from .tool_animation import tool_make_animation_movie, tool_make_animation_gif
+from .tool_make_animation import tool_make_animation_movie, tool_make_animation_gif
 
 from .tool_plotly_colorbar import tool_plotly_colorbar
 

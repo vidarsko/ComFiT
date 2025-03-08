@@ -34,9 +34,8 @@ def plot_vector_field_matplotlib(
     vector_field : np.ndarray
         Array containing the components of the vector field
     \*\*kwargs : Any
-        spacing : int, optional
-            The spacing for the quiver plot. Defaults to self.xRes//20
-        Additional keyword arguments for plot customization, 
+        spacing : int, optional. The spacing for the quiver plot which defaults 
+        to self.xRes//20. Additional keyword arguments for plot customization, 
         see https://comfitlib.com/Plotting/
 
     Returns
@@ -49,6 +48,7 @@ def plot_vector_field_matplotlib(
     Exception
         If an invalid field is provided to the plot_vector_field function
     """
+
     spacing = kwargs.get('spacing', max(self.xRes//20,1))
 
     vector_field, fig, ax, kwargs = self.plot_prepare(vector_field, field_type = 'vector', **kwargs)
