@@ -1,38 +1,51 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
+from typing import TYPE_CHECKING, Any
 
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# Standard library imports
 from typing import Union
 
-from comfit.tool import tool_complete_field
-from comfit.tool import tool_set_plot_axis_properties_matplotlib
-from comfit.tool import tool_set_plot_axis_properties_plotly
-
-from comfit.tool import tool_colormap
-from comfit.tool import tool_matplotlib_define_2D_plot_ax
-from comfit.tool import tool_matplotlib_define_3D_plot_ax
-
-from comfit.plot.plot_surface_matplotlib import plot_surface_matplotlib
-
+# Third-party library imports
+import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib
 from mpl_toolkits.mplot3d import Axes3D
+import plotly.graph_objects as go
 
-def plot_field_matplotlib(self, 
-        field: np.ndarray, 
-        **kwargs
+# Local application imports
+from comfit.tool import (
+    tool_complete_field,
+    tool_set_plot_axis_properties_matplotlib,
+    tool_set_plot_axis_properties_plotly,
+    tool_colormap,
+    tool_matplotlib_define_2D_plot_ax,
+    tool_matplotlib_define_3D_plot_ax
+)
+
+from comfit.plot import plot_surface_matplotlib
+
+def plot_field_matplotlib(
+        self: 'BaseSystem',
+        field: np.ndarray,
+        **kwargs: Any
         ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
-    """Plots the given (real) field.
-    
-    Args:
-        field (array-like): The field to be plotted.
-        **kwargs: Keyword arguments for the plot.
-            See https://comfitlib.com/ClassBaseSystem/ 
-            for a full list of keyword arguments.
-    
-    Returns:
-        tuple: A tuple containing:
-            - matplotlib.figure.Figure: The figure containing the plot.
-            - matplotlib.axes.Axes: The axes containing the plot
+    """Plot the given (real) field.
+
+    Parameters
+    ----------
+    field : np.ndarray
+        The field to be plotted.
+    \*\*kwargs : Any
+        Keyword arguments for the plot.
+        See https://comfitlib.com/ClassBaseSystem/ 
+        for a full list of keyword arguments.
+
+    Returns
+    -------
+    tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]
+        - The figure containing the plot
+        - The axes containing the plot
     """
 
     field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)

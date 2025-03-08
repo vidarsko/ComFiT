@@ -1,20 +1,39 @@
+from typing import TYPE_CHECKING, Any, Dict, List, Tuple
+
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
 import numpy as np
 import matplotlib.pyplot as plt
-from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
-from comfit.tool import tool_extract_node_arrays
 
+from comfit.tool import (
+    tool_set_plot_axis_properties_matplotlib,
+    tool_extract_node_arrays
+)
 
-def plot_nodes_matplotlib(self, nodes, **kwargs):
+def plot_nodes_matplotlib(
+        self: 'BaseSystem',
+        nodes: List[Dict],
+        **kwargs: Any
+        ) -> Tuple[plt.Figure, plt.Axes]:
+    """Plot the nodes of the system.
+
+    Create a matplotlib plot of the nodes in the system, including their positions,
+    charges, velocities and Burgers vectors if available.
+
+    Parameters
+    ----------
+    nodes : List[Dict]
+        List of node dictionaries containing position and property information
+    \*\*kwargs : Any
+        Keyword arguments for customizing the plot. See 
+        https://comfitlib.com/ClassBaseSystem/ for full list.
+
+    Returns
+    -------
+    Tuple[plt.Figure, plt.Axes]
+        The figure and axes objects containing the plot
     """
-    Plots the nodes.
-
-    Args:
-        nodes: The nodes to plot.
-        **kwargs: Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.  
-            
-    Returns: 
-        The axes containing the plot. (matplotlib.axes.Axes)
-    """    
 
     # Check if an axis object is provided
     fig = kwargs.get('fig', plt.gcf())

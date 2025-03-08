@@ -1,16 +1,37 @@
-import matplotlib
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
 import numpy as np
 from skimage.measure import marching_cubes
 
-def plot_surface_matplotlib(self, **kwargs) -> matplotlib.axes.Axes:
-    """Plots the surface of the given field.
+def plot_surface_matplotlib(
+        self: 'BaseSystem',
+        **kwargs: Any
+        ) -> Axes:
+    """Plot the surface of the given field.
 
-    Args:
-        **kwargs: Keyword arguments for the plot.
-    
-    Returns:
-        The axes containing the plot.
+    Parameters
+    ----------
+    \*\*kwargs : Any
+        field : ndarray
+            3D array containing the field values
+        value : float
+            Isosurface value
+        ax : matplotlib.axes.Axes, optional
+            Axes to plot on. Defaults to current axes.
+        alpha : float, optional
+            Transparency value. Defaults to 0.5.
+        color : str, optional
+            Surface color. Defaults to 'b'.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+        The axes containing the surface plot.
     """
     field = kwargs['field']
     value = kwargs['value']

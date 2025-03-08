@@ -4,11 +4,6 @@ Tool Functions
 .. toctree::
    :maxdepth: 1
 
-.. automodule:: comfit.tool.tool_add_plotly_angle_colorbar_3D
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 .. automodule:: comfit.tool.tool_add_spacing_2D
     :members:
     :undoc-members:

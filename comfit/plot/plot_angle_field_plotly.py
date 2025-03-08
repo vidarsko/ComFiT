@@ -1,17 +1,34 @@
+# Typing imports
+from typing import TYPE_CHECKING, Any, Tuple, Dict
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# General packages
 import numpy as np
+import plotly.graph_objects as go
+
+# Comfit packages
 from comfit.tool import tool_complete_field
 from comfit.plot import plot_field_plotly, plot_complex_field_plotly
 
-def plot_angle_field_plotly(self, angle_field: np.ndarray, **kwargs):
-    """
-    Plot the angle field.
+def plot_angle_field_plotly(
+        self: 'BaseSystem',
+        angle_field: np.ndarray,
+        **kwargs: Any
+        ) -> Tuple[go.Figure, dict]:
+    """Plot the angle field using plotly.
 
-    Args:
-        field (array-like): The angle field values.
-        ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
-    
-    Returns:
-        The axes containing the plot. (matplotlib.axes.Axes)
+    Parameters
+    ----------
+    angle_field : np.ndarray
+        The angle field values to plot.
+    \*\*kwargs : Any
+        Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
+
+    Returns
+    -------
+    Any
+        The plotly figure object.
     """
 
     # Normalize around 0

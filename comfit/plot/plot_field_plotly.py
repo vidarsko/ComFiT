@@ -1,30 +1,45 @@
+from typing import Dict, Tuple, TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# Standard library imports
 import numpy as np
+    
+# Third-party library imports
 import plotly.graph_objects as go
 
-from typing import Union
+# Local application imports
+from comfit.tool import (
+    tool_complete_field,
+    tool_set_plot_axis_properties_matplotlib,
+    tool_set_plot_axis_properties_plotly,
+    tool_colormap,
+    tool_plotly_find_next_xN,
+    tool_plotly_define_2D_plot_ax,
+    tool_plotly_define_3D_plot_ax,
+    tool_plotly_colorbar
+)
 
-from comfit.tool import tool_complete_field
-from comfit.tool import tool_set_plot_axis_properties_matplotlib
-from comfit.tool import tool_set_plot_axis_properties_plotly
-    
-from comfit.tool import tool_colormap
-from comfit.tool import tool_plotly_find_next_xN
-from comfit.tool import tool_plotly_define_2D_plot_ax
-from comfit.tool import tool_plotly_define_3D_plot_ax
+def plot_field_plotly(
+    self: 'BaseSystem',
+    field: np.ndarray,
+    **kwargs: Any
+) -> Tuple[go.Figure, Dict]:
+    """Plot the given (real) field using Plotly.
 
-from comfit.tool import tool_plotly_colorbar
+    Parameters
+    ----------
+    field : np.ndarray
+        The field to be plotted.
+    \*\*kwargs : Any
+        Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ 
+        for a full list of keyword arguments.
 
-def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
-    """Plots the given (real) field.
-    
-    Args:
-        field (array-like): The field to be plotted.
-        **kwargs: Keyword arguments for the plot.
-            See https://comfitlib.com/ClassBaseSystem/ 
-            for a full list of keyword arguments.
-    
-    Returns:
-        The figure containing the plot (plotly.graph_objects.Figure).
+    Returns
+    -------
+    Tuple[go.Figure, Dict]
+        A tuple containing the Plotly figure and axes dictionary.
     """
 
     field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)

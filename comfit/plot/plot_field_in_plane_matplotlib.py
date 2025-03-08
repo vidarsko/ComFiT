@@ -1,40 +1,55 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional, Any, Tuple
+
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
 
 import numpy as np
-import matplotlib
 import matplotlib.pyplot as plt
 import scipy as sp
 from skimage.measure import marching_cubes
-
-from comfit.tool.tool_complete_field import tool_complete_field
-from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_axis_properties_matplotlib
-from comfit.tool.tool_colormap import tool_colormap
-from comfit.tool import tool_matplotlib_define_3D_plot_ax
-
 from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.figure
+import matplotlib.axes
+
+from comfit.tool import (
+    tool_complete_field,
+    tool_set_plot_axis_properties_matplotlib,
+    tool_colormap,
+    tool_matplotlib_define_3D_plot_ax
+)
 
 def plot_field_in_plane_matplotlib(
-        self,
+        self: 'BaseSystem',
         field: np.ndarray,
         normal_vector: Optional[np.ndarray] = None,
         position: Optional[np.ndarray] = None,
-        **kwargs
-    ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
-    
-    """Plots the field in a plane perpendicular to the given normal vector
-    
-    Uses scipy.interpolate.griddata and plt.plot_trisurf.
+        **kwargs: Any
+    ) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
+    """Plot the field in a plane perpendicular to the given normal vector.
 
-    Args:
-        field (array-like): The field to be plotted.
-        normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
-        position (array-like, optional): The position of the plane. Default is the middle of the system.
-        **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/. 
-    
-    Returns:
-        tuple: A tuple containing:
-            - matplotlib.figure.Figure: The figure containing the plot.
-            - matplotlib.axes.Axes: The axes containing the plot
+    Uses scipy.interpolate.griddata and plt.plot_trisurf to visualize the field
+    values on a plane defined by its normal vector and a point in space.
+
+    Parameters
+    ----------
+    field : np.ndarray
+        The field to be plotted.
+    normal_vector : np.ndarray, optional
+        The normal vector of the plane. Defaults to [0,1,0].
+    position : np.ndarray, optional
+        The position of the plane. Defaults to the middle of the system.
+    \*\*kwargs : Any
+        Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
+
+    Returns
+    -------
+    Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]
+        The figure and axes containing the plot.
+
+    Raises
+    ------
+    Exception
+        If the field dimension is not 3D.
     """
 
     # print('\033[93mWarning: The plot_in_plane function is not yet supported with plotly.\033[0m')
