@@ -5,10 +5,9 @@ import plotly.graph_objects as go
 
 
 def plot_subplots_plotly(
-    number_of_rows: int,
-    number_of_columns: int,
-    **kwargs: Any
-) -> Tuple[go.Figure, np.ndarray]:
+        number_of_rows: int,
+        number_of_columns: int
+        ) -> Tuple[go.Figure, Dict[str, Any]]:
     """Create a plotly figure with subplots.
 
     Parameters
@@ -17,12 +16,10 @@ def plot_subplots_plotly(
         Number of rows in the subplot grid.
     number_of_columns : int
         Number of columns in the subplot grid.
-    \*\*kwargs : Any
-        Additional keyword arguments.
 
     Returns
     -------
-    Tuple[go.Figure, np.ndarray]
+    Tuple[go.Figure, Dict[str, Any]]
         A tuple containing the Plotly figure and axes dictionary.
     """
     fig = go.Figure()

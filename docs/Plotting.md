@@ -1,5 +1,15 @@
 # Plotting
 
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/plot/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
 The `ComFiT` package supports both the `plotly` (default) and `matplotlib` plotting libraries. 
 You can easily switch between the two by setting the `plot_lib` attribute of the `BaseSystem` class to either `plotly` or `matplotlib`.
 Every plotting function returns a tuple containing a `fig` and an `ax` object.

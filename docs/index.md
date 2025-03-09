@@ -197,6 +197,16 @@ Below is a prepromt you can use with a language model to help you get started.
     calc_orientation_field, calc_free_energy
     ```
 
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
 ## Tutorials
 
 The best way to get to know ComFiT is by using it in one of the following tutorials.

@@ -2,6 +2,16 @@
 
 This class simply initiates a system, defines the grid and contains the basic functionality for evolving in time.
 
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/core/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
 ## Types of functions
 
 There are five different types of functions:

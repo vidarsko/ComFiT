@@ -10,8 +10,17 @@ file: comfit/models/quantum_mechanics.py
 class: QuantumMechanics
 ```
 
-For a detailed list of methods and attributes, see the 
-[Library Reference](https://comfitlib.com/library_reference/quantum_mechanics/index.html).
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/quantum_mechanics/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
+
 
 
 ## Example
