@@ -1,6 +1,8 @@
 Class: Phase Field Crystal
 ==========================
 
+Phase Field Crystal model.
+
 .. toctree::
    :maxdepth: 1
 

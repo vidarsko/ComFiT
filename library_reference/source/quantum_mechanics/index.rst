@@ -1,6 +1,8 @@
 Class: Quantum Mechanics
 ========================
 
+Quantum Mechanics model.
+
 .. toctree::
    :maxdepth: 1
 

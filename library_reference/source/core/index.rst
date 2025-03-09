@@ -1,6 +1,10 @@
 Base System
 ===========
 
+The base system is the core of the comfit package. It is the base class for all the
+systems that can be simulated with comfit. It provides the basic structure for the
+simulation and the methods that are common to all systems.
+
 .. toctree::
    :maxdepth: 1
 

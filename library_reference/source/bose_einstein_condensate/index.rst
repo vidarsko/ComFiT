@@ -1,6 +1,8 @@
 Class: Bose Einstein Condensate
 ===============================
 
+Bose Einstein Condensate model. 
+
 .. toctree::
    :maxdepth: 1
 

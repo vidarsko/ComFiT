@@ -12,16 +12,16 @@ ComFiT Library Reference documentation
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    core/index
-   plot/index
-   tool/index
    quantum_mechanics/index
    bose_einstein_condensate/index
    nematic_liquid_crystal/index
    phase_field_crystal/index
+   plot/index
+   tool/index
 
 Indices and tables
 ==================

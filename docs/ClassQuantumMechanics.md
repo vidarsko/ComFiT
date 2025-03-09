@@ -10,6 +10,10 @@ file: comfit/models/quantum_mechanics.py
 class: QuantumMechanics
 ```
 
+For a detailed list of methods and attributes, see the 
+[Library Reference](https://comfitlib.com/library_reference/quantum_mechanics/index.html).
+
+
 ## Example
 
 The following example demonstrates how to set up a 1D quantum system with a Gaussian wave packet and a potential barrier.
@@ -81,25 +85,6 @@ $$
 | Length         | 0.529 Å (Angstrom)  |
 | Energy         | 27.2 eV (electron volts)  |
 | Time           | 24.2 aS (atto seconds)    |
-
-
-## Central methods
-
-`evolve_schrodinger(number_of_steps)`: Evolves the wave function psi of the quantum mechanical system for a specified number of steps.
-
-Parameters:
-`number_of_steps(int)`: The total number of time evolution steps to perform.
-`conf_initial_condition_Gaussian(position, width, initial_velocity)`: Configures the initial condition of the wave function to be a Gaussian.
-
-Parameters:
-`position` (tuple or list): Initial position of the Gaussian peak.
-`width` (float or tuple/list of floats): Width of the Gaussian.
-`initial_velocity` (tuple or list): Initial velocity of the Gaussian.
-
-`conf_wavefunction(psi)`: Explicitly sets the wave function to a specified field.
-
-Parameters:
-`psi (array-like)`: The wave function to set as the initial condition.
 
 
 ## The Born rule

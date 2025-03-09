@@ -1,5 +1,7 @@
-Plot Functions
+Auxiliary Plot Functions
 ==============
+
+Auxiliary functions for plotting fields and nodes.
 
 .. toctree::
    :maxdepth: 1

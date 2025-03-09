@@ -1,4 +1,4 @@
-Tool Functions
+Auxiliary Tool Functions
 ==============
 
 Auxiliary functions for the manipulation of data and plots.

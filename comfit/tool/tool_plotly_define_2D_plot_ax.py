@@ -22,27 +22,19 @@ def tool_plotly_define_2D_plot_ax(
         The Plotly figure object to define axes for.
     ax : Dict[str, Any]
         Dictionary containing axis parameters. May include:
-        - xN : str, optional
-            X-axis identifier (e.g. 'x', 'x2', 'x3')
-        - yN : str, optional
-            Y-axis identifier (e.g. 'y', 'y2', 'y3')
-        - plot_dimension : int, optional
-            Plot dimension, must be 2 for 2D plots
+        xN : str (optional, X-axis identifier, e.g., 'x', 'x2', 'x3'),
+        yN : str (optional, Y-axis identifier, e.g., 'y', 'y2', 'y3'),
+        plot_dimension : int (optional, plot dimension, must be 2 for 2D plots).
     
     Returns
     -------
     Dict[str, Any]
         Updated dictionary containing:
-        - xN : str
-            X-axis identifier
-        - yN : str
-            Y-axis identifier
-        - plot_dimension : int
-            Plot dimension (always 2)
-        - xaxisN : str
-            Full x-axis reference (e.g. 'xaxis', 'xaxis2')
-        - yaxisN : str
-            Full y-axis reference (e.g. 'yaxis', 'yaxis2')
+        xN : str (X-axis identifier),
+        yN : str (Y-axis identifier),
+        plot_dimension : int (Plot dimension, always 2),
+        xaxisN : str (Full x-axis reference, e.g., 'xaxis', 'xaxis2'),
+        yaxisN : str (Full y-axis reference, e.g. 'yaxis', 'yaxis2').
 
     Raises
     ------
