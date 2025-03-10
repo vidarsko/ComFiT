@@ -1,0 +1,19 @@
+
+/* Custom CSS for the equation admonition */
+
+:root {
+    --md-admonition-icon--equation: url(equation.svg) }
+  .md-typeset .admonition.equation,
+  .md-typeset details.equation {
+    border-color: rgb(67,191,254);
+  }
+  .md-typeset .equation > .admonition-title,
+  .md-typeset .equation > summary {
+    background-color: rgba(113,216,252, 0.1);
+  }
+  .md-typeset .equation > .admonition-title::before,
+  .md-typeset .equation > summary::before {
+    background-color: rgb(46,143,215);
+    -webkit-mask-image: var(--md-admonition-icon--equation);
+            mask-image: var(--md-admonition-icon--equation);
+  }
