@@ -81,6 +81,8 @@ def plot_field_plotly(
         if X is None or Y is None:
             X, Y = np.meshgrid(self.x, self.y, indexing='ij')
             
+        opacity = kwargs.get('opacity', 1)
+
         if not kwargs['field_is_nan']:
             # Trace
             trace = go.Heatmap(
@@ -92,6 +94,7 @@ def plot_field_plotly(
                 zsmooth='best',
                 hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
                 name='',
+                opacity=opacity,
                 colorscale=kwargs['colormap_object'],
                 showscale=False,
                 xaxis=ax['xN'],

@@ -16,16 +16,23 @@ class BaseSystemCalc:
         charge: int = 1
     ) -> np.ndarray:
         """Calculate the angle field due to a single vortex.
-
-        Args:
-            position (list, optional): The position of the vortex. Defaults to None.
-            charge (int, optional): The charge of the vortex. Defaults to 1.
         
-        Returns:
-            The angle field calculated for the vortex. numpy.ndarray.
+        Parameters
+        ----------
+        position : list, optional
+            The position of the vortex. Defaults to None.
+        charge : int, optional
+            The charge of the vortex. Defaults to 1.
+        
+        Returns
+        -------
+        numpy.ndarray
+            The angle field calculated for the vortex.
             
-        Raises:
-            Exception: If the dimension of the system is not 2.
+        Raises
+        ------
+        Exception
+            If the dimension of the system is not 2.
         """
         if self.dim != 2:
             raise Exception("The dimension of the system must be 2 for a single point vortex.")
@@ -44,16 +51,22 @@ class BaseSystemCalc:
     ) -> np.ndarray:
         """Calculates the angle field for a double vortex system.
 
-        Args:
-            dipole_vector: The dipole vector. List or tuple. 
-            dipole_position: The position the center of mass of the dipole. 
+        Parameters
+        ----------
+        dipole_vector : list or tuple, optional
+            The dipole vector. If None, defaults to [size_x/3, 0].
+        dipole_position : list, optional
+            The position of the center of mass of the dipole. If None, defaults to the middle of the grid.
             
-        Returns:
-            The calculated angle field for the double vortex system as a numpy array. 
+        Returns
+        -------
+        numpy.ndarray
+            The calculated angle field for the double vortex system.
 
-        Raises:
-            Exception: If the dimension of the system is not 2.
-            
+        Raises
+        ------
+        Exception
+            If the dimension of the system is not 2.
         """
 
         if self.dim != 2:
@@ -93,19 +106,25 @@ class BaseSystemCalc:
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
     def calc_angle_field_vortex_ring(
-        self,
-        position: Optional[list[float]] = None,
-        radius: Optional[float] = None,
-        normal_vector: np.ndarray = [0, 0, 1]
-    ) -> np.ndarray:
-        """Calculates the angle field for a vortex ring.
-
-        Args:
-            position: The position of the vortex ring. 
-            radius: The radius of the vortex ring. 
-            normal_vector: The normal vector of the vortex ring.
-
-        Returns:
+            self,
+            position: Optional[list[float]] = None,
+            radius: Optional[float] = None,
+            normal_vector: np.ndarray = [0, 0, 1]
+            ) -> np.ndarray:
+        """Calculate the angle field for a vortex ring.
+        
+        Parameters
+        ----------
+        position : list, optional
+            The position of the vortex ring. If None, defaults to the middle of the grid.
+        radius : float, optional
+            The radius of the vortex ring. If None, defaults to 1/3 of the minimum system size.
+        normal_vector : numpy.ndarray, optional
+            The normal vector of the vortex ring. Defaults to [0, 0, 1].
+            
+        Returns
+        -------
+        numpy.ndarray
             The calculated angle field for the vortex ring.
         """
         if position is None:
@@ -166,21 +185,29 @@ class BaseSystemCalc:
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
-    def calc_wavenums(self, x: np.ndarray) -> np.ndarray:
+    def calc_wavenums(
+            self, 
+            x: np.ndarray
+            ) -> np.ndarray:
         """Calculates the wavenumbers corresponding to the input position vectors given by x.
 
-        Args:
-            x: 1D array of x-positions.
+        Parameters
+        ----------
+        x : numpy.ndarray
+            1D array of x-positions.
 
-        Returns:
+        Returns
+        -------
+        numpy.ndarray
             1D array of wavenumbers with all the modes for the given x-array,
-            assuming periodicity from x[0] to x[0] over n intervals. numpy array.
+            assuming periodicity from x[0] to x[0] over n intervals.
 
-        Example:
-            x = np.array([-10, -5, 0, 5, 10])
-            k = instance_of_BaseSystem.calc_wavenums(self,x)
-            print(k)
-            # Returns: [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
+        Examples
+        --------
+        >>> x = np.array([-10, -5, 0, 5, 10])
+        >>> k = instance_of_BaseSystem.calc_wavenums(self, x)
+        >>> print(k)
+        [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]
         """
         n = len(x)
 
@@ -194,17 +221,40 @@ class BaseSystemCalc:
         return k
 
     def calc_k2(self):
-        """ Calculates the squared wavenumber.
-
-        Args:
-            None.
-
-        Returns:
-            The squared wavenumber. numpy.ndarray.
+        """Calculates the squared wavenumber.
+        
+        Parameters
+        ----------
+        None
+            
+        Returns
+        -------
+        numpy.ndarray
+            The squared wavenumber.
         """
         return sum([self.k[i] ** 2 for i in range(len(self.k))])
 
     def calc_Gaussian_filter_f(self, a0=None):
+        """Calculate Gaussian filter in Fourier space.
+
+        This method computes a Gaussian filter in Fourier space using the formula:
+        exp(-1/2 * a0^2 * k^2) where k^2 is the squared wavenumber.
+
+        Parameters
+        ----------
+        a0 : float, optional
+            Filter width parameter. If None, uses the instance's a0 attribute.
+
+        Returns
+        -------
+        numpy.ndarray
+            The Gaussian filter in Fourier space.
+
+        Notes
+        -----
+        The filter is calculated using the squared wavenumber obtained from 
+        the calc_k2() method.
+        """
 
         if a0 is None:
             a0 = self.a0
@@ -212,13 +262,21 @@ class BaseSystemCalc:
         return np.exp(-1 / 2 * a0 ** 2 * self.calc_k2())
 
     def calc_determinant_field(self, psi: list[np.ndarray, np.ndarray]) -> np.ndarray:
-        """Calculate the determinant transformation of a given field
+        """Calculate the determinant transformation of a given field.
 
-        Args:
-            psi: A list of two psi fields. (list)
-
-        Returns:
-            The defect density of the psi field. numpy.ndarray.
+        The D-field used in the calculation of the topologicel defect density fields. 
+        See the ComFiT documentation for more information:
+        https://comfitlib.com/TopologicalDefects/
+        
+        Parameters
+        ----------
+        psi : list of numpy.ndarray
+            A list of two psi fields.
+        
+        Returns
+        -------
+        numpy.ndarray
+            The determinant field.
         """
         
         if self.dim == 2:
@@ -245,14 +303,19 @@ class BaseSystemCalc:
 
                 return np.array(result)
 
-    def calc_defect_density(self, psi: list[np.ndarray, np.ndarray], psi0=1):
+    def calc_defect_density(self, psi: list[np.ndarray, np.ndarray], psi0=1) -> np.ndarray:
         """Calculate the defect density of a given psi field.
-
-        Args:
-            psi: A list of two psi fields.
-            psi0: The value of psi_0. 
-
-        Returns:
+        
+        Parameters
+        ----------
+        psi : list of numpy.ndarray
+            A list of two psi fields.
+        psi0 : float, optional
+            The value of psi_0. Default is 1.
+            
+        Returns
+        -------
+        numpy.ndarray
             The defect density of the psi field.
         """
 
@@ -261,12 +324,17 @@ class BaseSystemCalc:
     def calc_defect_density_singular(self, psi: np.ndarray, psi0=1) -> np.ndarray:
         """Calculate the singular defect density for a given psi field.
 
-        Args:
-            psi: The field psi. numpy.ndarray.
-            psi0: The reference value of psi. 
+        Parameters
+        ----------
+        psi : numpy.ndarray
+            The field psi.
+        psi0 : float, optional
+            The reference value of psi. Default is 1.
 
-        Returns:
-            The defect density for the given psi value. np.ndarray.
+        Returns
+        -------
+        numpy.ndarray
+            The defect density for the given psi value.
         """
         return self.calc_defect_density(psi, 1) * self.calc_delta_function(psi, psi0)
 
@@ -275,14 +343,19 @@ class BaseSystemCalc:
         psi: list[np.ndarray, np.ndarray],
         dt_psi: list[np.ndarray, np.ndarray]
     ) -> list[np.ndarray, np.ndarray]:
-        """Calculates the velocity field of the defects in the psi field.
+        """Calculate the velocity field of the defects in the psi field.
 
-        Args:
-            psi: The psi field
-            dt_psi: The time derivative of the psi field
+        Parameters
+        ----------
+        psi : list of numpy.ndarray
+            The psi field.
+        dt_psi : list of numpy.ndarray
+            The time derivative of the psi field.
 
-        Returns:
-            The velocity field of the defects np.ndarray: 
+        Returns
+        -------
+        list of numpy.ndarray
+            The velocity field of the defects.
         """
         if self.dim == 2:
             if len(psi) == 2:
@@ -366,15 +439,21 @@ class BaseSystemCalc:
                 return [Vx, Vy, Vz]
 
     def calc_defect_current_density(self, psi, dt_psi, psi_0=0):
-        """Calculates the conserved current of the superfluid density
-
-        Args:
-            psi: the vector field that we find the density of  (numpy.ndarray)
-            dt_psi: the time derivative of psi  (numpy.ndarray)
-            psi_0: the equilibrium state (floar or numpy.ndarray, optional)
+        """Calculates the conserved current of the superfluid density.
         
-        Returns:
-            Components of the conserved current. np.ndarray: 
+        Parameters
+        ----------
+        psi : numpy.ndarray
+            The vector field that we find the density of.
+        dt_psi : numpy.ndarray
+            The time derivative of psi.
+        psi_0 : float or numpy.ndarray, optional
+            The equilibrium state. Default is 0.
+        
+        Returns
+        -------
+        list of numpy.ndarray
+            Components of the conserved current.
         """
         if self.dim == 2:
             if len(psi) == 2:
@@ -393,12 +472,17 @@ class BaseSystemCalc:
     def calc_delta_function(self, psi: list[np.ndarray, np.ndarray], psi0=1):
         """Calculate the delta function for a given wavefunction.
 
-        Args:
-            psi: The wavefunction (list).
-            psi0: The width of the wavefunction. (float)
+        Parameters
+        ----------
+        psi : list of numpy.ndarray
+            The wavefunction.
+        psi0 : float, optional
+            The width of the wavefunction. Default is 1.
 
-        Returns:
-            The value of the delta function. np.ndarray: 
+        Returns
+        -------
+        numpy.ndarray
+            The value of the delta function.
         """
         width = psi0 / 2
         n = len(psi)
@@ -408,14 +492,24 @@ class BaseSystemCalc:
                 return 1 / (2 * np.pi * width ** 2) * np.exp(-psi2 / (2 * width ** 2))
 
     def calc_region_interval(self, a: float, b: float) -> np.ndarray:
-        """Calculates a boolean array indicating whether a point is within an interval.
+        """Calculate a boolean array indicating whether a point is within an interval.
         
-        Args:
-            a: The lower bound of the interval
-            b: The upper bound of the interval
+        Parameters
+        ----------
+        a : float
+            The lower bound of the interval.
+        b : float
+            The upper bound of the interval.
         
-        Returns:
-            A boolean array indicating whether a point is within the interval. np.ndarray: 
+        Returns
+        -------
+        numpy.ndarray
+            A boolean array indicating whether a point is within the interval.
+            
+        Raises
+        ------
+        Exception
+            If the lower bound is greater than the upper bound or if the dimension of the system is not 1.
         """
         if not (a <= b):
             raise Exception("The lower bound must be less than or equal to the upper bound.")
@@ -429,12 +523,22 @@ class BaseSystemCalc:
     def calc_region_disk(self, position: list[float], radius: float) -> np.ndarray:
         """Calculates a boolean array indicating whether a point is within a disk of a given radius.
         
-        Args:
-            position: The position of the disk
-            radius: The radius of the disk
+        Parameters
+        ----------
+        position : list[float]
+            The position of the disk
+        radius : float
+            The radius of the disk
         
-        Returns:
-            A boolean array indicating whether a point is within the disk. np.ndarray.
+        Returns
+        -------
+        numpy.ndarray
+            A boolean array indicating whether a point is within the disk.
+            
+        Raises
+        ------
+        Exception
+            If the dimension of the system is not 2.
         """
         if self.dim == 2:
             return self.calc_distance_squared_to_point(position) <= radius ** 2
@@ -445,14 +549,24 @@ class BaseSystemCalc:
     def calc_region_ball(self, 
             position: list[float], 
             radius: float) -> np.ndarray:
-        """Calculates a boolean array indicating whether a point is within a ball of a given radius.
+        """Calculate a boolean array indicating whether a point is within a ball of a given radius.
         
-        Args:
-            position: The position of the ball
-            radius: The radius of the ball
+        Parameters
+        ----------
+        position : list[float]
+            The position of the ball
+        radius : float
+            The radius of the ball
         
-        Returns:
-            A boolean array indicating whether a point is within the ball. np.ndarray.
+        Returns
+        -------
+        numpy.ndarray
+            A boolean array indicating whether a point is within the ball.
+            
+        Raises
+        ------
+        Exception
+            If the dimension of the system is not 3.
         """
         if self.dim == 3:
             return self.calc_distance_squared_to_point(position) <= radius ** 2
@@ -461,21 +575,33 @@ class BaseSystemCalc:
             raise Exception("Not valid for other dimensions.")
 
     def calc_Gaussian(self, 
-            position= None, 
+            position=None, 
             width=None, 
             top=None,
             value=None):
-        """Calculated the Gaussian function 
-
-        Args:
-            - position
-            - width
-            - top (the top of the Gaussian function)
-            - value (the value of the integrated Gaussian function)
-            If neither top nor value is provided, the function will be normalized to 1
+        """Calculate the Gaussian function.
         
-        Returns:
-            The Gaussian function. np.ndarray.
+        Parameters
+        ----------
+        position : list or array, optional
+            The center position of the Gaussian. If None, uses the middle of the grid.
+        width : float, optional
+            The width of the Gaussian. If None, uses the system's a0 parameter.
+        top : float, optional
+            The maximum value of the Gaussian function.
+        value : float, optional
+            The integrated value of the Gaussian function.
+            If neither top nor value is provided, the function will be normalized to 1.
+        
+        Returns
+        -------
+        numpy.ndarray
+            The Gaussian function evaluated on the grid.
+        
+        Notes
+        -----
+        If top is provided, it scales the height of the Gaussian.
+        If value is provided, it scales the integral of the Gaussian.
         """
 
         if position is None:
@@ -494,13 +620,24 @@ class BaseSystemCalc:
         return value*(2*np.pi*width**2)**(-self.dim/2)*np.exp(-r2/(2*width**2))
 
     def calc_distance_squared_to_point(self, position: Union[float, list[float]]) -> np.ndarray:
-        """Calculates the distance to a point given
-        
-        Args:
-            position: The position of the point
+        """Calculate the squared distance from each point in the grid to a specified position.
 
-        Returns:
-            The squared distance to the point. np.ndarray.
+        Parameters
+        ----------
+        position : Union[float, list[float]]
+            The target position. Should be a single float for 1D systems or a list of floats for higher dimensions.
+
+        Returns
+        -------
+        np.ndarray
+            An array of the same dimensionality as the system containing the squared distance 
+            from each grid point to the specified position. The shape matches the grid resolution.
+
+        Notes
+        -----
+        This method accounts for periodic boundary conditions by calculating distances in each
+        dimension considering the original position, and positions shifted by +/- the system size.
+        It then takes the minimum of these distances to find the shortest path under periodicity.
         """
 
         if self.dim == 1:
@@ -543,14 +680,26 @@ class BaseSystemCalc:
     ) -> np.ndarray:
         """Calculates a boolean array indicating whether a point is within a cylinder of a given radius and height.
         
-        Args:
-            position: The position of the cylinder
-            radius: The radius of the cylinder
-            normal_vector: The normal vector of the cylinder
-            height: The height of the cylinder
+        Parameters
+        ----------
+        position : list[float]
+            The position of the cylinder
+        radius : float
+            The radius of the cylinder
+        normal_vector : np.ndarray
+            The normal vector of the cylinder
+        height : float
+            The height of the cylinder
         
-        Returns:
-            A boolean array indicating whether a point is within the cylinder. np.ndarray.
+        Returns
+        -------
+        np.ndarray
+            A boolean array indicating whether a point is within the cylinder.
+            
+        Raises
+        ------
+        Exception
+            If the dimension of the system is not 3.
         """
 
         if self.dim == 3:
@@ -576,25 +725,29 @@ class BaseSystemCalc:
 
             return (zt ** 2 <= height ** 2) & (Rt2 <= radius ** 2)
 
-
-
         else:
             raise Exception("Not valid for other dimensions.")
 
     def calc_integrate_field(self, field: np.ndarray, region: Optional[int] = None) -> float:
         """Calculates the integrated field value within a specified region.
-
-        Args:
-            field (numpy.ndarray): The field array.
-            region: If index is provided, returns a tuple containing the integrated field value
-                            within the region and a boolean array indicating the region. If index is None,
-                            returns the integrated field value within the entire field.
-
-        Returns:
-            float: The integrated field value within the region.
-                                            
-        Raises:
-            Exception: If the dimension of the field is not 2.
+        
+        Parameters
+        ----------
+        field : numpy.ndarray
+            The field array to integrate.
+        region : Optional[int], default=None
+            If provided, specifies the region to integrate over.
+            If None, integrates over the entire field.
+        
+        Returns
+        -------
+        float
+            The integrated field value within the region.
+            
+        Raises
+        ------
+        Exception
+            If the dimension of the field is not compatible.
         """
 
         if region is None:
@@ -605,14 +758,24 @@ class BaseSystemCalc:
     def calc_integrating_factors_f_and_solver(self, omega_f, method: Literal["ETD2RK", "ETD4RK"]) -> tuple:
         """Calculates the integrating factors and the solver for the evolution equation.
         
-        Args:
-            omega_f: The value of omega_f
-            method: The method used for evolution
+        Parameters
+        ----------
+        omega_f : numpy.ndarray
+            The value of omega_f in Fourier space.
+        method : {'ETD2RK', 'ETD4RK'}
+            The method used for evolution.
         
-        Returns:
-            The integrating factors
-        
-            The solver for the evolution equation
+        Returns
+        -------
+        tuple
+            A tuple containing: integrating_factors_f : list (The integrating 
+            factors for the selected method), solver : function (The 
+            corresponding solver function for the evolution equation).
+                
+        Raises
+        ------
+        Exception
+            If the specified method is not implemented.
         """
         if method == 'ETD2RK':
             integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
@@ -633,14 +796,30 @@ class BaseSystemCalc:
         field_f: Optional[np.ndarray] = None,
         order: int = 3
     ) -> np.ndarray:
-        """Advects field accodring to the provided displacement field u, with a taylor expansion up to order 3.
-
-        Args: 
-            u: Displacement field (numpy.ndarray)
-            taylor_order: Order of the taylor expansion
-
-        Returns:
-            The field after advection by u. np.ndarray.
+        """Advects field according to the provided displacement field u.
+        
+        Uses a Taylor expansion up to specified order to compute the advection.
+        
+        Parameters
+        ----------
+        field : np.ndarray
+            The field to be advected.
+        u : np.ndarray
+            Displacement field.
+        field_f : np.ndarray, optional
+            Fourier transform of the field. If None, it will be calculated.
+        order : int, default=3
+            Order of the Taylor expansion. Must be less than or equal to 3.
+            
+        Returns
+        -------
+        np.ndarray
+            The field after advection by u.
+            
+        Raises
+        ------
+        ValueError
+            If the order of the Taylor expansion is greater than 3.
         """
 
         if order > 3:
@@ -691,14 +870,20 @@ class BaseSystemCalc:
 
 
     def calc_evolution_integrating_factors_ETD2RK(self, omega_f: np.ndarray, tol: float = 10 ** (-5)) -> list:
-        """Calculates integrating factors for ETD2RK
+        """Calculates integrating factors for ETD2RK.
         
-        Args:
-            omega_f: the value of omega_f. (numpy.ndarray)
-            tol: tolerance for when to expand the integrating factors that divide by omega (float, optional)
+        Parameters
+        ----------
+        omega_f : numpy.ndarray
+            The value of omega_f in Fourier space.
+        tol : float, optional
+            Tolerance for when to expand the integrating factors that divide by omega.
+            Default is 10^-5.
         
-        Returns:
-            the list of integrating factors
+        Returns
+        -------
+        list
+            The list of integrating factors for the ETD2RK method.
         """
         integrating_factors_f = [0, 0, 0]
 
@@ -715,15 +900,21 @@ class BaseSystemCalc:
 
         return integrating_factors_f
 
-    def calc_evolution_integrating_factors_ETD4RK(self, omega_f: np.ndarray, tol: float =10 ** (-5)) -> list:
+    def calc_evolution_integrating_factors_ETD4RK(self, omega_f: np.ndarray, tol: float = 10 ** (-5)) -> list:
         """Calculate the evolution integrating factors using the ETDRK4 method.
-
-        Args:
-            omega_f: The value of omega_f  (numpy.ndarray)
-            tol: tolerance for when to expand the integrating factors that divide by omega (float,optional)
-         
-        Returns:
-            The list of integrating factors.
+            
+        Parameters
+        ----------
+        omega_f : numpy.ndarray
+            The value of omega_f in Fourier space.
+        tol : float, optional
+            Tolerance for when to expand the integrating factors that divide by omega.
+            Default is 10^-5.
+             
+        Returns
+        -------
+        list
+            The list of integrating factors for the ETD4RK method.
         """
         integrating_factors_f = [0, 0, 0, 0, 0, 0]
 
@@ -765,13 +956,26 @@ class BaseSystemCalc:
     ):
         """Calculate the positions and charges of defect nodes based on the defect density.
         
-        Args:
-            defect_density: The defect density field. A positive scalar field to be integrated.  (numpy.ndarray)
+        Parameters
+        ----------
+        defect_density : numpy.ndarray
+            The defect density field. A positive scalar field to be integrated.
+        charge_tolerance : float, optional
+            The minimum charge value to consider as a defect. If None, uses default values based on dimension.
+        integration_radius : float, optional
+            The radius to use for integrating around potential defects. If None, uses default values based on dimension.
         
-        Returns:
-            A list of dictionaries representing the defect nodes. Each dictionary contains the following keys:
-                  - 'position_index': The position index of the defect node in the defect density array.
-                  - 'position': The position of the defect node
+        Returns
+        -------
+        list
+            A list of dictionaries representing the defect nodes. Each dictionary contains:
+            - 'position_index': The position index of the defect node in the defect density array.
+            - 'position': The physical position of the defect node.
+            
+        Raises
+        ------
+        Exception
+            If the defect density is not a positive scalar field.
         """
 
         if not (defect_density>=0).all():
