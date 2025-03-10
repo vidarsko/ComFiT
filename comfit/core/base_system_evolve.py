@@ -15,15 +15,22 @@ class BaseSystemEvolve:
     ) -> tuple[np.ndarray, np.ndarray]:
         """Evolves the given field using the ETD2RK scheme with a loop.
 
-        Args:
-            integrating_factors_f: A list of three integrating factors. (list)
-            nonlinear_evolution_function_f: A function that calculates the non-linear evolution of the field
-                    and returns the fourier transform.  (function)
-            field: The initial field to be evolved. (ndarray)
-            field_f: The Fourier transform of the initial field. (ndarray)
+        Parameters
+        ----------
+        integrating_factors_f : list
+            A list of three integrating factors.
+        nonlinear_evolution_function_f : callable
+            A function that calculates the non-linear evolution of the field
+            and returns the fourier transform.
+        field : ndarray
+            The initial field to be evolved.
+        field_f : ndarray
+            The Fourier transform of the initial field.
 
-        Returns:
-            tuple: A tuple containing the evolved field and the predicted field in Fourier space.
+        Returns
+        -------
+        tuple
+            A tuple containing the evolved field and the predicted field in Fourier space.
         """
 
         N0_f = nonlinear_evolution_function_f(field, self.time)
@@ -48,15 +55,22 @@ class BaseSystemEvolve:
     ) -> tuple[np.ndarray, np.ndarray]:
         """Evolves the given field using the ETD4RK scheme with a loop.
 
-         Args:
-             integrating_factors_f: A list of five integrating factors.  (list)
-             nonlinear_evolution_function_f: A function that calculates the non-linear evolution of the field.  (function)
-             field: The initial field to be evolved. (ndarray)
-             field_f: The Fourier transform of the initial field. (ndarray)
+        Parameters
+        ----------
+        integrating_factors_f : list
+            A list of five integrating factors.
+        nonlinear_evolution_function_f : callable
+            A function that calculates the non-linear evolution of the field.
+        field : ndarray
+            The initial field to be evolved.
+        field_f : ndarray
+            The Fourier transform of the initial field.
 
-         Returns:
-             A tuple containing the evolved field and the predicted field in Fourier space.
-         """
+        Returns
+        -------
+        tuple
+            A tuple containing the evolved field and the predicted field in Fourier space.
+        """
          
         N_0f = nonlinear_evolution_function_f(field, self.time)
 
