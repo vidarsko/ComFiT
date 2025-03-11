@@ -11,17 +11,24 @@ from comfit.tool.tool_print_in_color import tool_print_in_color
 
 class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
-        """Initializes a phase field crystal system in 3D with a simple cubic crystal structure.
-
-        Args:
-            nx: The number of unit cells in the x direction.
-            ny: The number of unit cells in the y direction.
-            nz: The number of unit cells in the z direction.
-
-        Returns:
-            The system object representing the PhaseFieldCrystal3DSimpleCubic simulation.
         """
+        Initializes a phase field crystal system in 3D with a simple cubic crystal structure.
 
+        Parameters
+        ----------
+        nx : int
+            The number of unit cells in the x direction.
+        ny : int
+            The number of unit cells in the y direction.
+        nz : int
+            The number of unit cells in the z direction.
+        \*\*kwargs : dict
+            Additional arguments to set as attributes.
+
+        Returns
+        -------
+        None
+        """
         # Type of the system
         self.type = 'PhaseFieldCrystal3DSimpleCubic'
         self.dim = 3
@@ -121,30 +128,41 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
             self.a0 = self.a0 * (1+final_strain)
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A, B, C):
-        """Calculates the free energy of the system from the proto-amplitudes.
+        """
+        Calculates the free energy of the system from the proto-amplitudes.
 
-        Args:
-            psi0: The value of psi0.
-            A: The value of A.
-            B: The value of B.
-            C: The value of C.
+        Parameters
+        ----------
+        psi0 : float
+            The value of psi0.
+        A : float
+            The value of A.
+        B : float
+            The value of B.
+        C : float
+            The value of C.
 
-        Returns:
+        Returns
+        -------
+        float
             The free energy of the system.
         """
-
         r = self.r
         t = self.t
         v = self.v
         return 2*np.pi**3/3*(48*C**2*r + 270*A**4*v + 1620*B**4*v + 576*A**3*C*v + 648*C**4*v + 96*C**2*t*psi0 + 6*(36 + r + 24*C**2*v)*psi0**2 + 4*t*psi0**3 + 3*v*psi0**4 + 192*B**3*(t + 3*v*psi0) + 576*A*B*C*(t + 3*v*(3*B + psi0)) + 36*A**2*( r + 96*B**2*v + 36*C**2*v + 2*t*psi0 + 3*v*psi0**2 + 8*B*( t + 3*v*psi0)) + 72*B**2*(r + 54*C**2*v + psi0*(2*t + 3*v*psi0)) )
 
     def calc_proto_amplitudes_conserved(self):
-        """Calculates the proto-amplitudes for the system.
+        """
+        Calculates the proto-amplitudes for the system.
 
-        Args:
-            None
+        Parameters
+        ----------
+        None
 
-        Returns:
+        Returns
+        -------
+        tuple
             The proto-amplitudes for the system.
         """
         psi0 = self.psi0
@@ -172,12 +190,17 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         return A, B, C
 
     def calc_proto_amplitude_equations_conserved(self, vars):
-        """Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics
+        """
+        Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics.
 
-        Args:
-            vars: The proto-amplitudes for the system.
+        Parameters
+        ----------
+        vars : list
+            The proto-amplitudes for the system.
 
-        Returns:
+        Returns
+        -------
+        list
             The equations for the proto-amplitudes for the system in the case of conserved dynamics.
         """
         psi0 = self.psi0
@@ -194,22 +217,32 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
         return [eq1, eq2, eq3]
 
     def calc_L_f(self):
-        """Calculates the L operator in Fourier space.
+        """
+        Calculates the L operator in Fourier space.
 
-        Args:
-            None
-        Returns:
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
             The L operator in Fourier space.
         """
         k2 = self.calc_k2()
         return (1 - k2)*(2 - k2)*(3 - k2)
 
     def calc_L_sum_f(self):
-        """Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
+        """
+        Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
 
-        Args:
-            None
-        Returns:
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
             The L operator in Fourier space.
         """
         k2 = self.calc_k2()
