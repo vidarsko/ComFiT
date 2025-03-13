@@ -16,4 +16,6 @@ dt_Q = (nem.Q - Q_prev)/(3*nem.dt)
 
 nodes = nem.calc_disclination_nodes_nem(dt_Q=dt_Q)
 
+fig,axes =nem.plot_nodes(nodes)
 
+fig.show()
