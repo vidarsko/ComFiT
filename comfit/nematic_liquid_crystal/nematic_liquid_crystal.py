@@ -751,7 +751,7 @@ class NematicLiquidCrystal(BaseSystem):
             if (T is not None) and (Omega_R is not None) and (g is not None) and (omega is not None):
                 dot_Omega_g = np.zeros((self.dim))
                 for i in range(self.dim):
-                    dot_Omega_g = np.sum(Omega_R[k] * g[i,k] for k in range(self.dim))
+                    dot_Omega_g[i] = np.sum(Omega_R[k] * g[i,k] for k in range(self.dim))
 
                 dislocation_velocity = np.zeros((self.dim))
                 for i in range(self.dim):
@@ -787,6 +787,9 @@ class NematicLiquidCrystal(BaseSystem):
                   - 'charge': The charge of the disclination node.
                   - 'position': The position of the disclination node as a list [x, y].
                   - 'velocity': The velocity of the disclination node as a list [vx, vy].
+            In 3F the charge key is removed and we instead have
+                  -'Tangent_vector': The tangent vector of the dislocation
+                  -'Rotation_vector': The rotation vector of the dislocation
         """
 
         # Calculate disclination density
@@ -821,12 +824,14 @@ class NematicLiquidCrystal(BaseSystem):
             position_list = []
             if dt_Q is not None:
                 g_matrix = self.calc_g_matrix(dt_Q)
+                print(g_matrix.shape)
 
             for disclination in disclination_nodes:
 
                 tangent_vector = np.array([T[i][disclination['position_index']] for i in range(3)])
                 rotation_vector = np.array([Omega_R[i][disclination['position_index']] for i in range(3)])
                 omega_at_dislocation = omega[disclination['position_index']]
+
 
                 for i in range(len(position_list)):
                     pos = position_list[i]
@@ -841,7 +846,11 @@ class NematicLiquidCrystal(BaseSystem):
                     rotation_vector = -1*rotation_vector
 
                 if dt_Q is not None:
-                    g = g_matrix[np.array([g_matrix[i,j][disclination['position_index']] for i in range(3) for j in range(3)])]
+                    g = np.zeros((self.dim,self.dim))
+                    for i in range(self.dim):
+                        for j in range(self.dim):
+                            g[i,j] = g_matrix[i,j][disclination['position_index']]
+
                     disclination_velocity = self.calc_disclination_velocity_field(dt_Q,T=tangent_vector, Omega_R=rotation_vector, g= g,omega=omega_at_dislocation)
                     disclination['velocity'] = disclination_velocity
 
