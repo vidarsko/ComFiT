@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.8.6] - 2025-03-13
+- Fixed bug in plot_save-function.
+
 ## [1.8.5] - 2025-03-11
 - Added 'opacity' to 3D plot field functions.
 

@@ -610,7 +610,12 @@ class BaseSystemPlot:
 
         # Save the figure
         # Determine the plotting library based on figure type
-        plot_lib = "plotly" if isinstance(fig, go.Figure) else "matplotlib"
+        if isinstance(fig, plt.Figure):
+            plot_lib = "matplotlib"
+        elif isinstance(fig, go.Figure):
+            plot_lib = "plotly"
+        else:
+            plot_lib = self.plot_lib
 
         if plot_lib == "plotly":
             fig.write_image(filename)
