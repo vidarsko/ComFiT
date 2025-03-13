@@ -751,7 +751,7 @@ class NematicLiquidCrystal(BaseSystem):
             if (T is not None) and (Omega_R is not None) and (g is not None) and (omega is not None):
                 dot_Omega_g = np.zeros((self.dim))
                 for i in range(self.dim):
-                    dot_Omega_g[i] = np.sum(Omega_R[k] * g[i,k] for k in range(self.dim))
+                    dot_Omega_g[i] = np.sum(Omega_R[k] * g[k,i] for k in range(self.dim))
 
                 dislocation_velocity = np.zeros((self.dim))
                 for i in range(self.dim):
@@ -759,6 +759,7 @@ class NematicLiquidCrystal(BaseSystem):
                         levi_civita_symbol(i,j,k)*T[j]* dot_Omega_g[k] for j in range(self.dim)
                         for k in range(self.dim)
                     )
+
                 return 2*dislocation_velocity/omega
 
 
@@ -820,7 +821,7 @@ class NematicLiquidCrystal(BaseSystem):
         elif self.dim == 3:
             omega, Omega_R, T, trD = self.calc_disclination_density_decoupled()
             S0 = self.calc_equilibrium_S()
-            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=S0/np.pi)
+            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=S0/(np.pi))
             position_list = []
             if dt_Q is not None:
                 g_matrix = self.calc_g_matrix(dt_Q)

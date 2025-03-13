@@ -141,51 +141,60 @@ def plot_nodes_plotly(
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax)
 
+        x = np.array(node_arrays['x_coordinates'])
+        y = np.array(node_arrays['y_coordinates'])
+        z = np.array(node_arrays['z_coordinates'])
+
         # Plotting options
         quiver_scale = 2 # The scale of the quiver arrows
+        if node_arrays['tangent_vector_given']:
 
-        tx = np.array(node_arrays['tangent_vector_x_coordinates'])
-        ty = np.array(node_arrays['tangent_vector_y_coordinates'])
-        tz = np.array(node_arrays['tangent_vector_z_coordinates'])
+            tx = np.array(node_arrays['tangent_vector_x_coordinates'])
+            ty = np.array(node_arrays['tangent_vector_y_coordinates'])
+            tz = np.array(node_arrays['tangent_vector_z_coordinates'])
 
-        vx = np.array(node_arrays['velocity_x_coordinates'])
-        vy = np.array(node_arrays['velocity_y_coordinates'])
-        vz = np.array(node_arrays['velocity_z_coordinates'])
+            fig.add_trace(go.Cone(x=x / self.a0,
+                                  y=y / self.a0,
+                                  z=z / self.a0,
+                                  u=tx,
+                                  v=ty,
+                                  w=tz,
+                                  scene=ax['sceneN'],
+                                  colorscale='Blues',
+                                  sizemode='scaled',
+                                  sizeref=0))
 
-        if not len(vx) == 0:
+        if node_arrays['velocity_given']:
+
+            vx = np.array(node_arrays['velocity_x_coordinates'])
+            vy = np.array(node_arrays['velocity_y_coordinates'])
+            vz = np.array(node_arrays['velocity_z_coordinates'])
+
             v2 =vx**2 + vy**2 + vz**2
             v_norm = np.sqrt(max(v2))
-        else:
-            v_norm = 1
 
-        if len(node_arrays['x_coordinates']) > 0:
+            fig.add_trace(go.Cone(x=x / self.a0,
+                                  y=y / self.a0,
+                                  z=z / self.a0,
+                                  u=vx,
+                                  v=vy,
+                                  w=vz,
+                                  scene=ax['sceneN'],
+                                  colorscale='Greens',
+                                  sizemode='scaled',
+                                  sizeref=0))
+
+
+
             #ax.scatter(node_arrays['x_coordinates'], node_arrays['y_coordinates'], z_coords, marker='o', color='black')\
             # fig.add_trace(go.Scatter(x=node_arrays['x_coordinates']/self.a0, 
             #                             y=node_arrays['y_coordinates']/self.a0, 
             #                             mode='markers', 
             #                             marker=dict(symbol='circle', color='black')))   #TODO: Check if this works
 
-            fig.add_trace(go.Cone(x=node_arrays['x_coordinates']/self.a0, 
-                                    y=node_arrays['y_coordinates']/self.a0, 
-                                    z=z_coords/self.a0, 
-                                    u=tx, 
-                                    v=ty, 
-                                    w=tz, 
-                                    scene=ax['sceneN'],
-                                    colorscale='Blues', 
-                                    sizemode='scaled', 
-                                    sizeref=0))
 
-            fig.add_trace(go.Cone(x=node_arrays['x_coordinates']/self.a0, 
-                                    y=node_arrays['y_coordinates']/self.a0, 
-                                    z=z_coords/self.a0, 
-                                    u=vx, 
-                                    v=vy, 
-                                    w=vz, 
-                                    scene=ax['sceneN'],
-                                    colorscale='Greens', 
-                                    sizemode='scaled', 
-                                    sizeref=0))
+
+
         
 
     kwargs['fig'] = fig
