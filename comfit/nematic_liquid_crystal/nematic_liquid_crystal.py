@@ -788,7 +788,7 @@ class NematicLiquidCrystal(BaseSystem):
                   - 'position': The position of the disclination node as a list [x, y].
                   - 'velocity': The velocity of the disclination node as a list [vx, vy].
             In 3F the charge key is removed and we instead have
-                  -'Tangent_vector': The tangent vector of the dislocation
+                  -'tangent_vector': The tangent vector of the dislocation
                   -'Rotation_vector': The rotation vector of the dislocation
         """
 
@@ -836,7 +836,7 @@ class NematicLiquidCrystal(BaseSystem):
                 for i in range(len(position_list)):
                     pos = position_list[i]
                     if np.sqrt(sum( (disclination['position'][i] -pos[i])**2 for i in range(self.dim) )) <  5*self.a0:
-                        tan_neight = disclination_nodes[i]['Tangent_vector']
+                        tan_neight = disclination_nodes[i]['tangent_vector']
                         if np.sum((tan_neight[j] -tangent_vector[j] )**2 -(tan_neight[j] + tangent_vector[j])**2 for j in range(self.dim)) > 0:
 
                             tangent_vector = -1* tangent_vector
@@ -854,7 +854,7 @@ class NematicLiquidCrystal(BaseSystem):
                     disclination_velocity = self.calc_disclination_velocity_field(dt_Q,T=tangent_vector, Omega_R=rotation_vector, g= g,omega=omega_at_dislocation)
                     disclination['velocity'] = disclination_velocity
 
-                disclination['Tangent_vector'] = tangent_vector
+                disclination['tangent_vector'] = tangent_vector
                 disclination['Rotation_vector'] = rotation_vector
 
                 position_list.append(disclination['position'])
