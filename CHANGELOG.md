@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.8.5] - 2025-03-11
+- Added 'opacity' to 3D plot field functions.
+
 ## [1.8.4] - 2025-03-03
 - Changed plotting convention cfi.plot_save(n,fig) -> cfi.plot_save(fig,n)
 

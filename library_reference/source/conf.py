@@ -28,6 +28,7 @@ exclude_patterns = []
 
 autodoc_default_options = {
     'members': True,
+    'special-members': '__init__',
     'undoc-members': True,
     'private-members': True,
     'show-inheritance': True,

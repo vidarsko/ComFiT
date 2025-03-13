@@ -11,14 +11,21 @@ from comfit.tool.tool_print_in_color import tool_print_in_color
 
 class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
     def __init__(self, nx, ny, **kwargs):
-        """Initializes a phase field crystal system in 2D with a triangular crystal structure.
+        """
+        Initializes a phase field crystal system in 2D with a triangular crystal structure.
 
-        Args:
-            nx: The number of unit cells in the x direction.
-            ny: The number of unit cells in the y direction.
+        Parameters
+        ----------
+        nx : int
+            The number of unit cells in the x direction.
+        ny : int
+            The number of unit cells in the y direction.
+        \*\*kwargs : dict
+            Additional arguments to set as attributes, possibly overwriting default values.
 
-        Returns:
-            The system object representing the PhaseFieldCrystal2DTriangular simulation.
+        Returns
+        -------
+        None
         """
 
         # Type of the system
@@ -111,12 +118,11 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
 
 
     def calc_proto_amplitudes_conserved(self):
-        """Calculates the proto-amplitudes for the system.
+        """Calculate the proto-amplitudes for the system.
 
-        Args:
-            None
-        
-        Returns:
+        Returns
+        -------
+        float
             The proto-amplitudes for the system.
         """
 
@@ -125,23 +131,22 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         t = self.t
         v = self.v
         
-        #Testing which of the three amplitudes give the lowest free energy
+        # Testing which of the three amplitudes give the lowest free energy
         A = 0
-        A_tmp = 1 / (15 * v)*(-t -3 * v * psi0 - np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
+        A_tmp = 1 / (15 * v) * (-t - 3 * v * psi0 - np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
         if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
             A = A_tmp
-        A_tmp = 1 / (15 * v)*(-t -3 * v * psi0 + np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
+        A_tmp = 1 / (15 * v) * (-t - 3 * v * psi0 + np.sqrt(t**2 - 15 * v * r - 24 * t * v * psi0 - 36 * v ** 2 * psi0 ** 2)) 
         if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
             A = A_tmp
         return A
 
     def calc_proto_amplitudes_unconserved(self):
-        """Calculates the proto-amplitudes for the system.
+        """Calculate the proto-amplitudes for the system.
 
-        Args:
-            None
-
-        Returns:
+        Returns
+        -------
+        tuple
             The proto-amplitudes for the system.
         """
 
@@ -149,8 +154,8 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         A = 0
         free_energy = self.calc_free_energy_from_proto_amplitudes(psi0, A)
 
-        for psi00 in np.linspace(-1,1,10):
-            for A0 in np.linspace(0.01,1,5):
+        for psi00 in np.linspace(-1, 1, 10):
+            for A0 in np.linspace(0.01, 1, 5):
                 [psi0_tmp, A_tmp] = fsolve(self.calc_proto_amplitude_equations_unconserved, [psi00, A0])
                 free_energy_tmp = self.calc_free_energy_from_proto_amplitudes(psi0_tmp, A_tmp)
 
@@ -161,13 +166,18 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
 
         return psi0, A
 
-    def calc_proto_amplitude_equations_unconserved(self,vars):
-        """Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics
+    def calc_proto_amplitude_equations_unconserved(self, vars):
+        """
+        Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics.
 
-        Args:
-            vars: The proto-amplitudes for the system.
+        Parameters
+        ----------
+        vars : tuple
+            The proto-amplitudes for the system.
 
-        Returns:
+        Returns
+        -------
+        list
             The equations for the proto-amplitudes for the system.
         """
         r = self.r
@@ -175,45 +185,52 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
         v = self.v
         
         psi0, A = vars
-        eq1 = 12*A**3*self.v + 6*A**2*(self.t + 3*self.v*psi0) + psi0*(1 + self.r + self.t*psi0 + self.v*psi0**2)
-        eq2 = self.r + 15*A**2*self.v + 2*A*(self.t + 3*self.v*psi0) + psi0*(2*self.t + 3*self.v*psi0) #*A not necessary  
+        eq1 = 12 * A**3 * self.v + 6 * A**2 * (self.t + 3 * self.v * psi0) + psi0 * (1 + self.r + self.t * psi0 + self.v * psi0**2)
+        eq2 = self.r + 15 * A**2 * self.v + 2 * A * (self.t + 3 * self.v * psi0) + psi0 * (2 * self.t + 3 * self.v * psi0) # *A not necessary  
 
         return [eq1, eq2]
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A):
-        """Calculates the free energy of the system from the proto-amplitudes.
+        """
+        Calculates the free energy of the system from the proto-amplitudes.
 
-        Args:
-            psi0: The average value of psi.
-            A: The proto-amplitude.
+        Parameters
+        ----------
+        psi0 : float
+            The average value of psi.
+        A : float
+            The proto-amplitude.
 
-        Returns:
+        Returns
+        -------
+        float
             The free energy of the system.
         """
         r = self.r
         t = self.t
         v = self.v
 
-        return np.pi**2/(3*np.sqrt(3))*(270*A**4*v + 48*A**3*( t + 3*v*psi0) + psi0**2*(6 + 6*r + 4*t*psi0 + 3*v*psi0**2) + 36*A**2*( r + psi0*(2*t + 3*v*psi0)))
+        return np.pi**2 / (3 * np.sqrt(3)) * (270 * A**4 * v + 48 * A**3 * (t + 3 * v * psi0) + psi0**2 * (6 + 6 * r + 4 * t * psi0 + 3 * v * psi0**2) + 36 * A**2 * (r + psi0 * (2 * t + 3 * v * psi0)))
 
     def calc_L_f(self):
-        """Calculates the L operator in Fourier space.
+        """
+        Calculates the L operator in Fourier space.
 
-        Args:
-            None
-        Returns:
+        Returns
+        -------
+        np.ndarray
             The L operator in Fourier space.
         """
         k2 = self.calc_k2()
         return 1 - k2
 
     def calc_L_sum_f(self):
-        """Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
+        """
+        Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
 
-        Args:
-            None
-        Returns:
+        Returns
+        -------
+        int
             The L operator in Fourier space.
         """
         return 1
-    

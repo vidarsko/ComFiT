@@ -11,15 +11,23 @@ from comfit.tool.tool_print_in_color import tool_print_in_color
 
 class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
-        """Initializes a phase field crystal system in 3D with a body centered cubic crystal structure.
+        """
+        Initializes a phase field crystal system in 3D with a body centered cubic crystal structure.
 
-        Args:
-            nx: The number of unit cells in the x direction.
-            ny: The number of unit cells in the y direction.
-            nz: The number of unit cells in the z direction.
+        Parameters
+        ----------
+        nx : int
+            The number of unit cells in the x direction.
+        ny : int
+            The number of unit cells in the y direction.
+        nz : int
+            The number of unit cells in the z direction.
+        \*\*kwargs : dict
+            Additional arguments to set as attributes.
 
-        Returns:
-            The system object representing the PhaseFieldCrystal3DBodyCenteredCubic simulation.
+        Returns
+        -------
+        None
         """
 
         # Type of the system
@@ -108,65 +116,69 @@ class PhaseFieldCrystal3DBodyCenteredCubic(PhaseFieldCrystal):
             self.conf_apply_distortion([[final_strain,0,0],[0,final_strain,0],[0,0,final_strain]], update_q_and_a_vectors=True)
             self.a0 = self.a0 * (1+final_strain)
 
-
     def calc_proto_amplitudes_conserved(self):
-        """Calculates the proto-amplitudes for the system.
+        """
+        Calculates the proto-amplitudes for the system.
 
-        Args:
-            None
-
-        Returns:
+        Returns
+        -------
+        float
             The proto-amplitudes for the system.
         """
-
         psi0 = self.psi0
         r = self.r
         t = self.t
         v = self.v
 
         # Testing which of the three amplitudes give the lowest free energy
-        A=0
-        A_tmp = 1/(45*v)*( -2*t - 6*v*psi0 + np.sqrt(4*t**2 - 45*r*v - 66*t*v*psi0 - 99*v**2*psi0**2))
+        A = 0
+        A_tmp = 1 / (45 * v) * (-2 * t - 6 * v * psi0 + np.sqrt(4 * t**2 - 45 * r * v - 66 * t * v * psi0 - 99 * v**2 * psi0**2))
         if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
             A = A_tmp
-        A_tmp = 1/(45*v)*( -2*t - 6*v*psi0 - np.sqrt(4*t**2 - 45*r*v - 66*t*v*psi0 - 99*v**2*psi0**2))
+        A_tmp = 1 / (45 * v) * (-2 * t - 6 * v * psi0 - np.sqrt(4 * t**2 - 45 * r * v - 66 * t * v * psi0 - 99 * v**2 * psi0**2))
         if self.calc_free_energy_from_proto_amplitudes(psi0, A_tmp) < self.calc_free_energy_from_proto_amplitudes(psi0, A):
             A = A_tmp
         return A
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A):
-        """Calculates the free energy of the phase-field crystal from the proto amplitudes.
+        """
+        Calculates the free energy of the phase-field crystal from the proto amplitudes.
 
-        Args:
-            psi0: The average value of psi.
-            A: The proto-amplitude.
+        Parameters
+        ----------
+        psi0 : float
+            The average value of psi.
+        A : float
+            The proto-amplitude.
 
-        Returns:
+        Returns
+        -------
+        float
             The free energy of the phase-field crystal.
         """
         r = self.r
         t = self.t
         v = self.v
 
-        return 4*np.sqrt(2)*np.pi**3/3*(1620*A**4*v + 192*A**3*(t + 3*v*psi0) + psi0**2*(6 + 6*r + 4*t*psi0 + 3*v*psi0**2) + 72*A**2*(r + psi0*(2*t + 3*v*psi0)))
+        return 4 * np.sqrt(2) * np.pi**3 / 3 * (1620 * A**4 * v + 192 * A**3 * (t + 3 * v * psi0) + psi0**2 * (6 + 6 * r + 4 * t * psi0 + 3 * v * psi0**2) + 72 * A**2 * (r + psi0 * (2 * t + 3 * v * psi0)))
 
     def calc_L_f(self):
-        """Calculates the L operator in Fourier space.
+        """Calculate the L operator in Fourier space.
 
-        Args:
-            None
-        Returns:
+        Returns
+        -------
+        numpy.ndarray
             The L operator in Fourier space.
         """
         k2 = self.calc_k2()
         return 1 - k2
 
     def calc_L_sum_f(self):
-        """Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
+        """Calculate the sum of the L operators in Fourier space. Needed for stress calculation functions.
 
-        Args:
-            None
-        Returns:
+        Returns
+        -------
+        int
             The L operator in Fourier space.
         """
         return 1
