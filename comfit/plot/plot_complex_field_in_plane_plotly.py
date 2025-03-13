@@ -58,9 +58,6 @@ def plot_complex_field_in_plane_plotly(
 
     ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
-    # Extend the field if not a complete array is given
-    complex_field = tool_complete_field(self, complex_field)
-
     # Default values of position and normal vector
     if position is None:
         position = self.rmid
