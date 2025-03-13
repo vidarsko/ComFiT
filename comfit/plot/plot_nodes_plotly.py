@@ -184,7 +184,23 @@ def plot_nodes_plotly(
                                   sizemode='scaled',
                                   sizeref=0))
 
+        if node_arrays['rotation_vector_given']:
+            rx = np.array(node_arrays['rotation_vector_x_coordinates'])
+            ry = np.array(node_arrays['rotation_vector_y_coordinates'])
+            rz = np.array(node_arrays['rotation_vector_z_coordinates'])
 
+
+
+            fig.add_trace(go.Cone(x=x / self.a0,
+                                  y=y / self.a0,
+                                  z=z / self.a0,
+                                  u=rx,
+                                  v=ry,
+                                  w=rz,
+                                  scene=ax['sceneN'],
+                                  colorscale='Reds',
+                                  sizemode='scaled',
+                                  sizeref=0))
 
             #ax.scatter(node_arrays['x_coordinates'], node_arrays['y_coordinates'], z_coords, marker='o', color='black')\
             # fig.add_trace(go.Scatter(x=node_arrays['x_coordinates']/self.a0, 

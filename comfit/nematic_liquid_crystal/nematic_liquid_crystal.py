@@ -856,7 +856,7 @@ class NematicLiquidCrystal(BaseSystem):
                     disclination['velocity'] = disclination_velocity
 
                 disclination['tangent_vector'] = tangent_vector
-                disclination['Rotation_vector'] = rotation_vector
+                disclination['rotation_vector'] = rotation_vector
 
                 position_list.append(disclination['position'])
 

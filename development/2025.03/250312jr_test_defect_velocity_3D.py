@@ -14,7 +14,7 @@ nem.evolve_nematic_no_flow(5)
 
 dt_Q = (nem.Q - Q_prev)/(5*nem.dt)
 
-nodes = nem.calc_disclination_nodes_nem(dt_Q=dt_Q)
+nodes = nem.calc_disclination_nodes_nem()
 
 #print(nodes[3]['velocity'])
 

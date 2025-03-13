@@ -25,6 +25,7 @@ def tool_extract_node_arrays(
         - charge-separated coordinates if charges present
         - Burgers vector components if present
         - tangent vector components if present
+        - rotation vector
     """
 
     node_arrays = {}
@@ -51,6 +52,7 @@ def tool_extract_node_arrays(
     node_arrays['velocity_given'] = 'velocity' in nodes[0].keys()
     node_arrays['Burgers_vector_given'] = 'Burgers_vector' in nodes[0].keys()
     node_arrays['tangent_vector_given'] = 'tangent_vector' in nodes[0].keys()
+    node_arrays['rotation_vector_given'] = 'tangent_vector' in nodes[0].keys()
 
     for node in nodes:
         x_coordinates.append(node['position'][0])
@@ -83,7 +85,7 @@ def tool_extract_node_arrays(
         node_arrays['y_coordinates_negative'] = y_coordinates_negative if self.dim > 1 else None
         node_arrays['z_coordinates_negative'] = z_coordinates_negative if self.dim > 2 else None
 
-    for property in ['velocity', 'tangent_vector', 'Burgers_vector']:
+    for property in ['velocity', 'tangent_vector', 'Burgers_vector', 'rotation_vector']:
         node_arrays[property + '_given'] = property in nodes[0].keys()
 
         if node_arrays[property + '_given']:
