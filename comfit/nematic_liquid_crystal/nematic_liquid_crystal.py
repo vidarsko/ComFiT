@@ -843,7 +843,7 @@ class NematicLiquidCrystal(BaseSystem):
                             tangent_vector = -1* tangent_vector
                         break
 
-                if np.sign(np.dot(tangent_vector, rotation_vector)) != np.sign(trD[disclination['position_index']]):
+                if np.sign(np.sum([tangent_vector[i]*rotation_vector[i] for i in range(self.dim)])) != np.sign(trD[disclination['position_index']]):
                     rotation_vector = -1*rotation_vector
 
                 if dt_Q is not None:
