@@ -1,0 +1,944 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://comfitlib.com/ClassBoseEinsteinCondensate/">
+      
+      
+        <link rel="prev" href="../ClassQuantumMechanics/">
+      
+      
+        <link rel="next" href="../ClassNematicLiquidCrystal/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>Class: Bose-Einstein condensate - ComFiT documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../styles.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#class-bose-einstein-condensate" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ComFiT documentation" class="md-header__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ComFiT documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Class: Bose-Einstein condensate
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ComFiT documentation" class="md-nav__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    ComFiT documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassBaseSystem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Class: Base system
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Plotting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plotting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TopologicalDefects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topological Defects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassQuantumMechanics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Class: Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Class: Bose-Einstein condensate
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Class: Bose-Einstein condensate
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables and Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#approximation-of-ground-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      Approximation of Ground States
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#potentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Potentials
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydrodynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hydrodynamics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forces-on-external-potential" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forces on external potential
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantized-vortices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quantized vortices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comoving-frame" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comoving frame
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassNematicLiquidCrystal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Class: Nematic liquid crystal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassPhaseFieldCrystal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Class: Phase-field crystal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conventions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conventions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library_reference" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Library reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="class-bose-einstein-condensate">Class: Bose-Einstein Condensate</h1>
+<p>There are two types of particles in the world: fermions and bosons.
+Whereas fermions can never occupy the same quantum state due to the Pauli Exclusion principle, the same is not true for bosons.
+A Bose-Einstein condensate (BEC) is a state of matter consisting of ultra-cold bosons that undergo a phase transition at a low critical temperature in which most bosons occupy the ground state of the system.
+It was theorized by Einstein and Bose in the 1920s as a new state of matter and produced for the first time in 1995 by Eric Cornell and Carl Wieman<sup id="fnref:andersonObservationBoseEinsteinCondensation1995"><a class="footnote-ref" href="#fn:andersonObservationBoseEinsteinCondensation1995">1</a></sup>.</p>
+<p>In this class, we simulate a Bose-Einstein condensate in 1, 2 and 3 dimensions using the Gross-Pitaevski equation (GPE).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">file</span><span class="p">:</span> <span class="n">comfit</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">bose_einstein_condensate</span><span class="o">.</span><span class="n">py</span> 
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">class</span><span class="p">:</span> <span class="n">BoseEinsteinCondensate</span>
+</code></pre></div>
+<p>See the ComFiT Library Reference below for a complete list of class methods and their usage.</p>
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/bose_einstein_condensate/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
+<h2 id="variables-and-parameters">Variables and Parameters</h2>
+<p>The primary field in the Bose-Einstein condensate model is the complex wave function <span class="arithmatex">\(\psi\)</span>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">psi</span>
+</code></pre></div>
+<p>The <code>BoseEinsteinCondensate</code> class accepts the same keyword arguments as the <code>BaseSystem</code> class, with the addition of the following specific parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Definition</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gamma</code></td>
+<td>Dissipative factor</td>
+<td><span class="arithmatex">\(0.01\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>These parameters allow for the customization and fine-tuning of the Bose-Einstein condensate simulation.</p>
+<h2 id="model">Model</h2>
+<p>The BEC is in the mean field regime described by the GPE<sup id="fnref:dalfovo1999theory"><a class="footnote-ref" href="#fn:dalfovo1999theory">2</a></sup> <sup id="fnref:kevrekidis2007emergent"><a class="footnote-ref" href="#fn:kevrekidis2007emergent">3</a></sup>. 
+This is a non-linear Schrödinger equation which reads</p>
+<div class="arithmatex">\[
+i\hbar \partial_t\psi = \left[-\frac{\hbar^2}{2m} \nabla^2+ V_{ext} -\mu +g|\psi|^2 \right]\psi.
+\]</div>
+<p>Here, <span class="arithmatex">\(\mu\)</span> is the chemical potential, <span class="arithmatex">\(m\)</span> is the mass of the bosons, <span class="arithmatex">\(g\)</span> is an interaction parameter and <span class="arithmatex">\(\hbar\)</span> is the Planc constant. 
+<span class="arithmatex">\(\psi\)</span> is the wave function describing the condensate phase and <span class="arithmatex">\(V_{ext}\)</span> is an external potential. 
+The GPE can be obtained from the variational principle <sup id="fnref2:kevrekidis2007emergent"><a class="footnote-ref" href="#fn:kevrekidis2007emergent">3</a></sup><sup id="fnref:pitaevskiiBook"><a class="footnote-ref" href="#fn:pitaevskiiBook">4</a></sup></p>
+<div class="arithmatex">\[
+\mathfrak i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}
+\]</div>
+<p>with the Hamiltonian</p>
+<div class="arithmatex">\[
+K = \int d \mathbf r \left[\frac{\hbar^2}{2m}|\nabla\psi|^2 +(V_{ext} -\mu)|\psi|^2 +\frac{g}{2}|\psi|^4 \right].
+\]</div>
+<p>We introduce dimensionless units for length <span class="arithmatex">\(\xi = \hbar/\sqrt{m\mu}\)</span>, time <span class="arithmatex">\(\tau = \xi/c\)</span> and energy <span class="arithmatex">\(E=\eta\)</span> and rescaling the wave function to <span class="arithmatex">\(\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi\)</span>, in addition we include a dissipative factor <span class="arithmatex">\(\gamma\)</span>.
+This results in the dGPE on dimensionless form as
+<sup id="fnref:gardiner2003stochastic"><a class="footnote-ref" href="#fn:gardiner2003stochastic">5</a></sup> <sup id="fnref:rooney2012stochastic"><a class="footnote-ref" href="#fn:rooney2012stochastic">6</a></sup> <sup id="fnref:bradley2012energy"><a class="footnote-ref" href="#fn:bradley2012energy">7</a></sup> <sup id="fnref:skaugenUnifiedPerspectiveTwodimensional2018"><a class="footnote-ref" href="#fn:skaugenUnifiedPerspectiveTwodimensional2018">8</a></sup></p>
+<!-- $$
+\mathfrak i \partial_t \psi = (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.
+$$
+
+$$
+\partial_t \psi =-\mathfrak i (1-\mathfrak i\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.
+$$
+
+$$
+\partial_t \psi =-(\mathfrak i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.
+$$ -->
+
+<div class="admonition equation">
+<p class="admonition-title">The damped Gross-Pitaevski equation (<code>evolve_dGPE</code>)</p>
+<div class="arithmatex">\[
+\partial_t \psi =-(\mathfrak i+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext} -1 +|\psi|^2 \right]\psi.
+\]</div>
+</div>
+<p>So we see that we can split into its linear and non-linear parts as</p>
+<div class="arithmatex">\[
+\omega = (\mathfrak{i}+\gamma) (1 + \frac{1}{2}\nabla^2), \quad N = - (\mathfrak{i} + \gamma) (V_{ext} + |\psi|^2)\psi
+\]</div>
+<p>The Hamiltonian and its density in dimensionless units are calculated by the functions</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">calc_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">bec</span><span class="o">.</span><span class="n">calc_hamiltonian_density</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="approximation-of-ground-states">Approximation of Ground States</h2>
+<p>In simulations, it is often convenient to start in a configuration that is close to the ground state. 
+We can estimate this ground state by noticing that the GPE dissipates energy when it is evolved in imaginary time <span class="arithmatex">\(t \rightarrow it\)</span>
+<sup id="fnref:minguzzi2004numerical"><a class="footnote-ref" href="#fn:minguzzi2004numerical">9</a></sup> <sup id="fnref3:kevrekidis2007emergent"><a class="footnote-ref" href="#fn:kevrekidis2007emergent">3</a></sup>.
+We refer to this as <em>evolving the dGPE in imaginary time</em>.
+Given an external potential <span class="arithmatex">\(V_{ext}\)</span> we can therefore find an approximation to the ground state by starting with a guess and then removing energy from the guessed state by evolving the equations in imaginary time.</p>
+<p>To get a guess of the ground state for a given potential <span class="arithmatex">\(V_{ext}\)</span> we use the Thomas-Fermi approximation <sup id="fnref2:dalfovo1999theory"><a class="footnote-ref" href="#fn:dalfovo1999theory">2</a></sup> <sup id="fnref4:kevrekidis2007emergent"><a class="footnote-ref" href="#fn:kevrekidis2007emergent">3</a></sup>, where we assume that <span class="arithmatex">\(\psi\)</span> is slowly varying so that we can neglect the Laplacian term.
+Looking for stationary solutions to the dGPE we obtain the equation</p>
+<div class="arithmatex">\[
+0 = (V_{ext} - 1 +|\psi|^2 )\psi.
+\]</div>
+<p>This has two solutions, <span class="arithmatex">\(\psi = 0\)</span>
+and</p>
+<div class="arithmatex">\[
+|\psi|^2 = 1-V_{ext}.
+\]</div>
+<p>In the case where <span class="arithmatex">\(V_{ext} &gt; 1\)</span> there is only one possibility, namely <span class="arithmatex">\(\psi = 0\)</span>. 
+In the case of <span class="arithmatex">\(V_{ext}  &lt; 1\)</span>, both the stationary solutions exist, so we need to evaluate their energy. 
+We can do this by considering the Hamiltonian</p>
+<div class="arithmatex">\[
+K_{TF} = \int d\mathbf r \left[(V_{ext}  -1)|\psi|^2 + \frac{1}{2} |\psi|^4 \right].
+\]</div>
+<p>Inserting the anzats <span class="arithmatex">\(\psi =0\)</span> we see that this vanishes, while if we insert the anzats <span class="arithmatex">\(|\psi|^2 = 1-V_{ext}\)</span>, we get something negative. 
+We therefore conclude that the Thomas-Fermi ground state is given as</p>
+<div class="arithmatex">\[
+\psi = \begin{cases}
+     0 &amp; \text{if} \quad V_{ext}  &gt; 1 \\
+     \sqrt{1 -V_{ext}}  &amp; \text{if}\quad V_{ext}  &lt; 1
+    \end{cases}
+\]</div>
+<p>This ground state can be initialized as</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">conf_initial_condition_Thomas_Fermi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p>Once this guess is initialized we can propagate the wave function in imaginary time using the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">evolve_relax_BEC</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">number_of_steps</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ETD2RK&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Note that the potential has to be a constant during this evolution.</p>
+<h2 id="potentials">Potentials</h2>
+<p>A lot of the interesting dynamics of a BEC come about when it is interacting with an external potential. 
+This is included as the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">V_ext</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
+</code></pre></div>
+<p>By default, this is assumed to be time-independent and returns the field</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">V_0</span> 
+</code></pre></div>
+<p>The potential can be changed by the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">conf_external_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">V_ext</span><span class="p">,</span> <span class="n">additive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>which can be used both to set it as a function or to set it as a constant potential depending on whether <code>V_ext</code> is a function, a constant or an numpy array. 
+If <code>additive =True</code> one add the constant <code>V_ext</code> to the allready existing potential.
+If <code>V_ext</code> is a function it needs to be on the form</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">V</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>     <span class="o">...</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>     <span class="k">return</span> <span class="o">...</span>
+</code></pre></div>
+<p>The evolver will then evaluate it using the <code>bec.time</code> variable which is updated on the run.
+An example using a Gaussian stirring potential is provided in the example folder.</p>
+<p>To make life easier we have provided a couple of popular potentials.
+The harmonic potential is provided in the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">set_harmonic_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">R_tf</span><span class="p">)</span>
+</code></pre></div>
+<p>Here <span class="arithmatex">\(R_{tf}\)</span> is the Thomas-Fermi radius <sup id="fnref5:kevrekidis2007emergent"><a class="footnote-ref" href="#fn:kevrekidis2007emergent">3</a></sup>, and the harmonic potential takes the form <span class="arithmatex">\(<span class="arithmatex">\(V_H = \frac{r^2}{R_{tf}^2}\)</span>\)</span>.
+The Gaussian potential is provided through the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">gaussian_stirring_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">strength</span><span class="p">,</span><span class="n">position</span><span class="p">)</span>
+</code></pre></div>
+<p>giving the potential</p>
+<div class="arithmatex">\[
+V_g = g e^{-|\mathbf{r} - \mathbf{r}_p|^2/\sigma^2}.
+\]</div>
+<p>Here
+<span class="arithmatex">\(g\)</span> is the strength, <span class="arithmatex">\(\sigma\)</span> is the size and <span class="arithmatex">\(\mathbf{r}_p\)</span> is the position.</p>
+<p>Much of the interesting physics happens when the potential is time-dependent. 
+For this one can define a function as</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">Func</span><span class="p">():</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="o">...</span>
+</code></pre></div>
+<p>and update the external potential to this function by calling</p>
+<h2 id="hydrodynamics">Hydrodynamics</h2>
+<p>The dGPE can be transformed to a hydrodynamic description of the BEC.
+The first step in doing this is to introduce the Madelung transformation <span class="arithmatex">\(\psi = \sqrt{\rho} e^{i\theta}\)</span>, where <span class="arithmatex">\(\rho = |\psi|^2\)</span> is the superfluid density <sup id="fnref6:kevrekidis2007emergent"><a class="footnote-ref" href="#fn:kevrekidis2007emergent">3</a></sup>. 
+For <span class="arithmatex">\(\gamma = 0\)</span> this density is conserved and satisfies the conservation equation</p>
+<div class="arithmatex">\[
+\partial_t \rho + \nabla\cdot \mathbf{J}_s = 0,
+\]</div>
+<p>with the superfluid current given by</p>
+<div class="arithmatex">\[
+\mathbf{J}_s = \Im(\psi^* \nabla \psi) = \rho \nabla \theta = \rho \mathbf{v}_s.
+\]</div>
+<p>Here the superfluid velocity is introduced as
+<span class="arithmatex">\(\mathbf{v}_s = \nabla \theta\)</span>. 
+The superfluid current can be found with the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">calc_superfluid_current</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>   
+</code></pre></div>
+<p>We can also put the Madelung transformation into the Hamiltonian to get <sup id="fnref2:bradley2012energy"><a class="footnote-ref" href="#fn:bradley2012energy">7</a></sup> <sup id="fnref:nore1997kolmogorov"><a class="footnote-ref" href="#fn:nore1997kolmogorov">10</a></sup></p>
+<div class="arithmatex">\[
+K = \int d \mathbf r \left[\frac{1}{2}\rho v_s^2 +\frac{1}{8} \frac{|\nabla \rho|^2}{\rho} + (V_{ext}-1)\rho +\frac{1}{2}\rho^4 \right].
+\]</div>
+<p>The first term here is the kinetic energy of the condensate.
+To calculate this it is convenient to introduce the density weighted velocity <span class="arithmatex">\(\mathbf{u} = \sqrt{\rho}\mathbf{v}_s\)</span><sup id="fnref3:bradley2012energy"><a class="footnote-ref" href="#fn:bradley2012energy">7</a></sup>.
+This have the advantage of not being singular at the centre of the topological defects. 
+Using this we can write the kinetic energy as <span class="arithmatex">\(<span class="arithmatex">\(E_k =\int d \mathbf r \frac{1}{2}u^2.\)</span>\)</span> 
+The density weighted velocity and the kinetic energy can be calculated by the functions</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">calc_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">bec</span><span class="o">.</span><span class="n">calc_kinetic_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p>Further, if we insert the Madelung transformation into the dGPE and do some work we can map it into the Navier-Stokes equations <sup id="fnref7:kevrekidis2007emergent"><a class="footnote-ref" href="#fn:kevrekidis2007emergent">3</a></sup> <sup id="fnref4:bradley2012energy"><a class="footnote-ref" href="#fn:bradley2012energy">7</a></sup></p>
+<div class="arithmatex">\[
+\begin{aligned}
+    \partial_t \rho + \nabla\cdot(\rho \mathbf v) =2\gamma \rho (1-V_{eff}),
+    \\
+    \partial_t \mathbf v-\mathbf v\cdot\nabla \mathbf v =  - \nabla(V_{ext} +\rho) +\frac{\gamma}{2}\nabla^2 \mathbf v.
+\end{aligned}
+\]</div>
+<p>Notice that the condensate density is only conserved when <span class="arithmatex">\(\gamma = 0\)</span>.</p>
+<h2 id="forces-on-external-potential">Forces on external potential</h2>
+<p>To study how the BEC interacts with impurities, one can model the impurity as a Gaussian potential and measure the forces that are acting
+on it <sup id="fnref:ronning2020classical"><a class="footnote-ref" href="#fn:ronning2020classical">11</a></sup> <sup id="fnref:astrakharchik2004motion"><a class="footnote-ref" href="#fn:astrakharchik2004motion">12</a></sup> <sup id="fnref:pinsker2017gaussian"><a class="footnote-ref" href="#fn:pinsker2017gaussian">13</a></sup>.
+From the Ehrenfest theorem the forces on the condensate from the stirrer is given as</p>
+<div class="arithmatex">\[
+\mathbf{F} = -\langle \nabla V_{ext}\rangle,
+\]</div>
+<p>which means that the force acting on the stirrer is <span class="arithmatex">\(\mathbf{F} = \langle \nabla V_{ext}\rangle\)</span>. 
+Written explicitly, this is</p>
+<div class="arithmatex">\[
+\mathbf{F} = \int d\mathbf r |\psi^2| \nabla V_{ext} = -\int d\mathbf r V_{ext}\nabla|\psi^2|,
+\]</div>
+<p>and is calculated by the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">calc_force_on_external_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p>Note that this calculates the average force on all of the external potential.</p>
+<h2 id="quantized-vortices">Quantized vortices</h2>
+<p>The topological defects in the BEC take the form of quantized vortices.
+This is because the velocity is given by the gradient of the phase <span class="arithmatex">\(\mathbf{v}_s = \nabla \theta\)</span>. 
+This has the consequence that the circulation <span class="arithmatex">\(<span class="arithmatex">\(\Gamma = \oint d\mathbf{l} \cdot \mathbf{v} = \oint d\mathbf{l} \cdot \nabla \theta = \int d\theta\)</span>\)</span>
+is quantized in units of <span class="arithmatex">\(2\pi\)</span>, since the field <span class="arithmatex">\(\psi\)</span> is single-valued.
+In two dimensions this vortex is a point defect, while in three dimensions it is a line defect.
+For the BEC this method is given by the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">calc_vortex_nodes</span><span class="p">(</span> <span class="n">dt_psi</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>which finds the vortex nodes in two or three dimensions. 
+If <span class="arithmatex">\(\partial_t \psi\)</span> is put in as the field <code>dt_psi</code>, then the velocity of the defects are also found.</p>
+<p>The defects can be created in multiple ways. In addition to putting them in by hand, one can create them by stirring the condensate with a potential or by relaxing a disordered initial state.</p>
+<h2 id="comoving-frame">Comoving frame</h2>
+<p>When studying a BEC that is stirred by a potential it is in some cases convenient to consider the potential as stationary with the BEC flowing around. 
+This can be done by boosting the dGPE so that it reads</p>
+<div class="arithmatex">\[
+\partial_t \psi = \mathbf V_p \cdot \nabla \psi +(\mathfrak i+\gamma) (1+\frac{1}{2}\nabla^2) \psi - (\mathfrak i + \gamma) (\mathcal U + |\psi|^2)\psi,
+\]</div>
+<p>where <span class="arithmatex">\(\mathbf{V_p}\)</span> is the velocity of the boost. Note that a Galilean boost of the GPE is often accompanied by a phase shift of the wave
+function
+<span class="arithmatex">\(\psi \rightarrow \psi \exp{(\mathfrak i\mathbf V_p \cdot \mathbf r + \frac i 2 V_p^2 t)}\)</span>, which transforms the superfluid velocity to the new reference frame<sup id="fnref:Pismen"><a class="footnote-ref" href="#fn:Pismen">14</a></sup>, leaving the GPE unchanged after the Galilean transformation.
+However, the equation with <span class="arithmatex">\(\gamma \neq 0\)</span> is not Galilean invariant and we therefore do not include the phase factor in the transformation.
+This has the consequence that the superfluid velocity obtained from <span class="arithmatex">\(\psi\)</span> is measured in the lab frame and not the comoving frame<sup id="fnref2:ronning2020classical"><a class="footnote-ref" href="#fn:ronning2020classical">11</a></sup>.</p>
+<p>To reduce the recycling of excitations into the incoming flow, we introduce a buffer region around the computational domain where <span class="arithmatex">\(\gamma\)</span> is large, similar to the one used in Ref. <sup id="fnref:reeves2015identifying"><a class="footnote-ref" href="#fn:reeves2015identifying">15</a></sup>. 
+The dissipative factor becomes a function of space and is given by</p>
+<div class="arithmatex">\[
+\gamma(\mathbf{r}) = \max[\gamma_x(x),\gamma_y(y),\gamma_z(z)]
+\]</div>
+<p>in three dimensions and</p>
+<div class="arithmatex">\[
+\gamma(\mathbf{r}) =
+\max[\gamma_x(x),\gamma_y(y)
+\]</div>
+<p>in two dimensions. Here</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\gamma_x(x)= \frac{1}{2}\big(2 + \tanh{[(x-w_x)/d]}
+-\tanh{[(x+w_x)/d]}\big) + \gamma_0.
+\end{aligned}
+\]</div>
+<p>and similar for <span class="arithmatex">\(\gamma_y(y)\)</span> and <span class="arithmatex">\(\gamma_z(z)\)</span>.
+The constant <span class="arithmatex">\(\gamma_0\)</span> is the value in the bulk, <span class="arithmatex">\(d\)</span> is the size of the interface between the bulk and the buffer and <span class="arithmatex">\(w_x\)</span> is the distance from the centre of the domain to the buffer in the <span class="arithmatex">\(x\)</span> direction.
+Note that when <span class="arithmatex">\(\gamma\)</span> is a function of space we can no longer put it into the non-linear differential operator <span class="arithmatex">\(\omega\)</span>, and we have to move it into the
+non-linear part.
+This is taken care of in the evolver</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">bec</span><span class="o">.</span><span class="n">evolve_comoving_dGPE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">,</span> <span class="n">velx</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ETD2RK&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Here it is assumed that the boost is in the <span class="arithmatex">\(x\)</span>-direction, and that the dissipative factor is spatially dependent.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:andersonObservationBoseEinsteinCondensation1995">
+<p>Anderson, M. H., Ensher, J. R., Matthews, M. R., Wieman, C. E., &amp; Cornell, E. A. (1995). Observation of Bose-Einstein Condensation in a Dilute Atomic Vapor. Science, 269(5221), 198–201. <a href="https://doi.org/10.1126/science.269.5221.198">https://doi.org/10.1126/science.269.5221.198</a>&#160;<a class="footnote-backref" href="#fnref:andersonObservationBoseEinsteinCondensation1995" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:dalfovo1999theory">
+<p>Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. <a href="https://doi.org/10.1103/RevModPhys.71.463">https://doi.org/10.1103/RevModPhys.71.463</a>&#160;<a class="footnote-backref" href="#fnref:dalfovo1999theory" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:dalfovo1999theory" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:kevrekidis2007emergent">
+<p>Kevrekidis, P. G.,  Frantzeskakis, D. J. and  Carretero-González, R. (2008). Emergent nonlinear phenomena in Bose-Einstein condensates: theory and experiment. Springer Science &amp; Business Media. Berlin.&#160;<a class="footnote-backref" href="#fnref:kevrekidis2007emergent" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:kevrekidis2007emergent" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:kevrekidis2007emergent" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:kevrekidis2007emergent" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref5:kevrekidis2007emergent" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref6:kevrekidis2007emergent" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref7:kevrekidis2007emergent" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:pitaevskiiBook">
+<p>Pitaevskii, L. and Stringari, S. (2016). Bose-Einstein Condensation and Superfluidity. Oxford University Press. <a href="https://doi.org/10.1093/acprof:oso/9780198758884.001.0001}">https://doi.org/10.1093/acprof:oso/9780198758884.001.0001</a>&#160;<a class="footnote-backref" href="#fnref:pitaevskiiBook" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:gardiner2003stochastic">
+<p>Gardiner, C. W. and Davis, M. J. (2003). The stochastic Gross-Pitaevskii equation: II. Journal of Physics B: Atomic, Molecular and Optical Physics. 36, 23, 4731. <a href="https://doi.org/10.1088/0953-4075/36/23/010">https://doi.org/10.1088/0953-4075/36/23/010</a>&#160;<a class="footnote-backref" href="#fnref:gardiner2003stochastic" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:rooney2012stochastic">
+<p>Rooney, S. J., Blakie, P. B. and Bradley, A. S. (2012). Stochastic projected Gross-Pitaevskii equation. Physical Review A. 86, 5, 053634. <a href="https://doi.org/10.1103/PhysRevA.86.053634">https://doi.org/10.1103/PhysRevA.86.053634</a>&#160;<a class="footnote-backref" href="#fnref:rooney2012stochastic" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:bradley2012energy">
+<p>Bradley, A. S. and Anderson, B. P. (2012). Energy spectra of vortex distributions in two-dimensional quantum turbulence. Physical Review X. 2, 4, 041001 <a href="https://doi.org/10.1103/PhysRevX.2.041001">https://doi.org/10.1103/PhysRevX.2.041001</a>&#160;<a class="footnote-backref" href="#fnref:bradley2012energy" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:bradley2012energy" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:bradley2012energy" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:bradley2012energy" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+<li id="fn:skaugenUnifiedPerspectiveTwodimensional2018">
+<p>Skaugen, A. (2018). A Unified Perspective on Two-Dimensional Quantum Turbulence and Plasticity. PhD Thesis, University of Oslo. <a href="http://urn.nb.no/URN:NBN:no-69394">http://urn.nb.no/URN:NBN:no-69394</a>&#160;<a class="footnote-backref" href="#fnref:skaugenUnifiedPerspectiveTwodimensional2018" title="Jump back to footnote 8 in the text">&#8617;</a></p>
+</li>
+<li id="fn:minguzzi2004numerical">
+<p>Minguzzi, A., Succi, S., Toschi, F., Tosi, M. P. and Vignolo, P. (2004). Numerical methods for atomic quantum gases with applications to Bose-Einstein condensates and to ultracold fermions. Physics reports. 395, 4-5, 223-355. <a href="https://doi.org/10.1016/j.physrep.2004.02.001">https://doi.org/10.1016/j.physrep.2004.02.001</a>&#160;<a class="footnote-backref" href="#fnref:minguzzi2004numerical" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+</li>
+<li id="fn:nore1997kolmogorov">
+<p>Nore, C., Abid, M. and Brachet, M. E. (1997). Kolmogorov turbulence in low-temperature superflows. Physical review letters. 78, 20, 3896. <a href="https://doi.org/10.1103/PhysRevLett.78.3896">https://doi.org/10.1103/PhysRevLett.78.3896</a>&#160;<a class="footnote-backref" href="#fnref:nore1997kolmogorov" title="Jump back to footnote 10 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ronning2020classical">
+<p>Rønning, J., Skaugen, A., Hernández-García, E., López, C. and Angheluta, L. (2020). Classical analogies for the force acting on an impurity in a Bose-Einstein condensate. New Journal of Physics. 22, 7, 073018. <a href="https://doi.org/10.1088/1367-2630/ab95de">https://doi.org/10.1088/1367-2630/ab95de</a>&#160;<a class="footnote-backref" href="#fnref:ronning2020classical" title="Jump back to footnote 11 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:ronning2020classical" title="Jump back to footnote 11 in the text">&#8617;</a></p>
+</li>
+<li id="fn:astrakharchik2004motion">
+<p>Astrakharchik, G. E. and Pitaevskii, L. P. (2004). Motion of a heavy impurity through a {Bose-Einstein} condensate. Physical Review A. 70, 1, 013608. <a href="https://doi.org/10.1103/PhysRevA.70.013608">https://doi.org/10.1103/PhysRevA.70.013608</a>&#160;<a class="footnote-backref" href="#fnref:astrakharchik2004motion" title="Jump back to footnote 12 in the text">&#8617;</a></p>
+</li>
+<li id="fn:pinsker2017gaussian">
+<p>Pinsker, F. (2017). Gaussian impurity moving through a {Bose-Einstein} superfluid. Physica B: Condensed Matter. 521, 36-42. <a href="https://doi.org/10.1016/j.physb.2017.06.038">https://doi.org/10.1016/j.physb.2017.06.038</a>&#160;<a class="footnote-backref" href="#fnref:pinsker2017gaussian" title="Jump back to footnote 13 in the text">&#8617;</a></p>
+</li>
+<li id="fn:Pismen">
+<p>Pismen, L.M. (1999). Vortices in Nonlinear Fields: From Liquid Crystals to Superfluids, From Non-Equilibrium Patterns to Cosmic Strings. Oxford university press. Oxford&#160;<a class="footnote-backref" href="#fnref:Pismen" title="Jump back to footnote 14 in the text">&#8617;</a></p>
+</li>
+<li id="fn:reeves2015identifying">
+<p>Reeves, M. T., Billam, T. P., Anderson, B. P. and Bradley, A. S. (2015). Identifying a superfluid Reynolds number via dynamical similarity. Physical Review Letters. 114, 15, 155302. <a href="https://doi.org/10.1103/PhysRevLett.114.155302">https://doi.org/10.1103/PhysRevLett.114.155302</a>&#160;<a class="footnote-backref" href="#fnref:reeves2015identifying" title="Jump back to footnote 15 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 <a href="https://github.com/vidarsko/ComFiT"  target="_blank" rel="noopener">Vidar Skogvoll and Jonas Rønning</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.right", "search.suggest", "search.highlight", "content.code.annotation", "content.code.copy", "content.tabs"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
