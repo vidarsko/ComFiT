@@ -18,6 +18,6 @@ nodes = nem.calc_disclination_nodes_nem()
 
 #print(nodes[3]['velocity'])
 
-fig,axes =nem.plot_nodes(nodes)
+fig,axes =nem.plot_nodes(nodes,plot_lib='matplotlib')
 
-fig.show()
+plt.show()

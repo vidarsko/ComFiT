@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 
 from comfit.tool import (
     tool_set_plot_axis_properties_matplotlib,
-    tool_extract_node_arrays
+    tool_extract_node_arrays,
+tool_matplotlib_define_3D_plot_ax
 )
 
 def plot_nodes_matplotlib(
@@ -82,6 +83,11 @@ def plot_nodes_matplotlib(
 
     elif self.dim == 3:
         # Plotting options
+
+        if ax == None:
+            fig.clf()
+            ax= tool_matplotlib_define_3D_plot_ax(fig, ax)
+
         quiver_scale = 2 # The scale of the quiver arrows
 
         x_coords = node_arrays['x_coordinates']
@@ -92,32 +98,50 @@ def plot_nodes_matplotlib(
             tx = np.array(node_arrays['tangent_vector_x_coordinates'])
             ty = np.array(node_arrays['tangent_vector_y_coordinates'])
             tz = np.array(node_arrays['tangent_vector_z_coordinates'])
+
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * tx, quiver_scale * ty, quiver_scale * tz,
+                      color='blue')
         
         if node_arrays['velocity_given']:
             vx = np.array(node_arrays['velocity_x_coordinates'])
             vy = np.array(node_arrays['velocity_y_coordinates'])
             vz = np.array(node_arrays['velocity_z_coordinates'])
 
+            v_norm = np.sqrt(vx**2 +vy**2+vz**2)
+
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * vx / v_norm, quiver_scale * vy / v_norm,
+                      quiver_scale * vz / v_norm, color='green')
+
         if node_arrays['Burgers_vector_given']:
             Bx = np.array(node_arrays['Burgers_vector_x_coordinates'])
             By = np.array(node_arrays['Burgers_vector_y_coordinates'])
             Bz = np.array(node_arrays['Burgers_vector_z_coordinates'])
 
-        if not len(Bx) == 0:
-            B2 =Bx**2 + By**2 + Bz**2
-            B_norm = np.sqrt(max(B2))
-        else:
-            B_norm = 1
+            if not len(Bx) == 0:
+                B2 = Bx ** 2 + By ** 2 + Bz ** 2
+                B_norm = np.sqrt(max(B2))
+            else:
+                B_norm = 1
+
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * Bx / B_norm, quiver_scale * By / B_norm,
+                      quiver_scale * Bz / B_norm, color='red')
+
+        if node_arrays['rotation_vector_given']:
+            rx = np.array(node_arrays['rotation_vector_x_coordinates'])
+            ry = np.array(node_arrays['rotation_vector_y_coordinates'])
+            rz = np.array(node_arrays['rotation_vector_z_coordinates'])
+
+            ax.quiver(x_coords, y_coords, z_coords, quiver_scale * rx, quiver_scale * ry, quiver_scale * rz,
+                      color='black')
+
+
 
         ax.scatter(x_coords, y_coords, z_coords, marker='o', color='black')
-        if tangent_vector_given:
-            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*tx, quiver_scale*ty, quiver_scale*tz, color='blue')
+
+
         
-        if velocity_given:
-            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*vx/v_norm, quiver_scale*vy/v_norm, quiver_scale*vz/v_norm, color='green')
-        
-        if Burgers_vector_given:
-            ax.quiver(x_coords, y_coords, z_coords, quiver_scale*Bx/B_norm, quiver_scale*By/B_norm, quiver_scale*Bz/B_norm, color='red')
+
+
 
     kwargs['fig'] = fig
     kwargs['ax'] = ax
