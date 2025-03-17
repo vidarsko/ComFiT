@@ -29,6 +29,10 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
 
     field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
+    x = kwargs.get('x', self.x / self.a0)
+    y = kwargs.get('y', self.y / self.a0) if self.dim > 1 else None
+    z = kwargs.get('z', self.z / self.a0) if self.dim > 2 else None
+
     ###############################################################
     ###################### DIMENSION: 1 ###########################
     ###############################################################
@@ -38,12 +42,18 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         ax = tool_plotly_define_2D_plot_ax(fig, ax) #Defines xN, yN and plot_dimension
 
         if not kwargs['field_is_nan']:
+            hovertemplate = 'x: %{x:.1f} a₀<br>field: %{y:.1f}'
+
+        if kwargs['fourier']:
+            hovertemplate = 'k: %{x:.1f} <br>field: %{y:.1f}'
+
+        if not kwargs['field_is_nan']:
             trace = go.Scatter(
-                x=self.x/self.a0,
+                x=x,
                 y=field,
                 mode='lines',
                 name='',
-                hovertemplate='x: %{x:.1f} a₀<br>field: %{y:.1f}',
+                hovertemplate=hovertemplate,
                 xaxis=ax['xN'],
                 yaxis=ax['yN'],
                 showlegend=False
@@ -62,13 +72,13 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
         Y = kwargs.get('Y', None)
 
         if X is None or Y is None:
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            X, Y = np.meshgrid(x, y, indexing='ij')
             
         if not kwargs['field_is_nan']:
             # Trace
             trace = go.Heatmap(
-                x=X.flatten()/self.a0,
-                y=Y.flatten()/self.a0,
+                x=X.flatten(),
+                y=Y.flatten(),
                 z=field.flatten(),
                 zmin=ax['vmin'],
                 zmax=ax['vmax'],
@@ -102,15 +112,15 @@ def plot_field_plotly(self, field: np.ndarray, **kwargs) -> go.Figure:
 
 
         #Plotting the layers
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
         if not kwargs['field_is_nan']:
             for layer_value in layer_values[1:-1]:
                 
                 trace = go.Isosurface(
-                    x=X.flatten()/self.a0,
-                    y=Y.flatten()/self.a0,
-                    z=Z.flatten()/self.a0,
+                    x=X.flatten(),
+                    y=Y.flatten(),
+                    z=Z.flatten(),
                     value = field.flatten(),
                     isomin = layer_value,
                     isomax = layer_value,

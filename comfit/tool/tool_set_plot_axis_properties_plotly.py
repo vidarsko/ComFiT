@@ -67,6 +67,7 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     if 'xlim' in kwargs:
         xlim = np.array(kwargs['xlim']) / self.a0
 
+
     # ylim is specified as a list if dim>1 else as None
     ylim = [self.ymin/self.a0, (self.ymax-self.dy)/self.a0] if self.dim > 1 else None
     if 'ymin' in kwargs:
@@ -90,6 +91,11 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     if 'zlim' in kwargs:
         zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
 
+    if kwargs["fourier"]:
+        xlim = [np.min(self.k[0]), np.max(self.k[0])]
+        ylim = [np.min(self.k[1]), np.max(self.k[1])] if self.dim > 1 else None
+        zlim = [np.min(self.k[2]), np.max(self.k[2])] if self.dim > 2 else None
+
     if ax['plot_dimension'] == 2:
         layout_updates['xaxis_range'] = xlim
         layout_updates['yaxis_range'] = ylim
@@ -104,6 +110,11 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     xlabel = kwargs.get('xlabel', 'x/a₀')
     ylabel = kwargs.get('ylabel', 'y/a₀' if self.dim > 1 else None)
     zlabel = kwargs.get('zlabel', 'z/a₀' if self.dim > 2 else None)
+
+    if kwargs["fourier"]:
+        xlabel = 'kx'
+        ylabel = 'ky' if self.dim > 1 else None
+        zlabel = 'kz' if self.dim > 2 else None
 
     if ax['plot_dimension'] == 2:
         layout_updates[f"{ax['xaxisN']}_title"] = xlabel

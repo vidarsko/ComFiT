@@ -28,6 +28,14 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
 
     kwargs['colormap'] = kwargs.get('colormap', 'angle') # Override the default colormap with 'angle'
     complex_field, fig, ax, kwargs = self.plot_prepare(complex_field, field_type = 'complex', **kwargs)
+    fig = kwargs.get('fig', go.Figure())
+    ax = kwargs.get('ax', {"row": 1, "col": 1, "nrows": 1, "ncols": 1})
+
+    # Kewyord arguments
+    kwargs['colorbar'] = kwargs.get('colorbar', True)
+
+    # Extend the field if not a complete array is given
+    complex_field = tool_complete_field(self, complex_field)
 
     # Calculate the magnitude and phase of the complex field
     rho = np.abs(complex_field)
@@ -260,8 +268,13 @@ def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.F
 
                 fig.add_trace(mesh)
 
-    
-    if kwargs['colorbar'] and not(ax['colorbar']) and not(kwargs['field_is_nan']):
+    # if kwargs['colorbar'] and not(ax['colorbar']) and not(kwargs['field_is_nan']):
+    #     ax['colormap_object'] = kwargs['colormap_object']
+    #     fig.add_trace(tool_plotly_colorbar(ax, type='angle'))
+    #     ax['colorbar'] = True
+
+
+    if kwargs['colorbar'] and not(kwargs['field_is_nan']):
         ax['colormap_object'] = kwargs['colormap_object']
         fig.add_trace(tool_plotly_colorbar(ax, type='angle'))
         ax['colorbar'] = True

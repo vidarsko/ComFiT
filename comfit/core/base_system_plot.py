@@ -148,26 +148,47 @@ class BaseSystemPlot:
                 kwargs['vmax'] = vmax
 
         return field, fig, ax, kwargs
+    
+    def _check_if_fourier_and_adjust(self, field, **kwargs):
+        kwargs["fourier"] = kwargs.get("fourier", False)
+        if kwargs["fourier"]:
+            field = np.fft.fftshift(field)
+            kwargs["x"] = np.fft.fftshift(self.k[0])
+            kwargs["y"] = np.fft.fftshift(self.k[1]) if self.dim > 1 else None
+            kwargs["z"] = np.fft.fftshift(self.k[2]) if self.dim > 2 else None
+        return field, kwargs
 
     def plot_field(self, field: np.ndarray, **kwargs):
+        field, kwargs = self._check_if_fourier_and_adjust(field, **kwargs)  
+
         if self.plot_lib == "plotly":
             return plot_field_plotly(self, field, **kwargs)
         elif self.plot_lib == "matplotlib":
             return plot_field_matplotlib(self, field, **kwargs)
 
     def plot_complex_field(self, complex_field: np.ndarray, **kwargs):
+        complex_field, kwargs = self._check_if_fourier_and_adjust(complex_field, **kwargs)  
+
         if self.plot_lib == "plotly":
             return plot_complex_field_plotly(self, complex_field, **kwargs)
         elif self.plot_lib == "matplotlib":
             return plot_complex_field_matplotlib(self, complex_field, **kwargs)
 
     def plot_angle_field(self, angle_field: np.ndarray, **kwargs):
+        angle_field, kwargs = self._check_if_fourier_and_adjust(angle_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space angle field plotting not implemented.")
+
         if self.plot_lib == "plotly":
             return plot_angle_field_plotly(self, angle_field, **kwargs)
         elif self.plot_lib == "matplotlib":
             return plot_angle_field_matplotlib(self, angle_field, **kwargs)
 
     def plot_vector_field(self, vector_field: np.ndarray, **kwargs):
+        vector_field, kwargs = self._check_if_fourier_and_adjust(vector_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space vector field plotting not implemented.")
+
         if self.plot_lib == "plotly":
             return plot_vector_field_plotly(self, vector_field, **kwargs)
         elif self.plot_lib == "matplotlib":
@@ -180,6 +201,10 @@ class BaseSystemPlot:
         position: Optional[np.ndarray] = None,
         **kwargs
     ):
+        field, kwargs = self._check_if_fourier_and_adjust(field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space plot in plane not implemented.")
+
         if self.plot_lib == "plotly":
             return plot_field_in_plane_plotly(
                 self, field, normal_vector, position, **kwargs
@@ -196,6 +221,10 @@ class BaseSystemPlot:
         position: Optional[np.ndarray] = None,
         **kwargs
     ):
+        complex_field, kwargs = self._check_if_fourier_and_adjust(complex_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space complex field plot in plane not implemented.")
+
         if self.plot_lib == "plotly":
             return plot_complex_field_in_plane_plotly(
                 self, complex_field, normal_vector, position, **kwargs
@@ -212,6 +241,10 @@ class BaseSystemPlot:
         position: Optional[np.ndarray] = None,
         **kwargs
     ):
+        angle_field, kwargs = self._check_if_fourier_and_adjust(angle_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space angle field plot in plane not implemented.")
+        
         complex_field = np.exp(1j * angle_field)
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
 
@@ -223,6 +256,10 @@ class BaseSystemPlot:
         spacing = None,
         **kwargs
     ):
+        vector_field, kwargs = self._check_if_fourier_and_adjust(vector_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space vector field plot in plane not implemented.")
+        
         return plot_vector_field_in_plane_both_plot_libs(self, vector_field, normal_vector, position, spacing, **kwargs)
 
     def plot_nodes(self, nodes, **kwargs):
