@@ -12,6 +12,16 @@ file: comfit/models/bose_einstein_condensate.py
 class: BoseEinsteinCondensate
 ```
 
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/bose_einstein_condensate/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
 ## Variables and Parameters
 
 The primary field in the Bose-Einstein condensate model is the complex wave function $\psi$:
@@ -27,6 +37,7 @@ The `BoseEinsteinCondensate` class accepts the same keyword arguments as the `Ba
 | `gamma` | Dissipative factor   | $0.01$        |
 
 These parameters allow for the customization and fine-tuning of the Bose-Einstein condensate simulation.
+
 
 ## Model
 

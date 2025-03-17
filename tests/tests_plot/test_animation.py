@@ -11,6 +11,10 @@ import scipy as sp
 
 class TestAnimation(unittest.TestCase):
 
+    def tearDown(self):
+        import matplotlib.pyplot as plt
+        plt.close('all')
+
     def test_save_plotly(self):
         bs = cf.BaseSystem(dim=1, xmin=0, xmax=10, xRes=100, plot_lib='plotly')
 

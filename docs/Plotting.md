@@ -1,7 +1,21 @@
 # Plotting
 
-The `ComFiT` package supports both the `plotly` (default) and `matplotlib` plotting libraries. 
-You can easily switch between the two by setting the `plot_lib` attribute of the `BaseSystem` class to either `plotly` or `matplotlib`.
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/plot/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
+The `ComFiT` package supports both the `plotly` (default) and `matplotlib` 
+plotting libraries. 
+You can easily switch between the two by setting the `plot_lib` attribute of the 
+`BaseSystem` class to either `plotly` or `matplotlib`, `plot_lib` can also be 
+passed as an argument to the plotting functions.
+
 Every plotting function returns a tuple containing a `fig` and an `ax` object.
 
 === "`matplotlib`"
@@ -11,7 +25,13 @@ Every plotting function returns a tuple containing a `fig` and an `ax` object.
     The `fig` object is the figure for the plot, and the `ax` object is a dictionary containing properties necessary for correct placement of subplots. 
     Default is `ax = {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1}`.
 
-    
+To show the plot, use the `show` function, which takes the `fig` object as an argument
+
+```python
+cfi.show(fig)
+```
+
+
 ## Subplots
 
 To plot multiple graphs in the same figure, use the `plot_subplots` function before any plotting functions. This function accepts the following arguments:
@@ -20,7 +40,8 @@ To plot multiple graphs in the same figure, use the `plot_subplots` function bef
 * `ncols` (int): The number of columns in the subplot grid.
 * `figsize` (tuple): The size of the figure.
 
-The function returns a tuple `(fig, axs)`, where `fig` is the figure object and `axs` is a list of axis objects. If the subplot grid is one-dimensional, `axs` is a one-dimensional list of axis objects; otherwise, `axs` is a two-dimensional list of lists (so `axs[i][j]` is the axis object at the ith row and jth column).
+The function returns a tuple `(fig, axs)`, where `fig` is the figure object and `axs` is a list of axis objects.
+Following `matplotlib` conventions, if the subplot grid is one-dimensional, `axs` is a one-dimensional list of axis objects; otherwise, `axs` is a two-dimensional list of lists (so `axs[i][j]` is the axis object at the ith row and jth column).
 
 === "`matplotlib`"
     The `axs` object is a list (or array) of axis objects.
@@ -71,52 +92,65 @@ plt.pause(0.01)
 
 ## Plotly 3D properties
 
-Plotly handles manipulating figures differently in 2 and 3 dimensions.
-In the `tool_set_plot_axis_properties_plotly`-function, several help dictionaries are constructed to set the proper plotting properties. 
-Belo is an overview. 
+## Plotly 3D properties
 
-Properties of the `ax`-object:
+Plotly handles manipulating figures differently in 2D and 3D dimensions.
+In the `tool_set_plot_axis_properties_plotly` function, several helper dictionaries are constructed to set the proper plotting properties.
 
-```python
-row, nrows, 
-col, ncols
-xaxis = 'xaxis1' #etc. 
-yaxis = 'yaxis1' #etc. 
-plot_dimension
-```
+### Properties of the `ax` object
 
-2D updates are saved in `layout_updates`:
+The `ax` object contains the following properties:
 
 ```python
-layout_updates = {	'xaxis_range':[0,10], (same for y)
-			     'xaxis_title': 'x/a0',	 } 
+row, nrows   # Row position and total number of rows
+col, ncols   # Column position and total number of columns
+xaxis = 'xaxis1'  # Axis identifier
+yaxis = 'yaxis1'  # Axis identifier  
+plot_dimension   # Dimension of the plot
 ```
 
+### 2D updates
 
-In 3D, updates are saved in several dictionaries:
+For 2D plots, updates are saved in the `layout_updates` dictionary:
 
 ```python
-xaxis_updates = {	'range': [0,10], 
-			'title': 'x/a0',
-			'tickvals': [0,1,2,...],
-			'ticktext': ['0','pi',...]}
+layout_updates = {
+    'xaxis_range': [0, 10],  # Same format for y-axis
+    'xaxis_title': 'x/a0'    # Title for x-axis
+}
 ```
-        
-And similarly for y,z. A
-Also, we have the `scene_updates` dictionary:
+
+### 3D updates
+
+For 3D plots, updates are organized in separate dictionaries for each axis:
 
 ```python
-scene_updates = {	'xaxis': xaxis_updates,
-			'yaxis': yaxis_updates,
-			'zaxis': zaxis_updates}
+xaxis_updates = {
+    'range': [0, 10],
+    'title': 'x/a0',
+    'tickvals': [0, 1, 2, ...],
+    'ticktext': ['0', 'pi', ...]
+}
 ```
 
-In all of the plot functions, confusion might arise between the difference of the `kwargs` and the `ax` dictionary. 
-In short, the difference is gvien by:
+Similar dictionaries exist for `yaxis_updates` and `zaxis_updates`.
 
-`kwargs`: here goes everythign specici to the current plot, whil
+These are combined in the `scene_updates` dictionary:
 
-`ax`: here goes things valid for all plots in the given subplot.
+```python
+scene_updates = {
+    'xaxis': xaxis_updates,
+    'yaxis': yaxis_updates,
+    'zaxis': zaxis_updates
+}
+```
+
+### Understanding `kwargs` vs `ax` dictionary
+
+In all plot functions, there's an important distinction between the `kwargs` and `ax` dictionaries:
+
+- `kwargs`: Contains settings specific to the current plot
+- `ax`: Contains settings that apply to all plots in a given subplot
 
 
 ## Plotting keywords
@@ -154,6 +188,7 @@ $$
 | `colormap` | String specifying the colormap to be used | Varies |
 | `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
 | `hold` | Boolean parameter indicating whether or not to hold the current plot | `False` |
+| `opacity` | The opacity of the plot (only sometimes relevant) | 1 |
 | `plot_shadows` | Boolean parameter indicating whether or not to plot the shadows of the objects. Only applicable for `plot_complex_field`. | `True` |
 | `fig` | `matplotlib` figure handle | None|
 | `ax` | `matplotlib` axis handle | None|

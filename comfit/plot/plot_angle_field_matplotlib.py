@@ -1,26 +1,37 @@
+# Typing imports
+from typing import TYPE_CHECKING, Any, Tuple
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# General packages
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib
-from comfit.plot.plot_complex_field_matplotlib import plot_complex_field_matplotlib
-from comfit.plot import plot_field_matplotlib
+import matplotlib.pyplot as plt
+
+# Comfit packages
+from comfit.plot import plot_field_matplotlib, plot_complex_field_matplotlib
 from comfit.tool import tool_complete_field
 
+def plot_angle_field_matplotlib(
+        self: 'BaseSystem',
+        angle_field: np.ndarray,
+        **kwargs: Any
+        ) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
+    """Plot an angle field using matplotlib.
 
+    Parameters
+    ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
+    angle_field : np.ndarray
+        The angle field values in radians.
+    \*\*kwargs : Any
+        Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
-def plot_angle_field_matplotlib(self, 
-       angle_field: np.ndarray, 
-        **kwargs
-        ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
-    """Plot the angle field.
-
-    Args:
-        field (array-like): The angle field values.
-        ax (matplotlib.axes.Axes, optional): The axes to plot the angle field on. If not provided, a new subplot will be created.
-    
-    Returns:
-        tuple: A tuple containing:
-            - matplotlib.figure.Figure: The figure containing the plot.
-            - matplotlib.axes.Axes: The axes containing the plot.
+    Returns
+    -------
+    tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]
+        The figure and axes objects containing the plot.
     """
 
     # Normalize around 0

@@ -1,36 +1,53 @@
+from typing import TYPE_CHECKING, Any, Tuple
+
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# Standard library imports
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import scipy as sp
-from comfit.tool import tool_complete_field
-from comfit.tool import tool_colormap
-from comfit.tool import tool_set_plot_axis_properties_matplotlib
-
-from comfit.tool import tool_matplotlib_define_2D_plot_ax, tool_matplotlib_define_3D_plot_ax
-
-from comfit.plot.plot_surface_matplotlib import plot_surface_matplotlib
 from mpl_toolkits.mplot3d import Axes3D
-
 from skimage.measure import marching_cubes
 
-def plot_complex_field_matplotlib(self, 
-        complex_field: np.ndarray, 
-        **kwargs
-        ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
-    """
-    Plot a complex field.
+# Local application imports
+from comfit.tool import (
+    tool_complete_field,
+    tool_colormap,
+    tool_set_plot_axis_properties_matplotlib,
+    tool_matplotlib_define_2D_plot_ax,
+    tool_matplotlib_define_3D_plot_ax
+)
+from .plot_surface_matplotlib import plot_surface_matplotlib
 
-    ax=None, plot_method=None, colorbar=False
+def plot_complex_field_matplotlib(
+        self: 'BaseSystem',
+        complex_field: np.ndarray,
+        **kwargs: Any
+        ) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
+    """Plot a complex field using matplotlib.
 
-    Args:
-        complex_field (numpy.ndarray): The complex field to plot.
-        ax (matplotlib.axes.Axes, optional): The matplotlib axes on which to plot the field.
-            If not provided, a new 3D axes will be created.
-    
-    Returns:
-        tuple: A tuple containing:
-            - matplotlib.figure.Figure: The figure containing the plot.
-            - matplotlib.axes.Axes: The axes containing the plot.
+    Creates a visualization of a complex field using different plotting methods
+    depending on the dimensionality of the field.
+
+    Parameters
+    ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
+    complex_field : np.ndarray
+        The complex field to plot
+    \*\*kwargs : Any
+        Keyword arguments for the plot, see https://comfitlib.com/Plotting/
+
+    Returns
+    -------
+    Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]
+        The figure and axes objects containing the plot
+
+    Examples
+    --------
+    >>> system.plot_complex_field_matplotlib(field, colorbar=True)
     """
 
     kwargs['colormap'] = kwargs.get('colormap', 'angle') # Override the default colormap with 'angle'

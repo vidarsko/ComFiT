@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.8.7] - 2025-03-13
+- Changed default colormap to 'angle' for plot_complex_field_in_plane function.
+
+## [1.8.6] - 2025-03-13
+- Fixed bug in plot_save-function.
+
+## [1.8.5] - 2025-03-11
+- Added 'opacity' to 3D plot field functions.
+
 ## [1.8.4] - 2025-03-03
 - Changed plotting convention cfi.plot_save(n,fig) -> cfi.plot_save(fig,n)
 

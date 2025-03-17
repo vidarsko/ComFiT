@@ -1,14 +1,25 @@
+from typing import List, Tuple, Union, TYPE_CHECKING, Any
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
 import numpy as np
 import plotly.graph_objects as go
 
-def tool_set_plot_axis_properties_plotly(self, **kwargs):
-    """Sets the properties of the axis for a plot.
+def tool_set_plot_axis_properties_plotly(
+        self : 'BaseSystem', 
+        **kwargs : Any
+        ) -> None:
+    """Set the properties of the axis for a plot.
 
-    Args:
-    kwargs: keyword arguments for the axis properties
+    Parameters
+    ----------
+    kwargs : dict
+        Keyword arguments for the axis properties.
 
-    Returns:
-    The axis object with the properties set.
+    Returns
+    -------
+    None
+        Function updates the layout and scene dictionaries with the axis properties.    
     """
     # Create dictionaries to store the layout updates
     layout_updates = {}
@@ -203,13 +214,15 @@ def tool_set_plot_axis_properties_plotly(self, **kwargs):
     title = kwargs.get('title', None)
     
     if title is not None:
-        fig.add_annotation(x=(x_domain_start), 
-        y=y_domain_end+0.05, 
+        fig.add_annotation(x=(
+                    x_domain_start+0.6*padding*(ax['col']-1)/ax['ncols']
+                    +x_domain_end-0.6*padding*(1-ax['col']/ax['ncols']))/2, 
+        y= 0.05 + y_domain_end-0.3*padding*(ax['row']-1)/ax['nrows'], 
         xref='paper',
         yref='paper',
         text=title, 
         showarrow=False, 
-        align='left')
+        align='center')
     
 
     # else:

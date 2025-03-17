@@ -57,26 +57,110 @@ $$
 
 ## Programming notation conventions
 
-* [PEP8](https://peps.python.org/pep-0008/) for python programming, and loosely [PEP257](https://peps.python.org/pep-0257/)/[Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) for doc strings. Functions are documented as follows:
+* [PEP8](https://peps.python.org/pep-0008/) for python programming
+* [NumPy docstring format](https://numpydoc.readthedocs.io/en/latest/format.html) for documentation strings
+* Import ordering should follow this pattern:
+  1. Standard library imports
+  2. Third-party library imports
+  3. Local application imports
+  4. Each group should be separated by a blank line
+
+Stand-alone functions are documented as follows:
+
 ```python
-def function_name(arg1, arg2):
-    """Short description of the function.
+def function_name(
+        arg1: arg1_type, 
+        arg2: arg2_type, 
+        arg3: Optional[arg3_type] = None,
+        **kwargs: Any
+        ) -> return_type:
+    """Short description of the function (in the imperative mood).
 
     Optional longer description of the function.
 
-    Args:
-        arg1: Description of arg1. No need to state default values.
-        arg2: Description of arg2.
+    Parameters
+    ----------
+    arg1 : arg1_type
+        Description of arg1. No need to state default values.
+    arg2 : arg2_type
+        Description of arg2.
+    arg3 : arg3_type, optional
+        Description of arg3. Defaults to None.
+    \*\*kwargs : Any
+        Description of additional keyword arguments.
+    
 
-    Returns:
-        Description of the return value. Data type.
+    Returns
+    -------
+    return_type
+        Description of the return value.
 
-    Raises:
-        Exception: Description of the exception.
+    Raises
+    ------
+    Exception
+        Description of the exception.
 
-    Example:
-        Optional example usage
+    Examples
+    --------
+    >>> function_name(1, 2)
+    3       
     """
     pass
 ```
+
+If the function is a method of a `comfit` model, it should be documented as follows:
+
+```python
+from typing import TYPE_CHECKING # Import necessary typing packages
+
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# General packages
+# Import necessary packages from the standard library, e.g.
+# import numpy as np
+
+# Comfit packages
+# Import necessary packages from comfit from the subpackages, e.g. 
+# from comfit.core import BaseSystem
+
+def function_name(
+        self: 'BaseSystem',
+        arg1: arg1_type, 
+        arg2: arg2_type, 
+        arg3: Optional[arg3_type] = None
+        ) -> return_type:
+    """Short description of the function (in the imperative mood).
+
+    Optional longer description of the function.
+
+    Parameters
+    ----------
+    arg1 : arg1_type
+        Description of arg1. No need to state default values.
+    arg2 : arg2_type
+        Description of arg2.
+    arg3 : arg3_type, optional
+        Description of arg3. Defaults to None.
+    \*\*kwargs : Any (use backslash to escape the asterisk)
+        Description of additional keyword arguments.
+
+    Returns
+    -------
+    return_type
+        Description of the return value.
+
+    Raises
+    ------
+    Exception
+        Description of the exception.
+
+    Examples
+    --------
+    >>> function_name(1, 2)
+    3       
+    """
+    pass
+```
+
 * [markdownlint](https://github.com/DavidAnson/markdownlint) for markdown documents.

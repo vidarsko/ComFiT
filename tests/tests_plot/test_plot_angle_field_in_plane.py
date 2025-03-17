@@ -12,6 +12,10 @@ import scipy as sp
 
 class TestPlotAngleField(unittest.TestCase):
 
+  def tearDown(self):
+      import matplotlib.pyplot as plt
+      plt.close('all')
+
   def test_3D(self):
     for plot_lib in ['plotly', 'matplotlib']:
       # Initialize BaseSystem object

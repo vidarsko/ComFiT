@@ -13,6 +13,6 @@ rho_abs = np.sqrt(rho[0]**2+rho[1]**2+rho[2]**2)
 
 #bec.plot_field(rho_abs)
 bec.plot_vector_field(rho)
-cf.tool_zoom_plot(2)
+cf.tool_zoom_plot_matplotlib(2)
 #cf.tool_export_rotating_plot()
 plt.show()

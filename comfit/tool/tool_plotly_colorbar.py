@@ -1,17 +1,38 @@
+from typing import Tuple, Union, Dict, Any, Literal
+
+# General packages
 import numpy as np
 import plotly.graph_objects as go
-from comfit.tool import tool_colormap
 import math
+
+# Local packages
+from comfit.tool import tool_colormap
 
 
 superscripts = {'0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
                 '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹',
                 '-': '⁻'}
 
-def format_tick_value(val):
+def format_tick_value(
+    val: float
+    ) -> str:
+    """Format a numeric value with appropriate SI prefix and significant figures.
+    This function formats numeric values using SI prefixes and adjusts decimal places
+    based on the magnitude of the number. For values that don't align with standard
+    SI prefixes, scientific notation is used as a fallback.
+
+    Parameters
+    ----------
+    val : float
+        The numeric value to format.
+
+    Returns
+    -------
+    str
+        A string representation of the value with appropriate SI prefix and formatting.
+    """
     if val == 0:
         return '0'
-
 
     # prefixes = {exp: f'×10{"".join(superscripts[digit] for digit in str(exp))}' for exp in range(-18, 19, 3)}
     # prefix_letters = {
@@ -40,7 +61,44 @@ def format_tick_value(val):
         return f'{val:.0e}'  # Fallback to scientific notation
 
 
-def generate_numbers_between(cmin, cmax):
+
+def generate_numbers_between(
+        cmin: float, 
+        cmax: float
+        ) -> Tuple[np.ndarray, float]:
+    """Generate evenly spaced numbers between given minimum and maximum values.
+
+    This function generates a sequence of numbers between cmin and cmax with
+    appropriate step sizes based on the range magnitude. The step size is 
+    adjusted to maintain a readable number of ticks.
+
+    Parameters
+    ----------
+    cmin : float
+        Minimum value of the range.
+    cmax : float
+        Maximum value of the range.
+
+    Returns
+    -------
+    tuple[np.ndarray, float]
+        A tuple containing:
+        - np.ndarray: Array of evenly spaced numbers between cmin and cmax
+        - float: The exponent of the range magnitude (delta_exp)
+
+    Raises
+    ------
+    ValueError
+        If cmin is greater than cmax.
+
+    Notes
+    -----
+    The step size is determined based on the range magnitude:
+    - If range <= 5 units: step = 10^delta_exp
+    - If range <= 10 units: step = 2×10^delta_exp
+    - If range <= 15 units: step = 3×10^delta_exp
+    - If range <= 20 units: step = 4×10^delta_exp
+    """
     if cmin > cmax:
         raise ValueError("cmin must be less than cmax")
 
@@ -68,14 +126,41 @@ def generate_numbers_between(cmin, cmax):
      
         
 
-def tool_plotly_colorbar(ax, type='normal'):
-    """Add a colorbar for the angle field to a plotly figure.
+def tool_plotly_colorbar(
+        ax : Dict[str, Any], 
+        type : Literal['normal', 'angle'] = 'normal'
+        ) -> Union[go.Scatter, go.Scatter3d]:
+    """Add a colorbar to a plotly figure subplot with customizable type and placement.
 
-    Args:
-        ax: The (row,column) index of the subplot to add the colorbar to.
-    
-    Returns:
-        plotly.graph_objects.Scatter: A scatter plot with no data that can be used as a colorbar.
+    Parameters
+    ----------
+    ax : dict
+        Dictionary containing subplot information with keys:
+        - 'vmin': Minimum value for normal colorbar
+        - 'vmax': Maximum value for normal colorbar
+        - 'plot_dimension': Integer (2 or 3) indicating plot dimensions
+        - 'colormap_object': Plotly colormap object
+        - 'row': Row index of subplot
+        - 'col': Column index of subplot
+        - 'nrows': Total number of rows in figure
+        - 'ncols': Total number of columns in figure
+
+    type : str, optional
+        Type of colorbar to create, by default 'normal'
+        - 'normal': Linear scale with auto-formatted tick values
+        - 'angle': Angular scale from -π to π with radian labels
+
+    Returns
+    -------
+    Union[plotly.graph_objects.Scatter, plotly.graph_objects.Scatter3d]
+        A scatter trace containing the colorbar configuration. The trace has no data points
+        and is used solely for displaying the colorbar.
+
+    Notes
+    -----
+    The colorbar placement is automatically calculated based on the subplot position.
+    For normal type, tick values are auto-formatted with scientific notation.
+    For angle type, tick values are displayed in π radians.
     """
  
     if type == 'normal':

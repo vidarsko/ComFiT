@@ -13,6 +13,16 @@ file: comfit/models/nematic_liquid_crystal.py
 class: NematicLiquidCrystal
 ```
 
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/nematic_liquid_crystal/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
 ## Variables and parameters
 
 The primary variables are the symmetric traceless tensor $Q$ and the

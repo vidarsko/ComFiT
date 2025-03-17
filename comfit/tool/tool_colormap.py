@@ -1,8 +1,31 @@
+from typing import List, Tuple, Union, Literal
+
+# General packages
 import numpy as np
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 
-def tool_colormap(colormap_string, plot_lib='plotly'):
+def tool_colormap(
+        colormap_string : str, 
+        plot_lib : Literal['plotly', 'matplotlib'] = 'plotly'
+        ) -> Union[mcolors.LinearSegmentedColormap, List[Tuple[float, str]]]:
+    """Get a colormap for a plot.
+
+    Parameters
+    ----------
+    colormap_string : str
+        The name of the colormap. See options at
+        https://comfitlib.com/Plotting/
+    plot_lib : str, optional
+        The plotting library to use, either 'plotly' or 'matplotlib', by default 'plotly'
+    
+    Returns
+    -------
+    Union[mcolors.LinearSegmentedColormap, List[Tuple[float, str]]]
+        For plotly: List of tuples with (position, rgb color string)
+        For matplotlib: A matplotlib colormap object
+    """
+    
     
     # Custom colormaps
     sunburst_colors = [  (0.24, 0.15, 0.66),

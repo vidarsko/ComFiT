@@ -1,44 +1,61 @@
+from typing import Union, Tuple, TYPE_CHECKING
+
 import numpy as np
 
-def tool_complete_field(self, field: np.ndarray) -> np.ndarray:
-        """Extends the field in case not a complete array is given. 
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
 
-        For instance, if a field in 3 dimensions is calculated using only x, then the field is extended to the full 3D array.
+def tool_complete_field(
+        self : 'BaseSystem', 
+        field : np.ndarray
+        ) -> np.ndarray:
+    """Extends a partial field array to a complete array by tiling.
 
-        Args:
-            field: The field to be extended
+    Parameters
+    ----------
+    self : 'BaseSystem'
+        A BaseSystem (or derived) instance.
+    field : np.ndarray
+        Input field array to be extended. Can be 1D, 2D, or 3D array with partial dimensions.
 
-        Returns:
-            The extended field (np.ndarray)
-        """    
+    Returns
+    -------
+    np.ndarray
+        Extended field array with complete dimensions matching self.xRes, self.yRes, and self.zRes.
 
-        # 2 dimensional fields
-        if field.shape == (self.xRes,1):
-            field = np.tile(field,(1,self.yRes))
+    Notes
+    -----
+    If input field is incomplete (has dimensions of 1 in some axes), it will be tiled
+    to match the full resolution specified by self.xRes, self.yRes, and self.zRes.
+    """
 
-        elif field.shape == (1,self.yRes):
-            field = np.tile(field,(self.xRes,1))
+    # 2 dimensional fields
+    if field.shape == (self.xRes,1):
+        field = np.tile(field,(1,self.yRes))
 
-        # 3 dimensional fields
-        elif field.shape == (self.xRes,1,1):
-            field = np.tile(field,(1,self.yRes,1))
-            field = np.tile(field,(1,1,self.zRes))
+    elif field.shape == (1,self.yRes):
+        field = np.tile(field,(self.xRes,1))
 
-        elif field.shape == (1,self.yRes,1):
-            field = np.tile(field,(self.xRes,1,1))
-            field = np.tile(field,(1,1,self.zRes))
+    # 3 dimensional fields
+    elif field.shape == (self.xRes,1,1):
+        field = np.tile(field,(1,self.yRes,1))
+        field = np.tile(field,(1,1,self.zRes))
 
-        elif field.shape == (1,1,self.zRes):
-            field = np.tile(field,(self.xRes,1,1))
-            field = np.tile(field,(1,self.yRes,1))
+    elif field.shape == (1,self.yRes,1):
+        field = np.tile(field,(self.xRes,1,1))
+        field = np.tile(field,(1,1,self.zRes))
 
-        elif field.shape == (self.xRes,self.yRes,1):
-            field = np.tile(field,(1,1,self.zRes))
+    elif field.shape == (1,1,self.zRes):
+        field = np.tile(field,(self.xRes,1,1))
+        field = np.tile(field,(1,self.yRes,1))
 
-        elif field.shape == (self.xRes,1,self.zRes):
-            field = np.tile(field,(1,self.yRes,1))
+    elif field.shape == (self.xRes,self.yRes,1):
+        field = np.tile(field,(1,1,self.zRes))
 
-        elif field.shape == (1,self.yRes,self.zRes):
-            field = np.tile(field,(self.xRes,1,1))
+    elif field.shape == (self.xRes,1,self.zRes):
+        field = np.tile(field,(1,self.yRes,1))
 
-        return field
+    elif field.shape == (1,self.yRes,self.zRes):
+        field = np.tile(field,(self.xRes,1,1))
+
+    return field

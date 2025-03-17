@@ -197,6 +197,16 @@ Below is a prepromt you can use with a language model to help you get started.
     calc_orientation_field, calc_free_energy
     ```
 
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
 ## Tutorials
 
 The best way to get to know ComFiT is by using it in one of the following tutorials.
@@ -262,10 +272,6 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     The Quantum Harmonic Oscillator and her eigenstates.
     </p>
 </a>
-</div>
-
-<!-- 
-<div class="grid cards" style="display: flex; flex-wrap: wrap;">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong> 1D wave packets </strong></div>
         <hr>
@@ -299,7 +305,7 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     Understand how to plot a quantum mechanical system in 3 dimensions.
     </p>
 </a>
-</a>
+<!-- </a>
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_harmonic_oscillator.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> The harmonic oscillator </strong></div>
     <hr>
@@ -310,7 +316,7 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     <p style="color: var(--md-default-fg-color)">
     Investigate the quantum mechanical harmonic oscillator.
     </p>
-</a>
+</a> -->
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_the_hydrogen_atom.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
     <div> <strong> The hydrogen atom </strong></div>
     <hr>
@@ -322,7 +328,7 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     Get to know the hydrogen atom.
     </p>
 </a>
-</div> -->
+</div>
 
 ### Bose-Einstein Condensates
 

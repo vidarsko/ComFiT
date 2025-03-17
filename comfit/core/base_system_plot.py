@@ -1,4 +1,5 @@
-from typing import Union, Optional
+from typing import Union, Optional, Literal, Tuple, Dict, List, Any, TYPE_CHECKING
+
 
 import numpy as np
 import scipy as sp
@@ -48,18 +49,39 @@ from skimage.measure import marching_cubes
 
 import time
 
-
 class BaseSystemPlot:
     """Plotting methods for the base system class"""
 
-    def plot_prepare(self, field, field_type, **kwargs):
+    def plot_prepare(
+        self: 'BaseSystemPlot', 
+        field: np.ndarray, 
+        field_type: Literal['real', 'complex', 'angle', 'vector'], 
+        **kwargs: any
+        ) -> Tuple[np.ndarray, Union[go.Figure, plt.Figure], Any, Dict]:
+        """Prepare axis and figure for plotting.
 
+        Parameters
+        ----------
+        field : np.ndarray
+            Field to be plotted.
+        field_type : str
+            Type of the field to be plotted.
+
+        Returns
+        -------
+        Tuple[np.ndarray, Union[go.Figure, plt.Figure], Any, Dict]
+            Tuple containing the field, figure (plotly or matplotlib), 
+            axis (plotly or matplotlib) and keyword arguments for plotting.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+        
         ## Define figure
-        if self.plot_lib == "plotly":
+        if plot_lib == "plotly":
             fig = kwargs.get('fig', go.Figure())
             ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1, 'colorbar': False})
 
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             fig = kwargs['fig'] if 'fig' in kwargs else plt.figure()
             ax = kwargs.get('ax', None)
 
@@ -97,14 +119,14 @@ class BaseSystemPlot:
 
         ## Define default kwarg values
         kwargs['colormap'] = kwargs.get('colormap', 'viridis')
-        kwargs['colormap_object'] = tool_colormap(kwargs['colormap'], plot_lib=self.plot_lib)
+        kwargs['colormap_object'] = tool_colormap(kwargs['colormap'], plot_lib=plot_lib)
 
         colorbar_default = False
         if field_type == 'complex':
             colorbar_default = True
         if field_type in ['real','angle'] and self.dim>1:
             colorbar_default = True
-        if field_type == 'vector' and self.plot_lib == 'plotly':
+        if field_type == 'vector' and plot_lib == 'plotly':
             colorbar_default = True
         kwargs['colorbar'] = kwargs.get('colorbar',  colorbar_default)
 
@@ -139,7 +161,7 @@ class BaseSystemPlot:
                         vmax = max(abs(vmin), abs(vmax))
                         vmin = -vmax
             
-            if self.plot_lib == 'plotly':
+            if plot_lib == 'plotly':
                 ax['vmin'] = min(vmin, ax.get('vmin', vmin)) 
                 ax['vmax'] = max(vmax, ax.get('vmax', vmax))
 
@@ -158,125 +180,439 @@ class BaseSystemPlot:
             kwargs["z"] = np.fft.fftshift(self.k[2]) if self.dim > 2 else None
         return field, kwargs
 
-    def plot_field(self, field: np.ndarray, **kwargs):
+    def plot_field(
+            self: 'BaseSystemPlot', 
+            field: np.ndarray, 
+            **kwargs: Any
+            ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot a field.
+
+        Parameters
+        ----------
+        field : np.ndarray
+            Field to be plotted.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ 
+            for a full list of keyword arguments.
+
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes 
+            dictionary (plotly or matplotlib).
+
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default 
+        plotting library (plotly or matplotlib) will be used.
+        See the corresponding plot_field_plotly or plot_field_matplotlib function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
         field, kwargs = self._check_if_fourier_and_adjust(field, **kwargs)  
 
-        if self.plot_lib == "plotly":
+
+        if plot_lib == "plotly":
             return plot_field_plotly(self, field, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_field_matplotlib(self, field, **kwargs)
 
-    def plot_complex_field(self, complex_field: np.ndarray, **kwargs):
+    def plot_complex_field(
+            self: 'BaseSystemPlot', 
+            complex_field: np.ndarray, 
+            **kwargs: Any
+            ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot a complex field.
+
+        Parameters
+        ----------
+        complex_field : np.ndarray
+            Complex field to be plotted.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
+            for a full list of keyword arguments.
+        
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+        
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default
+        plotting library (plotly or matplotlib) will be used.
+        See the corresponding plot_complex_field_plotly or plot_complex_field_matplotlib function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
         complex_field, kwargs = self._check_if_fourier_and_adjust(complex_field, **kwargs)  
 
-        if self.plot_lib == "plotly":
+
+        if plot_lib == "plotly":
             return plot_complex_field_plotly(self, complex_field, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_complex_field_matplotlib(self, complex_field, **kwargs)
 
-    def plot_angle_field(self, angle_field: np.ndarray, **kwargs):
+
+    def plot_angle_field(
+            self: 'BaseSystemPlot', 
+            angle_field: np.ndarray, 
+            **kwargs: Any
+            ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot an angle field.
+
+        Parameters
+        ----------
+        angle_field : np.ndarray
+            Angle field to be plotted.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
+            for a full list of keyword arguments.
+        
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default
+        plotting library (plotly or matplotlib) will be used.
+        See the corresponding plot_angle_field_plotly or plot_angle_field_matplotlib function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
         angle_field, kwargs = self._check_if_fourier_and_adjust(angle_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space angle field plotting not implemented.")
 
-        if self.plot_lib == "plotly":
+        if plot_lib == "plotly":
             return plot_angle_field_plotly(self, angle_field, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_angle_field_matplotlib(self, angle_field, **kwargs)
 
-    def plot_vector_field(self, vector_field: np.ndarray, **kwargs):
+
+    def plot_vector_field(
+            self: 'BaseSystemPlot', 
+            vector_field: np.ndarray, 
+            **kwargs: Any
+            ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot a vector field.
+
+        Parameters
+        ----------
+        vector_field : np.ndarray
+            Vector field to be plotted.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
+            for a full list of keyword arguments.
+        
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default
+        plotting library (plotly or matplotlib) will be used.
+        See the corresponding plot_vector_field_plotly or plot_vector_field_matplotlib function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
         vector_field, kwargs = self._check_if_fourier_and_adjust(vector_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space vector field plotting not implemented.")
 
-        if self.plot_lib == "plotly":
+        if plot_lib == "plotly":
             return plot_vector_field_plotly(self, vector_field, **kwargs)
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_vector_field_matplotlib(self, vector_field, **kwargs)
 
     def plot_field_in_plane(
-        self,
+        self: 'BaseSystemPlot',
         field: np.ndarray,
         normal_vector: Optional[np.ndarray] = None,
         position: Optional[np.ndarray] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+        ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot the field in a plane.
+
+        Parameters
+        ----------
+        field : np.ndarray
+            Field to be plotted.
+        normal_vector : np.ndarray, optional
+            Normal vector of the plane. If None, the normal vector will be calculated.
+        position : np.ndarray, optional
+            Position of the plane. If None, the position will be calculated.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
+            for a full list of keyword arguments.
+        
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default
+        plotting library (plotly or matplotlib) will be used.
+        See the corresponding plot_field_in_plane_plotly or plot_field_in_plane_matplotlib function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
         field, kwargs = self._check_if_fourier_and_adjust(field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space plot in plane not implemented.")
 
-        if self.plot_lib == "plotly":
+        if plot_lib == "plotly":
             return plot_field_in_plane_plotly(
                 self, field, normal_vector, position, **kwargs
             )
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_field_in_plane_matplotlib(
                 self, field, normal_vector, position, **kwargs
             )
 
     def plot_complex_field_in_plane(
-        self,
+        self: 'BaseSystemPlot',
         complex_field: np.ndarray,
         normal_vector: Optional[np.ndarray] = None,
         position: Optional[np.ndarray] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+        ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot the complex field in a plane.
+
+        Parameters
+        ----------
+        complex_field : np.ndarray
+            Complex field to be plotted.
+        normal_vector : np.ndarray, optional
+            Normal vector of the plane. If None, the normal vector will be calculated.
+        position : np.ndarray, optional
+            Position of the plane. If None, the position will be calculated.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
+            for a full list of keyword arguments.
+
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default
+        plotting library (plotly or matplotlib) will be used.
+        See the corresponding plot_complex_field_in_plane_plotly or plot_complex_field_in_plane_matplotlib function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
         complex_field, kwargs = self._check_if_fourier_and_adjust(complex_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space complex field plot in plane not implemented.")
 
-        if self.plot_lib == "plotly":
+
+        if plot_lib == "plotly":
             return plot_complex_field_in_plane_plotly(
                 self, complex_field, normal_vector, position, **kwargs
             )
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             return plot_complex_field_in_plane_matplotlib(
                 self, complex_field, normal_vector, position, **kwargs
             )
 
     def plot_angle_field_in_plane(
-        self,
+        self: 'BaseSystemPlot',
         angle_field: np.ndarray,
         normal_vector: Optional[np.ndarray] = None,
         position: Optional[np.ndarray] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+        ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot the angle field in a plane.
+
+        Parameters
+        ----------
+        angle_field : np.ndarray
+            Angle field to be plotted.
+        normal_vector : np.ndarray, optional
+            Normal vector of the plane. If None, the normal vector will be calculated.
+        position : np.ndarray, optional
+            Position of the plane. If None, the position will be calculated.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
+            for a full list of keyword arguments.
+        
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default
+        plotting library (plotly or matplotlib) will be used.
+        See the corresponding plot_angle_field_plotly or plot_angle_field_matplotlib function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
         angle_field, kwargs = self._check_if_fourier_and_adjust(angle_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space angle field plot in plane not implemented.")
-        
+
+
         complex_field = np.exp(1j * angle_field)
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
 
     def plot_vector_field_in_plane(
-        self,
+        self: 'BaseSystemPlot',
         vector_field: np.ndarray,
         normal_vector: Optional[np.ndarray] = None,
         position: Optional[np.ndarray] = None,
         spacing = None,
-        **kwargs
-    ):
+        **kwargs: Any
+        ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot the vector field in a plane.
+
+        Parameters
+        ----------
+        vector_field : np.ndarray
+            Vector field to be plotted.
+        normal_vector : np.ndarray, optional
+            Normal vector of the plane. If None, the normal vector will be calculated.
+        position : np.ndarray, optional
+            Position of the plane. If None, the position will be calculated.
+        spacing : float, optional
+            Spacing between the vectors.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
+            for a full list of keyword arguments.
+        
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default
+        plotting library (plotly or matplotlib) will be used.
+        See the plot_vector_field_both_plot_libs function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
         vector_field, kwargs = self._check_if_fourier_and_adjust(vector_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space vector field plot in plane not implemented.")
-        
+
+
         return plot_vector_field_in_plane_both_plot_libs(self, vector_field, normal_vector, position, spacing, **kwargs)
 
-    def plot_nodes(self, nodes, **kwargs):
-        if self.plot_lib == 'plotly':
+    def plot_nodes(
+            self: 'BaseSystemPlot', 
+            nodes: Dict[str, Any], 
+            **kwargs: Any
+            ) ->  Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot nodes.
+
+        Parameters
+        ----------
+        nodes : np.ndarray
+            Nodes to be plotted.
+        \*\*kwargs : Any
+            Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
+            for a full list of keyword arguments.
+        
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+        
+        Note
+        ----
+        plot_lib is a possible keyword argument. If not provided, the default
+        plotting library (plotly or matplotlib) will be used.
+        See the corresponding plot_nodes_plotly or plot_nodes_matplotlib function
+        in the Auxiliary Plot Functions documentation for further details.
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == 'plotly':
             return plot_nodes_plotly(self, nodes, **kwargs)
-        elif self.plot_lib == 'matplotlib':
+        elif plot_lib == 'matplotlib':
             return plot_nodes_matplotlib(self, nodes, **kwargs)
 
 
     # Figure handling methods
-    def plot_subplots(self, number_of_rows, number_of_columns, **kwargs):
-        if self.plot_lib == "plotly":
-            return plot_subplots_plotly(number_of_rows, number_of_columns, **kwargs)
-        elif self.plot_lib == "matplotlib":
+    def plot_subplots(
+            self: 'BaseSystemPlot', 
+            number_of_rows: int, 
+            number_of_columns: int, 
+            **kwargs: Any
+            ) -> Tuple[Union[go.Figure, plt.Figure], Any]:
+        """Plot subplots.
+
+        Parameters
+        ----------
+        number_of_rows : int
+            Number of rows in the subplot.
+        number_of_columns : int
+            Number of columns in the subplot.
+        
+        Returns
+        -------
+        Tuple[Union[go.Figure, plt.Figure], Any]
+            Tuple containing the figure (plotly or matplotlib) and the axes
+            dictionary (plotly or matplotlib).
+        """
+
+        plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if plot_lib == "plotly":
+            return plot_subplots_plotly(number_of_rows, number_of_columns)
+        elif plot_lib == "matplotlib":
             return plot_subplots_matplotlib(number_of_rows, number_of_columns, **kwargs)
 
-    def plot_save(self, fig, counter=None, **kwargs):
+    def plot_save(
+        self: 'BaseSystemPlot', 
+        fig: Union[plt.Figure, go.Figure], 
+        counter: Optional[int] = None, 
+        **kwargs: Any
+        ) -> None:
+        """Save a figure.
+
+        Parameters
+        ----------
+        fig : Union[plt.Figure, go.Figure]
+            Figure to be saved.
+        counter : int, optional
+            Counter for the figure. If None, the figure will be saved as 'plot.png'.
+        \*\*kwargs : Any
+            Optional arguments: ID, image_size_inches, dpi.
+        
+        Returns
+        -------
+        None
+            Save the figure. 
+        """
 
         # Check if the figure is the first argument (deprecated)
         if isinstance(fig, int):
@@ -306,16 +642,43 @@ class BaseSystemPlot:
 
 
         # Save the figure
-        if self.plot_lib == "plotly":
+        # Determine the plotting library based on figure type
+        if isinstance(fig, plt.Figure):
+            plot_lib = "matplotlib"
+        elif isinstance(fig, go.Figure):
+            plot_lib = "plotly"
+        else:
+            plot_lib = self.plot_lib
+
+        if plot_lib == "plotly":
             fig.write_image(filename)
 
-        elif self.plot_lib == "matplotlib":
+        elif plot_lib == "matplotlib":
             fig.set_size_inches(image_size_inches)
             fig.savefig(filename, dpi=dpi)
+            plt.close(fig)
 
 
-    def show(self, fig):
-        if self.plot_lib == "matplotlib":
+    def show(
+            self: 'BaseSystemPlot', 
+            fig: Union[plt.Figure, go.Figure]
+            ) -> None:
+        """Show a figure.
+
+        Parameters
+        ----------
+        fig : Union[plt.Figure, go.Figure]
+            Figure to be shown.
+        
+        Returns
+        -------
+        None
+            Show the figure.
+        """
+
+        plot_lib = "plotly" if isinstance(fig, go.Figure) else "matplotlib"
+
+        if plot_lib == "matplotlib":
             plt.show()
-        elif self.plot_lib == "plotly":
+        elif plot_lib == "plotly":
             fig.show()

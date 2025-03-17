@@ -10,6 +10,52 @@ file: comfit/models/quantum_mechanics.py
 class: QuantumMechanics
 ```
 
+See the ComFiT Library Reference below for a complete list of class methods and their usage.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/quantum_mechanics/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
+
+
+
+## Example
+
+The following example demonstrates how to set up a 1D quantum system with a Gaussian wave packet and a potential barrier.
+It runs smoothly with `comfit 1.8.4`.
+
+```python
+import comfit as cf
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Set up a 1D quantum system
+qm = cf.QuantumMechanics(1, xlim=[-50,50], xRes=1001, dt=0.1)
+
+# Initialize a Gaussian wavepacket at x=5 with velocity=1
+qm.conf_initial_condition_Gaussian(position=5, width=1, initial_velocity=1)
+
+# Add a potential barrier (optional)
+qm.V_ext = 0.5 * (qm.x > 10) * (qm.x < 12)  # Barrier from x=10 to 12
+
+height = np.max(abs(qm.psi))  # Get the maximum value of the wavefunction
+
+# Optional: Animate it
+for n in range(61):
+    qm.evolve_schrodinger(5)
+    fig, ax = qm.plot_complex_field(qm.psi)
+    qm.plot_field(qm.V_ext, fig=fig, ax=ax, ylim=[0,height], xlim=[0,20])
+    qm.plot_save(fig, n)
+cf.tool_make_animation_gif(n)  # Creates animation.gif
+```
+
+![Quantum Mechanics](../img/quantum_mechanics_barrier_reflection.gif#only-light)
+![Quantum Mechanics](../img/quantum_mechanics_barrier_reflection-colorinverted.gif#only-dark)
+
 ## The Schrödinger equation
 
 Evolving according to the Schrödinger equation with electron mass
@@ -49,13 +95,16 @@ $$
 | Energy         | 27.2 eV (electron volts)  |
 | Time           | 24.2 aS (atto seconds)    |
 
+
 ## The Born rule
 
 The Born rule states that the probability $p$ of measuring a particle in the interval $[a,b]$ is given by 
 
 $$
-p = \int_a^b dx |\psi(x)|^2. 
+p = \int_a^b dx |\psi(x)|^2.
 $$
+
+
 
 ## A wave packet
 

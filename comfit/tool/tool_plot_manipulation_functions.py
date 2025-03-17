@@ -1,11 +1,28 @@
-"""
-This module provides tools for manipulating plots.
-"""
+from typing import Optional
+
+# General packages
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-def tool_zoom_plot(zoom_factor, ax=None):
+def tool_zoom_plot_matplotlib(
+        zoom_factor: float, 
+        ax: Optional[plt.Axes] = None
+        ) -> None:
+    """Zoom in/out on a matplotlib plot by adjusting axis limits.
+
+    Parameters
+    ----------
+    zoom_factor : float
+        Factor by which to zoom. Values > 1 zoom in, values < 1 zoom out.
+    ax : plt.Axes, optional
+        The axes to apply zoom to. If None, uses current axes, by default None.
+
+    Returns
+    -------
+    None
+        Modifies the plot in place.
+    """
     if ax is None:
         ax = plt.gca()
 

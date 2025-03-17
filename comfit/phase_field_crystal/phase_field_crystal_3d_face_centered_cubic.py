@@ -11,15 +11,23 @@ from comfit.tool.tool_print_in_color import tool_print_in_color
 
 class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
     def __init__(self, nx, ny, nz, **kwargs):
-        """Initializes a phase field crystal system in 3D with a face centered cubic crystal structure.
+        """
+        Initializes a phase field crystal system in 3D with a face centered cubic crystal structure.
 
-        Args:
-            nx: The number of unit cells in the x direction.
-            ny: The number of unit cells in the y direction.
-            nz: The number of unit cells in the z direction.
+        Parameters
+        ----------
+        nx : int
+            The number of unit cells in the x direction.
+        ny : int
+            The number of unit cells in the y direction.
+        nz : int
+            The number of unit cells in the z direction.
+        \*\*kwargs : dict
+            Additional arguments to set as attributes.
 
-        Returns:
-            The system object representing the PhaseFieldCrystal3DFaceCenteredCubic simulation.
+        Returns
+        -------
+        None
         """
 
         # Type of the system
@@ -113,12 +121,12 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
 
         
     def calc_proto_amplitudes_conserved(self):
-        """Calculates the proto-amplitudes for the system.
+        """
+        Calculates the proto-amplitudes for the system.
 
-        Args:
-            None
-        
-        Returns:
+        Returns
+        -------
+        tuple
             The proto-amplitudes for the system.
         """
 
@@ -139,12 +147,17 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         return A, B
 
     def calc_proto_amplitude_equations_conserved(self, vars):
-        """Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics
+        """
+        Calculates the equations for the proto-amplitudes for the system in the case of conserved dynamics.
 
-        Args:
-            vars: The proto-amplitudes for the system.
+        Parameters
+        ----------
+        vars : list
+            The proto-amplitudes for the system.
         
-        Returns:
+        Returns
+        -------
+        list
             The equations for the proto-amplitudes for the system in the case of conserved dynamics.
         """
         psi0 = self.psi0
@@ -159,14 +172,21 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         return [eq1, eq2]
 
     def calc_free_energy_from_proto_amplitudes(self, psi0, A, B):
-        """Calculates the free energy of the system from the proto-amplitudes.
+        """
+        Calculates the free energy of the system from the proto-amplitudes.
 
-        Args:
-            psi0: The average value of psi.
-            A: The proto-amplitude.
-            B: The proto-amplitude.
+        Parameters
+        ----------
+        psi0 : float
+            The average value of psi.
+        A : float
+            The proto-amplitude.
+        B : float
+            The proto-amplitude.
 
-        Returns:
+        Returns
+        -------
+        float
             The free energy of the system.
         """
 
@@ -176,22 +196,24 @@ class PhaseFieldCrystal3DFaceCenteredCubic(PhaseFieldCrystal):
         return 2*np.pi**3/np.sqrt(3)*(1944*A**4*v + 810*B**4*v + psi0**2*(32 + 18*r + 12*t*psi0 + 9*v*psi0**2) + 108*B**2*(r + psi0*(2*t + 3*v*psi0)) + 144*A**2*( r + 36*B**2*v + 6*B*(t + 3*v*psi0) + psi0*(2*t + 3*v*psi0)))
 
     def calc_L_f(self):
-        """Calculates the L operator in Fourier space.
+        """
+        Calculates the L operator in Fourier space.
 
-        Args:
-            None
-        Returns:
+        Returns
+        -------
+        numpy.ndarray
             The L operator in Fourier space.
         """
         k2 = self.calc_k2()
         return (1 - k2)*(4/3-k2)
 
     def calc_L_sum_f(self):
-        """Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
+        """
+        Calculates the sum of the L operators in Fourier space. Needed for stress calculation functions.
 
-        Args:
-            None
-        Returns:
+        Returns
+        -------
+        numpy.ndarray
             The L operator in Fourier space.
         """
         k2 = self.calc_k2()

@@ -12,6 +12,10 @@ import scipy as sp
 
 class TestPlotField(unittest.TestCase):
 
+  def tearDown(self):
+      import matplotlib.pyplot as plt
+      plt.close('all')
+
   def test_1D(self):
     for plot_lib in ['plotly', 'matplotlib']:
       # Initialize BaseSystem object

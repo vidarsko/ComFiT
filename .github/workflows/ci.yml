@@ -21,3 +21,55 @@ jobs:
       - run: pip install mkdocs-material
       - run: pip install pillow cairosvg
       - run: mkdocs gh-deploy --force
+
+      - name: Wait before deploying Sphinx
+        run: sleep 30  # Wait X seconds before starting to ensure any previous Git operations are complete
+
+  build:
+      runs-on: ubuntu-latest
+      needs: deploy  # This ensures the build job runs after the deploy job
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.12'  # Specify the Python version you're using now
+
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install sphinx sphinx_autodoc_typehints
+            pip install sphinx_rtd_theme # Or any other theme you're using
+
+        - name: Install ffmpeg and xvfb
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y --fix-missing ffmpeg xvfb
+            
+        - name: Install comfit dependencies
+          run: |
+            pip install .
+
+        - name: Build Documentation
+          run: |
+            cd library_reference
+            make html  # This assumes you've set up a make file; if not, adjust accordingly
+      
+        - name: Check the build output
+          run: |
+            ls -la
+            cd library_reference/
+            ls -la
+            cd build
+            ls -la
+            cd html
+            ls -la
+            
+        - name: Deploy to GitHub Pages
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./library_reference/build/html
+            destination_dir: library_reference

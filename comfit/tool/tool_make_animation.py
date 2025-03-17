@@ -1,46 +1,44 @@
-"""
-This module provides tool for saving Matplotlib plots as img and creating animations from these img using MoviePy.
+from typing import Tuple, Optional
 
-
-Functions:
-
-- tool_save_plot_matplotlib: Saves a Matplotlib plot as an image file.
-- tool_save_plot_plotly: Saves a Plotly figure as an image file.
-- tool_make_animation: Creates an animation from a sequence of image files and saves it as a video file.
-"""
-
-
+#General packages
 import matplotlib.pyplot as plt
-
 try:
     from moviepy import ImageSequenceClip
 except ImportError:
     from moviepy.editor import ImageSequenceClip
-    
 import os
 from datetime import datetime
 from PIL import Image
 
 
-def tool_make_animation_movie(counter, 
-                                name=None, 
-                                fps=24,
-                                ID=None,
-                                delete_png=True):
+def tool_make_animation_movie(
+        counter : int, 
+        name : Optional[str] = None, 
+        fps : Optional[int] = 24,
+        ID : Optional[str] = None,
+        delete_png: Optional[bool] = True
+        ) -> None:
+    """Make an animation from a series of plot img and save it as an MP4 video file.
+
+    Parameters
+    ----------
+    counter : int
+        The number of plot img to include in the animation.
+    name : Optional[str], optional
+        The filename for the output video, by default None
+    fps : Optional[int], optional
+        The frames per second for the video, by default 24
+    ID : Optional[str], optional
+        A unique identifier for the plot image files, by default None
+    delete_png : Optional[bool], optional
+        Whether to delete the png files after creating the video, by default True
+
+    Returns
+    -------
+    None
+        Saves the video file.
     """
 
-    Creates an animation from a series of plot img and saves it as an MP4 video file.
-
-
-    Args:
-        counter (int): The number of plot img to include in the animation.
-        name (str, optional): The filename for the output video. Defaults to today's date followed by ' - output_video.mp4'.
-        fps (int, optional): The frames per second for the video. Defaults to 24.
-    
-    Returns:
-        None, saves the video file.
-    """
-    
     if name is None:
         name = datetime.now().strftime("%y%m%d_%H%M") + (' - ' + ID if ID else '') + ' - output_video.mp4'
     else:
@@ -64,22 +62,32 @@ def tool_make_animation_movie(counter,
             os.remove(file)
 
 
-def tool_make_animation_gif(counter, 
-                            name=None, 
-                            fps=24,
-                            ID=None,
-                            delete_png=True):
-    """
-    Creates an animation from a series of plot img and saves it as a GIF file.
+def tool_make_animation_gif(
+        counter: int,
+        name: Optional[str] = None,
+        fps: Optional[int] = 24,
+        ID: Optional[str] = None,
+        delete_png: Optional[bool] = True
+        ) -> None:
+    """Make an animation from a series of plot img and save it as a GIF file.
 
-    Args:
-        counter (int): The number of plot img to include in the animation.
-        name (str, optional): The filename for the output video. Defaults to today's date followed by ' - output_video.mp4'.
-        fps (int, optional): The frames per second for the video. Defaults to 24.
-        ID (str, optional): A unique identifier for the plot image files. Defaults to None.
+    Parameters
+    ----------
+    counter : int
+        The number of plot img to include in the animation.
+    name : Optional[str], optional
+        The filename for the output GIF, by default None
+    fps : Optional[int], optional
+        The frames per second for the GIF, by default 24
+    ID : Optional[str], optional
+        A unique identifier for the plot image files, by default None
+    delete_png : Optional[bool], optional
+        Whether to delete the png files after creating the GIF, by default True
 
-    Returns:
-        None, saves the GIF file.
+    Returns
+    -------
+    None
+        Saves the GIF file.
     """
 
     if name is None:
@@ -91,6 +99,7 @@ def tool_make_animation_gif(counter,
         image_files = [f'plot_{counter}.png' for counter in range(counter+1)]
     else:
         image_files = [f'plot_{counter}_{ID}.png' for counter in range(counter+1)]
+        
     images = [Image.open(image_file) for image_file in image_files]
 
     # Find the smallest image dimensions

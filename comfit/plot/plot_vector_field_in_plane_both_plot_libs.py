@@ -1,16 +1,68 @@
+# Type checking imports
+from typing import TYPE_CHECKING, Optional, Any, Tuple
 
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# Standard library imports
 import numpy as np
-from skimage.measure import marching_cubes
 import scipy as sp
+
+# Third-party library imports
+from skimage.measure import marching_cubes
 import plotly.graph_objects as go
 
-from comfit.tool import tool_matplotlib_define_3D_plot_ax, tool_plotly_define_3D_plot_ax, tool_set_plot_axis_properties_matplotlib, tool_set_plot_axis_properties_plotly, tool_plotly_colorbar
+# Local application imports
+from comfit.tool import (
+    tool_matplotlib_define_3D_plot_ax,
+    tool_plotly_define_3D_plot_ax,
+    tool_set_plot_axis_properties_matplotlib,
+    tool_set_plot_axis_properties_plotly,
+    tool_plotly_colorbar
+)
 
 
-def plot_vector_field_in_plane_both_plot_libs(self, vector_field, position=None, normal_vector=None, spacing=None, **kwargs):
+def plot_vector_field_in_plane_both_plot_libs(
+        self: 'BaseSystem',
+        vector_field: np.ndarray,
+        position: Optional[np.ndarray] = None,
+        normal_vector: Optional[np.ndarray] = None,
+        spacing: Optional[int] = None,
+        **kwargs: Any
+        ) -> Tuple[Any, Any]:
+    """Plot a vector field on a plane in 3D space.
+
+    Creates a visualization of a vector field where it intersects with a plane
+    defined by a point and a normal vector.
+
+    Parameters
+    ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
+    vector_field : np.ndarray
+        The vector field to plot. Shape must be (1,xRes,yRes,zRes), 
+        (2,xRes,yRes,zRes), or (3,xRes,yRes,zRes).
+    position : np.ndarray, optional
+        Point through which the plane passes. Defaults to system midpoint.
+    normal_vector : np.ndarray, optional
+        Normal vector defining the plane orientation. Defaults to [1,1,1].
+    spacing : int, optional
+        Spacing between vectors in the plot. Defaults to max(xRes//20,1).
+    \*\*kwargs : Any
+        Additional keyword arguments for plot customization. See https://comfitlib.com/Plotting/.
+
+    Returns
+    -------
+    Tuple[Any, Any]
+        Figure and axes objects from the plotting library.
+
+    Raises
+    ------
+    Exception
+        If the system is not 3D or if the vector field has invalid dimensions.
     """
 
-    """
+    plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
     if self.dim != 3:
         raise Exception("The plot_vector_field_in_plane function is only defined for 3D fields.")
@@ -99,7 +151,7 @@ def plot_vector_field_in_plane_both_plot_libs(self, vector_field, position=None,
     V_verts = V_verts[::spacing]
     W_verts = W_verts[::spacing]
 
-    if self.plot_lib == "plotly":
+    if plot_lib == "plotly":
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
@@ -134,7 +186,7 @@ def plot_vector_field_in_plane_both_plot_libs(self, vector_field, position=None,
         kwargs['ax'] = ax
         tool_set_plot_axis_properties_plotly(self, **kwargs)
 
-    elif self.plot_lib == "matplotlib":
+    elif plot_lib == "matplotlib":
         
         ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True

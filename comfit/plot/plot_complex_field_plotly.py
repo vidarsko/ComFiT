@@ -1,29 +1,52 @@
+from typing import TYPE_CHECKING, Any, Dict, Tuple
+
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# Standard library imports
 import numpy as np
+import scipy as sp
+
+# Third-party library imports
 import plotly.graph_objects as go
 import matplotlib.colors as mcolors
 import matplotlib.cm as cm
-import scipy as sp
 from skimage.measure import marching_cubes
-from comfit.tool import tool_complete_field
-from comfit.tool import tool_colormap
-from comfit.tool import tool_set_plot_axis_properties_plotly
-from comfit.tool import tool_plotly_colorbar
 
-from comfit.tool import tool_plotly_define_2D_plot_ax
-from comfit.tool import tool_plotly_define_3D_plot_ax
+# Local application imports
+from comfit.tool import (
+    tool_complete_field,
+    tool_colormap, 
+    tool_set_plot_axis_properties_plotly,
+    tool_plotly_colorbar,
+    tool_plotly_define_2D_plot_ax,
+    tool_plotly_define_3D_plot_ax
+)
 
 
-def plot_complex_field_plotly(self, complex_field: np.ndarray, **kwargs) -> go.Figure:
-    """
-    Plot a complex field.
+def plot_complex_field_plotly(
+        self: 'BaseSystem',
+        complex_field: np.ndarray,
+        **kwargs: Any
+        ) -> Tuple[go.Figure, Dict]:
+    """Plot a complex field using Plotly.
 
-    Args:
-        complex_field (numpy.ndarray): The complex field to plot.
-        ax (matplotlib.axes.Axes, optional): The matplotlib axes on which to plot the field.
-            If not provided, a new 3D axes will be created.
-    
-    Returns:
-        go.Figure: The figure containing the plot.
+    Creates a visualization of a complex field using various plotting methods
+    depending on the dimensionality of the field.
+
+    Parameters
+    ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
+    complex_field : np.ndarray
+        The complex field to plot
+    \*\*kwargs : Any
+        Additional keyword arguments to customize the plot
+
+    Returns
+    -------
+    go.Figure
+        The Plotly figure containing the plot
     """
 
     kwargs['colormap'] = kwargs.get('colormap', 'angle') # Override the default colormap with 'angle'

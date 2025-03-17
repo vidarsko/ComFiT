@@ -41,6 +41,7 @@ nav:
   - "Class: Nematic liquid crystal": ClassNematicLiquidCrystal.md
   - "Class: Phase-field crystal": ClassPhaseFieldCrystal.md
   - Conventions: Conventions.md
+  - "Library reference": library_reference
 
 markdown_extensions:
   - pymdownx.highlight:

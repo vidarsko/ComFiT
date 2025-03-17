@@ -1,7 +1,12 @@
+from typing import Optional
 
+# General packages
 import matplotlib.pyplot as plt
 
-def tool_matplotlib_define_2D_plot_ax(fig, ax):
+def tool_matplotlib_define_2D_plot_ax(
+        fig : plt.Figure, 
+        ax : Optional[plt.Axes] = None
+        ) -> plt.Axes:
     """
     Defines the axes for a 2D plot in matplotlib.
     

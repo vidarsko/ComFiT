@@ -14,25 +14,47 @@ class BaseSystem(BaseSystemInit, BaseSystemConf, BaseSystemEvolve, BaseSystemCal
     
     def fft(self, field):
         """
-        Perform a fast Fourier transform on a field. 
+        Perform a fast Fourier transform on a field.
 
-        Args: 
-            field (array): The field to transform
-        Returns:
-            array: The transformed field
+        Parameters
+        ----------
+        field : np.ndarray
+            The field to transform
+            
+        Returns
+        -------
+        np.ndarray
+            The transformed field
+
+        Note
+        ----
+        The field is assumed to represent a field in the dimensions of the system.
+        Thus, if the system is 2D and the field is 3D, it is assumed that 
+        the provided field is a collection of 2D fields which will be transformed
+        individually.
         """
         
         return sp.fft.fftn(field, axes=range(-self.dim, 0))
 
     def ifft(self, field):
-        """
-        Perform an inverse fast Fourier transform on a field.
+        """Perform an inverse fast Fourier transform on a field.
 
-        Args:
-            field (array): The field to transform
-        
-        Return:
-            array: The transformed field
+        Parameters
+        ----------
+        field : np.ndarray
+            The field to transform
+            
+        Returns
+        -------
+        np.ndarray
+            The transformed field
+
+        Note
+        ----
+        The field is assumed to represent a field in the dimensions of the system.
+        Thus, if the system is 2D and the field is 3D, it is assumed that 
+        the provided field is a collection of 2D fields which will be transformed
+        individually.
         """
         
         return sp.fft.ifftn(field, axes=range(-self.dim, 0))

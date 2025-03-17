@@ -18,6 +18,10 @@ class TestSwitchingBetweenPlotLib(unittest.TestCase):
         self.system2D = cf.BaseSystem(2, xRes=20, yRes=20)
         self.system3D = cf.BaseSystem(3, xRes=10, yRes=10, zRes=10)
 
+    def tearDown(self):
+        import matplotlib.pyplot as plt
+        plt.close('all')
+
     def test_plot_field_1d(self):
         # Test 1D field
         field = (np.random.rand(self.system1D.xRes))

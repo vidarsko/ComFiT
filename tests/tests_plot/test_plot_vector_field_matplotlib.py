@@ -21,6 +21,11 @@ class TestPlotVectorFieldMatplotlib(unittest.TestCase):
         self.system2D.plot_lib = 'matplotlib'
         self.system3D.plot_lib = 'matplotlib'
 
+    def tearDown(self):
+        """Close all figures after each test."""
+        import matplotlib.pyplot as plt
+        plt.close('all')
+
     def test_plot_1D_vector_dim1(self):
         """Test 1D vector field with vector dimension 1."""
         vector_field = (np.random.rand(self.system1D.xRes),)

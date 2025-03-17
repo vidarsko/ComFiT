@@ -1,13 +1,23 @@
+# General packages 
 import numpy as np
-import re
-
 import plotly.graph_objects as go
 
-def tool_plotly_find_next_xN(fig):
+def tool_plotly_find_next_xN(
+        fig : go.Figure
+        ) -> str:
+    """Find the next available x-axis identifier in a Plotly figure.
+
+    Parameters
+    ----------
+    fig : plotly.graph_objects.Figure
+        The Plotly figure to analyze.
+
+    Returns
+    -------
+    str
+        The next available x-axis identifier. Returns 'x' if no x-axes are used,
+        or 'xN' where N is one more than the current highest axis number.
     """
-    Find the next xaxis in a set of axs
-    """
-    
     used_xaxis = set()
     
     # Check all traces in the figure

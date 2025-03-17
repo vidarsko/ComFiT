@@ -1,7 +1,22 @@
+# General packages
+import plotly.graph_objects as go
 
-def tool_plotly_find_next_sceneN(fig):
-    """
-    Find the next scene in a set of scenes
+
+def tool_plotly_find_next_sceneN(
+        fig : go.Figure
+        ) -> str:
+    """Find the next available scene name in a Plotly figure.
+
+    Parameters
+    ----------
+    fig : plotly.graph_objects.Figure
+        The Plotly figure to analyze.
+
+    Returns
+    -------
+    str
+        The next available scene name. Returns 'scene' if no scenes are used,
+        otherwise returns 'sceneN' where N is one more than the current highest scene number.
     """
     
     used_scene = set()

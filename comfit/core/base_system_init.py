@@ -4,17 +4,20 @@ from comfit.tool.tool_print_in_color import tool_print_in_color
 from comfit.tool.tool_configure_axis import tool_configure_axis
 
 class BaseSystemInit:
-    """ Initialization methods for the base system class"""
+    """ Initialization methods for the base system class."""
     def __init__(self, dim: int, **kwargs):
-        """
-        Initialize the class with the given parameters.
+        """Initialize the class with the given parameters.
 
-        Args:
-            dimension (int): The dimension of the system. Must be 1, 2, or 3.
-            **kwargs: Additional keyword arguments, see 
+        Parameters
+        ----------
+        dim : int
+            The dimension of the system. Must be 1, 2, or 3.
+        \*\*kwargs : dict
+            Additional keyword arguments, see 
             https://comfitlib.com/ClassBaseSystem/
 
-        Returns:
+        Returns
+        -------
             None
         """
 
@@ -144,32 +147,32 @@ class BaseSystemInit:
         # Plot lib
         self.plot_lib = kwargs.get('plot_lib', 'plotly')
 
-    def __str__(self) -> str:
-        """Return a string representation of the class.
-        
-        Input:
-            None
+        def __str__(self) -> str:
+            """Return a string representation of the class.
 
-        Returns:
-            A string representation of the class.
-        """
-        description = f"BaseSystem instance\n"
-        # Start with the dimension of the system
-        description = f"System Dimension: {self.dim}\n"
+            Returns
+            -------
+            str
+                A string representation of the class including system dimensions 
+                and axis properties.
+            """
+            description = f"BaseSystem instance\n"
+            # Start with the dimension of the system
+            description = f"System Dimension: {self.dim}\n"
 
-        # Add x-axis properties
-        description += f"X-Axis Limits: [{self.xmin}, {self.xmax}], Resolution: {self.xRes}, Delta: {self.dx}\n"
+            # Add x-axis properties
+            description += f"X-Axis Limits: [{self.xmin}, {self.xmax}], Resolution: {self.xRes}, Delta: {self.dx}\n"
 
-        # Add y-axis properties if dim > 1
-        if self.dim > 1:
-            description += f"Y-Axis Limits: [{self.ymin}, {self.ymax}], Resolution: {self.yRes}, Delta: {self.dy}\n"
+            # Add y-axis properties if dim > 1
+            if self.dim > 1:
+                description += f"Y-Axis Limits: [{self.ymin}, {self.ymax}], Resolution: {self.yRes}, Delta: {self.dy}\n"
 
-        # Add z-axis properties if dim > 2
-        if self.dim > 2:
-            description += f"Z-Axis Limits: [{self.zmin}, {self.zmax}], Resolution: {self.zRes}, Delta: {self.dz}\n"
+            # Add z-axis properties if dim > 2
+            if self.dim > 2:
+                description += f"Z-Axis Limits: [{self.zmin}, {self.zmax}], Resolution: {self.zRes}, Delta: {self.dz}\n"
 
-        # Add time properties
-        description += f"Current Time: {self.time}, Time Step: {self.dt}"
+            # Add time properties
+            description += f"Current Time: {self.time}, Time Step: {self.dt}"
 
-        return description
+            return description
 

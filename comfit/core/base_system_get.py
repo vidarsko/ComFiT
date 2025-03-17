@@ -5,14 +5,20 @@ class BaseSystemGet:
     """ Get methods for the base system class"""
     def get_sym(self, tensor: np.ndarray, i: int, j: int) -> np.ndarray:
         """Gets the i,j component of a symmetric tensor saved in an array structure.
-
-        Args: 
-            tensor (numpy.ndarray): The symmetric tensor.
-            i: The row index. (int)
-            j: The column index. (int)
         
-        Returns:
-            The i,j component of the tensor. (numpy.ndarray) 
+        Parameters
+        ----------
+        tensor : numpy.ndarray
+            The symmetric tensor.
+        i : int
+            The row index.
+        j : int
+            The column index.
+        
+        Returns
+        -------
+        numpy.ndarray
+            The i,j component of the tensor.
         """
 
         if self.dim == 2:
@@ -32,13 +38,19 @@ class BaseSystemGet:
     def get_sym_tl(self, tensor: np.ndarray, i: int, j: int) -> np.ndarray:
         """Gets the i,j component of a symmetric traceless tensor saved in an array structure.
 
-        Args:
-            tensor: The symmetric traceless tensor. (numpy.ndarray)
-            i: The row index. (int)
-            j: The column index. (int)
+        Parameters
+        ----------
+        tensor : numpy.ndarray
+            The symmetric traceless tensor.
+        i : int
+            The row index.
+        j : int
+            The column index.
         
-        Returns:
-            The i,j component of the tensor. (numpy.ndarray) 
+        Returns
+        -------
+        numpy.ndarray
+            The i,j component of the tensor.
         """
         if self.dim == 2:
             if i == 0:
@@ -57,13 +69,19 @@ class BaseSystemGet:
     def get_anti_sym(self, omega: np.ndarray, i: int, j: int) -> np.ndarray:
         """Gets the i,j component of an anti-symmetric tensor saved in an array structure.
 
-        Args:
-            omega: The anti-symmetric tensor. (numpy.ndarray)
-            i: The row index. (int)
-            j: The column index. (int)
+        Parameters
+        ----------
+        omega : numpy.ndarray
+            The anti-symmetric tensor.
+        i : int
+            The row index.
+        j : int
+            The column index.
         
-        Returns:
-            The i,j component of the tensor. (numpy.ndarray) 
+        Returns
+        -------
+        numpy.ndarray
+            The i,j component of the tensor.
         """
         # TODO: I don't like that the input vector is a scalar field in 2 dimensions. (Vidar 11.03.24)
         if self.dim == 2:

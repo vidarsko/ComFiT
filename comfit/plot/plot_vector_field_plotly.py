@@ -1,30 +1,54 @@
+from typing import TYPE_CHECKING, Any, Tuple, Union, List
+
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
+
+# Standard library imports
+from typing import Optional, Union
+
+# Third-party imports
 import numpy as np
 import plotly.graph_objects as go
+
+# Local imports
 from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
+from comfit.tool import (
+    tool_complete_field,
+    tool_add_spacing_2D,
+    tool_add_spacing_3D,
+    tool_plotly_define_2D_plot_ax,
+    tool_plotly_define_3D_plot_ax,
+    tool_plotly_colorbar
+)
 
-from comfit.tool.tool_complete_field import tool_complete_field
-from comfit.tool.tool_add_spacing_2D import tool_add_spacing_2D
-from comfit.tool.tool_add_spacing_3D import tool_add_spacing_3D
+def plot_vector_field_plotly(
+        self: 'BaseSystem',
+        vector_field: Union[np.ndarray, List],
+        **kwargs: Any
+        ) -> Tuple[go.Figure, dict]:
+    """Plot the vector field using Plotly.
 
-from comfit.tool import tool_plotly_define_2D_plot_ax
-from comfit.tool import tool_plotly_define_3D_plot_ax
-from comfit.tool import tool_plotly_colorbar
+    Parameters
+    ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
+    vector_field : np.ndarray
+        Array containing the vector field components. Shape depends on dimensionality.
+    \*\*kwargs : Any
+        spacing : int, optional. The spacing for the quiver plot. Defaults to max(self.xRes//20, 1).
+        Additional keyword arguments for plot customization, see https://comfitlib.com/Plotting/
 
-def plot_vector_field_plotly(self, vector_field, **kwargs):
-    """Plots a vector field.
+    Returns
+    -------
+    Tuple[go.Figure, dict]
+        The figure containing the plot and the axes dictionary containing plot properties.
 
-    Args:
-        vector_field (tuple): Tuple containing the x and y components of the vector field.
-        **kwargs: 
-            spacing (int, optional): The spacing for the quiver plot. Default is self.xRes//20.
-            Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
-
-    Returns:
-        Tuple containing
-            - The figure containing the plot.
-            - The axes containing the plot.
+    Raises
+    ------
+    Exception
+        If an invalid field is provided to the plot_vector_field function.
     """
-    
+
     spacing = kwargs.get('spacing', max(self.xRes//20,1))
 
     vector_field, fig, ax, kwargs = self.plot_prepare(vector_field, field_type = 'vector', **kwargs)

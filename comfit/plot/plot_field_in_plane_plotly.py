@@ -1,34 +1,53 @@
-import numpy as np
-import scipy as sp
-from typing import Optional
-from comfit.tool.tool_complete_field import tool_complete_field
-from scipy.interpolate import griddata
-import plotly.graph_objects as go
-from skimage.measure import marching_cubes
-from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
+from typing import TYPE_CHECKING, Optional, Any, Tuple, Dict
+if TYPE_CHECKING:
+    from comfit.core.base_system import BaseSystem
 
+# Standard library imports
+import numpy as np
+from scipy.interpolate import griddata
+from skimage.measure import marching_cubes
+
+# Third-party library imports
+import plotly.graph_objects as go
+
+# Local imports
+from comfit.tool.tool_complete_field import tool_complete_field
+from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
 from comfit.tool import tool_plotly_define_3D_plot_ax, tool_plotly_colorbar
 
 def plot_field_in_plane_plotly(
-        self,
+        self: 'BaseSystem',
         field: np.ndarray,
         normal_vector: Optional[np.ndarray] = None,
         position: Optional[np.ndarray] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+        ) -> Tuple[go.Figure, Dict]:
+    """Plot the field in a plane perpendicular to the given normal vector.
     
-    """Plots the field in a plane perpendicular to the given normal vector
-    
-    Uses scipy.interpolate.griddata and plt.plot_trisurf.
+    Uses scipy.interpolate.griddata and plotly's Mesh3d for visualization.
 
-    Args:
-        field (array-like): The field to be plotted.
-        normal_vector (array-like, optional): The normal vector of the plane. Default is [0,1,0].
-        position (array-like, optional): The position of the plane. Default is the middle of the system.
-        **kwargs: Keyword arguments for the plot, see https://comfitlib.com/Plotting/. 
-    
-    Returns:
-        The axes containing the plot. (matplotlib.axes.Axes)
+    Parameters
+    ----------
+    self : BaseSystem
+        A BaseSystem (or derived) instance.
+    field : np.ndarray
+        The field to be plotted
+    normal_vector : np.ndarray, optional
+        The normal vector of the plane. Defaults to [0,1,0]
+    position : np.ndarray, optional
+        The position of the plane. Defaults to the middle of the system
+    \*\*kwargs : Any
+        Additional keyword arguments for plot customization. See https://comfitlib.com/Plotting/
+
+    Returns
+    -------
+    Tuple[go.Figure, dict]
+        The figure object and axes dictionary containing the plot
+
+    Raises
+    ------
+    Exception
+        If the field dimension is not 3D
     """
 
     if self.dim != 3:

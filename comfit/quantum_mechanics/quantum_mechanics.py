@@ -1,26 +1,33 @@
-from typing import Optional, Union, Literal
+from typing import Optional, Union, Literal, TYPE_CHECKING, List, Dict, Any
 
+# General packages
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
 
-from comfit.core.base_system import BaseSystem
-from comfit.tool.tool_colormap import tool_colormap
+# Local packages
+from comfit.core import BaseSystem
+from comfit.tool import tool_colormap
 
 class QuantumMechanics(BaseSystem):
-    def __init__(self, dimension: int, **kwargs) -> None:
+    def __init__(self : 'QuantumMechanics', 
+            dimension: int, 
+            **kwargs: Dict[str, Any]
+            ) -> None:
         """Initializes a quamtum mechanics system evolving according to the Schrödinger equation
 
-        Args:
-            dimension: The dimension of the system.
-            **kwargs : dict, optional. Optional keyword arguments to set additional parameters. Same as BaseSystem
-                
-        Returns:
-            The system object representing the QuantumMechanics simulation.
+        Parameters
+        ----------
+        dimension : int
+            The dimension of the system.
+        \*\*kwargs : dict, optional
+            Optional keyword arguments to set additional parameters. 
+            See https://comfitlib.com/ClassBaseSystem/.
 
-        Example:
-            qm = cf.QuantumMechanics(3,xRes=101,yRes=101,zRes=101)
-            Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101.
+        Examples
+        --------
+        >>> qm = cf.QuantumMechanics(3,xRes=101,yRes=101,zRes=101)
+        Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101.
         """
 
         # First initialize the BaseSystem class
@@ -38,31 +45,39 @@ class QuantumMechanics(BaseSystem):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-    def __str__(self) -> str:
-        """Output a string representation of the system
+    def __str__(
+        self: 'QuantumMechanics',
+        ) -> str:
+        """Returns a string representation of the QuantumMechanics system.
 
-        Args:
-            None
+        This method is called when str() is invoked on an instance of the class.
 
-        Returns:
-            A string representation of the system
+        Returns
+        -------
+        str: String representation 'QuantumMechanics' of the system
         """
         return 'QuantumMechanics'
 
     def conf_initial_condition_Gaussian(
-            self,
-            position: Optional[list[complex]] = None,
+            self : 'QuantumMechanics',
+            position: Optional[Union[List[float], np.ndarray]] = None,
             width: Optional[float] = None,
             initial_velocity: Optional[Union[float, list[float]]] = None
-        ):
+            ) -> None:
         """Set the initial condition to a Gaussian wavepacket.
 
-        Args:
-            position: The position of the wavepacket.
-            width: The width of the wavepacket.
-            initial_velocity: The initial velocity of the wavepacket.
+        Parameters
+        ----------
+        position : array_like, optional
+            The position of the wavepacket.
+        width : float, optional
+            The width of the wavepacket.
+        initial_velocity : float or array_like, optional
+            The initial velocity of the wavepacket.
 
-        Returns:
+        Returns
+        -------
+        None
             Configures self.psi and self.psi_f.
         """
 
@@ -89,13 +104,20 @@ class QuantumMechanics(BaseSystem):
         self.psi_f = sp.fft.fftn(self.psi)
 
 
-    def conf_harmonic_potential(self, trapping_strength: Optional[float] = None) -> None:
+    def conf_harmonic_potential(
+            self : 'QuantumMechanics', 
+            trapping_strength: Optional[float] = None
+            ) -> None:
         """Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
         
-        Args:
-            trapping_strength: The strength of the trapping potential.
+        Parameters
+        ----------
+        trapping_strength : float, optional
+            The strength of the trapping potential.
 
-        Returns:
+        Returns
+        -------
+        None       
             Configures self.V_ext.
         """
 
@@ -112,42 +134,71 @@ class QuantumMechanics(BaseSystem):
                                            + ((self.y - self.ymid) ** 2)
                                            +((self.z - self.zmid) ** 2) )
 
-    def conf_hydrogen_state(self, n: int, l: int, m: int) -> None:
+    def conf_hydrogen_state(
+            self: 'QuantumMechanics', 
+            n: int, 
+            l: int, 
+            m: int
+            ) -> None:
         """Set the initial condition to a hydrogen state with quantum numbers n,l,m
 
-        Args:
-            n: principal quantum number
-            l: azimuthal quantum number
-            m: magnetic quantum number
+        Parameters
+        ----------
+        n : int 
+            principal quantum number
+        l : int
+            azimuthal quantum number
+        m : int 
+            magnetic quantum number
 
-        Returns:
+        Returns
+        -------
+        None
             Configures self.psi and self.psi_f.
         """
 
         self.psi = self.calc_hydrogen_state(n,l,m)
         self.psi_f = sp.fft.fftn(self.psi)
 
-    def conf_wavefunction(self, psi: np.ndarray) -> None:
+    def conf_wavefunction(
+            self: 'QuantumMechanics', 
+            psi: np.ndarray
+            ) -> None:
         """Set the initial condition to a given wavefunction.
 
-        Args:
-            psi: The wavefunction.
+        Parameters
+        ----------
+        psi : np.ndarray
+            The wavefunction.
 
-        Returns:
+        Returns
+        -------
+        None
             Configures self.psi and self.psi_f.
         """
         self.psi = psi
         self.psi_f = sp.fft.fftn(self.psi)   
 
-    def calc_hydrogen_state(self, n: int, l: int, m: int) -> np.ndarray:
-        """Calculates the hydrogen state with quantum numbers n,l,m
+    def calc_hydrogen_state(
+            self: 'QuantumMechanics', 
+            n: int, 
+            l: int, 
+            m: int
+            ) -> np.ndarray:
+        """Calculate the hydrogen state with quantum numbers n,l,m
 
-        Args:
-            n: principal quantum number
-            l: azimuthal quantum number
-            m: magnetic quantum number
+        Parameters
+        ----------
+        n : int
+            principal quantum number
+        l : int
+            azimuthal quantum number
+        m : int
+            magnetic quantum number
 
-        Returns:
+        Returns
+        -------
+        np.ndarray
             Wavefunction of the hydrogen state. (np.ndarray)
         """
 
@@ -166,14 +217,23 @@ class QuantumMechanics(BaseSystem):
     
 
     ## Calculation functions
-    def calc_nonlinear_evolution_function_f(self, psi: np.ndarray, t: float) -> np.ndarray:
-        """Calculates the nonlinear evolution function f of the Schrödinger equation
+    def calc_nonlinear_evolution_function_f(
+            self: 'QuantumMechanics', 
+            psi: np.ndarray, 
+            t: float
+            ) -> np.ndarray:
+        """Calculate the nonlinear evolution function f of the Schrödinger equation
 
-        Args:
-            psi: The wavefunction.
-            t: Time.
+        Parameters
+        ----------
+        psi : np.ndarray 
+            The wavefunction.
+        t : float
+            Time
         
-        Returns:
+        Returns
+        -------
+        np.ndarray
             The nonlinear evolution function f.
         """
 
@@ -185,15 +245,24 @@ class QuantumMechanics(BaseSystem):
 
 
     ## Time evolution functions
-    def evolve_schrodinger(self, number_of_steps: int, method: Literal['ETD2RK', 'ETD4RK'] = 'ETD4RK') -> None:
+    def evolve_schrodinger(
+            self: 'QuantumMechanics', 
+            number_of_steps: int, 
+            method: Literal['ETD2RK', 'ETD4RK'] = 'ETD4RK'
+            ) -> None:
         """Evolve the system according to the Schrödinger equation
 
-        Args:
-            number_of_steps: Number of time steps to evolve the system.
-            method: The method to use for the time evolution. 
+        Parameters
+        ----------
+        number_of_steps : int
+            Number of time steps to evolve the system.
+        method : str
+            The method to use for the time evolution. 
         
-        Returns:
-            None: Does not return anything. Just evolves the system according to the Schrödinger equation.
+        Returns
+        -------
+        None
+            Updates self.psi and self.psi_f.
         """
 
         omega_f = -1j / 2 * self.calc_k2()
