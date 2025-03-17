@@ -114,10 +114,20 @@ def plot_complex_field_in_plane_plotly(
     # Blend the colors with white according to rho (normalized)
     colors[:,3] = (rho_verts/np.max(rho_verts)).ravel()
 
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+
+    y = kwargs.get('y', self.y/self.a0).flatten()
+    dy = y[1] - y[0]
+
+    z = kwargs.get('z', self.z/self.a0).flatten()
+    dz = z[1] - z[0]
+
     # Create the mesh object
-    x_new = (verts[:, 0] * self.dx + self.xmin) / self.a0
-    y_new = (verts[:, 1] * self.dy + self.ymin) / self.a0
-    z_new = (verts[:, 2] * self.dz + self.zmin) / self.a0
+    x_new = (verts[:, 0] * dx + x[0]) 
+    y_new = (verts[:, 1] * dy + y[0]) 
+    z_new = (verts[:, 2] * dz + z[0]) 
 
     mesh = go.Mesh3d(
                 x=x_new, 

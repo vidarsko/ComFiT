@@ -46,9 +46,23 @@ def plot_field_plotly(
 
     field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
-    x = kwargs.get('x', self.x / self.a0)
-    y = kwargs.get('y', self.y / self.a0) if self.dim > 1 else None
-    z = kwargs.get('z', self.z / self.a0) if self.dim > 2 else None
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+    xmin = x[0]
+    xmax = x[-1]+dx
+    
+    if self.dim > 1:
+        y = kwargs.get('y', self.y/self.a0).flatten()
+        dy = y[1] - y[0]
+        ymin = y[0]
+        ymax = y[-1]+dy
+
+    if self.dim > 2:
+        z = kwargs.get('z', self.z/self.a0).flatten()
+        dz = z[1] - z[0]
+        zmin = z[0]
+        zmax = z[-1]+dz
 
     ###############################################################
     ###################### DIMENSION: 1 ###########################

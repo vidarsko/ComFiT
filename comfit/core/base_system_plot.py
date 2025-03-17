@@ -188,25 +188,37 @@ class BaseSystemPlot:
 
         kwargs["fourier"] = kwargs.get("fourier", False)
         if kwargs["fourier"]:
-            field = np.fft.fftshift(field, axes=range(-self.dim, 0))
-
-            kwargs["x"] = np.fft.fftshift(self.k[0])
+            
+            phase_shift = np.exp(1j*self.k[0]*self.xmin)
             if self.dim > 1:
-                kwargs["y"] = np.fft.fftshift(self.k[1])
+                phase_shift = phase_shift*np.exp(1j*self.k[1]*self.ymin)
             if self.dim > 2:
-                kwargs["z"] = np.fft.fftshift(self.k[2])
+                phase_shift = phase_shift*np.exp(1j*self.k[2]*self.zmin)
 
+            field = np.fft.fftshift(phase_shift*field, axes=range(-self.dim, 0))
+
+            kwargs["x"] = np.fft.fftshift(self.k[0])/(2*np.pi/self.a0)
             kwargs['xlabel'] = 'kx/(2π/a₀)'
+
             if self.dim > 1:
+                kwargs["y"] = np.fft.fftshift(self.k[1])/(2*np.pi/self.a0)
                 kwargs['ylabel'] = 'ky/(2π/a₀)'
+
             if self.dim > 2:
-                kwargs['zlabel'] = 'kz/(2π/a₀)' if self.dim > 2 else None
+                kwargs["z"] = np.fft.fftshift(self.k[2])/(2*np.pi/self.a0)
+                kwargs['zlabel'] = 'kz/(2π/a₀)'
+
+            
+
 
         else:
+            kwargs['x'] = self.x/self.a0
             kwargs['xlabel'] = kwargs.get('xlabel','x/a₀')
             if self.dim > 1:
+                kwargs['y'] = self.y/self.a0
                 kwargs['ylabel'] = kwargs.get('ylabel','y/a₀')
             if self.dim > 2:
+                kwargs['z'] = self.z/self.a0
                 kwargs['zlabel'] = kwargs.get('zlabel','z/a₀')
 
         return field, kwargs

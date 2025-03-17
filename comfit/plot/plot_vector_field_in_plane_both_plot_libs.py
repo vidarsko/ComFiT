@@ -134,14 +134,25 @@ def plot_vector_field_in_plane_both_plot_libs(
     V_verts = vy_scale*V_verts
     W_verts = vz_scale*W_verts
 
-    x = self.xmin+verts[:, 0]*self.dx
-    y = self.ymin+verts[:, 1]*self.dy
-    z = self.zmin+verts[:, 2]*self.dz
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+    xmin = x[0]
+    xmax = x[-1]+dx
+    
+    y = kwargs.get('y', self.y/self.a0).flatten()
+    dy = y[1] - y[0]
+    ymin = y[0]
+    ymax = y[-1]+dy
 
-    # Adjust positions based on the coordinate system
-    x = self.xmin + x * self.dx
-    y = self.ymin + y * self.dy
-    z = self.zmin + z * self.dz
+    z = kwargs.get('z', self.z/self.a0).flatten()
+    dz = z[1] - z[0]
+    zmin = z[0]
+    zmax = z[-1]+dz
+
+    x = xmin+verts[:, 0]*dx
+    y = ymin+verts[:, 1]*dy
+    z = zmin+verts[:, 2]*dz
 
     # Add spacing
     x = x[::spacing]
@@ -159,9 +170,9 @@ def plot_vector_field_in_plane_both_plot_libs(
         ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
 
         if not kwargs['field_is_nan']:
-            fig.add_trace(go.Cone(  x=x.flatten()/self.a0, 
-                                    y=x.flatten()/self.a0, 
-                                    z=y.flatten()/self.a0, 
+            fig.add_trace(go.Cone(  x=x.flatten(), 
+                                    y=x.flatten(), 
+                                    z=y.flatten(), 
                                     u=U_verts.flatten(), 
                                     v=V_verts.flatten(), 
                                     w=W_verts.flatten(), 

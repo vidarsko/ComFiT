@@ -53,6 +53,24 @@ def plot_vector_field_matplotlib(
 
     vector_field, fig, ax, kwargs = self.plot_prepare(vector_field, field_type = 'vector', **kwargs)
 
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+    xmin = x[0]
+    xmax = x[-1]+dx
+    
+    if self.dim > 1:
+        y = kwargs.get('y', self.y/self.a0).flatten()
+        dy = y[1] - y[0]
+        ymin = y[0]
+        ymax = y[-1]+dy
+
+    if self.dim > 2:
+        z = kwargs.get('z', self.z/self.a0).flatten()
+        dz = z[1] - z[0]
+        zmin = z[0]
+        zmax = z[-1]+dz
+
 
     ###############################################################
     ########### DIMENSION: 1 - VECTOR-DIMENSION: 1 ################
@@ -62,7 +80,7 @@ def plot_vector_field_matplotlib(
 
         ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
-        X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
+        X, Y = np.meshgrid(x, np.array([0]), indexing='ij')
 
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
@@ -71,7 +89,7 @@ def plot_vector_field_matplotlib(
 
         X,Y,U,V = tool_add_spacing_2D(X,Y,U,V,spacing)
 
-        ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
+        ax.quiver(X, Y, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
         kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
         
 
@@ -84,7 +102,7 @@ def plot_vector_field_matplotlib(
         ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
             
-        X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
+        X, Y, Z = np.meshgrid(x, np.array([0]), np.array([0]), indexing='ij')
 
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
@@ -95,7 +113,7 @@ def plot_vector_field_matplotlib(
 
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
-        ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+        ax.quiver(X, Y, Z, U, V, W, color='blue')
 
         kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
         delta_y = kwargs['ylim'][1] - kwargs['ylim'][0]
@@ -118,7 +136,7 @@ def plot_vector_field_matplotlib(
         ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
-        X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
+        X, Y, Z = np.meshgrid(x, np.array([0]), np.array([0]), indexing='ij')
 
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
@@ -150,7 +168,7 @@ def plot_vector_field_matplotlib(
         V = vy_scale*V
         W = vz_scale*W
 
-        ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+        ax.quiver(X, Y, Z, U, V, W, color='blue')
 
         kwargs['ylim'] = [-1,1]
         kwargs['zlim'] = [-1,1]
@@ -163,7 +181,7 @@ def plot_vector_field_matplotlib(
         
         ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        X, Y = np.meshgrid(x, y, indexing='ij')
 
         U = vector_field[0]
         V = np.zeros(X.shape)
@@ -176,12 +194,12 @@ def plot_vector_field_matplotlib(
         U = U / max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*dx)
 
         # Scaling
         U = vx_scale*U
 
-        ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue',
+        ax.quiver(X, Y, U, V, color='blue',
             angles='xy', scale_units='xy', scale=1,
             headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
@@ -193,7 +211,7 @@ def plot_vector_field_matplotlib(
 
         ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        X, Y = np.meshgrid(x, y, indexing='ij')
 
         X, Y, U, V = tool_add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
 
@@ -203,14 +221,14 @@ def plot_vector_field_matplotlib(
         V = V / max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', 1.0*spacing*self.dx/self.a0)
-        vy_scale = kwargs.get('vy_scale', 1.0*spacing*self.dy/self.a0)
+        vx_scale = kwargs.get('vx_scale', 1.0*spacing*dx)
+        vy_scale = kwargs.get('vy_scale', 1.0*spacing*dy)
 
         # Scaling
         U = vx_scale*U
         V = vy_scale*V
 
-        ax.quiver(X/self.a0, Y/self.a0, U, V, color='blue', 
+        ax.quiver(X, Y, U, V, color='blue', 
             angles='xy', scale_units='xy', scale=1,
             headwidth=3, headlength=4, headaxislength=3, pivot='middle')
 
@@ -224,7 +242,7 @@ def plot_vector_field_matplotlib(
         ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
         
-        X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
+        X, Y, Z = np.meshgrid(x, y, np.array([0]), indexing='ij')
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
         W = np.zeros(X.shape)
@@ -243,16 +261,16 @@ def plot_vector_field_matplotlib(
         W = W / max_vector
         
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', 2*spacing*self.size_x/max_vector/self.a0)
-        vy_scale = kwargs.get('vy_scale', 2*spacing*self.size_y/max_vector/self.a0)
-        vz_scale = kwargs.get('vz_scale', spacing/self.a0)
+        vx_scale = kwargs.get('vx_scale', 2*spacing*self.size_x/max_vector)
+        vy_scale = kwargs.get('vy_scale', 2*spacing*self.size_y/max_vector)
+        vz_scale = kwargs.get('vz_scale', spacing)
 
         # Scaling
         U = vx_scale*U
         V = vy_scale*V
         W = vz_scale*W 
         
-        ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+        ax.quiver(X, Y, Z, U, V, W, color='blue')
        
         kwargs['axis_equal'] = False
         kwargs['zlim'] = [-spacing,spacing]
@@ -267,7 +285,7 @@ def plot_vector_field_matplotlib(
         ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')              
+        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')              
 
         # Define the vector field
         U = vector_field[0]
@@ -282,12 +300,12 @@ def plot_vector_field_matplotlib(
         U = U / max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*dx)
 
         # Scaling
         U = vx_scale*U
 
-        ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+        ax.quiver(X, Y, Z, U, V, W, color='blue')
         
     ###############################################################
     ########### DIMENSION: 3 - VECTOR-DIMENSION: 2 ################
@@ -298,7 +316,7 @@ def plot_vector_field_matplotlib(
         ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
         # Define the vector field
         U = vector_field[0]
@@ -314,15 +332,15 @@ def plot_vector_field_matplotlib(
         V = V / max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
-        vy_scale = kwargs.get('vy_scale', spacing*self.dy/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*dx)
+        vy_scale = kwargs.get('vy_scale', spacing*dy)
 
         # Scaling
         U = vx_scale*U
         V = vy_scale*V
         
 
-        ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+        ax.quiver(X, Y, Z, U, V, W, color='blue')
         
    
     ###############################################################
@@ -334,7 +352,7 @@ def plot_vector_field_matplotlib(
         ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
         # Define the vector field
         U = vector_field[0]
@@ -355,15 +373,16 @@ def plot_vector_field_matplotlib(
         W = W / max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
-        vy_scale = kwargs.get('vy_scale', spacing*self.dy/self.a0)
-        vz_scale = kwargs.get('vz_scale', spacing*self.dz/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*dx)
+        vy_scale = kwargs.get('vy_scale', spacing*dy)
+        vz_scale = kwargs.get('vz_scale', spacing*dz)
 
         # Scaling
         U = vx_scale*U
         V = vy_scale*V
         W = vz_scale*W
-        ax.quiver(X/self.a0, Y/self.a0, Z/self.a0, U, V, W, color='blue')
+        
+        ax.quiver(X, Y, Z, U, V, W, color='blue')
         
 
     ###############################################################

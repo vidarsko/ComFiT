@@ -43,9 +43,23 @@ def plot_surface_matplotlib(
     color = kwargs.get('color', 'b')
 
     verts, faces, _, _ = marching_cubes(field, value)
-    x = (self.xmin+verts[:, 0]*self.dx)/self.a0
-    y = (self.ymin+verts[:, 1]*self.dy)/self.a0
-    z = (self.zmin+verts[:, 2]*self.dz)/self.a0
-    ax.plot_trisurf(x, y, faces, z, alpha=alpha, color=color)
+
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+    xmax = x[-1]+dx
+
+    y = kwargs.get('y', self.y/self.a0).flatten()
+    dy = y[1] - y[0]
+    ymax = y[-1]+dy
+
+    z = kwargs.get('z', self.z/self.a0).flatten()
+    dz = z[1] - z[0]
+    zmax = z[-1]+dz
+
+    ax.plot_trisurf(x[0]+verts[:, 0]*dx, 
+                    y[0]+verts[:, 1]*dy, 
+                    faces, 
+                    z[0]+verts[:, 2]*dz, alpha=alpha, color=color)
 
     return ax

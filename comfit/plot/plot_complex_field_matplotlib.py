@@ -74,19 +74,25 @@ def plot_complex_field_matplotlib(
         blend_factor=0.3 # The degree to which the color is blended with white
         cmap = kwargs['colormap_object']
 
-        ax.fill_between([self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], [rho[0],(rho[0]+rho[1])/2],
+        # Extract coordinates
+        x = kwargs.get('x', self.x/self.a0).flatten()
+        dx = x[1] - x[0]
+        xmax = x[-1]+dx
+
+
+        ax.fill_between([x[0],(x[0]+dx/2)], [rho[0],(rho[0]+rho[1])/2],
                         color=(1-blend_factor)*np.array(cmap((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
                         alpha=1)
 
         for i in range(1,self.xRes-1):
-            ax.fill_between([(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], [(rho[i]+rho[i-1])/2,rho[i]],
+            ax.fill_between([(x[i]-dx/2),x[i]], [(rho[i]+rho[i-1])/2,rho[i]],
                             color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]), 
                             alpha=1)
-            ax.fill_between([self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], [rho[i],(rho[i]+rho[i+1])/2],
+            ax.fill_between([x[i],(x[i]+dx/2)], [rho[i],(rho[i]+rho[i+1])/2],
                 color=(1-blend_factor)*np.array(cmap((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
                 alpha=1)
 
-        ax.fill_between([(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], [(rho[-1]+rho[-2])/2,rho[-1]],
+        ax.fill_between([(xmax-1.5*dx),(xmax-dx)], [(rho[-1]+rho[-2])/2,rho[-1]],
                         color=(1-blend_factor)*np.array(cmap((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1]),  
                         alpha=1)
             
@@ -98,8 +104,17 @@ def plot_complex_field_matplotlib(
         # Keyword arguments particular to the 2D case
         plot_method = kwargs.get('plot_method', 'phase_angle')
 
+        # Extract coordinates
+        x = kwargs.get('x', self.x/self.a0).flatten()
+        dx = x[1] - x[0]
+        xmax = x[-1]+dx
+
+        y = kwargs.get('y', self.y/self.a0).flatten()
+        dy = y[1] - y[0]
+        ymax = y[-1]+dy
+
         # Create a meshgrid
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        X, Y = np.meshgrid(x, y, indexing='ij')
 
         if plot_method == '3Dsurface':
         
@@ -116,7 +131,7 @@ def plot_complex_field_matplotlib(
             # Get the colors from a colormap (e.g., hsv, but you can choose any other)
             colors = kwargs['colormap_object']((theta + np.pi) / (2 * np.pi))  # Normalizing theta to [0, 1]
 
-            surf = ax.plot_surface(X/self.a0, Y/self.a0, rho, facecolors=colors)
+            surf = ax.plot_surface(X, Y, rho, facecolors=colors)
 
         elif plot_method == 'phase_angle':
             
@@ -134,7 +149,7 @@ def plot_complex_field_matplotlib(
             # Padding for the colorbar
             padding=0.05
             
-            mesh = ax.pcolormesh(X/self.a0, Y/self.a0, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
+            mesh = ax.pcolormesh(X, Y, theta, shading='auto', cmap=custom_colormap, vmin=-np.pi, vmax=np.pi)
             mesh.set_alpha(rho_normalized)
  
 
@@ -144,8 +159,6 @@ def plot_complex_field_matplotlib(
         axis_equal = kwargs.get('axis_equal',True)
 
         plot_method = kwargs.get('plot_method', 'phase_blob')
-        
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
 
         rho_normalized = rho / np.max(rho)
 
@@ -155,8 +168,6 @@ def plot_complex_field_matplotlib(
         kwargs['plot_is_3D'] = True
     
         if plot_method == 'phase_angle':
-            
-          
             
             # Padding for the colorbar
             padding=0.2
@@ -218,35 +229,48 @@ def plot_complex_field_matplotlib(
 
                 # Map normalized theta values to colors
                 colors = colormap(theta_faces_normalized)
-                    
+                
+                # Extract coordinates
+                x = kwargs.get('x', self.x/self.a0).flatten()
+                dx = x[1] - x[0]
+                xmax = x[-1]+dx
+
+                y = kwargs.get('y', self.y/self.a0).flatten()
+                dy = y[1] - y[0]
+                ymax = y[-1]+dy
+
+                z = kwargs.get('z', self.z/self.a0).flatten()
+                dz = z[1] - z[0]
+                zmax = z[-1]+dz
+
                 # Plot the complex field
-                ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
-                                (self.ymin+verts[:, 1]*self.dy)/self.a0, 
+                ax.plot_trisurf(x[0]+verts[:, 0]*dx, 
+                                y[0]+verts[:, 1]*dy, 
                                 faces, 
-                                (self.zmin+verts[:, 2]*self.dz)/self.a0, 
+                                z[0]+verts[:, 2]*dz, 
                                 facecolor=colors, antialiased=False)
             
                 # Plot the shadows on the edges
                 plot_shadows = kwargs.get('plot_shadows', True)
                 if plot_shadows:
-                    ax.plot_trisurf((self.xmin+0*verts[:, 0]*self.dx)/self.a0, 
-                                    (self.ymin+verts[:, 1]*self.dy)/self.a0, 
+                    ax.plot_trisurf((x[0]+0*verts[:, 0]*dx), 
+                                    (y[0]+verts[:, 1]*dy), 
                                     faces, 
-                                    (self.zmin+verts[:, 2]*self.dz)/self.a0, 
+                                    (z[0]+verts[:, 2]*dz), 
                                     facecolor='black', antialiased=True,
                                     alpha=0.1)
 
-                    ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
-                                    (self.ymax+0*verts[:, 1]*self.dy)/self.a0, 
+                    ax.plot_trisurf((x[0]+verts[:, 0]*dx), 
+                                    (ymax+0*verts[:, 1]*dy), 
                                     faces, 
-                                    (self.zmin+verts[:, 2]*self.dz)/self.a0, 
+                                    (z[0]+verts[:, 2]*dz), 
                                     facecolor='black', antialiased=True,
                                     alpha=0.1)
                     
-                    ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0, 
-                                    (self.ymin+verts[:, 1]*self.dy)/self.a0, 
+                    ax.plot_trisurf((x[0]+verts[:, 0]*dx), 
+                                    (y[0]+verts[:, 1]*dy), 
                                     faces, 
-                                    (self.zmin+0*verts[:, 2]*self.dz)/self.a0, 
+                                    (z[0]+0*verts[:, 2]*dz), 
                                     facecolor='black', antialiased=True,
                                     alpha=0.1)
 

@@ -97,10 +97,27 @@ def plot_field_in_plane_matplotlib(
     # Map normalized field values to colors
     colors = kwargs['colormap_object'](field_normalized)
 
-    ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0,
-                    (self.ymin+verts[:, 1]*self.dy)/self.a0,
+
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+    xmin = x[0]
+    xmax = x[-1]+dx
+    
+    y = kwargs.get('y', self.y/self.a0).flatten()
+    dy = y[1] - y[0]
+    ymin = y[0]
+    ymax = y[-1]+dy
+
+    z = kwargs.get('z', self.z/self.a0).flatten()
+    dz = z[1] - z[0]
+    zmin = z[0]
+    zmax = z[-1]+dz
+    
+    ax.plot_trisurf((xmin+verts[:, 0]*dx),
+                    (ymin+verts[:, 1]*dy),
                     faces,
-                    (self.zmin+verts[:, 2]*self.dz)/self.a0,
+                    (zmin+verts[:, 2]*dz),
                     facecolor=colors, antialiased=False)
 
     if kwargs['colorbar']:

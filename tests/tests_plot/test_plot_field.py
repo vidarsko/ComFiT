@@ -9,7 +9,7 @@ import comfit as cf
 import numpy as np
 import scipy as sp
 
-show_plots = False
+show_plots = True
 
 class TestPlotField(unittest.TestCase):
 

@@ -85,7 +85,13 @@ def plot_complex_field_plotly(
         color = (1-blend_factor)*np.array(plt_colormap_object((theta[0] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
         color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
 
-        fig.add_trace(go.Scatter(x=[self.xmin/self.a0,(self.xmin+self.dx/2)/self.a0], 
+        # Extract coordinates
+        x = kwargs.get('x', self.x/self.a0).flatten()
+        dx = x[1] - x[0]
+        xmin = x[0]
+        xmax = x[-1]+dx
+
+        fig.add_trace(go.Scatter(x=[xmin,(xmin+dx/2)], 
                         y=[rho[0],(rho[0]+rho[1])/2],
                         mode='lines',
                         line=dict(color='rgba(0,0,0,0)'),
@@ -99,7 +105,7 @@ def plot_complex_field_plotly(
         for i in range(1,self.xRes-1):
             color = (1-blend_factor)*np.array(plt_colormap_object((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
             color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
-            fig.add_trace(go.Scatter(x=[(self.x[i]-self.dx/2)/self.a0,self.x[i]/self.a0], 
+            fig.add_trace(go.Scatter(x=[(x[i]-dx/2),x[i]], 
                         y=[(rho[i]+rho[i-1])/2,rho[i]],
                         mode='lines',
                         line=dict(color='rgba(0,0,0,0)'),
@@ -112,7 +118,7 @@ def plot_complex_field_plotly(
 
             color = (1-blend_factor)*np.array(plt_colormap_object((theta[i] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
             color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
-            fig.add_trace(go.Scatter(x=[self.x[i]/self.a0,(self.x[i]+self.dx/2)/self.a0], 
+            fig.add_trace(go.Scatter(x=[x[i],(x[i]+dx/2)], 
                         y=[rho[i],(rho[i]+rho[i+1])/2],
                         mode='lines',
                         line=dict(color='rgba(0,0,0,0)'),
@@ -125,7 +131,7 @@ def plot_complex_field_plotly(
 
         color = (1-blend_factor)*np.array(plt_colormap_object((theta[-1] + np.pi) / (2 * np.pi)))+blend_factor*np.array([1,1,1,1])
         color_str = ('rgb('+str(int(color[0]*255))+','+str(int(color[1]*255))+','+str(int(color[2]*255))+')')
-        fig.add_trace(go.Scatter(x=[(self.xmax-1.5*self.dx)/self.a0,(self.xmax-self.dx)/self.a0], 
+        fig.add_trace(go.Scatter(x=[(xmax-1.5*dx),(xmax-dx)], 
                         y=[(rho[-1]+rho[-2])/2,rho[-1]],
                         mode='lines',
                         line=dict(color='rgba(0,0,0,0)'),
@@ -138,7 +144,7 @@ def plot_complex_field_plotly(
 
 
         fig.add_trace(go.Scatter(
-            x=self.x/self.a0,
+            x=x,
             y=rho,
             mode='lines',
             showlegend=False,
@@ -162,8 +168,16 @@ def plot_complex_field_plotly(
         # Keyword arguments particular to the 2D case
         plot_method = kwargs.get('plot_method', 'phase_angle')
 
-        # Create a meshgrid
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        # Extract coordinates
+        x = kwargs.get('x', self.x/self.a0).flatten()
+        dx = x[1] - x[0]
+        xmin = x[0]
+        xmax = x[-1]+dx
+        
+        y = kwargs.get('y', self.y/self.a0).flatten()
+        dy = y[1] - y[0]
+        ymin = y[0]
+        ymax = y[-1]+dy
 
         if plot_method == '3Dsurface':
         
@@ -200,10 +214,10 @@ def plot_complex_field_plotly(
                 fig = go.Figure()
 
             trace = go.Image(z=image_data, 
-                            dx=self.dx/self.a0, 
-                            dy=self.dy/self.a0, 
-                            x0=self.xmin/self.a0, 
-                            y0=self.ymin/self.a0,
+                            dx=dx, 
+                            dy=dy, 
+                            x0=xmin, 
+                            y0=ymin,
                             hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
                                             kwargs['ylabel']+': %{y:.2f}<br>'+\
                                             'amplitude: %{customdata[1]:.2e}<br>'+\
@@ -227,7 +241,6 @@ def plot_complex_field_plotly(
         # Keyword arguments particular to the 3D case
         plot_method = kwargs.get('plot_method', 'phase_blob')
         
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
         rho_normalized = rho / np.max(rho)
 
         if plot_method == 'phase_angle':
@@ -275,10 +288,26 @@ def plot_complex_field_plotly(
                 # Convert colors to 'rgba()' format required by Plotly
                 colors = ['rgba({},{},{},{})'.format(*c) for c in (255*colors).astype(int)]
 
+                # Extract coordinates
+                x = kwargs.get('x', self.x/self.a0).flatten()
+                dx = x[1] - x[0]
+                xmin = x[0]
+                xmax = x[-1]+dx
+
+                y = kwargs.get('y', self.y/self.a0).flatten()
+                dy = y[1] - y[0]
+                ymin = y[0]
+                ymax = y[-1]+dy
+
+                z = kwargs.get('z', self.z/self.a0).flatten()
+                dz = z[1] - z[0]
+                zmin = z[0]
+                zmax = z[-1]+dz
+
                 # Create the mesh object
-                x_new = (verts[:, 0] * self.dx + self.xmin) / self.a0
-                y_new = (verts[:, 1] * self.dy + self.ymin) / self.a0
-                z_new = (verts[:, 2] * self.dz + self.zmin) / self.a0
+                x_new = (verts[:, 0] * dx + xmin) 
+                y_new = (verts[:, 1] * dy + ymin) 
+                z_new = (verts[:, 2] * dz + zmin) 
 
                 mesh = go.Mesh3d(
                     x=x_new, 

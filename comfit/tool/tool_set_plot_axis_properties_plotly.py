@@ -78,7 +78,6 @@ def tool_set_plot_axis_properties_plotly(
     if 'xlim' in kwargs:
         xlim = np.array(kwargs['xlim']) / self.a0
 
-
     # ylim is specified as a list if dim>1 else as None
     ylim = [self.ymin/self.a0, (self.ymax-self.dy)/self.a0] if self.dim > 1 else None
     if 'ymin' in kwargs:
