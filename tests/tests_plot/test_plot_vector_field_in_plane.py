@@ -9,6 +9,7 @@ import comfit as cf
 import numpy as np
 import scipy as sp
 
+show_plots = False
 
 class TestPlotVectorField(unittest.TestCase):
 
@@ -38,7 +39,8 @@ class TestPlotVectorField(unittest.TestCase):
             except Exception as e:
                 self.fail(f'plot_vector_field failed for n={n} with error: {e}')
 
-        # bs.show(fig)
+        if show_plots:
+            bs.show(fig)
 
     def test_all_plotly(self):
         plot_lib = 'plotly'
@@ -62,6 +64,8 @@ class TestPlotVectorField(unittest.TestCase):
             except Exception as e:
                 self.fail(f'plot_vector_field_in_plane with plotly failed for n={n} with error: {e}')
 
+        if show_plots:
+            bs.show(fig)
         # bs.show(fig)
 
     # def test_all_plotly_with_colorbar(self):

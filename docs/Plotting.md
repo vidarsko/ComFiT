@@ -31,6 +31,63 @@ To show the plot, use the `show` function, which takes the `fig` object as an ar
 cfi.show(fig)
 ```
 
+## Plotting keywords
+
+The following list gives the keyword arguments that determine the layout of the resulting plot.
+These keywords can be passed to any plot function.
+`bs` refers to an instance of the `BaseSystem` class.
+In some cases, default values of other parameter depend on the value of `dim`, and are represented by curly brackets:
+
+$$
+\left \lbrace \begin{array}{l} \textrm{default value if } \texttt{dim }= 1 \\ \textrm{default value if } \texttt{dim }= 2  \\ \textrm{default value if } \texttt{dim }= 3  \\ \end{array} \right \rbrace
+$$
+
+| Keyword         | Definition         | Default value |
+| ------------------ | --------------- | ----------- |
+| `xlabel` | The label on the x-axis | $x/a_0$|
+| `ylabel` | The label on the y-axis |  $\left \lbrace \begin{array}{c} \texttt{none} \\ y/a_0 \\  y/a_0 \\ \end{array} \right \rbrace$  |
+| `zlabel` | The label on the z-axis |  $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  z/a_0 \\ \end{array} \right \rbrace$  |
+| `suptitle` | The figure title | None |
+| `title` | The axes title | None|
+| `xmin` | The lower limit on the x-axis | `bs.xmin` |
+| `xmax`| The upper limit on the x-axis | `bs.xmax - bs.dx` |
+| `xlim`| A list or tuple consisting of the lower and upper limit on the x-axis. If `xlim` is provided, it trumps any provided `xmin` or `xmax`. | None|
+| `ymin` | The lower limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymin} \\  \texttt{bs.ymin} \\ \end{array} \right \rbrace$ |
+| `ymax`| The upper limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymax-bs.dy} \\  \texttt{bs.ymax-bs.dy} \\ \end{array} \right \rbrace$ |
+| `ylim`| A list or tuple consisting of the lower and upper limit on the y-axis. If `ylim` is provided, it trumps any provided `ymin` or `ymax`. | None |
+| `zmin` | The lower limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmin} \\ \end{array} \right \rbrace$ |
+| `zmax`| The upper limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmax-bs.dz} \\ \end{array} \right \rbrace$ |
+| `zlim`| List or tuple consisting of the lower and upper limit on the z-axis. If `zlim` is provided, it trumps any provided `zmin` or `zmax`. | None |
+| `vmin` | Lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. |None|
+| `vmax` | Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
+| `vlim` | List or tuple consisting of the lower and upper limit of the value to be plotted. Only relevant for `plot_field`. | None |
+| `vlim_symmetric` | A Boolean parameter specifying whether the value limits should be symmetric. Only relevant for `plot_field`. | `False` |
+| `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)|
+| `colormap` | String specifying the colormap to be used | Varies |
+| `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
+| `hold` | Boolean parameter indicating whether or not to hold the current plot | `False` |
+| `opacity` | The opacity of the plot (only sometimes relevant) | 1 |
+| `plot_shadows` | Boolean parameter indicating whether or not to plot the shadows of the objects. Only applicable for `plot_complex_field`. | `True` |
+| `fig` | `plotly` or `matplotlib` figure handle | None|
+| `ax` | `matplotlib` axis handle or dictionary with subplot properties | None|
+| `xticks` | List of ticks on the x-axis | None |
+| `xticklabels` | List of labels for the ticks on the x-axis | None |
+| `yticks` | List of ticks on the y-axis | None |
+| `yticklabels` | List of labels for the ticks on the y-axis | None |
+| `zticks` | List of ticks on the z-axis | None |
+| `zticklabels` | List of labels for the ticks on the z-axis | None |
+| `cticks` | List of ticks on the colorbar | None |
+| `cticklabels` | List of labels for the ticks on the colorbar | None |
+| `alpha` | The alpha value of the plot | 0.5 |
+| `spacing` | The spacing between the arrows in a vector field plot | Varies |
+| `x` | A custom 1D x-coordinate array with the same shape as `bs.x`.  | `bs.x` |
+| `y` | A custom 1D y-coordinate array with the same shape as `bs.y`.  | `bs.y` |
+| `z` | A custom 1D z-coordinate array with the same shape as `bs.z`.  | `bs.z` |
+| `X` | A custom nD x-coordinate array.  | None |
+| `Y` | A custom nD y-coordinate array.  | None |
+| `Z` | A custom nD z-coordinate array.  | None |
+| `fourier` | Boolean parameter indicating whether or not the field to plot is in Fourier space | `False` |
+
 
 ## Subplots
 
@@ -153,54 +210,8 @@ In all plot functions, there's an important distinction between the `kwargs` and
 - `ax`: Contains settings that apply to all plots in a given subplot
 
 
-## Plotting keywords
 
-The following list gives the keyword arguments that determine the layout of the resulting plot.
-These keywords can be passed to any plot function.
-`bs` refers to an instance of the `BaseSystem` class.
-In some cases, default values of other parameter depend on the value of `dim`, and are represented by curly brackets:
 
-$$
-\left \lbrace \begin{array}{l} \textrm{default value if } \texttt{dim }= 1 \\ \textrm{default value if } \texttt{dim }= 2  \\ \textrm{default value if } \texttt{dim }= 3  \\ \end{array} \right \rbrace
-$$
-
-| Keyword         | Definition         | Default value |
-| ------------------ | --------------- | ----------- |
-| `xlabel` | The label on the x-axis | $x/a_0$|
-| `ylabel` | The label on the y-axis |  $\left \lbrace \begin{array}{c} \texttt{none} \\ y/a_0 \\  y/a_0 \\ \end{array} \right \rbrace$  |
-| `zlabel` | The label on the z-axis |  $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  z/a_0 \\ \end{array} \right \rbrace$  |
-| `suptitle` | The figure title | None |
-| `title` | The axes title | None|
-| `xmin` | The lower limit on the x-axis | `bs.xmin` |
-| `xmax`| The upper limit on the x-axis | `bs.xmax - bs.dx` |
-| `xlim`| A list or tuple consisting of the lower and upper limit on the x-axis. If `xlim` is provided, it trumps any provided `xmin` or `xmax`. | None|
-| `ymin` | The lower limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymin} \\  \texttt{bs.ymin} \\ \end{array} \right \rbrace$ |
-| `ymax`| The upper limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymax-bs.dy} \\  \texttt{bs.ymax-bs.dy} \\ \end{array} \right \rbrace$ |
-| `ylim`| A list or tuple consisting of the lower and upper limit on the y-axis. If `ylim` is provided, it trumps any provided `ymin` or `ymax`. | None |
-| `zmin` | The lower limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmin} \\ \end{array} \right \rbrace$ |
-| `zmax`| The upper limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmax-bs.dz} \\ \end{array} \right \rbrace$ |
-| `zlim`| List or tuple consisting of the lower and upper limit on the z-axis. If `zlim` is provided, it trumps any provided `zmin` or `zmax`. | None |
-| `vmin` | Lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. |None|
-| `vmax` | Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
-| `vlim` | List or tuple consisting of the lower and upper limit of the value to be plotted. Only relevant for `plot_field`. | None |
-| `vlim_symmetric` | A Boolean parameter specifying whether the value limits should be symmetric. Only relevant for `plot_field`. | `False` |
-| `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)|
-| `colormap` | String specifying the colormap to be used | Varies |
-| `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
-| `hold` | Boolean parameter indicating whether or not to hold the current plot | `False` |
-| `opacity` | The opacity of the plot (only sometimes relevant) | 1 |
-| `plot_shadows` | Boolean parameter indicating whether or not to plot the shadows of the objects. Only applicable for `plot_complex_field`. | `True` |
-| `fig` | `matplotlib` figure handle | None|
-| `ax` | `matplotlib` axis handle | None|
-| `xticks` | List of ticks on the x-axis | None |
-| `xticklabels` | List of labels for the ticks on the x-axis | None |
-| `yticks` | List of ticks on the y-axis | None |
-| `yticklabels` | List of labels for the ticks on the y-axis | None |
-| `zticks` | List of ticks on the z-axis | None |
-| `zticklabels` | List of labels for the ticks on the z-axis | None |
-| `cticks` | List of ticks on the colorbar | None |
-| `cticklabels` | List of labels for the ticks on the colorbar | None |
-| `alpha` | The alpha value of the plot | 0.5 |
 
 ## Colormaps
 

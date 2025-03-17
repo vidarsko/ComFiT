@@ -53,6 +53,25 @@ def plot_vector_field_plotly(
 
     vector_field, fig, ax, kwargs = self.plot_prepare(vector_field, field_type = 'vector', **kwargs)
 
+
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+    xmin = x[0]
+    xmax = x[-1]+dx
+    
+    if self.dim > 1:
+        y = kwargs.get('y', self.y/self.a0).flatten()
+        dy = y[1] - y[0]
+        ymin = y[0]
+        ymax = y[-1]+dy
+
+    if self.dim > 2:
+        z = kwargs.get('z', self.z/self.a0).flatten()
+        dz = z[1] - z[0]
+        zmin = z[0]
+        zmax = z[-1]+dz
+
     ###############################################################
     ########### DIMENSION: 1 - VECTOR-DIMENSION: 1 ################
     ###############################################################
@@ -62,7 +81,7 @@ def plot_vector_field_plotly(
         kwargs['colorbar'] = False
         ax = tool_plotly_define_2D_plot_ax(fig, ax)
         
-        X, Y = np.meshgrid(self.x, np.array([0]), indexing='ij')
+        X, Y = np.meshgrid(x, np.array([0]), indexing='ij')
         
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
@@ -82,7 +101,7 @@ def plot_vector_field_plotly(
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax)
             
-        X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
+        X, Y, Z = np.meshgrid(x, np.array([0]), np.array([0]), indexing='ij')
 
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
@@ -97,9 +116,9 @@ def plot_vector_field_plotly(
         X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
 
         if not kwargs['field_is_nan']:
-            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                    y=Y.flatten()/self.a0, 
-                                    z=Z.flatten()/self.a0, 
+            fig.add_trace(go.Cone(x=X.flatten(), 
+                                    y=Y.flatten(), 
+                                    z=Z.flatten(), 
                                     u=U.flatten(), 
                                     v=V.flatten(), 
                                     w=W.flatten(), 
@@ -138,7 +157,7 @@ def plot_vector_field_plotly(
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax)
         
-        X, Y, Z = np.meshgrid(self.x, np.array([0]), np.array([0]), indexing='ij')
+        X, Y, Z = np.meshgrid(x, np.array([0]), np.array([0]), indexing='ij')
 
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
@@ -164,7 +183,7 @@ def plot_vector_field_plotly(
         W = W/max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.size_x/15/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*self.size_x/15)
         vy_scale = kwargs.get('vy_scale', 1)
         vz_scale = kwargs.get('vz_scale', 1)
 
@@ -174,9 +193,9 @@ def plot_vector_field_plotly(
         W = vz_scale*W
 
         if not kwargs['field_is_nan']:
-            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                            y=Y.flatten()/self.a0, 
-                            z=Z.flatten()/self.a0, 
+            fig.add_trace(go.Cone(x=X.flatten(), 
+                            y=Y.flatten(), 
+                            z=Z.flatten(), 
                             u=U.flatten(), 
                             v=V.flatten(), 
                             w=W.flatten(), 
@@ -204,7 +223,7 @@ def plot_vector_field_plotly(
   
         ax = tool_plotly_define_2D_plot_ax(fig, ax)
 
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        X, Y = np.meshgrid(x, y, indexing='ij')
 
         U = vector_field[0]
         V = np.zeros(X.shape)
@@ -220,7 +239,7 @@ def plot_vector_field_plotly(
         U = U / max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*dx)
 
         # Scaling
         U = vx_scale*U
@@ -238,8 +257,8 @@ def plot_vector_field_plotly(
         direction = np.array([np.cos(angle), np.sin(angle)]).T
         
         fig.add_trace(go.Scatter(
-        x=X.flatten()/self.a0,
-        y=Y.flatten()/self.a0,
+        x=X.flatten(),
+        y=Y.flatten(),
         xaxis=ax['xN'],
         yaxis=ax['yN'],
         mode='markers',
@@ -270,7 +289,7 @@ def plot_vector_field_plotly(
 
         ax = tool_plotly_define_2D_plot_ax(fig, ax)
 
-        X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+        X, Y = np.meshgrid(x, y, indexing='ij')
 
         X, Y, U, V = tool_add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
 
@@ -290,8 +309,8 @@ def plot_vector_field_plotly(
         
         if not kwargs['field_is_nan']:
             fig.add_trace(go.Scatter(
-            x=X.flatten()/self.a0,
-            y=Y.flatten()/self.a0,
+            x=X.flatten(),
+            y=Y.flatten(),
             mode='markers',
             xaxis=ax['xN'],
             yaxis=ax['yN'],
@@ -325,7 +344,7 @@ def plot_vector_field_plotly(
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax)
         
-        X, Y, Z = np.meshgrid(self.x, self.y, np.array([0]), indexing='ij')
+        X, Y, Z = np.meshgrid(x, y, np.array([0]), indexing='ij')
         U = np.zeros(X.shape)
         V = np.zeros(X.shape)
         W = np.zeros(X.shape)
@@ -347,9 +366,9 @@ def plot_vector_field_plotly(
         W = W / max_vector
         
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', 2*spacing*self.size_x/max_vector/self.a0)
-        vy_scale = kwargs.get('vy_scale', 2*spacing*self.size_y/max_vector/self.a0)
-        vz_scale = kwargs.get('vz_scale', spacing/self.a0)
+        vx_scale = kwargs.get('vx_scale', 2*spacing*self.size_x/max_vector)
+        vy_scale = kwargs.get('vy_scale', 2*spacing*self.size_y/max_vector)
+        vz_scale = kwargs.get('vz_scale', spacing)
 
         # Scaling
         U = vx_scale*U
@@ -357,9 +376,9 @@ def plot_vector_field_plotly(
         W = vz_scale*W
 
         if not kwargs['field_is_nan']:
-            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                y=Y.flatten()/self.a0, 
-                                z=Z.flatten()/self.a0, 
+            fig.add_trace(go.Cone(x=X.flatten(), 
+                                y=Y.flatten(), 
+                                z=Z.flatten(), 
                                 u=U.flatten(), 
                                 v=V.flatten(), 
                                 w=W.flatten(), 
@@ -391,7 +410,7 @@ def plot_vector_field_plotly(
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax)
 
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')              
+        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')              
 
         # Define the vector field
         U = vector_field[0]
@@ -410,15 +429,15 @@ def plot_vector_field_plotly(
         U = U / max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*dx)
 
         # Scaling
         U = vx_scale*U
 
         if not kwargs['field_is_nan']:
-            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                    y=Y.flatten()/self.a0, 
-                                    z=Z.flatten()/self.a0, 
+            fig.add_trace(go.Cone(x=X.flatten(), 
+                                    y=Y.flatten(), 
+                                    z=Z.flatten(), 
                                     u=U.flatten(), 
                                     v=V.flatten(), 
                                     w=W.flatten(), 
@@ -444,7 +463,7 @@ def plot_vector_field_plotly(
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax)
 
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
         # Define the vector field
         U = vector_field[0]
@@ -464,17 +483,17 @@ def plot_vector_field_plotly(
         V = V / max_vector
 
         # Scale factors
-        vx_scale = kwargs.get('vx_scale', spacing*self.dx/self.a0)
-        vy_scale = kwargs.get('vy_scale', spacing*self.dy/self.a0)
+        vx_scale = kwargs.get('vx_scale', spacing*dx)
+        vy_scale = kwargs.get('vy_scale', spacing*dy)
 
         # Scaling
         U = vx_scale*U
         V = vy_scale*V
 
         if not kwargs['field_is_nan']:
-            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                    y=Y.flatten()/self.a0, 
-                                    z=Z.flatten()/self.a0, 
+            fig.add_trace(go.Cone(x=X.flatten(), 
+                                    y=Y.flatten(), 
+                                    z=Z.flatten(), 
                                     u=U.flatten(), 
                                     v=V.flatten(), 
                                     w=W.flatten(), 
@@ -500,7 +519,7 @@ def plot_vector_field_plotly(
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax)
 
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
         # Define the vector field
         U = vector_field[0]
@@ -514,9 +533,9 @@ def plot_vector_field_plotly(
         ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
 
         if not kwargs['field_is_nan']:
-            fig.add_trace(go.Cone(x=X.flatten()/self.a0, 
-                                    y=Y.flatten()/self.a0, 
-                                    z=Z.flatten()/self.a0, 
+            fig.add_trace(go.Cone(x=X.flatten(), 
+                                    y=Y.flatten(), 
+                                    z=Z.flatten(), 
                                     u=U.flatten(), 
                                     v=V.flatten(), 
                                     w=W.flatten(), 

@@ -46,6 +46,24 @@ def plot_field_plotly(
 
     field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+    xmin = x[0]
+    xmax = x[-1]+dx
+    
+    if self.dim > 1:
+        y = kwargs.get('y', self.y/self.a0).flatten()
+        dy = y[1] - y[0]
+        ymin = y[0]
+        ymax = y[-1]+dy
+
+    if self.dim > 2:
+        z = kwargs.get('z', self.z/self.a0).flatten()
+        dz = z[1] - z[0]
+        zmin = z[0]
+        zmax = z[-1]+dz
+
     ###############################################################
     ###################### DIMENSION: 1 ###########################
     ###############################################################
@@ -56,11 +74,12 @@ def plot_field_plotly(
 
         if not kwargs['field_is_nan']:
             trace = go.Scatter(
-                x=self.x/self.a0,
+                x=x,
                 y=field,
                 mode='lines',
                 name='',
-                hovertemplate='x: %{x:.1f} a₀<br>field: %{y:.1f}',
+                hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                    'field: %{y:.2e}',
                 xaxis=ax['xN'],
                 yaxis=ax['yN'],
                 showlegend=False
@@ -79,20 +98,22 @@ def plot_field_plotly(
         Y = kwargs.get('Y', None)
 
         if X is None or Y is None:
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            X, Y = np.meshgrid(x, y, indexing='ij')
             
         opacity = kwargs.get('opacity', 1)
 
         if not kwargs['field_is_nan']:
             # Trace
             trace = go.Heatmap(
-                x=X.flatten()/self.a0,
-                y=Y.flatten()/self.a0,
+                x=X.flatten(),
+                y=Y.flatten(),
                 z=field.flatten(),
                 zmin=ax['vmin'],
                 zmax=ax['vmax'],
                 zsmooth='best',
-                hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                              kwargs['ylabel']+': %{y:.2f}<br>'+\
+                              'field: %{z:.2e}',
                 name='',
                 opacity=opacity,
                 colorscale=kwargs['colormap_object'],
@@ -122,15 +143,15 @@ def plot_field_plotly(
 
 
         #Plotting the layers
-        X, Y, Z = np.meshgrid(self.x, self.y, self.z, indexing='ij')
+        X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
         if not kwargs['field_is_nan']:
             for layer_value in layer_values[1:-1]:
                 
                 trace = go.Isosurface(
-                    x=X.flatten()/self.a0,
-                    y=Y.flatten()/self.a0,
-                    z=Z.flatten()/self.a0,
+                    x=X.flatten(),
+                    y=Y.flatten(),
+                    z=Z.flatten(),
                     value = field.flatten(),
                     isomin = layer_value,
                     isomax = layer_value,
@@ -138,6 +159,11 @@ def plot_field_plotly(
                     cmax = ax['vmax'],
                     colorscale = kwargs['colormap_object'],
                     showscale=False,
+                    hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                  kwargs['ylabel']+': %{y:.2f}<br>'+\
+                                  kwargs['zlabel']+': %{z:.2f}<br>'+\
+                                  'field: '+f'{layer_value:.2e}',
+                    name='',
                     surface=dict(count=3),  # Ensuring only one surface is shown
                     opacity=alpha,
                     scene=ax['sceneN'],
@@ -149,6 +175,8 @@ def plot_field_plotly(
         ax['colormap_object'] = kwargs['colormap_object']
         fig.add_trace(tool_plotly_colorbar(ax, type='normal'))
         ax['colorbar'] = True
+
+
 
     kwargs['fig'] = fig
     kwargs['ax'] = ax

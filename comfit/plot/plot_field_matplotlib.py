@@ -60,6 +60,9 @@ def plot_field_matplotlib(
 
         ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
+        # Extract coordinates
+        x = kwargs.get('x', self.x/self.a0).flatten()
+
         ax.plot(self.x/self.a0, field)
 
     ###############################################################
@@ -80,16 +83,27 @@ def plot_field_matplotlib(
         # Value limits symmetric
         vlim_symmetric = kwargs.get('vlim_symmetric', False)
 
+        # Extract coordinates
+        x = kwargs.get('x', self.x/self.a0).flatten()
+        dx = x[1] - x[0]
+        xmin = x[0]
+        xmax = x[-1]+dx
+
+        y = kwargs.get('y', self.y/self.a0).flatten()
+        dy = y[1] - y[0]
+        ymin = y[0]
+        ymax = y[-1]+dy
+
         X = kwargs.get('X', None)
         Y = kwargs.get('Y', None)
 
         if X is None or Y is None:
-            X, Y = np.meshgrid(self.x, self.y, indexing='ij')
+            X, Y = np.meshgrid(x, y, indexing='ij')
 
-        pcm = ax.pcolormesh(X / self.a0, Y / self.a0, field, shading='gouraud', cmap=colormap)
+        pcm = ax.pcolormesh(X , Y , field, shading='gouraud', cmap=colormap)
 
-        xlim = [self.xmin, self.xmax-self.dx]
-        ylim = [self.ymin, self.ymax-self.dy]
+        xlim = [xmin, xmax-dx]
+        ylim = [ymin, ymax-dy]
 
         limits_provided = False
         if 'xlim' in kwargs:

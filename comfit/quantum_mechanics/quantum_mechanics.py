@@ -95,11 +95,11 @@ class QuantumMechanics(BaseSystem):
 
             elif self.dim == 2:
                 v0 = initial_velocity
-                self.psi = self.psi * np.exp(1j * (v0[0] * self.x + v0[1]*self.y))
+                self.psi = self.psi * np.exp(1j * (v0[0] * self.x + v0[1] * self.y))
 
             elif self.dim == 3:
                 v0 = initial_velocity
-                self.psi = self.psi * np.exp(1j * (v0[0] * self.x + v0[1]*self.y + v0[2]*self.z))
+                self.psi = self.psi * np.exp(1j * (v0[0] * self.x + v0[1] * self.y + v0[2] * self.z))
         
         self.psi_f = sp.fft.fftn(self.psi)
 

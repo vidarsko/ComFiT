@@ -101,10 +101,20 @@ def plot_complex_field_in_plane_matplotlib(
     # Blend the colors with white according to rho (normalized)
     colors[:,3] = (rho_verts/np.max(rho_verts)).ravel()
 
-    ax.plot_trisurf((self.xmin+verts[:, 0]*self.dx)/self.a0,
-                    (self.ymin+verts[:, 1]*self.dy)/self.a0,
+    # Extract coordinates
+    x = kwargs.get('x', self.x/self.a0).flatten()
+    dx = x[1] - x[0]
+
+    y = kwargs.get('y', self.y/self.a0).flatten()
+    dy = y[1] - y[0]
+
+    z = kwargs.get('z', self.z/self.a0).flatten()
+    dz = z[1] - z[0]
+
+    ax.plot_trisurf((x[0]+verts[:, 0]*dx),
+                    (y[0]+verts[:, 1]*dy),
                     faces,
-                    (self.zmin+verts[:, 2]*self.dz)/self.a0,
+                    (z[0]+verts[:, 2]*dz),
                     facecolor=colors, antialiased=True)
 
 

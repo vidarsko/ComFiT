@@ -135,6 +135,8 @@ class BaseSystemPlot:
         grid_default = False
         if field_type == 'real' and self.dim in [1,3]:
             grid_default = True
+        if field_type == 'complex':
+            grid_default = True
         kwargs['grid'] = kwargs.get('grid', grid_default)
 
         axis_equal_default = False
@@ -170,6 +172,61 @@ class BaseSystemPlot:
                 kwargs['vmax'] = vmax
 
         return field, fig, ax, kwargs
+    
+    def _check_if_fourier_and_adjust(self, field, **kwargs):
+        """Check if the field is in Fourier space and adjust it if necessary.
+
+        Parameters
+        ----------
+        field : np.ndarray
+            Field to be checked
+            \*\*kwargs : Any
+        
+        Returns
+        -------
+        Tuple[np.ndarray, Dict]
+            Tuple containing the field and the keyword arguments.
+        """
+
+        kwargs["fourier"] = kwargs.get("fourier", False)
+        if kwargs["fourier"]:
+            
+            phase_shift = np.exp(1j*self.k[0]*self.xmin)
+            if self.dim > 1:
+                phase_shift = phase_shift*np.exp(1j*self.k[1]*self.ymin)
+            if self.dim > 2:
+                phase_shift = phase_shift*np.exp(1j*self.k[2]*self.zmin)
+
+            field = np.fft.fftshift(phase_shift*field, axes=range(-self.dim, 0))
+
+            kwargs["x"] = np.fft.fftshift(self.k[0])/(2*np.pi/self.a0)
+            kwargs['xlabel'] = 'kx/(2π/a₀)'
+            kwargs['xlim'] = kwargs.get('xlim', [np.min(kwargs["x"]), np.max(kwargs["x"])])
+
+            if self.dim > 1:
+                kwargs["y"] = np.fft.fftshift(self.k[1])/(2*np.pi/self.a0)
+                kwargs['ylabel'] = 'ky/(2π/a₀)'
+                kwargs['ylim'] = kwargs.get('ylim', [np.min(kwargs["y"]), np.max(kwargs["y"])])
+
+            if self.dim > 2:
+                kwargs["z"] = np.fft.fftshift(self.k[2])/(2*np.pi/self.a0)
+                kwargs['zlabel'] = 'kz/(2π/a₀)'
+                kwargs['zlim'] = kwargs.get('zlim', [np.min(kwargs["z"]), np.max(kwargs["z"])])
+
+            
+
+
+        else:
+            kwargs['x'] = self.x/self.a0
+            kwargs['xlabel'] = kwargs.get('xlabel','x/a₀')
+            if self.dim > 1:
+                kwargs['y'] = self.y/self.a0
+                kwargs['ylabel'] = kwargs.get('ylabel','y/a₀')
+            if self.dim > 2:
+                kwargs['z'] = self.z/self.a0
+                kwargs['zlabel'] = kwargs.get('zlabel','z/a₀')
+
+        return field, kwargs
 
     def plot_field(
             self: 'BaseSystemPlot', 
@@ -199,7 +256,10 @@ class BaseSystemPlot:
         See the corresponding plot_field_plotly or plot_field_matplotlib function
         in the Auxiliary Plot Functions documentation for further details.
         """
+
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        field, kwargs = self._check_if_fourier_and_adjust(field, **kwargs)  
 
         if plot_lib == "plotly":
             return plot_field_plotly(self, field, **kwargs)
@@ -237,10 +297,13 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
+        complex_field, kwargs = self._check_if_fourier_and_adjust(complex_field, **kwargs)  
+
         if plot_lib == "plotly":
             return plot_complex_field_plotly(self, complex_field, **kwargs)
         elif plot_lib == "matplotlib":
             return plot_complex_field_matplotlib(self, complex_field, **kwargs)
+
 
     def plot_angle_field(
             self: 'BaseSystemPlot', 
@@ -273,10 +336,15 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
+        angle_field, kwargs = self._check_if_fourier_and_adjust(angle_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space angle field plotting not implemented.")
+
         if plot_lib == "plotly":
             return plot_angle_field_plotly(self, angle_field, **kwargs)
         elif plot_lib == "matplotlib":
             return plot_angle_field_matplotlib(self, angle_field, **kwargs)
+
 
     def plot_vector_field(
             self: 'BaseSystemPlot', 
@@ -308,6 +376,10 @@ class BaseSystemPlot:
         """
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        vector_field, kwargs = self._check_if_fourier_and_adjust(vector_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space vector field plotting not implemented.")
 
         if plot_lib == "plotly":
             return plot_vector_field_plotly(self, vector_field, **kwargs)
@@ -350,6 +422,10 @@ class BaseSystemPlot:
         """
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        field, kwargs = self._check_if_fourier_and_adjust(field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space plot in plane not implemented.")
 
         if plot_lib == "plotly":
             return plot_field_in_plane_plotly(
@@ -396,6 +472,10 @@ class BaseSystemPlot:
         """
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        complex_field, kwargs = self._check_if_fourier_and_adjust(complex_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space complex field plot in plane not implemented.")
 
 
         if plot_lib == "plotly":
@@ -444,6 +524,10 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
+        angle_field, kwargs = self._check_if_fourier_and_adjust(angle_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space angle field plot in plane not implemented.")
+
 
         complex_field = np.exp(1j * angle_field)
         return self.plot_complex_field_in_plane(complex_field, normal_vector=normal_vector, position=position, **kwargs)
@@ -488,6 +572,10 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
+        vector_field, kwargs = self._check_if_fourier_and_adjust(vector_field, **kwargs)
+        if kwargs['fourier']:
+            raise NotImplementedError("Fourier space vector field plot in plane not implemented.")
+
 
         return plot_vector_field_in_plane_both_plot_libs(self, vector_field, normal_vector, position, spacing, **kwargs)
 
@@ -521,6 +609,9 @@ class BaseSystemPlot:
         """
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
+
+        if kwargs.get('fourier', False):
+            raise NotImplementedError("Fourier space node does not make sense.")
 
         if plot_lib == 'plotly':
             return plot_nodes_plotly(self, nodes, **kwargs)
