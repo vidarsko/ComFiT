@@ -10,6 +10,8 @@ import numpy as np
 import scipy as sp
 
 
+show_plots = True
+
 class TestPlotComplexFieldInPlane(unittest.TestCase):
 
     def tearDown(self):
@@ -23,7 +25,8 @@ class TestPlotComplexFieldInPlane(unittest.TestCase):
             # Create complex_field
             complex_field = (bs.x+bs.y+bs.z) + 1j*(bs.x-bs.y+bs.z)
             fig, ax = bs.plot_complex_field_in_plane(complex_field)
-            # bs.show(fig)
+            if show_plots:
+                bs.show(fig)
             self.assertIsNotNone(fig, msg=f'plot_complex_field_in_plane in 3D failed for plot_lib={plot_lib}')
 
     def test_colorbar(self):
@@ -34,7 +37,8 @@ class TestPlotComplexFieldInPlane(unittest.TestCase):
             # Create complex_field
             complex_field = (bs.x+bs.y+bs.z) + 1j*(bs.x-bs.y+bs.z)
             fig, ax = bs.plot_complex_field_in_plane(complex_field, colorbar=True, colormap=colormap)
-            # bs.show(fig)
+            if show_plots:
+                bs.show(fig)
             self.assertIsNotNone(fig, msg=f'plot_complex_field_in_plane in 3D with custom colorbar failed for plot_lib={plot_lib}')
 
 if __name__ == '__main__':

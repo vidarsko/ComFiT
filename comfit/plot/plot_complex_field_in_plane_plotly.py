@@ -126,14 +126,15 @@ def plot_complex_field_in_plane_plotly(
                 i=faces[:, 0], 
                 j=faces[:, 1], 
                 k=faces[:, 2],
-                customdata=theta_faces/np.pi,
+                customdata=np.array([theta_verts/np.pi, rho_verts]).T,
                 facecolor=colors,  # Set color for each face
                 showscale=False,
                 hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
                                 kwargs['ylabel']+': %{y:.2f}<br>'+\
                                 kwargs['zlabel']+': %{z:.2f}<br>'+\
-                                'amplitude: %{rho:.2e}<br>'+\
-                                'phase: %{customdata:.2f π}',
+                                'amplitude: %{customdata[1]:.2e}<br>'+\
+                                'phase: %{customdata[0]:.2f} π',
+                name = '',
                 scene=ax['sceneN']
             )
     fig.add_trace(mesh)
