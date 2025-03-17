@@ -10,7 +10,7 @@ import numpy as np
 import scipy as sp
 
 
-show_plots = True
+show_plots = False
 
 class TestPlotComplexFieldInPlane(unittest.TestCase):
 
