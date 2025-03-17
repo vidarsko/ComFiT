@@ -143,7 +143,7 @@ def plot_complex_field_plotly(
             mode='lines',
             showlegend=False,
             customdata=np.stack((theta/np.pi, rho), axis=-1),
-            hovertemplate= kwargs['xlabel']+': %{x:.2e} <br>'+\
+            hovertemplate= kwargs['xlabel']+': %{x:.2f} <br>'+\
                                 'amplitude: %{customdata[1]:.2e}<br>'+\
                                 'phase: %{customdata[0]:.2f} π',
             name='',
@@ -204,8 +204,8 @@ def plot_complex_field_plotly(
                             dy=self.dy/self.a0, 
                             x0=self.xmin/self.a0, 
                             y0=self.ymin/self.a0,
-                            hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
-                                            kwargs['ylabel']+': %{y:.2e}<br>'+\
+                            hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                            kwargs['ylabel']+': %{y:.2f}<br>'+\
                                             'amplitude: %{customdata[1]:.2e}<br>'+\
                                             'phase: %{customdata[0]:.2f} π',
                             customdata=np.stack((np.transpose(theta/np.pi), np.transpose(rho)), axis=-1),
@@ -289,9 +289,9 @@ def plot_complex_field_plotly(
                     k=faces[:, 2],
                     facecolor=colors,  # Set color for each face
                     showscale=True,
-                    hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
-                                    kwargs['ylabel']+': %{y:.2e}<br>'+\
-                                    kwargs['zlabel']+': %{z:.2e}<br>'+\
+                    hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                    kwargs['ylabel']+': %{y:.2f}<br>'+\
+                                    kwargs['zlabel']+': %{z:.2f}<br>'+\
                                     'amplitude: '+ f'{0.5*np.max(rho):.2e}<br>'+\
                                     'phase: %{customdata:.2f} π',
                     customdata=theta_faces/np.pi,

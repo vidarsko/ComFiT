@@ -9,6 +9,7 @@ import comfit as cf
 import numpy as np
 import scipy as sp
 
+show_plots = False
 
 class TestPlotFieldInPlane(unittest.TestCase):
 
@@ -23,7 +24,8 @@ class TestPlotFieldInPlane(unittest.TestCase):
             # Create field
             field = (bs.x+bs.y+bs.z)/200
             fig, ax = bs.plot_field_in_plane(field)
-            # bs.show(fig)
+            if show_plots:
+                bs.show
             self.assertIsNotNone(fig, msg=f'plot_field_in_plane in 3D failed for plot_lib={plot_lib}')
 
     def test_colorbar(self):
@@ -34,7 +36,8 @@ class TestPlotFieldInPlane(unittest.TestCase):
             # Create field
             field = (bs.x+bs.y+bs.z)/200
             fig, ax = bs.plot_field_in_plane(field, colorbar=True, colormap=colormap)
-            # bs.show(fig)
+            if show_plots:
+                bs.show(fig)
             self.assertIsNotNone(fig, msg=f'plot_field_in_plane in 3D with custom colorbar failed for plot_lib={plot_lib}')
 
 if __name__ == '__main__':

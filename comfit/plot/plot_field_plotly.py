@@ -64,8 +64,8 @@ def plot_field_plotly(
                 y=field,
                 mode='lines',
                 name='',
-                hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
-                                    'field: %{y:.2e}',
+                hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                    'field: %{y:.2f}',
                 xaxis=ax['xN'],
                 yaxis=ax['yN'],
                 showlegend=False
@@ -97,9 +97,9 @@ def plot_field_plotly(
                 zmin=ax['vmin'],
                 zmax=ax['vmax'],
                 zsmooth='best',
-                hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
-                              kwargs['ylabel']+': %{y:.2e}<br>'+\
-                              'field: %{z:.2e}',
+                hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                              kwargs['ylabel']+': %{y:.2f}<br>'+\
+                              'field: %{z:.2f}',
                 name='',
                 opacity=opacity,
                 colorscale=kwargs['colormap_object'],
@@ -145,9 +145,9 @@ def plot_field_plotly(
                     cmax = ax['vmax'],
                     colorscale = kwargs['colormap_object'],
                     showscale=False,
-                    hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
-                                  kwargs['ylabel']+': %{y:.2e}<br>'+\
-                                  kwargs['zlabel']+': %{z:.2e}<br>'+\
+                    hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                  kwargs['ylabel']+': %{y:.2f}<br>'+\
+                                  kwargs['zlabel']+': %{z:.2f}<br>'+\
                                   'field: '+f'{layer_value:.2e}',
                     name='',
                     surface=dict(count=3),  # Ensuring only one surface is shown

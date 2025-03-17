@@ -129,9 +129,9 @@ def plot_complex_field_in_plane_plotly(
                 customdata=theta_faces/np.pi,
                 facecolor=colors,  # Set color for each face
                 showscale=False,
-                hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
-                                kwargs['ylabel']+': %{y:.2e}<br>'+\
-                                kwargs['zlabel']+': %{z:.2e}<br>'+\
+                hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                kwargs['ylabel']+': %{y:.2f}<br>'+\
+                                kwargs['zlabel']+': %{z:.2f}<br>'+\
                                 'amplitude: %{rho:.2e}<br>'+\
                                 'phase: %{customdata:.2f π}',
                 scene=ax['sceneN']
