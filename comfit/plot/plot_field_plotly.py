@@ -65,7 +65,7 @@ def plot_field_plotly(
                 mode='lines',
                 name='',
                 hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
-                                    'field: %{y:.2f}',
+                                    'field: %{y:.2e}',
                 xaxis=ax['xN'],
                 yaxis=ax['yN'],
                 showlegend=False
@@ -99,7 +99,7 @@ def plot_field_plotly(
                 zsmooth='best',
                 hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
                               kwargs['ylabel']+': %{y:.2f}<br>'+\
-                              'field: %{z:.2f}',
+                              'field: %{z:.2e}',
                 name='',
                 opacity=opacity,
                 colorscale=kwargs['colormap_object'],
