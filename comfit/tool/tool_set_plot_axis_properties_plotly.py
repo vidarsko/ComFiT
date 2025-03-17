@@ -101,21 +101,15 @@ def tool_set_plot_axis_properties_plotly(
     if 'zlim' in kwargs:
         zlim = np.array(kwargs['zlim'])/self.a0 if self.dim > 2 else kwargs['zlim']
 
-    if kwargs["fourier"]:
-        xlim = [np.min(self.k[0]), np.max(self.k[0])]
-        ylim = [np.min(self.k[1]), np.max(self.k[1])] if self.dim > 1 else None
-        zlim = [np.min(self.k[2]), np.max(self.k[2])] if self.dim > 2 else None
-
     if ax['plot_dimension'] == 2:
-        layout_updates['xaxis_range'] = xlim
-        layout_updates['yaxis_range'] = ylim
+        layout_updates[f"{ax['xaxisN']}_range"] = xlim
+        layout_updates[f"{ax['xaxisN']}_range"] = ylim
     
     elif ax['plot_dimension'] == 3:
         xaxis_updates['range'] = xlim
         yaxis_updates['range'] = ylim
         zaxis_updates['range'] = zlim
         
-
     ##### AXIS LABELS #####
     xlabel = kwargs.get('xlabel')
     ylabel = kwargs.get('ylabel', 'y/a₀' if self.dim > 1 else None)
@@ -130,7 +124,6 @@ def tool_set_plot_axis_properties_plotly(
         xaxis_updates['title'] = xlabel
         yaxis_updates['title'] = ylabel
         zaxis_updates['title'] = zlabel
-
         
     ##### TICKS #####
     xticks = kwargs.get('xticks', None)  

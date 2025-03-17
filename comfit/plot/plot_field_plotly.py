@@ -176,6 +176,8 @@ def plot_field_plotly(
         fig.add_trace(tool_plotly_colorbar(ax, type='normal'))
         ax['colorbar'] = True
 
+
+
     kwargs['fig'] = fig
     kwargs['ax'] = ax
     tool_set_plot_axis_properties_plotly(self, **kwargs)

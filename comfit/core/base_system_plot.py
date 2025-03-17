@@ -135,6 +135,8 @@ class BaseSystemPlot:
         grid_default = False
         if field_type == 'real' and self.dim in [1,3]:
             grid_default = True
+        if field_type == 'complex':
+            grid_default = True
         kwargs['grid'] = kwargs.get('grid', grid_default)
 
         axis_equal_default = False
@@ -199,14 +201,17 @@ class BaseSystemPlot:
 
             kwargs["x"] = np.fft.fftshift(self.k[0])/(2*np.pi/self.a0)
             kwargs['xlabel'] = 'kx/(2π/a₀)'
+            kwargs['xlim'] = kwargs.get('xlim', [np.min(kwargs["x"]), np.max(kwargs["x"])])
 
             if self.dim > 1:
                 kwargs["y"] = np.fft.fftshift(self.k[1])/(2*np.pi/self.a0)
                 kwargs['ylabel'] = 'ky/(2π/a₀)'
+                kwargs['ylim'] = kwargs.get('ylim', [np.min(kwargs["y"]), np.max(kwargs["y"])])
 
             if self.dim > 2:
                 kwargs["z"] = np.fft.fftshift(self.k[2])/(2*np.pi/self.a0)
                 kwargs['zlabel'] = 'kz/(2π/a₀)'
+                kwargs['zlim'] = kwargs.get('zlim', [np.min(kwargs["z"]), np.max(kwargs["z"])])
 
             
 

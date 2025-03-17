@@ -65,17 +65,18 @@ def plot_complex_field_matplotlib(
 
         ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
 
+        x = kwargs.get('x', self.x).flatten()
+
         # Padding for the colorbar.
         padding=0.05
 
-        ax.plot(self.x/self.a0, rho, color='black')
+        ax.plot(x, rho, color='black')
 
         # Color in the graph based on the argument of the complex field
         blend_factor=0.3 # The degree to which the color is blended with white
         cmap = kwargs['colormap_object']
 
         # Extract coordinates
-        x = kwargs.get('x', self.x/self.a0).flatten()
         dx = x[1] - x[0]
         xmax = x[-1]+dx
 

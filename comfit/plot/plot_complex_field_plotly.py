@@ -72,9 +72,6 @@ def plot_complex_field_plotly(
 
         ax = tool_plotly_define_2D_plot_ax(fig, ax)
 
-        # Keyword arguments particular to the 1D case
-        grid = kwargs.get('grid', False)
-
         vlim = kwargs.get('vlim', None)
         if vlim is not None:
             kwargs['ylim'] = vlim
