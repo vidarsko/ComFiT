@@ -59,18 +59,13 @@ def plot_field_plotly(
         ax = tool_plotly_define_2D_plot_ax(fig, ax) #Defines xN, yN and plot_dimension
 
         if not kwargs['field_is_nan']:
-            hovertemplate = 'x: %{x:.1f} a₀<br>field: %{y:.1f}'
-
-        if kwargs['fourier']:
-            hovertemplate = 'k: %{x:.1f} <br>field: %{y:.1f}'
-
-        if not kwargs['field_is_nan']:
             trace = go.Scatter(
                 x=x,
                 y=field,
                 mode='lines',
                 name='',
-                hovertemplate=hovertemplate,
+                hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
+                                    'field: %{y:.2e}',
                 xaxis=ax['xN'],
                 yaxis=ax['yN'],
                 showlegend=False
@@ -102,7 +97,9 @@ def plot_field_plotly(
                 zmin=ax['vmin'],
                 zmax=ax['vmax'],
                 zsmooth='best',
-                hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br> field: %{z:.2f}',
+                hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
+                              kwargs['ylabel']+': %{y:.2e}<br>'+\
+                              'field: %{z:.2e}',
                 name='',
                 opacity=opacity,
                 colorscale=kwargs['colormap_object'],
@@ -148,6 +145,11 @@ def plot_field_plotly(
                     cmax = ax['vmax'],
                     colorscale = kwargs['colormap_object'],
                     showscale=False,
+                    hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
+                                  kwargs['ylabel']+': %{y:.2e}<br>'+\
+                                  kwargs['zlabel']+': %{z:.2e}<br>'+\
+                                  'field: '+f'{layer_value:.2e}',
+                    name='',
                     surface=dict(count=3),  # Ensuring only one surface is shown
                     opacity=alpha,
                     scene=ax['sceneN'],

@@ -51,8 +51,6 @@ def plot_complex_field_plotly(
 
     kwargs['colormap'] = kwargs.get('colormap', 'angle') # Override the default colormap with 'angle'
     complex_field, fig, ax, kwargs = self.plot_prepare(complex_field, field_type = 'complex', **kwargs)
-    fig = kwargs.get('fig', go.Figure())
-    ax = kwargs.get('ax', {"row": 1, "col": 1, "nrows": 1, "ncols": 1})
 
     # Kewyord arguments
     kwargs['colorbar'] = kwargs.get('colorbar', True)
@@ -145,7 +143,9 @@ def plot_complex_field_plotly(
             mode='lines',
             showlegend=False,
             customdata=np.stack((theta/np.pi, rho), axis=-1),
-            hovertemplate='x: %{x:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
+            hovertemplate= kwargs['xlabel']+': %{x:.2e} <br>'+\
+                                'amplitude: %{customdata[1]:.2e}<br>'+\
+                                'phase: %{customdata[0]:.2f} π',
             name='',
             line=dict(color='black'),
             xaxis=ax['xN'],
@@ -204,7 +204,10 @@ def plot_complex_field_plotly(
                             dy=self.dy/self.a0, 
                             x0=self.xmin/self.a0, 
                             y0=self.ymin/self.a0,
-                            hovertemplate='x: %{x:.2f} a₀<br>y: %{y:.2f} a₀<br>θ: %{customdata[0]:.2f} π<br>ρ: %{customdata[1]:.2e}',
+                            hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
+                                            kwargs['ylabel']+': %{y:.2e}<br>'+\
+                                            'amplitude: %{customdata[1]:.2e}<br>'+\
+                                            'phase: %{customdata[0]:.2f} π',
                             customdata=np.stack((np.transpose(theta/np.pi), np.transpose(rho)), axis=-1),
                             name='',
                             xaxis=ax['xN'],
@@ -286,6 +289,13 @@ def plot_complex_field_plotly(
                     k=faces[:, 2],
                     facecolor=colors,  # Set color for each face
                     showscale=True,
+                    hovertemplate=kwargs['xlabel']+': %{x:.2e}<br>'+\
+                                    kwargs['ylabel']+': %{y:.2e}<br>'+\
+                                    kwargs['zlabel']+': %{z:.2e}<br>'+\
+                                    'amplitude: '+ f'{0.5*np.max(rho):.2e}<br>'+\
+                                    'phase: %{customdata:.2f} π',
+                    customdata=theta_faces/np.pi,
+                    name='',
                     scene=ax['sceneN']
                 )
 

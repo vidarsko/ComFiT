@@ -118,14 +118,9 @@ def tool_set_plot_axis_properties_plotly(
         
 
     ##### AXIS LABELS #####
-    xlabel = kwargs.get('xlabel', 'x/a₀')
+    xlabel = kwargs.get('xlabel')
     ylabel = kwargs.get('ylabel', 'y/a₀' if self.dim > 1 else None)
     zlabel = kwargs.get('zlabel', 'z/a₀' if self.dim > 2 else None)
-
-    if kwargs["fourier"]:
-        xlabel = 'kx'
-        ylabel = 'ky' if self.dim > 1 else None
-        zlabel = 'kz' if self.dim > 2 else None
 
     if ax['plot_dimension'] == 2:
         layout_updates[f"{ax['xaxisN']}_title"] = xlabel

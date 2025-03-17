@@ -59,7 +59,6 @@ def plot_field_in_plane_matplotlib(
     if self.dim != 3:
         raise Exception("The plot in plane function is only defined for 3D fields.")
 
-    kwargs['colormap'] = kwargs.get('colormap', 'angle') # Override the default colormap with 'angle'
     field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
     ax = tool_matplotlib_define_3D_plot_ax(fig, ax) 
