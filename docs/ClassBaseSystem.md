@@ -303,7 +303,7 @@ So, in the `calc_wavenum`  function, we set the first $N/2$ k-values to  $[ k_m 
 
 From a numerical point of view, in calculating derivatives, we can use the discrete Fourier transformations directly, as outline above.
 For physical applications, however, the Fourier transformation defined on an infinite domain is more useful.
-In plotting the Fourier fields (passing the `fourier=True` parameter to the relevant plot functino), therefore, we slightly modify the `g_f`.
+In plotting the Fourier fields (passing the `fourier=True` parameter to the relevant plot function), therefore, we slightly modify the `g_f`.
 We will detail this next.
 
 We can write the inversediscrete Fourier transformation as follows
