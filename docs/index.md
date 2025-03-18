@@ -237,6 +237,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 ### Quantum Mechanics
 
 Modules for learning quantum mechanics with ComFiT.
+Author: [https://www.mn.uio.no/fysikk/?vrtx=person-view&uid=cfknutse](Carl Fredrik Nordbø Knutsen).
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/qm_assignment/module_1.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -272,6 +273,22 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     The Quantum Harmonic Oscillator and her eigenstates.
     </p>
 </a>
+<a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/qm_assignment/module_4.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
+    <div> <strong> Module 4 </strong></div>
+    <hr>
+    <p>
+    <img src="img/quantum_mechanics_barrier_reflection.gif#only-light">
+    <img src="img/quantum_mechanics_barrier_reflection-colorinverted.gif#only-dark">
+    </p>
+    <p style="color: var(--md-default-fg-color)">
+    Quantum tunneling. 
+    </p>
+</a>
+</div>
+
+General tutorials.
+
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/quantum_mechanics_1D_wave_packet.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
         <div> <strong> 1D wave packets </strong></div>
         <hr>
