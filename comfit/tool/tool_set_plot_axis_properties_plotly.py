@@ -88,6 +88,7 @@ def tool_set_plot_axis_properties_plotly(
 
     if 'ylim' in kwargs:
         ylim = np.array(kwargs['ylim'])/self.a0 if self.dim > 1 else kwargs['ylim']
+        
     elif 'vlim' in kwargs:
         if self.dim == 1:
             ylim = kwargs['vlim']
@@ -103,7 +104,7 @@ def tool_set_plot_axis_properties_plotly(
 
     if ax['plot_dimension'] == 2:
         layout_updates[f"{ax['xaxisN']}_range"] = xlim
-        layout_updates[f"{ax['xaxisN']}_range"] = ylim
+        layout_updates[f"{ax['yaxisN']}_range"] = ylim
     
     elif ax['plot_dimension'] == 3:
         xaxis_updates['range'] = xlim
