@@ -339,6 +339,30 @@ before passing the field to be plotted.
 This adjusts the discrete transform to approximate the continuous Fourier transform.
 The ``fftshift`` function is used to shift the zero frequency component to the center of the array.
 
+??? example "Example"
+    ```python
+    # In ComFiT 1.8.8
+
+    import comfit as cf
+    import numpy as np
+
+    bs = cf.BaseSystem(1, xlim=[-10,10], xRes=101)
+
+    field = 0.5*bs.calc_Gaussian(position=1)
+    field_f = bs.fft(field)
+
+    fig, ax = bs.plot_subplots(1,2)
+    bs.plot_field(field, ax=ax[0], fig=fig, title='Real field')
+    bs.plot_complex_field(field_f, fourier=True, ax=ax[1], fig=fig, title='Fourier transform')
+
+    bs.plot_save(fig)
+    ```
+
+    ![](img/base_system_fourier_transform_illustration.png#only-light)
+    ![](img/base_system_fourier_transform_illustration-colorinverted.png#only-dark)
+
+    Notice that since the field is real, the Fourier transform is symmetric in amplitude and opposite in phase around the zero frequency.
+
 ## Coarse-graining
 
 A common and useful method is that of coarse-graining, which is defined as
