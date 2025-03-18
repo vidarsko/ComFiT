@@ -20,8 +20,6 @@ import comfit as cf
 
 
 # bs.plot_save(fig)
-# bs.show(fig)
-
 bs = cf.BaseSystem(2, xlim=[-10,10], ylim=[-10,10])
 field = bs.calc_Gaussian(position=(0,0))
 

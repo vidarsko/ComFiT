@@ -191,11 +191,14 @@ class BaseSystemPlot:
         kwargs["fourier"] = kwargs.get("fourier", False)
         if kwargs["fourier"]:
             
-            phase_shift = np.exp(1j*self.k[0]*self.xmin)
+            dkx = self.k[0][1]-self.k[0][0]
+            phase_shift = 1/(self.xRes*dkx)*np.exp(1j*self.k[0]*self.xmin)
             if self.dim > 1:
-                phase_shift = phase_shift*np.exp(1j*self.k[1]*self.ymin)
+                dky = self.k[1][1]-self.k[1][0]
+                phase_shift = phase_shift*1/(self.yRes*dky)*np.exp(1j*self.k[1]*self.ymin)
             if self.dim > 2:
-                phase_shift = phase_shift*np.exp(1j*self.k[2]*self.zmin)
+                dkz = self.k[2][1]-self.k[2][0]
+                phase_shift = phase_shift*1/(self.zRes*dkz)*np.exp(1j*self.k[2]*self.zmin)
 
             field = np.fft.fftshift(phase_shift*field, axes=range(-self.dim, 0))
 
