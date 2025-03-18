@@ -264,7 +264,7 @@ $$
 f_{NQ} = \frac{1}{2\Delta x},
 $$
 
-which corresponds to the wave number
+which corresponds to the wavenumber
 
 $$
 k_{NQ} = 2\pi f_{NQ} = \frac{\pi}{\Delta x}
@@ -303,16 +303,16 @@ So, in the `calc_wavenum`  function, we set the first $N/2$ k-values to  $[ k_m 
 
 From a numerical point of view, in calculating derivatives, we can use the discrete Fourier transformations directly, as outline above.
 For physical applications, however, the Fourier transformation defined on an infinite domain is more useful.
-In plotting the Fourier fields (passing the `fourier=True` parameter to the relevant plot function), therefore, we slightly modify the `g_f`.
+In plotting the Fourier fields (passing the `fourier=True` parameter to the relevant plot function), therefore, we slightly modify `g_f`.
 We will detail this next.
 
-We can write the inversediscrete Fourier transformation as follows
+We can write the inverse discrete Fourier transformation as follows
 
 $$
 g(x_n) =  \sum_{m=0}^{N-1} \left ( g_{\mathfrak f m} \frac{1}{N \Delta k} e^{-\mathfrak i k_m x_0} \right ) \exp \left (\mathfrak i k_m x_n \right ) \Delta k,
 $$
 
-The sum is a numerical approximation of the infinite inverse Fourier transform of $g_{\mathfrak f}(\mathbf k)$, if we make the connection 
+The sum is a numerical approximation of the infinite inverse Fourier transform of $g_{\mathfrak f}(\mathbf k)$, if we make the connection
 
 !!! equation "Connection between the discrete and infinite Fourier transformation"
     $$
@@ -395,7 +395,7 @@ which calculates $\mathcal K_{\mathfrak f}$.
 Typically, a field is coarse-grained with a width using the following piece of code
 
 ```python
-field = sp.fft.ifftn(sp.fft.fftn(field) * self.calc_Gaussian_filter_f(width))
+field = bs.ifft(bs.fft(field) * self.calc_Gaussian_filter_f(width))
 ```
 
 The Gaussian function is actually so useful that is given by can be calculated using
@@ -468,13 +468,15 @@ and is implemented in the function `calc_angle_field_vortex_ring`.
 
 ### Periodic boundary conditions: Numerical implementation of angle fields
 
-Apart from the angle field of a single vortex, the other fields are compatible with periodic boundary conditions. The expressions for these fields, however, are really only valid for an infinite region. When this is imposed on periodic boundary conditions, it results in spurious boundary effects, especially if either of the vortices is placed near the edge of the simulation domain. By simply inserting the vortices directly, we get what is shown in the following figure (a).
+Apart from the angle field of a single vortex, the other fields are compatible with periodic boundary conditions.
+The expressions for these fields, however, are really only valid for an infinite region.
+When this is imposed on periodic boundary conditions, it results in spurious boundary effects, especially if either of the vortices is placed near the edge of the simulation domain.
+By simply inserting the vortices directly, we get what is shown in the following figure (a).
 
-![Numerical implementaiton of periodic angle fields](img/base_system_numerical_implementation_of_periodic_angle_fields.png#only-light)
-![Numerical implementaiton of periodic angle fields](img/base_system_numerical_implementation_of_periodic_angle_fields-colorinverted.png#only-dark)
+![Numerical implementation of periodic angle fields](img/base_system_numerical_implementation_of_periodic_angle_fields.png#only-light)
+![Numerical implementation of periodic angle fields](img/base_system_numerical_implementation_of_periodic_angle_fields-colorinverted.png#only-dark)
 
-
-*Numerical implementaiton of periodic angle fields:*
+*Numerical implementation of periodic angle fields:*
 The angle field of panel (a) has been filtered by the field $F$ with $w=0.2x_{\textrm{max}}$ to produce the periodic field given in panel (c).
 This field is simply rolled to produce a different position for the dipole in panel (d).
 
@@ -516,11 +518,11 @@ The following table shows some examples from the models that we will discuss in 
 *Table: Examples of time evolution operators, non-conserved.*
 
 In the following, we will explain the method of evolution of exponential time differencing for stiff systems[^coxExponentialTimeDifferencing2002].
-This will result in two integration schemes, the exponential time differencing second order Runge Kutta 2 (ETD2RK) scheme and the forth order ETD4RK scheme. As in Ref. [coxExponentialTimeDifferencing2002], we will show an intuitive way to obtain the former and only recite the expressions for the latter.
+This will result in two integration schemes, the exponential time differencing second order Runge-Kutta 2 (ETD2RK) scheme and the forth order ETD4RK scheme. As in Ref. [coxExponentialTimeDifferencing2002], we will show an intuitive way to obtain the former and only recite the expressions for the latter.
 
 ### The ETD2RK scheme
 
-To see how we obtain the ETD2RK scheme, we take the Fourier transformation of Eq. `ref:timeevolution`, and get:
+To see how we obtain the ETD2RK scheme, we take the Fourier transformation of the time evolution equation, and get:
 
 $$
 \partial_t \psi_{\mathfrak f} = \omega_{\mathfrak f} \psi_{\mathfrak f} + N_{\mathfrak f} .
@@ -614,7 +616,7 @@ I_{\mathfrak f 2} \approx \frac{1}{\omega_{\mathfrak f}^2 \Delta t}
 $$
 
 In $I_{\mathfrak f 1}$, and $I_{\mathfrak f 2}$ there is a division by $0$ when $\omega_{\mathfrak f} = 0$. To avoid numerical issues related to this we use the above limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance. We don't use the limit for $I_{\mathfrak f 0}$ since it doesn't contain a division by $0$. The function `evolve_ETD2RK_loop` defined in the base system class performs an ETD2RK step. This function is called by the evolvers discussed in the model chapter if the method is defined as `method = "ETD2RK"`. This is the default solver if `method` is not set. The integrating factors for a given $\omega_{\mathfrak f}(\mathbf{k})$ can be found with the function `calc_evolution_integrating_factors_ETD2RK` where the variable `tol` gives when the factors should be replaced by their leading order Taylor expansion.
-Note that all solvers defined in the  class \lstinline{BaseSystem} updates the time variable
+Note that all solvers defined in the  class `BaseSystem` updates the time variable
 `self.t` to allow for time-dependents in the non-linear term.
 
 ### The ETD4RK scheme
@@ -706,7 +708,7 @@ $$
 $$
 
 Similar as for the EDT2RK case $I_{\mathfrak f 1}$, $I_{\mathfrak f 3}$, $I_{\mathfrak f 4}$, and $I_{\mathfrak f 5}$ contains a division by $0$ when $\omega_{\mathfrak f} = 0$.  
-We therfore replace these coeficients with their limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance.
+We therefore replace these coefficients with their limits when $|\omega_{\mathfrak f}|$ is smaller than a tolerance.
 This has been important in order to make the the code stable for some of the systems.
 In the same way as the EDT2RK scheme this is implemented as the function
 `self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolution_function, field, field_f)`
@@ -762,7 +764,7 @@ $$
 \psi_{\mathfrak f}(t+\Delta t) = e^{- i \frac{1}{2} \mathbf k^2 \Delta t} \psi_{\mathfrak f}.
 $$
 
-This is an exact eqution, of course, so you may evolve this free particle solution to any time.
+This is an exact equation, of course, so you may evolve this free particle solution to any time.
 
 ## Testing
 
@@ -772,7 +774,7 @@ $$
 \partial_t T = \nabla^2 T + f(\mathbf r),
 $$
 
-where $T$ is the temperature in celcius, and $f(\mathbf r)$ is a forcing term, which we model as
+where $T$ is the temperature in celsius, and $f(\mathbf r)$ is a forcing term, which we model as
 
 $$
 f(\mathbf r) = A (T_0-T) \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2}\right ),
@@ -780,7 +782,7 @@ $$
 
 which represents a heating element with temperature $T_0$ placed at $\mathbf r_0$.
 
-As a benchmark, we use the `solve_ivp` of the scipy library `sp.integrate` to solve the equation using a finite difference method.
+As a benchmark, we use the `solve_ivp` of the `scipy` library `sp.integrate` to solve the equation using a finite difference method.
 The solutions match to a satisfactory degree, but a more thorough investigation into how the accuracy of the framework and integration methods scale with spatial and temporal resolution will be performed in the future.
 Tests are included in `test_base_system.py`, but for visual examination, here are animations of the initial condition $T=0$ in all three dimensions
 
