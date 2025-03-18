@@ -322,7 +322,7 @@ The sum is a numerical approximation of the infinite inverse Fourier transform o
 This is why, when passing the `fourier=True` parameter to the plot functions, the field is modified in the `_check_if_fourier_and_adjust` function in `base_system_plot` according by
 
 ```python
-# In ComFiT 1.8.7
+# In ComFiT 1.8.8
 dkx = self.k[0][1]-self.k[0][0]
 phase_shift = 1/(self.xRes*dkx)*np.exp(1j*self.k[0]*self.xmin)
 if self.dim > 1:
