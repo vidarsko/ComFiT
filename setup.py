@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='comfit',
-    version='1.8.7',
+    version='1.9.0',
     packages=['comfit'],
     package_data={'comfit':['core/*',
                             'tool/*', 

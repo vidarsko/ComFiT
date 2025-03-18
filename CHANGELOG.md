@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.9.0] - 2025-03-18
+- Added the option to pass `fourier=True` to the plot functions to plot a field that is in Fourier space.
+
 ## [1.8.7] - 2025-03-13
 - Changed default colormap to 'angle' for plot_complex_field_in_plane function.
 
