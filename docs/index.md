@@ -237,7 +237,7 @@ The best way to get to know ComFiT is by using it in one of the following tutori
 ### Quantum Mechanics
 
 Modules for learning quantum mechanics with ComFiT.
-Author: [https://www.mn.uio.no/fysikk/?vrtx=person-view&uid=cfknutse](Carl Fredrik Nordbø Knutsen).
+Author: [Carl Fredrik Nordbø Knutsen](https://www.mn.uio.no/fysikk/?vrtx=person-view&uid=cfknutse).
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
 <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/qm_assignment/module_1.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
