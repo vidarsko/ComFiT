@@ -82,7 +82,7 @@ class BaseSystemInit:
 
         self.Res = self.xRes * self.yRes * self.zRes
         if self.dim == 1:
-            self.dims = (self.xRes)
+            self.dims = (self.xRes,)
         elif self.dim == 2:
             self.dims = (self.xRes, self.yRes)
         elif self.dim == 3:
