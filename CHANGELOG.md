@@ -6,6 +6,7 @@ Full documentation can be found here: [https://comfitlib.com/](https://comfitlib
 ## [1.9.1] - 2025-03-TBD
 - Bug fix: setting ylim with plotly now works for 2D plots. 
 - Added `width` and `height` parameters to plot_save-function.
+- Added phase angle plot to `plotly` library.
 
 ## [1.9.0] - 2025-03-18
 - Added the option to pass `fourier=True` to the plot functions to plot a field that is in Fourier space.
