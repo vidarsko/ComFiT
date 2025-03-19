@@ -26,7 +26,7 @@ class PhaseFieldCrystal(BaseSystem):
         ----------
         dim : int
             The dimension of the system.
-        \*\*kwargs : dict
+        kwargs : dict
             Keyword arguments to set additional parameters. See https://comfitlib.com/ClassPhaseFieldCrystal/
             
         Returns
@@ -477,7 +477,7 @@ class PhaseFieldCrystal(BaseSystem):
         ----------
         type : str
             The type of polycrystal to create ('circular' or 'four_grain').
-        \*\*kwargs : dict
+        kwargs : dict
             Additional arguments for the polycrystal creation, including:
             
             - relaxation_time : float
@@ -1819,7 +1819,7 @@ class PhaseFieldCrystal(BaseSystem):
         ----------
         field : ndarray
             The field to plot.
-        \*\*kwargs : dict
+        kwargs : dict
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.
             
         Returns
@@ -1848,7 +1848,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         Parameters
         ----------
-        \*\*kwargs : dict
+        kwargs : dict
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.
             
         Returns
@@ -1871,7 +1871,7 @@ class PhaseFieldCrystal(BaseSystem):
         ----------
         orientation_field : ndarray, optional
             The orientation field to plot. If None, it will be calculated.
-        \*\*kwargs : dict
+        kwargs : dict
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ for a full list of keyword arguments.
 
         Returns

@@ -16,7 +16,7 @@ class PhaseFieldCrystal1DPeriodic(PhaseFieldCrystal):
         ----------
         nx : int
             The number of unit cells in the x direction.
-        \*\*kwargs : dict, optional
+        kwargs : dict, optional
             Additional parameters to configure the system.
 
         Returns

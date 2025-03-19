@@ -36,7 +36,7 @@ def plot_field_in_plane_plotly(
         The normal vector of the plane. Defaults to [0,1,0]
     position : np.ndarray, optional
         The position of the plane. Defaults to the middle of the system
-    \*\*kwargs : Any
+    kwargs : Any
         Additional keyword arguments for plot customization. See https://comfitlib.com/Plotting/
 
     Returns

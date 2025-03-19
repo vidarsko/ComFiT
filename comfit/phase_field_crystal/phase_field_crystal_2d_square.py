@@ -20,7 +20,7 @@ class PhaseFieldCrystal2DSquare(PhaseFieldCrystal):
             The number of unit cells in the x direction.
         ny : int
             The number of unit cells in the y direction.
-        \*\*kwargs : dict, optional
+        kwargs : dict, optional
             Additional keyword arguments to customize the simulation:
                 micro_resolution : list
                     Resolution within each unit cell [x, y]

@@ -37,7 +37,7 @@ def plot_complex_field_matplotlib(
         A BaseSystem (or derived) instance.
     complex_field : np.ndarray
         The complex field to plot
-    \*\*kwargs : Any
+    kwargs : Any
         Keyword arguments for the plot, see https://comfitlib.com/Plotting/
 
     Returns

@@ -25,7 +25,7 @@ def plot_angle_field_matplotlib(
         A BaseSystem (or derived) instance.
     angle_field : np.ndarray
         The angle field values in radians.
-    \*\*kwargs : Any
+    kwargs : Any
         Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
     Returns

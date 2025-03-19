@@ -180,7 +180,7 @@ class BaseSystemPlot:
         ----------
         field : np.ndarray
             Field to be checked
-            \*\*kwargs : Any
+            kwargs : Any
         
         Returns
         -------
@@ -242,7 +242,7 @@ class BaseSystemPlot:
         ----------
         field : np.ndarray
             Field to be plotted.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ 
             for a full list of keyword arguments.
 
@@ -280,7 +280,7 @@ class BaseSystemPlot:
         ----------
         complex_field : np.ndarray
             Complex field to be plotted.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
             for a full list of keyword arguments.
         
@@ -319,7 +319,7 @@ class BaseSystemPlot:
         ----------
         angle_field : np.ndarray
             Angle field to be plotted.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
             for a full list of keyword arguments.
         
@@ -360,7 +360,7 @@ class BaseSystemPlot:
         ----------
         vector_field : np.ndarray
             Vector field to be plotted.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
             for a full list of keyword arguments.
         
@@ -406,7 +406,7 @@ class BaseSystemPlot:
             Normal vector of the plane. If None, the normal vector will be calculated.
         position : np.ndarray, optional
             Position of the plane. If None, the position will be calculated.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
             for a full list of keyword arguments.
         
@@ -456,7 +456,7 @@ class BaseSystemPlot:
             Normal vector of the plane. If None, the normal vector will be calculated.
         position : np.ndarray, optional
             Position of the plane. If None, the position will be calculated.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
             for a full list of keyword arguments.
 
@@ -507,7 +507,7 @@ class BaseSystemPlot:
             Normal vector of the plane. If None, the normal vector will be calculated.
         position : np.ndarray, optional
             Position of the plane. If None, the position will be calculated.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
             for a full list of keyword arguments.
         
@@ -555,7 +555,7 @@ class BaseSystemPlot:
             Position of the plane. If None, the position will be calculated.
         spacing : float, optional
             Spacing between the vectors.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
             for a full list of keyword arguments.
         
@@ -593,7 +593,7 @@ class BaseSystemPlot:
         ----------
         nodes : np.ndarray
             Nodes to be plotted.
-        \*\*kwargs : Any
+        kwargs : Any
             Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
             for a full list of keyword arguments.
         
@@ -666,7 +666,7 @@ class BaseSystemPlot:
             Figure to be saved.
         counter : int, optional
             Counter for the figure. If None, the figure will be saved as 'plot.png'.
-        \*\*kwargs : Any
+        kwargs : Any
             Optional arguments: ID, (matplotlib:) image_size_inches, dpi. 
             (plotly:) width, height.
         

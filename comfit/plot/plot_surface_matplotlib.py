@@ -18,7 +18,7 @@ def plot_surface_matplotlib(
     ----------
     self : BaseSystem
         A BaseSystem (or derived) instance.
-    \*\*kwargs : Any
+    kwargs : Any
         field : ndarray
             3D array containing the field values
         value : float

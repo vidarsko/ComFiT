@@ -34,7 +34,7 @@ def plot_nodes_plotly(
             - 'charge': The charge of the node
             - 'tangent_vector': The tangent of the node (3D only)
             - 'Burgers_vector': The Burgers vector of the node (for dislocations)
-    \*\*kwargs : Any
+    kwargs : Any
         Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/
         for a full list of keyword arguments.
 

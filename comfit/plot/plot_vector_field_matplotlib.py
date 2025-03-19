@@ -33,7 +33,7 @@ def plot_vector_field_matplotlib(
         A BaseSystem (or derived) instance.
     vector_field : np.ndarray
         Array containing the components of the vector field
-    \*\*kwargs : Any
+    kwargs : Any
         spacing : int, optional. The spacing for the quiver plot which defaults 
         to self.xRes//20. Additional keyword arguments for plot customization, 
         see https://comfitlib.com/Plotting/

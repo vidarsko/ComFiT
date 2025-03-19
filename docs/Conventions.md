@@ -86,7 +86,7 @@ def function_name(
         Description of arg2.
     arg3 : arg3_type, optional
         Description of arg3. Defaults to None.
-    \*\*kwargs : Any
+    kwargs : Any
         Description of additional keyword arguments.
     
 
@@ -142,7 +142,7 @@ def function_name(
         Description of arg2.
     arg3 : arg3_type, optional
         Description of arg3. Defaults to None.
-    \*\*kwargs : Any (use backslash to escape the asterisk)
+    kwargs : Any (use backslash to escape the asterisk)
         Description of additional keyword arguments.
 
     Returns

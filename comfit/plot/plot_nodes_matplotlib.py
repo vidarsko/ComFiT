@@ -28,7 +28,7 @@ def plot_nodes_matplotlib(
         A BaseSystem (or derived) instance.
     nodes : List[Dict]
         List of node dictionaries containing position and property information
-    \*\*kwargs : Any
+    kwargs : Any
         Keyword arguments for customizing the plot. See 
         https://comfitlib.com/ClassBaseSystem/ for full list.
 

@@ -20,7 +20,7 @@ class QuantumMechanics(BaseSystem):
         ----------
         dimension : int
             The dimension of the system.
-        \*\*kwargs : dict, optional
+        kwargs : dict, optional
             Optional keyword arguments to set additional parameters. 
             See https://comfitlib.com/ClassBaseSystem/.
 

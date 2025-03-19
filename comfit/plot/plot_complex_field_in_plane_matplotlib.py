@@ -37,7 +37,7 @@ def plot_complex_field_in_plane_matplotlib(
         The normal vector of the plane. Defaults to [0,1,0].
     position : np.ndarray, optional
         The position of the plane. Defaults to the middle of the system.
-    \*\*kwargs : Any
+    kwargs : Any
         Keyword arguments for the plot, see https://comfitlib.com/Plotting/.
 
     Returns

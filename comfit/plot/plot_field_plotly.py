@@ -34,7 +34,7 @@ def plot_field_plotly(
         A BaseSystem (or derived) instance.
     field : np.ndarray
         The field to be plotted.
-    \*\*kwargs : Any
+    kwargs : Any
         Keyword arguments for the plot. See https://comfitlib.com/ClassBaseSystem/ 
         for a full list of keyword arguments.
 

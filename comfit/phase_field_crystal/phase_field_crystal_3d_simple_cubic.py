@@ -22,7 +22,7 @@ class PhaseFieldCrystal3DSimpleCubic(PhaseFieldCrystal):
             The number of unit cells in the y direction.
         nz : int
             The number of unit cells in the z direction.
-        \*\*kwargs : dict
+        kwargs : dict
             Additional arguments to set as attributes.
 
         Returns

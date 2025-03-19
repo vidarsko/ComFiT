@@ -12,7 +12,7 @@ class BaseSystemInit:
         ----------
         dim : int
             The dimension of the system. Must be 1, 2, or 3.
-        \*\*kwargs : dict
+        kwargs : dict
             Additional keyword arguments, see 
             https://comfitlib.com/ClassBaseSystem/
 

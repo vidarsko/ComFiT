@@ -20,7 +20,7 @@ class PhaseFieldCrystal2DTriangular(PhaseFieldCrystal):
             The number of unit cells in the x direction.
         ny : int
             The number of unit cells in the y direction.
-        \*\*kwargs : dict
+        kwargs : dict
             Additional arguments to set as attributes, possibly overwriting default values.
 
         Returns

@@ -16,10 +16,11 @@ def plot_surface_plotly(
         self: 'BaseSystem',
         field: np.ndarray,
         value: float,
-        ax: Dict,
         alpha: float = 0.5,
         color: str = 'b',
         plt_colormap_object: Any = None,
+        hovertemplate: str = None,
+        customdata: np.ndarray = None,
         **kwargs: Any
         ) -> go.Mesh3d:
     """Plot the surface of the given field.
@@ -32,17 +33,13 @@ def plot_surface_plotly(
         3D array containing the field values
     value : float
         Isosurface value
-    ax : matplotlib.axes.Axes, optional
-        Axes to plot on. 
     alpha : float, optional
         Transparency value. Defaults to 0.5.
     color : str, optional
         Surface color. Defaults to 'b'.
-    curstomdata : np.ndarray
-        Custom data to be displayed on hover.
     hovertemplate : str
         Template for the hover text.
-    \*\*kwargs : Any
+    kwargs : Any
         Plotting keyword arguments.
 
     Returns
@@ -51,7 +48,7 @@ def plot_surface_plotly(
         The plotly mesh object containing the surface plot.
     """
 
-    hovertemplate = None
+    customdata = None
 
     verts, faces, _, _ = marching_cubes(field, value)
     
@@ -83,7 +80,7 @@ def plot_surface_plotly(
         colors = plt_colormap_object(theta_faces_normalized)
 
         # Convert colors to 'rgba()' format required by Plotly
-        color = ['rgba({},{},{},{})'.format(*c) for c in (255*colors).astype(int)]
+        colors = ['rgba({},{},{},{})'.format(*c) for c in (255*colors).astype(int)]
 
         theta_faces = np.arctan2(imags_faces, reals_faces)
 
@@ -99,6 +96,13 @@ def plot_surface_plotly(
         #                 'field: '+ f'{value:.2e}'
 
         customdata = theta_faces/np.pi
+        
+        color = None
+
+    else:
+
+        color = 'rgba({},{},{},{})'.format(*(255*np.array(color)).astype(int)) 
+        colors = None
 
     # Extract coordinates
     x = kwargs.get('x', self.x/self.a0).flatten()
@@ -128,7 +132,7 @@ def plot_surface_plotly(
                         kwargs['zlabel']+': %{z:.2f}<br>'+\
                         'field: '+ f'{value:.2e}'
 
-    print(hovertemplate)
+
     mesh = go.Mesh3d(
                 x=x_new, 
                 y=y_new, 
@@ -136,12 +140,14 @@ def plot_surface_plotly(
                 i=faces[:, 0], 
                 j=faces[:, 1], 
                 k=faces[:, 2],
-                facecolor=color,  # Set color for each face
+                facecolor=colors,  # Set color for each face
+                color=color,
                 showscale=False,
+                opacity=alpha,
                 hovertemplate=hovertemplate,
                 customdata=customdata,
                 name='',
-                scene=ax['sceneN']
+                scene=kwargs['ax']['sceneN']
             )
 
     return mesh

@@ -48,7 +48,7 @@ def plot_vector_field_in_plane_both_plot_libs(
         Normal vector defining the plane orientation. Defaults to [1,1,1].
     spacing : int, optional
         Spacing between vectors in the plot. Defaults to max(xRes//20,1).
-    \*\*kwargs : Any
+    kwargs : Any
         Additional keyword arguments for plot customization. See https://comfitlib.com/Plotting/.
 
     Returns

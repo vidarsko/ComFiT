@@ -42,7 +42,7 @@ def plot_complex_field_plotly(
         A BaseSystem (or derived) instance.
     complex_field : np.ndarray
         The complex field to plot
-    \*\*kwargs : Any
+    kwargs : Any
         Additional keyword arguments to customize the plot
 
     Returns
@@ -264,34 +264,49 @@ def plot_complex_field_plotly(
             
             for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
                 field_to_plot = theta.copy()
-                # field_to_plot[theta < angle - 1] = float('nan')
-                # field_to_plot[theta > angle + 1] = float('nan')
-                # field_to_plot[rho_normalized < 0.01] = float('nan')
+                field_to_plot[theta < angle - 1] = float('nan')
+                field_to_plot[theta > angle + 1] = float('nan')
+                field_to_plot[rho_normalized < 0.01] = float('nan')
 
                 if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
 
-                    trace = go.Isosurface(
-                            x=X.flatten(),
-                            y=Y.flatten(),
-                            z=Z.flatten(),
-                            value = field_to_plot.flatten(),
-                            isomin = angle,
-                            isomax = angle,
-                            cmin = -np.pi,
-                            cmax = np.pi,
-                            colorscale = kwargs['colormap_object'],
-                            showscale=False,
-                            hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
-                                        kwargs['ylabel']+': %{y:.2f}<br>'+\
-                                        kwargs['zlabel']+': %{z:.2f}<br>'+\
-                                        'field: '+f'{angle:.2e}',
-                            name='',
-                            surface=dict(count=3),  # Ensuring only one surface is shown
-                            opacity=0.5,
-                            scene=ax['sceneN'],
-                        )
+                    mesh = plot_surface_plotly(self,
+                                            field_to_plot,
+                                            value=angle,
+                                            alpha=0.5,
+                                            color=plt_colormap_object((angle + np.pi) / (2 * np.pi)), 
+                                            plt_colormap_object=plt_colormap_object,
+                                            hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                                    kwargs['ylabel']+': %{y:.2f}<br>'+\
+                                                    kwargs['zlabel']+': %{z:.2f}<br>'+\
+                                                    'phase: '+ f'{(angle/np.pi):.2f} π<br>',
+                                            **kwargs
+                                            )
 
-                    fig.add_trace(trace)
+                    fig.add_trace(mesh)
+
+            theta = np.mod(theta, 2 * np.pi)
+
+            field_to_plot = theta.copy()
+            field_to_plot[theta < np.pi - 1] = float('nan')
+            field_to_plot[theta > np.pi + 1] = float('nan')
+            field_to_plot[rho_normalized < 0.01] = float('nan')
+
+            if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
+                mesh = plot_surface_plotly(self,
+                                            field_to_plot,
+                                            value=np.pi,
+                                            alpha=0.5,
+                                            color=plt_colormap_object((np.pi + np.pi) / (2 * np.pi)), 
+                                            plt_colormap_object=plt_colormap_object,
+                                            hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                                    kwargs['ylabel']+': %{y:.2f}<br>'+\
+                                                    kwargs['zlabel']+': %{z:.2f}<br>'+\
+                                                    'phase: '+ f'{(np.pi/np.pi):.2f} π<br>',
+                                            **kwargs
+                                            )
+
+                fig.add_trace(mesh)
         
         elif plot_method == 'phase_blob':
             
@@ -303,12 +318,11 @@ def plot_complex_field_plotly(
                 mesh = plot_surface_plotly(self, 
                                         field=rho, 
                                         value=phase_blob_threshold*np.max(rho), 
-                                        ax=ax,
                                         alpha=1,
                                         color=complex_field,
                                         plt_colormap_object=plt_colormap_object,
                                           **kwargs)
-                print(mesh)
+
                 fig.add_trace(mesh)
 
     # if kwargs['colorbar'] and not(ax['colorbar']) and not(kwargs['field_is_nan']):
