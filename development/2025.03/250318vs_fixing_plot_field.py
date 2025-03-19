@@ -9,7 +9,7 @@ class WaveEquation(cf.BaseSystem):
         self.c = wave_speed  # Wave speed
         super().__init__(dim, **kwargs)
 
-        self.psi = np.zeros[[2] + self.dims)
+        self.psi = np.zeros([2] + self.dims)
         self.psi_f = np.zeros([2] + self.dims, dtype=complex)
 
     def conf_initial_state(self, psi):

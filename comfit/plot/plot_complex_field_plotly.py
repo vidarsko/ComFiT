@@ -236,6 +236,7 @@ def plot_complex_field_plotly(
     elif self.dim == 3:
 
         ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        kwargs['ax'] = ax 
 
         # Keyword arguments particular to the 3D case
         plot_method = kwargs.get('plot_method', 'phase_blob')
