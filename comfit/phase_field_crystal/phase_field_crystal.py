@@ -710,7 +710,7 @@ class PhaseFieldCrystal(BaseSystem):
             # print("psi shape", self.psi.shape).
 
             if not hasattr(self,'external_force_density_f'):
-                self.external_force_density_f = np.zeros([self.dim] + self.dim, dtype=complex)
+                self.external_force_density_f = np.zeros([self.dim] + self.dims, dtype=complex)
 
         self.gamma_S = gamma_S
         self.rho0 = rho0
@@ -1053,12 +1053,12 @@ class PhaseFieldCrystal(BaseSystem):
         g_f = self.calc_stress_divergence_f()
 
         # Calculate the displacement field
-        u_f = np.zeros([self.dim] + self.dim, dtype = complex)
+        u_f = np.zeros([self.dim] + self.dims, dtype = complex)
 
         k2 = self.calc_k2()
         k = np.sqrt(k2)
 
-        kappa = np.zeros([self.dim] + self.dim)
+        kappa = np.zeros([self.dim] + self.dims)
         for l in range(self.dim):
             kappa[l] = self.k[l]/k
 
@@ -1170,7 +1170,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         if eta is None:
             eta = self.eta0.reshape(self.number_of_reciprocal_lattice_modes,1,1)\
-                *np.ones([self.number_of_reciprocal_lattice_modes] + self.dim, dtype=complex)
+                *np.ones([self.number_of_reciprocal_lattice_modes] + self.dims, dtype=complex)
 
         sn = self.dislocation_charges[dislocation_type - 1]
 
@@ -1226,7 +1226,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         if eta == None:
             eta = self.eta0.reshape(self.number_of_reciprocal_lattice_modes,1,1,1)\
-                *np.ones([self.number_of_reciprocal_lattice_modes] + self.dim, dtype=complex)
+                *np.ones([self.number_of_reciprocal_lattice_modes] + self.dims, dtype=complex)
 
         sn = self.dislocation_charges[dislocation_type - 1]
 
@@ -1461,7 +1461,7 @@ class PhaseFieldCrystal(BaseSystem):
             field_f = self.psi_f
 
         # Calculate the gradient
-        diPsi = np.zeros([self.dim] + self.dim, dtype=complex)
+        diPsi = np.zeros([self.dim] + self.dims, dtype=complex)
         for i in range(self.dim):
             diPsi[i] = self.dif[i]*field_f
         diPsi = np.real(self.ifft(diPsi))
@@ -1473,7 +1473,7 @@ class PhaseFieldCrystal(BaseSystem):
         elif self.dim == 3:
             number_of_independent_strain_components = 6
 
-        structure_tensor_f = np.zeros([number_of_independent_strain_components] + self.dim, dtype=complex)
+        structure_tensor_f = np.zeros([number_of_independent_strain_components] + self.dims, dtype=complex)
 
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
         if self.dim == 1:
@@ -1558,7 +1558,7 @@ class PhaseFieldCrystal(BaseSystem):
             eta = self.calc_demodulate_PFC()
 
         if self.dim == 2:
-            alpha = np.zeros([2] + self.dim)
+            alpha = np.zeros([2] + self.dims)
 
             for n in range(self.number_of_primary_reciprocal_lattice_modes):
                 D = self.calc_determinant_field([np.real(eta[n]), np.imag(eta[n])])
@@ -1566,7 +1566,7 @@ class PhaseFieldCrystal(BaseSystem):
                 alpha[1] += D*self.q[n,1]
 
         elif self.dim == 3:
-            alpha = np.zeros([3,3] + self.dim)
+            alpha = np.zeros([3,3] + self.dims)
 
             for n in range(self.number_of_primary_reciprocal_lattice_modes):
                 D = self.calc_determinant_field([np.real(eta[n]), np.imag(eta[n])])
@@ -1695,7 +1695,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         order_parameter = self.psi if self.psi.ndim == self.dim else self.psi[0]
 
-        eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dim, 
+        eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
                        dtype=complex)
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
 
