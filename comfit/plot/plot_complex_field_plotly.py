@@ -13,6 +13,8 @@ import matplotlib.colors as mcolors
 import matplotlib.cm as cm
 from skimage.measure import marching_cubes
 
+from .plot_surface_plotly import plot_surface_plotly
+
 # Local application imports
 from comfit.tool import (
     tool_complete_field,
@@ -241,90 +243,72 @@ def plot_complex_field_plotly(
         rho_normalized = rho / np.max(rho)
 
         if plot_method == 'phase_angle':
-        
-            print('\033[91mWarning:\033[0m Plotly not yet implemented for 3D phase angle plots.')
-            pass
+
+            # Extract coordinates
+            x = kwargs.get('x', self.x/self.a0).flatten()
+            dx = x[1] - x[0]
+            xmin = x[0]
+            xmax = x[-1]+dx
+
+            y = kwargs.get('y', self.y/self.a0).flatten()
+            dy = y[1] - y[0]
+            ymin = y[0]
+            ymax = y[-1]+dy
+
+            z = kwargs.get('z', self.z/self.a0).flatten()
+            dz = z[1] - z[0]
+            zmin = z[0]
+            zmax = z[-1]+dz
+
+            X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
+            
+            for angle in [-2 * np.pi / 3, -np.pi / 3, 0, np.pi / 3, 2 * np.pi / 3]:
+                field_to_plot = theta.copy()
+                # field_to_plot[theta < angle - 1] = float('nan')
+                # field_to_plot[theta > angle + 1] = float('nan')
+                # field_to_plot[rho_normalized < 0.01] = float('nan')
+
+                if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
+
+                    trace = go.Isosurface(
+                            x=X.flatten(),
+                            y=Y.flatten(),
+                            z=Z.flatten(),
+                            value = field_to_plot.flatten(),
+                            isomin = angle,
+                            isomax = angle,
+                            cmin = -np.pi,
+                            cmax = np.pi,
+                            colorscale = kwargs['colormap_object'],
+                            showscale=False,
+                            hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                                        kwargs['ylabel']+': %{y:.2f}<br>'+\
+                                        kwargs['zlabel']+': %{z:.2f}<br>'+\
+                                        'field: '+f'{angle:.2e}',
+                            name='',
+                            surface=dict(count=3),  # Ensuring only one surface is shown
+                            opacity=0.5,
+                            scene=ax['sceneN'],
+                        )
+
+                    fig.add_trace(trace)
         
         elif plot_method == 'phase_blob':
             
             phase_blob_threshold = kwargs.get('phase_blob_threshold', 0.5)
 
             if np.nanmin(rho_normalized)<phase_blob_threshold<np.nanmax(rho_normalized):
-                verts, faces, _, _ = marching_cubes(rho_normalized, phase_blob_threshold)
 
-                # Calculate the centroids of each triangle
-                centroids = np.mean(verts[faces], axis=1)
 
-                # Assuming theta is defined on the same grid as rho
-                x, y, z = np.mgrid[0:rho_normalized.shape[0], 0:rho_normalized.shape[1], 0:rho_normalized.shape[2]]
-
-                # Flatten the grid for interpolation
-                points = np.c_[x.ravel(), y.ravel(), z.ravel()]
-                theta_values = theta.ravel()
-
-                # Interpolate theta at the vertices positions
-                reals = np.real(complex_field)
-                imags = np.imag(complex_field)
-
-                interpolation_method = kwargs.get('interpolation_method', 'linear')
-                print("Interpolating points with method ", interpolation_method, ".")
-                print("If this process is slow, consider passing 'interpolation_method='nearest' with the plot_complex_field function.")
-                print("That will speed up the process, but the plot may look less smooth.")
-                reals_faces = sp.interpolate.griddata(points, reals.ravel(), centroids, method='nearest')
-                imags_faces = sp.interpolate.griddata(points, imags.ravel(), centroids, method='nearest')
-                print("Interpolation done.")
-                
-                theta_faces = np.arctan2(imags_faces, reals_faces)
-
-                # Normalize theta values for color mapping
-                theta_faces_normalized = (theta_faces + np.pi) / (2*np.pi)
-
-                # Map normalized theta values to colors
-                colors = plt_colormap_object(theta_faces_normalized)
-
-                # Convert colors to 'rgba()' format required by Plotly
-                colors = ['rgba({},{},{},{})'.format(*c) for c in (255*colors).astype(int)]
-
-                # Extract coordinates
-                x = kwargs.get('x', self.x/self.a0).flatten()
-                dx = x[1] - x[0]
-                xmin = x[0]
-                xmax = x[-1]+dx
-
-                y = kwargs.get('y', self.y/self.a0).flatten()
-                dy = y[1] - y[0]
-                ymin = y[0]
-                ymax = y[-1]+dy
-
-                z = kwargs.get('z', self.z/self.a0).flatten()
-                dz = z[1] - z[0]
-                zmin = z[0]
-                zmax = z[-1]+dz
-
-                # Create the mesh object
-                x_new = (verts[:, 0] * dx + xmin) 
-                y_new = (verts[:, 1] * dy + ymin) 
-                z_new = (verts[:, 2] * dz + zmin) 
-
-                mesh = go.Mesh3d(
-                    x=x_new, 
-                    y=y_new, 
-                    z=z_new,
-                    i=faces[:, 0], 
-                    j=faces[:, 1], 
-                    k=faces[:, 2],
-                    facecolor=colors,  # Set color for each face
-                    showscale=True,
-                    hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
-                                    kwargs['ylabel']+': %{y:.2f}<br>'+\
-                                    kwargs['zlabel']+': %{z:.2f}<br>'+\
-                                    'amplitude: '+ f'{0.5*np.max(rho):.2e}<br>'+\
-                                    'phase: %{customdata:.2f} π',
-                    customdata=theta_faces/np.pi,
-                    name='',
-                    scene=ax['sceneN']
-                )
-
+                mesh = plot_surface_plotly(self, 
+                                        field=rho, 
+                                        value=phase_blob_threshold*np.max(rho), 
+                                        ax=ax,
+                                        alpha=1,
+                                        color=complex_field,
+                                        plt_colormap_object=plt_colormap_object,
+                                          **kwargs)
+                print(mesh)
                 fig.add_trace(mesh)
 
     # if kwargs['colorbar'] and not(ax['colorbar']) and not(kwargs['field_is_nan']):

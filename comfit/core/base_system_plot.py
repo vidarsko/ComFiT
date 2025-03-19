@@ -667,7 +667,8 @@ class BaseSystemPlot:
         counter : int, optional
             Counter for the figure. If None, the figure will be saved as 'plot.png'.
         \*\*kwargs : Any
-            Optional arguments: ID, image_size_inches, dpi.
+            Optional arguments: ID, (matplotlib:) image_size_inches, dpi. 
+            (plotly:) width, height.
         
         Returns
         -------
@@ -712,7 +713,9 @@ class BaseSystemPlot:
             plot_lib = self.plot_lib
 
         if plot_lib == "plotly":
-            fig.write_image(filename)
+            width=kwargs.get('width', 800)
+            height=kwargs.get('height', 600)
+            fig.write_image(filename, width=width, height=height)
 
         elif plot_lib == "matplotlib":
             fig.set_size_inches(image_size_inches)

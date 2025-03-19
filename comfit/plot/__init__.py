@@ -25,3 +25,4 @@ from .plot_subplots_matplotlib import plot_subplots_matplotlib
 from .plot_subplots_plotly import plot_subplots_plotly
 
 from .plot_surface_matplotlib import plot_surface_matplotlib
+from .plot_surface_plotly import plot_surface_plotly
