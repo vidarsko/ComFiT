@@ -1309,7 +1309,7 @@ class PhaseFieldCrystal(BaseSystem):
         
         number_of_modes = self.number_of_primary_reciprocal_lattice_modes if only_primary_modes else self.number_of_reciprocal_lattice_modes
 
-        eta = np.zeros([number_of_modes] + self.dim, 
+        eta = np.zeros([number_of_modes] + self.dims, 
                        dtype=complex)
 
         Gaussian_filter_f = self.calc_Gaussian_filter_f()
