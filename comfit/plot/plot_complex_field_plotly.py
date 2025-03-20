@@ -274,13 +274,9 @@ def plot_complex_field_plotly(
                     mesh = plot_surface_plotly(self,
                                             field_to_plot,
                                             value=angle,
-                                            alpha=0.5,
+                                            alpha=rho,
                                             color=plt_colormap_object((angle + np.pi) / (2 * np.pi)), 
                                             plt_colormap_object=plt_colormap_object,
-                                            hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
-                                                    kwargs['ylabel']+': %{y:.2f}<br>'+\
-                                                    kwargs['zlabel']+': %{z:.2f}<br>'+\
-                                                    'phase: '+ f'{(angle/np.pi):.2f} π<br>',
                                             **kwargs
                                             )
 
@@ -297,13 +293,9 @@ def plot_complex_field_plotly(
                 mesh = plot_surface_plotly(self,
                                             field_to_plot,
                                             value=np.pi,
-                                            alpha=0.5,
+                                            alpha=rho,
                                             color=plt_colormap_object((np.pi + np.pi) / (2 * np.pi)), 
                                             plt_colormap_object=plt_colormap_object,
-                                            hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
-                                                    kwargs['ylabel']+': %{y:.2f}<br>'+\
-                                                    kwargs['zlabel']+': %{z:.2f}<br>'+\
-                                                    'phase: '+ f'{(np.pi/np.pi):.2f} π<br>',
                                             **kwargs
                                             )
 

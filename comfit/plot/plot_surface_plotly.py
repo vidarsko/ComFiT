@@ -79,8 +79,7 @@ def plot_surface_plotly(
         # Map normalized theta values to colors
         colors = plt_colormap_object(theta_faces_normalized)
 
-        # Convert colors to 'rgba()' format required by Plotly
-        colors = ['rgba({},{},{},{})'.format(*c) for c in (255*colors).astype(int)]
+        
 
         theta_faces = np.arctan2(imags_faces, reals_faces)
 
@@ -97,12 +96,54 @@ def plot_surface_plotly(
 
         customdata = theta_faces/np.pi
         
+        # Convert colors to 'rgba()' format required by Plotly
+        colors = ['rgba({},{},{},{})'.format(*c) for c in (255*colors).astype(int)]
         color = None
+
+    elif isinstance(alpha,np.ndarray):
+
+        alpha_max = np.max(alpha)
+        alpha_min = np.min(alpha)
+
+        max_opacity = 0.9
+
+        if (alpha_max - alpha_min)<1e-6:
+            alpha = max_opacity*np.ones_like(alpha)
+        else:
+            alpha = max_opacity*(alpha - alpha_min) / (alpha_max - alpha_min)
+
+        x, y, z = np.mgrid[0:field.shape[0], 0:field.shape[1], 0:field.shape[2]]
+        points = np.c_[x.ravel(), y.ravel(), z.ravel()]
+
+        interpolation_method = kwargs.get('interpolation_method', 'linear')
+        valid_centroids = ~np.isnan(centroids).any(axis=1)
+        rho_normalized_faces = np.full(centroids.shape[0], np.nan)
+        rho_normalized_faces[valid_centroids] = sp.interpolate.griddata(points, alpha.ravel(), centroids[valid_centroids], method='nearest')
+
+        colors =   ['rgba({},{},{},{})'.format(*(np.array([
+                    (255*color[0]).astype(int),
+                    (255*color[1]).astype(int),
+                    (255*color[2]).astype(int),
+                    0 if np.isnan(rho_normalized_faces[i]) else rho_normalized_faces[i]
+                    ]))) for i in range(len(faces))]
+        
+        hovertemplate=kwargs['xlabel']+': %{x:.2f}<br>'+\
+                        kwargs['ylabel']+': %{y:.2f}<br>'+\
+                        kwargs['zlabel']+': %{z:.2f}<br>'+\
+                        'amplitude: %{customdata:.2e}<br>' + \
+                        'phase: '+ f'{value/np.pi:.2f} π '
+        
+        customdata = alpha_min + rho_normalized_faces*(alpha_max-alpha_min)
+
+        color = 'rgba({},{},{},{})'.format(*(255*np.array(color)).astype(int)) 
+        # color = None
+        alpha = None
 
     else:
 
-        color = 'rgba({},{},{},{})'.format(*(255*np.array(color)).astype(int)) 
         colors = None
+        color = 'rgba({},{},{},{})'.format(*(255*np.array(color)).astype(int)) 
+
 
     # Extract coordinates
     x = kwargs.get('x', self.x/self.a0).flatten()
@@ -147,7 +188,10 @@ def plot_surface_plotly(
                 hovertemplate=hovertemplate,
                 customdata=customdata,
                 name='',
-                scene=kwargs['ax']['sceneN']
+                scene=kwargs['ax']['sceneN'],
+                hoverlabel=dict(
+                    bgcolor=color
+                )
             )
 
     return mesh
