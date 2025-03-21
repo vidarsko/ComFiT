@@ -104,6 +104,73 @@ $$
 p = \int_a^b dx |\psi(x)|^2.
 $$
 
+## The Momentum representation
+
+In quantum mechanics, the Fourier transform serves as the mathematical bridge between the position and momentum representations of a quantum state. 
+This relationship reveals the wave-particle duality at the heart of quantum theory.
+
+The same quantum state can alternatively be described in momentum space by the wave function $\psi(k)$, where $|\phi(k)|^2$, where $k$ is the wave number, gives the probability density of finding the particle with momentum $\hbar k$.
+The momentum wave function $\phi(p)$ is related to the position wave function $\psi(x)$ through the Fourier transform:
+
+$$\phi(k) = \sqrt{2\pi} \psi_{\mathfrak f} (k)$$
+
+with the Fourier transform $\psi_{\mathfrak f} (k)$ defined as in [The Base System documentation](https://comfitlib.com/ClassBaseSystem/#fourier-transformations).
+The extra factor of $\sqrt{2\pi}$ is a comes from our definition of the Fourier transform, see below.
+
+### Normalization of the Fourier Transform
+
+Consider the Fourier transform in $n$-dimensions as defined:
+
+$$\psi_{\mathfrak f}(\mathbf{k}) = \mathcal F[\psi] = \frac{1}{(2\pi)^n} \int d^n r\, e^{-i\mathbf{k}\cdot\mathbf{r}} \psi(\mathbf{r}),$$
+
+with the inverse:
+
+$$\psi(\mathbf{r}) = \mathcal F^{-1}[\psi_{\mathfrak f}] = \int d^n k\, e^{i\mathbf{k}\cdot\mathbf{r}} \psi_{\mathfrak f}(\mathbf{k}),$$
+
+where $d^n r$ and $d^n k$ denote integration over $n$-dimensional position and wave vector spaces, respectively. In quantum mechanics, the position-space wave function $\psi(\mathbf{r})$ is normalized such that:
+
+$$\int d^n r\, |\psi(\mathbf{r})|^2 = 1,$$
+
+ensuring the total probability is 1 across the $n$-dimensional space.
+
+For the Fourier representation, substituting the inverse transform into the normalization condition and evaluating the inner integral yields a Dirac delta, $\int d^n r\, e^{i(\mathbf{k}-\mathbf{k'})\cdot\mathbf{r}} = (2\pi)^n \delta^n(\mathbf{k}-\mathbf{k'})$. This leads to:
+
+$$\int d^n k\, (2\pi)^n |\psi_{\mathfrak f}(\mathbf{k})|^2 = 1,$$
+
+or:
+
+$$\int d^n k\, |\psi_{\mathfrak f}(\mathbf{k})|^2 = \frac{1}{(2\pi)^n}.$$
+
+The factor $(2\pi)^n$ arises from the convention placing $\frac{1}{(2\pi)^n}$ in the forward transform.
+
+To define a $\mathbf{k}$-space wave function $\phi(\mathbf{k})$ where $|\phi(\mathbf{k})|^2$ is the probability density per unit $\mathbf{k}$ in $n$-dimensions, satisfying:
+
+$$\int d^n k\, |\phi(\mathbf{k})|^2 = 1,$$
+
+set:
+
+$$\phi(\mathbf{k}) = \sqrt{(2\pi)^n} \, \psi_{\mathfrak f}(\mathbf{k}).$$
+
+Then:
+
+$$|\phi(\mathbf{k})|^2 = (2\pi)^n |\psi_{\mathfrak f}(\mathbf{k})|^2,$$
+
+and:
+
+$$\int d^n k\, |\phi(\mathbf{k})|^2 = (2\pi)^n \int d^n k\, |\psi_{\mathfrak f}(\mathbf{k})|^2 = (2\pi)^n \cdot \frac{1}{(2\pi)^n} = 1.$$
+
+Thus, $|\phi(\mathbf{k})|^2$ serves as the probability density in $\mathbf{k}$-space, adjusted for this Fourier transform convention.
+In momentum space ($\mathbf{p} = \hbar \mathbf{k}$), additional scaling by $\hbar^n$ may apply, but $\phi(\mathbf{k}) = \sqrt{(2\pi)^n}  \psi_{\mathfrak f}(\mathbf{k})$ ensures proper normalization in $\mathbf{k}$-space.
+
+### Physical Significance
+
+1. **Complementarity**: The Fourier transform relationship embodies Heisenberg's uncertainty principle.
+The more localized a wave function is in position space, the more spread out its Fourier transform is in momentum space, and vice versa.
+
+2. **Operator Correspondence**: In the position representation, the momentum operator is $\hat{p} = -\mathfrak i\hbar\frac{d}{dx}$.
+The Fourier transform converts this differential operator to a multiplication operator in momentum space.
+
+3. **Energy Eigenstates**: For a free particle, the energy eigenstates are momentum eigenstates, which are plane waves in position space: $\psi(x) \propto e^{\mathfrak ikx/\hbar}$.
 
 
 ## A wave packet

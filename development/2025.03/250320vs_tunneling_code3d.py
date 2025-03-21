@@ -37,4 +37,4 @@ for n in range(305):
     qm.plot_save(fig, n, ID=f'{velocity}_{potential}_{phase_blob_threshold}')  # Save the figure
 
     qm.evolve_schrodinger(1)
-cf.tool_make_animation_movie(n, ID=f'{velocity}_{potential}_{phase_blob_threshold}')  # Creates animation
+cf.tool_make_animation_gif(n, ID=f'{velocity}_{potential}_{phase_blob_threshold}')  # Creates animation
