@@ -194,7 +194,7 @@ class BaseSystemCalc:
         Parameters
         ----------
         x : numpy.ndarray
-            1D array of x-positions
+            1D array of x-positions.
 
         Returns
         -------

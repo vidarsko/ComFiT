@@ -12,7 +12,7 @@ setup(
                             'nematic_liquid_crystal/*',
                             'phase_field_crystal/*' ]},
     author='Vidar Skogvoll and Jonas Rønning',
-    install_requires=['numpy',
+    install_requires=['numpy>=1.21, <2.1',
                       'scipy',
                       'matplotlib',
                       'plotly',
