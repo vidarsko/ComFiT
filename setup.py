@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='comfit',
-    version='1.9.0',
+    version='1.9.1',
     packages=['comfit'],
     package_data={'comfit':['core/*',
                             'tool/*', 
@@ -12,12 +12,12 @@ setup(
                             'nematic_liquid_crystal/*',
                             'phase_field_crystal/*' ]},
     author='Vidar Skogvoll and Jonas Rønning',
-    install_requires=['numpy>=1.21, <2.0.0',
+    install_requires=['numpy',
                       'scipy',
                       'matplotlib',
                       'plotly',
                       'kaleido==0.2.1',
-                      'scikit-image>=0.18.0,<0.23',
+                      'scikit-image>=0.25.2',
                       'moviepy',
                       'pillow'],
 )
