@@ -29,8 +29,12 @@ def tool_complete_field(
     to match the full resolution specified by self.xRes, self.yRes, and self.zRes.
     """
 
+
+    if isinstance(field, (int, float)):
+        field  = field + np.zeros(self.dims)
+
     # 2 dimensional fields
-    if field.shape == (self.xRes,1):
+    elif field.shape == (self.xRes,1):
         field = np.tile(field,(1,self.yRes))
 
     elif field.shape == (1,self.yRes):

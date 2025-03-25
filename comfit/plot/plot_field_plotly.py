@@ -26,7 +26,7 @@ def plot_field_plotly(
     field: np.ndarray,
     **kwargs: Any
 ) -> Tuple[go.Figure, Dict]:
-    """Plot the given (real) field using Plotly.
+    """Plot the given (real) field using Plotly
 
     Parameters
     ----------
