@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.9.2] - 2025-03-25
+- Fixed bug related to trying to plot a constant field.
+
 ## [1.9.1] - 2025-03-24
 - Bug fix: setting ylim with plotly now works for 2D plots. 
 - Added `width` and `height` parameters to plot_save-function.
