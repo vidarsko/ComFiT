@@ -173,6 +173,11 @@ def plot_nodes_plotly(
             v2 =vx**2 + vy**2 + vz**2
             v_norm = np.sqrt(max(v2))
 
+            if v_norm > 0:
+                vx /= v_norm
+                vy /= v_norm
+                vz /= v_norm
+
             fig.add_trace(go.Cone(x=x / self.a0,
                                   y=y / self.a0,
                                   z=z / self.a0,
