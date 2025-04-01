@@ -759,7 +759,6 @@ class NematicLiquidCrystal(BaseSystem):
                         levi_civita_symbol(i,j,k)*T[j]* dot_Omega_g[k] for j in range(self.dim)
                         for k in range(self.dim)
                     )
-
                 return 2*dislocation_velocity/omega
 
 
@@ -776,11 +775,13 @@ class NematicLiquidCrystal(BaseSystem):
         ey = np.real(sp.fft.ifftn(1j * self.k[0] * self.Q_f[1] - 1j * self.k[1] * self.Q_f[0]))
         return np.array([ex,ey])
 
-    def calc_disclination_nodes_nem(self, dt_Q=None,polarization = None,charge_tolerance=None):
+    def calc_disclination_nodes_nem(self, dt_Q=None,polarization = None,charge_tolerance=0.1):
         """Calculates the positions and charges of disclination nodes based on the disclination density.
         
         Args:
             dt_Q: The time derivative of the order parameter. If not provided, the velocity of the disclination nodes will not be calculated. (numpy.narray, optional)
+            polarization: The polarization field for positive defects in 2D. If provided the direction of the positive defects are shown. (numpy.narray, optional)
+            charge_tolerance: The tolerance given to the defect finding algorithm in 3D. Default 0.1 (float, optional)
         
         Returns:
             A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:
@@ -821,7 +822,8 @@ class NematicLiquidCrystal(BaseSystem):
         elif self.dim == 3:
             omega, Omega_R, T, trD = self.calc_disclination_density_decoupled()
             S0 = self.calc_equilibrium_S()
-            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=S0/(np.pi))
+            print(S0)
+            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=charge_tolerance)
             position_list = []
             if dt_Q is not None:
                 g_matrix = self.calc_g_matrix(dt_Q)
