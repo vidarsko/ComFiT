@@ -107,27 +107,27 @@ def plot_field_matplotlib(
 
         limits_provided = False
         if 'xlim' in kwargs:
-            xlim = kwargs['xlim']
+            xlim = np.array(kwargs['xlim'])/self.a0
             limits_provided = True
         else:
             if 'xmin' in kwargs:
-                xlim[0] = kwargs['xmin']
+                xlim[0] = kwargs['xmin']/self.a0
                 limits_provided = True
             
             if 'xmax' in kwargs:
-                xlim[1] = kwargs['xmax']
+                xlim[1] = kwargs['xmax']/self.a0
                 limits_provided = True
 
         if 'ylim' in kwargs:
-            ylim = kwargs['ylim']
+            ylim = np.array(kwargs['ylim'])/self.a0
             limits_provided = True
         else:
             if 'ymin' in kwargs:
-                ylim[0] = kwargs['ymin']
+                ylim[0] = kwargs['ymin']/self.a0
                 limits_provided = True
                 
             if 'ymax' in kwargs:
-                ylim[1] = kwargs['ymax']
+                ylim[1] = kwargs['ymax']/self.a0
                 limits_provided = True
 
         # If explicit limits are provided, use them to change the vlim ranges
