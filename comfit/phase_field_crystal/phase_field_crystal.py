@@ -1348,26 +1348,32 @@ class PhaseFieldCrystal(BaseSystem):
         Exception
             If the dimension of the system is 1D.
         """
+
+        if hasattr(self,'bool_has_velocity_field') and self.bool_has_velocity_field:
+            psi_f = self.psi_f[0]
+        else:
+            psi_f = self.psi_f
+
         if self.dim==1:
             raise Exception("The stress tensor is not yet defined in 1D.")
         elif self.dim==2:
             stress = np.zeros((3,self.xRes,self.yRes))
 
-            Lpsi = np.real(self.ifft(self.calc_L_f()*self.psi_f))
-            stress[0] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*self.psi_f))
-            stress[1] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*self.psi_f))
-            stress[2] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*self.psi_f))
+            Lpsi = np.real(self.ifft(self.calc_L_f()*psi_f))
+            stress[0] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*psi_f))
+            stress[1] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*psi_f))
+            stress[2] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*psi_f))
         
         elif self.dim==3:
             stress = np.zeros((6,self.xRes,self.yRes,self.zRes))
 
-            Lpsi = np.real(self.ifft(self.calc_L_f()*self.psi_f))
-            stress[0] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*self.psi_f))
-            stress[1] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*self.psi_f))
-            stress[2] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[2]*self.psi_f))
-            stress[3] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*self.psi_f))
-            stress[4] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[2]*self.psi_f))
-            stress[5] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[2]*self.dif[2]*self.psi_f))
+            Lpsi = np.real(self.ifft(self.calc_L_f()*psi_f))
+            stress[0] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[0]*psi_f))
+            stress[1] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[1]*psi_f))
+            stress[2] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[0]*self.dif[2]*psi_f))
+            stress[3] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[1]*psi_f))
+            stress[4] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[1]*self.dif[2]*psi_f))
+            stress[5] = -2*Lpsi*np.real(self.ifft(self.calc_L_sum_f()*self.dif[2]*self.dif[2]*psi_f))
 
         return stress
 
