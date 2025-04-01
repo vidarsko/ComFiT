@@ -613,7 +613,7 @@ class NematicLiquidCrystal(BaseSystem):
                     if gam == i:
                         D[gam,i] += term_trace
             S0 = self.calc_equilibrium_S()
-            return D/(S0**2 *np.pi)
+            return D#/(S0**2 *np.pi)
         else:
             raise Exception("Only two and three dimensions are currently supported")
 
@@ -759,7 +759,6 @@ class NematicLiquidCrystal(BaseSystem):
                         levi_civita_symbol(i,j,k)*T[j]* dot_Omega_g[k] for j in range(self.dim)
                         for k in range(self.dim)
                     )
-
                 return 2*dislocation_velocity/omega
 
 
@@ -821,7 +820,8 @@ class NematicLiquidCrystal(BaseSystem):
         elif self.dim == 3:
             omega, Omega_R, T, trD = self.calc_disclination_density_decoupled()
             S0 = self.calc_equilibrium_S()
-            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=S0/(np.pi))
+            print(S0)
+            disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=S0**2/np.pi)
             position_list = []
             if dt_Q is not None:
                 g_matrix = self.calc_g_matrix(dt_Q)
