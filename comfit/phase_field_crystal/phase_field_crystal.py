@@ -1838,10 +1838,7 @@ class PhaseFieldCrystal(BaseSystem):
             kwargs['X'] = self.X
             kwargs['Y'] = self.Y
         
-        if self.plot_lib == 'matplotlib':
-            return plot_field_matplotlib(self, field, **kwargs)
-        elif self.plot_lib == 'plotly':
-            return plot_field_plotly(self, field, **kwargs)
+        return super().plot_field(field, **kwargs)
 
     def plot_PFC(self, **kwargs):
         """Plots the PFC.

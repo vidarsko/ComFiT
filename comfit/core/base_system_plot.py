@@ -202,26 +202,28 @@ class BaseSystemPlot:
 
             field = np.fft.fftshift(phase_shift*field, axes=range(-self.dim, 0))
 
-            kwargs["x"] = np.fft.fftshift(self.k[0])/(2*np.pi/self.a0)
-            kwargs['xlabel'] = 'kx/(2π/a₀)'
+            kwargs["x"] = np.fft.fftshift(self.k[0])/(1/self.a0)
+            kwargs['xlabel'] = 'kx/(a₀⁻¹)'
             kwargs['xlim'] = kwargs.get('xlim', [np.min(kwargs["x"]), np.max(kwargs["x"])])
 
             if self.dim > 1:
-                kwargs["y"] = np.fft.fftshift(self.k[1])/(2*np.pi/self.a0)
-                kwargs['ylabel'] = 'ky/(2π/a₀)'
+                kwargs["y"] = np.fft.fftshift(self.k[1])/(1/self.a0)
+                kwargs['ylabel'] = 'ky/(a₀⁻¹)'
                 kwargs['ylim'] = kwargs.get('ylim', [np.min(kwargs["y"]), np.max(kwargs["y"])])
 
             if self.dim > 2:
-                kwargs["z"] = np.fft.fftshift(self.k[2])/(2*np.pi/self.a0)
-                kwargs['zlabel'] = 'kz/(2π/a₀)'
+                kwargs["z"] = np.fft.fftshift(self.k[2])/(1/self.a0)
+                kwargs['zlabel'] = 'kz/(a₀⁻¹)'
                 kwargs['zlim'] = kwargs.get('zlim', [np.min(kwargs["z"]), np.max(kwargs["z"])])
 
             
 
 
         else:
+
             kwargs['x'] = self.x/self.a0
             kwargs['xlabel'] = kwargs.get('xlabel','x/a₀')
+            
             if self.dim > 1:
                 kwargs['y'] = self.y/self.a0
                 kwargs['ylabel'] = kwargs.get('ylabel','y/a₀')
