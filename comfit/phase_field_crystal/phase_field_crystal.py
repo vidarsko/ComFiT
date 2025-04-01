@@ -1404,12 +1404,13 @@ class PhaseFieldCrystal(BaseSystem):
             number_of_stress_components = 6
 
         # Coarse-grain the microscopic stress
+        stress_f = np.zeros([number_of_stress_components] + self.dims, dtype=complex)
         for n in range(number_of_stress_components):
-            stress[n] = Gaussian_filter_f*self.fft(stress[n])
+            stress_f[n] = Gaussian_filter_f*self.fft(stress[n])
 
         # return stress
         # return np.real(self.ifft(Gaussian_filter_f))
-        return np.real(self.ifft(stress))
+        return self.ifft(stress_f).real
 
     def calc_stress_divergence_f(self, field_f = None):
         """Calculates the divergence of the stress tensor in Fourier space.
