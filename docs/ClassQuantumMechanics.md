@@ -1,12 +1,11 @@
 # Class: Quantum Mechanics
 
-Quantum mechanics is one of the most classic examples of field theories in physics.
-The Schrödinger equation is a partial differential equation that describes how the quantum state of a physical system changes over time.
+Quantum mechanics describes the behavior of nature at the scale of atoms and subatomic particles. The Schrödinger equation is a fundamental partial differential equation that governs how the quantum state of a physical system evolves over time.
 
-In this class, we simulate quantum mechanics through the evolution of the Schrödinger equation.
+This class simulates quantum mechanics by evolving the Schrödinger equation.
 
 ```python
-file: comfit/models/quantum_mechanics.py 
+file: comfit/quantum_mechanics/quantum_mechanics.py 
 class: QuantumMechanics
 ```
 
@@ -20,13 +19,9 @@ See the ComFiT Library Reference below for a complete list of class methods and 
     </a>
 </div>
 
-
-
-
 ## Example
 
-The following example demonstrates how to set up a 1D quantum system with a Gaussian wave packet and a potential barrier.
-It runs smoothly with `comfit 1.8.4`.
+The following example demonstrates how to set up a 1D quantum system with a Gaussian wave packet and a potential barrier. It runs smoothly with `comfit 1.8.4`.
 
 ```python
 import comfit as cf
@@ -42,7 +37,7 @@ qm.conf_initial_condition_Gaussian(position=5, width=1, initial_velocity=1)
 # Add a potential barrier (optional)
 qm.V_ext = 0.5 * (qm.x > 10) * (qm.x < 12)  # Barrier from x=10 to 12
 
-height = np.max(abs(qm.psi))  # Get the maximum value of the wavefunction
+height = np.max(abs(qm.psi))  # Get the maximum value of the wavefunction for plotting limits
 
 # Optional: Animate it
 for n in range(61):
@@ -58,130 +53,84 @@ cf.tool_make_animation_gif(n)  # Creates animation.gif
 
 ## The Schrödinger equation
 
-Evolving according to the Schrödinger equation with electron mass
+The time-dependent Schrödinger equation for a particle of mass $m_e$ in a potential $V$ is given by:
 
 $$
 \mathfrak i \hbar \partial_t \psi = \left [-\frac{\hbar^2}{2m_e} \nabla^2 + V \right ] \psi.
 $$
 
-Dividing by the Hartree energy $E_h = \frac{\hbar^2}{m_e a_0^2}$
+where $\psi$ is the wave function, $\hbar$ is the reduced Planck constant.
+
+To simplify the equation for numerical simulation, we can introduce dimensionless units. Dividing by the Hartree energy $E_h = \frac{\hbar^2}{m_e a_0^2}$ (where $a_0$ is the Bohr radius) yields:
 
 $$
 \mathfrak i \frac{\hbar}{E_h} \partial_t \psi = \frac{1}{E_h}\left [-\frac{\hbar^2}{2m_e} \nabla^2 + V \right ] \psi.
 $$
 
-When expressing time in units of $\frac{\hbar}{E_h}$, potential energy in units of $E_h$ and length squared in units of 
+Expressing time in units of $\tau = \frac{\hbar}{E_h}$, potential energy $V$ in units of $E_h$, and length squared in units of $a_0^2$, we obtain the dimensionless Schrödinger equation:
 
 $$
-\frac{\hbar^2}{E_h m_e} = \frac{\hbar^2}{\frac{\hbar^2}{m_e a_0^2} m_e} = a_0^2,
+\partial_t \psi = \mathfrak i\left [\frac{1}{2} \nabla^2 - V \right ] \psi.
 $$
 
-we get the Schrödinger equation in its dimensionless form
+This is the form implemented in the `QuantumMechanics` class. The linear operator $\omega$ and its Fourier space representation $\omega_{\mathfrak f}$ are:
 
 $$
- \partial_t \psi = \mathfrak i\left [\frac{1}{2} \nabla^2 - V \right ] \psi.
+\omega = \mathfrak i\frac{1}{2} \nabla^2 \quad \Rightarrow \quad \omega_{\mathfrak f}(\mathbf{k}) = -\mathfrak i \frac{1}{2} \mathbf k^2
 $$
 
-So 
-
-$$
-\omega = \mathfrak i\frac{1}{2} \nabla^2
-\Rightarrow \omega_{\mathfrak f} = -\mathfrak i \frac{1}{2} \mathbf k^2
-$$
+The non-linear part (in this context, the potential term which depends on $\psi$ only through multiplication) is $N = -\mathfrak i V \psi$.
 
 | Atomic unit of | Value               |
 |----------------|---------------------|
-| Length         | 0.529 Å (Angstrom)  |
-| Energy         | 27.2 eV (electron volts)  |
-| Time           | 24.2 aS (atto seconds)    |
-
+| Length ($a_0$) | 0.529 Å (Angstrom)  |
+| Energy ($E_h$) | 27.2 eV (electron volts)  |
+| Time ($\tau$)  | 24.2 as (attoseconds)    |
 
 ## The Born rule
 
-The Born rule states that the probability $p$ of measuring a particle in the interval $[a,b]$ is given by 
+The Born rule states that the probability density of finding the particle at position $\mathbf{r}$ at time $t$ is given by $|\psi(\mathbf{r}, t)|^2$. Consequently, the probability $P$ of finding the particle within a volume $\mathcal{V}$ is:
 
 $$
-p = \int_a^b dx |\psi(x)|^2.
+P = \int_{\mathcal{V}} d^d r |\psi(\mathbf{r}, t)|^2.
+$$
+
+The total probability of finding the particle anywhere in space must be 1, leading to the normalization condition:
+
+$$
+\int d^d r |\psi(\mathbf{r}, t)|^2 = 1.
 $$
 
 ## The Momentum representation
 
-In quantum mechanics, the Fourier transform serves as the mathematical bridge between the position and momentum representations of a quantum state. 
-This relationship reveals the wave-particle duality at the heart of quantum theory.
+In quantum mechanics, the Fourier transform provides the connection between the position representation ($\psi(\mathbf{r})$) and the momentum representation ($\phi(\mathbf{k})$) of a quantum state. This relationship highlights the wave-particle duality inherent in quantum theory.
 
-The same quantum state can alternatively be described in momentum space by the wave function $\psi(k)$, where $|\phi(k)|^2$, where $k$ is the wave number, gives the probability density of finding the particle with momentum $\hbar k$.
-The momentum wave function $\phi(p)$ is related to the position wave function $\psi(x)$ through the Fourier transform:
+The momentum-space wave function $\phi(\mathbf{k})$, where $|\phi(\mathbf{k})|^2$ represents the probability density of finding the particle with wave vector $\mathbf{k}$ (momentum $\mathbf{p} = \hbar \mathbf{k}$), is related to the position-space wave function $\psi(\mathbf{r})$ via the Fourier transform:
 
-$$\phi(k) = \sqrt{2\pi} \psi_{\mathfrak f} (k)$$
+$$\phi(\mathbf{k}) = \sqrt{(2\pi)^d} \, \psi_{\mathfrak f} (\mathbf{k})$$
 
-with the Fourier transform $\psi_{\mathfrak f} (k)$ defined as in [The Base System documentation](https://comfitlib.com/ClassBaseSystem/#fourier-transformations).
-The extra factor of $\sqrt{2\pi}$ is a comes from our definition of the Fourier transform, see below.
+where $\psi_{\mathfrak f} (\mathbf{k})$ is the Fourier transform of $\psi(\mathbf{r})$ as defined in the [Base System documentation](https://comfitlib.com/ClassBaseSystem/#fourier-transformations), and $d$ is the spatial dimension. The factor $\sqrt{(2\pi)^d}$ ensures that if $\psi(\mathbf{r})$ is normalized in position space, then $\phi(\mathbf{k})$ is normalized in momentum space:
 
-### Normalization of the Fourier Transform
+$$
+\int d^d k |\phi(\mathbf{k})|^2 = 1.
+$$
 
-Consider the Fourier transform in $n$-dimensions as defined:
+### Physical Significance of the Fourier Transform in QM
 
-$$\psi_{\mathfrak f}(\mathbf{k}) = \mathcal F[\psi] = \frac{1}{(2\pi)^n} \int d^n r\, e^{-i\mathbf{k}\cdot\mathbf{r}} \psi(\mathbf{r}),$$
-
-with the inverse:
-
-$$\psi(\mathbf{r}) = \mathcal F^{-1}[\psi_{\mathfrak f}] = \int d^n k\, e^{i\mathbf{k}\cdot\mathbf{r}} \psi_{\mathfrak f}(\mathbf{k}),$$
-
-where $d^n r$ and $d^n k$ denote integration over $n$-dimensional position and wave vector spaces, respectively. In quantum mechanics, the position-space wave function $\psi(\mathbf{r})$ is normalized such that:
-
-$$\int d^n r\, |\psi(\mathbf{r})|^2 = 1,$$
-
-ensuring the total probability is 1 across the $n$-dimensional space.
-
-For the Fourier representation, substituting the inverse transform into the normalization condition and evaluating the inner integral yields a Dirac delta, $\int d^n r\, e^{i(\mathbf{k}-\mathbf{k'})\cdot\mathbf{r}} = (2\pi)^n \delta^n(\mathbf{k}-\mathbf{k'})$. This leads to:
-
-$$\int d^n k\, (2\pi)^n |\psi_{\mathfrak f}(\mathbf{k})|^2 = 1,$$
-
-or:
-
-$$\int d^n k\, |\psi_{\mathfrak f}(\mathbf{k})|^2 = \frac{1}{(2\pi)^n}.$$
-
-The factor $(2\pi)^n$ arises from the convention placing $\frac{1}{(2\pi)^n}$ in the forward transform.
-
-To define a $\mathbf{k}$-space wave function $\phi(\mathbf{k})$ where $|\phi(\mathbf{k})|^2$ is the probability density per unit $\mathbf{k}$ in $n$-dimensions, satisfying:
-
-$$\int d^n k\, |\phi(\mathbf{k})|^2 = 1,$$
-
-set:
-
-$$\phi(\mathbf{k}) = \sqrt{(2\pi)^n} \, \psi_{\mathfrak f}(\mathbf{k}).$$
-
-Then:
-
-$$|\phi(\mathbf{k})|^2 = (2\pi)^n |\psi_{\mathfrak f}(\mathbf{k})|^2,$$
-
-and:
-
-$$\int d^n k\, |\phi(\mathbf{k})|^2 = (2\pi)^n \int d^n k\, |\psi_{\mathfrak f}(\mathbf{k})|^2 = (2\pi)^n \cdot \frac{1}{(2\pi)^n} = 1.$$
-
-Thus, $|\phi(\mathbf{k})|^2$ serves as the probability density in $\mathbf{k}$-space, adjusted for this Fourier transform convention.
-In momentum space ($\mathbf{p} = \hbar \mathbf{k}$), additional scaling by $\hbar^n$ may apply, but $\phi(\mathbf{k}) = \sqrt{(2\pi)^n}  \psi_{\mathfrak f}(\mathbf{k})$ ensures proper normalization in $\mathbf{k}$-space.
-
-### Physical Significance
-
-1. **Complementarity**: The Fourier transform relationship embodies Heisenberg's uncertainty principle.
-The more localized a wave function is in position space, the more spread out its Fourier transform is in momentum space, and vice versa.
-
-2. **Operator Correspondence**: In the position representation, the momentum operator is $\hat{p} = -\mathfrak i\hbar\frac{d}{dx}$.
-The Fourier transform converts this differential operator to a multiplication operator in momentum space.
-
-3. **Energy Eigenstates**: For a free particle, the energy eigenstates are momentum eigenstates, which are plane waves in position space: $\psi(x) \propto e^{\mathfrak ikx/\hbar}$.
-
+1.  **Complementarity**: The Fourier transform relationship mathematically embodies Heisenberg's uncertainty principle. A wave function highly localized in position space (narrow $\psi(\mathbf{r})$) corresponds to a widely spread momentum distribution (broad $\phi(\mathbf{k})$), and vice versa.
+2.  **Operator Correspondence**: In the position representation, the momentum operator is $\hat{\mathbf{p}} = -\mathfrak i\hbar\nabla$. The Fourier transform maps this differential operator in position space to a simple multiplicative operator ($\hbar \mathbf{k}$) in momentum space.
+3.  **Energy Eigenstates**: For a free particle ($V=0$), the energy eigenstates are plane waves, $\psi(\mathbf r) \propto e^{\mathfrak i \mathbf k \cdot \mathbf r}$, which are also momentum eigenstates.
 
 ## A wave packet
 
-A Gaussian wave function is often called a wave packet and can visualize the position and motion of a particle in a quantum mechanical system.
-An initial wave function with a widt of $\sigma$ is given by
+A Gaussian wave function, often referred to as a wave packet, provides a localized representation of a particle in quantum mechanics, balancing position and momentum uncertainty. A normalized Gaussian wave packet centered at $\mathbf{r}_0$ with width $\sigma$ is given by:
 
 $$
 \psi(\mathbf r) = \sqrt{( 2\pi \sigma )^{-d/2} \exp\left ({-\frac{(\mathbf r - \mathbf r_0)^2} {(2\sigma^2)}}\right )} ,
 $$
 
-so that $|\psi|^2$ is a Gaussian distribution.
-An initial velocity $\mathbf v_0$ can be given to the wave packet by multiplying with a complex phase $e^{\mathfrak i \mathbf v_0 \cdot \mathbf r}$.
-Such an initial condition can be configured by the function `qm.conf_initial_condition_Gaussian`.
+such that the probability density $|\psi(\mathbf{r})|^2 = (2\pi \sigma^2)^{-d/2} \exp\left ({-\frac{(\mathbf r - \mathbf r_0)^2} {2\sigma^2}}\right )$ is a Gaussian distribution with standard deviation $\sigma$.
+
+An initial average velocity $\mathbf v_0$ (corresponding to an average momentum $\hbar \mathbf{k}_0 = m_e \mathbf{v}_0$) can be imparted to the wave packet by multiplying it with a complex phase factor $e^{\mathfrak i \mathbf{k}_0 \cdot \mathbf r} = e^{\mathfrak i (m_e/\hbar)\mathbf v_0 \cdot \mathbf r}$. In dimensionless units where $m_e=\hbar=1$, this simplifies to $e^{\mathfrak i \mathbf v_0 \cdot \mathbf r}$.
+
+Such an initial condition can be configured using the function `qm.conf_initial_condition_Gaussian`.
