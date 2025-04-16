@@ -78,8 +78,8 @@ class BaseSystemPlot:
         
         ## Define figure
         if plot_lib == "plotly":
-            fig = kwargs.get('fig', go.Figure())
-            ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1, 'colorbar': False})
+            ax = kwargs.get('ax', {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1, 'colorbar': False, 'fig': go.Figure()})
+            fig = kwargs.get('fig', ax['fig'])
 
         elif plot_lib == "matplotlib":
             fig = kwargs['fig'] if 'fig' in kwargs else plt.figure()
