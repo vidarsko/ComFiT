@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: Quantum Mechanics &mdash; ComFiT Library Reference 1.8.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=496f73d5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class: Bose Einstein Condensate" href="../bose_einstein_condensate/index.html" />
+    <link rel="prev" title="Base System" href="../core/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ComFiT Library Reference
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../core/index.html">Base System</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Class: Quantum Mechanics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.__init__"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.calc_hydrogen_state"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.calc_hydrogen_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.calc_nonlinear_evolution_function_f"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.calc_nonlinear_evolution_function_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_harmonic_potential"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.conf_harmonic_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_hydrogen_state"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.conf_hydrogen_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_initial_condition_Gaussian"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.conf_initial_condition_Gaussian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_wavefunction"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.conf_wavefunction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.evolve_schrodinger"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.evolve_schrodinger()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bose_einstein_condensate/index.html">Class: Bose Einstein Condensate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nematic_liquid_crystal/index.html">Class: Nematic Liquid Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../phase_field_crystal/index.html">Class: Phase Field Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Auxiliary Plot Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tool/index.html">Auxiliary Tool Functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ComFiT Library Reference</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: Quantum Mechanics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/quantum_mechanics/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-quantum-mechanics">
+<h1>Class: Quantum Mechanics<a class="headerlink" href="#class-quantum-mechanics" title="Link to this heading"></a></h1>
+<p>Quantum Mechanics model.</p>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py class" id="module-comfit.quantum_mechanics.quantum_mechanics">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.quantum_mechanics.quantum_mechanics.</span></span><span class="sig-name descname"><span class="pre">QuantumMechanics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../core/index.html#comfit.core.base_system.BaseSystem" title="comfit.core.base_system.BaseSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystem</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a quamtum mechanics system evolving according to the Schrödinger equation</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dimension<span class="classifier">int</span></dt><dd><p>The dimension of the system.</p>
+</dd>
+<dt>kwargs<span class="classifier">dict, optional</span></dt><dd><p>Optional keyword arguments to set additional parameters. 
+See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qm</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">QuantumMechanics</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="go">Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.calc_hydrogen_state">
+<span class="sig-name descname"><span class="pre">calc_hydrogen_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.calc_hydrogen_state" title="Link to this definition"></a></dt>
+<dd><p>Calculate the hydrogen state with quantum numbers n,l,m</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>n<span class="classifier">int</span></dt><dd><p>principal quantum number</p>
+</dd>
+<dt>l<span class="classifier">int</span></dt><dd><p>azimuthal quantum number</p>
+</dd>
+<dt>m<span class="classifier">int</span></dt><dd><p>magnetic quantum number</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>Wavefunction of the hydrogen state. (np.ndarray)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.calc_nonlinear_evolution_function_f">
+<span class="sig-name descname"><span class="pre">calc_nonlinear_evolution_function_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.calc_nonlinear_evolution_function_f" title="Link to this definition"></a></dt>
+<dd><p>Calculate the nonlinear evolution function f of the Schrödinger equation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id2">
+<h2>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>psi<span class="classifier">np.ndarray </span></dt><dd><p>The wavefunction.</p>
+</dd>
+<dt>t<span class="classifier">float</span></dt><dd><p>Time</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h2>Returns<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>The nonlinear evolution function f.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_harmonic_potential">
+<span class="sig-name descname"><span class="pre">conf_harmonic_potential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trapping_strength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_harmonic_potential" title="Link to this definition"></a></dt>
+<dd><p>Set the external potential to a harmonic trap with R_tf being the thomas fermi radius</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id4">
+<h2>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>trapping_strength<span class="classifier">float, optional</span></dt><dd><p>The strength of the trapping potential.</p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h2>Returns<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None       </dt><dd><p>Configures self.V_ext.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_hydrogen_state">
+<span class="sig-name descname"><span class="pre">conf_hydrogen_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_hydrogen_state" title="Link to this definition"></a></dt>
+<dd><p>Set the initial condition to a hydrogen state with quantum numbers n,l,m</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id6">
+<h2>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>n<span class="classifier">int </span></dt><dd><p>principal quantum number</p>
+</dd>
+<dt>l<span class="classifier">int</span></dt><dd><p>azimuthal quantum number</p>
+</dd>
+<dt>m<span class="classifier">int </span></dt><dd><p>magnetic quantum number</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h2>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Configures self.psi and self.psi_f.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_initial_condition_Gaussian">
+<span class="sig-name descname"><span class="pre">conf_initial_condition_Gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_velocity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_initial_condition_Gaussian" title="Link to this definition"></a></dt>
+<dd><p>Set the initial condition to a Gaussian wavepacket.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">array_like, optional</span></dt><dd><p>The position of the wavepacket.</p>
+</dd>
+<dt>width<span class="classifier">float, optional</span></dt><dd><p>The width of the wavepacket.</p>
+</dd>
+<dt>initial_velocity<span class="classifier">float or array_like, optional</span></dt><dd><p>The initial velocity of the wavepacket.</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Configures self.psi and self.psi_f.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_wavefunction">
+<span class="sig-name descname"><span class="pre">conf_wavefunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_wavefunction" title="Link to this definition"></a></dt>
+<dd><p>Set the initial condition to a given wavefunction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id10">
+<h2>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>psi<span class="classifier">np.ndarray</span></dt><dd><p>The wavefunction.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h2>Returns<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Configures self.psi and self.psi_f.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.evolve_schrodinger">
+<span class="sig-name descname"><span class="pre">evolve_schrodinger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD4RK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.evolve_schrodinger" title="Link to this definition"></a></dt>
+<dd><p>Evolve the system according to the Schrödinger equation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id12">
+<h2>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>number_of_steps<span class="classifier">int</span></dt><dd><p>Number of time steps to evolve the system.</p>
+</dd>
+<dt>method<span class="classifier">str</span></dt><dd><p>The method to use for the time evolution.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h2>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Updates self.psi and self.psi_f.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../core/index.html" class="btn btn-neutral float-left" title="Base System" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../bose_einstein_condensate/index.html" class="btn btn-neutral float-right" title="Class: Bose Einstein Condensate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vidar Skogvoll and Jonas Rønning.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
