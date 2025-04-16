@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.9.5] - 2025-04-16
+- Bug fix for tool_configure_axis function.
+
 ## [1.9.4] - 2025-04-16
 - Removed the need to pass both `ax` and `fig` to plot functions.
 
