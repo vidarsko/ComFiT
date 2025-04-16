@@ -178,19 +178,35 @@ def plot_complex_field_plotly(
         ymin = y[0]
         ymax = y[-1]+dy
 
+        rho_normalized = rho / np.max(rho)
+
         if plot_method == '3Dsurface':
-        
-            print("\033[91mWarning: 3D surface plot not yet implemented for Plotly.\033[0m")
-            pass
+
+            ax = tool_plotly_define_3D_plot_ax(fig, ax)
+
+            # Plot field as 3D surface where height is amplitude and color is phase
+            X, Y = np.meshgrid(x, y, indexing='ij')
+
+            surface = go.Surface(
+                x=X,
+                y=Y,
+                z=rho,
+                surfacecolor=theta,
+                colorscale=kwargs['colormap_object'],
+                customdata=np.stack((theta/np.pi, rho), axis=-1),
+                hovertemplate=(f"{kwargs['xlabel']}: %{{x:.2f}}<br>" +
+                              f"{kwargs['ylabel']}: %{{y:.2f}}<br>" +
+                              "amplitude: %{customdata[1]:.2e}<br>" +
+                              "phase: %{customdata[0]:.2f} π"),
+                showscale=False
+            )
+
+            fig.add_trace(surface)
+
 
         elif plot_method == 'phase_angle':
             
             ax = tool_plotly_define_2D_plot_ax(fig, ax)
-
-            # Keyword arguments particular to the phase angle plot
-            grid = kwargs.get('grid', False)
-
-            rho_normalized = rho / np.max(rho)
             
             norm = mcolors.Normalize(vmin=-np.pi, vmax=np.pi)
 
@@ -208,10 +224,6 @@ def plot_complex_field_plotly(
             # Convert RGBA image to a format Plotly can understand
             image_data = (rgba_image * 255).astype(np.uint8)
 
-
-            if fig == None:
-                fig = go.Figure()
-
             trace = go.Image(z=image_data, 
                             dx=dx, 
                             dy=dy, 
@@ -228,6 +240,40 @@ def plot_complex_field_plotly(
                             )
 
             fig.add_trace(trace)
+
+            # Add grid lines manually since the default plotly grid lines are
+            # not available for go.Image traces
+            if kwargs['grid']:
+                N = 11
+                # Draw N equally spaced horizontal and vertical lines
+                x_positions = np.linspace(x[0], x[-1], N)
+                y_positions = np.linspace(y[0], y[-1], N)
+
+                # Add horizontal grid lines
+                for y_pos in y_positions:
+                    fig.add_trace(go.Scatter(
+                        x=[xmin, xmax],
+                        y=[y_pos, y_pos],
+                        mode='lines',
+                        line=dict(color='grey', width=0.5),
+                        showlegend=False,
+                        hoverinfo='skip',
+                        xaxis=ax['xN'],
+                        yaxis=ax['yN']
+                    ))
+
+                # Add vertical grid lines
+                for x_pos in x_positions:
+                    fig.add_trace(go.Scatter(
+                        x=[x_pos, x_pos],
+                        y=[ymin, ymax],
+                        mode='lines',
+                        line=dict(color='grey', width=0.5),
+                        showlegend=False,
+                        hoverinfo='skip',
+                        xaxis=ax['xN'],
+                        yaxis=ax['yN']
+                    ))
 
 
     ###############################################################
@@ -271,7 +317,7 @@ def plot_complex_field_plotly(
 
                 if np.nanmin(field_to_plot) < angle < np.nanmax(field_to_plot):
 
-                    mesh = plot_surface_plotly(self,
+                    mesh, shadow_meshes = plot_surface_plotly(self,
                                             field_to_plot,
                                             value=angle,
                                             alpha=rho,
@@ -290,7 +336,7 @@ def plot_complex_field_plotly(
             field_to_plot[rho_normalized < 0.01] = float('nan')
 
             if np.nanmin(field_to_plot) < np.pi < np.nanmax(field_to_plot):
-                mesh = plot_surface_plotly(self,
+                mesh, shadow_meshes = plot_surface_plotly(self,
                                             field_to_plot,
                                             value=np.pi,
                                             alpha=rho,
@@ -307,8 +353,7 @@ def plot_complex_field_plotly(
 
             if np.nanmin(rho_normalized)<phase_blob_threshold<np.nanmax(rho_normalized):
 
-
-                mesh = plot_surface_plotly(self, 
+                mesh, shadow_meshes = plot_surface_plotly(self, 
                                         field=rho, 
                                         value=phase_blob_threshold*np.max(rho), 
                                         alpha=1,
@@ -317,6 +362,12 @@ def plot_complex_field_plotly(
                                           **kwargs)
 
                 fig.add_trace(mesh)
+
+                if shadow_meshes is not None:
+                    for shadow_mesh in shadow_meshes:
+                        fig.add_trace(shadow_mesh)
+
+
 
     # if kwargs['colorbar'] and not(ax['colorbar']) and not(kwargs['field_is_nan']):
     #     ax['colormap_object'] = kwargs['colormap_object']

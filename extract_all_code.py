@@ -1,5 +1,8 @@
 import os
 
+# This script aggregates all Python code, documentation, and test files from the 'comfit' directory and its subdirectories.
+# It creates three separate output files: one for code, one for documentation, and one for tests.
+
 # --- Code Aggregation ---
 
 # Define the base directory where 'comfit' is located.

@@ -194,4 +194,62 @@ def plot_surface_plotly(
                 )
             )
 
-    return mesh
+    plot_shadows = kwargs.get('plot_shadows', True)
+    if plot_shadows:
+        shadow_meshes = []
+
+        # Shadow on xy-plane:
+        mesh_shadow_xy = go.Mesh3d(
+            x=x_new, 
+            y=y_new, 
+            z=0*z_new + zmin,
+            i=faces[:, 0], 
+            j=faces[:, 1], 
+            k=faces[:, 2],
+            color='black',
+            showscale=False,
+            opacity=0.2,
+            name='',
+            showlegend=False,
+            scene=kwargs['ax']['sceneN']
+            )
+
+        # Shadow on xz-plane:
+        mesh_shadow_xz = go.Mesh3d(
+            x=x_new, 
+            y=0*y_new + ymin, 
+            z=z_new,
+            i=faces[:, 0], 
+            j=faces[:, 1], 
+            k=faces[:, 2],
+            color='black',
+            showscale=False,
+            opacity=0.2,
+            name='',
+            showlegend=False,
+            scene=kwargs['ax']['sceneN']
+            )
+
+        # Shadow on yz-plane:
+        mesh_shadow_yz = go.Mesh3d(
+            x=0*x_new + xmin, 
+            y=y_new, 
+            z=z_new,
+            i=faces[:, 0], 
+            j=faces[:, 1], 
+            k=faces[:, 2],
+            color='black',
+            showscale=False,
+            opacity=0.2,
+            name='',
+            showlegend=False,
+            scene=kwargs['ax']['sceneN']
+            )
+
+        shadow_meshes.append(mesh_shadow_xy)
+        shadow_meshes.append(mesh_shadow_xz)
+        shadow_meshes.append(mesh_shadow_yz)
+    else:
+        shadow_meshes = None
+
+    return mesh, shadow_meshes
