@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.9.4] - 2025-04-16
+- Removed the need to pass both `ax` and `fig` to plot functions.
+
 ## [1.9.3] - 2025-04-16
 - Changed definition of `xlim`. It is now the limit of the x-axis, not the size `xmax` of the domain. See comfitlib.com for more details.
 - Added shadows to 3D complex plots with plotly.

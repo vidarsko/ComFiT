@@ -207,7 +207,7 @@ def tool_configure_axis(
     elif xlim_YUP_provided and xmin_NOT_provided and xmax_NOT_provided and xRes_NOT_provided and dx_YUP_provided:
         # E.g. xlim = [-5, 21], dx = 0.1
 
-        xRes = round((xmax - xmin) / dx)+1
+        xRes = round((xlim[1] - xlim[0]) / dx)+1
         dx = (xlim[1]-xlim[0]) / (xRes-1)
 
         xmin = xlim[0]
