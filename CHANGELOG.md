@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [1.9.6] - 2025-04-24
+- Added `calc_coarse_grain` method to the BaseSystem class.
+
 ## [1.9.5] - 2025-04-16
 - Bug fix for tool_configure_axis function.
 

@@ -261,6 +261,37 @@ class BaseSystemCalc:
 
         return np.exp(-1 / 2 * a0 ** 2 * self.calc_k2())
 
+    def calc_coarse_grain(self, field: np.ndarray, width=None) -> np.ndarray:
+        """Calculate the coarse-grained field using a Gaussian filter.
+
+        Parameters
+        ----------
+        field : numpy.ndarray
+            The field to be coarse-grained.
+        width : float, optional
+            The width of the Gaussian filter. If None, uses the instance's a0 attribute.
+
+        Returns
+        -------
+        numpy.ndarray
+            The coarse-grained field.
+
+        Notes
+        -----
+        The method applies a Gaussian filter in Fourier space to the input field.
+        """
+        
+        if width is None:
+            width = self.a0
+
+        # Check if field is complex or real
+        if np.iscomplexobj(field):
+            # For complex fields, apply the filter to real and imaginary parts
+            return self.ifft(self.fft(field) * self.calc_Gaussian_filter_f(width))
+        else:
+            # For real fields, ensure the output remains real
+            return np.real(self.ifft(self.fft(field) * self.calc_Gaussian_filter_f(width)))
+
     def calc_determinant_field(self, psi: list[np.ndarray, np.ndarray]) -> np.ndarray:
         """Calculate the determinant transformation of a given field.
 
