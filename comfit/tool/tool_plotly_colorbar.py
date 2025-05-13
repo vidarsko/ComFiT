@@ -105,15 +105,22 @@ def generate_numbers_between(
     delta = (cmax - cmin)
 
     if delta == 0:
-        return [0], 0
+        return [0], 0, False
     
     delta_exp = np.floor(np.log10(max(abs(cmin), abs(cmax))))
 
     tick_min = np.ceil(cmin/10**delta_exp)*10**delta_exp
     tick_max = np.floor(cmax/10**delta_exp)*10**delta_exp
-
+    
     number_of_steps = np.floor(delta/10**delta_exp)
-    if number_of_steps <= 5:
+    
+    reiterated = False
+    if number_of_steps < 1:
+        cmid = (cmin + cmax) / 2
+        numbers_between, delta_exp, reiterated = generate_numbers_between(cmin-cmid, cmax-cmid)
+        reiterated = True
+
+    elif number_of_steps <= 5:
         numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 10**delta_exp)
     elif number_of_steps <= 10:
         numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 2*10**delta_exp)
@@ -122,7 +129,7 @@ def generate_numbers_between(
     elif number_of_steps <= 20:
         numbers_between = np.arange(tick_min, tick_max+10**delta_exp, 4*10**delta_exp)
 
-    return numbers_between, delta_exp
+    return numbers_between, delta_exp, reiterated
      
         
 
@@ -171,11 +178,18 @@ def tool_plotly_colorbar(
 
         numbers_between = generate_numbers_between(cmin, cmax)
 
-        tickvals, delta_exp = numbers_between
-        
+        tickvals, delta_exp, reiterated = numbers_between
         ticktext = [round(tickval/10**delta_exp) for tickval in tickvals]
 
-        title='×10' + ''.join([superscripts[digit] for digit in str(int(delta_exp))])
+        if reiterated:
+            cmid = (cmin + cmax) / 2
+            tickvals = [val + cmid for val in tickvals]
+
+        
+        if reiterated:
+            title = f'{cmid:.1e}' + '+10' + ''.join([superscripts[digit] for digit in str(int(delta_exp))])  
+        else:
+            title='×10' + ''.join([superscripts[digit] for digit in str(int(delta_exp))])
         
         # tickvals = np.linspace(cmin, cmax, 7)
         # ticktext = [format_tick_value(val) for val in tickvals]

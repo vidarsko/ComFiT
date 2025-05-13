@@ -11,6 +11,7 @@ from comfit.tool import tool_complete_field
 from comfit.tool import tool_print_in_color
 from comfit.tool import tool_matplotlib_define_3D_plot_ax
 from comfit.tool import tool_plotly_define_3D_plot_ax
+from comfit.tool import tool_plotly_define_2D_plot_ax
 
 from comfit.plot import plot_surface_matplotlib
 from comfit.plot import plot_field_matplotlib
@@ -723,6 +724,53 @@ class BaseSystemPlot:
             fig.set_size_inches(image_size_inches)
             fig.savefig(filename, dpi=dpi)
             plt.close(fig)
+
+    def plot_add_plotly(
+            self: 'BaseSystemPlot', 
+            trace: Any, 
+            row: int,
+            col: int,
+            nrows: int,
+            ncols: int,
+            **kwargs: Any
+            ) -> Tuple[go.Figure, Dict]:
+        """Add a plotly figure to an existing figure.
+
+        
+        """
+        ax = kwargs.get('ax', {'row': row, 'col': col, 'nrows': nrows, 'ncols': ncols, 'colorbar': False, 'fig': go.Figure()})
+        fig = kwargs.get('fig', ax['fig'])
+        ax['fig'] = fig
+
+        ax = tool_plotly_define_2D_plot_ax(fig, ax)
+
+        # Assign the trace to the specific xaxis and yaxis
+        if hasattr(trace, 'update'):
+            trace.update(
+                xaxis=ax['xN'],  # e.g. 'x1', 'x2', etc.
+                yaxis=ax['yN']   # e.g. 'y1', 'y2', etc.
+            )
+
+        fig.add_trace(trace)
+
+        # Update the layout of the figure
+        padding = 0.15
+        x_domain_start = (ax['col']-1)/ax['ncols']+padding*(ax['col']-1)/ax['ncols']
+        x_domain_end = ax['col']/ax['ncols']-padding*(1-ax['col']/ax['ncols'])
+        y_domain_start = 1-ax['row']/ax['nrows']+padding*(ax['nrows']-ax['row'])/ax['nrows']
+        y_domain_end = 1-(ax['row']-1)/ax['nrows']-padding*(ax['row']-1)/ax['nrows']
+        
+
+        fig.update_layout({ax['xaxisN']: dict( domain=[x_domain_start, 
+                                                        x_domain_end],
+                                                        anchor=ax['yN'])})
+
+        fig.update_layout({ax['yaxisN']: dict(domain=[y_domain_start, 
+                                                      y_domain_end],
+                                                            anchor=ax['xN'])})
+
+        return fig, ax
+
 
 
     def show(
