@@ -1,0 +1,1677 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://comfitlib.com/Plotting/">
+      
+      
+        <link rel="prev" href="../ClassBaseSystem/">
+      
+      
+        <link rel="next" href="../TopologicalDefects/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Plotting - ComFiT documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../styles.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#plotting" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ComFiT documentation" class="md-header__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ComFiT documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Plotting
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ComFiT documentation" class="md-nav__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    ComFiT documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassBaseSystem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Base system
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Plotting
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Plotting
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-keywords" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plotting keywords
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subplots" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subplots
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matplotlib-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matplotlib convention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotly-3d-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plotly 3D properties
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotly-3d-properties_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plotly 3D properties
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Plotly 3D properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties-of-the-ax-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      Properties of the ax object
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2d-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      2D updates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3d-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      3D updates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-kwargs-vs-ax-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding kwargs vs ax dictionary
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colormaps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Colormaps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plotting functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Plotting functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Real fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plot_field" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot_field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_field_in_plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot_field_in_plane
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complex-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complex fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complex fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plot_complex_field" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot_complex_field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_complex_field_in_plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot_complex_field_in_plane
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angle-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Angle fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Angle fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plot_angle_field" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot_angle_field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_angle_field_in_plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot_angle_field_in_plane
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vector fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vector fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plot_vector_field" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot_vector_field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_vector_field_in_plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot_vector_field_in_plane
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#animation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Animation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#angle-color-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Angle color scheme
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Angle color scheme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#technicality-the-marching_cubes-function-and-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technicality: The marching_cubes function and interpolation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TopologicalDefects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Topological Defects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassQuantumMechanics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassBoseEinsteinCondensate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Bose-Einstein condensate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassNematicLiquidCrystal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Nematic liquid crystal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassPhaseFieldCrystal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Phase-field crystal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conventions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library_reference" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Library reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="plotting">Plotting</h1>
+<p>See the ComFiT Library Reference below for a complete list of class methods and their usage.</p>
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/plot/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
+<p>The <code>ComFiT</code> package supports both the <code>plotly</code> (default) and <code>matplotlib</code> 
+plotting libraries. 
+You can easily switch between the two by setting the <code>plot_lib</code> attribute of the 
+<code>BaseSystem</code> class to either <code>plotly</code> or <code>matplotlib</code>, <code>plot_lib</code> can also be 
+passed as an argument to the plotting functions.</p>
+<p>Every plotting function returns a tuple containing a <code>fig</code> and an <code>ax</code> object.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><code>matplotlib</code></label><label for="__tabbed_1_2"><code>plotly</code></label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The <code>fig</code> object is the figure object of the plot, while the <code>ax</code> object represents the individual axes of the plot.</p>
+</div>
+<div class="tabbed-block">
+<p>The <code>fig</code> object is the figure for the plot, and the <code>ax</code> object is a dictionary containing properties necessary for correct placement of subplots. 
+Default is <code>ax = {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1}</code>.</p>
+</div>
+</div>
+</div>
+<p>To show the plot, use the <code>show</code> function, which takes the <code>fig</code> object as an argument</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">cfi</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="plotting-keywords">Plotting keywords</h2>
+<p>The following list gives the keyword arguments that determine the layout of the resulting plot.
+These keywords can be passed to any plot function.
+<code>bs</code> refers to an instance of the <code>BaseSystem</code> class.
+In some cases, default values of other parameter depend on the value of <code>dim</code>, and are represented by curly brackets:</p>
+<div class="arithmatex">\[
+\left \lbrace \begin{array}{l} \textrm{default value if } \texttt{dim }= 1 \\ \textrm{default value if } \texttt{dim }= 2  \\ \textrm{default value if } \texttt{dim }= 3  \\ \end{array} \right \rbrace
+\]</div>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Definition</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xlabel</code></td>
+<td>The label on the x-axis</td>
+<td><span class="arithmatex">\(x/a_0\)</span></td>
+</tr>
+<tr>
+<td><code>ylabel</code></td>
+<td>The label on the y-axis</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} \texttt{none} \\ y/a_0 \\  y/a_0 \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>zlabel</code></td>
+<td>The label on the z-axis</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  z/a_0 \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>suptitle</code></td>
+<td>The figure title</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>The axes title</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>xmin</code></td>
+<td>The lower limit on the x-axis</td>
+<td><code>bs.xmin</code></td>
+</tr>
+<tr>
+<td><code>xmax</code></td>
+<td>The upper limit on the x-axis</td>
+<td><code>bs.xmax - bs.dx</code></td>
+</tr>
+<tr>
+<td><code>xlim</code></td>
+<td>A list or tuple consisting of the lower and upper limit on the x-axis. If <code>xlim</code> is provided, it trumps any provided <code>xmin</code> or <code>xmax</code>.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>ymin</code></td>
+<td>The lower limit on the y-axis</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymin} \\  \texttt{bs.ymin} \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>ymax</code></td>
+<td>The upper limit on the y-axis</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymax-bs.dy} \\  \texttt{bs.ymax-bs.dy} \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>ylim</code></td>
+<td>A list or tuple consisting of the lower and upper limit on the y-axis. If <code>ylim</code> is provided, it trumps any provided <code>ymin</code> or <code>ymax</code>.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>zmin</code></td>
+<td>The lower limit on the z-axis</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmin} \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>zmax</code></td>
+<td>The upper limit on the z-axis</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmax-bs.dz} \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>zlim</code></td>
+<td>List or tuple consisting of the lower and upper limit on the z-axis. If <code>zlim</code> is provided, it trumps any provided <code>zmin</code> or <code>zmax</code>.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>vmin</code></td>
+<td>Lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>vmax</code></td>
+<td>Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>vlim</code></td>
+<td>List or tuple consisting of the lower and upper limit of the value to be plotted. Only relevant for <code>plot_field</code>.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>vlim_symmetric</code></td>
+<td>A Boolean parameter specifying whether the value limits should be symmetric. Only relevant for <code>plot_field</code>.</td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>colorbar</code></td>
+<td>Boolean parameter indicating whether or not to plot the colorbar</td>
+<td><code>True</code> (if applicable)</td>
+</tr>
+<tr>
+<td><code>colormap</code></td>
+<td>String specifying the colormap to be used</td>
+<td>Varies</td>
+</tr>
+<tr>
+<td><code>grid</code></td>
+<td>Boolean parameter indicating whether or not to plot the axes grid</td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>hold</code></td>
+<td>Boolean parameter indicating whether or not to hold the current plot</td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>opacity</code></td>
+<td>The opacity of the plot (only sometimes relevant)</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>plot_shadows</code></td>
+<td>Boolean parameter indicating whether or not to plot the shadows of the objects. Only applicable for <code>plot_complex_field</code>.</td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>fig</code></td>
+<td><code>plotly</code> or <code>matplotlib</code> figure handle</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>ax</code></td>
+<td><code>matplotlib</code> axis handle or dictionary with subplot properties</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>xticks</code></td>
+<td>List of ticks on the x-axis</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>xticklabels</code></td>
+<td>List of labels for the ticks on the x-axis</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>yticks</code></td>
+<td>List of ticks on the y-axis</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>yticklabels</code></td>
+<td>List of labels for the ticks on the y-axis</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>zticks</code></td>
+<td>List of ticks on the z-axis</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>zticklabels</code></td>
+<td>List of labels for the ticks on the z-axis</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>cticks</code></td>
+<td>List of ticks on the colorbar</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>cticklabels</code></td>
+<td>List of labels for the ticks on the colorbar</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>alpha</code></td>
+<td>The alpha value of the plot</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><code>spacing</code></td>
+<td>The spacing between the arrows in a vector field plot</td>
+<td>Varies</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>A custom 1D x-coordinate array with the same shape as <code>bs.x</code>.</td>
+<td><code>bs.x</code></td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td>A custom 1D y-coordinate array with the same shape as <code>bs.y</code>.</td>
+<td><code>bs.y</code></td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td>A custom 1D z-coordinate array with the same shape as <code>bs.z</code>.</td>
+<td><code>bs.z</code></td>
+</tr>
+<tr>
+<td><code>X</code></td>
+<td>A custom nD x-coordinate array.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Y</code></td>
+<td>A custom nD y-coordinate array.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>A custom nD z-coordinate array.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>fourier</code></td>
+<td>Boolean parameter indicating whether or not the field to plot is in Fourier space</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="subplots">Subplots</h2>
+<p>To plot multiple graphs in the same figure, use the <code>plot_subplots</code> function before any plotting functions. This function accepts the following arguments:</p>
+<ul>
+<li><code>nrows</code> (int): The number of rows in the subplot grid.</li>
+<li><code>ncols</code> (int): The number of columns in the subplot grid.</li>
+<li><code>figsize</code> (tuple): The size of the figure.</li>
+</ul>
+<p>The function returns a tuple <code>(fig, axs)</code>, where <code>fig</code> is the figure object and <code>axs</code> is a list of axis objects.
+Following <code>matplotlib</code> conventions, if the subplot grid is one-dimensional, <code>axs</code> is a one-dimensional list of axis objects; otherwise, <code>axs</code> is a two-dimensional list of lists (so <code>axs[i][j]</code> is the axis object at the ith row and jth column).</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1"><code>matplotlib</code></label><label for="__tabbed_2_2"><code>plotly</code></label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The <code>axs</code> object is a list (or array) of axis objects.</p>
+</div>
+<div class="tabbed-block">
+<p>The <code>axs</code> object is a list of <code>(row, col)</code> tuples; thus, <code>axs[i][j]</code> corresponds to the <code>(row, col)</code> position of the axis object in the ith row and jth column.</p>
+</div>
+</div>
+</div>
+<p>When plotting, pass the <code>fig</code> and <code>ax</code> objects to the plotting functions, e.g.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">cfi</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BoseEinsteinCondensate</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">cfi</span><span class="o">.</span><span class="n">psi</span> <span class="o">=</span> <span class="n">cfi</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">cfi</span><span class="o">.</span><span class="n">y</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">cfi</span><span class="o">.</span><span class="n">plot_lib</span> <span class="o">=</span> <span class="s1">&#39;matplotlib&#39;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">cfi</span><span class="o">.</span><span class="n">plot_subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">cfi</span><span class="o">.</span><span class="n">plot_complex_field</span><span class="p">(</span><span class="n">cfi</span><span class="o">.</span><span class="n">psi</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">cfi</span><span class="o">.</span><span class="n">plot_field</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfi</span><span class="o">.</span><span class="n">psi</span><span class="p">),</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">cfi</span><span class="o">.</span><span class="n">plot_angle_field</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">cfi</span><span class="o">.</span><span class="n">psi</span><span class="p">),</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">cfi</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="matplotlib-convention">Matplotlib convention</h2>
+<p>The convention followed in <code>ComFiT</code> are as follows:</p>
+<ul>
+<li>When a plotting function is called <em>without</em> a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
+This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.</li>
+<li>If a figure is provided by the keyword <code>fig=myfig</code> with, then it will be cleared and the new plot will be plotted on <code>myfig</code>.
+This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.</li>
+<li>If an axes object is provided by the keyword <code>ax</code>, then the <code>ax</code> instance will be cleared and the new plot will be plotted on <code>ax</code>, unless the keyword <code>hold=True</code> is provided, in which case the new plot will be plotted ontop of the old plot.</li>
+</ul>
+<p>To show the current plot, one writes</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>which will pause the simulation until the plot window has been closed.
+In order to draw the image and continue the simulation, as for instance when viewing a simulation live, one needs to write</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="plotly-3d-properties">Plotly 3D properties</h2>
+<h2 id="plotly-3d-properties_1">Plotly 3D properties</h2>
+<p>Plotly handles manipulating figures differently in 2D and 3D dimensions.
+In the <code>tool_set_plot_axis_properties_plotly</code> function, several helper dictionaries are constructed to set the proper plotting properties.</p>
+<h3 id="properties-of-the-ax-object">Properties of the <code>ax</code> object</h3>
+<p>The <code>ax</code> object contains the following properties:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">row</span><span class="p">,</span> <span class="n">nrows</span>   <span class="c1"># Row position and total number of rows</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">col</span><span class="p">,</span> <span class="n">ncols</span>   <span class="c1"># Column position and total number of columns</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">xaxis</span> <span class="o">=</span> <span class="s1">&#39;xaxis1&#39;</span>  <span class="c1"># Axis identifier</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">yaxis</span> <span class="o">=</span> <span class="s1">&#39;yaxis1&#39;</span>  <span class="c1"># Axis identifier  </span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">plot_dimension</span>   <span class="c1"># Dimension of the plot</span>
+</code></pre></div>
+<h3 id="2d-updates">2D updates</h3>
+<p>For 2D plots, updates are saved in the <code>layout_updates</code> dictionary:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">layout_updates</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="s1">&#39;xaxis_range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Same format for y-axis</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="s1">&#39;xaxis_title&#39;</span><span class="p">:</span> <span class="s1">&#39;x/a0&#39;</span>    <span class="c1"># Title for x-axis</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="3d-updates">3D updates</h3>
+<p>For 3D plots, updates are organized in separate dictionaries for each axis:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">xaxis_updates</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;x/a0&#39;</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="s1">&#39;tickvals&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="s1">&#39;ticktext&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;pi&#39;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>Similar dictionaries exist for <code>yaxis_updates</code> and <code>zaxis_updates</code>.</p>
+<p>These are combined in the <code>scene_updates</code> dictionary:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">scene_updates</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="n">xaxis_updates</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="n">yaxis_updates</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="s1">&#39;zaxis&#39;</span><span class="p">:</span> <span class="n">zaxis_updates</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="understanding-kwargs-vs-ax-dictionary">Understanding <code>kwargs</code> vs <code>ax</code> dictionary</h3>
+<p>In all plot functions, there's an important distinction between the <code>kwargs</code> and <code>ax</code> dictionaries:</p>
+<ul>
+<li><code>kwargs</code>: Contains settings specific to the current plot</li>
+<li><code>ax</code>: Contains settings that apply to all plots in a given subplot</li>
+</ul>
+<h2 id="colormaps">Colormaps</h2>
+<p>There is a large overlap of colormaps between <code>matplotlib</code> and <code>plotly</code>, but there are some differences.
+Here is an overview over <em>some</em> of the available colormaps in <code>ComFiT</code>.</p>
+<p><img alt="Colormaps" src="../img/plotting_colormaps.png" /></p>
+<p>All the colormaps can be reversed by adding the <code>_r</code> suffix, e.g., <code>viridis_r</code>.
+The colormaps <code>sunburst</code>, <code>bluewhitered</code> and <code>angle</code> have been custom made for ComFiT.
+The colormap <code>winter</code> is not native in <code>plotly</code> but has been ported.</p>
+<p><code>colormap</code>: Strings describing the colormap.</p>
+<p><code>colorbar</code>: Boolean parameter indicating whether or not to plot the colorbar.</p>
+<p><code>colormap_object</code>: The colormap object, which is called in plot commands.</p>
+<h2 id="plotting-functions">Plotting functions</h2>
+<p>The <code>BaseSystem</code> class comes pre-packaged with a number of plotting functions to plot four different types of fields.</p>
+<h3 id="real-fields">Real fields</h3>
+<p>Real fields are fields that take real values, for example the temperature in a room.</p>
+<h4 id="plot_field"><code>plot_field</code></h4>
+<p>The <code>plot_field</code> function is used to plot a real field.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">131</span><span class="p">)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">field</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">132</span><span class="p">)</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="n">field</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">133</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="n">field</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">)</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="" src="../img/plotting_plot_field_demo.png#only-light" />
+<img alt="" src="../img/plotting_plot_field_demo-colorinverted.png#only-dark" /></p>
+</details>
+<h4 id="plot_field_in_plane"><code>plot_field_in_plane</code></h4>
+<p>The <code>plot_field_in_plane</code> function is used to plot a real field in a plane.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">field</span> <span class="o">=</span> <span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_field_in_plane</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_field_in_plane</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">normal_vector</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="" src="../img/plotting_plot_field_in_plane_demo.png#only-light" />
+<img alt="" src="../img/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark" /></p>
+</details>
+<h3 id="complex-fields">Complex fields</h3>
+<p>Complex fields are fields that take complex values, for example the electric field in a light wave.</p>
+<h4 id="plot_complex_field"><code>plot_complex_field</code></h4>
+<p>The <code>plot_complex_field</code> function is used to plot a complex field.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">231</span><span class="p">)</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="n">field</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_complex_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">232</span><span class="p">)</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="n">field</span> <span class="o">=</span> <span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_complex_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span><span class="n">plot_method</span><span class="o">=</span><span class="s1">&#39;phase_angle&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">233</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="n">field</span> <span class="o">=</span> <span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_complex_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span><span class="n">plot_method</span><span class="o">=</span><span class="s1">&#39;3Dsurface&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="n">ax5</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">235</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="n">field</span> <span class="o">=</span> <span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_complex_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax5</span><span class="p">,</span><span class="n">plot_method</span><span class="o">=</span><span class="s1">&#39;phase_angle&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="n">ax6</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">236</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="n">field</span> <span class="o">=</span> <span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_complex_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax6</span><span class="p">,</span><span class="n">plot_method</span><span class="o">=</span><span class="s1">&#39;phase_blob&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>
+<a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="" src="../img/plotting_plot_complex_field_demo.png#only-light" />
+<img alt="" src="../img/plotting_plot_complex_field_demo-colorinverted.png#only-dark" /></p>
+</details>
+<h4 id="plot_complex_field_in_plane"><code>plot_complex_field_in_plane</code></h4>
+<p>The <code>plot_complex_field_in_plane</code> function is used to plot a complex field in a plane.
+The modulus of the complex field is shown as the alpha channel, where the minimum modulus value is transparent and the maximum modulus value is opaque.
+The phase of the complex field is shown as the color of the field, where the color is determined by the angle color scheme.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="n">complex_field</span> <span class="o">=</span> <span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_complex_field_in_plane</span><span class="p">(</span><span class="n">complex_field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_complex_field_in_plane</span><span class="p">(</span><span class="n">complex_field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">normal_vector</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="" src="../img/plotting_plot_complex_field_in_plane_demo.png#only-light" />
+<img alt="" src="../img/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark" /></p>
+</details>
+<h3 id="angle-fields">Angle fields</h3>
+<p>Angle fields are fields that take values in the interval <span class="arithmatex">\([-\pi,\pi]\)</span>, for example the phase of a complex field.</p>
+<h4 id="plot_angle_field"><code>plot_angle_field</code></h4>
+<p>The <code>plot_angle_field</code> function is used to plot an angle field.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">131</span><span class="p">)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">angle_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">((</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_angle_field</span><span class="p">(</span><span class="n">angle_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">132</span><span class="p">)</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">angle_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">((</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_angle_field</span><span class="p">(</span><span class="n">angle_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">133</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="n">angle_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">((</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_angle_field</span><span class="p">(</span><span class="n">angle_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">)</span>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="" src="../img/plotting_plot_angle_field_demo.png#only-light" />
+<img alt="" src="../img/plotting_plot_angle_field_demo-colorinverted.png#only-dark" /></p>
+</details>
+<h4 id="plot_angle_field_in_plane"><code>plot_angle_field_in_plane</code></h4>
+<p>The <code>plot_angle_field_in_plane</code> function is used to plot an angle field in a plane.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="n">angle_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">((</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_angle_field_in_plane</span><span class="p">(</span><span class="n">angle_field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_angle_field_in_plane</span><span class="p">(</span><span class="n">angle_field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">normal_vector</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="" src="../img/plotting_plot_angle_field_in_plane_demo.png#only-light" />
+<img alt="" src="../img/plotting_plot_angle_field_in_plane_demo-colorinverted.png#only-dark" /></p>
+</details>
+<h3 id="vector-fields">Vector fields</h3>
+<h4 id="plot_vector_field"><code>plot_vector_field</code></h4>
+<p>The <code>plot_vector_field</code> function is used to plot a vector field <span class="arithmatex">\(\mathbf v = (v_x,v_y,v_z)\)</span>.
+Vector fields are usually plotted blue.
+Together with the typical keyword arguments, the <code>plot_vector_field</code> function has the kewyword <code>spacing</code> which determines the spacing between the arrows in the plot.</p>
+<p>The behavior of this plot function is dependent on the interplay between the dimension of the system and the dimension <span class="arithmatex">\(n\)</span> of the vector field.
+In cases where <code>dim</code> <span class="arithmatex">\(+ n &gt; 3\)</span>, it is not possible to plot the vector field in a quantitatively accurate (QA) way.
+In such cases, different scalings which results in not quantitatively accurate representations (not QA) are taken to visualize the vector field, as described in the table below, and the user is encouraged to plot the vector field components individually for quantitative analysis.
+The scaling used is can be seen in the code of the <code>plot_vector_field</code> function, and a custom scaling can be provided by the user by setting the <code>vx_scale</code>, <code>vy_scale</code> and <code>vz_scale</code> keyword arguments. 
+These factors scale the normalized vector field (<span class="arithmatex">\(\frac{\mathbf v = \mathbf v }{|\mathbf v|}\)</span>) components in the x-, y- and z-axes, respectively, as shown for <span class="arithmatex">\(n=3\)</span> below.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Normalizing</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">U</span> <span class="o">=</span> <span class="n">U</span> <span class="o">/</span> <span class="n">max_vector</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">V</span> <span class="o">=</span> <span class="n">V</span> <span class="o">/</span> <span class="n">max_vector</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">W</span> <span class="o">=</span> <span class="n">W</span> <span class="o">/</span> <span class="n">max_vector</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="c1"># Scale factors</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">vx_scale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vx_scale&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">spacing</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">size_x</span><span class="o">/</span><span class="n">max_vector</span><span class="p">)</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="n">vy_scale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vy_scale&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">spacing</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">size_y</span><span class="o">/</span><span class="n">max_vector</span><span class="p">)</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="n">vz_scale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vz_scale&#39;</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="c1"># Scaling</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">U</span> <span class="o">=</span> <span class="n">vx_scale</span><span class="o">*</span><span class="n">U</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">V</span> <span class="o">=</span> <span class="n">vy_scale</span><span class="o">*</span><span class="n">V</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="n">W</span> <span class="o">=</span> <span class="n">vz_scale</span><span class="o">*</span><span class="n">W</span>
+</code></pre></div>
+<p>The following table summarizes the behavior of the <code>plot_vector_field</code> function.</p>
+<table>
+<thead>
+<tr>
+<th>System dimension</th>
+<th><span class="arithmatex">\(n=1\)</span></th>
+<th><span class="arithmatex">\(n=2\)</span></th>
+<th><span class="arithmatex">\(n=3\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dim=1</code></td>
+<td><span class="arithmatex">\(v_x\)</span> on y-axis <br>(QA).</td>
+<td><span class="arithmatex">\(v_x\)</span> on y-axis, <span class="arithmatex">\(v_y\)</span> on z-axis <br>(QA).</td>
+<td><span class="arithmatex">\(v_x, v_y\)</span> and <span class="arithmatex">\(v_z\)</span> along x-, y- and z-axes, respectively <br>(not QA).</td>
+</tr>
+<tr>
+<td><code>dim=2</code></td>
+<td><span class="arithmatex">\(v_x\)</span> on the x-axis. <br>(not QA)</td>
+<td><span class="arithmatex">\(v_x\)</span> and <span class="arithmatex">\(v_y\)</span> on x- and y-axes, respectively <br>(not QA).</td>
+<td><span class="arithmatex">\(v_x\)</span>, <span class="arithmatex">\(v_y\)</span> and <span class="arithmatex">\(v_z\)</span> on the x-, y- and z-axes, respectively <br>(not QA).</td>
+</tr>
+<tr>
+<td><code>dim=3</code></td>
+<td><span class="arithmatex">\(v_x\)</span> on the x-axis <br>(not QA)</td>
+<td><span class="arithmatex">\(v_x\)</span>, <span class="arithmatex">\(v_y\)</span> on the x-, and y-xes, respectively <br>(not QA).</td>
+<td><span class="arithmatex">\(v_x\)</span>, <span class="arithmatex">\(v_y\)</span> and <span class="arithmatex">\(v_z\)</span> on the x-, y- and z-axes, respectively <br>(not QA).</td>
+</tr>
+</tbody>
+</table>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1">#1D system</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># 1D vector field</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">331</span><span class="p">)</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="c1"># 2D vector field</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">332</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="c1"># 3D vector field</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">333</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="c1">#2D system</span>
+<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a>
+<a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="c1"># 1D vector field</span>
+<a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="n">ax4</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">334</span><span class="p">)</span>
+<a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax4</span><span class="p">,</span><span class="n">spacing</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a>
+<a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a><span class="c1"># 2D vector field</span>
+<a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a><span class="n">ax5</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">335</span><span class="p">)</span>
+<a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax5</span><span class="p">,</span><span class="n">spacing</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a>
+<a id="__codelineno-15-38" name="__codelineno-15-38" href="#__codelineno-15-38"></a><span class="c1"># 3D vector field</span>
+<a id="__codelineno-15-39" name="__codelineno-15-39" href="#__codelineno-15-39"></a><span class="n">ax6</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">336</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-15-40" name="__codelineno-15-40" href="#__codelineno-15-40"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-41" name="__codelineno-15-41" href="#__codelineno-15-41"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax6</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-15-42" name="__codelineno-15-42" href="#__codelineno-15-42"></a>
+<a id="__codelineno-15-43" name="__codelineno-15-43" href="#__codelineno-15-43"></a><span class="c1"># 3D system</span>
+<a id="__codelineno-15-44" name="__codelineno-15-44" href="#__codelineno-15-44"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<a id="__codelineno-15-45" name="__codelineno-15-45" href="#__codelineno-15-45"></a>
+<a id="__codelineno-15-46" name="__codelineno-15-46" href="#__codelineno-15-46"></a><span class="c1"># 1D vector field</span>
+<a id="__codelineno-15-47" name="__codelineno-15-47" href="#__codelineno-15-47"></a><span class="n">ax7</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">337</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-15-48" name="__codelineno-15-48" href="#__codelineno-15-48"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">+</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-49" name="__codelineno-15-49" href="#__codelineno-15-49"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax7</span><span class="p">,</span><span class="n">spacing</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-15-50" name="__codelineno-15-50" href="#__codelineno-15-50"></a>
+<a id="__codelineno-15-51" name="__codelineno-15-51" href="#__codelineno-15-51"></a><span class="c1"># 2D vector field</span>
+<a id="__codelineno-15-52" name="__codelineno-15-52" href="#__codelineno-15-52"></a><span class="n">ax8</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">338</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-15-53" name="__codelineno-15-53" href="#__codelineno-15-53"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-54" name="__codelineno-15-54" href="#__codelineno-15-54"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax8</span><span class="p">,</span><span class="n">spacing</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-15-55" name="__codelineno-15-55" href="#__codelineno-15-55"></a>
+<a id="__codelineno-15-56" name="__codelineno-15-56" href="#__codelineno-15-56"></a><span class="c1"># 3D vector field</span>
+<a id="__codelineno-15-57" name="__codelineno-15-57" href="#__codelineno-15-57"></a><span class="n">ax9</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">339</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-15-58" name="__codelineno-15-58" href="#__codelineno-15-58"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="o">-</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-15-59" name="__codelineno-15-59" href="#__codelineno-15-59"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax9</span><span class="p">,</span><span class="n">spacing</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-15-60" name="__codelineno-15-60" href="#__codelineno-15-60"></a>
+<a id="__codelineno-15-61" name="__codelineno-15-61" href="#__codelineno-15-61"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="" src="../img/plotting_plot_vector_field_demo.png#only-light" />
+<img alt="" src="../img/plotting_plot_vector_field_demo-colorinverted.png#only-dark" /></p>
+</details>
+<h4 id="plot_vector_field_in_plane"><code>plot_vector_field_in_plane</code></h4>
+<p>The <code>plot_vector_field_in_plane</code> function is used to plot a vector field in a plane.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">+</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">+</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="o">-</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">+</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field_in_plane</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">xRes</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span><span class="n">yRes</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span><span class="n">zRes</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="n">vector_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">+</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">/</span><span class="mi">5</span><span class="p">),</span> <span class="n">bs</span><span class="o">.</span><span class="n">z</span><span class="o">+</span><span class="n">bs</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mi">5</span><span class="p">)])</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_vector_field_in_plane</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">normal_vector</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="" src="../img/plotting_plot_vector_field_in_plane_demo.png#only-light" />
+<img alt="" src="../img/plotting_plot_vector_field_in_plane_demo-colorinverted.png#only-dark" /></p>
+</details>
+<h2 id="animation">Animation</h2>
+<p>Creating animations are typically done by exporting each frame to a <code>png</code>-file and then combining the frames together.
+For a ComFiT instance <code>cfi</code>, the command to export a frame is given by</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">cfi</span><span class="o">.</span><span class="n">save_plot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fig</span><span class="p">)</span>
+</code></pre></div>
+<p>where <code>n</code> is the frame number (assumed to start at <code>0</code>) and <code>fig</code> is the output of a plotting function.
+If <code>plot_lib</code> is set to <code>matplotlib</code>, then <code>fig</code> is a tuple of the <code>matplotlib</code> figure and axes objects and if <code>plot_lib</code> is set to <code>plotly</code>, then <code>fig</code> is a <code>plotly</code> figure object.
+An optional keyword argument <code>ID</code> can be given, which assigns a unique identifier to the plot, which is useful in case of running multiple simulations in parallel.</p>
+<p>After producing the individual figures, they can be combined into an animation using the command</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">cf</span><span class="o">.</span><span class="n">tool_make_animation_gif</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</code></pre></div>
+<p>where <code>n</code> is the last frame number.</p>
+<details class="example">
+<summary>Example</summary>
+<p>Here is how one would create an animation of a field.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Initialize the field and the ComFiT instance cfi</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    <span class="c1"># Update the field</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="c1"># Plot the field and save in fig</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="n">cfi</span><span class="o">.</span><span class="n">save_plot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fig</span><span class="p">)</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="n">cf</span><span class="o">.</span><span class="n">tool_make_animation_gif</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</code></pre></div>
+</details>
+<h2 id="angle-color-scheme">Angle color scheme</h2>
+<p>In many of the plotting functions, we are plotting angles, for example in plotting the phase
+of a complex number or the value of an order parameter on S1
+. In these cases, all values
+modulus 2π are eqvuivalent, but if one uses a regular color scheme, this equivalence is not
+readily visible. Therefore, when expressing angles, we use the color scheme shown in Fig. 1.1.
+This has the benefit of wrapping around itself at θ = ±π, stressing that these correspond</p>
+<p><img alt="Angle color scheme" src="../img/conventions_angle_colormap.png#only-light" />
+<img alt="Angle color scheme" src="../img/conventions_angle_colormap-colorinverted.png#only-dark" /></p>
+<p><em>Angle color scheme.</em> The color scheme follows the hsv color circle going through  <span class="arithmatex">\(\theta=0\)</span> (Red), <span class="arithmatex">\(\theta=\pi/3\)</span> (Yellow), <span class="arithmatex">\(\theta=2\pi/3\)</span> (Lime), <span class="arithmatex">\(\theta = \pm \pi\)</span> (Aqua), <span class="arithmatex">\(\theta = -2\pi/3\)</span> (Blue), <span class="arithmatex">\(\theta = -\pi/3\)</span> (Fuchsia).</p>
+<h3 id="technicality-the-marching_cubes-function-and-interpolation">Technicality: The <code>marching_cubes</code> function and interpolation</h3>
+<p>The marching cubes algorithm is used to create a 3D surface from a 3D field and is used in creating many of the plots in three dimensions.
+If you are going to make changes to the codebase, then it is useful to have an idea of how it works and what the resulting quantities are.</p>
+<p>Typically, we have our 3D system with a total resolution of, say 300, and a field <code>field</code>, of which we want to extract the values on some specific isosurface <code>iso_value</code>.
+The <code>marching_cubes</code> function is called as follows</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">marching_cubes</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="n">iso_value</span><span class="p">)</span>
+</code></pre></div>
+<p><code>verts</code> is a list of the (integer) positions of the vertices of the surfaces, e.g.,</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">verts</span> <span class="o">=</span> 
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="p">[[</span><span class="n">x0i</span><span class="p">,</span><span class="n">y0i</span><span class="p">,</span><span class="n">z0i</span><span class="p">],</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a> <span class="p">[</span><span class="n">x1i</span><span class="p">,</span><span class="n">y1i</span><span class="p">,</span><span class="n">z1i</span><span class="p">],</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a> <span class="p">[</span><span class="n">x2i</span><span class="p">,</span><span class="n">y2i</span><span class="p">,</span><span class="n">z2i</span><span class="p">],</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a> <span class="p">[</span><span class="n">x3i</span><span class="p">,</span><span class="n">y3i</span><span class="p">,</span><span class="n">z3i</span><span class="p">],</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a> <span class="p">[</span><span class="n">x4i</span><span class="p">,</span><span class="n">y4i</span><span class="p">,</span><span class="n">z4i</span><span class="p">]]</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="n">verts</span> <span class="o">=</span> 
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="p">[[</span> <span class="mf">0.</span>  <span class="mf">5.</span>  <span class="mf">1.</span><span class="p">]</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a> <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">5.</span>  <span class="mf">0.</span><span class="p">]</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a> <span class="p">[</span> <span class="mf">1.</span>  <span class="mf">5.</span>  <span class="mf">1.</span><span class="p">]</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a> <span class="p">[</span> <span class="mf">1.</span>  <span class="mf">5.</span>  <span class="mf">0.</span><span class="p">]</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a> <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">5.</span>  <span class="mf">2.</span><span class="p">]]</span>
+</code></pre></div>
+<p>if the surface has five vertices.
+<code>faces</code> is a list of the indices of the vertices that make up the triangles of the surface.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">faces</span> <span class="o">=</span> 
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="p">[[</span><span class="n">v0i</span><span class="p">,</span><span class="n">v1i</span><span class="p">,</span><span class="n">v2i</span><span class="p">],</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a> <span class="p">[</span><span class="n">v3i</span><span class="p">,</span><span class="n">v4i</span><span class="p">,</span><span class="n">v5i</span><span class="p">],</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a> <span class="o">...</span> <span class="c1">#3 hidden rows</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a> <span class="p">[</span><span class="n">v2i</span><span class="p">,</span><span class="n">v1i</span><span class="p">,</span><span class="n">v0i</span><span class="p">]]</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="n">faces</span> <span class="o">=</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="p">[[</span>  <span class="mi">2</span>   <span class="mi">1</span>   <span class="mi">0</span><span class="p">]</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a> <span class="p">[</span>  <span class="mi">2</span>   <span class="mi">3</span>   <span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a> <span class="p">[</span>  <span class="mi">1</span>   <span class="mi">3</span>   <span class="mi">2</span><span class="p">]</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a> <span class="p">[</span>  <span class="mi">0</span>   <span class="mi">4</span>   <span class="mi">2</span><span class="p">]</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a> <span class="p">[</span>  <span class="mi">2</span>   <span class="mi">3</span>   <span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a> <span class="p">[</span>  <span class="mi">0</span>   <span class="mi">1</span>   <span class="mi">2</span><span class="p">]]</span>
+</code></pre></div>
+<p>if the surface has six faces.
+In other words, if <code>faces[0] = [2, 1, 0]</code>, then it represents the triangle given by the three vertices</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">verts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">1.</span>  <span class="mf">5.</span>  <span class="mf">1.</span><span class="p">]</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="n">verts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">5.</span>  <span class="mf">1.</span><span class="p">]</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="n">verts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">5.</span>  <span class="mf">0.</span><span class="p">]</span>
+</code></pre></div>
+<p>Now, it is useful to calculate the position of a point located on the surface, which is calculated by the line</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">verts</span><span class="p">[</span><span class="n">faces</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p>which gives the position of the centroids of the triangles that make up the surface.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">centroids</span> <span class="o">=</span> 
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="p">[[</span><span class="n">x0c</span><span class="p">,</span><span class="n">y0c</span><span class="p">,</span><span class="n">z0c</span><span class="p">],</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a> <span class="p">[</span><span class="n">x1c</span><span class="p">,</span><span class="n">y1c</span><span class="p">,</span><span class="n">z1c</span><span class="p">],</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a> <span class="p">[</span><span class="n">x2c</span><span class="p">,</span><span class="n">y2c</span><span class="p">,</span><span class="n">z2c</span><span class="p">],</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a> <span class="p">[</span><span class="n">x3c</span><span class="p">,</span><span class="n">y3c</span><span class="p">,</span><span class="n">z3c</span><span class="p">],</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a> <span class="p">[</span><span class="n">x4c</span><span class="p">,</span><span class="n">y4c</span><span class="p">,</span><span class="n">z4c</span><span class="p">]</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a> <span class="p">[</span><span class="n">x5c</span><span class="p">,</span><span class="n">y5c</span><span class="p">,</span><span class="n">z5c</span><span class="p">]]</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="n">centroids</span> <span class="o">=</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="p">[[</span><span class="mf">0.33333334</span> <span class="mf">5.</span>         <span class="mf">0.6666667</span> <span class="p">]</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a> <span class="p">[</span><span class="mf">0.6666667</span>  <span class="mf">5.</span>         <span class="mf">0.33333334</span><span class="p">]</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a> <span class="p">[</span><span class="mf">0.33333334</span> <span class="mf">5.</span>         <span class="mf">1.6666666</span> <span class="p">]</span>
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a> <span class="p">[</span><span class="mf">0.6666667</span>  <span class="mf">5.</span>         <span class="mf">1.3333334</span> <span class="p">]</span>
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a> <span class="p">[</span><span class="mf">0.33333334</span> <span class="mf">5.</span>         <span class="mf">2.6666667</span> <span class="p">]</span>
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a> <span class="p">[</span><span class="mf">0.6666667</span>  <span class="mf">5.</span>         <span class="mf">2.3333333</span> <span class="p">]]</span>
+</code></pre></div>
+<p>As we see, the centroids array consists of as many rows as there are faces (naturally), and each row consists of the x-, y- and z-coordinates of the centroid of the corresponding face.</p>
+<p>In the next line, we typically create the <code>points</code> array, as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">field</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">:</span><span class="n">field</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">:</span><span class="n">field</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">z</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span>
+</code></pre></div>
+<p>The <code>points</code> array is a list of the (integer) positions of all the points in the full 3D grid.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">points</span> <span class="o">=</span> 
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="p">[[</span><span class="n">x0i</span><span class="p">,</span><span class="n">y0i</span><span class="p">,</span><span class="n">z0i</span><span class="p">],</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a> <span class="p">[</span><span class="n">x1i</span><span class="p">,</span><span class="n">y1i</span><span class="p">,</span><span class="n">z1i</span><span class="p">],</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a> <span class="p">[</span><span class="n">x2i</span><span class="p">,</span><span class="n">y2i</span><span class="p">,</span><span class="n">z2i</span><span class="p">],</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a> <span class="p">[</span><span class="n">x3i</span><span class="p">,</span><span class="n">y3i</span><span class="p">,</span><span class="n">z3i</span><span class="p">],</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a> <span class="p">[</span><span class="n">x4i</span><span class="p">,</span><span class="n">y4i</span><span class="p">,</span><span class="n">z4i</span><span class="p">],</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a> <span class="o">...</span> <span class="c1"># 300 rows total</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a> <span class="p">[</span><span class="n">x299i</span><span class="p">,</span><span class="n">y299i</span><span class="p">,</span><span class="n">z299i</span><span class="p">]]</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a> <span class="n">points</span> <span class="o">=</span> 
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a> <span class="p">[[</span> <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span><span class="p">]</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a> <span class="p">[</span> <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a> <span class="p">[</span> <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">2</span><span class="p">]</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a> <span class="o">...</span> <span class="c1"># 300 rows total</span>
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a> <span class="p">[</span><span class="mi">10</span> <span class="mi">10</span>  <span class="mi">8</span><span class="p">]</span>
+<a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a> <span class="p">[</span><span class="mi">10</span> <span class="mi">10</span>  <span class="mi">9</span><span class="p">]</span>
+<a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a> <span class="p">[</span><span class="mi">10</span> <span class="mi">10</span> <span class="mi">10</span><span class="p">]]</span>
+</code></pre></div>
+<p>Then, we create the <code>field_values</code> array by </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="n">field_values</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</code></pre></div>
+<p>which is a <code>(300,)</code>-shaped array of the values of the field at the points in the <code>points</code> array, i.e., in the full grid.</p>
+<p>Now we get to the interpolation, which happens by the command</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="n">field_verts</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">field_values</span><span class="p">,</span><span class="n">centroids</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>which uses the information in <code>points</code> and <code>field_values</code> to interpolate the field values at the centroids of the faces of the surface.
+It returns thus a <code>(6,)</code>-array containing the field values to be used in the plotting of the surface.
+The <code>nearest</code> method is used to interpolate the field values, which means that the field value at the centroid of a face is the field value of the point in the full grid that is closest to the centroid of the face.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 <a href="https://github.com/vidarsko/ComFiT"  target="_blank" rel="noopener">Vidar Skogvoll and Jonas Rønning</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.right", "search.suggest", "search.highlight", "content.code.annotation", "content.code.copy", "content.tabs"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
