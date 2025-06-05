@@ -177,6 +177,39 @@ class BoseEinsteinCondensate(BaseSystem):
         self.psi = self.psi * np.exp(1j * self.calc_angle_field_vortex_dipole(dipole_vector, dipole_position))
         self.psi_f = sp.fft.fftn(self.psi)
 
+    def conf_inert_vortex_lines(
+            self,
+            position1 = None,
+            position2 = None
+    ) -> None:
+        """ Insert a pair of vortex lines into the condensate. The vortex lines are asumed to be elongated along the z-axis.
+        Args:
+            optional:
+                position1: the position in the xy-plane of the first vortex filament (vector)
+                position2: the position in the xy-plane of the seconf vortex filament (vector)
+        :returns
+        Modifies the value of self.psi and self.psi_f
+        """
+
+        if not (self.dim == 3):
+            raise Exception("The dimension of the system must be 3 for a vortex line configuration.")
+
+        if self.psi is None:
+            self.conf_initial_condition_Thomas_Fermi()
+        
+        if position1 is None:
+            position1 = [self.xmid + self.size_x / 3, self.ymid]
+
+        if position2 is None:
+            position2 = [self.xmid - self.size_x / 3, self.ymid]
+
+        theta_1 =np.arctan2((self.y - position1[1]), (self.x - position1[0]))
+        theta_2 = - np.arctan2((self.y - position2[1]), (self.x - position2[0]))
+        theta = theta_1 + theta_2
+
+        self.psi = self.psi*np.exp(1j *theta)
+        self.psi_f = sp.fft.fftn(self.psi)
+
     def conf_insert_vortex_ring(
         self,
         position: Optional[list[float]] = None,
