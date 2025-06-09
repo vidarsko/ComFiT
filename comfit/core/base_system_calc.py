@@ -105,6 +105,42 @@ class BaseSystemCalc:
 
         return np.mod(theta + np.pi, 2 * np.pi) - np.pi
 
+    def calc_angle_field_vortex_filament(
+            self,
+            position: Optional[list] = None,
+            charge: int = 1
+    ) -> np.ndarray:
+        """Calculate the angle field due to a single vortex filament aligned with the z acis
+
+        Parameters
+        ----------
+        position : list, optional
+            The position of the vortex. Defaults to None.
+        charge : int, optional
+            The charge of the vortex. Defaults to 1.
+
+        Returns
+        -------
+        numpy.ndarray
+            The angle field calculated for the vortex.
+
+        Raises
+        ------
+        Exception
+            If the dimension of the system is not 3.
+        """
+        if self.dim != 3:
+            raise Exception("The dimension of the system must be 3 for a single vortex filament.")
+
+        if position is None:
+            position = [self.xmid, self.ymid]
+
+        theta = charge * np.arctan2(self.y - position[1], self.x - position[0])
+
+        return np.mod(theta + np.pi, 2 * np.pi) - np.pi
+
+
+
     def calc_angle_field_vortex_ring(
             self,
             position: Optional[list[float]] = None,
