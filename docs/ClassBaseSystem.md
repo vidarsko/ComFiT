@@ -891,9 +891,26 @@ $$
 Which is the same as would have been in a standard Euler-Maruyama scheme. 
 
 ### Notes on the kernel
+The kernel $A(\vec k)$ is representing the spatial coherence of the noise. 
+It comes from the fourier transform of the noize,
+which in our notation reads
 
+$$
+\tilde f = \int d^dr e^{i\vec k \cdot \vec r} f(\vec r,t)
+$$
 
+Assuming white noize in time we write this as
 
+$$
+\tilde f(k,t) = \eta(t) \int d^dr e^{i\vec k \cdot \vec r} \xi(\vec r)
+$$
+
+With $\xi$ being the spatial noize.
+The kernel is then given bu the integral
+
+$$
+A(\vec k) = \int d^dr e^{i\vec k \cdot \vec r} \xi(\vec r)
+$$
 
 ## Algorithms for tracking defects
 
