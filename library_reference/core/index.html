@@ -1,0 +1,1749 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base System &mdash; ComFiT Library Reference 1.8.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=496f73d5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class: Quantum Mechanics" href="../quantum_mechanics/index.html" />
+    <link rel="prev" title="ComFiT Library Reference documentation" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ComFiT Library Reference
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Base System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.core.base_system.BaseSystem"><code class="docutils literal notranslate"><span class="pre">BaseSystem</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system.BaseSystem.fft"><code class="docutils literal notranslate"><span class="pre">BaseSystem.fft()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system.BaseSystem.ifft"><code class="docutils literal notranslate"><span class="pre">BaseSystem.ifft()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.core.base_system_init.BaseSystemInit"><code class="docutils literal notranslate"><span class="pre">BaseSystemInit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_init.BaseSystemInit.__init__"><code class="docutils literal notranslate"><span class="pre">BaseSystemInit.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.core.base_system_evolve.BaseSystemEvolve"><code class="docutils literal notranslate"><span class="pre">BaseSystemEvolve</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_evolve.BaseSystemEvolve.evolve_ETD2RK_loop"><code class="docutils literal notranslate"><span class="pre">BaseSystemEvolve.evolve_ETD2RK_loop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_evolve.BaseSystemEvolve.evolve_ETD4RK_loop"><code class="docutils literal notranslate"><span class="pre">BaseSystemEvolve.evolve_ETD4RK_loop()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.core.base_system_get.BaseSystemGet"><code class="docutils literal notranslate"><span class="pre">BaseSystemGet</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_get.BaseSystemGet.get_anti_sym"><code class="docutils literal notranslate"><span class="pre">BaseSystemGet.get_anti_sym()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_get.BaseSystemGet.get_sym"><code class="docutils literal notranslate"><span class="pre">BaseSystemGet.get_sym()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_get.BaseSystemGet.get_sym_tl"><code class="docutils literal notranslate"><span class="pre">BaseSystemGet.get_sym_tl()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot._check_if_fourier_and_adjust"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot._check_if_fourier_and_adjust()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_add_plotly"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_add_plotly()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_angle_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_angle_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_angle_field_in_plane"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_angle_field_in_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_complex_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_complex_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_complex_field_in_plane"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_complex_field_in_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_field_in_plane"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_field_in_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_nodes"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_prepare"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_prepare()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_save"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_subplots"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_subplots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_vector_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_vector_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_vector_field_in_plane"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_vector_field_in_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot.show"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.show()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_Gaussian"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_Gaussian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_Gaussian_filter_f"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_Gaussian_filter_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_advect_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_advect_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_single_vortex"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_angle_field_single_vortex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_dipole"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_angle_field_vortex_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_filament"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_angle_field_vortex_filament()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_ring"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_angle_field_vortex_ring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_coarse_grain"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_coarse_grain()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_current_density"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_current_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_density"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_density_singular"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_density_singular()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_nodes"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_velocity_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_velocity_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_delta_function"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_delta_function()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_determinant_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_determinant_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_distance_squared_to_point"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_distance_squared_to_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_evolution_integrating_factors_ETD2RK"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_evolution_integrating_factors_ETD2RK()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_evolution_integrating_factors_ETD4RK"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_evolution_integrating_factors_ETD4RK()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_integrate_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_integrate_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_integrating_factors_f_and_solver"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_integrating_factors_f_and_solver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_k2"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_k2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_region_ball"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_region_ball()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_region_cylinder"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_region_cylinder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_region_disk"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_region_disk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_region_interval"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_region_interval()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_wavenums"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_wavenums()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.core.base_system_conf.BaseSystemConf"><code class="docutils literal notranslate"><span class="pre">BaseSystemConf</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum_mechanics/index.html">Class: Quantum Mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bose_einstein_condensate/index.html">Class: Bose Einstein Condensate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nematic_liquid_crystal/index.html">Class: Nematic Liquid Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../phase_field_crystal/index.html">Class: Phase Field Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Auxiliary Plot Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tool/index.html">Auxiliary Tool Functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ComFiT Library Reference</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Base System</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/core/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="base-system">
+<h1>Base System<a class="headerlink" href="#base-system" title="Link to this heading"></a></h1>
+<p>The base system is the core of the comfit package. It is the base class for all the
+systems that can be simulated with comfit. It provides the basic structure for the
+simulation and the methods that are common to all systems.</p>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py class" id="module-comfit.core.base_system">
+<dt class="sig sig-object py" id="comfit.core.base_system.BaseSystem">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.core.base_system.</span></span><span class="sig-name descname"><span class="pre">BaseSystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system.BaseSystem" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#comfit.core.base_system_init.BaseSystemInit" title="comfit.core.base_system_init.BaseSystemInit"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystemInit</span></code></a>, <a class="reference internal" href="#comfit.core.base_system_conf.BaseSystemConf" title="comfit.core.base_system_conf.BaseSystemConf"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystemConf</span></code></a>, <a class="reference internal" href="#comfit.core.base_system_evolve.BaseSystemEvolve" title="comfit.core.base_system_evolve.BaseSystemEvolve"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystemEvolve</span></code></a>, <a class="reference internal" href="#comfit.core.base_system_calc.BaseSystemCalc" title="comfit.core.base_system_calc.BaseSystemCalc"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystemCalc</span></code></a>, <a class="reference internal" href="#comfit.core.base_system_plot.BaseSystemPlot" title="comfit.core.base_system_plot.BaseSystemPlot"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystemPlot</span></code></a>, <a class="reference internal" href="#comfit.core.base_system_get.BaseSystemGet" title="comfit.core.base_system_get.BaseSystemGet"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystemGet</span></code></a></p>
+<p>The BaseSystem class is the base class for all systems in ComFiT.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system.BaseSystem.fft">
+<span class="sig-name descname"><span class="pre">fft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system.BaseSystem.fft" title="Link to this definition"></a></dt>
+<dd><p>Perform a fast Fourier transform on a field.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>The field to transform</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>The transformed field</p>
+</dd>
+</dl>
+</section>
+<section id="note">
+<h2>Note<a class="headerlink" href="#note" title="Link to this heading"></a></h2>
+<p>The field is assumed to represent a field in the dimensions of the system.
+Thus, if the system is 2D and the field is 3D, it is assumed that 
+the provided field is a collection of 2D fields which will be transformed
+individually.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system.BaseSystem.ifft">
+<span class="sig-name descname"><span class="pre">ifft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system.BaseSystem.ifft" title="Link to this definition"></a></dt>
+<dd><p>Perform an inverse fast Fourier transform on a field.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>The field to transform</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>The transformed field</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h2>Note<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>The field is assumed to represent a field in the dimensions of the system.
+Thus, if the system is 2D and the field is 3D, it is assumed that 
+the provided field is a collection of 2D fields which will be transformed
+individually.</p>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.core.base_system_init">
+<dt class="sig sig-object py" id="comfit.core.base_system_init.BaseSystemInit">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.core.base_system_init.</span></span><span class="sig-name descname"><span class="pre">BaseSystemInit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_init.BaseSystemInit" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialization methods for the base system class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_init.BaseSystemInit.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_init.BaseSystemInit.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the class with the given parameters.</p>
+<section id="id4">
+<h2>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dim<span class="classifier">int</span></dt><dd><p>The dimension of the system. Must be 1, 2, or 3.</p>
+</dd>
+<dt>kwargs<span class="classifier">dict</span></dt><dd><p>Additional keyword arguments, see 
+<a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a></p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h2>Returns<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>None</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.core.base_system_evolve">
+<dt class="sig sig-object py" id="comfit.core.base_system_evolve.BaseSystemEvolve">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.core.base_system_evolve.</span></span><span class="sig-name descname"><span class="pre">BaseSystemEvolve</span></span><a class="headerlink" href="#comfit.core.base_system_evolve.BaseSystemEvolve" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Evolution methods for the base system class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_evolve.BaseSystemEvolve.evolve_ETD2RK_loop">
+<span class="sig-name descname"><span class="pre">evolve_ETD2RK_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">integrating_factors_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonlinear_evolution_function_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_f</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_evolve.BaseSystemEvolve.evolve_ETD2RK_loop" title="Link to this definition"></a></dt>
+<dd><p>Evolves the given field using the ETD2RK scheme with a loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id6">
+<h2>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>integrating_factors_f<span class="classifier">list</span></dt><dd><p>A list of three integrating factors.</p>
+</dd>
+<dt>nonlinear_evolution_function_f<span class="classifier">callable</span></dt><dd><p>A function that calculates the non-linear evolution of the field
+and returns the fourier transform.</p>
+</dd>
+<dt>field<span class="classifier">ndarray</span></dt><dd><p>The initial field to be evolved.</p>
+</dd>
+<dt>field_f<span class="classifier">ndarray</span></dt><dd><p>The Fourier transform of the initial field.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h2>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the evolved field and the predicted field in Fourier space.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_evolve.BaseSystemEvolve.evolve_ETD4RK_loop">
+<span class="sig-name descname"><span class="pre">evolve_ETD4RK_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">integrating_factors_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonlinear_evolution_function_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_f</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_evolve.BaseSystemEvolve.evolve_ETD4RK_loop" title="Link to this definition"></a></dt>
+<dd><p>Evolves the given field using the ETD4RK scheme with a loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>integrating_factors_f<span class="classifier">list</span></dt><dd><p>A list of five integrating factors.</p>
+</dd>
+<dt>nonlinear_evolution_function_f<span class="classifier">callable</span></dt><dd><p>A function that calculates the non-linear evolution of the field.</p>
+</dd>
+<dt>field<span class="classifier">ndarray</span></dt><dd><p>The initial field to be evolved.</p>
+</dd>
+<dt>field_f<span class="classifier">ndarray</span></dt><dd><p>The Fourier transform of the initial field.</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the evolved field and the predicted field in Fourier space.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.core.base_system_get">
+<dt class="sig sig-object py" id="comfit.core.base_system_get.BaseSystemGet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.core.base_system_get.</span></span><span class="sig-name descname"><span class="pre">BaseSystemGet</span></span><a class="headerlink" href="#comfit.core.base_system_get.BaseSystemGet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Get methods for the base system class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_get.BaseSystemGet.get_anti_sym">
+<span class="sig-name descname"><span class="pre">get_anti_sym</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_get.BaseSystemGet.get_anti_sym" title="Link to this definition"></a></dt>
+<dd><p>Gets the i,j component of an anti-symmetric tensor saved in an array structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id10">
+<h2>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>omega<span class="classifier">numpy.ndarray</span></dt><dd><p>The anti-symmetric tensor.</p>
+</dd>
+<dt>i<span class="classifier">int</span></dt><dd><p>The row index.</p>
+</dd>
+<dt>j<span class="classifier">int</span></dt><dd><p>The column index.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h2>Returns<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The i,j component of the tensor.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_get.BaseSystemGet.get_sym">
+<span class="sig-name descname"><span class="pre">get_sym</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_get.BaseSystemGet.get_sym" title="Link to this definition"></a></dt>
+<dd><p>Gets the i,j component of a symmetric tensor saved in an array structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id12">
+<h2>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tensor<span class="classifier">numpy.ndarray</span></dt><dd><p>The symmetric tensor.</p>
+</dd>
+<dt>i<span class="classifier">int</span></dt><dd><p>The row index.</p>
+</dd>
+<dt>j<span class="classifier">int</span></dt><dd><p>The column index.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h2>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The i,j component of the tensor.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_get.BaseSystemGet.get_sym_tl">
+<span class="sig-name descname"><span class="pre">get_sym_tl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_get.BaseSystemGet.get_sym_tl" title="Link to this definition"></a></dt>
+<dd><p>Gets the i,j component of a symmetric traceless tensor saved in an array structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id14">
+<h2>Parameters<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tensor<span class="classifier">numpy.ndarray</span></dt><dd><p>The symmetric traceless tensor.</p>
+</dd>
+<dt>i<span class="classifier">int</span></dt><dd><p>The row index.</p>
+</dd>
+<dt>j<span class="classifier">int</span></dt><dd><p>The column index.</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h2>Returns<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The i,j component of the tensor.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.core.base_system_plot">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.core.base_system_plot.</span></span><span class="sig-name descname"><span class="pre">BaseSystemPlot</span></span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Plotting methods for the base system class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot._check_if_fourier_and_adjust">
+<span class="sig-name descname"><span class="pre">_check_if_fourier_and_adjust</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot._check_if_fourier_and_adjust" title="Link to this definition"></a></dt>
+<dd><p>Check if the field is in Fourier space and adjust it if necessary.</p>
+<section id="id16">
+<h2>Parameters<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>Field to be checked
+kwargs : Any</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h2>Returns<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[np.ndarray, Dict]</dt><dd><p>Tuple containing the field and the keyword arguments.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_add_plotly">
+<span class="sig-name descname"><span class="pre">plot_add_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncols</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_add_plotly" title="Link to this definition"></a></dt>
+<dd><p>Add a plotly figure to an existing figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_angle_field">
+<span class="sig-name descname"><span class="pre">plot_angle_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_angle_field" title="Link to this definition"></a></dt>
+<dd><p>Plot an angle field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id18">
+<h2>Parameters<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>angle_field<span class="classifier">np.ndarray</span></dt><dd><p>Angle field to be plotted.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h2>Returns<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id20">
+<h2>Note<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default
+plotting library (plotly or matplotlib) will be used.
+See the corresponding plot_angle_field_plotly or plot_angle_field_matplotlib function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_angle_field_in_plane">
+<span class="sig-name descname"><span class="pre">plot_angle_field_in_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_angle_field_in_plane" title="Link to this definition"></a></dt>
+<dd><p>Plot the angle field in a plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id21">
+<h2>Parameters<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>angle_field<span class="classifier">np.ndarray</span></dt><dd><p>Angle field to be plotted.</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>Normal vector of the plane. If None, the normal vector will be calculated.</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>Position of the plane. If None, the position will be calculated.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id22">
+<h2>Returns<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id23">
+<h2>Note<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default
+plotting library (plotly or matplotlib) will be used.
+See the corresponding plot_angle_field_plotly or plot_angle_field_matplotlib function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_complex_field">
+<span class="sig-name descname"><span class="pre">plot_complex_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">complex_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_complex_field" title="Link to this definition"></a></dt>
+<dd><p>Plot a complex field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id24">
+<h2>Parameters<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>complex_field<span class="classifier">np.ndarray</span></dt><dd><p>Complex field to be plotted.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id25">
+<h2>Returns<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id26">
+<h2>Note<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default
+plotting library (plotly or matplotlib) will be used.
+See the corresponding plot_complex_field_plotly or plot_complex_field_matplotlib function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_complex_field_in_plane">
+<span class="sig-name descname"><span class="pre">plot_complex_field_in_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">complex_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_complex_field_in_plane" title="Link to this definition"></a></dt>
+<dd><p>Plot the complex field in a plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id27">
+<h2>Parameters<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>complex_field<span class="classifier">np.ndarray</span></dt><dd><p>Complex field to be plotted.</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>Normal vector of the plane. If None, the normal vector will be calculated.</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>Position of the plane. If None, the position will be calculated.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id28">
+<h2>Returns<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id29">
+<h2>Note<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default
+plotting library (plotly or matplotlib) will be used.
+See the corresponding plot_complex_field_in_plane_plotly or plot_complex_field_in_plane_matplotlib function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_field">
+<span class="sig-name descname"><span class="pre">plot_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_field" title="Link to this definition"></a></dt>
+<dd><p>Plot a field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id30">
+<h2>Parameters<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>Field to be plotted.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a> 
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id31">
+<h2>Returns<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes 
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id32">
+<h2>Note<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default 
+plotting library (plotly or matplotlib) will be used.
+See the corresponding plot_field_plotly or plot_field_matplotlib function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_field_in_plane">
+<span class="sig-name descname"><span class="pre">plot_field_in_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_field_in_plane" title="Link to this definition"></a></dt>
+<dd><p>Plot the field in a plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id33">
+<h2>Parameters<a class="headerlink" href="#id33" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>Field to be plotted.</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>Normal vector of the plane. If None, the normal vector will be calculated.</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>Position of the plane. If None, the position will be calculated.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id34">
+<h2>Returns<a class="headerlink" href="#id34" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id35">
+<h2>Note<a class="headerlink" href="#id35" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default
+plotting library (plotly or matplotlib) will be used.
+See the corresponding plot_field_in_plane_plotly or plot_field_in_plane_matplotlib function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_nodes">
+<span class="sig-name descname"><span class="pre">plot_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_nodes" title="Link to this definition"></a></dt>
+<dd><p>Plot nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id36">
+<h2>Parameters<a class="headerlink" href="#id36" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>nodes<span class="classifier">np.ndarray</span></dt><dd><p>Nodes to be plotted.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id37">
+<h2>Returns<a class="headerlink" href="#id37" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id38">
+<h2>Note<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default
+plotting library (plotly or matplotlib) will be used.
+See the corresponding plot_nodes_plotly or plot_nodes_matplotlib function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_prepare">
+<span class="sig-name descname"><span class="pre">plot_prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_prepare" title="Link to this definition"></a></dt>
+<dd><p>Prepare axis and figure for plotting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id39">
+<h2>Parameters<a class="headerlink" href="#id39" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>Field to be plotted.</p>
+</dd>
+<dt>field_type<span class="classifier">str</span></dt><dd><p>Type of the field to be plotted.</p>
+</dd>
+</dl>
+</section>
+<section id="id40">
+<h2>Returns<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[np.ndarray, Union[go.Figure, plt.Figure], Any, Dict]</dt><dd><p>Tuple containing the field, figure (plotly or matplotlib), 
+axis (plotly or matplotlib) and keyword arguments for plotting.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_save">
+<span class="sig-name descname"><span class="pre">plot_save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_save" title="Link to this definition"></a></dt>
+<dd><p>Save a figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id41">
+<h2>Parameters<a class="headerlink" href="#id41" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>fig<span class="classifier">Union[plt.Figure, go.Figure]</span></dt><dd><p>Figure to be saved.</p>
+</dd>
+<dt>counter<span class="classifier">int, optional</span></dt><dd><p>Counter for the figure. If None, the figure will be saved as ‘plot.png’.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Optional arguments: ID, (matplotlib:) image_size_inches, dpi. 
+(plotly:) width, height.</p>
+</dd>
+</dl>
+</section>
+<section id="id42">
+<h2>Returns<a class="headerlink" href="#id42" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Save the figure.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_subplots">
+<span class="sig-name descname"><span class="pre">plot_subplots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_subplots" title="Link to this definition"></a></dt>
+<dd><p>Plot subplots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id43">
+<h2>Parameters<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>number_of_rows<span class="classifier">int</span></dt><dd><p>Number of rows in the subplot.</p>
+</dd>
+<dt>number_of_columns<span class="classifier">int</span></dt><dd><p>Number of columns in the subplot.</p>
+</dd>
+</dl>
+</section>
+<section id="id44">
+<h2>Returns<a class="headerlink" href="#id44" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_vector_field">
+<span class="sig-name descname"><span class="pre">plot_vector_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_vector_field" title="Link to this definition"></a></dt>
+<dd><p>Plot a vector field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id45">
+<h2>Parameters<a class="headerlink" href="#id45" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>vector_field<span class="classifier">np.ndarray</span></dt><dd><p>Vector field to be plotted.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id46">
+<h2>Returns<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id47">
+<h2>Note<a class="headerlink" href="#id47" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default
+plotting library (plotly or matplotlib) will be used.
+See the corresponding plot_vector_field_plotly or plot_vector_field_matplotlib function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.plot_vector_field_in_plane">
+<span class="sig-name descname"><span class="pre">plot_vector_field_in_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.plot_vector_field_in_plane" title="Link to this definition"></a></dt>
+<dd><p>Plot the vector field in a plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id48">
+<h2>Parameters<a class="headerlink" href="#id48" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>vector_field<span class="classifier">np.ndarray</span></dt><dd><p>Vector field to be plotted.</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>Normal vector of the plane. If None, the normal vector will be calculated.</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>Position of the plane. If None, the position will be calculated.</p>
+</dd>
+<dt>spacing<span class="classifier">float, optional</span></dt><dd><p>Spacing between the vectors.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id49">
+<h2>Returns<a class="headerlink" href="#id49" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Union[go.Figure, plt.Figure], Any]</dt><dd><p>Tuple containing the figure (plotly or matplotlib) and the axes
+dictionary (plotly or matplotlib).</p>
+</dd>
+</dl>
+</section>
+<section id="id50">
+<h2>Note<a class="headerlink" href="#id50" title="Link to this heading"></a></h2>
+<p>plot_lib is a possible keyword argument. If not provided, the default
+plotting library (plotly or matplotlib) will be used.
+See the plot_vector_field_both_plot_libs function
+in the Auxiliary Plot Functions documentation for further details.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_plot.BaseSystemPlot.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_plot.BaseSystemPlot.show" title="Link to this definition"></a></dt>
+<dd><p>Show a figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id51">
+<h2>Parameters<a class="headerlink" href="#id51" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>fig<span class="classifier">Union[plt.Figure, go.Figure]</span></dt><dd><p>Figure to be shown.</p>
+</dd>
+</dl>
+</section>
+<section id="id52">
+<h2>Returns<a class="headerlink" href="#id52" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Show the figure.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.core.base_system_calc">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.core.base_system_calc.</span></span><span class="sig-name descname"><span class="pre">BaseSystemCalc</span></span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Calculation method for the base system class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_Gaussian">
+<span class="sig-name descname"><span class="pre">calc_Gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_Gaussian" title="Link to this definition"></a></dt>
+<dd><p>Calculate the Gaussian function.</p>
+<section id="id53">
+<h2>Parameters<a class="headerlink" href="#id53" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">list or array, optional</span></dt><dd><p>The center position of the Gaussian. If None, uses the middle of the grid.</p>
+</dd>
+<dt>width<span class="classifier">float, optional</span></dt><dd><p>The width of the Gaussian. If None, uses the system’s a0 parameter.</p>
+</dd>
+<dt>top<span class="classifier">float, optional</span></dt><dd><p>The maximum value of the Gaussian function.</p>
+</dd>
+<dt>value<span class="classifier">float, optional</span></dt><dd><p>The integrated value of the Gaussian function.
+If neither top nor value is provided, the function will be normalized to 1.</p>
+</dd>
+</dl>
+</section>
+<section id="id54">
+<h2>Returns<a class="headerlink" href="#id54" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The Gaussian function evaluated on the grid.</p>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
+<p>If top is provided, it scales the height of the Gaussian.
+If value is provided, it scales the integral of the Gaussian.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_Gaussian_filter_f">
+<span class="sig-name descname"><span class="pre">calc_Gaussian_filter_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_Gaussian_filter_f" title="Link to this definition"></a></dt>
+<dd><p>Calculate Gaussian filter in Fourier space.</p>
+<p>This method computes a Gaussian filter in Fourier space using the formula:
+exp(-1/2 * a0^2 * k^2) where k^2 is the squared wavenumber.</p>
+<section id="id55">
+<h2>Parameters<a class="headerlink" href="#id55" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>a0<span class="classifier">float, optional</span></dt><dd><p>Filter width parameter. If None, uses the instance’s a0 attribute.</p>
+</dd>
+</dl>
+</section>
+<section id="id56">
+<h2>Returns<a class="headerlink" href="#id56" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The Gaussian filter in Fourier space.</p>
+</dd>
+</dl>
+</section>
+<section id="id57">
+<h2>Notes<a class="headerlink" href="#id57" title="Link to this heading"></a></h2>
+<p>The filter is calculated using the squared wavenumber obtained from 
+the calc_k2() method.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_advect_field">
+<span class="sig-name descname"><span class="pre">calc_advect_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_advect_field" title="Link to this definition"></a></dt>
+<dd><p>Advects field according to the provided displacement field u.</p>
+<p>Uses a Taylor expansion up to specified order to compute the advection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id58">
+<h2>Parameters<a class="headerlink" href="#id58" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>The field to be advected.</p>
+</dd>
+<dt>u<span class="classifier">np.ndarray</span></dt><dd><p>Displacement field.</p>
+</dd>
+<dt>field_f<span class="classifier">np.ndarray, optional</span></dt><dd><p>Fourier transform of the field. If None, it will be calculated.</p>
+</dd>
+<dt>order<span class="classifier">int, default=3</span></dt><dd><p>Order of the Taylor expansion. Must be less than or equal to 3.</p>
+</dd>
+</dl>
+</section>
+<section id="id59">
+<h2>Returns<a class="headerlink" href="#id59" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>The field after advection by u.</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h2>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If the order of the Taylor expansion is greater than 3.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_single_vortex">
+<span class="sig-name descname"><span class="pre">calc_angle_field_single_vortex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_single_vortex" title="Link to this definition"></a></dt>
+<dd><p>Calculate the angle field due to a single vortex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id60">
+<h2>Parameters<a class="headerlink" href="#id60" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">list, optional</span></dt><dd><p>The position of the vortex. Defaults to None.</p>
+</dd>
+<dt>charge<span class="classifier">int, optional</span></dt><dd><p>The charge of the vortex. Defaults to 1.</p>
+</dd>
+</dl>
+</section>
+<section id="id61">
+<h2>Returns<a class="headerlink" href="#id61" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The angle field calculated for the vortex.</p>
+</dd>
+</dl>
+</section>
+<section id="id62">
+<h2>Raises<a class="headerlink" href="#id62" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the system is not 2.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_dipole">
+<span class="sig-name descname"><span class="pre">calc_angle_field_vortex_dipole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dipole_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_dipole" title="Link to this definition"></a></dt>
+<dd><p>Calculates the angle field for a double vortex system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id63">
+<h2>Parameters<a class="headerlink" href="#id63" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dipole_vector<span class="classifier">list or tuple, optional</span></dt><dd><p>The dipole vector. If None, defaults to [size_x/3, 0].</p>
+</dd>
+<dt>dipole_position<span class="classifier">list, optional</span></dt><dd><p>The position of the center of mass of the dipole. If None, defaults to the middle of the grid.</p>
+</dd>
+</dl>
+</section>
+<section id="id64">
+<h2>Returns<a class="headerlink" href="#id64" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The calculated angle field for the double vortex system.</p>
+</dd>
+</dl>
+</section>
+<section id="id65">
+<h2>Raises<a class="headerlink" href="#id65" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the system is not 2.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_filament">
+<span class="sig-name descname"><span class="pre">calc_angle_field_vortex_filament</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_filament" title="Link to this definition"></a></dt>
+<dd><p>Calculate the angle field due to a single vortex filament aligned with the z acis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id66">
+<h2>Parameters<a class="headerlink" href="#id66" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">list, optional</span></dt><dd><p>The position of the vortex. Defaults to None.</p>
+</dd>
+<dt>charge<span class="classifier">int, optional</span></dt><dd><p>The charge of the vortex. Defaults to 1.</p>
+</dd>
+</dl>
+</section>
+<section id="id67">
+<h2>Returns<a class="headerlink" href="#id67" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The angle field calculated for the vortex.</p>
+</dd>
+</dl>
+</section>
+<section id="id68">
+<h2>Raises<a class="headerlink" href="#id68" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the system is not 3.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_ring">
+<span class="sig-name descname"><span class="pre">calc_angle_field_vortex_ring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_ring" title="Link to this definition"></a></dt>
+<dd><p>Calculate the angle field for a vortex ring.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id69">
+<h2>Parameters<a class="headerlink" href="#id69" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">list, optional</span></dt><dd><p>The position of the vortex ring. If None, defaults to the middle of the grid.</p>
+</dd>
+<dt>radius<span class="classifier">float, optional</span></dt><dd><p>The radius of the vortex ring. If None, defaults to 1/3 of the minimum system size.</p>
+</dd>
+<dt>normal_vector<span class="classifier">numpy.ndarray, optional</span></dt><dd><p>The normal vector of the vortex ring. Defaults to [0, 0, 1].</p>
+</dd>
+</dl>
+</section>
+<section id="id70">
+<h2>Returns<a class="headerlink" href="#id70" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The calculated angle field for the vortex ring.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_coarse_grain">
+<span class="sig-name descname"><span class="pre">calc_coarse_grain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_coarse_grain" title="Link to this definition"></a></dt>
+<dd><p>Calculate the coarse-grained field using a Gaussian filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id71">
+<h2>Parameters<a class="headerlink" href="#id71" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">numpy.ndarray</span></dt><dd><p>The field to be coarse-grained.</p>
+</dd>
+<dt>width<span class="classifier">float, optional</span></dt><dd><p>The width of the Gaussian filter. If None, uses the instance’s a0 attribute.</p>
+</dd>
+</dl>
+</section>
+<section id="id72">
+<h2>Returns<a class="headerlink" href="#id72" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The coarse-grained field.</p>
+</dd>
+</dl>
+</section>
+<section id="id73">
+<h2>Notes<a class="headerlink" href="#id73" title="Link to this heading"></a></h2>
+<p>The method applies a Gaussian filter in Fourier space to the input field.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_defect_current_density">
+<span class="sig-name descname"><span class="pre">calc_defect_current_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi_0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_current_density" title="Link to this definition"></a></dt>
+<dd><p>Calculates the conserved current of the superfluid density.</p>
+<section id="id74">
+<h2>Parameters<a class="headerlink" href="#id74" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>psi<span class="classifier">numpy.ndarray</span></dt><dd><p>The vector field that we find the density of.</p>
+</dd>
+<dt>dt_psi<span class="classifier">numpy.ndarray</span></dt><dd><p>The time derivative of psi.</p>
+</dd>
+<dt>psi_0<span class="classifier">float or numpy.ndarray, optional</span></dt><dd><p>The equilibrium state. Default is 0.</p>
+</dd>
+</dl>
+</section>
+<section id="id75">
+<h2>Returns<a class="headerlink" href="#id75" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>list of numpy.ndarray</dt><dd><p>Components of the conserved current.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_defect_density">
+<span class="sig-name descname"><span class="pre">calc_defect_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_density" title="Link to this definition"></a></dt>
+<dd><p>Calculate the defect density of a given psi field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id76">
+<h2>Parameters<a class="headerlink" href="#id76" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>psi<span class="classifier">list of numpy.ndarray</span></dt><dd><p>A list of two psi fields.</p>
+</dd>
+<dt>psi0<span class="classifier">float, optional</span></dt><dd><p>The value of psi_0. Default is 1.</p>
+</dd>
+</dl>
+</section>
+<section id="id77">
+<h2>Returns<a class="headerlink" href="#id77" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The defect density of the psi field.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_defect_density_singular">
+<span class="sig-name descname"><span class="pre">calc_defect_density_singular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_density_singular" title="Link to this definition"></a></dt>
+<dd><p>Calculate the singular defect density for a given psi field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id78">
+<h2>Parameters<a class="headerlink" href="#id78" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>psi<span class="classifier">numpy.ndarray</span></dt><dd><p>The field psi.</p>
+</dd>
+<dt>psi0<span class="classifier">float, optional</span></dt><dd><p>The reference value of psi. Default is 1.</p>
+</dd>
+</dl>
+</section>
+<section id="id79">
+<h2>Returns<a class="headerlink" href="#id79" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The defect density for the given psi value.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_defect_nodes">
+<span class="sig-name descname"><span class="pre">calc_defect_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defect_density</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integration_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_nodes" title="Link to this definition"></a></dt>
+<dd><p>Calculate the positions and charges of defect nodes based on the defect density.</p>
+<section id="id80">
+<h2>Parameters<a class="headerlink" href="#id80" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>defect_density<span class="classifier">numpy.ndarray</span></dt><dd><p>The defect density field. A positive scalar field to be integrated.</p>
+</dd>
+<dt>charge_tolerance<span class="classifier">float, optional</span></dt><dd><p>The minimum charge value to consider as a defect. If None, uses default values based on dimension.</p>
+</dd>
+<dt>integration_radius<span class="classifier">float, optional</span></dt><dd><p>The radius to use for integrating around potential defects. If None, uses default values based on dimension.</p>
+</dd>
+</dl>
+</section>
+<section id="id81">
+<h2>Returns<a class="headerlink" href="#id81" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>list</dt><dd><p>A list of dictionaries representing the defect nodes. Each dictionary contains:
+- ‘position_index’: The position index of the defect node in the defect density array.
+- ‘position’: The physical position of the defect node.</p>
+</dd>
+</dl>
+</section>
+<section id="id82">
+<h2>Raises<a class="headerlink" href="#id82" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the defect density is not a positive scalar field.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_defect_velocity_field">
+<span class="sig-name descname"><span class="pre">calc_defect_velocity_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_psi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_velocity_field" title="Link to this definition"></a></dt>
+<dd><p>Calculate the velocity field of the defects in the psi field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id83">
+<h2>Parameters<a class="headerlink" href="#id83" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>psi<span class="classifier">list of numpy.ndarray</span></dt><dd><p>The psi field.</p>
+</dd>
+<dt>dt_psi<span class="classifier">list of numpy.ndarray</span></dt><dd><p>The time derivative of the psi field.</p>
+</dd>
+</dl>
+</section>
+<section id="id84">
+<h2>Returns<a class="headerlink" href="#id84" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>list of numpy.ndarray</dt><dd><p>The velocity field of the defects.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_delta_function">
+<span class="sig-name descname"><span class="pre">calc_delta_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_delta_function" title="Link to this definition"></a></dt>
+<dd><p>Calculate the delta function for a given wavefunction.</p>
+<section id="id85">
+<h2>Parameters<a class="headerlink" href="#id85" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>psi<span class="classifier">list of numpy.ndarray</span></dt><dd><p>The wavefunction.</p>
+</dd>
+<dt>psi0<span class="classifier">float, optional</span></dt><dd><p>The width of the wavefunction. Default is 1.</p>
+</dd>
+</dl>
+</section>
+<section id="id86">
+<h2>Returns<a class="headerlink" href="#id86" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The value of the delta function.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_determinant_field">
+<span class="sig-name descname"><span class="pre">calc_determinant_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_determinant_field" title="Link to this definition"></a></dt>
+<dd><p>Calculate the determinant transformation of a given field.</p>
+<p>The D-field used in the calculation of the topologicel defect density fields. 
+See the ComFiT documentation for more information:
+<a class="reference external" href="https://comfitlib.com/TopologicalDefects/">https://comfitlib.com/TopologicalDefects/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id87">
+<h2>Parameters<a class="headerlink" href="#id87" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>psi<span class="classifier">list of numpy.ndarray</span></dt><dd><p>A list of two psi fields.</p>
+</dd>
+</dl>
+</section>
+<section id="id88">
+<h2>Returns<a class="headerlink" href="#id88" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The determinant field.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_distance_squared_to_point">
+<span class="sig-name descname"><span class="pre">calc_distance_squared_to_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_distance_squared_to_point" title="Link to this definition"></a></dt>
+<dd><p>Calculate the squared distance from each point in the grid to a specified position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id89">
+<h2>Parameters<a class="headerlink" href="#id89" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">Union[float, list[float]]</span></dt><dd><p>The target position. Should be a single float for 1D systems or a list of floats for higher dimensions.</p>
+</dd>
+</dl>
+</section>
+<section id="id90">
+<h2>Returns<a class="headerlink" href="#id90" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>An array of the same dimensionality as the system containing the squared distance 
+from each grid point to the specified position. The shape matches the grid resolution.</p>
+</dd>
+</dl>
+</section>
+<section id="id91">
+<h2>Notes<a class="headerlink" href="#id91" title="Link to this heading"></a></h2>
+<p>This method accounts for periodic boundary conditions by calculating distances in each
+dimension considering the original position, and positions shifted by +/- the system size.
+It then takes the minimum of these distances to find the shortest path under periodicity.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_evolution_integrating_factors_ETD2RK">
+<span class="sig-name descname"><span class="pre">calc_evolution_integrating_factors_ETD2RK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_evolution_integrating_factors_ETD2RK" title="Link to this definition"></a></dt>
+<dd><p>Calculates integrating factors for ETD2RK.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></span></p>
+</dd>
+</dl>
+<section id="id92">
+<h2>Parameters<a class="headerlink" href="#id92" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>omega_f<span class="classifier">numpy.ndarray</span></dt><dd><p>The value of omega_f in Fourier space.</p>
+</dd>
+<dt>tol<span class="classifier">float, optional</span></dt><dd><p>Tolerance for when to expand the integrating factors that divide by omega.
+Default is 10^-5.</p>
+</dd>
+</dl>
+</section>
+<section id="id93">
+<h2>Returns<a class="headerlink" href="#id93" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>list</dt><dd><p>The list of integrating factors for the ETD2RK method.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_evolution_integrating_factors_ETD4RK">
+<span class="sig-name descname"><span class="pre">calc_evolution_integrating_factors_ETD4RK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_evolution_integrating_factors_ETD4RK" title="Link to this definition"></a></dt>
+<dd><p>Calculate the evolution integrating factors using the ETDRK4 method.</p>
+<section id="id94">
+<h2>Parameters<a class="headerlink" href="#id94" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>omega_f<span class="classifier">numpy.ndarray</span></dt><dd><p>The value of omega_f in Fourier space.</p>
+</dd>
+<dt>tol<span class="classifier">float, optional</span></dt><dd><p>Tolerance for when to expand the integrating factors that divide by omega.
+Default is 10^-5.</p>
+</dd>
+</dl>
+</section>
+<section id="id95">
+<h2>Returns<a class="headerlink" href="#id95" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>list</dt><dd><p>The list of integrating factors for the ETD4RK method.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></span></p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_integrate_field">
+<span class="sig-name descname"><span class="pre">calc_integrate_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_integrate_field" title="Link to this definition"></a></dt>
+<dd><p>Calculates the integrated field value within a specified region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span></p>
+</dd>
+</dl>
+<section id="id96">
+<h2>Parameters<a class="headerlink" href="#id96" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">numpy.ndarray</span></dt><dd><p>The field array to integrate.</p>
+</dd>
+<dt>region<span class="classifier">Optional[int], default=None</span></dt><dd><p>If provided, specifies the region to integrate over.
+If None, integrates over the entire field.</p>
+</dd>
+</dl>
+</section>
+<section id="id97">
+<h2>Returns<a class="headerlink" href="#id97" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>float</dt><dd><p>The integrated field value within the region.</p>
+</dd>
+</dl>
+</section>
+<section id="id98">
+<h2>Raises<a class="headerlink" href="#id98" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the field is not compatible.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_integrating_factors_f_and_solver">
+<span class="sig-name descname"><span class="pre">calc_integrating_factors_f_and_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_integrating_factors_f_and_solver" title="Link to this definition"></a></dt>
+<dd><p>Calculates the integrating factors and the solver for the evolution equation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></span></p>
+</dd>
+</dl>
+<section id="id99">
+<h2>Parameters<a class="headerlink" href="#id99" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>omega_f<span class="classifier">numpy.ndarray</span></dt><dd><p>The value of omega_f in Fourier space.</p>
+</dd>
+<dt>method<span class="classifier">{‘ETD2RK’, ‘ETD4RK’}</span></dt><dd><p>The method used for evolution.</p>
+</dd>
+</dl>
+</section>
+<section id="id100">
+<h2>Returns<a class="headerlink" href="#id100" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing: integrating_factors_f : list (The integrating 
+factors for the selected method), solver : function (The 
+corresponding solver function for the evolution equation).</p>
+</dd>
+</dl>
+</section>
+<section id="id101">
+<h2>Raises<a class="headerlink" href="#id101" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the specified method is not implemented.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_k2">
+<span class="sig-name descname"><span class="pre">calc_k2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_k2" title="Link to this definition"></a></dt>
+<dd><p>Calculates the squared wavenumber.</p>
+<section id="id102">
+<h2>Parameters<a class="headerlink" href="#id102" title="Link to this heading"></a></h2>
+<p>None</p>
+</section>
+<section id="id103">
+<h2>Returns<a class="headerlink" href="#id103" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The squared wavenumber.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_region_ball">
+<span class="sig-name descname"><span class="pre">calc_region_ball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_region_ball" title="Link to this definition"></a></dt>
+<dd><p>Calculate a boolean array indicating whether a point is within a ball of a given radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id104">
+<h2>Parameters<a class="headerlink" href="#id104" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">list[float]</span></dt><dd><p>The position of the ball</p>
+</dd>
+<dt>radius<span class="classifier">float</span></dt><dd><p>The radius of the ball</p>
+</dd>
+</dl>
+</section>
+<section id="id105">
+<h2>Returns<a class="headerlink" href="#id105" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>A boolean array indicating whether a point is within the ball.</p>
+</dd>
+</dl>
+</section>
+<section id="id106">
+<h2>Raises<a class="headerlink" href="#id106" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the system is not 3.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_region_cylinder">
+<span class="sig-name descname"><span class="pre">calc_region_cylinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_region_cylinder" title="Link to this definition"></a></dt>
+<dd><p>Calculates a boolean array indicating whether a point is within a cylinder of a given radius and height.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id107">
+<h2>Parameters<a class="headerlink" href="#id107" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">list[float]</span></dt><dd><p>The position of the cylinder</p>
+</dd>
+<dt>radius<span class="classifier">float</span></dt><dd><p>The radius of the cylinder</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray</span></dt><dd><p>The normal vector of the cylinder</p>
+</dd>
+<dt>height<span class="classifier">float</span></dt><dd><p>The height of the cylinder</p>
+</dd>
+</dl>
+</section>
+<section id="id108">
+<h2>Returns<a class="headerlink" href="#id108" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>A boolean array indicating whether a point is within the cylinder.</p>
+</dd>
+</dl>
+</section>
+<section id="id109">
+<h2>Raises<a class="headerlink" href="#id109" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the system is not 3.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_region_disk">
+<span class="sig-name descname"><span class="pre">calc_region_disk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_region_disk" title="Link to this definition"></a></dt>
+<dd><p>Calculates a boolean array indicating whether a point is within a disk of a given radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id110">
+<h2>Parameters<a class="headerlink" href="#id110" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position<span class="classifier">list[float]</span></dt><dd><p>The position of the disk</p>
+</dd>
+<dt>radius<span class="classifier">float</span></dt><dd><p>The radius of the disk</p>
+</dd>
+</dl>
+</section>
+<section id="id111">
+<h2>Returns<a class="headerlink" href="#id111" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>A boolean array indicating whether a point is within the disk.</p>
+</dd>
+</dl>
+</section>
+<section id="id112">
+<h2>Raises<a class="headerlink" href="#id112" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the system is not 2.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_region_interval">
+<span class="sig-name descname"><span class="pre">calc_region_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_region_interval" title="Link to this definition"></a></dt>
+<dd><p>Calculate a boolean array indicating whether a point is within an interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id113">
+<h2>Parameters<a class="headerlink" href="#id113" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>a<span class="classifier">float</span></dt><dd><p>The lower bound of the interval.</p>
+</dd>
+<dt>b<span class="classifier">float</span></dt><dd><p>The upper bound of the interval.</p>
+</dd>
+</dl>
+</section>
+<section id="id114">
+<h2>Returns<a class="headerlink" href="#id114" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>A boolean array indicating whether a point is within the interval.</p>
+</dd>
+</dl>
+</section>
+<section id="id115">
+<h2>Raises<a class="headerlink" href="#id115" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the lower bound is greater than the upper bound or if the dimension of the system is not 1.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.core.base_system_calc.BaseSystemCalc.calc_wavenums">
+<span class="sig-name descname"><span class="pre">calc_wavenums</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.core.base_system_calc.BaseSystemCalc.calc_wavenums" title="Link to this definition"></a></dt>
+<dd><p>Calculates the wavenumbers corresponding to the input position vectors given by x.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id116">
+<h2>Parameters<a class="headerlink" href="#id116" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>x<span class="classifier">numpy.ndarray</span></dt><dd><p>1D array of x-positions.</p>
+</dd>
+</dl>
+</section>
+<section id="id117">
+<h2>Returns<a class="headerlink" href="#id117" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>1D array of wavenumbers with all the modes for the given x-array,
+assuming periodicity from x[0] to x[0] over n intervals.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k</span> <span class="o">=</span> <span class="n">instance_of_BaseSystem</span><span class="o">.</span><span class="n">calc_wavenums</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="go">[ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-comfit.core.base_system_conf">
+<dt class="sig sig-object py" id="comfit.core.base_system_conf.BaseSystemConf">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.core.base_system_conf.</span></span><span class="sig-name descname"><span class="pre">BaseSystemConf</span></span><a class="headerlink" href="#comfit.core.base_system_conf.BaseSystemConf" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration methods for the base system class</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="ComFiT Library Reference documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../quantum_mechanics/index.html" class="btn btn-neutral float-right" title="Class: Quantum Mechanics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vidar Skogvoll and Jonas Rønning.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,626 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: Bose Einstein Condensate &mdash; ComFiT Library Reference 1.8.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=496f73d5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class: Nematic Liquid Crystal" href="../nematic_liquid_crystal/index.html" />
+    <link rel="prev" title="Class: Quantum Mechanics" href="../quantum_mechanics/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ComFiT Library Reference
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../core/index.html">Base System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum_mechanics/index.html">Class: Quantum Mechanics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Class: Bose Einstein Condensate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.__init__"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_force_on_external_potential"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_force_on_external_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_hamiltonian"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_hamiltonian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_hamiltonian_density"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_hamiltonian_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_harmonic_potential"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_harmonic_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_kinetic_energy"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_kinetic_energy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_nonlinear_evolution_function_f"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_nonlinear_evolution_function_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_nonlinear_evolution_term_comoving_f"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_nonlinear_evolution_term_comoving_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_superfluid_current"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_superfluid_current()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_velocity"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_velocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_density"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_vortex_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_density_singular"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_vortex_density_singular()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_nodes"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_vortex_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_velocity_field"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_vortex_velocity_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_dissipative_frame"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_dissipative_frame()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_external_potential"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_external_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_initial_condition_Thomas_Fermi"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_initial_condition_Thomas_Fermi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_initial_condition_disordered"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_initial_condition_disordered()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_insert_vortex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_dipole"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_insert_vortex_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_filament"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_insert_vortex_filament()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_ring"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_insert_vortex_ring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_vortex_remover"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_vortex_remover()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_comoving_dGPE"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.evolve_comoving_dGPE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_dGPE"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.evolve_dGPE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_relax"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.evolve_relax()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../nematic_liquid_crystal/index.html">Class: Nematic Liquid Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../phase_field_crystal/index.html">Class: Phase Field Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Auxiliary Plot Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tool/index.html">Auxiliary Tool Functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ComFiT Library Reference</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: Bose Einstein Condensate</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/bose_einstein_condensate/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-bose-einstein-condensate">
+<h1>Class: Bose Einstein Condensate<a class="headerlink" href="#class-bose-einstein-condensate" title="Link to this heading"></a></h1>
+<p>Bose Einstein Condensate model.</p>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py class" id="module-comfit.bose_einstein_condensate.bose_einstein_condensate">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">comfit.bose_einstein_condensate.bose_einstein_condensate.</span></span><span class="sig-name descname"><span class="pre">BoseEinsteinCondensate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../core/index.html#comfit.core.base_system.BaseSystem" title="comfit.core.base_system.BaseSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystem</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a system to simulate a Bose-Einstein Condensate using the Gross-Pitaevskii equation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>dim<span class="classifier">int</span></dt><dd><p>The dimension of the system.</p>
+</dd>
+<dt>kwargs<span class="classifier">dict, optional</span></dt><dd><p>Optional keyword arguments to set additional parameters. see
+<a class="reference external" href="https://comfitlib.com/ClassBoseEinsteinCondensate/">https://comfitlib.com/ClassBoseEinsteinCondensate/</a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>The system object representing the BoseEinsteinCondensate simulation. BoseEinsteinCondensate object</p>
+</dd>
+<dt>Example:</dt><dd><p>bec = BoseEinsteinCondensate(3,xRes=101,yRes=101,zRes=101, gamma=0.5)
+Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101 in all directions.
+The dissipative factor gamma is set to 0.5.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_force_on_external_potential">
+<span class="sig-name descname"><span class="pre">calc_force_on_external_potential</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_force_on_external_potential" title="Link to this definition"></a></dt>
+<dd><p>Calculates the average force acting on the external potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>Average force on the potential (numpy.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_hamiltonian">
+<span class="sig-name descname"><span class="pre">calc_hamiltonian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_hamiltonian" title="Link to this definition"></a></dt>
+<dd><p>Function that calculates the Hamiltonian</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The Hamiltonian</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_hamiltonian_density">
+<span class="sig-name descname"><span class="pre">calc_hamiltonian_density</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_hamiltonian_density" title="Link to this definition"></a></dt>
+<dd><p>Calculates the hamiltonian density</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The hamiltonian density (numpy.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_harmonic_potential">
+<span class="sig-name descname"><span class="pre">calc_harmonic_potential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R_tf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_harmonic_potential" title="Link to this definition"></a></dt>
+<dd><p>Calculates a harmonic trap with R_tf being the Thomas-Fermi radius</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>R_tf (float): The Thomas-Fermi radius</p>
+</dd>
+<dt>Returns:</dt><dd><p>A harmonic potential</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_kinetic_energy">
+<span class="sig-name descname"><span class="pre">calc_kinetic_energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_kinetic_energy" title="Link to this definition"></a></dt>
+<dd><p>Calculates the kinetic energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The kinetic energy (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_nonlinear_evolution_function_f">
+<span class="sig-name descname"><span class="pre">calc_nonlinear_evolution_function_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_nonlinear_evolution_function_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the non-linear evolution term of the dGPE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi: the wavefunction at a given time. (numpy.ndarray)</p>
+</dd>
+<dt>Returns:</dt><dd><p>The non-linear evolution term (numpy.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_nonlinear_evolution_term_comoving_f">
+<span class="sig-name descname"><span class="pre">calc_nonlinear_evolution_term_comoving_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_nonlinear_evolution_term_comoving_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the non-linear evolution term of the dGPE when gamma is not a constant.</p>
+<p>Relevant for example in the comoving frame when we have a dissipative frame around the edge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi: the wavefunction at a given time. (numpy.ndarray)</p>
+</dd>
+<dt>Returns:</dt><dd><p>the non-linear evolution term (numpy.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_superfluid_current">
+<span class="sig-name descname"><span class="pre">calc_superfluid_current</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_superfluid_current" title="Link to this definition"></a></dt>
+<dd><p>Calculates the superfluid current</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The superfluid current (numpy.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_velocity">
+<span class="sig-name descname"><span class="pre">calc_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_velocity" title="Link to this definition"></a></dt>
+<dd><p>Calculates the weighted velocity field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The weighted velocity field (numpy.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_density">
+<span class="sig-name descname"><span class="pre">calc_vortex_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_density" title="Link to this definition"></a></dt>
+<dd><p>Calculates the vortex density of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>psi: The wavefunction of the system. (numpy.ndarray)</p>
+</dd>
+<dt>Returns:</dt><dd><p>The vortex density of the system. numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_density_singular">
+<span class="sig-name descname"><span class="pre">calc_vortex_density_singular</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_density_singular" title="Link to this definition"></a></dt>
+<dd><p>Calculates the vortex density of the system using the singular method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>The vortex density of the system. (numpy.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_nodes">
+<span class="sig-name descname"><span class="pre">calc_vortex_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt_psi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_nodes" title="Link to this definition"></a></dt>
+<dd><p>Calculate the positions and charges of vortex nodes based on the defect density.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dt_psi: The time derivative of the wavefunction of the system.     (numpy.ndarray)</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List of dictionaries representing the vortex nodes. Each dictionary contains the following keys:</dt><dd><ul class="simple">
+<li><p>‘position_index’: The position index of the vortex node in the defect density array.</p></li>
+<li><p>‘charge’: The charge of the vortex node.</p></li>
+<li><p>‘position’: The position of the vortex node as a list [x, y].</p></li>
+<li><p>‘velocity’: The velocity of the vortex node as a list [vx, vy].</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_velocity_field">
+<span class="sig-name descname"><span class="pre">calc_vortex_velocity_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt_psi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_velocity_field" title="Link to this definition"></a></dt>
+<dd><p>Calculates the vortex velocity field of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dt_psi: The time derivative of the wavefunction of the system. (numpy.ndarray)
+psi: The wavefunction of the system. (numpy.ndarray)</p>
+</dd>
+<dt>Returns:</dt><dd><p>The vortex velocity field of the system. numpy.ndarray:</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_dissipative_frame">
+<span class="sig-name descname"><span class="pre">conf_dissipative_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_width_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_width_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_width_z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_dissipative_frame" title="Link to this definition"></a></dt>
+<dd><p>Configures a dissipative frame around the computational domain</p>
+<p>This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
+This sets a dissipative frame around the computational domain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>d: length of the interface between the low gamma and high gamma regions (float)
+frame_width_x: distance fom center to the frame in x-direction (float)
+frame_width_y:    – “ –                         y-direction (float)
+frame_width_z:     – “ –                         z-direction (float)</p>
+</dd>
+<dt>Returns:</dt><dd><p>modify self.gamma</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_external_potential">
+<span class="sig-name descname"><span class="pre">conf_external_potential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">V_ext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_external_potential" title="Link to this definition"></a></dt>
+<dd><p>Sets the external potential of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>V_ext (function or float): the external potential
+additive (bool, optional): whether to add the new potential to the existing potential or not</p>
+</dd>
+<dt>Returns:</dt><dd><p>Modifies the value of self.V_ext</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_initial_condition_Thomas_Fermi">
+<span class="sig-name descname"><span class="pre">conf_initial_condition_Thomas_Fermi</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_initial_condition_Thomas_Fermi" title="Link to this definition"></a></dt>
+<dd><p>Finds the Thomas_Fermi ground state.</p>
+<p>Must be precided by an energy relaxation to find the true ground state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns: </dt><dd><p>Sets the value of self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_initial_condition_disordered">
+<span class="sig-name descname"><span class="pre">conf_initial_condition_disordered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_strength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_initial_condition_disordered" title="Link to this definition"></a></dt>
+<dd><p>Sets disordered initial condition for the BoseEinsteinCondensate with some thermal flcutiations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>noise_strength: the strength of the noise</p>
+</dd>
+<dt>Returns:</dt><dd><p>Sets the value of self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex">
+<span class="sig-name descname"><span class="pre">conf_insert_vortex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex" title="Link to this definition"></a></dt>
+<dd><p>Sets the initial condition for a vortex dipole</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>charge (int): the charge of the vortex
+position (list): the position of the vortex</p>
+</dd>
+<dt>Returns:</dt><dd><p>Modifies the value of self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_dipole">
+<span class="sig-name descname"><span class="pre">conf_insert_vortex_dipole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dipole_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_dipole" title="Link to this definition"></a></dt>
+<dd><p>Sets the initial condition for a vortex dipole configuration in a 2-dimensional system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>Modifies the value of self.psi and self.psi_f</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception: If the dimension of the system is not 2.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_filament">
+<span class="sig-name descname"><span class="pre">conf_insert_vortex_filament</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_filament" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<p>Insert a pair of vortex lines into the condensate. The vortex lines are asumed to be elongated along the z-axis.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>optional:</dt><dd><p>position1: the position in the xy-plane of the first vortex filament (vector)
+position2: the position in the xy-plane of the seconf vortex filament (vector)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>:returns
+Modifies the value of self.psi and self.psi_f</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_ring">
+<span class="sig-name descname"><span class="pre">conf_insert_vortex_ring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_ring" title="Link to this definition"></a></dt>
+<dd><p>Sets the initial condition for a vortex ring configuration in a 3-dimensional system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>position: the position of the vortex ring (list)
+radius: the radius of the vortex ring (float)
+normal_vector: the normal vector of the vortex ring (list)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Modifies the value of self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_vortex_remover">
+<span class="sig-name descname"><span class="pre">conf_vortex_remover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_vortex_remover" title="Link to this definition"></a></dt>
+<dd><p>Removes vortices</p>
+<p>Function that finds and removes vortices outside of the area defined by the corners
+(x1,y1), (x1,y2), (x2,y1), (x2,y2)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>nodes (list) a list containing the vortices
+Area  (array) list on the format (x1,x2,y1,y2)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Modifies the value of self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_comoving_dGPE">
+<span class="sig-name descname"><span class="pre">evolve_comoving_dGPE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD2RK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_comoving_dGPE" title="Link to this definition"></a></dt>
+<dd><p>Evolver for the dGPE in the comoving frame.</p>
+<p>This evolver assume that the stirring is in the x-direction and that gamma is spatialy dependent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>number_of_steps: the number of time steps that we are evolving the equation (int)
+velx: velocity in x direction (float) 
+method: the integration method we want to use. ETD2RK is sett as default (string)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Updates the fields self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_dGPE">
+<span class="sig-name descname"><span class="pre">evolve_dGPE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD2RK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_dGPE" title="Link to this definition"></a></dt>
+<dd><p>Evolver for the dGPE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>number_of_steps: the number of time steps that we are evolving the equation  (int)
+method: the integration method we want to use. ETD2RK is sett as default  (string, optional)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Updates the self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_relax">
+<span class="sig-name descname"><span class="pre">evolve_relax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD2RK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_relax" title="Link to this definition"></a></dt>
+<dd><p>Evolver for the dGPE in imaginary time that relax the equation closer to the ground state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>number_of_steps: the number of time steps that we are evolving the equation (int)
+method: the integration method we want to use. ETD2RK is sett as default (string)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Updates the self.psi and self.psi_f</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../quantum_mechanics/index.html" class="btn btn-neutral float-left" title="Class: Quantum Mechanics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../nematic_liquid_crystal/index.html" class="btn btn-neutral float-right" title="Class: Nematic Liquid Crystal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vidar Skogvoll and Jonas Rønning.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

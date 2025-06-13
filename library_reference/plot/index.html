@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auxiliary Plot Functions &mdash; ComFiT Library Reference 1.8.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=496f73d5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Auxiliary Tool Functions" href="../tool/index.html" />
+    <link rel="prev" title="Class: Phase Field Crystal" href="../phase_field_crystal/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ComFiT Library Reference
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../core/index.html">Base System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum_mechanics/index.html">Class: Quantum Mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bose_einstein_condensate/index.html">Class: Bose Einstein Condensate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nematic_liquid_crystal/index.html">Class: Nematic Liquid Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../phase_field_crystal/index.html">Class: Phase Field Crystal</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Auxiliary Plot Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_angle_field_matplotlib.plot_angle_field_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_angle_field_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_angle_field_plotly.plot_angle_field_plotly"><code class="docutils literal notranslate"><span class="pre">plot_angle_field_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_complex_field_in_plane_matplotlib.plot_complex_field_in_plane_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_complex_field_in_plane_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_complex_field_in_plane_plotly.plot_complex_field_in_plane_plotly"><code class="docutils literal notranslate"><span class="pre">plot_complex_field_in_plane_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_complex_field_matplotlib.plot_complex_field_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_complex_field_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_complex_field_plotly.plot_complex_field_plotly"><code class="docutils literal notranslate"><span class="pre">plot_complex_field_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_field_in_plane_matplotlib.plot_field_in_plane_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_field_in_plane_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_field_in_plane_plotly.plot_field_in_plane_plotly"><code class="docutils literal notranslate"><span class="pre">plot_field_in_plane_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_field_matplotlib.plot_field_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_field_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_field_plotly.plot_field_plotly"><code class="docutils literal notranslate"><span class="pre">plot_field_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_nodes_matplotlib.plot_nodes_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_nodes_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_nodes_plotly.plot_nodes_plotly"><code class="docutils literal notranslate"><span class="pre">plot_nodes_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_subplots_matplotlib.plot_subplots_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_subplots_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_subplots_plotly.plot_subplots_plotly"><code class="docutils literal notranslate"><span class="pre">plot_subplots_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_surface_matplotlib.plot_surface_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_surface_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_vector_field_in_plane_both_plot_libs.plot_vector_field_in_plane_both_plot_libs"><code class="docutils literal notranslate"><span class="pre">plot_vector_field_in_plane_both_plot_libs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_vector_field_matplotlib.plot_vector_field_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_vector_field_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.plot.plot_vector_field_plotly.plot_vector_field_plotly"><code class="docutils literal notranslate"><span class="pre">plot_vector_field_plotly()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tool/index.html">Auxiliary Tool Functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ComFiT Library Reference</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Auxiliary Plot Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/plot/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="auxiliary-plot-functions">
+<h1>Auxiliary Plot Functions<a class="headerlink" href="#auxiliary-plot-functions" title="Link to this heading"></a></h1>
+<p>Auxiliary functions for plotting fields and nodes.</p>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py function" id="module-comfit.plot.plot_angle_field_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_angle_field_matplotlib.plot_angle_field_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_angle_field_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_angle_field_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_angle_field_matplotlib.plot_angle_field_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot an angle field using matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]</span></p>
+</dd>
+</dl>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>angle_field<span class="classifier">np.ndarray</span></dt><dd><p>The angle field values in radians.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot, see <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]</dt><dd><p>The figure and axes objects containing the plot.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_angle_field_plotly">
+<dt class="sig sig-object py" id="comfit.plot.plot_angle_field_plotly.plot_angle_field_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_angle_field_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_angle_field_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_angle_field_plotly.plot_angle_field_plotly" title="Link to this definition"></a></dt>
+<dd><p>Plot the angle field using plotly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>angle_field<span class="classifier">np.ndarray</span></dt><dd><p>The angle field values to plot.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot, see <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Any</dt><dd><p>The plotly figure object.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_complex_field_in_plane_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_complex_field_in_plane_matplotlib.plot_complex_field_in_plane_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_complex_field_in_plane_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_complex_field_in_plane_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complex_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_complex_field_in_plane_matplotlib.plot_complex_field_in_plane_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot the complex field in a plane perpendicular to the given normal vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id3">
+<h2>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>complex_field<span class="classifier">np.ndarray</span></dt><dd><p>The complex field to be plotted.</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>The normal vector of the plane. Defaults to [0,1,0].</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>The position of the plane. Defaults to the middle of the system.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot, see <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h2>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple[Figure, Axes]</dt><dd><p>The figure and axes containing the plot.</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h2>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the field dimension is not 3D.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_complex_field_in_plane_plotly">
+<dt class="sig sig-object py" id="comfit.plot.plot_complex_field_in_plane_plotly.plot_complex_field_in_plane_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_complex_field_in_plane_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_complex_field_in_plane_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complex_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_complex_field_in_plane_plotly.plot_complex_field_in_plane_plotly" title="Link to this definition"></a></dt>
+<dd><p>Plot the complex field in a plane perpendicular to the given normal vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id5">
+<h2>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>complex_field<span class="classifier">np.ndarray</span></dt><dd><p>The complex field to be plotted.</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>The normal vector of the plane. Defaults to [0,1,0].</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>The position of the plane. Defaults to the middle of the system.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot, see <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h2>Returns<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple[go.Figure, dict]</dt><dd><p>The figure and axes dictionary containing the plot of the complex field.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h2>Raises<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the system is not 3.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_complex_field_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_complex_field_matplotlib.plot_complex_field_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_complex_field_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_complex_field_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complex_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_complex_field_matplotlib.plot_complex_field_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot a complex field using matplotlib.</p>
+<p>Creates a visualization of a complex field using different plotting methods
+depending on the dimensionality of the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>complex_field<span class="classifier">np.ndarray</span></dt><dd><p>The complex field to plot</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot, see <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a></p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]</dt><dd><p>The figure and axes objects containing the plot</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">system</span><span class="o">.</span><span class="n">plot_complex_field_matplotlib</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_complex_field_plotly">
+<dt class="sig sig-object py" id="comfit.plot.plot_complex_field_plotly.plot_complex_field_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_complex_field_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_complex_field_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complex_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_complex_field_plotly.plot_complex_field_plotly" title="Link to this definition"></a></dt>
+<dd><p>Plot a complex field using Plotly.</p>
+<p>Creates a visualization of a complex field using various plotting methods
+depending on the dimensionality of the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id10">
+<h2>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>complex_field<span class="classifier">np.ndarray</span></dt><dd><p>The complex field to plot</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Additional keyword arguments to customize the plot</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h2>Returns<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>go.Figure</dt><dd><p>The Plotly figure containing the plot</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_field_in_plane_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_field_in_plane_matplotlib.plot_field_in_plane_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_field_in_plane_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_field_in_plane_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_field_in_plane_matplotlib.plot_field_in_plane_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot the field in a plane perpendicular to the given normal vector.</p>
+<p>Uses scipy.interpolate.griddata and plt.plot_trisurf to visualize the field
+values on a plane defined by its normal vector and a point in space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id12">
+<h2>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>The field to be plotted.</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>The normal vector of the plane. Defaults to [0,1,0].</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>The position of the plane. Defaults to the middle of the system.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot, see <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h2>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]</dt><dd><p>The figure and axes containing the plot.</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h2>Raises<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the field dimension is not 3D.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_field_in_plane_plotly">
+<dt class="sig sig-object py" id="comfit.plot.plot_field_in_plane_plotly.plot_field_in_plane_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_field_in_plane_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_field_in_plane_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_field_in_plane_plotly.plot_field_in_plane_plotly" title="Link to this definition"></a></dt>
+<dd><p>Plot the field in a plane perpendicular to the given normal vector.</p>
+<p>Uses scipy.interpolate.griddata and plotly’s Mesh3d for visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id15">
+<h2>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>The field to be plotted</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>The normal vector of the plane. Defaults to [0,1,0]</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>The position of the plane. Defaults to the middle of the system</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Additional keyword arguments for plot customization. See <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a></p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h2>Returns<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[go.Figure, dict]</dt><dd><p>The figure object and axes dictionary containing the plot</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h2>Raises<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the field dimension is not 3D</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_field_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_field_matplotlib.plot_field_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_field_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_field_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_field_matplotlib.plot_field_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot the given (real) field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id18">
+<h2>Parameters<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>The field to be plotted.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot.
+See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a> 
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h2>Returns<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]</dt><dd><ul class="simple">
+<li><p>The figure containing the plot</p></li>
+<li><p>The axes containing the plot</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_field_plotly">
+<dt class="sig sig-object py" id="comfit.plot.plot_field_plotly.plot_field_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_field_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_field_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_field_plotly.plot_field_plotly" title="Link to this definition"></a></dt>
+<dd><p>Plot the given (real) field using Plotly</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id20">
+<h2>Parameters<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>The field to be plotted.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a> 
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id21">
+<h2>Returns<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[go.Figure, Dict]</dt><dd><p>A tuple containing the Plotly figure and axes dictionary.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_nodes_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_nodes_matplotlib.plot_nodes_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_nodes_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_nodes_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_nodes_matplotlib.plot_nodes_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot the nodes of the system.</p>
+<p>Create a matplotlib plot of the nodes in the system, including their positions,
+charges, velocities and Burgers vectors if available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id22">
+<h2>Parameters<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>nodes<span class="classifier">List[Dict]</span></dt><dd><p>List of node dictionaries containing position and property information</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for customizing the plot. See 
+<a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a> for full list.</p>
+</dd>
+</dl>
+</section>
+<section id="id23">
+<h2>Returns<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[plt.Figure, plt.Axes]</dt><dd><p>The figure and axes objects containing the plot</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_nodes_plotly">
+<dt class="sig sig-object py" id="comfit.plot.plot_nodes_plotly.plot_nodes_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_nodes_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_nodes_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_nodes_plotly.plot_nodes_plotly" title="Link to this definition"></a></dt>
+<dd><p>Plot the nodes in the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id24">
+<h2>Parameters<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>nodes<span class="classifier">List[Dict]</span></dt><dd><dl class="simple">
+<dt>A list of dictionaries representing nodes. Each dictionary must contain:</dt><dd><ul class="simple">
+<li><p>‘position’: The position of the node in the defect density array</p></li>
+</ul>
+</dd>
+<dt>Optional keys:</dt><dd><ul class="simple">
+<li><p>‘velocity’: The velocity of the node</p></li>
+<li><p>‘charge’: The charge of the node</p></li>
+<li><p>‘tangent_vector’: The tangent of the node (3D only)</p></li>
+<li><p>‘Burgers_vector’: The Burgers vector of the node (for dislocations)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot. See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id25">
+<h2>Returns<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[go.Figure, Dict]</dt><dd><p>The figure object and axes dictionary containing the plot configuration.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_subplots_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_subplots_matplotlib.plot_subplots_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_subplots_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_subplots_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_subplots_matplotlib.plot_subplots_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Create a figure with a grid of subplots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id26">
+<h2>Parameters<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>number_of_rows<span class="classifier">int</span></dt><dd><p>Number of rows in the subplot grid.</p>
+</dd>
+<dt>number_of_columns<span class="classifier">int</span></dt><dd><p>Number of columns in the subplot grid.</p>
+</dd>
+</dl>
+</section>
+<section id="id27">
+<h2>Returns<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[plt.Figure, plt.Axes]</dt><dd><p>Figure object and array of Axes objects representing the subplots.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_subplots_plotly">
+<dt class="sig sig-object py" id="comfit.plot.plot_subplots_plotly.plot_subplots_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_subplots_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_subplots_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_subplots_plotly.plot_subplots_plotly" title="Link to this definition"></a></dt>
+<dd><p>Create a plotly figure with subplots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]</span></p>
+</dd>
+</dl>
+<section id="id28">
+<h2>Parameters<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>number_of_rows<span class="classifier">int</span></dt><dd><p>Number of rows in the subplot grid.</p>
+</dd>
+<dt>number_of_columns<span class="classifier">int</span></dt><dd><p>Number of columns in the subplot grid.</p>
+</dd>
+</dl>
+</section>
+<section id="id29">
+<h2>Returns<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[go.Figure, Dict[str, Any]]</dt><dd><p>A tuple containing the Plotly figure and axes dictionary.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_surface_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_surface_matplotlib.plot_surface_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_surface_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_surface_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_surface_matplotlib.plot_surface_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot the surface of the given field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code></span></p>
+</dd>
+</dl>
+<section id="id30">
+<h2>Parameters<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><dl class="simple">
+<dt>field<span class="classifier">ndarray</span></dt><dd><p>3D array containing the field values</p>
+</dd>
+<dt>value<span class="classifier">float</span></dt><dd><p>Isosurface value</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib.axes.Axes, optional</span></dt><dd><p>Axes to plot on. Defaults to current axes.</p>
+</dd>
+<dt>alpha<span class="classifier">float, optional</span></dt><dd><p>Transparency value. Defaults to 0.5.</p>
+</dd>
+<dt>color<span class="classifier">str, optional</span></dt><dd><p>Surface color. Defaults to ‘b’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id31">
+<h2>Returns<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>matplotlib.axes.Axes</dt><dd><p>The axes containing the surface plot.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_vector_field_in_plane_both_plot_libs">
+<dt class="sig sig-object py" id="comfit.plot.plot_vector_field_in_plane_both_plot_libs.plot_vector_field_in_plane_both_plot_libs">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_vector_field_in_plane_both_plot_libs.</span></span><span class="sig-name descname"><span class="pre">plot_vector_field_in_plane_both_plot_libs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_vector_field_in_plane_both_plot_libs.plot_vector_field_in_plane_both_plot_libs" title="Link to this definition"></a></dt>
+<dd><p>Plot a vector field on a plane in 3D space.</p>
+<p>Creates a visualization of a vector field where it intersects with a plane
+defined by a point and a normal vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id32">
+<h2>Parameters<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>vector_field<span class="classifier">np.ndarray</span></dt><dd><p>The vector field to plot. Shape must be (1,xRes,yRes,zRes), 
+(2,xRes,yRes,zRes), or (3,xRes,yRes,zRes).</p>
+</dd>
+<dt>position<span class="classifier">np.ndarray, optional</span></dt><dd><p>Point through which the plane passes. Defaults to system midpoint.</p>
+</dd>
+<dt>normal_vector<span class="classifier">np.ndarray, optional</span></dt><dd><p>Normal vector defining the plane orientation. Defaults to [1,1,1].</p>
+</dd>
+<dt>spacing<span class="classifier">int, optional</span></dt><dd><p>Spacing between vectors in the plot. Defaults to max(xRes//20,1).</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Additional keyword arguments for plot customization. See <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="id33">
+<h2>Returns<a class="headerlink" href="#id33" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[Any, Any]</dt><dd><p>Figure and axes objects from the plotting library.</p>
+</dd>
+</dl>
+</section>
+<section id="id34">
+<h2>Raises<a class="headerlink" href="#id34" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the system is not 3D or if the vector field has invalid dimensions.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_vector_field_matplotlib">
+<dt class="sig sig-object py" id="comfit.plot.plot_vector_field_matplotlib.plot_vector_field_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_vector_field_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_vector_field_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_vector_field_matplotlib.plot_vector_field_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot the vector field using matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id35">
+<h2>Parameters<a class="headerlink" href="#id35" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>vector_field<span class="classifier">np.ndarray</span></dt><dd><p>Array containing the components of the vector field</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>spacing : int, optional. The spacing for the quiver plot which defaults 
+to self.xRes//20. Additional keyword arguments for plot customization, 
+see <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a></p>
+</dd>
+</dl>
+</section>
+<section id="id36">
+<h2>Returns<a class="headerlink" href="#id36" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]</dt><dd><p>Figure and axes containing the plot</p>
+</dd>
+</dl>
+</section>
+<section id="id37">
+<h2>Raises<a class="headerlink" href="#id37" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If an invalid field is provided to the plot_vector_field function</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.plot.plot_vector_field_plotly">
+<dt class="sig sig-object py" id="comfit.plot.plot_vector_field_plotly.plot_vector_field_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.plot.plot_vector_field_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_vector_field_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.plot.plot_vector_field_plotly.plot_vector_field_plotly" title="Link to this definition"></a></dt>
+<dd><p>Plot the vector field using Plotly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id38">
+<h2>Parameters<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">BaseSystem</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>vector_field<span class="classifier">np.ndarray</span></dt><dd><p>Array containing the vector field components. Shape depends on dimensionality.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>spacing : int, optional. The spacing for the quiver plot. Defaults to max(self.xRes//20, 1).
+Additional keyword arguments for plot customization, see <a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a></p>
+</dd>
+</dl>
+</section>
+<section id="id39">
+<h2>Returns<a class="headerlink" href="#id39" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[go.Figure, dict]</dt><dd><p>The figure containing the plot and the axes dictionary containing plot properties.</p>
+</dd>
+</dl>
+</section>
+<section id="id40">
+<h2>Raises<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If an invalid field is provided to the plot_vector_field function.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../phase_field_crystal/index.html" class="btn btn-neutral float-left" title="Class: Phase Field Crystal" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tool/index.html" class="btn btn-neutral float-right" title="Auxiliary Tool Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vidar Skogvoll and Jonas Rønning.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

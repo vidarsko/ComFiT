@@ -1,0 +1,944 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auxiliary Tool Functions &mdash; ComFiT Library Reference 1.8.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=496f73d5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Auxiliary Plot Functions" href="../plot/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ComFiT Library Reference
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../core/index.html">Base System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum_mechanics/index.html">Class: Quantum Mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bose_einstein_condensate/index.html">Class: Bose Einstein Condensate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nematic_liquid_crystal/index.html">Class: Nematic Liquid Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../phase_field_crystal/index.html">Class: Phase Field Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Auxiliary Plot Functions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Auxiliary Tool Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_add_spacing_2D.tool_add_spacing_2D"><code class="docutils literal notranslate"><span class="pre">tool_add_spacing_2D()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_add_spacing_3D.tool_add_spacing_3D"><code class="docutils literal notranslate"><span class="pre">tool_add_spacing_3D()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_make_animation.tool_make_animation_gif"><code class="docutils literal notranslate"><span class="pre">tool_make_animation_gif()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_make_animation.tool_make_animation_movie"><code class="docutils literal notranslate"><span class="pre">tool_make_animation_movie()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_colormap.tool_colormap"><code class="docutils literal notranslate"><span class="pre">tool_colormap()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_complete_field.tool_complete_field"><code class="docutils literal notranslate"><span class="pre">tool_complete_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_configure_axis.tool_configure_axis"><code class="docutils literal notranslate"><span class="pre">tool_configure_axis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_create_orthonormal_triad.tool_create_orthonormal_triad"><code class="docutils literal notranslate"><span class="pre">tool_create_orthonormal_triad()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_extract_node_arrays.tool_extract_node_arrays"><code class="docutils literal notranslate"><span class="pre">tool_extract_node_arrays()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_math_functions.levi_civita_symbol"><code class="docutils literal notranslate"><span class="pre">levi_civita_symbol()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_math_functions.tool_multinom"><code class="docutils literal notranslate"><span class="pre">tool_multinom()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_matplotlib_define_2D_plot_ax.tool_matplotlib_define_2D_plot_ax"><code class="docutils literal notranslate"><span class="pre">tool_matplotlib_define_2D_plot_ax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_matplotlib_define_3D_plot_ax.tool_matplotlib_define_3D_plot_ax"><code class="docutils literal notranslate"><span class="pre">tool_matplotlib_define_3D_plot_ax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_plotly_colorbar.format_tick_value"><code class="docutils literal notranslate"><span class="pre">format_tick_value()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_plotly_colorbar.generate_numbers_between"><code class="docutils literal notranslate"><span class="pre">generate_numbers_between()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_plotly_colorbar.tool_plotly_colorbar"><code class="docutils literal notranslate"><span class="pre">tool_plotly_colorbar()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_plotly_define_2D_plot_ax.tool_plotly_define_2D_plot_ax"><code class="docutils literal notranslate"><span class="pre">tool_plotly_define_2D_plot_ax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_plotly_define_3D_plot_ax.tool_plotly_define_3D_plot_ax"><code class="docutils literal notranslate"><span class="pre">tool_plotly_define_3D_plot_ax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_plotly_find_next_sceneN.tool_plotly_find_next_sceneN"><code class="docutils literal notranslate"><span class="pre">tool_plotly_find_next_sceneN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_plotly_find_next_xN.tool_plotly_find_next_xN"><code class="docutils literal notranslate"><span class="pre">tool_plotly_find_next_xN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_plot_manipulation_functions.tool_zoom_plot_matplotlib"><code class="docutils literal notranslate"><span class="pre">tool_zoom_plot_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_print_in_color.tool_print_in_color"><code class="docutils literal notranslate"><span class="pre">tool_print_in_color()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_set_plot_axis_properties_matplotlib.tool_set_plot_axis_properties_matplotlib"><code class="docutils literal notranslate"><span class="pre">tool_set_plot_axis_properties_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.tool.tool_set_plot_axis_properties_plotly.tool_set_plot_axis_properties_plotly"><code class="docutils literal notranslate"><span class="pre">tool_set_plot_axis_properties_plotly()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ComFiT Library Reference</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Auxiliary Tool Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tool/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="auxiliary-tool-functions">
+<h1>Auxiliary Tool Functions<a class="headerlink" href="#auxiliary-tool-functions" title="Link to this heading"></a></h1>
+<p>Auxiliary functions for the manipulation of data and plots.</p>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py function" id="module-comfit.tool.tool_add_spacing_2D">
+<dt class="sig sig-object py" id="comfit.tool.tool_add_spacing_2D.tool_add_spacing_2D">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_add_spacing_2D.</span></span><span class="sig-name descname"><span class="pre">tool_add_spacing_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_add_spacing_2D.tool_add_spacing_2D" title="Link to this definition"></a></dt>
+<dd><p>Add spacing to a 2D field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+</dd>
+</dl>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>X<span class="classifier">np.ndarray</span></dt><dd><p>The x-coordinates.</p>
+</dd>
+<dt>Y<span class="classifier">np.ndarray</span></dt><dd><p>The y-coordinates.</p>
+</dd>
+<dt>U<span class="classifier">np.ndarray</span></dt><dd><p>The x-components of the field.</p>
+</dd>
+<dt>V<span class="classifier">np.ndarray</span></dt><dd><p>The y-components of the field.</p>
+</dd>
+<dt>spacing<span class="classifier">int</span></dt><dd><p>The spacing to be added.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]</dt><dd><p>The spaced x-coordinates, y-coordinates, x-components of the field, and y-components of the field.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_add_spacing_3D">
+<dt class="sig sig-object py" id="comfit.tool.tool_add_spacing_3D.tool_add_spacing_3D">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_add_spacing_3D.</span></span><span class="sig-name descname"><span class="pre">tool_add_spacing_3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_add_spacing_3D.tool_add_spacing_3D" title="Link to this definition"></a></dt>
+<dd><p>Add spacing to a 3D field.</p>
+<p>When working with plot vectors, it is often useful to reduce the number of 
+vectors to make the plot more readable. This function allows you to do that 
+by adding spacing to the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>X<span class="classifier">np.ndarray</span></dt><dd><p>The x-coordinates.</p>
+</dd>
+<dt>Y<span class="classifier">np.ndarray</span></dt><dd><p>The y-coordinates.</p>
+</dd>
+<dt>Z<span class="classifier">np.ndarray</span></dt><dd><p>The z-coordinates.</p>
+</dd>
+<dt>U<span class="classifier">np.ndarray</span></dt><dd><p>The x-components of the field.</p>
+</dd>
+<dt>V<span class="classifier">np.ndarray</span></dt><dd><p>The y-components of the field.</p>
+</dd>
+<dt>W<span class="classifier">np.ndarray</span></dt><dd><p>The z-components of the field.</p>
+</dd>
+<dt>spacing<span class="classifier">int</span></dt><dd><p>The spacing to be added.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]</dt><dd><p>The spaced x-, y-, z-coordinates, x-, y-, and z-components of the field.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_make_animation">
+<dt class="sig sig-object py" id="comfit.tool.tool_make_animation.tool_make_animation_gif">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_make_animation.</span></span><span class="sig-name descname"><span class="pre">tool_make_animation_gif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_png</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_make_animation.tool_make_animation_gif" title="Link to this definition"></a></dt>
+<dd><p>Make an animation from a series of plot img and save it as a GIF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id3">
+<h2>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>counter<span class="classifier">int</span></dt><dd><p>The number of plot img to include in the animation.</p>
+</dd>
+<dt>name<span class="classifier">Optional[str], optional</span></dt><dd><p>The filename for the output GIF, by default None</p>
+</dd>
+<dt>fps<span class="classifier">Optional[int], optional</span></dt><dd><p>The frames per second for the GIF, by default 24</p>
+</dd>
+<dt>ID<span class="classifier">Optional[str], optional</span></dt><dd><p>A unique identifier for the plot image files, by default None</p>
+</dd>
+<dt>delete_png<span class="classifier">Optional[bool], optional</span></dt><dd><p>Whether to delete the png files after creating the GIF, by default True</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h2>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Saves the GIF file.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="comfit.tool.tool_make_animation.tool_make_animation_movie">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_make_animation.</span></span><span class="sig-name descname"><span class="pre">tool_make_animation_movie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_png</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_make_animation.tool_make_animation_movie" title="Link to this definition"></a></dt>
+<dd><p>Make an animation from a series of plot img and save it as an MP4 video file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id5">
+<h2>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>counter<span class="classifier">int</span></dt><dd><p>The number of plot img to include in the animation.</p>
+</dd>
+<dt>name<span class="classifier">Optional[str], optional</span></dt><dd><p>The filename for the output video, by default None</p>
+</dd>
+<dt>fps<span class="classifier">Optional[int], optional</span></dt><dd><p>The frames per second for the video, by default 24</p>
+</dd>
+<dt>ID<span class="classifier">Optional[str], optional</span></dt><dd><p>A unique identifier for the plot image files, by default None</p>
+</dd>
+<dt>delete_png<span class="classifier">Optional[bool], optional</span></dt><dd><p>Whether to delete the png files after creating the video, by default True</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h2>Returns<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Saves the video file.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_colormap">
+<dt class="sig sig-object py" id="comfit.tool.tool_colormap.tool_colormap">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_colormap.</span></span><span class="sig-name descname"><span class="pre">tool_colormap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colormap_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_lib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plotly'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_colormap.tool_colormap" title="Link to this definition"></a></dt>
+<dd><p>Get a colormap for a plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">LinearSegmentedColormap</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]]</span></p>
+</dd>
+</dl>
+<section id="id7">
+<h2>Parameters<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>colormap_string<span class="classifier">str</span></dt><dd><p>The name of the colormap. See options at
+<a class="reference external" href="https://comfitlib.com/Plotting/">https://comfitlib.com/Plotting/</a></p>
+</dd>
+<dt>plot_lib<span class="classifier">str, optional</span></dt><dd><p>The plotting library to use, either ‘plotly’ or ‘matplotlib’, by default ‘plotly’</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h2>Returns<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Union[mcolors.LinearSegmentedColormap, List[Tuple[float, str]]]</dt><dd><p>For plotly: List of tuples with (position, rgb color string)
+For matplotlib: A matplotlib colormap object</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_complete_field">
+<dt class="sig sig-object py" id="comfit.tool.tool_complete_field.tool_complete_field">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_complete_field.</span></span><span class="sig-name descname"><span class="pre">tool_complete_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_complete_field.tool_complete_field" title="Link to this definition"></a></dt>
+<dd><p>Extends a partial field array to a complete array by tiling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+<section id="id9">
+<h2>Parameters<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">‘BaseSystem’</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>field<span class="classifier">np.ndarray</span></dt><dd><p>Input field array to be extended. Can be 1D, 2D, or 3D array with partial dimensions.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h2>Returns<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>Extended field array with complete dimensions matching self.xRes, self.yRes, and self.zRes.</p>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
+<p>If input field is incomplete (has dimensions of 1 in some axes), it will be tiled
+to match the full resolution specified by self.xRes, self.yRes, and self.zRes.</p>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_configure_axis">
+<dt class="sig sig-object py" id="comfit.tool.tool_configure_axis.tool_configure_axis">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_configure_axis.</span></span><span class="sig-name descname"><span class="pre">tool_configure_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xRes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_configure_axis.tool_configure_axis" title="Link to this definition"></a></dt>
+<dd><p>Configure a single axis (x, y, or z) based on the provided parameters.</p>
+<p>When constructing a grid, providing all parameters will over-specify the axis.
+This function takes care of the hierarchy of values and determines the axis limits,
+minimum value, maximum value, resolution, and step size.</p>
+<p>The hierarchy of values is as follows:
+xlim &gt; xmin &gt; xmax &gt; xRes &gt; dx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id11">
+<h2>Parameters<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dim<span class="classifier">int</span></dt><dd><p>Dimension of the system (1, 2, or 3)</p>
+</dd>
+<dt>name<span class="classifier">str</span></dt><dd><p>Name of the axis (‘x’, ‘y’, ‘z’) for error messages</p>
+</dd>
+<dt>xlim<span class="classifier">list of float, optional</span></dt><dd><p>A 2-element list [min, max] for the axis limits</p>
+</dd>
+<dt>xmin<span class="classifier">float, optional</span></dt><dd><p>Minimum value of the axis</p>
+</dd>
+<dt>xmax<span class="classifier">float, optional </span></dt><dd><p>Maximum value of the axis</p>
+</dd>
+<dt>xRes<span class="classifier">int, optional</span></dt><dd><p>Resolution (number of points) along the axis</p>
+</dd>
+<dt>dx<span class="classifier">float, optional</span></dt><dd><p>Step size (spacing between points) along the axis</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h2>Returns<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple</dt><dd><p>(xlim, xmin, xmax, xRes, dx) where:
+- xlim is a list of [min, max] values
+- xmin is the minimum value (float)
+- xmax is the maximum value (float) 
+- xRes is the resolution (int)
+- dx is the step size (float)</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h2>Notes<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<p>Even though the function takes parameters ‘x’-specific parameters, 
+it is used for ‘y’ and ‘z’ as well.</p>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_create_orthonormal_triad">
+<dt class="sig sig-object py" id="comfit.tool.tool_create_orthonormal_triad.tool_create_orthonormal_triad">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_create_orthonormal_triad.</span></span><span class="sig-name descname"><span class="pre">tool_create_orthonormal_triad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_create_orthonormal_triad.tool_create_orthonormal_triad" title="Link to this definition"></a></dt>
+<dd><p>Create an orthonormal triad given a vector t.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id14">
+<h2>Parameters<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>t<span class="classifier">np.ndarray</span></dt><dd><p>Input vector of shape (3,). Does not need to be normalized.</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h2>Returns<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Tuple[np.ndarray, np.ndarray, np.ndarray]</dt><dd><p>A tuple (e1, e2, t) containing the orthonormal triad vectors.
+Each vector is a normalized numpy array of shape (3,).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_extract_node_arrays">
+<dt class="sig sig-object py" id="comfit.tool.tool_extract_node_arrays.tool_extract_node_arrays">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_extract_node_arrays.</span></span><span class="sig-name descname"><span class="pre">tool_extract_node_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_extract_node_arrays.tool_extract_node_arrays" title="Link to this definition"></a></dt>
+<dd><p>Extracts node arrays from a dictionary of nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id16">
+<h2>Parameters<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>self<span class="classifier">‘BaseSystem’</span></dt><dd><p>A BaseSystem (or derived) instance.</p>
+</dd>
+<dt>nodes<span class="classifier">List[Dict]</span></dt><dd><p>List of node dictionaries containing position and other properties</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h2>Returns<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Dict[str, Any]</dt><dd><p>Dictionary containing arrays of node properties including:
+- coordinates (x,y,z)
+- velocity components if present
+- charge-separated coordinates if charges present
+- Burgers vector components if present
+- tangent vector components if present
+- rotation vector</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_math_functions">
+<dt class="sig sig-object py" id="comfit.tool.tool_math_functions.levi_civita_symbol">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_math_functions.</span></span><span class="sig-name descname"><span class="pre">levi_civita_symbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_math_functions.levi_civita_symbol" title="Link to this definition"></a></dt>
+<dd><p>Calculate the Levi-Civita symbol (antisymmetric tensor).</p>
+<dl class="simple">
+<dt>The Levi-Civita symbol is defined as:</dt><dd><p>1 if (i,j,k) is an even permutation of (0,1,2)
+-1 if (i,j,k) is an odd permutation of (0,1,2)
+0 if any indices are repeated or not in {0,1,2}</p>
+</dd>
+</dl>
+<section id="id18">
+<h2>Parameters<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>i<span class="classifier">int</span></dt><dd><p>First index</p>
+</dd>
+<dt>j<span class="classifier">int</span></dt><dd><p>Second index</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>Third index</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h2>Returns<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>int</dt><dd><p>Value of Levi-Civita symbol: 1, -1, or 0</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">levi_civita_symbol</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">levi_civita_symbol</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> 
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">levi_civita_symbol</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="comfit.tool.tool_math_functions.tool_multinom">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_math_functions.</span></span><span class="sig-name descname"><span class="pre">tool_multinom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_math_functions.tool_multinom" title="Link to this definition"></a></dt>
+<dd><p>Calculate the multinomial coefficient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span></p>
+</dd>
+</dl>
+<section id="id20">
+<h2>Parameters<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>*args<span class="classifier">int</span></dt><dd><p>Sequence of integers representing the counts of each category.</p>
+</dd>
+</dl>
+</section>
+<section id="id21">
+<h2>Returns<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>float</dt><dd><p>The multinomial coefficient value.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_matplotlib_define_2D_plot_ax">
+<dt class="sig sig-object py" id="comfit.tool.tool_matplotlib_define_2D_plot_ax.tool_matplotlib_define_2D_plot_ax">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_matplotlib_define_2D_plot_ax.</span></span><span class="sig-name descname"><span class="pre">tool_matplotlib_define_2D_plot_ax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_matplotlib_define_2D_plot_ax.tool_matplotlib_define_2D_plot_ax" title="Link to this definition"></a></dt>
+<dd><p>Defines the axes for a 2D plot in matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code></span></p>
+</dd>
+</dl>
+<section id="id22">
+<h2>Parameters<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>fig<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>Figure object.</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib.axes._subplots.AxesSubplot</span></dt><dd><p>Axes object.</p>
+</dd>
+</dl>
+</section>
+<section id="id23">
+<h2>Returns<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>ax<span class="classifier">matplotlib.axes._subplots.AxesSubplot</span></dt><dd><p>Axes object.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_matplotlib_define_3D_plot_ax">
+<dt class="sig sig-object py" id="comfit.tool.tool_matplotlib_define_3D_plot_ax.tool_matplotlib_define_3D_plot_ax">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_matplotlib_define_3D_plot_ax.</span></span><span class="sig-name descname"><span class="pre">tool_matplotlib_define_3D_plot_ax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_matplotlib_define_3D_plot_ax.tool_matplotlib_define_3D_plot_ax" title="Link to this definition"></a></dt>
+<dd><p>Defines the axes for a 3D plot in matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Axes3D</span></code></span></p>
+</dd>
+</dl>
+<section id="id24">
+<h2>Parameters<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>fig<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>Figure object.</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib.axes._subplots.Axes3DSubplot</span></dt><dd><p>Axes object.</p>
+</dd>
+</dl>
+</section>
+<section id="id25">
+<h2>Returns<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>ax<span class="classifier">matplotlib.axes._subplots.Axes3DSubplot</span></dt><dd><p>Axes object.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_plotly_colorbar">
+<dt class="sig sig-object py" id="comfit.tool.tool_plotly_colorbar.format_tick_value">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_plotly_colorbar.</span></span><span class="sig-name descname"><span class="pre">format_tick_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_plotly_colorbar.format_tick_value" title="Link to this definition"></a></dt>
+<dd><p>Format a numeric value with appropriate SI prefix and significant figures.
+This function formats numeric values using SI prefixes and adjusts decimal places
+based on the magnitude of the number. For values that don’t align with standard
+SI prefixes, scientific notation is used as a fallback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+<section id="id26">
+<h2>Parameters<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>val<span class="classifier">float</span></dt><dd><p>The numeric value to format.</p>
+</dd>
+</dl>
+</section>
+<section id="id27">
+<h2>Returns<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>str</dt><dd><p>A string representation of the value with appropriate SI prefix and formatting.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="comfit.tool.tool_plotly_colorbar.generate_numbers_between">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_plotly_colorbar.</span></span><span class="sig-name descname"><span class="pre">generate_numbers_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_plotly_colorbar.generate_numbers_between" title="Link to this definition"></a></dt>
+<dd><p>Generate evenly spaced numbers between given minimum and maximum values.</p>
+<p>This function generates a sequence of numbers between cmin and cmax with
+appropriate step sizes based on the range magnitude. The step size is 
+adjusted to maintain a readable number of ticks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id28">
+<h2>Parameters<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>cmin<span class="classifier">float</span></dt><dd><p>Minimum value of the range.</p>
+</dd>
+<dt>cmax<span class="classifier">float</span></dt><dd><p>Maximum value of the range.</p>
+</dd>
+</dl>
+</section>
+<section id="id29">
+<h2>Returns<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple[np.ndarray, float]</dt><dd><p>A tuple containing:
+- np.ndarray: Array of evenly spaced numbers between cmin and cmax
+- float: The exponent of the range magnitude (delta_exp)</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h2>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If cmin is greater than cmax.</p>
+</dd>
+</dl>
+</section>
+<section id="id30">
+<h2>Notes<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<p>The step size is determined based on the range magnitude:
+- If range &lt;= 5 units: step = 10^delta_exp
+- If range &lt;= 10 units: step = 2×10^delta_exp
+- If range &lt;= 15 units: step = 3×10^delta_exp
+- If range &lt;= 20 units: step = 4×10^delta_exp</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="comfit.tool.tool_plotly_colorbar.tool_plotly_colorbar">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_plotly_colorbar.</span></span><span class="sig-name descname"><span class="pre">tool_plotly_colorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'normal'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_plotly_colorbar.tool_plotly_colorbar" title="Link to this definition"></a></dt>
+<dd><p>Add a colorbar to a plotly figure subplot with customizable type and placement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Scatter</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Scatter3d</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id31">
+<h2>Parameters<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>ax<span class="classifier">dict</span></dt><dd><p>Dictionary containing subplot information with keys:
+- ‘vmin’: Minimum value for normal colorbar
+- ‘vmax’: Maximum value for normal colorbar
+- ‘plot_dimension’: Integer (2 or 3) indicating plot dimensions
+- ‘colormap_object’: Plotly colormap object
+- ‘row’: Row index of subplot
+- ‘col’: Column index of subplot
+- ‘nrows’: Total number of rows in figure
+- ‘ncols’: Total number of columns in figure</p>
+</dd>
+<dt>type<span class="classifier">str, optional</span></dt><dd><p>Type of colorbar to create, by default ‘normal’
+- ‘normal’: Linear scale with auto-formatted tick values
+- ‘angle’: Angular scale from -π to π with radian labels</p>
+</dd>
+</dl>
+</section>
+<section id="id32">
+<h2>Returns<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Union[plotly.graph_objects.Scatter, plotly.graph_objects.Scatter3d]</dt><dd><p>A scatter trace containing the colorbar configuration. The trace has no data points
+and is used solely for displaying the colorbar.</p>
+</dd>
+</dl>
+</section>
+<section id="id33">
+<h2>Notes<a class="headerlink" href="#id33" title="Link to this heading"></a></h2>
+<p>The colorbar placement is automatically calculated based on the subplot position.
+For normal type, tick values are auto-formatted with scientific notation.
+For angle type, tick values are displayed in π radians.</p>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_plotly_define_2D_plot_ax">
+<dt class="sig sig-object py" id="comfit.tool.tool_plotly_define_2D_plot_ax.tool_plotly_define_2D_plot_ax">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_plotly_define_2D_plot_ax.</span></span><span class="sig-name descname"><span class="pre">tool_plotly_define_2D_plot_ax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_plotly_define_2D_plot_ax.tool_plotly_define_2D_plot_ax" title="Link to this definition"></a></dt>
+<dd><p>Define x-axis, y-axis and plot dimension parameters for 2D Plotly plots.</p>
+<p>This function sets up axis naming conventions and validates plot dimensions
+for 2D plots in Plotly. It determines the next available x-axis identifier
+and corresponding y-axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id34">
+<h2>Parameters<a class="headerlink" href="#id34" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>fig<span class="classifier">plotly.graph_objects.Figure</span></dt><dd><p>The Plotly figure object to define axes for.</p>
+</dd>
+<dt>ax<span class="classifier">Dict[str, Any]</span></dt><dd><p>Dictionary containing axis parameters. May include:
+xN : str (optional, X-axis identifier, e.g., ‘x’, ‘x2’, ‘x3’),
+yN : str (optional, Y-axis identifier, e.g., ‘y’, ‘y2’, ‘y3’),
+plot_dimension : int (optional, plot dimension, must be 2 for 2D plots).</p>
+</dd>
+</dl>
+</section>
+<section id="id35">
+<h2>Returns<a class="headerlink" href="#id35" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Dict[str, Any]</dt><dd><p>Updated dictionary containing:
+xN : str (X-axis identifier),
+yN : str (Y-axis identifier),
+plot_dimension : int (Plot dimension, always 2),
+xaxisN : str (Full x-axis reference, e.g., ‘xaxis’, ‘xaxis2’),
+yaxisN : str (Full y-axis reference, e.g. ‘yaxis’, ‘yaxis2’).</p>
+</dd>
+</dl>
+</section>
+<section id="id36">
+<h2>Raises<a class="headerlink" href="#id36" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If plot_dimension is not 2.</p>
+</dd>
+</dl>
+</section>
+<section id="id37">
+<h2>Notes<a class="headerlink" href="#id37" title="Link to this heading"></a></h2>
+<p>The function automatically determines the next available x-axis identifier
+if not provided in the input dictionary.</p>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_plotly_define_3D_plot_ax">
+<dt class="sig sig-object py" id="comfit.tool.tool_plotly_define_3D_plot_ax.tool_plotly_define_3D_plot_ax">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_plotly_define_3D_plot_ax.</span></span><span class="sig-name descname"><span class="pre">tool_plotly_define_3D_plot_ax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_plotly_define_3D_plot_ax.tool_plotly_define_3D_plot_ax" title="Link to this definition"></a></dt>
+<dd><p>Defines and validates parameters for a 3D plot axis in Plotly.</p>
+<p>This function checks and sets required parameters for 3D plotting, including
+validating the plot dimension and assigning a scene number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+<section id="id38">
+<h2>Parameters<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>fig<span class="classifier">plotly.graph_objects.Figure</span></dt><dd><p>The Plotly figure object to which the 3D plot will be added.</p>
+</dd>
+<dt>ax<span class="classifier">dict</span></dt><dd><dl class="simple">
+<dt>Dictionary containing axis parameters. Must include or will set:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>plot_dimension<span class="classifier">int</span></dt><dd><p>Must be 3 for 3D plots</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>sceneN<span class="classifier">int</span></dt><dd><p>Scene number for the 3D plot, auto-generated if not provided</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id39">
+<h2>Returns<a class="headerlink" href="#id39" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dict</dt><dd><p>Updated axis parameters dictionary with validated 3D plot settings.</p>
+</dd>
+</dl>
+</section>
+<section id="id40">
+<h2>Raises<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If plot_dimension is not 3.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_plotly_find_next_sceneN">
+<dt class="sig sig-object py" id="comfit.tool.tool_plotly_find_next_sceneN.tool_plotly_find_next_sceneN">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_plotly_find_next_sceneN.</span></span><span class="sig-name descname"><span class="pre">tool_plotly_find_next_sceneN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_plotly_find_next_sceneN.tool_plotly_find_next_sceneN" title="Link to this definition"></a></dt>
+<dd><p>Find the next available scene name in a Plotly figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+<section id="id41">
+<h2>Parameters<a class="headerlink" href="#id41" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>fig<span class="classifier">plotly.graph_objects.Figure</span></dt><dd><p>The Plotly figure to analyze.</p>
+</dd>
+</dl>
+</section>
+<section id="id42">
+<h2>Returns<a class="headerlink" href="#id42" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>str</dt><dd><p>The next available scene name. Returns ‘scene’ if no scenes are used,
+otherwise returns ‘sceneN’ where N is one more than the current highest scene number.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_plotly_find_next_xN">
+<dt class="sig sig-object py" id="comfit.tool.tool_plotly_find_next_xN.tool_plotly_find_next_xN">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_plotly_find_next_xN.</span></span><span class="sig-name descname"><span class="pre">tool_plotly_find_next_xN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_plotly_find_next_xN.tool_plotly_find_next_xN" title="Link to this definition"></a></dt>
+<dd><p>Find the next available x-axis identifier in a Plotly figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+<section id="id43">
+<h2>Parameters<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>fig<span class="classifier">plotly.graph_objects.Figure</span></dt><dd><p>The Plotly figure to analyze.</p>
+</dd>
+</dl>
+</section>
+<section id="id44">
+<h2>Returns<a class="headerlink" href="#id44" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>str</dt><dd><p>The next available x-axis identifier. Returns ‘x’ if no x-axes are used,
+or ‘xN’ where N is one more than the current highest axis number.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_plot_manipulation_functions">
+<dt class="sig sig-object py" id="comfit.tool.tool_plot_manipulation_functions.tool_zoom_plot_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_plot_manipulation_functions.</span></span><span class="sig-name descname"><span class="pre">tool_zoom_plot_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zoom_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_plot_manipulation_functions.tool_zoom_plot_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Zoom in/out on a matplotlib plot by adjusting axis limits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id45">
+<h2>Parameters<a class="headerlink" href="#id45" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>zoom_factor<span class="classifier">float</span></dt><dd><p>Factor by which to zoom. Values &gt; 1 zoom in, values &lt; 1 zoom out.</p>
+</dd>
+<dt>ax<span class="classifier">plt.Axes, optional</span></dt><dd><p>The axes to apply zoom to. If None, uses current axes, by default None.</p>
+</dd>
+</dl>
+</section>
+<section id="id46">
+<h2>Returns<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Modifies the plot in place.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_print_in_color">
+<dt class="sig sig-object py" id="comfit.tool.tool_print_in_color.tool_print_in_color">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_print_in_color.</span></span><span class="sig-name descname"><span class="pre">tool_print_in_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_print_in_color.tool_print_in_color" title="Link to this definition"></a></dt>
+<dd><p>Print a string in color.</p>
+<section id="id47">
+<h2>Parameters<a class="headerlink" href="#id47" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>string<span class="classifier">str</span></dt><dd><p>The string to be printed.</p>
+</dd>
+<dt>color<span class="classifier">str</span></dt><dd><p>The color of the string. Options are ‘red’ (default), ‘green’, 
+‘yellow’, ‘blue’, ‘magenta’, ‘cyan’, ‘white’, ‘black’.</p>
+</dd>
+</dl>
+</section>
+<section id="id48">
+<h2>Returns<a class="headerlink" href="#id48" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Prints the string</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_set_plot_axis_properties_matplotlib">
+<dt class="sig sig-object py" id="comfit.tool.tool_set_plot_axis_properties_matplotlib.tool_set_plot_axis_properties_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_set_plot_axis_properties_matplotlib.</span></span><span class="sig-name descname"><span class="pre">tool_set_plot_axis_properties_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_set_plot_axis_properties_matplotlib.tool_set_plot_axis_properties_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Set the properties of the axis for a plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code></span></p>
+</dd>
+</dl>
+<section id="id49">
+<h2>Parameters<a class="headerlink" href="#id49" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>kwargs<span class="classifier">dict</span></dt><dd><p>Keyword arguments for the axis properties.</p>
+</dd>
+</dl>
+</section>
+<section id="id50">
+<h2>Returns<a class="headerlink" href="#id50" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>matplotlib.axes.Axes</dt><dd><p>The axis object with the properties set.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.tool.tool_set_plot_axis_properties_plotly">
+<dt class="sig sig-object py" id="comfit.tool.tool_set_plot_axis_properties_plotly.tool_set_plot_axis_properties_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.tool.tool_set_plot_axis_properties_plotly.</span></span><span class="sig-name descname"><span class="pre">tool_set_plot_axis_properties_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.tool.tool_set_plot_axis_properties_plotly.tool_set_plot_axis_properties_plotly" title="Link to this definition"></a></dt>
+<dd><p>Set the properties of the axis for a plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<section id="id51">
+<h2>Parameters<a class="headerlink" href="#id51" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>kwargs<span class="classifier">dict</span></dt><dd><p>Keyword arguments for the axis properties.</p>
+</dd>
+</dl>
+</section>
+<section id="id52">
+<h2>Returns<a class="headerlink" href="#id52" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Function updates the layout and scene dictionaries with the axis properties.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../plot/index.html" class="btn btn-neutral float-left" title="Auxiliary Plot Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vidar Skogvoll and Jonas Rønning.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

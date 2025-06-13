@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ComFiT Library Reference documentation &mdash; ComFiT Library Reference 1.8.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=496f73d5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Base System" href="core/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            ComFiT Library Reference
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="core/index.html">Base System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantum_mechanics/index.html">Class: Quantum Mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bose_einstein_condensate/index.html">Class: Bose Einstein Condensate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nematic_liquid_crystal/index.html">Class: Nematic Liquid Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phase_field_crystal/index.html">Class: Phase Field Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot/index.html">Auxiliary Plot Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tool/index.html">Auxiliary Tool Functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">ComFiT Library Reference</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ComFiT Library Reference documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="comfit-library-reference-documentation">
+<h1>ComFiT Library Reference documentation<a class="headerlink" href="#comfit-library-reference-documentation" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="core/index.html">Base System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core/index.html#comfit.core.base_system.BaseSystem"><code class="docutils literal notranslate"><span class="pre">BaseSystem</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system.BaseSystem.fft"><code class="docutils literal notranslate"><span class="pre">BaseSystem.fft()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system.BaseSystem.ifft"><code class="docutils literal notranslate"><span class="pre">BaseSystem.ifft()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core/index.html#comfit.core.base_system_init.BaseSystemInit"><code class="docutils literal notranslate"><span class="pre">BaseSystemInit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_init.BaseSystemInit.__init__"><code class="docutils literal notranslate"><span class="pre">BaseSystemInit.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core/index.html#comfit.core.base_system_evolve.BaseSystemEvolve"><code class="docutils literal notranslate"><span class="pre">BaseSystemEvolve</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_evolve.BaseSystemEvolve.evolve_ETD2RK_loop"><code class="docutils literal notranslate"><span class="pre">BaseSystemEvolve.evolve_ETD2RK_loop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_evolve.BaseSystemEvolve.evolve_ETD4RK_loop"><code class="docutils literal notranslate"><span class="pre">BaseSystemEvolve.evolve_ETD4RK_loop()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core/index.html#comfit.core.base_system_get.BaseSystemGet"><code class="docutils literal notranslate"><span class="pre">BaseSystemGet</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_get.BaseSystemGet.get_anti_sym"><code class="docutils literal notranslate"><span class="pre">BaseSystemGet.get_anti_sym()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_get.BaseSystemGet.get_sym"><code class="docutils literal notranslate"><span class="pre">BaseSystemGet.get_sym()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_get.BaseSystemGet.get_sym_tl"><code class="docutils literal notranslate"><span class="pre">BaseSystemGet.get_sym_tl()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot._check_if_fourier_and_adjust"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot._check_if_fourier_and_adjust()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_add_plotly"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_add_plotly()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_angle_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_angle_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_angle_field_in_plane"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_angle_field_in_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_complex_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_complex_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_complex_field_in_plane"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_complex_field_in_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_field_in_plane"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_field_in_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_nodes"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_prepare"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_prepare()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_save"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_subplots"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_subplots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_vector_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_vector_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.plot_vector_field_in_plane"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.plot_vector_field_in_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_plot.BaseSystemPlot.show"><code class="docutils literal notranslate"><span class="pre">BaseSystemPlot.show()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_Gaussian"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_Gaussian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_Gaussian_filter_f"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_Gaussian_filter_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_advect_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_advect_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_single_vortex"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_angle_field_single_vortex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_dipole"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_angle_field_vortex_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_filament"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_angle_field_vortex_filament()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_angle_field_vortex_ring"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_angle_field_vortex_ring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_coarse_grain"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_coarse_grain()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_current_density"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_current_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_density"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_density_singular"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_density_singular()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_nodes"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_defect_velocity_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_defect_velocity_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_delta_function"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_delta_function()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_determinant_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_determinant_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_distance_squared_to_point"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_distance_squared_to_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_evolution_integrating_factors_ETD2RK"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_evolution_integrating_factors_ETD2RK()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_evolution_integrating_factors_ETD4RK"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_evolution_integrating_factors_ETD4RK()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_integrate_field"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_integrate_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_integrating_factors_f_and_solver"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_integrating_factors_f_and_solver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_k2"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_k2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_region_ball"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_region_ball()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_region_cylinder"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_region_cylinder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_region_disk"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_region_disk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_region_interval"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_region_interval()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core/index.html#comfit.core.base_system_calc.BaseSystemCalc.calc_wavenums"><code class="docutils literal notranslate"><span class="pre">BaseSystemCalc.calc_wavenums()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core/index.html#comfit.core.base_system_conf.BaseSystemConf"><code class="docutils literal notranslate"><span class="pre">BaseSystemConf</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantum_mechanics/index.html">Class: Quantum Mechanics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.__init__"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.calc_hydrogen_state"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.calc_hydrogen_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.calc_nonlinear_evolution_function_f"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.calc_nonlinear_evolution_function_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_harmonic_potential"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.conf_harmonic_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_hydrogen_state"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.conf_hydrogen_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_initial_condition_Gaussian"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.conf_initial_condition_Gaussian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.conf_wavefunction"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.conf_wavefunction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html#comfit.quantum_mechanics.quantum_mechanics.QuantumMechanics.evolve_schrodinger"><code class="docutils literal notranslate"><span class="pre">QuantumMechanics.evolve_schrodinger()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bose_einstein_condensate/index.html">Class: Bose Einstein Condensate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.__init__"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_force_on_external_potential"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_force_on_external_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_hamiltonian"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_hamiltonian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_hamiltonian_density"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_hamiltonian_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_harmonic_potential"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_harmonic_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_kinetic_energy"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_kinetic_energy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_nonlinear_evolution_function_f"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_nonlinear_evolution_function_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_nonlinear_evolution_term_comoving_f"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_nonlinear_evolution_term_comoving_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_superfluid_current"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_superfluid_current()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_velocity"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_velocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_density"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_vortex_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_density_singular"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_vortex_density_singular()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_nodes"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_vortex_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.calc_vortex_velocity_field"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.calc_vortex_velocity_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_dissipative_frame"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_dissipative_frame()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_external_potential"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_external_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_initial_condition_Thomas_Fermi"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_initial_condition_Thomas_Fermi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_initial_condition_disordered"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_initial_condition_disordered()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_insert_vortex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_dipole"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_insert_vortex_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_filament"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_insert_vortex_filament()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_insert_vortex_ring"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_insert_vortex_ring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.conf_vortex_remover"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.conf_vortex_remover()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_comoving_dGPE"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.evolve_comoving_dGPE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_dGPE"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.evolve_dGPE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bose_einstein_condensate/index.html#comfit.bose_einstein_condensate.bose_einstein_condensate.BoseEinsteinCondensate.evolve_relax"><code class="docutils literal notranslate"><span class="pre">BoseEinsteinCondensate.evolve_relax()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nematic_liquid_crystal/index.html">Class: Nematic Liquid Crystal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.__init__"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_active_force_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_active_force_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_density_decoupled"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_density_decoupled()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_density_nematic"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_density_nematic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_nodes_nem"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_nodes_nem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_polarization_field"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_polarization_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_velocity_field"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_velocity_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_dt_psi"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_dt_psi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_equilibrium_S"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_equilibrium_S()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_g_matrix"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_g_matrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_gradient_pressure_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_gradient_pressure_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_molecular_field"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_molecular_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_nonlinear_evolution_function_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_nonlinear_evolution_function_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_nonlinear_evolution_term_no_flow_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_nonlinear_evolution_term_no_flow_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_order_and_director"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_order_and_director()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_passive_force_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_passive_force_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_passive_stress_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_passive_stress_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_pressure_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_pressure_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_strain_rate_tensor_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_strain_rate_tensor_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_trace_Q2"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_trace_Q2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_vorticity_tensor"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_vorticity_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_active_channel"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_active_channel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_initial_condition_ordered"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_initial_condition_ordered()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_initial_disclination_lines"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_initial_disclination_lines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_insert_disclination_dipole"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_insert_disclination_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_velocity"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_velocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.evolve_nematic"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.evolve_nematic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.evolve_nematic_no_flow"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.evolve_nematic_no_flow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.plot_field_velocity_and_director"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.plot_field_velocity_and_director()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.plot_field_velocity_and_director_matplotlib.plot_field_velocity_and_director_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_field_velocity_and_director_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nematic_liquid_crystal/index.html#comfit.nematic_liquid_crystal.plot_field_velocity_and_director_plotly.plot_field_velocity_and_director_plotly"><code class="docutils literal notranslate"><span class="pre">plot_field_velocity_and_director_plotly()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="phase_field_crystal/index.html">Class: Phase Field Crystal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.__init__"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_PFC_free_energy_density_and_chemical_potential"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_PFC_free_energy_density_and_chemical_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_PFC_from_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_PFC_from_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_amplitudes_with_dislocation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation_dipole"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_amplitudes_with_dislocation_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_amplitudes_with_dislocation_ring"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_amplitudes_with_dislocation_ring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_demodulate_PFC"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_demodulate_PFC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_dislocation_density"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_dislocation_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_dislocation_nodes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_dislocation_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_displacement_field_to_equilibrium"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_displacement_field_to_equilibrium()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_free_energy"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_free_energy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_evolution_function_conserved_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_nonlinear_evolution_function_conserved_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_evolution_function_unconserved_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_nonlinear_evolution_function_unconserved_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_nonlinear_hydrodynamic_evolution_function_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_nonlinear_hydrodynamic_evolution_function_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_omega_hydrodynamic_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_omega_hydrodynamic_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_orientation_field"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_orientation_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_strain_tensor"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_strain_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_strained_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_strained_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_divergence_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_stress_divergence_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_tensor"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_stress_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_stress_tensor_microscopic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_stress_tensor_microscopic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_structure_tensor"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_structure_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.calc_structure_tensor_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.calc_structure_tensor_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_PFC_from_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_PFC_from_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_advect_PFC"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_advect_PFC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_apply_distortion"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_apply_distortion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_create_polycrystal"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_create_polycrystal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.conf_strain_to_equilibrium"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.conf_strain_to_equilibrium()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.evolve_PFC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC_hydrodynamic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.evolve_PFC_hydrodynamic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.evolve_PFC_mechanical_equilibrium"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.evolve_PFC_mechanical_equilibrium()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_PFC"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.plot_PFC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_field"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.plot_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal.PhaseFieldCrystal.plot_orientation_field"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal.plot_orientation_field()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.__init__"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_omega_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.calc_omega_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_1d_periodic.PhaseFieldCrystal1DPeriodic.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal1DPeriodic.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.__init__"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_proto_amplitude_equations_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_proto_amplitude_equations_conserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_square.PhaseFieldCrystal2DSquare.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DSquare.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.__init__"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitude_equations_unconserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_proto_amplitude_equations_unconserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_conserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_2d_triangular.PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_unconserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal2DTriangular.calc_proto_amplitudes_unconserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.__init__"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_body_centered_cubic.PhaseFieldCrystal3DBodyCenteredCubic.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DBodyCenteredCubic.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.__init__"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitude_equations_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitude_equations_conserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_face_centered_cubic.PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DFaceCenteredCubic.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.__init__"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_L_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_L_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_L_sum_f"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_L_sum_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_free_energy_from_proto_amplitudes"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_free_energy_from_proto_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitude_equations_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitude_equations_conserved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="phase_field_crystal/index.html#comfit.phase_field_crystal.phase_field_crystal_3d_simple_cubic.PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitudes_conserved"><code class="docutils literal notranslate"><span class="pre">PhaseFieldCrystal3DSimpleCubic.calc_proto_amplitudes_conserved()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plot/index.html">Auxiliary Plot Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_angle_field_matplotlib.plot_angle_field_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_angle_field_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_angle_field_plotly.plot_angle_field_plotly"><code class="docutils literal notranslate"><span class="pre">plot_angle_field_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_complex_field_in_plane_matplotlib.plot_complex_field_in_plane_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_complex_field_in_plane_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_complex_field_in_plane_plotly.plot_complex_field_in_plane_plotly"><code class="docutils literal notranslate"><span class="pre">plot_complex_field_in_plane_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_complex_field_matplotlib.plot_complex_field_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_complex_field_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_complex_field_plotly.plot_complex_field_plotly"><code class="docutils literal notranslate"><span class="pre">plot_complex_field_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_field_in_plane_matplotlib.plot_field_in_plane_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_field_in_plane_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_field_in_plane_plotly.plot_field_in_plane_plotly"><code class="docutils literal notranslate"><span class="pre">plot_field_in_plane_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_field_matplotlib.plot_field_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_field_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_field_plotly.plot_field_plotly"><code class="docutils literal notranslate"><span class="pre">plot_field_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_nodes_matplotlib.plot_nodes_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_nodes_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_nodes_plotly.plot_nodes_plotly"><code class="docutils literal notranslate"><span class="pre">plot_nodes_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_subplots_matplotlib.plot_subplots_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_subplots_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_subplots_plotly.plot_subplots_plotly"><code class="docutils literal notranslate"><span class="pre">plot_subplots_plotly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_surface_matplotlib.plot_surface_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_surface_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_vector_field_in_plane_both_plot_libs.plot_vector_field_in_plane_both_plot_libs"><code class="docutils literal notranslate"><span class="pre">plot_vector_field_in_plane_both_plot_libs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_vector_field_matplotlib.plot_vector_field_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_vector_field_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot/index.html#comfit.plot.plot_vector_field_plotly.plot_vector_field_plotly"><code class="docutils literal notranslate"><span class="pre">plot_vector_field_plotly()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tool/index.html">Auxiliary Tool Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_add_spacing_2D.tool_add_spacing_2D"><code class="docutils literal notranslate"><span class="pre">tool_add_spacing_2D()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_add_spacing_3D.tool_add_spacing_3D"><code class="docutils literal notranslate"><span class="pre">tool_add_spacing_3D()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_make_animation.tool_make_animation_gif"><code class="docutils literal notranslate"><span class="pre">tool_make_animation_gif()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_make_animation.tool_make_animation_movie"><code class="docutils literal notranslate"><span class="pre">tool_make_animation_movie()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_colormap.tool_colormap"><code class="docutils literal notranslate"><span class="pre">tool_colormap()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_complete_field.tool_complete_field"><code class="docutils literal notranslate"><span class="pre">tool_complete_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_configure_axis.tool_configure_axis"><code class="docutils literal notranslate"><span class="pre">tool_configure_axis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_create_orthonormal_triad.tool_create_orthonormal_triad"><code class="docutils literal notranslate"><span class="pre">tool_create_orthonormal_triad()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_extract_node_arrays.tool_extract_node_arrays"><code class="docutils literal notranslate"><span class="pre">tool_extract_node_arrays()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_math_functions.levi_civita_symbol"><code class="docutils literal notranslate"><span class="pre">levi_civita_symbol()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_math_functions.tool_multinom"><code class="docutils literal notranslate"><span class="pre">tool_multinom()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_matplotlib_define_2D_plot_ax.tool_matplotlib_define_2D_plot_ax"><code class="docutils literal notranslate"><span class="pre">tool_matplotlib_define_2D_plot_ax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_matplotlib_define_3D_plot_ax.tool_matplotlib_define_3D_plot_ax"><code class="docutils literal notranslate"><span class="pre">tool_matplotlib_define_3D_plot_ax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_plotly_colorbar.format_tick_value"><code class="docutils literal notranslate"><span class="pre">format_tick_value()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_plotly_colorbar.generate_numbers_between"><code class="docutils literal notranslate"><span class="pre">generate_numbers_between()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_plotly_colorbar.tool_plotly_colorbar"><code class="docutils literal notranslate"><span class="pre">tool_plotly_colorbar()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_plotly_define_2D_plot_ax.tool_plotly_define_2D_plot_ax"><code class="docutils literal notranslate"><span class="pre">tool_plotly_define_2D_plot_ax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_plotly_define_3D_plot_ax.tool_plotly_define_3D_plot_ax"><code class="docutils literal notranslate"><span class="pre">tool_plotly_define_3D_plot_ax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_plotly_find_next_sceneN.tool_plotly_find_next_sceneN"><code class="docutils literal notranslate"><span class="pre">tool_plotly_find_next_sceneN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_plotly_find_next_xN.tool_plotly_find_next_xN"><code class="docutils literal notranslate"><span class="pre">tool_plotly_find_next_xN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_plot_manipulation_functions.tool_zoom_plot_matplotlib"><code class="docutils literal notranslate"><span class="pre">tool_zoom_plot_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_print_in_color.tool_print_in_color"><code class="docutils literal notranslate"><span class="pre">tool_print_in_color()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_set_plot_axis_properties_matplotlib.tool_set_plot_axis_properties_matplotlib"><code class="docutils literal notranslate"><span class="pre">tool_set_plot_axis_properties_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/index.html#comfit.tool.tool_set_plot_axis_properties_plotly.tool_set_plot_axis_properties_plotly"><code class="docutils literal notranslate"><span class="pre">tool_set_plot_axis_properties_plotly()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="core/index.html" class="btn btn-neutral float-right" title="Base System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vidar Skogvoll and Jonas Rønning.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
