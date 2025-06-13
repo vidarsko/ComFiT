@@ -905,7 +905,7 @@ $$
 \tilde f(k,t) = \eta(t) \int d\vec r e^{i\vec k \cdot \vec r} \xi(\vec r)
 $$
 
-With $\xi$ being the spatial noize.
+With $\xi$ being some noize with a spatial distribution. 
 The kernel is then given bu the integral
 
 $$
