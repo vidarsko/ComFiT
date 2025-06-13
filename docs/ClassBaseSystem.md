@@ -906,7 +906,7 @@ $$
 $$
 
 With $\xi$ being some noize with a spatial distribution. 
-The kernel is then given bu the integral
+The kernel is then given by the integral
 
 $$
 A(\vec k) = \int d\vec r e^{i\vec k \cdot \vec r} \xi(\vec r)
