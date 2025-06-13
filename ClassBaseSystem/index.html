@@ -1,0 +1,1687 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://comfitlib.com/ClassBaseSystem/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../Plotting/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Class: Base system - ComFiT documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../styles.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#class-base-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ComFiT documentation" class="md-header__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ComFiT documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Class: Base system
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ComFiT documentation" class="md-nav__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    ComFiT documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Class: Base system
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Base system
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#types-of-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Types of functions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-keywords-and-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      General keywords and parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fourier-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fourier transformations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fourier transformations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#infinite-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Infinite system
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#periodic-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      Periodic grid
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-nyquist-frequency" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Nyquist frequency
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotting-a-fourier-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plotting a Fourier field
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coarse-graining" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coarse-graining
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vortex-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vortex fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vortex fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#angle-field-of-a-single-vortex-in-two-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Angle field of a single vortex in two dimensions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angle-field-of-a-vortex-ring-in-three-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Angle field of a vortex ring in three dimensions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#periodic-boundary-conditions-numerical-implementation-of-angle-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Periodic boundary conditions: Numerical implementation of angle fields
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#numerical-integration-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Numerical integration scheme
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Numerical integration scheme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-etd2rk-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      The ETD2RK scheme
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-etd4rk-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      The ETD4RK scheme
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-fully-non-linear-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      The fully non-linear limit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-fully-linear-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      The fully linear limit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stochastic-noize" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stochastic noize
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stochastic noize">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notes-on-the-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes on the kernel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithms-for-tracking-defects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algorithms for tracking defects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calculating-the-velocity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calculating the velocity
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Plotting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Plotting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TopologicalDefects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Topological Defects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassQuantumMechanics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassBoseEinsteinCondensate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Bose-Einstein condensate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassNematicLiquidCrystal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Nematic liquid crystal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassPhaseFieldCrystal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Phase-field crystal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conventions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library_reference" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Library reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="class-base-system">Class: Base system</h1>
+<p>This class simply initiates a system, defines the grid and contains the basic functionality for evolving in time.</p>
+<p>See the ComFiT Library Reference below for a complete list of class methods and their usage.</p>
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/core/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
+<h2 id="types-of-functions">Types of functions</h2>
+<p>There are five different types of functions:</p>
+<ol>
+<li><code>conf_</code>-functions: Configures the state of the system, for instance by setting an initial condition. Output nothing.</li>
+<li><code>evolve_</code>-functions: Evolves the state in time according to some equation of motion.</li>
+<li><code>calc_</code>-functions: Calculates something from the state, returns that which has been calculated.</li>
+<li><code>plot_</code>-functions: Functions tailored to plot specific things. Output the axes and figure.</li>
+<li><code>get_</code>-functions: Functions that return a component of a tensor field. Relevant for symmetric and antisymmetric tensors where it is not convenient to save all elements.</li>
+</ol>
+<h2 id="general-keywords-and-parameters">General keywords and parameters</h2>
+<p>The only required input argument to the BaseSystem class is the <code>dim</code> argument, which specifies the dimension of the system.
+In some cases, default values of other parameter depend on the value of <code>dim</code>, and are represented by curly brackets:</p>
+<div class="arithmatex">\[
+\left \lbrace \begin{array}{l} \textrm{default value if } \texttt{dim }= 1 \\ \textrm{default value if } \texttt{dim }= 2  \\ \textrm{default value if } \texttt{dim }= 3  \\ \end{array} \right \rbrace
+\]</div>
+<p>These are the optional keywords for the <code>BaseSystem</code> class.</p>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Definition</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xmin</code></td>
+<td>Minimum value of <span class="arithmatex">\(x\)</span> of the simulation domain</td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+<tr>
+<td><code>ymin</code></td>
+<td>Minimum value of <span class="arithmatex">\(y\)</span> of the simulation domain</td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+<tr>
+<td><code>zmin</code></td>
+<td>Minimum value of <span class="arithmatex">\(z\)</span> of the simulation domain</td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+<tr>
+<td><code>xmax</code></td>
+<td>Maximum value of <span class="arithmatex">\(x\)</span> of the simulation domain.</td>
+<td><span class="arithmatex">\(100\)</span></td>
+</tr>
+<tr>
+<td><code>ymax</code></td>
+<td>Maximum value of <span class="arithmatex">\(y\)</span> of the simulation domain</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} 1 \\ 100 \\ 100 \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>zmax</code></td>
+<td>Maximum value of <span class="arithmatex">\(z\)</span> of the simulation domain</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} 1 \\ 1 \\  100 \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>xRes</code></td>
+<td>Resolution of the <span class="arithmatex">\(x\)</span> axis</td>
+<td><span class="arithmatex">\(101\)</span></td>
+</tr>
+<tr>
+<td><code>yRes</code></td>
+<td>Resolution of the <span class="arithmatex">\(y\)</span> axis</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} 1 \\ 101 \\  101 \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>zRes</code></td>
+<td>Resolution of the <span class="arithmatex">\(z\)</span> axis</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} 1 \\ 1 \\  101 \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>dx</code></td>
+<td>Spacing between points on the <span class="arithmatex">\(x\)</span>-axis. Trumps <code>xRes</code> if provided. <code>xmax</code> will be modified to match.</td>
+<td><span class="arithmatex">\(\frac{\texttt{xmax}-\texttt{xmin}}{\texttt{xRes}} = 1\)</span></td>
+</tr>
+<tr>
+<td><code>dy</code></td>
+<td>Spacing between points on the <span class="arithmatex">\(y\)</span>-axis. Trumps <code>yRes</code> if provided.</td>
+<td><span class="arithmatex">\(\frac{\texttt{ymax}-\texttt{ymin}}{\texttt{yRes}} = 1\)</span></td>
+</tr>
+<tr>
+<td><code>dz</code></td>
+<td>Spacing between points on the <span class="arithmatex">\(x\)</span>-axis. Trumps <code>zRes</code> if provided.</td>
+<td><span class="arithmatex">\(\frac{\texttt{zmax}-\texttt{zmin}}{\texttt{zRes}} = 1\)</span></td>
+</tr>
+<tr>
+<td><code>xlim</code></td>
+<td>List or tuple consisting of the lower and upper limit for the simulation domain in the <span class="arithmatex">\(x\)</span>-direction. Trumps <code>xmin</code> and <code>xmax</code> if provided.</td>
+<td><span class="arithmatex">\((\texttt{xmin},\texttt{xmax}) = (0,101)\)</span></td>
+</tr>
+<tr>
+<td><code>ylim</code></td>
+<td>List or tuple consisting of the lower and upper limit for the simulation domain in the <span class="arithmatex">\(y\)</span>-direction. Trumps <code>ymin</code> and <code>ymax</code> if provided.</td>
+<td><span class="arithmatex">\((\texttt{ymin},\texttt{ymax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,101) \\  (0,101) \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>zlim</code></td>
+<td>List or tuple consisting of the lower and upper limit for the simulation domain in the <span class="arithmatex">\(z\)</span>-direction. Trumps <code>zmin</code> and <code>zmax</code> if provided.</td>
+<td><span class="arithmatex">\((\texttt{xmin},\texttt{xmax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,1) \\  (0,101) \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td>Float specifying the time of initialization</td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+<tr>
+<td><code>a0</code></td>
+<td>Characteristic length scale associated with the system, in units of which all plots will be scaled. This is also the default width used with the coarse-graining operation.</td>
+<td><span class="arithmatex">\(1\)</span></td>
+</tr>
+<tr>
+<td><code>X</code></td>
+<td>2D numpy array with position coordinates. Typically used when the coordinates are not a regular grid.</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>Y</code></td>
+<td>2D numpy array with position coordinates. Typically used when the coordinates are not a regular grid.</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>2D numpy array with position coordinates. Typically used when the coordinates are not a regular grid.</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<p>From these keywords, a number of useful parameters are constructed, given in the table below.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Definition</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code></td>
+<td>Numpy array with dimensions <span class="arithmatex">\(\left \lbrace \begin{array}{l} \texttt{xRes} \\ \texttt{xRes}\times 1  \\ \texttt{xRes}\times 1 \times 1  \\ \end{array} \right \rbrace\)</span> consisting of the grid points from <code>xmin</code> to (including) <code>xmax-dx</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td>Numpy array with dimensions <span class="arithmatex">\(\left \lbrace \begin{array}{l} 1 \\ 1 \times \texttt{yRes}  \\ 1 \times \texttt{yRes} \times 1  \\ \end{array} \right \rbrace\)</span> consisting of the grid points from <code>ymin</code> to (including) <code>ymax-dy</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td>Numpy array with dimensions <span class="arithmatex">\(\left \lbrace \begin{array}{l} 1 \\ 1  \\ 1 \times 1 \times \texttt{zRes} \\ \end{array} \right \rbrace\)</span> consisting of the grid points from <code>zmin</code> to (including) <code>zmax-dz</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>xmidi</code></td>
+<td>Index of the mid <span class="arithmatex">\(x\)</span>-value. In the case of an odd <code>xRes</code>, this midpoint index will not hit the middle exactly but undershoot by <code>dx/2</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>xmid</code></td>
+<td>The <span class="arithmatex">\(x\)</span> value given by <code>xmidi</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>ymidi</code></td>
+<td>Index of the mid <span class="arithmatex">\(y\)</span>-value. In the case of an odd <code>yRes</code>, this midpoint index will not hit the middle exactly but undershoot by <code>dy/2</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>ymid</code></td>
+<td>The <span class="arithmatex">\(y\)</span> value given by <code>ymidi</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>zmidi</code></td>
+<td>Index of the mid <span class="arithmatex">\(z\)</span>-value. In the case of an odd <code>zRes</code>, this midpoint index will not hit the middle exactly but undershoot by <code>dz/2</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>zmid</code></td>
+<td>The <span class="arithmatex">\(z\)</span> value given by <code>zmidi</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>size_x</code></td>
+<td>Size of the <span class="arithmatex">\(x\)</span>-axis</td>
+<td><span class="arithmatex">\(\texttt{xmax} - \texttt{xmin}\)</span></td>
+</tr>
+<tr>
+<td><code>size_y</code></td>
+<td>Size of the <span class="arithmatex">\(y\)</span>-axis</td>
+<td><span class="arithmatex">\(\texttt{ymax} - \texttt{ymin}\)</span> (1 if <code>dim</code> <span class="arithmatex">\(&lt;2\)</span>)</td>
+</tr>
+<tr>
+<td><code>size_z</code></td>
+<td>Size of the <span class="arithmatex">\(z\)</span>-axis</td>
+<td><span class="arithmatex">\(\texttt{zmax} - \texttt{zmin}\)</span> (1 if <code>dim</code> <span class="arithmatex">\(&lt;3\)</span>)</td>
+</tr>
+<tr>
+<td><code>size_min</code></td>
+<td>Minimum value of the simulation domain</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} \texttt{size_x} \\ \texttt{min}(\texttt{size_x}, \texttt{size_y})\\ \texttt{min}(\texttt{size_x}, \texttt{size_y}, \texttt{size_z}) \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>size_max</code></td>
+<td>Maximum value of the simulation domain</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{c} \texttt{size_x} \\ \texttt{max}(\texttt{size_x}, \texttt{size_y})\\ \texttt{max}(\texttt{size_x}, \texttt{size_y}, \texttt{size_z}) \\ \end{array} \right \rbrace\)</span></td>
+</tr>
+<tr>
+<td><code>dV</code></td>
+<td>Volume element of the grid.</td>
+<td><span class="arithmatex">\(\left \lbrace \begin{array}{l} \texttt{dx} \\ \texttt{dx} \times \texttt{dy}  \\ \texttt{dx} \times \texttt{dy} \times \texttt{dz}  \\ \end{array} \right \rbrace\)</span>.</td>
+</tr>
+<tr>
+<td><code>volume</code></td>
+<td>Volume of the simulation domain</td>
+<td><span class="arithmatex">\(\texttt{size_x} \times \texttt{size_y} \times \texttt{size_z}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Note that even though variables like <code>yRes</code>, <code>zRes</code> etc. are defined in cases where they are not relevant, such as for a <span class="arithmatex">\(1\)</span>-dimensional system, they play no significant role in any calculations in such situations.</p>
+<p><img alt="" src="../img/base_system_x_axis_illustration.png#only-light" />
+<img alt="" src="../img/base_system_x_axis_illustration-colorinverted.png#only-dark" /></p>
+<p>Periodic boundary conditions means that <code>xmax</code> and <code>xmin</code> are identified as the same point. </p>
+<h2 id="fourier-transformations">Fourier transformations</h2>
+<p>ComFiT is based on so-called spectral methods, which means using Fourier transformations to solve differential equations. 
+There are some subtleties to how the Fourier transformations work, which we will explain here.
+If you prefer a video explanation, you can watch the following video.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/E_s9DN4ZUWA?si=ae0lGyXJLOaloLQn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<h3 id="infinite-system">Infinite system</h3>
+<p>For an infinite system, the Fourier transformation of a function <span class="arithmatex">\(g(\mathbf{r})\)</span> is given by</p>
+<div class="admonition equation">
+<p class="admonition-title">The Fourier transform</p>
+<div class="arithmatex">\[
+g_{\mathfrak f}(\mathbf{k}) = \mathcal F[g] = \frac{1}{(2 \pi)^d} \int d^d r e^{-\mathfrak i \mathbf{k}\cdot \mathbf{r}} g(\mathbf{r}),
+\]</div>
+</div>
+<p>and the inverse Fourier transformation is given by</p>
+<div class="admonition equation">
+<p class="admonition-title">The inverse Fourier transform</p>
+<div class="arithmatex">\[
+g(\mathbf{r}) = \mathcal  F^{-1}[g_\mathfrak f] = \int d^d k e^{\mathfrak i \mathbf{k}\cdot \mathbf{r}} g_{\mathfrak f}(\mathbf{k}).
+\]</div>
+</div>
+<p>The factor <span class="arithmatex">\(\frac{1}{(2\pi)^d}\)</span> in the definition of <span class="arithmatex">\(g_{\mathfrak f}\)</span> is a convention.
+It is useful when thinking of <span class="arithmatex">\(g_{\mathfrak f}(\mathbf k)\)</span>  as the <em>weight</em> of the corresponding different Fourier components.
+If <span class="arithmatex">\(g(\mathbf r)\)</span> is a real function, then <span class="arithmatex">\(g_{\mathfrak f}(-\mathbf k) = g_{\mathfrak f}^*(\mathbf k)\)</span>.
+Thus, in principle, to calculate a derivative of a function, one can take the Fourier transformation, multiply by <span class="arithmatex">\(\mathfrak i \mathbf k\)</span>, and then take the inverse Fourier transformation.</p>
+<div class="arithmatex">\[
+\frac{\partial }{\partial x} g(\mathbf r) = \mathcal F^{-1}[\mathfrak i k_x \mathcal F[g]],
+\]</div>
+<p>which is why we can calculate derivatives of a field <code>g</code> in ComFiT using</p>
+<div class="admonition equation">
+<p class="admonition-title">Numerical derivative</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">dxg</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<p>where <code>1j</code> is how to write the imaginary unit in Python.
+In fact, the combination <code>1j*bs.k[0]</code> is used so often that it is saved in its own property <code>bs.dif[0]</code>, so it is more common to see the derivative calculated as</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">dxg</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">dif</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+</code></pre></div>
+<p>In reality, however, we are working with a periodic grid, which means that the Fourier transformation is not exactly the same as the one defined above.
+We will cover this next.</p>
+<h3 id="periodic-grid">Periodic grid</h3>
+<p>In this section, we will show why we can calculate a numerical derivative as given above.
+In one dimension, on a periodic grid, a function is defined on a grid with <span class="arithmatex">\(N\)</span> points, where it is assumed that the <span class="arithmatex">\(N+1\)</span>th point (<code>x_n</code>) would be the same as the first point (<code>x_0</code>).</p>
+<div class="arithmatex">\[
+g_n = g(x_n) \quad \texttt{on} \quad x_0, x_1,..., x_{N-1}
+\]</div>
+<p>Numerically, the Discrete Fourier transformation as</p>
+<div class="arithmatex">\[
+g_{\mathfrak f m} = \sum_{n=0}^{N-1} g(x_n) \exp\left (-\mathfrak i \frac{2\pi m n}{N}\right )
+\]</div>
+<p>and the inverse discrete Fourier transformation is given by</p>
+<div class="arithmatex">\[
+g(x_n) = \frac{1}{N} \sum_{m=0}^{N-1} g_{\mathfrak f m} \exp \left (\mathfrak i \frac{2\pi m n}{N} \right ).
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">Difference between <span class="arithmatex">\(g_{\mathcal f}\)</span> and <span class="arithmatex">\(g_{\mathcal f m}\)</span></p>
+<p>The Fourier transform <span class="arithmatex">\(g_{\mathfrak f}\)</span> is a function of the wavenumber <span class="arithmatex">\(\mathbf k\)</span>, while <span class="arithmatex">\(g_{\mathfrak f m}\)</span> is a function of the index <span class="arithmatex">\(m\)</span>.</p>
+</div>
+<p><span class="arithmatex">\(n\)</span> is related to the values <span class="arithmatex">\(x_n\)</span> by</p>
+<div class="arithmatex">\[
+x_n = x_0 + n\Delta x
+\]</div>
+<p>so</p>
+<div class="arithmatex">\[
+n = \frac{x_n-x_0}{\Delta x}.
+\]</div>
+<p>Inserting this into the Fourier transform, we get</p>
+<div class="arithmatex">\[
+g_{\mathfrak f m} = \sum_{n=0}^{N-1} g(x_n) \exp\left (-\mathfrak i \frac{2\pi m }{N} \frac{x_n-x_0}{\Delta x}\right )
+\]</div>
+<p>Now, we define</p>
+<div class="arithmatex">\[
+k_m = \frac{2\pi m}{N \Delta x} \quad \texttt{where} \quad m=0,1,...,N-1,
+\]</div>
+<p>i.e,</p>
+<div class="arithmatex">\[
+k_m = 0, \frac{2 \pi}{N\Delta x}, \frac{4 \pi}{N\Delta x}, ... , \frac{(N-1) 2 \pi}{N\Delta x}.
+\]</div>
+<p>So we see that <span class="arithmatex">\(g_{\mathfrak f k}\)</span> can be thought of as a function <span class="arithmatex">\(g_{\mathfrak f}\)</span>, the Fourier transform of <span class="arithmatex">\(g\)</span> evaluated at the points <span class="arithmatex">\(k_n\)</span></p>
+<div class="admonition equation">
+<p class="admonition-title">The discrete Fourier transformation</p>
+<div class="arithmatex">\[
+g_{\mathfrak f m} = g(k_m) = \sum_{n=0}^{N-1} g(x_n) \exp\left (-\mathfrak i k_m (x_n-x_0)\right )
+\]</div>
+</div>
+<p>So we can write the inverse Fourier transform as</p>
+<div class="admonition equation">
+<p class="admonition-title">The inverse discrete Fourier transformation</p>
+<div class="arithmatex">\[
+g(x_n) = \frac{1}{N} \sum_{m=0}^{N-1} g_{\mathfrak f m} \exp \left (\mathfrak i k_m (x_n-x_0) \right )
+\]</div>
+</div>
+<p>From this expression, we see that if we multiply <span class="arithmatex">\(g_{\mathfrak f m}\)</span> with <span class="arithmatex">\(\mathfrak i k_m\)</span>, we get</p>
+<div class="arithmatex">\[
+\frac{1}{N} \sum_{m=0}^{N-1} \mathfrak i k_m g_{\mathfrak f m} \exp \left (\mathfrak i k_m (x_n-x_0) \right )
+= (\partial_x g)(x_n)
+\]</div>
+<p>which justifies the numerical derivative given in the previous section.</p>
+<h3 id="the-nyquist-frequency">The Nyquist frequency</h3>
+<p>The function <code>calc_wavenums</code> calculates the wavenumbers corresponding to the input position vectors given by <code>x</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># In ComFiT 1.8.7</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">calc_wavenums</span><span class="p">(</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>            <span class="bp">self</span><span class="p">,</span> 
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>            <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>            <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the wavenumbers corresponding to the input position vectors given by x.</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="sd">        Parameters</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="sd">        ----------</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="sd">        x : numpy.ndarray</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="sd">            1D array of x-positions.</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="sd">        Returns</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="sd">        -------</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="sd">        numpy.ndarray</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="sd">            1D array of wavenumbers with all the modes for the given x-array,</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="sd">            assuming periodicity from x[0] to x[0] over n intervals.</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="sd">        Examples</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="sd">        --------</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="sd">        &gt;&gt;&gt; x = np.array([-10, -5, 0, 5, 10])</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="sd">        &gt;&gt;&gt; k = instance_of_BaseSystem.calc_wavenums(self, x)</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="sd">        &gt;&gt;&gt; print(k)</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="sd">        [ 0.          0.25132741  0.50265482 -0.50265482 -0.25132741]</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>        <span class="n">high</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>        <span class="n">low</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>        <span class="n">l</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">l</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>        <span class="k">return</span> <span class="n">k</span>
+</code></pre></div>
+<p>However, there is a slight difference between the wavenumbers calculated here and <span class="arithmatex">\(k_m\)</span> in the previous section.
+The wavenumbers are the same up to <span class="arithmatex">\(k_{N/2}\)</span> (which correspond to the so-called Nyquist frequency), but then the wavenumbers are negative, the reason for this is that for a function defined on a grid with <span class="arithmatex">\(N\)</span> points, the highest wavenumber that can be resolved is <span class="arithmatex">\(k_{N/2}\)</span>, and wavenumbers <span class="arithmatex">\(k_m\)</span> above are effective the same as negative wavenumbers.
+We will explain this next.</p>
+<p>The Nyquist frequency is given by</p>
+<div class="arithmatex">\[
+f_{NQ} = \frac{1}{2\Delta x},
+\]</div>
+<p>which corresponds to the wavenumber</p>
+<div class="arithmatex">\[
+k_{NQ} = 2\pi f_{NQ} = \frac{\pi}{\Delta x}
+\]</div>
+<p>The value of <span class="arithmatex">\(m\)</span> corresponding to this frequency is</p>
+<div class="arithmatex">\[
+\frac{2\pi m}{N\Delta x} = \frac{\pi}{\Delta x}
+\]</div>
+<div class="arithmatex">\[
+m = \frac{N}{ 2 }
+\]</div>
+<p>Insert <span class="arithmatex">\(- k_m\)</span>, where <span class="arithmatex">\(k_m&lt; k_{NQ}\)</span> into the Fourier transform, we get</p>
+<div class="arithmatex">\[
+g_{\mathfrak f (-m)} = g(-k_m) = \sum_{n=0}^{N-1} g(x_n) \exp\left (-\mathfrak i (-k_m) (x_n-x_0)\right )
+\]</div>
+<div class="arithmatex">\[
+ =  \sum_{n=0}^{N-1} g(x_n) \exp\left (-\mathfrak i (2k_{NQ} -k_m) (x_n-x_0)\right ),
+\]</div>
+<p>where we have used that</p>
+<div class="arithmatex">\[
+\exp(-\mathfrak i 2 k_{NQ} (x_n-x_0)) = \exp(-\mathfrak i 2 \frac{\pi}{\Delta x} (x_n-x_0)) = 1.
+\]</div>
+<p>This shows that finding the Fourier spectrum above the Nyquist frequency corresponds to finding the amplitude to negative wavenumbers.
+So, in the <code>calc_wavenum</code>  function, we set the first <span class="arithmatex">\(N/2\)</span> k-values to  <span class="arithmatex">\([ k_m ]_{m=1}^{N/2} = [0,..., N/2] \cdot \frac{2\pi}{N \Delta x}\)</span> and  then the following wavenumbers to <span class="arithmatex">\([k_m]_{N/2}^{N} = [-N/2,...,-1]\cdot \frac{2\pi}{N \Delta x}\)</span></p>
+<h3 id="plotting-a-fourier-field">Plotting a Fourier field</h3>
+<p>From a numerical point of view, in calculating derivatives, we can use the discrete Fourier transformations directly, as outline above.
+For physical applications, however, the Fourier transformation defined on an infinite domain is more useful.
+In plotting the Fourier fields (passing the <code>fourier=True</code> parameter to the relevant plot function), therefore, we slightly modify <code>g_f</code>.
+We will detail this next.</p>
+<p>We can write the inverse discrete Fourier transformation as follows</p>
+<div class="arithmatex">\[
+g(x_n) =  \sum_{m=0}^{N-1} \left ( g_{\mathfrak f m} \frac{1}{N \Delta k} e^{-\mathfrak i k_m x_0} \right ) \exp \left (\mathfrak i k_m x_n \right ) \Delta k,
+\]</div>
+<p>The sum is a numerical approximation of the infinite inverse Fourier transform of <span class="arithmatex">\(g_{\mathfrak f}(\mathbf k)\)</span>, if we make the connection</p>
+<div class="admonition equation">
+<p class="admonition-title">Connection between the discrete and infinite Fourier transformation</p>
+<div class="arithmatex">\[
+g_{\mathfrak f}(\mathbf k) \approx g_{\mathfrak f m} \frac{1}{N \Delta k} e^{-\mathfrak i k_m x_0}.
+\]</div>
+</div>
+<p>This is why, when passing the <code>fourier=True</code> parameter to the plot functions, the field is modified in the <code>_check_if_fourier_and_adjust</code> function in <code>base_system_plot</code> according by</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># In ComFiT 1.9.0</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">dkx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">phase_shift</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xRes</span><span class="o">*</span><span class="n">dkx</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">dky</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">phase_shift</span> <span class="o">=</span> <span class="n">phase_shift</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yRes</span><span class="o">*</span><span class="n">dky</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ymin</span><span class="p">)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">dkz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">phase_shift</span> <span class="o">=</span> <span class="n">phase_shift</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zRes</span><span class="o">*</span><span class="n">dkz</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">zmin</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">phase_shift</span><span class="o">*</span><span class="n">field</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>
+<p>before passing the field to be plotted.
+This adjusts the discrete transform to approximate the continuous Fourier transform.
+The <code>fftshift</code> function is used to shift the zero frequency component to the center of the array.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># In ComFiT 1.9.0</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">bs</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">BaseSystem</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="n">xRes</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">field</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">bs</span><span class="o">.</span><span class="n">calc_Gaussian</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">field_f</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">plot_subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Real field&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_complex_field</span><span class="p">(</span><span class="n">field_f</span><span class="p">,</span> <span class="n">fourier</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Fourier transform&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="n">bs</span><span class="o">.</span><span class="n">plot_save</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="" src="../img/base_system_fourier_transform_illustration.png#only-light" />
+<img alt="" src="../img/base_system_fourier_transform_illustration-colorinverted.png#only-dark" /></p>
+<p>Notice that since the field is real, the Fourier transform is symmetric in amplitude and opposite in phase around the zero frequency.</p>
+</details>
+<h2 id="coarse-graining">Coarse-graining</h2>
+<p>A common and useful method is that of coarse-graining, which is defined as</p>
+<div class="arithmatex">\[
+\rho = \langle \tilde \rho \rangle
+\equiv \int d^d r' \mathcal K(\mathbf r-\mathbf r')
+\tilde \rho(\mathbf r') ,
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal K(\mathbf r'-\mathbf r)\)</span> is a Gaussian kernel given by</p>
+<div class="arithmatex">\[
+\mathcal K(\mathbf r- \mathbf r') = \frac{1}{(2\pi w^2)^{d/2}} \exp\left (-\frac{(\mathbf r-\mathbf r')^2}{2w^2}
+\right ),
+\]</div>
+<p>From a numerical point of view, this is done in Fourier space since, by the convolution theorem,</p>
+<div class="arithmatex">\[
+\rho_{\mathfrak f} = \mathcal K_{\mathfrak f} \tilde \rho_{\mathfrak f}.
+\]</div>
+<p>Thus, we need the Fourier transform of <span class="arithmatex">\(\mathcal K\)</span>, which is</p>
+<div class="arithmatex">\[
+\mathcal K_{\mathfrak f} = \int d^d r e^{-i \mathbf k \cdot \mathbf r} \frac{1}{(2\pi w^2)^{d/2}} \exp\left (-\frac{\mathbf r^2}{2w^2} \right )
+\]</div>
+<div class="arithmatex">\[
+= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} r_n^2 - \mathfrak i k_n r_n}
+\]</div>
+<div class="arithmatex">\[
+= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d \int dr_n e^{-\frac{1}{2 w^2} (r_n^2 + 2 \mathfrak i w^2 k_n r_n)}  
+\]</div>
+<div class="arithmatex">\[
+= \frac{1}{(2\pi w^2)^{d/2}} \prod_{n=1}^d e^{-\frac{1}{2} w^2 k_n^2} \int dr_n e^{-\frac{1}{2 w^2} (r_n + \mathfrak i w^2 k_n)^2}
+\]</div>
+<div class="arithmatex">\[
+= e^{-\frac{1}{2} w^2 \mathbf k^2}.
+\]</div>
+<p>This is why we have the following function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">calc_Gaussian_filter_f</span>
+</code></pre></div>
+<p>which calculates <span class="arithmatex">\(\mathcal K_{\mathfrak f}\)</span>.</p>
+<p>Typically, a field is coarse-grained with a width using the following piece of code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">field</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">field</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_Gaussian_filter_f</span><span class="p">(</span><span class="n">width</span><span class="p">))</span>
+</code></pre></div>
+<p>The Gaussian function is actually so useful that is given by can be calculated using</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">Gaussian</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">calc_Gaussian</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="vortex-fields">Vortex fields</h2>
+<p>A general feature that will be reused is that of vortex fields.
+An angle field is a field where each point in space corresponds to an angle <span class="arithmatex">\(\theta \in \mathcal S^n\)</span>.
+A vortex is a topological defect in an angle field, around which the circulation is some integer multiple of the covering of <span class="arithmatex">\(\mathcal S^n\)</span>.</p>
+<h3 id="angle-field-of-a-single-vortex-in-two-dimensions">Angle field of a single vortex in two dimensions</h3>
+<p>In two dimensions, the angle field takes values <span class="arithmatex">\(\theta \in [-\pi,\pi \rangle\)</span> and a vortex is a point <span class="arithmatex">\(\mathbf r_0\)</span>.
+The angle field produced by the vortex has a circulation which is a multiple integer of <span class="arithmatex">\(2\pi\)</span>, i.e.,</p>
+<div class="arithmatex">\[
+\oint d\theta = 2\pi s_n,
+\]</div>
+<p>where <span class="arithmatex">\(s_n\)</span> is the integer charge of the vortex.
+A possible angle field for a vortex positioned at <span class="arithmatex">\((x_0,y_0)\)</span> is given by</p>
+<div class="arithmatex">\[
+\theta_n = s_n \textrm{atan2}(y-y_0,x-x_0)
+\]</div>
+<h3 id="angle-field-of-a-vortex-ring-in-three-dimensions">Angle field of a vortex ring in three dimensions</h3>
+<p>For a ring vortex in three dimensions centered at <span class="arithmatex">\(\mathbf{r_0}\)</span> with radius <span class="arithmatex">\(R\)</span>, an angle field with the correct topological charge is given by first calculating the auxiliary quantities</p>
+<div class="arithmatex">\[
+m_2 = (\mathbf{r}-\mathbf{r_0})\cdot \mathbf{n},
+\]</div>
+<div class="arithmatex">\[
+m_1 = |(\mathbf{r}-\mathbf{r_0}) - m_2\mathbf{n}|.
+\]</div>
+<p>and then calculating</p>
+<div class="arithmatex">\[
+\theta_1 = \textrm{atan2}\left (m_2,m_1+R\right )
+\]</div>
+<div class="arithmatex">\[
+\theta_2 = \textrm{atan2}\left (m_2,m_1-R\right ) .
+\]</div>
+<p>These expressions are based on the geometry depicted in the following figure.</p>
+<p><img alt="Vortex ring angle field explanation" src="../img/base_system_vortex_ring_angle_field_explanation.png#only-light" />
+<img alt="Vortex ring angle field explanation" src="../img/base_system_vortex_ring_angle_field_explanation-colorinverted.png#only-dark" /></p>
+<p><em>Vortex ring angle field explanation:</em> Geometry of a vortex ring in the plane given by <span class="arithmatex">\(\vec n\)</span>.
+<span class="arithmatex">\(\mathcal N'\)</span> is the plane normal to the tangent vector <span class="arithmatex">\(\vec t'\)</span> at <span class="arithmatex">\(\vec r'\)</span> upon which we impose a Cartesian coordinate system to determine the angles <span class="arithmatex">\(\theta_1\)</span>, <span class="arithmatex">\(\theta_2\)</span> that are used to construct the (inset) initial angle field.
+Figure reprinted from Ref.<sup id="fnref:skogvollPhaseFieldCrystal2022"><a class="footnote-ref" href="#fn:skogvollPhaseFieldCrystal2022">3</a></sup> with permission.</p>
+<p>The angle field is then given by</p>
+<div class="arithmatex">\[
+\theta(\mathbf{r}) = \textrm{mod}(\theta_1+\theta_2,[-\pi,\pi \rangle)
+\]</div>
+<p>and is implemented in the function <code>calc_angle_field_vortex_ring</code>.</p>
+<h3 id="periodic-boundary-conditions-numerical-implementation-of-angle-fields">Periodic boundary conditions: Numerical implementation of angle fields</h3>
+<p>Apart from the angle field of a single vortex, the other fields are compatible with periodic boundary conditions.
+The expressions for these fields, however, are really only valid for an infinite region.
+When this is imposed on periodic boundary conditions, it results in spurious boundary effects, especially if either of the vortices is placed near the edge of the simulation domain.
+By simply inserting the vortices directly, we get what is shown in the following figure (a).</p>
+<p><img alt="Numerical implementation of periodic angle fields" src="../img/base_system_numerical_implementation_of_periodic_angle_fields.png#only-light" />
+<img alt="Numerical implementation of periodic angle fields" src="../img/base_system_numerical_implementation_of_periodic_angle_fields-colorinverted.png#only-dark" /></p>
+<p><em>Numerical implementation of periodic angle fields:</em>
+The angle field of panel (a) has been filtered by the field <span class="arithmatex">\(F\)</span> with <span class="arithmatex">\(w=0.2x_{\textrm{max}}\)</span> to produce the periodic field given in panel (c).
+This field is simply rolled to produce a different position for the dipole in panel (d).</p>
+<p>This field is not periodic on the domain. This typically causes the unintentional nucleation of vortices and strain on the boundary. We therefore seek to modify the fields so that they don't "see" the periodic boundary conditions.</p>
+<p>In order to produce a field that is periodic on the domain, we transform the field <span class="arithmatex">\(\theta\)</span> to a complex field <span class="arithmatex">\(\eta = e^{i \theta}\)</span>. The argument of this complex field has the correct winding configuration of the vortex dipole. However, we want to smooth this field so that it goes to <span class="arithmatex">\(1\)</span> (<span class="arithmatex">\(\theta=0)\)</span> at the borders. To do so, we introduce the filter function</p>
+<div class="arithmatex">\[
+F = \frac{1}{2} \left ( \tanh((r^2-R^2)/w^2) - 1 \right ),
+\]</div>
+<p>where <span class="arithmatex">\(r^2 = (x-x_{\textrm{mid}})^2 + (y-y_{\textrm{mid}})^2\)</span>, which is a function that is zero in the center region and goes to <span class="arithmatex">\(1\)</span> at infinity over a width of <span class="arithmatex">\(w\)</span>. The filtered field <span class="arithmatex">\(\eta\)</span> is then obtained by making a smooth function that goes from the previous angle field according to</p>
+<div class="arithmatex">\[
+\tilde \eta = F \cdot \eta + (F-1) \cdot 1.
+\]</div>
+<p><span class="arithmatex">\(\tilde \eta\)</span> is shown in Figure (c). The value of <span class="arithmatex">\(w\)</span> and <span class="arithmatex">\(R\)</span> can be adjusted and are found in the source code as <code>width</code> and <code>radius</code>, respectively.</p>
+<p>From this section, it is clear that the initial vortex dipole should not be too large. Thus, we have included a warning in case it is attempted to initiate a dipole with a larger distance than a certain threshold.</p>
+<h2 id="numerical-integration-scheme">Numerical integration scheme</h2>
+<p>The systems of interest for this code are those that can be written on the form</p>
+<div class="arithmatex">\[
+\partial_t \psi = \omega \psi + N
+\]</div>
+<p>where <span class="arithmatex">\(\omega\)</span> is a linear differential operator and <span class="arithmatex">\(N\)</span> is a non-linear operator (function of <span class="arithmatex">\(\psi\)</span>).
+The following table shows some examples from the models that we will discuss in the following chapters.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th><span class="arithmatex">\(\omega\)</span></th>
+<th><span class="arithmatex">\(\omega_{\mathfrak f}(\mathbf{k})\)</span></th>
+<th><span class="arithmatex">\(N\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quantum Mechanics</td>
+<td>$\frac{1}{2}i \nabla^2 $</td>
+<td><span class="arithmatex">\(-\frac{1}{2} i \mathbf{k}^2\)</span></td>
+<td><span class="arithmatex">\(- i V\)</span></td>
+</tr>
+<tr>
+<td>BEC</td>
+<td><span class="arithmatex">\((i+\gamma) (1+\frac{1}{2}\nabla^2)\)</span></td>
+<td><span class="arithmatex">\((i+\gamma) (1-\frac{1}{2}\mathbf k^2)\)</span></td>
+<td><span class="arithmatex">\(- (i + \gamma) (V_{ext} + \psi \psi^*)\psi\)</span></td>
+</tr>
+<tr>
+<td>Active Nematic</td>
+<td><span class="arithmatex">\(\frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma}\)</span></td>
+<td><span class="arithmatex">\(-\frac{K}{\gamma} k^2 +\frac{AB}{\gamma}\)</span></td>
+<td><span class="arithmatex">\(- \mathbf{u}\cdot \nabla Q + Q \Omega -\Omega Q - \frac{2A}{\gamma}Q^2_{kk}Q\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>Table: Examples of time evolution operators, non-conserved.</em></p>
+<p>In the following, we will explain the method of evolution of exponential time differencing for stiff systems<sup id="fnref:coxExponentialTimeDifferencing2002"><a class="footnote-ref" href="#fn:coxExponentialTimeDifferencing2002">1</a></sup>.
+This will result in two integration schemes, the exponential time differencing second order Runge-Kutta 2 (ETD2RK) scheme and the forth order ETD4RK scheme. As in Ref. [coxExponentialTimeDifferencing2002], we will show an intuitive way to obtain the former and only recite the expressions for the latter.</p>
+<h3 id="the-etd2rk-scheme">The ETD2RK scheme</h3>
+<p>To see how we obtain the ETD2RK scheme, we take the Fourier transformation of the time evolution equation, and get:</p>
+<div class="arithmatex">\[
+\partial_t \psi_{\mathfrak f} = \omega_{\mathfrak f} \psi_{\mathfrak f} + N_{\mathfrak f} .
+\]</div>
+<div class="arithmatex">\[
+(\partial_t \psi_{\mathfrak f})e^{- \omega_{\mathfrak f} t}  -  \omega_{\mathfrak f} \psi_{\mathfrak f}  e^{- \omega_{\mathfrak f} t} = N_{\mathfrak f} e^{- \omega_{\mathfrak f} t} .
+\]</div>
+<div class="arithmatex">\[
+\partial_t (\psi_{\mathfrak f} e^{-\omega_{\mathfrak f} t} ) =  e^{-\omega_{\mathfrak f} t} N_{\mathfrak f}
+\]</div>
+<p>Where <span class="arithmatex">\(\psi_{\mathfrak f}(\mathbf{k})\)</span> is the Fourier transform of <span class="arithmatex">\(\psi(\mathbf{r})\)</span>. Integrating from <span class="arithmatex">\(t\)</span> to <span class="arithmatex">\(t+ \Delta t\)</span>, one finds:</p>
+<div class="arithmatex">\[
+\psi_{\mathfrak f} (t+\Delta t) e^{- \omega_{\mathfrak f}(t+ \Delta t)} - \psi_{\mathfrak f} (t) e^{- \omega_{\mathfrak f} t} = \int_t^{t+\Delta t} e^{- \omega_{\mathfrak f} \tau} N_{\mathfrak f} d\tau
+\]</div>
+<p>we multiply by <span class="arithmatex">\(e^{ \omega_{\mathfrak f}(t+ \Delta t)}\)</span> and get:</p>
+<div class="arithmatex">\[
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f} (t) e^{\omega_{\mathfrak f} \Delta t} + e^{ \omega_{\mathfrak f} (t+\Delta t)} \int_t^{t+\Delta t} e^{- \omega_{\mathfrak f} \tau} N_{\mathfrak f} d\tau
+\]</div>
+<p>This is an exact result, however, the last integral is unknown. In order to calculate the last integral here, we approximate it by <span class="arithmatex">\(N (t+\tau) \approx N_{\mathfrak f 0} +  \frac{\Delta N_{\mathfrak f}}{\Delta t} \tau\)</span> where <span class="arithmatex">\(N_{\mathfrak f 0} = (N(\psi(t))_{\mathfrak f}\)</span> and <span class="arithmatex">\(\Delta N_{\mathfrak f} = N_{\mathfrak f}(t+\Delta t)-N_{\mathfrak f}(t)\)</span>. We also change the integration limits from <span class="arithmatex">\(\tau \in [t,t+\Delta t]\)</span> to <span class="arithmatex">\(\tau \in [0,\Delta t]\)</span>, which gives:</p>
+<div class="arithmatex">\[
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f} (t) e^{ \omega_{\mathfrak f} \Delta t}
+\]</div>
+<div class="arithmatex">\[
++ e^{\omega_{\mathfrak f} \Delta t} \frac{1}{- \omega_{\mathfrak f}} [e^{- \omega_{\mathfrak f} \tau}]_0^{\Delta t} N_{\mathfrak f 0} + e^{ \omega_{\mathfrak f} \Delta t} \frac{1}{\Delta t} [\frac{\tau e^{-\omega_{\mathfrak f} \tau}}{-\omega_{\mathfrak f}} - \frac{e^{-\omega_{\mathfrak f} \tau}}{\omega_{\mathfrak f}^2}]_0^{\Delta t} \Delta N_{\mathfrak f}
+\]</div>
+<p>To find <span class="arithmatex">\(\psi_{\mathfrak f} (t+\Delta t)\)</span>, we would need to know the value <span class="arithmatex">\(N_{\mathfrak f} (t+\Delta t)\)</span> before finding the state at <span class="arithmatex">\(\psi(t+\Delta t)\)</span>. To do this, we first find a predicted state <span class="arithmatex">\(\psi_a\)</span> by assuming <span class="arithmatex">\(\Delta N_{\mathfrak f}=0\)</span> and calculating <span class="arithmatex">\(\psi(t)\)</span> according to the equation above. This lets us calculate an approximate <span class="arithmatex">\(\Delta N_{\mathfrak f} = N_{\mathfrak f a} - N_{\mathfrak f 0}\)</span> and we use this in order to evolve <span class="arithmatex">\(\psi\)</span>. This is the ETD2RK scheme.</p>
+<hr />
+<div class="arithmatex">\[
+\psi_{\mathfrak f a} = I_{\mathfrak f 0} \psi_{\mathfrak f 0} + I_{\mathfrak f 1} N_{\mathfrak f 0}
+\]</div>
+<div class="arithmatex">\[
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f a} + I_{\mathfrak f 2} (N_{\mathfrak f a} - N_{\mathfrak f 0})
+\]</div>
+<div class="arithmatex">\[
+\textrm{where}
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 0} = e^{\omega_{\mathfrak f} \Delta t}
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 1} = \frac{1}{\omega_{\mathfrak f}} (e^{ \omega_{\mathfrak f} \Delta t} - 1)
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 2} = \frac{1}{\omega_{\mathfrak f}^2 \Delta t} (e^{ \omega_{\mathfrak f} \Delta t} -1  -\omega_{\mathfrak f} \Delta t)
+\]</div>
+<div class="arithmatex">\[
+N_{\mathfrak f 0} = (N(\psi(t),t))_{\mathfrak f}
+\]</div>
+<div class="arithmatex">\[
+N_{\mathfrak f a} = (N(\psi_a,t+\Delta t))_{\mathfrak f}
+\]</div>
+<hr />
+<p>Note that <span class="arithmatex">\(N_{\mathfrak f}\)</span> is a non-linear function of the field variable <span class="arithmatex">\(\psi\)</span>, but can also be an explicit variable of time <span class="arithmatex">\(t\)</span>, i.e. <span class="arithmatex">\(N_{\mathfrak f}(\psi,t)\)</span>.
+Therefore, in the code, it has to be encoded as a function of these two variables <code>calc_nonlinear_evolution_function_f(self, psi, t)</code>.</p>
+<p>For numerical purposes, it is useful to calculate the small <span class="arithmatex">\(\omega_{\mathfrak f}\)</span> limit. We expand the exponential in its Taylor series and keep the leading order term to get:</p>
+<div class="arithmatex">\[
+I_{\mathfrak f 0} \approx 1
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 1} \approx   \frac{1}{\omega_{\mathfrak f}} (1 + \omega_{\mathfrak f} \Delta t - 1) = \Delta t
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 2} \approx \frac{1}{\omega_{\mathfrak f}^2 \Delta t}
+ \left ( 1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} ( \omega_{\mathfrak f} \Delta t )^2
+ -1 - \omega_{\mathfrak f} \Delta t
+\right ) = \frac{1}{2} \Delta t
+\]</div>
+<p>In <span class="arithmatex">\(I_{\mathfrak f 1}\)</span>, and <span class="arithmatex">\(I_{\mathfrak f 2}\)</span> there is a division by <span class="arithmatex">\(0\)</span> when <span class="arithmatex">\(\omega_{\mathfrak f} = 0\)</span>. To avoid numerical issues related to this we use the above limits when <span class="arithmatex">\(|\omega_{\mathfrak f}|\)</span> is smaller than a tolerance. We don't use the limit for <span class="arithmatex">\(I_{\mathfrak f 0}\)</span> since it doesn't contain a division by <span class="arithmatex">\(0\)</span>. The function <code>evolve_ETD2RK_loop</code> defined in the base system class performs an ETD2RK step. This function is called by the evolvers discussed in the model chapter if the method is defined as <code>method = "ETD2RK"</code>. This is the default solver if <code>method</code> is not set. The integrating factors for a given <span class="arithmatex">\(\omega_{\mathfrak f}(\mathbf{k})\)</span> can be found with the function <code>calc_evolution_integrating_factors_ETD2RK</code> where the variable <code>tol</code> gives when the factors should be replaced by their leading order Taylor expansion.
+Note that all solvers defined in the  class <code>BaseSystem</code> updates the time variable
+<code>self.t</code> to allow for time-dependents in the non-linear term.</p>
+<h3 id="the-etd4rk-scheme">The ETD4RK scheme</h3>
+<p>Following Ref.<sup id="fnref2:coxExponentialTimeDifferencing2002"><a class="footnote-ref" href="#fn:coxExponentialTimeDifferencing2002">1</a></sup>, we may generalize the method to a fourth order Runge-Kutta as follows</p>
+<hr />
+<div class="arithmatex">\[
+\begin{aligned}
+\psi_{\mathfrak f a} &amp;= I_{\mathfrak f 0} \psi_{\mathfrak f 0} +  I_{\mathfrak f 1} N_{\mathfrak f 0} \\
+\psi_{\mathfrak f b} &amp;= I_{\mathfrak f 0} \psi_{\mathfrak f 0} + I_{\mathfrak f 1} N_{\mathfrak f a} \\
+\psi_{\mathfrak f c} &amp;= I_{\mathfrak f 0} \psi_{\mathfrak f a} + I_{\mathfrak f 1} (2 N_{\mathfrak f b} - N_{\mathfrak f 0}) \\
+\psi_{\mathfrak f} (t+\Delta t) &amp;= I_{\mathfrak f 2} \psi_{\mathfrak f 0} + I_{\mathfrak f 3} N_{\mathfrak f 0} + I_{\mathfrak f 4} (N_{\mathfrak f a} + N_{\mathfrak f b}) + I_{\mathfrak f 5} N_{\mathfrak f c}
+\end{aligned}
+\]</div>
+<p>where</p>
+<div class="arithmatex">\[
+\begin{aligned}
+I_{\mathfrak f 0} &amp;= e^{\omega_{\mathfrak f} \Delta t/2} \\
+I_{\mathfrak f 1} &amp;= \frac{1}{\omega_{\mathfrak f}}
+( e^{ \omega_{\mathfrak f} \Delta t/2} - 1) \\
+I_{\mathfrak f 2} &amp;= e^{\omega_{\mathfrak f} \Delta t} \\
+I_{\mathfrak f 3} &amp;= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
+\left ( -4 -  \omega_{\mathfrak f} \Delta t  + e^{\omega_{\mathfrak f} \Delta t}(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )  \right ) \\
+I_{\mathfrak f 4} &amp;= \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
+\left ( 2 + \omega_{\mathfrak f} \Delta t + e^{\omega_{\mathfrak f} \Delta t}(-2 + \omega_{\mathfrak f} \Delta t) \right ) \\
+I_{\mathfrak f 5} &amp;= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
+\left ( -4 - 3 \omega_{\mathfrak f} \Delta t -  \omega_{\mathfrak f}^2 \Delta t^2 + e^{\omega_{\mathfrak f} \Delta t}(4-\omega_{\mathfrak f} \Delta t) \right )
+\end{aligned}
+\]</div>
+<hr />
+<p><strong>Algorithm:</strong> The ETD4RK scheme</p>
+<p>In the small <span class="arithmatex">\(\omega_{\mathfrak f}\)</span> limit, we have</p>
+<div class="arithmatex">\[
+I_{\mathfrak f 0} \approx 1
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 1} \approx \frac{1}{2} \Delta t
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 2} \approx 1
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 3} \approx
+\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times
+\left ( -4 - \omega_{\mathfrak f} \Delta t + (1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(4-3\omega_{\mathfrak f} \Delta t + \omega_{\mathfrak f}^2 \Delta t^2 )
+\right ) \]</div>
+<div class="arithmatex">\[
+= \frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
+\left ( \frac{4}{6} (\omega_{\mathfrak f} \Delta t)^3 - \frac{3}{2} (\omega_{\mathfrak f} \Delta t)^3 + (\omega_{\mathfrak f} \Delta t)^3
+\right )
+= \frac{1}{6} \Delta t
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 4} \approx \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
+\left (2 + \omega_{\mathfrak f} \Delta t +(1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(-2 + \omega_{\mathfrak f} \Delta t)
+\right )
+\]</div>
+<div class="arithmatex">\[
+= \frac{2}{ \omega_{\mathfrak f}^3\Delta t^2}
+\left ( \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^3-\frac{2}{6}(\omega_{\mathfrak f} \Delta t)^3
+\right ) = \frac{1}{3} \Delta t
+\]</div>
+<div class="arithmatex">\[
+I_{\mathfrak f 5} =
+\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2} \times
+\left (
+-4 - 3 \omega_{\mathfrak f} \Delta t -  \omega_{\mathfrak f}^2 \Delta t^2 + (1 + \omega_{\mathfrak f} \Delta t + \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^2 + \frac{1}{6} (\omega_{\mathfrak f} \Delta t)^3 )(4-\omega_{\mathfrak f} \Delta t)
+\right )  
+\]</div>
+<div class="arithmatex">\[
+=\frac{1}{ \omega_{\mathfrak f}^3\Delta t^2}
+\left ( \frac{4}{6} (\omega_{\mathfrak f} \Delta t)^3 - \frac{1}{2} (\omega_{\mathfrak f} \Delta t)^3
+\right ) = \frac{1}{6} \Delta t
+\]</div>
+<p>Similar as for the EDT2RK case <span class="arithmatex">\(I_{\mathfrak f 1}\)</span>, <span class="arithmatex">\(I_{\mathfrak f 3}\)</span>, <span class="arithmatex">\(I_{\mathfrak f 4}\)</span>, and <span class="arithmatex">\(I_{\mathfrak f 5}\)</span> contains a division by <span class="arithmatex">\(0\)</span> when <span class="arithmatex">\(\omega_{\mathfrak f} = 0\)</span>.<br />
+We therefore replace these coefficients with their limits when <span class="arithmatex">\(|\omega_{\mathfrak f}|\)</span> is smaller than a tolerance.
+This has been important in order to make the the code stable for some of the systems.
+In the same way as the EDT2RK scheme this is implemented as the function
+<code>self.evolve_ETD4RK_loop(self, integrating_factors_f, non_linear_evolution_function, field, field_f)</code>
+This function is called by the evolvers discussed in the model chapter if the method is defined as <code>method = "ETD4RK"</code>, the integrating factors are found with
+<code>self.calc_evolution_integrating_factors_ETD4RK(self, omega_f, tol=10**(-4))</code>.</p>
+<h3 id="the-fully-non-linear-limit">The fully non-linear limit</h3>
+<p>It is both interesting and enlightening to see the fully non-linear limit of these equations, i.e., the limit in which <span class="arithmatex">\(\omega_{\mathfrak f} =0\)</span>, <span class="arithmatex">\(N_{\mathfrak f} = \partial_t \psi \equiv \dot{\psi}_{\mathfrak f}\)</span> and the small <span class="arithmatex">\(\omega_{\mathfrak f}\)</span> approximations are exact.
+For the ETD2RK scheme, we get</p>
+<div class="arithmatex">\[
+\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} +  \dot{\psi}_{0_f} \Delta t
+\]</div>
+<div class="arithmatex">\[
+\psi(t+\Delta t)_f = \psi_{\mathfrak f 0} + \dot{\psi}_{\mathfrak f 0} \frac{\Delta t}{2} + \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2},
+\]</div>
+<p>which is a two-stage Runge-Kutta method called Heun's method.</p>
+<p>The ETD4RK scheme becomes</p>
+<div class="arithmatex">\[
+\psi_{\mathfrak f a} = \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f 0} \frac{\Delta t}{2}
+\]</div>
+<div class="arithmatex">\[
+\psi_{\mathfrak f b} =  \psi_{\mathfrak f 0} +  \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2}
+\]</div>
+<div class="arithmatex">\[
+\psi_{\mathfrak f c} = \psi_{\mathfrak f a} + ( 2 \dot{\psi}_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0}) \frac{\Delta t}{2}
+\]</div>
+<div class="arithmatex">\[
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f 0} + \frac{1}{6} ( \dot{\psi}_{\mathfrak f 0} + 2 \dot{\psi}_{\mathfrak f a} + 2 \dot{\psi}_{\mathfrak f b} + \dot{\psi}_{\mathfrak f c} ) \Delta t.
+\]</div>
+<p>Note that this is not the typical Runge-Kutta 4 method, due to the differences in calculating <span class="arithmatex">\(\psi_{\mathfrak f c}\)</span>.
+The reason is that a straight-forward generalization of the Runge-Kutta 4 method will not produce a fourth-order method in the general case <sup id="fnref3:coxExponentialTimeDifferencing2002"><a class="footnote-ref" href="#fn:coxExponentialTimeDifferencing2002">1</a></sup>.</p>
+<h3 id="the-fully-linear-limit">The fully linear limit</h3>
+<p>If <span class="arithmatex">\(N=0\)</span>, the evolution equation changes to</p>
+<div class="arithmatex">\[
+\psi_{\mathfrak f}(t+\Delta t) = e^{\omega_{\mathfrak f} \Delta t} \psi_{\mathfrak f}.
+\]</div>
+<p>An example of this is the schrödinger equation, for which <span class="arithmatex">\(\omega_{\mathfrak f} = -\frac{1}{2}  i \mathbf k^2\)</span>, so we get</p>
+<div class="arithmatex">\[
+\psi_{\mathfrak f}(t+\Delta t) = e^{- i \frac{1}{2} \mathbf k^2 \Delta t} \psi_{\mathfrak f}.
+\]</div>
+<p>This is an exact equation, of course, so you may evolve this free particle solution to any time.</p>
+<h2 id="testing">Testing</h2>
+<p>In order to test the numerical methods, study the simplest model of a field equation with a (non-linear) forcing term, namely the heat equation</p>
+<div class="arithmatex">\[
+\partial_t T = \nabla^2 T + f(\mathbf r),
+\]</div>
+<p>where <span class="arithmatex">\(T\)</span> is the temperature in celsius, and <span class="arithmatex">\(f(\mathbf r)\)</span> is a forcing term, which we model as</p>
+<div class="arithmatex">\[
+f(\mathbf r) = A (T_0-T) \exp\left (-\frac{(\mathbf r-\mathbf r_0)^2}{2\sigma^2}\right ),
+\]</div>
+<p>which represents a heating element with temperature <span class="arithmatex">\(T_0\)</span> placed at <span class="arithmatex">\(\mathbf r_0\)</span>.</p>
+<p>As a benchmark, we use the <code>solve_ivp</code> of the <code>scipy</code> library <code>sp.integrate</code> to solve the equation using a finite difference method.
+The solutions match to a satisfactory degree, but a more thorough investigation into how the accuracy of the framework and integration methods scale with spatial and temporal resolution will be performed in the future.
+Tests are included in <code>test_base_system.py</code>, but for visual examination, here are animations of the initial condition <span class="arithmatex">\(T=0\)</span> in all three dimensions</p>
+<p><img alt="Testing of the evolution code in 1 dimension" src="../img/base_system_evolution_test_1D.gif#only-light" />
+<img alt="Testing of the evolution code in 1 dimension" src="../img/base_system_evolution_test_1D-colorinverted.gif#only-dark" /></p>
+<p><img alt="Testing of the evolution code in 2 dimensions" src="../img/base_system_evolution_test_2D.gif#only-light" />
+<img alt="Testing of the evolution code in 1 dimension" src="../img/base_system_evolution_test_2D-colorinverted.gif#only-dark" /></p>
+<p><img alt="Testing of the evolution code in 3 dimensions" src="../img/base_system_evolution_test_3D.gif#only-light" />
+<img alt="Testing of the evolution code in 1 dimension" src="../img/base_system_evolution_test_3D-colorinverted.gif#only-dark" /></p>
+<h2 id="stochastic-noize">Stochastic noize</h2>
+<p>Supose that the equation </p>
+<div class="arithmatex">\[
+\partial_t T = \omega(\nabla) T + N(T) 
+\]</div>
+<p>has a noize term<sup id="fnref:gallego2011predictor"><a class="footnote-ref" href="#fn:gallego2011predictor">4</a></sup> in the non-linear part <span class="arithmatex">\(N = N_{ns} + f\)</span>. 
+We can in that case still do the integration with the integrating factor and get the following equation in fourier space</p>
+<div class="arithmatex">\[
+\tilde T(t+\Delta t) = e^{\tilde \omega \Delta t} \tilde T(t) +  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde N_{ns}(T, t+\tau)   +  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde f(t+\tau),
+\]</div>
+<p>The first of these integrals can be handled using one of the schemes described above, 
+but the later needs some extra care. 
+We have in fourier space</p>
+<div class="arithmatex">\[
+\tilde T_s =  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde f(\vec k,n\Delta t+\tau).
+\]</div>
+<p>Let now </p>
+<div class="arithmatex">\[
+\hat f(\vec k, \tau) = \tilde A(\vec k) \eta(k,\tau),
+\]</div>
+<p>where <span class="arithmatex">\(\eta\)</span> is a white noise and <span class="arithmatex">\(\tilde A(\vec k)\)</span> is a kernel that contains the spatial variation. 
+The mean value of <span class="arithmatex">\(\tilde T_s\)</span> vanishes,
+while the coorelation is</p>
+<div class="arithmatex">\[
+\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \tilde A^2(\vec k) e^{2\tilde \omega \Delta t} \int_0^{\Delta t}\int_0^{\Delta t} d\tau_1 d\tau_2 e^{-\tilde\omega (\tau_1 + \tau_2)}  \langle \eta(n_1\Delta t+\tau_1)\eta(n_2\Delta t+\tau_2)\rangle
+\]</div>
+<p>where <span class="arithmatex">\(t_1 =n_1 \Delta t\)</span>. Using that <span class="arithmatex">\(\eta\)</span> is delta corelated we can write</p>
+<div class="arithmatex">\[
+\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 \tilde A^2(\vec k) e^{2\tilde \omega \Delta t} \int_0^{\Delta t}\int_0^{\Delta t} d\tau_1 d\tau_2 e^{-\tilde\omega (\tau_1 + \tau_2)} \delta((n_1 -n_2)\Delta t + \tau_1 -\tau_2 ).
+\]</div>
+<p>Here <span class="arithmatex">\(\sigma\)</span> is the standard deviation of <span class="arithmatex">\(\eta\)</span>.
+The delta function pics out <span class="arithmatex">\(\tau_1 = \tau_2 +(n_2-n_1)\Delta t\)</span>, this is only posible if <span class="arithmatex">\(n_1 = n_2\)</span> because <span class="arithmatex">\(\tau_i \in (0,\Delta t)\)</span>,
+which gives </p>
+<div class="arithmatex">\[
+ \langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 \tilde A^2(\vec k) e^{\tilde \omega \Delta t [2 +(n_2-n_1)]} \delta_{n_1,n_2}\int_0^{\Delta t}  d\tau_2 e^{-2\tilde\omega \tau_2 }.
+ \]</div>
+<p>the last integral is trivial and we can write this as</p>
+<p>$$
+\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 A^2(\vec k) \delta_{n_1,n_2} \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right).
+ $$</p>
+<p>The stochastic part of the integral can therefore be evaluated as</p>
+<div class="arithmatex">\[
+\tilde T_s = \sigma \tilde A(\vec k)\eta_k\sqrt{ \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right)}.
+\]</div>
+<p>For some wave vectors <span class="arithmatex">\(\omega \Delta t\)</span> is close to zero.
+To avoid problems with divisions of zero we taylor expand the integrating factor when <span class="arithmatex">\(|\omega \Delta t| &lt; 10^{-2}\)</span>, and have</p>
+<div class="arithmatex">\[
+T_s(|\omega|&lt; \text{tol}) \approx \sigma \tilde A(\vec k\eta_n)\sqrt{ \frac{1}{2\hat \omega} \left(1 + 2\tilde\omega \Delta t  -1 \right)} = \sigma \tilde A(\vec k)\eta_n \sqrt{  \Delta t  } 
+\]</div>
+<p>Which is the same as would have been in a standard Euler-Maruyama scheme. </p>
+<h3 id="notes-on-the-kernel">Notes on the kernel</h3>
+<p>The kernel <span class="arithmatex">\(A(\vec k)\)</span> is representing the spatial coherence of the noise. 
+It comes from the fourier transform of the noize,
+which in our notation reads</p>
+<div class="arithmatex">\[
+\tilde f = \int d\vec r e^{i\vec k \cdot \vec r} f(\vec r,t)
+\]</div>
+<p>Assuming white noize in time we write this as</p>
+<div class="arithmatex">\[
+\tilde f(k,t) = \eta(t) \int d\vec r e^{i\vec k \cdot \vec r} \xi(\vec r)
+\]</div>
+<p>With <span class="arithmatex">\(\xi\)</span> being some noize with a spatial distribution. 
+The kernel is then given by the integral</p>
+<div class="arithmatex">\[
+A(\vec k) = \int d\vec r e^{i\vec k \cdot \vec r} \xi(\vec r)
+\]</div>
+<h2 id="algorithms-for-tracking-defects">Algorithms for tracking defects</h2>
+<p>To be written</p>
+<h2 id="calculating-the-velocity">Calculating the velocity</h2>
+<p>The equations for the velocity are taken from Ref.<sup id="fnref:skogvollUnifiedFieldTheory2023"><a class="footnote-ref" href="#fn:skogvollUnifiedFieldTheory2023">2</a></sup>, simplified using Mathematica and then
+substituted for python code using chatGPT.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:coxExponentialTimeDifferencing2002">
+<p>Cox, S. M., &amp; Matthews, P. C. (2002). Exponential Time Differencing for Stiff Systems. Journal of Computational Physics, 176(2), 430–455. <a href="https://doi.org/10.1006/jcph.2002.6995">https://doi.org/10.1006/jcph.2002.6995</a>&#160;<a class="footnote-backref" href="#fnref:coxExponentialTimeDifferencing2002" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:coxExponentialTimeDifferencing2002" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:coxExponentialTimeDifferencing2002" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:skogvollUnifiedFieldTheory2023">
+<p>Skogvoll, V., Rønning, J., Salvalaglio, M., &amp; Angheluta, L. (2023). A unified field theory of topological defects and non-linear local excitations. Npj Computational Materials, 9(1), Article 1. <a href="https://doi.org/10.1038/s41524-023-01077-6">https://doi.org/10.1038/s41524-023-01077-6</a>&#160;<a class="footnote-backref" href="#fnref:skogvollUnifiedFieldTheory2023" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:skogvollPhaseFieldCrystal2022">
+<p>Skogvoll, V., Angheluta, L., Skaugen, A., Salvalaglio, M., &amp; Viñals, J. (2022). A phase field crystal theory of the kinematics of dislocation lines. Journal of the Mechanics and Physics of Solids, 166, 104932. https://doi.org/10.1016/j.jmps.2022.104932&#160;<a class="footnote-backref" href="#fnref:skogvollPhaseFieldCrystal2022" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:gallego2011predictor">
+<p>Gallego, R. (2011) Predictor-corrector pseudospectral methods for stochastic partial differential equations with additive white noise. Applied Mathematics and Computation, 218(7), 3905-3917&#160;<a class="footnote-backref" href="#fnref:gallego2011predictor" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 <a href="https://github.com/vidarsko/ComFiT"  target="_blank" rel="noopener">Vidar Skogvoll and Jonas Rønning</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.right", "search.suggest", "search.highlight", "content.code.annotation", "content.code.copy", "content.tabs"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

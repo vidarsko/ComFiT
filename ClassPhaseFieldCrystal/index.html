@@ -1,0 +1,2247 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://comfitlib.com/ClassPhaseFieldCrystal/">
+      
+      
+        <link rel="prev" href="../ClassNematicLiquidCrystal/">
+      
+      
+        <link rel="next" href="../Conventions/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Class: Phase-field crystal - ComFiT documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../styles.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#class-phase-field-crystal" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ComFiT documentation" class="md-header__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ComFiT documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Class: Phase-field crystal
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ComFiT documentation" class="md-nav__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    ComFiT documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassBaseSystem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Base system
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Plotting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Plotting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TopologicalDefects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Topological Defects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassQuantumMechanics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassBoseEinsteinCondensate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Bose-Einstein condensate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassNematicLiquidCrystal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Nematic liquid crystal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Class: Phase-field crystal
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Phase-field crystal
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables and parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crystal-symmetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crystal symmetry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-ground-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      The ground state
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The ground state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#straining-the-ground-state-to-equilibrium" class="md-nav__link">
+    <span class="md-ellipsis">
+      Straining the ground state to equilibrium
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-amplitude-approximation-deviations-from-the-ground-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      The amplitude approximation - deviations from the ground state
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elasticity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Elasticity
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elasticity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stress-tensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stress tensor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#equilibrium-elastic-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equilibrium elastic constants
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strains" class="md-nav__link">
+    <span class="md-ellipsis">
+      Strains
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dislocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dislocations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-dislocation-density-tensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      The dislocation density tensor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#equations-of-motion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equations of motion
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Equations of motion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conserved-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conserved evolution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unconserved-dynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unconserved dynamics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evolution-at-mechanical-equilibrium" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evolution at mechanical equilibrium
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydrodynamic-pfc-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hydrodynamic PFC evolution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configurations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dislocation-dipoles-and-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dislocation dipoles and loops
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polycrystal-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polycrystal configurations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculating-the-orientation-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calculating the orientation field
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#straining-the-pfc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Straining the PFC
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conventions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library_reference" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Library reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="class-phase-field-crystal">Class: Phase Field Crystal</h1>
+<p>In this class, we simulate a crystal using the phase-field crystal methodology. 
+The phase-field crystal (PFC) model is a mesoscopic model that describes the dynamics of a crystal.
+The model is based on a free energy functional, which is minimized to find the equilibrium state of the system.
+The free energy functional is a function of the phase field <span class="arithmatex">\(\psi\)</span>, which is a real-valued field that describes the local density of the crystal.
+The PFC model is a powerful tool for studying the dynamics of crystals, and it has been used to study a wide range of phenomena, including the formation of defects, the dynamics of grain boundaries, and the growth of crystals.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">file</span><span class="p">:</span> <span class="n">comfit</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">phase_field_crystal</span><span class="o">.</span><span class="n">py</span> 
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">class</span><span class="p">:</span> <span class="n">PhaseFieldCrystal</span>
+</code></pre></div>
+<p>See the ComFiT Library Reference below for a complete list of class methods and their usage.</p>
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/phase_field_crystal/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
+<h2 id="variables-and-parameters">Variables and parameters</h2>
+<p>The phase field <span class="arithmatex">\(\psi\)</span>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">pfc</span><span class="o">.</span><span class="n">psi</span>
+</code></pre></div>
+<h2 id="basic-model">Basic model</h2>
+<p>The PFC methodology is based on postulating a free energy</p>
+<div class="admonition equation">
+<p class="admonition-title">The PFC free energy</p>
+<div class="arithmatex">\[
+\mathcal F = \int d\boldsymbol{r} \tilde f(\psi, \nabla \psi, ...)
+\]</div>
+</div>
+<p>with the goal of the state that minimizes <span class="arithmatex">\(\mathcal F\)</span> has a certain symmetry. <br />
+In this documentation, we will present six such models to represent different crystalline structures in 1, 2 and 3 dimensions, all of which are on the form</p>
+<div class="admonition equation">
+<p class="admonition-title">The PFC free energy density</p>
+<div class="arithmatex">\[
+\tilde f( \psi, \nabla \psi, ...) = \frac{1}{2} (\mathcal L(\nabla) \psi)^2 + \frac{1}{2} \texttt{r} \psi^2  + \frac{1}{3} \texttt t \psi^3 + \frac{1}{4} \texttt v \psi^4,
+\]</div>
+</div>
+<p>where <span class="arithmatex">\(\mathcal L (\nabla)\)</span> is a gradient operator dependent on the dimension and target symmetry, listed below</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Derivative operator <span class="arithmatex">\(\mathcal L\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1D periodic</td>
+<td><span class="arithmatex">\(\mathcal L_1 = (1+\nabla^2)\)</span></td>
+</tr>
+<tr>
+<td>2D triangular</td>
+<td><span class="arithmatex">\(\mathcal L_1 = (1+\nabla^2)\)</span></td>
+</tr>
+<tr>
+<td>2D square</td>
+<td><span class="arithmatex">\(\mathcal L_1 \mathcal L_2 = (1+\nabla^2) (2+\nabla^2)\)</span></td>
+</tr>
+<tr>
+<td>3D bcc</td>
+<td><span class="arithmatex">\(\mathcal L_1 = (1+\nabla^2)\)</span></td>
+</tr>
+<tr>
+<td>3D fcc</td>
+<td><span class="arithmatex">\(\mathcal L_1 \mathcal L_{4/3} = (1+\nabla^2) (4/3+\nabla^2)\)</span></td>
+</tr>
+<tr>
+<td>3D simple cubic</td>
+<td><span class="arithmatex">\(\mathcal L_1 \mathcal L_2 \mathcal L_3 = (1+\nabla^2) (2+\nabla^2) (3+\nabla^2)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table:</strong> Phase-field crystal models. <span class="arithmatex">\(\mathcal L_X = (X+\nabla^2)\)</span>.</p>
+<p>Of particular interest is the PFC chemical potential, given by </p>
+<div class="admonition equation">
+<p class="admonition-title">The PFC chemical potential</p>
+<div class="arithmatex">\[
+\tilde \mu_c =
+\frac{\delta \mathcal F}{\delta \psi} =
+\left ( \mathcal L^2 \psi + \texttt r \psi + \texttt t \psi^2 + \texttt v \psi^3 \right )
+\]</div>
+</div>
+<p>The PFC model was introduced inin Ref.<sup id="fnref:elderModelingElasticPlastic2004"><a class="footnote-ref" href="#fn:elderModelingElasticPlastic2004">1</a></sup>.
+The primary field is <span class="arithmatex">\(\psi\)</span>, a real valued field</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">pfc</span><span class="o">.</span><span class="n">psi</span> 
+</code></pre></div>
+<h2 id="crystal-symmetry">Crystal symmetry</h2>
+<p>The way in which this field can model a crystalline lattice is by the ground state having that particular symmetry.
+For instance, the figure below shows the (real) field <span class="arithmatex">\(\psi\)</span> for a (a) 2D triangular, and a (b) 2D square lattice.</p>
+<p><img alt="PFC symmetries" src="../img/phase_field_crystal_ground_state.png#only-light" />
+<img alt="PFC symmetrie" src="../img/phase_field_crystal_ground_state-colorinverted.png#only-dark" /></p>
+<p><strong>Figure:</strong> Ground state of the PFC model for (a) 2D triangular and (b) 2D square lattice.</p>
+<p>The crystalline symmetry is described by a Bravais lattice, which consists of vectors that point to peaks on the lattice.
+The Fourier transform of a field that a Bravais lattice symmetry will itself have a lattice symmetry, which is called the reciprocal lattice, and is useful to express the field in terms of a Fourier series.</p>
+<p><img alt="PFC Bravais and reciprocal lattice vectors" src="../img/phase_field_crystal_bravais_and_reciprocal_lattices.png#only-light" />
+<img alt="PFC Bravais and reciprocal lattice vectors" src="../img/phase_field_crystal_bravais_and_reciprocal_lattices-colorinverted.png#only-dark" /></p>
+<p><strong>Figure:</strong> Bravais lattices <span class="arithmatex">\(\mathcal B\)</span> and their reciprocal lattices <span class="arithmatex">\(\mathcal R\)</span> for square and triangular symmetry.
+In each case, <span class="arithmatex">\(\{\mathbf a^{(n)}\}_{n=1}^2\)</span> are primitive lattice vectors and <span class="arithmatex">\(\{ \mathbf q^{(n)}\}_{n=1}^2\)</span> primitive reciprocal lattice vectors (RLVs) that satisfy <span class="arithmatex">\(\mathbf a^{(n)} \cdot \mathbf q^{(m)} = 2\pi \delta_{nm}\)</span>.
+Amended and reprinted from Ref. <sup id="fnref:skogvollSymmetryTopologyCrystal2023"><a class="footnote-ref" href="#fn:skogvollSymmetryTopologyCrystal2023">2</a></sup> with permission.</p>
+<p>Using the reciprocal lattice, one can express a field which has a Bravais lattice symmetry as a Fourier series in terms of the reciprocal lattice vectors</p>
+<div class="arithmatex">\[
+\psi (\mathbf r) = \sum_{\mathbf q^{(n)} \in \mathcal R} \eta_n e^{\mathfrak i \mathbf q^{(n)} \cdot \mathbf r},
+\]</div>
+<p>the reciprocal lattice is <span class="arithmatex">\(d\)</span> dimensions generated by <span class="arithmatex">\(d\)</span> <em>primitive</em> RLVs <span class="arithmatex">\(\lbrace\boldsymbol{q}^{(n)}\rbrace_{n=1}^d\)</span>, satisfying</p>
+<div class="admonition equation">
+<p class="admonition-title">The primitive BLV-RLV orthogonality relation.</p>
+<div class="arithmatex">\[
+\boldsymbol{q}^{(n)} \cdot \boldsymbol{a}^{(m)} = 2\pi \delta_{nm}, \quad n,m \leq d.
+\]</div>
+</div>
+<p>There are infinitely many BLVs and RLVs, but of particular interest are those with the smallest magnitude; which are sometimes named <em>primary</em> RLVs/BLVs.
+These values are encoded in the instance properties <code>a,q</code>, e.g.,</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">pfc</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">PhaseFieldCrystal2DTriangular</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">pfc</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">pfc</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="o">&gt;&gt;</span> 
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">[[</span><span class="mf">3.627</span><span class="p">,</span> <span class="mf">6.283</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.255</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.627</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.283</span><span class="p">]]</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.866</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.866</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">]]</span>
+</code></pre></div>
+<hr />
+<details class="example">
+<summary>Example: The 1D PFC - Crystal symmetry</summary>
+<p>The simplest example of a PFC model is the 1D periodic model, which simply looks like a sine wave.</p>
+<p><img alt="1D PFC" src="../img/phase_field_crystal_1d_periodic.png#only-light" />
+<img alt="1D PFC" src="../img/phase_field_crystal_1d_periodic-colorinverted.png#only-dark" /></p>
+<p>The crystal symmetry in this case refers to <span class="arithmatex">\(\psi\)</span> having a periodicity of <span class="arithmatex">\(a_0=2\pi\)</span>, and so the Bravais lattice is simply <span class="arithmatex">\(\{ a^{(n)} \} = \{...,-2\pi,-\pi,0,\pi,2\pi,... \}\)</span>.
+The primary BLVs are thus given by</p>
+<div class="arithmatex">\[
+\mathcal B_{\textrm{per}}^{(1)} = \{ a^{(1)} = 2\pi,~ a^{(-1)} = -2\pi \}
+\]</div>
+<p>The reciprocal lattice is in this case simply <span class="arithmatex">\(\{ q^{(n)} \} = \{...,q^{(-2)} =-2,~ q^{(-1)} = -1,~ q^{(0)} = 0,~ q^{(1)} = 1,~ q^{(2)} =2,... \}\)</span>, the primary set being </p>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{per}}^{(1)} = \{ q^{(1)} = 1,~ q^{(-1)} = -1 \}
+\]</div>
+<p>and any field with that periodicity can be expressed as a Fourier series in terms of these RLVs by</p>
+<div class="arithmatex">\[
+\psi(x) = \psi_0 + A (e^{\mathfrak iq^{(1)} x} + e^{\mathfrak i q^{(-1)} x}) + B (e^{\mathfrak iq^{(2)} x} + e^{\mathfrak i q^{(-2)} x}) + ...,
+\]</div>
+</details>
+<p>Cutting the Fourier series off at the primary RLVs mode is called the <em>one-mode approximation</em></p>
+<div class="arithmatex">\[
+\psi^{\textrm{eq}} \approx \psi_0 + A \sum_{q^{(n)} \in \mathcal R^{(1)}} e^{\mathfrak i q^{(n)} x},
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal R_{\textrm{per}}^{(1)}\)</span> as the primary RLVs.</p>
+<div class="admonition info">
+<p class="admonition-title">Primitive vs primary LV</p>
+<p>Note the subtle difference between a <em>primitive</em> LV and a <em>primary</em> LV.
+The primitive BLVs generate the lattice and satisfy the orthogonal relationship with the primitive RLVs which generate the reciprocal lattice.
+There are only <span class="arithmatex">\(d\)</span> primitive LVs in <span class="arithmatex">\(d\)</span> dimensions whereas there may be any number of primary lattice vectors.
+For instance, there are six primary BLVs for the triangular lattice and four primary lattice vectors for the 2D square lattice.
+In the following, the primary BLVs and RLVs have been chosen so that the first <span class="arithmatex">\(d\)</span> primary LVs are primitive LVs that satisfy the orthogonality relation.</p>
+</div>
+<p>Below are all the lattice constants and primary RLVs and BLVs for the models we consider.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:6"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><input id="__tabbed_1_6" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">1D periodic</label><label for="__tabbed_1_2">2D Triangular</label><label for="__tabbed_1_3">2D square</label><label for="__tabbed_1_4">3D body-centered cubic</label><label for="__tabbed_1_5">3D face-centered cubic</label><label for="__tabbed_1_6">3D simple cubic</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Lattice constant</p>
+<div class="arithmatex">\[
+a_0 = 2\pi
+\]</div>
+<p>Primary RLVs</p>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{per}}^{(1)} =
+\left \lbrace
+\begin{array}{l}
+    q^{(1)} = 1  \\
+    q^{(-1)}= - q^{(1)}
+\end{array}
+\right \rbrace
+\]</div>
+<p>Primary BLVs</p>
+<div class="arithmatex">\[
+\mathcal B_{\textrm{per}}^{(1)} =
+\left \lbrace
+\begin{array}{l}
+    a^{(1)} = a_0  \\
+    a^{(-1)} = -\mathbf a^{(1)}
+\end{array}
+\right \rbrace
+\]</div>
+</div>
+<div class="tabbed-block">
+<p>Lattice constant</p>
+<div class="arithmatex">\[
+a_0 = \frac{4\pi}{\sqrt 3}
+\]</div>
+<p>Primary RLVs</p>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{tri}}^{(1)} = {
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(1)} = (\sqrt 3/2,-1/2)  \\
+    \mathbf q^{(2)} = (0,1) \\
+    \mathbf q^{(3)} = (-\sqrt 3/2,-1/2) \\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,2,3} \\
+\end{array}
+\right \rbrace
+}
+\]</div>
+<p>Primary BLVs</p>
+<div class="arithmatex">\[
+\mathcal B_{\textrm{tri}}^{(1)} = {
+\left \lbrace
+\begin{array}{l}
+    \mathbf a^{(1)} = a_0(1,0)  \\
+    \mathbf a^{(2)} = a_0(1/2,\sqrt 3/2) \\
+    \mathbf a^{(3)} = a_0(1/2,-\sqrt 3/2) \\
+    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,2,3}  \\
+\end{array}
+\right \rbrace }
+\]</div>
+</div>
+<div class="tabbed-block">
+<p>Lattice constant
+$$
+a_0 = 2\pi
+$$</p>
+<p>Primary RLVs</p>
+<div class="arithmatex">\[
+\mathcal B_{\textrm{sq}}^{(1)} =
+\left \lbrace
+\begin{array}{l}
+    \mathbf a^{(1)} = a_0(1,0)  \\
+    \mathbf a^{(2)} = a_0(0,1)  \\
+    \mathbf a^{(-1)},\mathbf a^{(-2)}
+\end{array}
+\right \rbrace
+\]</div>
+<p>Primary Bravais Lattice vectors</p>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{sq}}^{(1)} = {
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(1)} = (1,0)  \\
+    \mathbf q^{(2)} = (0,1) \\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2} \\
+\end{array}
+\right \rbrace}
+\]</div>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{sq}}^{(2)} =
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(3)} = (1,-1)  \\
+    \mathbf q^{(4)} = (1,1) \\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=3,4} \\
+\end{array}
+\right \rbrace
+\]</div>
+</div>
+<div class="tabbed-block">
+<p>Lattice constant</p>
+<div class="arithmatex">\[
+a_0 = 2\pi \sqrt {2}
+\]</div>
+<p>Primary BLVs</p>
+<div class="arithmatex">\[
+\mathcal B_{\textrm{bcc}}^{(1)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf a^{(1)} = a_0(-1,1,1)/2  \\
+    \mathbf a^{(2)} = a_0(1,-1,1)/2 \\
+    \mathbf a^{(3)} = a_0(1,1,-1)/2\\
+    \mathbf a^{(4)} = a_0(1,1,1)/2\\
+    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,...,4} \\
+\end{array}
+\right \rbrace
+}
+\]</div>
+<p>Primary RLVs</p>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{bcc}}^{(1)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(1)} = (0,1,1)/\sqrt 2  \\
+    \mathbf q^{(2)} = (1,0,1)/\sqrt 2 \\
+    \mathbf q^{(3)} = (1,1,0)/\sqrt 2\\
+    \mathbf q^{(4)} = (0,-1,1)/\sqrt 2\\
+    \mathbf q^{(5)} = (-1,0,1)/\sqrt 2\\
+    \mathbf q^{(6)} = (-1,1,0)/\sqrt 2\\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,...6} \\
+\end{array}
+\right \rbrace
+}
+\]</div>
+</div>
+<div class="tabbed-block">
+<p>Lattice constant</p>
+<div class="arithmatex">\[
+a_0 = 2\pi \sqrt 3
+\]</div>
+<p>Primary BLVs</p>
+<div class="arithmatex">\[
+\mathcal B_{\textrm{fcc}}^{(1)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf a^{(1)} = a_0(0,1,1)/2  \\
+    \mathbf a^{(2)} = a_0(1,0,1)/2 \\
+    \mathbf a^{(3)} = a_0(1,1,0)/2\\
+    \mathbf a^{(4)} = a_0(0,-1,1)/2\\
+    \mathbf a^{(5)} = a_0(-1,0,1)/2\\
+    \mathbf a^{(6)} = a_0(-1,1,0)/2\\
+    \mathbf a^{(-n)}=-\mathbf a^{(n)}|_{n=1,...,6} \\
+\end{array}
+\right \rbrace
+}
+\]</div>
+<p>Primary RLVs</p>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{fcc}}^{(1)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(1)} = (-1,1,1)/\sqrt 3  \\
+    \mathbf q^{(2)} = (1,-1,1)/\sqrt 3 \\
+    \mathbf q^{(3)} = (1,1,-1)/\sqrt 3\\
+    \mathbf q^{(4)} = (1,1,1)/\sqrt 3\\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=1,...,4}\\
+\end{array}
+\right \rbrace
+}
+\]</div>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{fcc}}^{(4/3)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(5)} = (2,0,0)/\sqrt 3  \\
+    \mathbf q^{(6)} = (0,2,0)/\sqrt 3 \\
+    \mathbf q^{(7)} = (0,0,2)/\sqrt 3\\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=5,6,7} \\
+\end{array}
+\right \rbrace
+}
+\]</div>
+</div>
+<div class="tabbed-block">
+<p>Lattice constant</p>
+<div class="arithmatex">\[
+a_0 = 2\pi
+\]</div>
+<p>Primary BLVs</p>
+<div class="arithmatex">\[
+\mathcal B_{\textrm{sc}}^{(1)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf a^{(1)} = a_0(1,0,0)  \\
+    \mathbf a^{(2)} = a_0(0,1,0) \\
+    \mathbf a^{(3)} = a_0(0,0,1)\\
+    \mathbf a^{(-n)} = - \mathbf a^{(n)}|_{n=1,2,3} \\
+\end{array}
+\right \rbrace
+}
+\]</div>
+<p>Primary RLVs</p>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{sc}}^{(1)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(1)} = (1,0,0)  \\
+    \mathbf q^{(2)} = (0,1,0) \\
+    \mathbf q^{(3)} = (0,0,1)\\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)} |_{n=1,2,3}\\
+\end{array}
+\right \rbrace
+}
+\]</div>
+<div class="arithmatex">\[
+\mathcal R_{\textrm{sc}}^{(2)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(4)} = (0,1,1)  \\
+    \mathbf q^{(5)} = (1,0,1) \\
+    \mathbf q^{(6)} = (1,1,0)\\
+    \mathbf q^{(7)} = (0,-1,1)  \\
+    \mathbf q^{(8)} = (-1,0,1) \\
+    \mathbf q^{(9)} = (-1,1,0)\\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=4,...,9} \\\\
+\end{array}
+\right \rbrace
+}
+\]</div>
+<div class="arithmatex">\[\mathcal R_{\textrm{sc}}^{(3)} =
+{
+\left \lbrace
+\begin{array}{l}
+    \mathbf q^{(10)} = (-1,1,1)  \\
+    \mathbf q^{(11)} = (1,-1,1) \\
+    \mathbf q^{(12)} = (1,1,-1)\\
+    \mathbf q^{(13)} = (1,1,1)\\
+    \mathbf q^{(-n)} = - \mathbf q^{(n)}|_{n=10,...,13} \\
+\end{array}
+\right \rbrace
+}
+\]</div>
+</div>
+</div>
+</div>
+<h2 id="the-ground-state">The ground state</h2>
+<p>To find the ground state of a PFC, one inserts a particular mode approximation into the free energy density, average over a unit cell (<a href="../ClassBaseSystem/">coarse-grain</a>) and minimizes it with respect to the amplitudes.</p>
+<details class="example">
+<summary>Example: The 1D PFC - Ground state</summary>
+<p>To find the ground state of the 1D PFC, we assume that we can express the field in the one-mode approximation, i.e.,</p>
+<div class="arithmatex">\[
+\psi^{\textrm{eq}}(x) = \psi_0 + A (e^{\mathfrak i q x} + e^{\mathfrak i q x}),
+\]</div>
+<p>where <span class="arithmatex">\(q\)</span> is, for now, an arbitrary wave vector which we will show to be the primary RLV of the lattice. 
+We want to insert this into the free energy density <span class="arithmatex">\(\tilde f\)</span> and integrate over a unit cell (UC), which in this case is simply <span class="arithmatex">\([0,2\pi]\)</span></p>
+<div class="arithmatex">\[
+\frac{1}{2\pi} \mathcal F_{UC} =  \frac{1}{2\pi} \int_0^{2\pi} \tilde f(\psi^{\textrm{eq}}) dx \equiv \langle \tilde f(\psi^{\textrm{eq}}) \rangle_{UC} = \frac{1}{2} \langle (\mathcal L {\psi^{\textrm{eq}}})^2 \rangle_{UC} + \frac{1}{2} \texttt{r} \langle {\psi^{\textrm{eq}}}^2 \rangle_{UC} + \frac{1}{4} \langle {\psi^{\textrm{eq}}}^4 \rangle_{UC}
+\]</div>
+<p>To insert this into the free energy density, we need to calculate some auxiliary quantities.</p>
+<div class="arithmatex">\[
+\mathcal L \psi^{\textrm{eq}} = (1+\nabla^2) \psi^{\textrm{eq}} = \psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{\mathfrak i q x})
+\]</div>
+<p>so </p>
+<div class="arithmatex">\[
+\langle (\mathcal L \psi^{\textrm{eq}})^2 \rangle_{UC} = \langle (\psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{\mathfrak i q x})(\psi_0 + (1-q^2) A (e^{\mathfrak i q x} + e^{\mathfrak i q x})) \rangle_{UC}
+\]</div>
+<p>Now, to calculate this, we need to make use of a condition of resonance, which is that under the coarse-graining operation, terms with periodicity average to zero<sup id="fnref6:skogvollSymmetryTopologyCrystal2023"><a class="footnote-ref" href="#fn:skogvollSymmetryTopologyCrystal2023">2</a></sup>.
+So we get </p>
+<div class="arithmatex">\[
+\langle (\mathcal L \psi^{\textrm{eq}})^2 \rangle_{UC} = \psi_0^2 + 2 A^2 (1-q^2)^2
+\]</div>
+<p>Similarly, the other terms give</p>
+<div class="arithmatex">\[
+\langle {\psi^{\textrm{eq}}}^2 \rangle_{UC} = \psi_0^2 + 2 A^2
+\]</div>
+<div class="arithmatex">\[
+\langle {\psi^{\textrm{eq}}}^3 \rangle_{UC} = \psi_0^3 + 6 \psi_0 A^2
+\]</div>
+<div class="arithmatex">\[
+\langle {\psi^{\textrm{eq}}}^4 \rangle_{UC} = \psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4
+\]</div>
+<p>which gives </p>
+<div class="arithmatex">\[
+\mathcal F_{UC} = 2\pi \left( \frac{1}{2} (\psi_0^2 + 2 A^2 (1-q^2)^2)  + \frac{1}{2} \texttt{r} (\psi_0^2 + 2 A^2) + \frac{1}{3} \texttt t (\psi_0^3 + 6 \psi_0 A^2) + \frac{1}{4} \texttt v (\psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4) \right )
+\]</div>
+<p>First of all, we see that the equilibrium value must have <span class="arithmatex">\(q=1\)</span>, since the free energy is minimized by this choice.
+Now, if the PFC is evolving according to conservative dynamics <span class="arithmatex">\(\partial_t \psi = \nabla^2 (\delta \mathcal F/\delta \psi)\)</span> (which is the standard PFC evolution equation as explained further down in the document), the average value <span class="arithmatex">\(\psi_0\)</span> will be conserved and therefore considered a simulation constant. 
+In this case, we find the equilibrium value of <span class="arithmatex">\(A\)</span>, by differentiating wrt. <span class="arithmatex">\(A\)</span> and setting to zero.</p>
+<div class="arithmatex">\[
+\partial_A \mathcal F_{UC} =  2 \texttt{r} A + 4 \texttt t \psi_0 A + 6 \texttt v \psi_0^2 A + 6\texttt v A^3 = 0,
+\]</div>
+<p>which gives <span class="arithmatex">\(A=0\)</span> or</p>
+<div class="arithmatex">\[
+ \texttt{r} + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 3 \texttt v A^2 = 0,
+\]</div>
+<div class="arithmatex">\[
+A^2 = \frac{1}{3\texttt v} (-\texttt{r}  - 2 \texttt t \psi_0 - 3\texttt v \psi_0^2) 
+\]</div>
+<div class="arithmatex">\[
+A = \pm \frac{1}{\sqrt{3\texttt v}} \sqrt{- \texttt{r} - 2 \texttt t \psi_0 - 3 \psi_0^2}
+\]</div>
+<p>The sign does not matter in the case of the 1D PFC, since it will only affect the global sign of the amplitude, flipping the cosine wave.
+In higher dimensions, however, it requires more subtle treatment, and typically, one inserts both solutions into the free energy <span class="arithmatex">\(\mathcal F_{UC}\)</span> to see which is lower</p>
+<p>If instead, we are evolving the PFC under not conserved dynamics <span class="arithmatex">\(\partial_t \psi = - \delta \mathcal F/\delta \psi\)</span>, also the zero mode <span class="arithmatex">\(\psi_0\)</span> will reach an equilibrium value.
+In this case, then, we need to solve the system of equations given by</p>
+<div class="arithmatex">\[
+\left \lbrace
+        \begin{array}{lrl}
+        \partial_{\psi_0} \mathcal F_{UC} = 0: &amp; \psi_0 + \texttt r \psi_0 + \texttt t \psi_0^2 + 2 \texttt t A^2 + \texttt v \psi_0^3 + 6\texttt v \psi_0 A^2 &amp;=0 \\
+        \partial_{A} \mathcal F_{UC} = 0: &amp;  \texttt{r} + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 3 \texttt v A^2 &amp;= 0\\
+        \end{array}
+\right \rbrace
+\]</div>
+</details>
+<p>The <code>pfc</code> instance will be initialized with a list called <code>eta0</code>, which consists of the equilibrium values of the amplitudes to begin with.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:6"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><input id="__tabbed_2_5" name="__tabbed_2" type="radio" /><input id="__tabbed_2_6" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">1D periodic</label><label for="__tabbed_2_2">2D triangular</label><label for="__tabbed_2_3">2D square</label><label for="__tabbed_2_4">3D body-centered cubic</label><label for="__tabbed_2_5">3D face-centered cubic</label><label for="__tabbed_2_6">3D simple cubic</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Default resolution:</p>
+<p>Default model parameters <span class="arithmatex">\((r,\psi_0)\)</span>: <span class="arithmatex">\((-0.3,-0.3)\)</span></p>
+<p>Free energy per unit cell (<a href="https://github.com/vidarsko/ComFiT/blob/main/docs/calculations/phase_field_crystal_1D_periodic_equilibrium_amplitudes.nb">calculation document</a>):</p>
+<div class="arithmatex">\[
+\mathcal F_{UC} = \frac{1}{2} \psi_0^2 + \frac{1}{2} \texttt{r} (\psi_0^2 + 2 A^2) + \frac{1}{3} \texttt t (\psi_0^3 + 6 \psi_0 A^2) + \frac{1}{4} \texttt v (\psi_0^4 + 12 \psi_0^2 A^2 + 6 A^4)
+\]</div>
+<p>Equilibrium amplitude  (conserved)</p>
+<div class="arithmatex">\[
+\partial_{A} \mathcal F_{UC} = 0: \quad A =\pm \frac{1}{\sqrt {3\texttt v}} \sqrt{ -\texttt r - 2 \texttt t \psi_0 - 3 \texttt v \psi_0^2}
+\]</div>
+<p>Equilibrium amplitude equations (unconserved)</p>
+<div class="arithmatex">\[
+\left \lbrace
+        \begin{array}{lrl}
+        \partial_{\psi_0} \mathcal F_{UC} = 0: &amp; 2 A^2 (\texttt t + 3 \texttt v \psi_0) + \psi_0 (1 + \texttt r + \texttt t \psi_0 + \texttt v \psi_0^2) &amp;=0 \\
+        \partial_{A} \mathcal F_{UC} = 0: &amp; \texttt r + 3 A^2 \texttt v + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)  &amp;= 0\\
+        \end{array}
+\right \rbrace
+\]</div>
+<!-- Verified by calculation above (Vidar 21.03.24) -->
+</div>
+<div class="tabbed-block">
+<p>Default resolution: <span class="arithmatex">\([7,12]^{-1}a_0\)</span></p>
+<p>Default model parameters <span class="arithmatex">\((r,\psi_0)\)</span>: <span class="arithmatex">\((-0.3,-0.3)\)</span></p>
+<p>Free energy per unit cell (<a href="https://github.com/vidarsko/ComFiT/blob/main/docs/calculations/phase_field_crystal_2D_triangular_equilibrium_amplitudes.nb">calculation document.</a>):</p>
+<div class="arithmatex">\[
+\mathcal F_{UC} = \frac{\pi^2}{3\sqrt 3} \left (270 A^4 \texttt v + 48 A^3 (\texttt t + 3 \texttt v \psi_0) + \psi_0^2 (6 + 6 \texttt r + 4 \texttt t \psi_0 + 3 \texttt v \psi_0^2) + 36 A^2 (\texttt r + \psi_0 (2 \texttt t + 3 \texttt v \psi_0))\right)
+\]</div>
+<p>Equilibrium amplitude equations (conserved)</p>
+<div class="arithmatex">\[
+\left \lbrace \partial_{A} \mathcal F_{UC} = 0: A=0 ~ \textrm{or} ~ \quad  A= \frac{1}{15\texttt v} \left ( -\texttt t - 3 \texttt v \psi_0 \pm \sqrt{ \texttt t^2 - 15 \texttt r \texttt v - 24 \texttt t \texttt v \psi_0 - 36 \texttt v^2 \psi_0^2} \right ) \right \rbrace
+\]</div>
+<p>Equilibrium amplitude equations (unconserved) </p>
+<div class="arithmatex">\[
+\left \lbrace
+        \begin{array}{lrl}
+        \partial_{\psi_0} \mathcal F_{UC} = 0: &amp; 12 A^3 \texttt v + 6 A^2 (\texttt t + 3 \texttt v \psi_0) + \psi_0 (1 + \texttt r + \texttt t \psi_0 + \texttt v \psi_0^2) &amp;=0 \\
+        \partial_{A} \mathcal F_{UC} = 0: &amp; A(\texttt r + 15 A^2 \texttt v + 2 A (\texttt t + 3 \texttt v \psi_0) + \psi_0 (2 \texttt t + 3 \texttt v \psi_0))  &amp;= 0\\
+        \end{array}
+\right \rbrace
+\]</div>
+<!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
+</div>
+<div class="tabbed-block">
+<p>Default resolution: <span class="arithmatex">\([7,7]^{-1}a_0\)</span></p>
+<p>Default model parameters <span class="arithmatex">\((\texttt r,\psi_0)\)</span>: <span class="arithmatex">\((-0.3,-0.3)\)</span></p>
+<p>Free energy per unit cell (<a href="https://github.com/vidarsko/ComFiT/blob/main/docs/calculations/phase_field_crystal_2D_square_equilibrium_amplitudes.nb">calculation document</a>):</p>
+<div class="arithmatex">\[
+\mathcal F_{UC} = \frac{\pi^2}{3} (108 A^4 \texttt v + 108 B^4 \texttt v + \psi_0^2 (24 + 6 \texttt r + 4 \texttt t \psi_0 + 3 \texttt v \psi_0^2) + 24 B^2 (\texttt r + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)) + 24 A^2 (\texttt r + 18 B^2 \texttt v + 4 B (t + 3 \texttt v \psi_0) + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)))
+\]</div>
+<p>Equilibrium amplitude equations</p>
+<div class="arithmatex">\[
+\left \lbrace
+        \begin{array}{lrl}
+        \partial_{\psi_0} \mathcal F_{UC} = 0: &amp; 4 B^2 (\texttt t + 3 \texttt v \psi_0) + \psi_0 (4 + \texttt r + \texttt t \psi_0 + \texttt v \psi_0^2) + 4 A^2 (\texttt t + 3 \texttt v (2 B + \psi_0)) &amp;= 0 \\
+        \partial_{A} \mathcal F_{UC} = 0: &amp; A (\texttt r + 9 A^2 \texttt v + 18 B^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 4 B (\texttt t + 3 \texttt v \psi_0)) &amp;= 0 \\
+        \partial_{B} \mathcal F_{UC} = 0: &amp; 9 B^3 \texttt v + 2 A^2 (t + 3 \texttt v \psi_0) + B (\texttt r + 18 A^2 \texttt v + 2 \texttt \texttt t \psi_0 + 3 \texttt v \psi_0^2) &amp;= 0\\
+        \end{array}
+\right \rbrace
+\]</div>
+<!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
+</div>
+<div class="tabbed-block">
+<p>Default resolution: <span class="arithmatex">\([7,7,7]^{-1}a_0\)</span></p>
+<p>Default model parameters <span class="arithmatex">\((\texttt r,\psi_0)\)</span>: <span class="arithmatex">\((-0.3,-0.325)\)</span></p>
+<p>Free energy per unit cell (<a href="https://github.com/vidarsko/ComFiT/blob/main/docs/calculations/phase_field_crystal_3D_bcc_equilibrium_amplitudes.nb">calculation document</a>):</p>
+<div class="arithmatex">\[
+\mathcal F_{UC} = \frac{4 \sqrt 2 \pi^3}{3} \left (1620 A^4 \texttt v + 192 A^3 (t + 3 \texttt v \psi_0) + \psi_0^2 (6 + 6 \texttt r + 4 t \psi_0 + 3 \texttt v \psi_0^2) + 72 A^2 (\texttt r + \psi_0 (2 t + 3 \texttt v \psi_0)) \right )
+\]</div>
+<p>Equilibrium amplitude (conserved)</p>
+<div class="arithmatex">\[
+\left \lbrace \partial_{A} \mathcal F_{UC} = 0:  A=0 ~ \textrm{or} ~ \quad A = \frac{1}{45\texttt v} \left ( -2 \texttt t - 6 \texttt v \psi_0 \pm \sqrt{
+4 \texttt t^2 - 45 \texttt r \texttt v - 66 \texttt t \texttt v \psi_0 - 99 \texttt v^2 \psi_0^2} \right) \right \rbrace
+\]</div>
+<p>Equilibrium amplitude equations (unconserved)</p>
+<div class="arithmatex">\[
+\left \lbrace
+        \begin{array}{lrl}
+        \partial_{\psi_0} \mathcal F_{UC} = 0: &amp; 48 A^3 \texttt v + 12 A^2 (\texttt t + 3 \texttt v \psi_0) + \psi_0 (1 + \texttt r + \texttt t \psi_0 + \texttt v \psi_0^2) &amp;=0 \\
+        \partial_{A} \mathcal F_{UC} = 0: &amp; A (\texttt r + 45 A^2 \texttt v + 4 A (\texttt t + 3 \texttt v \psi_0) + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)) &amp;= 0\\
+        \end{array}
+\right \rbrace
+\]</div>
+<!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
+</div>
+<div class="tabbed-block">
+<p>Default resolution: <span class="arithmatex">\([11,11,11]^{-1}a_0\)</span></p>
+<p>Default model parameters <span class="arithmatex">\((\texttt r,\psi_0)\)</span>: <span class="arithmatex">\((-0.3,-0.325)\)</span></p>
+<p>Free energy per unit cell (<a href="https://github.com/vidarsko/ComFiT/blob/main/docs/calculations/phase_field_crystal_3D_fcc_equilibrium_amplitudes.nb">calculation document</a>):</p>
+<div class="arithmatex">\[
+\mathcal F_{UC} = \frac{2 \pi^3}{\sqrt 3} (1944 A^4 \texttt v + 810 B^4 \texttt v + \psi_0^2 (32 + 18 \texttt r + 12 \texttt t \psi_0 + 9 \texttt v \psi_0^2) + 108 B^2 (r + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)) + 144 A^2 (\texttt r + 36 B^2 \texttt v + 6 B (t + 3 \texttt v \psi_0) + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)))
+\]</div>
+<p>Equilibrium amplitude equations </p>
+<div class="arithmatex">\[
+\left \lbrace
+        \begin{array}{lrl}
+        \partial_{\psi_0} \mathcal F_{UC} = 0: &amp; 54 B^2 (t + 3 \texttt v \psi_0) + \psi_0 (16 + 9 \texttt r + 9 t \psi_0 + 9 \texttt v \psi_0^2) + 72 A^2 (t + 3 \texttt v (3 B + \psi_0)) &amp;= 0 \\
+        \partial_{A} \mathcal F_{UC} = 0: &amp; A (\texttt r + 27 A^2 \texttt v + 36 B^2 \texttt v + 2 t \psi_0 + 3 \texttt v \psi_0^2 + 6 B (t + 3 \texttt v \psi_0)) &amp;= 0 \\
+        \partial_{B} \mathcal F_{UC} = 0: &amp; 15 B^3 \texttt v + 4 A^2 (t + 3 \texttt v \psi_0) + B (\texttt r + 48 A^2 \texttt v + 2 t \psi_0 + 3 \texttt v \psi_0^2) &amp;= 0\\
+        \end{array}
+\right \rbrace
+\]</div>
+<!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
+</div>
+<div class="tabbed-block">
+<p>Default resolution: <span class="arithmatex">\([5,5,5]^{-1}a_0\)</span></p>
+<p>Default model parameters <span class="arithmatex">\((\texttt r,\psi_0)\)</span>: <span class="arithmatex">\((-0.3,-0.325)\)</span></p>
+<p>Free energy per unit cell (<a href="https://github.com/vidarsko/ComFiT/blob/main/docs/calculations/phase_field_crystal_3D_simple_cubic_equilibrium_amplitudes.nb">calculation document</a>):</p>
+<div class="arithmatex">\[
+\mathcal F_{UC} = \frac{2\pi^3}{3} \left (48 C^2 \texttt r + 270 A^4 \texttt v + 1620 B^4 \texttt v + 576 A^3 C \texttt v + 648 C^4 \texttt v + 96 C^2 \texttt t \psi_0 + 6 (36 + \texttt r + 24 C^2 \texttt v) \psi_0^2 + 4 \texttt t \psi_0^3 + 3 \texttt v \psi_0^4 + 192 B^3 (\texttt t + 3 \texttt v \psi_0) + 576 A B C (t + 3 \texttt v (3 B + \psi_0)) + 36 A^2 (\texttt r + 96 B^2 \texttt v + 36 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 8 B (\texttt t + 3 \texttt v \psi_0)) + 72 B^2 (r + 54 C^2 \texttt v + \psi_0 (2 \texttt t + 3 \texttt v \psi_0)) \right )
+\]</div>
+<p>Equilibrium amplitude equations:</p>
+<div class="arithmatex">\[
+\left \lbrace
+        \begin{array}{lrl}
+        \partial_{\psi_0} \mathcal F_{UC} = 0: &amp; 8 C^2 \texttt t + 48 B^3 \texttt v + 144 A B C \texttt v + 36 \psi_0 + \texttt r \psi_0 + 24 C^2 \texttt v \psi_0 + \texttt t \psi_0^2 + \texttt v \psi_0^3 + 12 B^2 (t + 3 \texttt v \psi_0) + 6 A^2 (t + 3 \texttt v (4 B + \psi_0)) &amp;= 0 \\
+        \partial_{A} \mathcal F_{UC} = 0: &amp; 15 A^3 \texttt v + 24 A^2 C \texttt v + 8 B C (t + 3 \texttt v (3 B + \psi_0)) + A (\texttt r + 96 B^2 \texttt v + 36 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2 + 8 B (t + 3 \texttt v \psi_0)) &amp;= 0 \\
+        \partial_{B} \mathcal F_{UC} = 0: &amp; 45 B^3 \texttt v + 4 B^2 (t + 3 \texttt v \psi_0) + 2 A (A + 2 C) (t + 3 \texttt v \psi_0) + B (\texttt r + 48 A^2 \texttt v + 72 A C \texttt v + 54 C^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2) &amp;= 0\\
+        \partial_{C} \mathcal F_{UC} = 0: &amp; 27 C^3 \texttt v + C (\texttt r + 27 A^2 \texttt v + 81 B^2 \texttt v + 2 \texttt t \psi_0 + 3 \texttt v \psi_0^2) + 6 A (A^2 \texttt v + 9 B^2 \texttt v + B (t + 3 \texttt v \psi_0)) &amp;= 0\\
+        \end{array}
+\right \rbrace
+\]</div>
+<!-- Verified against the previous version of the documentation. (Vidar 21.03.24) -->
+</div>
+</div>
+</div>
+<p>We refer to these amplitudes <span class="arithmatex">\(A,B,C\)</span> as <em>proto amplitudes</em> and they are calculated by the functions <code>calc_proto_amplitudes_conserved</code> (by default) and <code>calc_proto_amplitudes_unconserved</code> in the <code>pfc</code> class.
+The proto amplitudes are saved in the <code>pfc</code> instance as <code>eta0</code>.
+The function <code>calc_free_energy_from_proto_amplitudes</code> calculates the free energy <span class="arithmatex">\(\mathcal F_{UC}\)</span> from the proto amplitudes, including <span class="arithmatex">\(\psi_0\)</span>.</p>
+<h3 id="straining-the-ground-state-to-equilibrium">Straining the ground state to equilibrium</h3>
+<p>While the q-vector given above and the proto amplitudes are good approximations to the ground state, they are not exact.
+In fact, if the PFC is initialized with these values, it will experience a slight residual stress <sup id="fnref:punkeEvaluationElasticField2023"><a class="footnote-ref" href="#fn:punkeEvaluationElasticField2023">10</a></sup>.
+To account for this, when initializing a PFC, the code will automatically strain the field to find the optimal value of <span class="arithmatex">\(q_0\)</span>, which is typically a few percent off the primary RLV.
+This is done numerically by simulating a <span class="arithmatex">\(1\times 1\)</span> unit cell and using the function <code>self.conf_strain_to_equilibrium</code> in the <code>pfc</code> class.</p>
+<p>In this function, we apply the following distortion</p>
+<div class="arithmatex">\[
+\mathcal u_{ij} = \epsilon \delta_{ij}
+\]</div>
+<p>Given the equilibrium configuration, we can find more accurate estimates for the equilibrium amplitudes, but evolving the PFC for a few time steps and calculating the amplitudes from the demodulation of the field with the primary RLVs.
+This is done in the <code>calc_strained_amplitudes</code> function in the <code>pfc</code> class, which also calculates new values for the elastic constants (see below).</p>
+<h2 id="the-amplitude-approximation-deviations-from-the-ground-state">The amplitude approximation - deviations from the ground state</h2>
+<p>So far, we have only looked at the equilibrium state of the PFC, which has a specific symmetry, and the few-mode approximations that can be used to describe the PFC in this state.
+For small deviations from the equilibrium state, like in the presence of few dislocations and small strains, we can use the amplitude approximation, in which we assume that the field can be written as</p>
+<div class="admonition equation">
+<p class="admonition-title">The amplitude approximation</p>
+<div class="arithmatex">\[
+\psi \approx \bar \psi + \sum_{\mathbf q^{(n)} \in \mathcal R^{(1)}} \eta_n(\mathbf r) e^{\mathfrak i \mathbf q^{(n)} \cdot \mathbf r},
+\]</div>
+</div>
+<p>where <span class="arithmatex">\(\eta_n\)</span> are slowly varying complex fields.
+These fields can be found by demodulating the field <span class="arithmatex">\(\psi\)</span> with the primary RLVs, i.e.,</p>
+<div class="admonition equation">
+<p class="admonition-title">Demodulation</p>
+<div class="arithmatex">\[
+\eta_n = \langle \psi e^{- \mathfrak i \boldsymbol{q}^{(n)} \cdot \boldsymbol{r}} \rangle
+\]</div>
+</div>
+<p>The figure below shows an example of the evolution of the PFC for a triangular lattice and the corresponding amplitude fields.</p>
+<p><img alt="" src="../img/phase_field_crystal_amplitude_approximation.png#only-light" />
+<img alt="" src="../img/phase_field_crystal_amplitude_approximation-colorinverted.png#only-dark" /></p>
+<p><strong>Figure:</strong> Snapshots of an example evolution of the 2D triangular PFC model at (top row) <span class="arithmatex">\(t=0\)</span> and (bottom row) <span class="arithmatex">\(t=600\)</span>. Parameters used were <span class="arithmatex">\((r,\psi_0) = (-0.3,-0.3)\)</span>. The columns show the demodulated fields <span class="arithmatex">\(\bar \psi\)</span> and <span class="arithmatex">\(\{ \eta_n \}_{n=1}^{3}\)</span>, where the complex fields are shown by their phase <span class="arithmatex">\(\theta_n\)</span> and brightness corresponding to the magnitude <span class="arithmatex">\(|\eta_n|\)</span>. Taken from Ref. <sup id="fnref2:skogvollSymmetryTopologyCrystal2023"><a class="footnote-ref" href="#fn:skogvollSymmetryTopologyCrystal2023">2</a></sup> with permission.</p>
+<h2 id="elasticity">Elasticity</h2>
+<p>This quantity is the Poisson ratio, under some conditions. I think. 
+To be fixed. 
+<span class="arithmatex">\(<span class="arithmatex">\(\nu = \frac{\lambda}{(d-1)\lambda + 2\mu + \gamma}\)</span>\)</span></p>
+<p>Elastic constants are saved in these quantities</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">pfc</span><span class="o">.</span><span class="n">el_mu</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">pfc</span><span class="o">.</span><span class="n">el_lambda</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">pfc</span><span class="o">.</span><span class="n">el_gamma</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">pfc</span><span class="o">.</span><span class="n">el_nu</span>
+</code></pre></div>
+<h3 id="stress-tensor">Stress tensor</h3>
+<p>The equations for calculating the stress tensor are found in Ref.
+<sup id="fnref:skogvollStressOrderedSystems2021"><a class="footnote-ref" href="#fn:skogvollStressOrderedSystems2021">6</a></sup>, but we list them below, together
+wtih the elastic constants for each of the models.
+The stress tensor <span class="arithmatex">\(h_{ij}\)</span> and its associated elastic constants interms of amplitudes (<span class="arithmatex">\(A,B,C\)</span>) of the mode expansion for different PFCmodels. Here, <span class="arithmatex">\(\mathcal L_X = X+\nabla^2\)</span>. The elastic constants canbe expressed in Voigt notation by <span class="arithmatex">\(C_{11} = \lambda+2\mu+\gamma\)</span>,<span class="arithmatex">\(C_{12} = \lambda\)</span>, <span class="arithmatex">\(C_{44}=\mu\)</span>.</p>
+<details class="example">
+<summary>Example: The 1D PFC - Stress tensor</summary>
+<p>In order to derive the stress tensor, suppose we have a state of the PFC given by <span class="arithmatex">\(\psi\)</span>.
+We may deform this state in a mass-conserving fashion by a displacement field <span class="arithmatex">\(u\)</span> (which is a scalar field in one dimension) as follows</p>
+<div class="arithmatex">\[
+\psi' = \psi - \partial_x (\psi u)
+\]</div>
+<p>We insert this into the expression for the free energy giving a new free energy <span class="arithmatex">\(\mathcal F'\)</span>.</p>
+<div class="arithmatex">\[
+\mathcal F' = \int dx \left ( \frac{1}{2} ((1+\partial_x^2) \psi'))^2 + \frac{1}{2} \texttt r \psi'^2 + \frac{1}{3} \texttt t \psi'^3 + \frac{1}{4} \texttt v \psi'^4 \right ) 
+\]</div>
+<p>If we take <span class="arithmatex">\(u\)</span> to be an infinitesimal exploratory field, we can expand in <span class="arithmatex">\(u\)</span>, which gives</p>
+<div class="arithmatex">\[
+\mathcal F' = \mathcal F[\psi] - \int dx (1+\partial_x^2)\psi (1+\partial_x^2) \partial_x (\psi u_x) - \texttt r \psi \partial_x (\psi u_x) - \texttt t \psi^2 \partial_x (\psi u_x) - \texttt v \psi^3 \partial_x (\psi u_x) 
+\]</div>
+<div class="arithmatex">\[
+= \mathcal F[\psi] - \int dx (1+\partial_x^2)\psi (1+\partial_x^2) \partial_x (\psi u_x) + (\tilde \mu_c - \mathcal L^2) \partial_x (\psi u_x) 
+\]</div>
+</details>
+<div class="arithmatex">\[
+\nabla \cdot  h  =
+\left \langle \tilde \mu_c \nabla \psi - \nabla \tilde f \right \rangle
+\]</div>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:6"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><input id="__tabbed_3_4" name="__tabbed_3" type="radio" /><input id="__tabbed_3_5" name="__tabbed_3" type="radio" /><input id="__tabbed_3_6" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">1D periodic</label><label for="__tabbed_3_2">2D triangular</label><label for="__tabbed_3_3">2D square</label><label for="__tabbed_3_4">3D body-centered cubic</label><label for="__tabbed_3_5">3D face-centered cubic</label><label for="__tabbed_3_6">3D simple cubic</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Stress tensor</p>
+<p>Elastic constants</p>
+<div class="arithmatex">\[
+\lambda =
+\]</div>
+<div class="arithmatex">\[
+\mu =
+\]</div>
+<div class="arithmatex">\[
+\gamma =
+\]</div>
+</div>
+<div class="tabbed-block">
+<p>Stress tensor</p>
+<div class="arithmatex">\[
+h_{ij} = -2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle
+\]</div>
+<p>Elastic constants</p>
+<div class="arithmatex">\[\lambda = 3A^2\]</div>
+<div class="arithmatex">\[\mu = 3A^2\]</div>
+<div class="arithmatex">\[\gamma = 0\]</div>
+</div>
+<div class="tabbed-block">
+<p>Stress tensor
+$$ h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_2 \psi)(\mathcal L_1 + \mathcal L_2) \partial_{ij} \psi \right \rangle$$</p>
+<p>Elastic constants</p>
+<div class="arithmatex">\[\lambda = 16B^2\]</div>
+<div class="arithmatex">\[\mu = 16B^2\]</div>
+<div class="arithmatex">\[\gamma = 8A^2-32B^2\]</div>
+</div>
+<div class="tabbed-block">
+<p>Stress tensor</p>
+<div class="arithmatex">\[h_{ij} = -2\left \langle (\mathcal L_1 \psi) \partial_{ij} \psi \right \rangle\]</div>
+<p>Elastic constants</p>
+<div class="arithmatex">\[\lambda = 4 A^2\]</div>
+<div class="arithmatex">\[\mu = 4 A^2\]</div>
+<div class="arithmatex">\[\gamma = -4A^2\]</div>
+</div>
+<div class="tabbed-block">
+<p>Stress tensor</p>
+<div class="arithmatex">\[h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_{\frac 4 3} \psi)(\mathcal L_1 + \mathcal L_{\frac 4 3}) \partial_{ij} \psi \right \rangle\]</div>
+<p>Elastic constants</p>
+<div class="arithmatex">\[\lambda = \frac{32}{81} A^2\]</div>
+<div class="arithmatex">\[\mu = \frac{32}{81} A^2\]</div>
+<div class="arithmatex">\[\gamma = \frac{32}{81} (2B^2 - A^2)\]</div>
+</div>
+<div class="tabbed-block">
+<p>Stress tensor</p>
+<div class="arithmatex">\[h_{ij} = -2\left \langle (\mathcal L_1 \mathcal L_2 \mathcal L_3 \psi)(\mathcal L_2 \mathcal L_3 + \mathcal L_1 \mathcal L_3 + \mathcal L_1 \mathcal L_2) \partial_{ij} \psi \right \rangle\]</div>
+<p>Elastic constants</p>
+<div class="arithmatex">\[\lambda = 16 B^2 + 128 C^2\]</div>
+<div class="arithmatex">\[\mu = 16 B^2 + 128 C^2\]</div>
+<div class="arithmatex">\[\gamma = 32 A^2 - 16 B^2 - 256 C^2\]</div>
+</div>
+</div>
+</div>
+<p>As one sees, the expressions for the stress tensor all on the format</p>
+<div class="arithmatex">\[
+h_{ij} = -2\left \langle (\mathcal L \psi)(\mathcal L_{\sum} \partial_{ij} \psi \right \rangle,
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal L\)</span> is as defined previously (as the product <span class="arithmatex">\(\mathcal L_1 ...\)</span>), and <span class="arithmatex">\(\mathcal L_{\sum}\)</span> is a particular sum of <span class="arithmatex">\(\mathcal L_i\)</span> operators.
+<span class="arithmatex">\(\mathcal L\)</span> is calculated (in Fourier space) by the function <code>calc_L_f</code>, and the <span class="arithmatex">\(\mathcal L_{\sum}\)</span> is calculated by the function <code>calc_L_sum_f</code> in the <code>pfc</code> class.
+The stress tensor is then calculated by the function <code>calc_microscopic_stress_tensor</code> in the <code>pfc</code> class. </p>
+<h3 id="equilibrium-elastic-constants">Equilibrium elastic constants</h3>
+<p>As mentioned above, the equilbrium state of the PFC is not exactly given by <span class="arithmatex">\(q_0=1\)</span>, and the proto amplitudes are not exact.
+However, in the process of deriving the equilibrium amplitudes after straining, we can also use the <span class="arithmatex">\(1\times 1\)</span> unit cell to calculate the elastic constants.
+This is done numerically by deforming the unit cell and calculating the increase in the elastic energy. 
+To illustrate this, consider a distortion of pure shear, i.e., </p>
+<div class="arithmatex">\[
+\mathfrak u = \begin{pmatrix} 0 &amp; \epsilon &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}.
+\]</div>
+<p>The corresponding strain is given by</p>
+<div class="arithmatex">\[
+\varepsilon = \begin{pmatrix} 0 &amp; \frac 1 2 \epsilon &amp; 0 \\ \frac 1 2 \epsilon &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}.
+\]</div>
+<p>Under this deformation, the elastic energy </p>
+<div class="arithmatex">\[
+F_{el} = \frac{1}{2} \mathcal C_{ijkl} \varepsilon_{ij} \varepsilon_{kl}
+\]</div>
+<p>is given by</p>
+<div class="arithmatex">\[
+F_{el} =  \mu e_{ij} e_{ij} = \frac{1}{2} \mu \epsilon^2.
+\]</div>
+<p>We can apply the distortion <span class="arithmatex">\(\mathfrak u\)</span> with the function <code>conf_apply_distortion</code> in the <code>pfc</code> class.
+The result of this procedure for a <span class="arithmatex">\(4\times 4\)</span> square PFC is shown in the figure below</p>
+<p><img alt="" src="../img/phase_field_crystal_strain_elastic_constants.png#only-light" />
+<img alt="" src="../img/phase_field_crystal_strain_elastic_constants-colorinverted.png#only-dark" /></p>
+<p><strong>Figure:</strong> The elastic constants of a 2D square PFC model as a function of the strain <span class="arithmatex">\(\epsilon\)</span> in the <span class="arithmatex">\(x\)</span>-direction. The fit shows the numerical fit of the elastic constant <span class="arithmatex">\(\mu\)</span> to the applied strain, showing excellent agreement.</p>
+<p>While this works for the elastic constant <span class="arithmatex">\(\mu\)</span>, the full elastic free energy is determined by three elastic constants, <span class="arithmatex">\(\lambda\)</span>, <span class="arithmatex">\(\mu\)</span>, and <span class="arithmatex">\(\gamma\)</span></p>
+<div class="arithmatex">\[
+F_{el} = F_{el} = \frac{1}{2} \lambda (\varepsilon_{kk})^2 + \mu \varepsilon_{ij} \varepsilon_{ij} + \frac{1}{2} \gamma (\varepsilon_{11}^2 + \varepsilon_{22}^2 + \varepsilon_{33}^2).
+\]</div>
+<p>To find these, we apply a series of deformations to the unit cell and use <code>scipy.optimize.curve_fit</code> to fit the elastic energy to the applied strain.
+This is done in the <code>calc_strained_amplitudes</code> and set to the <code>pfc</code> instance as <code>el_lambda</code>, <code>el_mu</code>, and <code>el_gamma</code> upon initialization. 
+The values are also printed to the terminal at initialization.</p>
+<p>The expression for the elastic constants in terms of the proto amplitudes were derived by inserting the amplitude approximation into the expression for the stress tensor.
+It is interesting to see that elastic constants obtained by using the equilibrium values of amplitudes match the elastic constants obtained by straining the PFC to equilibrium and performing the fit. </p>
+<h3 id="strains">Strains</h3>
+<p>In order to calculate the strain of a PFC configuration, we follow a generalized procedure as that outlined in Ref. <sup id="fnref3:skogvollSymmetryTopologyCrystal2023"><a class="footnote-ref" href="#fn:skogvollSymmetryTopologyCrystal2023">2</a></sup>. 
+The ground state of the PFC can be written as </p>
+<div class="arithmatex">\[
+\psi = \psi_0 + \eta_1 \sum_{\mathbf q^{(n)} \in \mathcal R^{(1)}} e^{i \mathbf q^{(n)} \cdot \mathbf r} +  \eta_2 \sum_{\mathbf q^{(n)} \in \mathcal R^{(2)}} e^{i \mathbf q^{(n)} \cdot \mathbf r} +...,
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal R^{(n)}\)</span> is the nth closest modes, i.e., the full reciprocal lattice can be written as </p>
+<div class="arithmatex">\[
+\mathcal R = \{\mathbf 0 \} \cup \left (\cup_{n=1}^\infty \mathcal R^{(n)} \right)
+\]</div>
+<p>We define the following quantity</p>
+<div class="arithmatex">\[
+\Phi = N_1q_1^2\eta_1^2 + N_2q_2^2\eta_2^2 + ... 
+= \sum_{\mathbf q^{(n)} \in \mathcal R} \eta_{n,0}^2|\mathbf q^{(n)}|^2
+\]</div>
+<p>Assuming that the mode-approximations hold, we can calculate <span class="arithmatex">\(\Phi\)</span> from the equilibrium amplitudes which are stored in the <code>PhaseFieldCrystal</code> instance, which is done routinely in the initialization of the class and stored in <code>pfc.Phi</code>.
+Consider now the structure function of the equilibrium state</p>
+<div class="arithmatex">\[
+\mathcal S_{ij} 
+= \langle \partial_i \psi \partial_j \psi\rangle
+\]</div>
+<div class="arithmatex">\[
+= \eta_1^2 \sum_{\mathbf q^{(n)} \in \mathcal R^{(1)}} q^{(n)}_iq^{(n)}_j +  \eta_2^2 \sum_{\mathbf q^{(n)} \in \mathcal R^{(2)}} q_i^{(n)}q_j^{(n)}+...
+\]</div>
+<div class="arithmatex">\[
+= \eta_1^2 \frac{N_1 q_1^2}{d} \delta_{ij} + \eta_2^2 \frac{N_2 q_2^2}{d} \delta_{ij}+... 
+\]</div>
+<div class="arithmatex">\[
+= \frac{\Phi}{d}\delta_{ij}
+\]</div>
+<p>The strain of the phase-field crystal can be calculated using the following formula
+The strain of the phase-field crystal can be calculated using the following formula<sup id="fnref4:skogvollSymmetryTopologyCrystal2023"><a class="footnote-ref" href="#fn:skogvollSymmetryTopologyCrystal2023">2</a></sup></p>
+<div class="arithmatex">\[
+\varepsilon_{ij} = \frac{1}{2}\delta_{ij} - \frac{d}{2\Phi} \mathcal S_{ij},
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal S = \langle \nabla \psi \nabla \psi \rangle\)</span> is called the structure function <sup id="fnref:skogvollHydrodynamicPhaseField2022"><a class="footnote-ref" href="#fn:skogvollHydrodynamicPhaseField2022">7</a></sup>
+and is implemented in the <code>calc_strain_tensor</code> method of the <code>PhaseFieldCrystal</code> class.
+It should be noted that there is some residual strain due to the equilibrium periodicity of the lattice not matching exactly the periodicity of the simulation domain <sup id="fnref2:punkeEvaluationElasticField2023"><a class="footnote-ref" href="#fn:punkeEvaluationElasticField2023">10</a></sup>.
+It is therefore often useful to subtract the mean value for visualization purposes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">strain</span> <span class="o">=</span> <span class="n">pfc</span><span class="o">.</span><span class="n">calc_strain_tensor</span><span class="p">()</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">strain</span> <span class="o">=</span> <span class="n">strain</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">strain</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="dislocations">Dislocations</h2>
+<p>The Burgers vector is defined by</p>
+<div class="admonition equation">
+<p class="admonition-title">Burgers vector definition</p>
+<div class="arithmatex">\[
+\oint_{\partial \mathcal M} d \boldsymbol{u} = -\boldsymbol{b}.
+\]</div>
+</div>
+<p>The minus sign in this convention reflects the fact that we consider the
+Burgers vector to be the disconnection error from the <em>ending</em> point to
+the <em>starting</em> point, when going an oriented path around the
+dislocation,</p>
+<p><img alt="Burgers vector definition" src="../img/phase_field_crystal_burgers_vector_definition.png#only-light" />
+<img alt="Burgers vector definition" src="../img/phase_field_crystal_burgers_vector_definition-colorinverted.png#only-dark" /></p>
+<p><em>Burgers vector definition:</em> (a) The one-body density of a crystalline solid containing an edge dislocation in a 2D square lattice (superimposed), (b) a 3D simple cubic lattice with an edge dislocation (<span class="arithmatex">\(\mathbf b \perp \mathbf t\)</span>), and (c) a 3D simple cubic lattice with a screw dislocation (<span class="arithmatex">\(\mathbf b \parallel \mathbf t)\)</span>.
+In all cases, a circulation (green) that is right-handed with respect to the tangent vector <span class="arithmatex">\(\mathbf t\)</span>, i.e., following a path around the dislocation, gives rise to a connection error: the Burgers vector <span class="arithmatex">\(\mathbf b\)</span>.<br />
+Reprinted from Ref. <sup id="fnref5:skogvollSymmetryTopologyCrystal2023"><a class="footnote-ref" href="#fn:skogvollSymmetryTopologyCrystal2023">2</a></sup> with permission.</p>
+<p>In three dimensions, the path defining the dislocation is given by the
+direction of the dislocation line tangent <span class="arithmatex">\(\boldsymbol{t}\)</span>. Multiplying
+this equation by the reciprocal lattice vector <span class="arithmatex">\(-\boldsymbol{q}^{(n)}\)</span>,
+we get</p>
+<div class="arithmatex">\[\oint_{\partial \mathcal M} d (-\boldsymbol{q}^{(n)} \cdot \boldsymbol{u}) = (\boldsymbol{b} \cdot \boldsymbol{q}^{(n)}) \equiv 2\pi s_n,\]</div>
+<p>where <span class="arithmatex">\(s_n\)</span> is the charge associated with the Burgers vector <span class="arithmatex">\(\boldsymbol{b}\)</span></p>
+<div class="admonition equation">
+<p class="admonition-title">Dislocation charge</p>
+<div class="arithmatex">\[
+s_n = \frac{1}{2\pi} \boldsymbol{b} \cdot \boldsymbol{q}^{(n)}.
+\]</div>
+</div>
+<p>Using the primary BLVs we get the charges summarized below</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">2D triangular</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Burgers vector <span class="arithmatex">\(\mathbf b\)</span></th>
+<th><span class="arithmatex">\(s_1\)</span></th>
+<th><span class="arithmatex">\(s_2\)</span></th>
+<th><span class="arithmatex">\(s_3\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(1)} = a_0 (1,0)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(2)} = a_0 (1/2,\sqrt 3/2)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(3)} = a_0 (1/2,-\sqrt 3/2)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">2D square</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Burgers vector <span class="arithmatex">\(\mathbf b\)</span></th>
+<th><span class="arithmatex">\(s_1\)</span></th>
+<th><span class="arithmatex">\(s_2\)</span></th>
+<th></th>
+<th><span class="arithmatex">\(s_3\)</span></th>
+<th><span class="arithmatex">\(s_4\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(1)} = a_0 (1,0)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(2)} = a_0(0,1)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">3D body-centered cubic</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Burgers vector <span class="arithmatex">\(\mathbf b\)</span></th>
+<th><span class="arithmatex">\(s_1\)</span></th>
+<th><span class="arithmatex">\(s_2\)</span></th>
+<th><span class="arithmatex">\(s_3\)</span></th>
+<th><span class="arithmatex">\(s_4\)</span></th>
+<th><span class="arithmatex">\(s_5\)</span></th>
+<th><span class="arithmatex">\(s_6\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(1)} = a_0/2 (-1,1,1)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(2)} = a_0/2 (1,-1,1)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(3)} = a_0/2 (1,1,-1)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(4)} = a_0/2 (1,1,1)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:1"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">3D face-centered cubic</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Burgers vector <span class="arithmatex">\(\mathbf b\)</span></th>
+<th><span class="arithmatex">\(s_1\)</span></th>
+<th><span class="arithmatex">\(s_2\)</span></th>
+<th><span class="arithmatex">\(s_3\)</span></th>
+<th><span class="arithmatex">\(s_4\)</span></th>
+<th></th>
+<th><span class="arithmatex">\(s_5\)</span></th>
+<th><span class="arithmatex">\(s_6\)</span></th>
+<th><span class="arithmatex">\(s_7\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(1)} = a_0/2(0,1,1)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(2)} = a_0/2(1,0,1)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(3)} = a_0/2 (1,1,0)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(4)} = a_0/2(0,-1,1)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(5)} = a_0/2 (-1,0,1)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(6)} = a_0/2(-1,1,0)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:1"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">3D simple cubic</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Burgers vector <span class="arithmatex">\(\mathbf b\)</span></th>
+<th><span class="arithmatex">\(s_1\)</span></th>
+<th><span class="arithmatex">\(s_2\)</span></th>
+<th><span class="arithmatex">\(s_3\)</span></th>
+<th></th>
+<th><span class="arithmatex">\(s_4\)</span></th>
+<th><span class="arithmatex">\(s_5\)</span></th>
+<th><span class="arithmatex">\(s_6\)</span></th>
+<th><span class="arithmatex">\(s_7\)</span></th>
+<th><span class="arithmatex">\(s_8\)</span></th>
+<th><span class="arithmatex">\(s_9\)</span></th>
+<th></th>
+<th><span class="arithmatex">\(s_{10}\)</span></th>
+<th><span class="arithmatex">\(s_{11}\)</span></th>
+<th><span class="arithmatex">\(s_{12}\)</span></th>
+<th><span class="arithmatex">\(s_{13}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(1)} = a_0(1,0,0)\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(2)} = a_0 (0,1,0)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathbf a^{(3)} = a_0(0,0,1)\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+<td><span class="arithmatex">\(\color{blue}-1\)</span></td>
+<td><span class="arithmatex">\(\color{red} 1\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-dislocation-density-tensor">The dislocation density tensor</h2>
+<p>Given a PFC configuration, the dislocation density tensor may be
+calculated as <sup id="fnref:skogvollPhaseFieldCrystal2022"><a class="footnote-ref" href="#fn:skogvollPhaseFieldCrystal2022">8</a></sup></p>
+<div class="admonition equation">
+<p class="admonition-title">The dislocation density tensor</p>
+<div class="arithmatex">\[
+\alpha_{ij} = \frac{2d}{N\eta_0^2} \sum_{n=1}^N D_i^{(n)} q_j^{(n)}
+= \frac{2 \pi d}{N} \sum_{n=1}^N \rho_i^{(n)} q_j^{(n)}
+\]</div>
+</div>
+<p>where
+<span class="arithmatex">\(\boldsymbol{D}^{(n)}\)</span> is calculated from
+<span class="arithmatex">\(\boldsymbol{\psi }= (\Re(\eta_n), \Im(\eta_n))\)</span> from the <span class="arithmatex">\(N\)</span> primary
+reciprocal lattice vectors <span class="arithmatex">\(\boldsymbol{q}^{(n)}\)</span> and</p>
+<div class="arithmatex">\[
+\rho^{(n)}_i = \frac{1}{\pi \eta_0^2} D^{(n)}_i
+\]</div>
+<p>In the language of
+this</p>
+<h2 id="equations-of-motion">Equations of motion</h2>
+<h3 id="conserved-evolution">Conserved evolution</h3>
+<p>The basic equation motion presented in Ref.
+<sup id="fnref2:elderModelingElasticPlastic2004"><a class="footnote-ref" href="#fn:elderModelingElasticPlastic2004">1</a></sup> can be derived by postulating a
+simple mechanism for free energy minimzation under the constraint of
+mass conservation.</p>
+<div class="admonition equation">
+<p class="admonition-title">The PFC evolution equation (<code>evolve_PFC</code>)</p>
+<div class="arithmatex">\[
+\partial_t \psi = \nabla^2 \tilde \mu_c,
+\]</div>
+</div>
+<p>The linear part <span class="arithmatex">\(\mathcal L^2  + \texttt r\)</span> of the chemical potential (not multiplied by psi) is calculated by </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">pfc</span><span class="o">.</span><span class="n">calc_chemical_potential_linear_part_f</span><span class="p">()</span>
+</code></pre></div>
+<p>The PFC chemical potential</p>
+<p>which gives</p>
+<div class="arithmatex">\[
+{{\omega }_{\mathfrak f}}= -\boldsymbol{k}^2 (\texttt r + {{\mathcal L}_{\mathfrak f}}^2)
+\]</div>
+<div class="arithmatex">\[
+N = \nabla^2 (\psi^3)
+\]</div>
+<h3 id="unconserved-dynamics">Unconserved dynamics</h3>
+<div class="admonition equation">
+<p class="admonition-title">The unconserved PFC evolution equation (<code>evolve_PFC_unconserved</code>)</p>
+<div class="arithmatex">\[
+\partial_t \psi = - \tilde \mu_c
+\]</div>
+</div>
+<h3 id="evolution-at-mechanical-equilibrium">Evolution at mechanical equilibrium</h3>
+<div class="admonition equation">
+<p class="admonition-title">The PFC evolution at mechanical equilibrium (<code>evolve_PFC_mechanical_equilibrium</code>)</p>
+<p>Step 1:</p>
+<div class="arithmatex">\[\psi(t+\Delta t) = \textrm{Integrate($\Delta t$):} (\partial_t \psi)\]</div>
+<p>Step 2:</p>
+<div class="arithmatex">\[\psi(t + \Delta t, \boldsymbol{r}) \leftarrow \psi(t + \Delta t, \boldsymbol{r} - \boldsymbol{u}^\delta),\]</div>
+</div>
+<p>where <span class="arithmatex">\(\boldsymbol{u}^\delta\)</span> is the solution to</p>
+<div class="arithmatex">\[
+\partial_{j} \mathcal C_{ijkl} \partial_l u_k = - g^\psi_i,
+\]</div>
+<p>where</p>
+<div class="arithmatex">\[
+g^\psi_i = -\partial_j \mathfrak h_{ij}^\psi,
+\]</div>
+<p>and the elastic constants tensor <span class="arithmatex">\(\mathcal C\)</span> is given by</p>
+<div class="arithmatex">\[
+\mathcal C_{ijkl} = \lambda \delta_{ij}\delta_{kl} + 2\mu \delta_{k(i} \delta_{j)l} + \gamma \delta_{ijkl}.
+\]</div>
+<p>This equation is solved in Fourier space by</p>
+<div class="arithmatex">\[
+{u}_{\mathfrak f ~ i}^\delta = G_{\mathfrak f ~ ij} g_{\mathfrak f ~ j}^\psi,
+\]</div>
+<p>where the Greens function <span class="arithmatex">\(G_{\mathfrak f ~ ij}\)</span> is given in Ref. <sup id="fnref:dederichsElasticGreenFunction1969"><a class="footnote-ref" href="#fn:dederichsElasticGreenFunction1969">9</a></sup> as</p>
+<div class="arithmatex">\[
+{G_{\mathfrak f ~ij}} (\mathbf k) =\frac{1}{\mathbf k^2}\left ( \frac{\delta_{ij}}{\mu + \gamma \kappa_{(i)}^2} - \frac{\kappa_i \kappa_j}{(\mu +  \gamma \kappa_{(i)}^2 )(\mu +  \gamma \kappa_{(j)}^2 )} \frac{\mu+\lambda}{1+ \sum_{l=1}^3 \frac{\mu + \lambda}{\mu+\gamma \kappa_l^2} \kappa_l^2 }\right ),
+\]</div>
+<p>with <span class="arithmatex">\(\boldsymbol \kappa = \mathbf k/|\mathbf k|\)</span> there is no implicit summation over indices <span class="arithmatex">\((i),(j)\)</span>.<br />
+By defining <span class="arithmatex">\(k_3=0\)</span>, this equation is also valid for the triangular and square symmetry in two dimensions.</p>
+<p>Note that due to the asymmetry of the elastic constants, this method can only be used for small deviations of the lattice orientation.</p>
+<h3 id="hydrodynamic-pfc-evolution">Hydrodynamic PFC evolution</h3>
+<p>In Ref. <sup id="fnref2:skogvollHydrodynamicPhaseField2022"><a class="footnote-ref" href="#fn:skogvollHydrodynamicPhaseField2022">7</a></sup>, a hydrodynamic approach
+was derived. 
+A simplified two-parameter model was proposed</p>
+<div class="admonition equation">
+<p class="admonition-title">The hydrodynamic PFC model (<code>evolve_PFC_hydrodynamic</code>)</p>
+<div class="arithmatex">\[
+\partial_t \psi = \nabla^2 \tilde \mu_c - \boldsymbol{v} \cdot \nabla \psi
+\]</div>
+<div class="arithmatex">\[
+\partial_t \boldsymbol{v} = \frac{1}{\rho_0} (\nabla \cdot  h + \Gamma_S \nabla^2 \boldsymbol{v} + \boldsymbol{f}^{\textrm(ext)})
+\]</div>
+</div>
+<p>We insert for <span class="arithmatex">\(\tilde \mu_c\)</span> and write it in matrix form to emphasize the
+linear and non-linear parts</p>
+<div class="arithmatex">\[
+\partial_t
+\begin{pmatrix}  \psi \\  v_1 \\  v_2 \\  v_3
+\end{pmatrix} =
+\begin{pmatrix}  \nabla^2 (r + \mathcal L^2) \psi \\  \frac{1}{\rho_0}\Gamma_S \nabla^2 v_1 \\  \frac{1}{\rho_0}\Gamma_S \nabla^2 v_2 \\  \frac{1}{\rho_0}\Gamma_S \nabla^2 v_3
+\end{pmatrix} +
+\begin{pmatrix}  \nabla^2 ( \psi^3)  - \boldsymbol{v} \cdot \nabla \psi \\  \frac{1}{\rho_0} \left (  \left \langle \tilde \mu_c \partial_x \psi - \partial_x \tilde f \right \rangle  + f_x^{(ext)}\right )\\  \frac{1}{\rho_0} \left (  \left \langle \tilde \mu_c \partial_y \psi - \partial_y \tilde f \right \rangle  + f_y^{(ext)}\right ) \\  \frac{1}{\rho_0} \left (  \left \langle \tilde \mu_c \partial_z \psi - \partial_z \tilde f \right \rangle  +  f_z^{(ext)} \right )
+\end{pmatrix}
+\]</div>
+<h2 id="configurations">Configurations</h2>
+<p>The PFC class has a number of methods for generating initial conditions.</p>
+<h3 id="dislocation-dipoles-and-loops">Dislocation dipoles and loops</h3>
+<p>The simplest setup for the PFC is to insert a dislocation dipole or dislocation loop.</p>
+<h3 id="polycrystal-configurations">Polycrystal configurations</h3>
+<p>To set a polycrystal configuration, one typically calculates the PFC from a set of rotated reciprocal lattices.
+This is done in the <code>calc_PFC_from_amplitudes</code> method, using the <code>rotation</code> keyword argument.
+Then, one constructs a field with the desired orientation by setting the field in the regions corresponding to the rotated reciprocal lattice to the rotated field.
+In order to avoid numerical artifacts with the interface, it is recommended to smooth the interface by evolving the PFC for a few time steps according to classical PFC dynamics.</p>
+<details class="example">
+<summary>Example: Creating a circular inclusion</summary>
+<p>To create a circular inclusion in 2 dimensions, you can run the following code.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">comfit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">pfc</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">PhaseFieldCrystal2DSquare</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">pfc</span><span class="o">.</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># This creates a standard orientation of the crystal</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">pfc</span><span class="o">.</span><span class="n">conf_PFC_from_amplitudes</span><span class="p">()</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="c1"># Create the rotated field</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">psi_rotated</span> <span class="o">=</span> <span class="n">pfc</span><span class="o">.</span><span class="n">calc_PFC_from_amplitudes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">6</span><span class="p">)</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1"># Specify the region centered at the mid position with radius 6 a0.</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="n">inclusion_region</span> <span class="o">=</span> <span class="n">pfc</span><span class="o">.</span><span class="n">calc_region_disk</span><span class="p">(</span><span class="n">pfc</span><span class="o">.</span><span class="n">rmid</span><span class="p">,</span> <span class="mi">6</span><span class="o">*</span><span class="n">pfc</span><span class="o">.</span><span class="n">a0</span><span class="p">)</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1"># Set the rotated field in the inclusion region</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="n">pfc</span><span class="o">.</span><span class="n">psi</span><span class="p">[</span><span class="n">inclusion_region</span><span class="p">]</span> <span class="o">=</span> <span class="n">psi_rotated</span><span class="p">[</span><span class="n">inclusion_region</span><span class="p">]</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="n">pfc</span><span class="o">.</span><span class="n">psi_f</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">pfc</span><span class="o">.</span><span class="n">psi</span><span class="p">)</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="c1">#Smooth the interface</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="n">tau</span> <span class="o">=</span> <span class="mi">10</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="n">pfc</span><span class="o">.</span><span class="n">evolve_PFC</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">tau</span><span class="o">/</span><span class="n">pfc</span><span class="o">.</span><span class="n">dt</span><span class="p">))</span> 
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="n">pfc</span><span class="o">.</span><span class="n">plot_field</span><span class="p">(</span><span class="n">pfc</span><span class="o">.</span><span class="n">psi</span><span class="p">)</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>This will produce the following image.</p>
+<p><img alt="Circular inclusion in a PFC" src="../img/phase_field_crystal_circular_inclusion.png#only-light" />
+<img alt="Circular inclusion in a PFC" src="../img/phase_field_crystal_circular_inclusion-colorinverted.png#only-dark" /></p>
+</details>
+<p>The class comes with a variety of pre-configured setups for polycrystalline configurations, which are created using the <code>conf_create_polycrystal</code> method.
+This function takes as argument a keyword argument <code>type</code>, which is a string specifying the type of polycrystal to create.
+The available types are</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1"><code>circular</code></label><label for="__tabbed_9_2"><code>four_grain</code></label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>This creates a circular inclusion valid in 2 and 3 dimensions. 
+The type opens for two additional keywords:</p>
+<ul>
+<li>
+<p><code>radius</code> which specifies the radius of the inclusion (default <code>self.size_min/4</code>).</p>
+</li>
+<li>
+<p><code>position</code> which specifies the position of the center of the inclusion (default <code>self.rmid</code>).</p>
+</li>
+<li>
+<p><code>rotation</code> a float specifying the rotation of the inclusion wrt. the z-axis (default <code>np.pi/6</code>).</p>
+</li>
+</ul>
+<p>If initialized in 3 dimensions, the inclusion will be a cylinder extended along the z-axis.</p>
+<p><img alt="Circular inclusion in a PFC" src="../img/phase_field_crystal_circular_inclusion.png#only-light" />
+<img alt="Circular inclusion in a PFC" src="../img/phase_field_crystal_circular_inclusion-colorinverted.png#only-dark" /></p>
+</div>
+<div class="tabbed-block">
+<p>This creates a four-grain configuration valid in 2 and 3 dimensions.
+The type allows for no additional keywords.</p>
+<p>If initialized in 3 dimensions, the four grains will be extended along the z-axis.</p>
+<p><img alt="Four grain configuration in a PFC" src="../img/phase_field_crystal_four_grain_inclusion.png#only-light" />
+<img alt="Four grain configuration in a PFC" src="../img/phase_field_crystal_four_grain_inclusion-colorinverted.png#only-dark" /></p>
+</div>
+</div>
+</div>
+<h3 id="calculating-the-orientation-field">Calculating the orientation field</h3>
+<p>In many simulations with polycrystals, it is useful to calculate the orientation field.
+This is a vector field that points in the direction of the crystal orientation.
+To calculate the orientation field, we rely on the amplitude approximation of the PFC field, demodulate with respect to different orientations and estimate the orientation based on the magnitude of these amplitudes.</p>
+<p>Consider the 2D case for a triangular PFC, in which the rotation angle <span class="arithmatex">\(\theta\)</span> is given with respect to the z-axis.
+For a given rotation, we can demodulate the PFC with respect to a triplet of reciprocal lattice vectors.</p>
+<div class="arithmatex">\[
+\{ R(\theta) \mathbf q^{(n)} \},
+\]</div>
+<p>where <span class="arithmatex">\(R(\theta)\)</span> is the rotation matrix and <span class="arithmatex">\(\mathbf q^{(n)}\)</span> is the primary reciprocal lattice vector of the unrotated PFC.
+This will give three amplitudes <span class="arithmatex">\(\eta_n\)</span>, the combined magnitude   </p>
+<div class="arithmatex">\[
+\Phi^2 = \sum_{n=1}^3 |\eta_n|^2
+\]</div>
+<p>of which will indicate to which degree the orientation of the PFC aligns with that direction.</p>
+<h2 id="straining-the-pfc">Straining the PFC</h2>
+<p>In some simulations, it is useful to prescribe a strain to the PFC.
+This is done by updating the grid on which the PFC is defined.</p>
+<p>In one dimension, the only strain that can be applied is a compression or expansion of the grid, given by <span class="arithmatex">\(\mathfrak e_{xx}\)</span>.</p>
+<p>In this case, these variables are updated according to </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">strain</span><span class="p">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="bp">self</span><span class="o">.</span><span class="n">dif</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dif</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">strain</span><span class="p">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">strain</span><span class="p">)</span>
+</code></pre></div>
+<p>In two dimensions, the strain tensor is given by three components <span class="arithmatex">\(\mathfrak e_{xx}\)</span>, <span class="arithmatex">\(\mathfrak e_{xy}\)</span>, and <span class="arithmatex">\(\mathfrak e_{yy}\)</span>.
+In principles, these components cannot be set arbitrarily, since the components must satisfy the compatibilit equations</p>
+<div class="arithmatex">\[
+\partial_y^2 \mathfrak e_{xx} + \partial_x^2 \mathfrak e_{yy} = 2 \partial_x \partial_y \mathfrak e_{xy}.
+\]</div>
+<p>In this case, however, we are limiting ourselves to a constant strain, in which case the compatibility equation is automatically satisfied and the deformation is given by</p>
+<div class="arithmatex">\[
+\begin{array}{ll}
+u_x = \mathfrak e_{xx} x + \mathfrak e_{xy} y, \\
+u_y = \mathfrak e_{xy} x + \mathfrak e_{yy} y.
+\end{array}
+\]</div>
+<p>The coordinates will transform according to</p>
+<div class="arithmatex">\[
+\begin{array}{ll}
+x \rightarrow x + u_x, \\
+y \rightarrow y + u_y.
+\end{array}
+\]</div>
+<p>which is is given by </p>
+<div class="arithmatex">\[
+\begin{array}{ll}
+x' \\
+y'
+\end{array}
+=
+\begin{array}{ll}
+1 + \mathfrak e_{xx} &amp; \mathfrak e_{xy} \\
+\mathfrak e_{xy} &amp; 1 + \mathfrak e_{yy} \\
+\end{array}
+\begin{array}{ll}
+x \\
+y
+\end{array}
+\]</div>
+<p>We save the components of the strain matrix <span class="arithmatex">\(T = \begin{array}{ll}
+1 + \mathfrak e_{xx} &amp; \mathfrak e_{xy} \\
+\mathfrak e_{xy} &amp; 1 + \mathfrak e_{yy} \\
+\end{array}
+\begin{array}{ll}\)</span> in the <code>distortion_matrix</code> variable.
+The wave vectors are updated according to</p>
+<div class="arithmatex">\[
+\begin{array}{ll}
+k_x' \\
+k_y'
+\end{array}
+=
+T^{-1}
+\begin{array}{ll}
+k_x \\
+k_y
+\end{array}
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">The grid components</p>
+<p>Normally, the grid components <code>x</code>, <code>y</code>, and <code>z</code> are set as 1-dimensional arrays, and the same with <code>self.k[0]</code>, <code>self.k[1]</code>, and <code>self.k[2]</code>.
+When applying an external strain, however, the grid components will vary in the different directions and will become multi-dimensional arrays.
+This increases the memory usage of the simulation. </p>
+</div>
+<p>The strain thus contains three components <code>strain[0]</code>, <code>strain[1]</code>, and <code>strain[2]</code>.</p>
+<p>, and the grid is updated according to</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>
+</code></pre></div>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:elderModelingElasticPlastic2004">
+<p>Elder, K. R., &amp; Grant, M. (2004). Modeling elastic and plastic deformations in nonequilibrium processing using phase field crystals. Physical Review E, 70(5), 051605. <a href="https://doi.org/10.1103/PhysRevE.70.051605">https://doi.org/10.1103/PhysRevE.70.051605</a>&#160;<a class="footnote-backref" href="#fnref:elderModelingElasticPlastic2004" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:elderModelingElasticPlastic2004" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:skogvollSymmetryTopologyCrystal2023">
+<p>Skogvoll, V. (2023). Symmetry, topology, and crystal deformations: a phase-field crystal approach. Doctoral Thesis. University of Oslo <a href="https://www.duo.uio.no/handle/10852/102731">https://www.duo.uio.no/handle/10852/102731</a>&#160;<a class="footnote-backref" href="#fnref:skogvollSymmetryTopologyCrystal2023" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:skogvollSymmetryTopologyCrystal2023" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:skogvollSymmetryTopologyCrystal2023" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:skogvollSymmetryTopologyCrystal2023" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref5:skogvollSymmetryTopologyCrystal2023" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref6:skogvollSymmetryTopologyCrystal2023" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:emdadiRevisitingPhaseDiagrams2016">
+<p>Emdadi, A., Asle Z., Mohsen and Asadi, E. (2016). Revisiting Phase Diagrams of Two-Mode Phase-Field Crystal Models. Computational Materials Science. 123, 139-147. <a href="https://doi.org/10.1016/j.commatsci.2016.06.018">https://doi.org/10.1016/j.commatsci.2016.06.018</a>&#160;<a class="footnote-backref" href="#fnref:emdadiRevisitingPhaseDiagrams2016" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:wuPhasefieldcrystalModelFcc2010">
+<p>Wu, K. A., Adland, A. and Karma, A. (2010). Phase-Field-Crystal Model for Fcc Ordering. Physical Review E. 81, 6, 06101. <a href="https://doi.org/10.1103/PhysRevE.81.061601">https://doi.org/10.1103/PhysRevE.81.061601</a>&#160;<a class="footnote-backref" href="#fnref:wuPhasefieldcrystalModelFcc2010" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:wuPhasefieldCrystalModeling2007">
+<p>Wu, K-A. and Karma, A. (2007). Phase-Field Crystal Modeling of Equilibrium Bcc-Liquid Interfaces. Physical Review B. 76, 18, 184107. <a href="https://doi.org/10.1103/PhysRevB.76.184107">https://doi.org/10.1103/PhysRevB.76.184107</a>&#160;<a class="footnote-backref" href="#fnref:wuPhasefieldCrystalModeling2007" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:skogvollStressOrderedSystems2021">
+<p>Skogvoll, V., Skaugen, A. and Angheluta, L. (2021). Stress in Ordered Systems: Ginzburg-Landau-type Density Field Theory. Physical Review B. 103, 22, 224107. <a href="https://doi.org/10.1103/PhysRevB.103.224107">https://doi.org/10.1103/PhysRevB.103.224107</a>&#160;<a class="footnote-backref" href="#fnref:skogvollStressOrderedSystems2021" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:skogvollHydrodynamicPhaseField2022">
+<p>Skogvoll, V., Salvalaglio, M. and Angheluta, L. (2022). Hydrodynamic Phase Field Crystal Approach to Interfaces, Dislocations and Multi-Grain Networks. Modelling and Simulation in Materials Science and Engineering. <a href="https://doi.org/10.1088/1361-651X/ac9493">https://doi.org/10.1088/1361-651X/ac9493</a>&#160;<a class="footnote-backref" href="#fnref:skogvollHydrodynamicPhaseField2022" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:skogvollHydrodynamicPhaseField2022" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+<li id="fn:skogvollPhaseFieldCrystal2022">
+<p>Skogvoll, V., Angheluta, L., Skaugen, A., Salvalaglio, M. and Viñals, J. (2022). A Phase Field Crystal Theory of the Kinematics of Dislocation Lines. Journal of the Mechanics and Physics of Solids. 166, 104932. <a href="https://doi.org/10.1016/j.jmps.2022.104932">https://doi.org/10.1016/j.jmps.2022.104932</a>&#160;<a class="footnote-backref" href="#fnref:skogvollPhaseFieldCrystal2022" title="Jump back to footnote 8 in the text">&#8617;</a></p>
+</li>
+<li id="fn:dederichsElasticGreenFunction1969">
+<p>Dederichs, P. H. and Leibfried, G. (1969). Elastic Green's function for anisotropic cubic crystals. Physical Review. 188, 3, 1175. <a href="https://doi.org/10.1103/PhysRev.188.1175">https://doi.org/10.1103/PhysRev.188.1175</a>&#160;<a class="footnote-backref" href="#fnref:dederichsElasticGreenFunction1969" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+</li>
+<li id="fn:punkeEvaluationElasticField2023">
+<p>Punke, M., Skogvoll, V., &amp; Salvalaglio, M. (2023). Evaluation of the elastic field in phase-field crystal simulations. PAMM, 23(3), e202300213. <a href="https://doi.org/10.1002/pamm.202300213">https://doi.org/10.1002/pamm.202300213</a>&#160;<a class="footnote-backref" href="#fnref:punkeEvaluationElasticField2023" title="Jump back to footnote 10 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:punkeEvaluationElasticField2023" title="Jump back to footnote 10 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 <a href="https://github.com/vidarsko/ComFiT"  target="_blank" rel="noopener">Vidar Skogvoll and Jonas Rønning</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.right", "search.suggest", "search.highlight", "content.code.annotation", "content.code.copy", "content.tabs"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1181 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://comfitlib.com/ClassNematicLiquidCrystal/">
+      
+      
+        <link rel="prev" href="../ClassBoseEinsteinCondensate/">
+      
+      
+        <link rel="next" href="../ClassPhaseFieldCrystal/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Class: Nematic liquid crystal - ComFiT documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../styles.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#class-nematic-liquid-crystal" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ComFiT documentation" class="md-header__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ComFiT documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Class: Nematic liquid crystal
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ComFiT documentation" class="md-nav__button md-logo" aria-label="ComFiT documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    ComFiT documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassBaseSystem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Base system
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Plotting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Plotting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TopologicalDefects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Topological Defects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassQuantumMechanics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassBoseEinsteinCondensate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Bose-Einstein condensate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Class: Nematic liquid crystal
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Nematic liquid crystal
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables and parameters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variables and parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#note-on-the-tensor-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Note on the tensor parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disipative-dynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disipative dynamics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sec:nem_vel" class="md-nav__link">
+    <span class="md-ellipsis">
+      The velocity field
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minimum-of-the-free-energy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minimum of the free energy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Minimum of the free energy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-two-dimmensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      In two dimmensions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-three-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      In three dimensions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topological-defects-and-active-turbulence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topological defects and active turbulence
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial States
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spatially-varying-activity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spatially varying activity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#three-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Three dimensions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topological-defects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topological defects
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Topological defects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inserting-topological-defects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inserting topological defects
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassPhaseFieldCrystal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Class: Phase-field crystal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conventions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library_reference" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Library reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="class-nematic-liquid-crystal">Class: Nematic Liquid Crystal</h1>
+<p>A nematic liquid crystal is a state of matter between a solid and a liquid. 
+It is characterized by the orientation of the molecules, which is ordered, but not the position. 
+The molecules are rod-like and the orientation is described by a unit vector, the nematic director. 
+The nematic liquid crystal is the simplest form of liquid crystal, and is characterized by the nematic director being the only order parameter. 
+The nematic liquid crystal is used to describe the behavior of many biological systems, such as the cytoskeleton, and is also used in many technological applications, such as in liquid crystal displays.</p>
+<p>In this class, we simulate an active nematic liquid crystal using [framework].</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">file</span><span class="p">:</span> <span class="n">comfit</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">nematic_liquid_crystal</span><span class="o">.</span><span class="n">py</span> 
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">class</span><span class="p">:</span> <span class="n">NematicLiquidCrystal</span>
+</code></pre></div>
+<p>See the ComFiT Library Reference below for a complete list of class methods and their usage.</p>
+<div class="grid cards" style="display: flex; flex-wrap: wrap;">
+    <a href="https://comfitlib.com/library_reference/nematic_liquid_crystal/" class="card" style="min-width: 160px; flex: 0 1 calc(100.00% - 10px); margin: 5px;">
+        <div style="text-align: center;">
+            <strong> ComFiT Library Reference </strong>
+        </div>
+    </a>
+</div>
+
+<h2 id="variables-and-parameters">Variables and parameters</h2>
+<p>The primary variables are the symmetric traceless tensor <span class="arithmatex">\(Q\)</span> and the
+velocity field <span class="arithmatex">\(\mathbf{u}\)</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">nem</span><span class="o">.</span><span class="n">Q</span> 
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">nem</span><span class="o">.</span><span class="n">u</span>
+</code></pre></div>
+<p>The NematicLiquidCrystal class takes the same keyword as the BaseSystem class in addition to</p>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Definition</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>alpha</code></td>
+<td>The activity parameter. Negative is extensile</td>
+<td><span class="arithmatex">\(-1\)</span></td>
+</tr>
+<tr>
+<td><code>K</code></td>
+<td>Frank elastic constant</td>
+<td><span class="arithmatex">\(1\)</span></td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>Parameter in front of <span class="arithmatex">\(\text{Tr}(Q^2)\)</span> in the free-energy</td>
+<td><span class="arithmatex">\(1\)</span></td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>Parameter in front of <span class="arithmatex">\(\text{Tr}(Q^2)^2\)</span> in the free-energy</td>
+<td><span class="arithmatex">\(1\)</span></td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td>Parameter in front of <span class="arithmatex">\(\text{Tr}(Q^3)\)</span> in the free-energy. 3D only</td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+<tr>
+<td><code>gamma</code></td>
+<td>Rotational diffusion</td>
+<td><span class="arithmatex">\(1\)</span></td>
+</tr>
+<tr>
+<td><code>Gamma</code></td>
+<td>Friction</td>
+<td><span class="arithmatex">\(0\)</span></td>
+</tr>
+<tr>
+<td><code>eta</code></td>
+<td>Viscosity</td>
+<td><span class="arithmatex">\(1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>These parameters are discussed in more detail in the model section. </p>
+<h3 id="note-on-the-tensor-parameters">Note on the tensor parameters</h3>
+<p>The <span class="arithmatex">\(Q\)</span> tensor is given by the nematic director as</p>
+<div class="arithmatex">\[
+Q_{ij} = S (n_i n_j - \frac{1}{d} \delta_{ij})
+\]</div>
+<p>in <span class="arithmatex">\(d\)</span> dimensions.
+To take advantage of its
+symmetric nature we have saved <span class="arithmatex">\(Q\)</span> as a vector field, which in two and three
+dimensions takes the forms</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathbf{Q} &amp;= [ Q_{xx},Q_{xy} ] \\
+\mathbf{Q} &amp;= [ Q_{xx},Q_{xy},Q_{xz},Q_{yy},Q_{yz}]
+\end{aligned}
+\]</div>
+<p>respectivly.
+We can translate from tensor indexes to the right value stored in the vector by
+using the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">get_sym_tl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Q</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+</code></pre></div>
+<p>This returns the element <span class="arithmatex">\(Q_{ij}\)</span> of a symmetric and traceless tensor
+field. In addition to this we also have the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">get_anti_sym</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">omega</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+</code></pre></div>
+<p>so that we can optimally store the antisymetric tensors as well. In two
+dimensions these only have one independent component, which is stored as
+a scalar field,
+while in three dimensions it is stored as</p>
+<div class="arithmatex">\[
+\mathbf \Omega = [\Omega_{xy}, \Omega_{xz}, \Omega_{yz}]
+\]</div>
+<p>In order to calculate the director field <span class="arithmatex">\(\mathbf n\)</span> and the amount of order <span class="arithmatex">\(S\)</span> in two dimensions we use that we can map the orderparameter to the complex field <span class="arithmatex">\(\psi = Q_{xx} +  iQ_{xy} =Se^{2i\theta}/2\)</span>, where <span class="arithmatex">\(\theta\)</span>  is the angle of the director field.
+In three dimensions we use that <span class="arithmatex">\(S\)</span> is given by the largest eigenvalue as <span class="arithmatex">\(S = 3\lambda/2\)</span> with the director being the coresponding eigenvector <sup id="fnref:Schimming2022Thesis"><a class="footnote-ref" href="#fn:Schimming2022Thesis">1</a></sup>.
+This is taken care of in the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">calc_order_and_director</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p>Wich returns <code>S, n</code>, where <code>n</code> is the director field.
+Note that a nematic liquid crystall can be biaxial and given as</p>
+<div class="arithmatex">\[
+Q_{ij} = S (n_i n_j - \frac{1}{3} \delta_{ij}) + P (m_i m_j -l_i l_j)
+\]</div>
+<p>where <span class="arithmatex">\(P\)</span> is given by the difference between the smallest eigenvalues and <span class="arithmatex">\(\mathbf m\)</span> and <span class="arithmatex">\(\mathbf l\)</span> is the corresponding eigenvectors.</p>
+<h2 id="model">Model</h2>
+<p>We model the active nematic using a set of coupled differential
+equations, namely the Edvard-Beris equation coupled to the Stokes
+equation
+<sup id="fnref:marchetti2013hydrodynamics"><a class="footnote-ref" href="#fn:marchetti2013hydrodynamics">2</a></sup> <sup id="fnref:genkin2017topological"><a class="footnote-ref" href="#fn:genkin2017topological">3</a></sup> <sup id="fnref:nejad2020memory"><a class="footnote-ref" href="#fn:nejad2020memory">4</a></sup> <sup id="fnref:angheluta2021role"><a class="footnote-ref" href="#fn:angheluta2021role">5</a></sup></p>
+<div class="admonition equation">
+<p class="admonition-title">The Edward-Beris equation (<code>evolve_nematic</code>)</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+        \partial_t Q + \mathbf u\cdot \nabla Q +\Omega Q -Q \Omega &amp;=\gamma^{-1}H,
+        \\
+        (\Gamma- \eta \nabla^2 )\mathbf u &amp;= -\nabla P + \nabla \cdot \sigma^a(Q) + \nabla \cdot \sigma^p, \\
+        \nabla \cdot \mathbf u &amp;= 0.
+    \end{aligned}
+\]</div>
+</div>
+<p>Here <span class="arithmatex">\(2\Omega_{ij} = \partial_i u_j - \partial_j u_i\)</span> is
+the vorticity tensor, <span class="arithmatex">\(P\)</span> is the pressure, <span class="arithmatex">\(\gamma\)</span> is the rotational friction coefficient, <span class="arithmatex">\(\sigma^p\)</span> is the passive stress, <span class="arithmatex">\(\Gamma\)</span> is friction with a substrate, <span class="arithmatex">\(\eta\)</span> is viscosity and the active stress is given by <span class="arithmatex">\(\sigma^a = \alpha Q\)</span>.
+The vorticity tensor is calculated by the
+function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">calc_vorticity_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p>Note that the velocity has to be updated before this function is called.
+The calculation of the pressure and velocity is described furhter down.
+Since the active stress is simply proportional to <span class="arithmatex">\(Q\)</span> we have not included any
+function to calculate it, but calculate the force directly with the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">calc_active_force_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Q</span><span class="p">)</span>
+</code></pre></div>
+<p>The molecular field <span class="arithmatex">\(H\)</span> is given as</p>
+<div class="arithmatex">\[H_{ij} =  -\frac{\delta \mathcal{F}}{\delta Q_{ij}} + \frac{\delta_{ij}}{d} \text{Tr}\left(\frac{\delta F}{\delta Q}\right)
+\]</div>
+<p>The last term is here to make it trace less.
+For the free energy we use</p>
+<div class="arithmatex">\[\mathcal F = \int \left( K |\nabla Q|^2 - \frac{A}{2} \left[ B \text{Tr}(Q^2) -\text{Tr}(Q^2)^2   \right] -\frac{C}{3}\text{Tr}(Q^3) \right),
+\]</div>
+<p>where it is assumed that there is a single Frank elastic constant <span class="arithmatex">\(K\)</span>.
+Here <span class="arithmatex">\(Q^2 = QQ\)</span> denote a standard matrix multiplication, and similar for <span class="arithmatex">\(Q^3\)</span>.
+We therfore have that <span class="arithmatex">\(\text{Tr}(Q^2)^2 = Q_{kj}Q_{jk}\)</span>.
+The <span class="arithmatex">\(\text{Tr}(Q^3)\)</span> term only exists in three dimensons since it is zero for all symetric traceless matrices in two dimensions.
+The molecular field is given as</p>
+<div class="arithmatex">\[
+ H_{ij} =  K \nabla^2 Q_{ij} + A(B - 2Q^2_{kk})Q_{ij} +
+ \begin{cases}
+  0, &amp; \text{dim} = 2 \\
+ C Q^2_{ij} - \frac{C}{3}Q^2_{kk} \delta_{ij}, &amp; \text{dim} = 3
+\end{cases}
+\]</div>
+<p>For the passive stress we use
+<span class="arithmatex">\(<span class="arithmatex">\(\sigma_{ij} = Q_{ik}H_{kj}-H_{ik}Q_{kj} - K (\partial_i Q_{kl})(\partial_jQ_{kl}).\)</span>\)</span>
+Note that we use the convention that the dot product between a vector
+and a tensor contracts the last component when calculating the
+divergence of this. The first two terms is the asymmetric stress, while
+the second term is the Ericksen stress. Terms due to flow allingment and
+anisotropic viscosity are not included. The molecular field and the
+passive stress  are calculated by the functions</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">calc_molecular_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Q</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">calc_passive_stress_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Q</span><span class="p">)</span>
+</code></pre></div>
+<p>The linear and non-linear part of the evolution equation for <span class="arithmatex">\(Q\)</span>,
+eq. is
+given as</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\omega(\nabla) &amp;= \frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma}, \\
+N(Q,t) &amp;= - \mathbf u\cdot \nabla Q + Q \Omega -\Omega Q - \frac{2A}{\gamma}Q^2_{kk}Q +\begin{cases}
+  0, &amp; \text{dim} = 2 \\
+ C Q^2 - \frac{C}{3}Q^2_{kk} I, &amp; \text{dim} = 3
+\end{cases}
+\end{aligned}
+\]</div>
+<p>The evolution of this is handled by the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">nem</span><span class="o">.</span><span class="n">evolve_nematic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">number_of_steps</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ETD2RK&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="disipative-dynamics">Disipative dynamics</h2>
+<p>Note that if we set the velocity field to zero the dynamics become
+<span class="arithmatex">\(<span class="arithmatex">\(\partial_t Q=  \frac{K}{\gamma} \nabla^2 Q_{ij} +\frac{A}{\gamma}(B - 2Q^2_{kk})Q_{ij}.\)</span>\)</span>
+This is used to relax the initial system before starting the simulation.
+The linear and nonlinear part of this equation are</p>
+<div class="arithmatex">\[
+\begin{aligned}
+    \omega(\nabla) = \frac{K}{\gamma} \nabla^2 +\frac{AB}{\gamma},  \\
+    N(Q) = - \frac{2A}{\gamma}Q^2_{kk}Q +\begin{cases}
+  0, &amp; \text{dim} = 2 \\
+ C Q^2 - \frac{C}{3}Q^2_{kk} I, &amp; \text{dim} = 3
+\end{cases}.
+\end{aligned}
+\]</div>
+<p>An evolver for this dissipative dynamics is included as</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">nem</span><span class="o">.</span><span class="n">evolve_nematic_no_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">number_of_steps</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ETD2RK&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="sec:nem_vel">The velocity field</h2>
+<p>For a given orderparameter <span class="arithmatex">\(Q\)</span> the velocity field is calculated in
+Fourier space using
+eq (??).
+We start by finding an expression for
+the pressure by taking the divergence of this eq. (??) and then using the incompressibility
+condition giving <span class="arithmatex">\(<span class="arithmatex">\(\nabla^2 P = \nabla \cdot \mathbf F,\)</span>\)</span> where
+<span class="arithmatex">\(\mathbf F =  \nabla \cdot \sigma^a(Q) +\nabla \cdot \sigma^p(Q)\)</span> is the
+active and passive forces. This is solved in Fourier space as</p>
+<div class="arithmatex">\[
+-k^2  {{P}_{\scriptscriptstyle  f}} =  i\mathbf k \cdot {{\mathbf F}_{\scriptscriptstyle  f}}.
+\]</div>
+<p>The above equation can be inverted in order to find all the modes of the
+pressure except the zero mode, i.e the pressure is determined up to a
+constant. We set this constant to zero. Once the pressure is found we
+obtain the velocity from</p>
+<div class="arithmatex">\[
+(\Gamma + \eta k^2){{\mathbf u}_{\mathfrak  f}} = - i\mathbf k {{P}_{\mathfrak  f}} + {{F}_{\mathfrak  f}}.
+\]</div>
+<p>Note that when <span class="arithmatex">\(\Gamma = 0\)</span> we need to set the zero mode of the velocity
+by hand. This is set to zero. The pressure and velocity are
+calculated/updated by the two functions</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">calc_pressure_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">F_af</span><span class="p">,</span><span class="n">F_pf</span><span class="p">)</span> 
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">conf_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Q</span><span class="p">)</span>
+</code></pre></div>
+<p>Note that <code>calc_pressure_f</code> only returns the Fourier transform of the
+pressure. The function <code>conf_velocity</code> updates both the velocity field <code>self.u</code>
+and its Fourier transform <code>self.u_f</code>. 
+The arguments <code>F_af</code> and <code>F_pf</code> are the active and passive forces respectivly.  </p>
+<h2 id="minimum-of-the-free-energy">Minimum of the free energy</h2>
+<p>When starting a simulation it is often interesting to start from a configuration that is the minimum of the free energy pluss some perturbations or with a vortex dipole/fillament.
+From the free energy we see that the minimum energy is given by a homogeneous nematic, and it is inedependent of the direction the nematogens are pointing.
+Assuming that the unitvector <span class="arithmatex">\(\mathbf n\)</span> is homogeneous we can rewrite the free energy in terms of the parameter <span class="arithmatex">\(S\)</span>.</p>
+<h3 id="in-two-dimmensions">In two dimmensions</h3>
+<p>the free energy is only given by powers of <span class="arithmatex">\(\text{Tr}(Q^2)\)</span> which in two dimmensions is <span class="arithmatex">\(S^2/2\)</span> in terms of <span class="arithmatex">\(S\)</span>.
+The free-energy is therfore for a homogeneous two dimentional nematic given as</p>
+<div class="arithmatex">\[
+\mathcal F =  \int \left( - \frac{A}{2} \left[ B \frac{S^2}{2} -\frac{S^4}{4}   \right] \right).
+\]</div>
+<p>The minimum of this is given as <span class="arithmatex">\(S =\sqrt{B}\)</span> when <span class="arithmatex">\(B &gt;0\)</span> and <span class="arithmatex">\(S = 0\)</span> if <span class="arithmatex">\(B&lt;0\)</span>.</p>
+<h3 id="in-three-dimensions">In three dimensions</h3>
+<p>In three dimensions we have that <span class="arithmatex">\(\text{Tr}(Q^2) = 2 S^2/3\)</span> and <span class="arithmatex">\(\text{Tr}(Q^3)= 2 S^3/9\)</span>.
+Using this we find that there are a local minima at</p>
+<div class="arithmatex">\[
+S = \frac{1}{8}\frac{C}{A} + \frac{1}{2} \sqrt{\frac{C^2}{16 A^2} + 3 B}
+\]</div>
+<p>when <span class="arithmatex">\(B &gt; -3 C^2/(16A^2)\)</span>.</p>
+<h2 id="topological-defects-and-active-turbulence">Topological defects and active turbulence</h2>
+<p>Because of the head-tail symmetry if the nematic director the
+topological defects in the nematic phase can have half integer winding
+number. We can see this by maping the <span class="arithmatex">\(Q\)</span> tensor to a complex field.
+This is done by writing the nematic director as
+<span class="arithmatex">\(\\mathbf{n} = \cos{\theta} \hat x + \sin{\theta} \hat y\)</span>, with
+<span class="arithmatex">\(\hat x /\hat y\)</span> being the unit vectors in <span class="arithmatex">\(x /y\)</span> direction, and mapping
+the <span class="arithmatex">\(Q\)</span> tensor, see
+eq. (??), to the complex field</p>
+<div class="arithmatex">\[
+\psi = Q_{xx} +  iQ_{xy} = \frac{S}{2} e^{2 i\theta}.
+\]</div>
+<p>Using the same arguments as for the BEC we find that the allowed winding
+numbers <span class="arithmatex">\(<span class="arithmatex">\(k = \int_C \nabla \theta \cdot d\\mathbf{l} = 2\pi q\)</span>\)</span> with
+<span class="arithmatex">\(q\)</span> being a half-integer. The defects of lowest absolute charge is the
+<span class="arithmatex">\(\pm 1/2\)</span> defects, which are depicted below.</p>
+<p><img alt="Liquid crystal disclination dipole" src="../img/nematic_liquid_crystal_disclination_dipole.png#only-light" />
+<img alt="Liquid crystal disclination dipole" src="../img/nematic_liquid_crystal_disclination_dipole-colorinverted.png#only-dark" /></p>
+<p><em>Liquid crystal disclination dipole:</em> The nematic director (head-less vectors) around a defect dipole. The <span class="arithmatex">\(+1/2\)</span> defect is marked with red, while the <span class="arithmatex">\(-1/2\)</span> defect is in blue.</p>
+<p>For tracing the defect nodes one can use the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">calc_vortex_nodes_nem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt_Q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">polarization</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>If <code>dt_Q</code> is given this finds the defects velocity and if <code>polarization</code> is given the polarization of the <span class="arithmatex">\(+1/2\)</span> defects are
+found.
+This polarization is given by</p>
+<div class="arithmatex">\[
+\mathbf{e}_+ = \left( \frac{\nabla \cdot Q}{|\nabla \cdot Q|}\right)_{\mathbf{r}= \mathbf{r}_+}
+\]</div>
+<p>where <span class="arithmatex">\(\mathbf{r}_+\)</span> is the defects position.
+The field <span class="arithmatex">\(\mathbf{e}_+\)</span> can be found by the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">calc_defect_polarization_field</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p>Note that this function does not include the normalization to avoid
+division by zero.</p>
+<h2 id="initial-states">Initial States</h2>
+<p>A homogeneous nematic with random noise can be implemented with the
+function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">conf_initial_condition_disordered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_strength</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>  
+</code></pre></div>
+<p>This gives a state where the nematogens are aligned with the <span class="arithmatex">\(x\)</span>-axis.
+The noise is in the angle <span class="arithmatex">\(\theta\)</span>. If the activity is high enough this
+state will after a while start to spontaneously generate topological
+defects. In addition there is possible to insert defect dipoles using
+the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">conf_insert_vortex_dipole</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dipole_vector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dipole_position</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> 
+</code></pre></div>
+<p>which works similarly as the one implemented for the BEC. This function
+can be used either to initialize a homogeneous state with a dipole, or
+it can be used to insert a dipole into an already existing nematic.
+In three dimensions one can initialise two disclination lines paralel to the z-axis using the function </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">conf_initial_disclination_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">position2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>This function intialises a wedge defect looking like the two dimensional <span class="arithmatex">\(+1/2\)</span> defect at <code>position1</code> and one 
+looking like a <span class="arithmatex">\(-1/2\)</span> at <code>position2</code>. 
+The positions are in the xy-plane.
+If no positions are given the defects are placed at the positions </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>    <span class="n">position1</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">xmid</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">size_x</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymid</span><span class="p">]</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    <span class="n">position2</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">xmid</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">size_x</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymid</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="spatially-varying-activity">Spatially varying activity</h2>
+<p>The activity <span class="arithmatex">\(\alpha\)</span> is can be spatially varying. This can be used to
+make active channels as shown in the following figure.</p>
+<p><img alt="Nematic liquid crystal active channel" src="../img/nematic_liquid_crystal_active_channel.png#only-light" />
+<img alt="Nematic liquid crystal active channel" src="../img/nematic_liquid_crystal_active_channel-colorinverted.png#only-dark" /></p>
+<p><em>Nematic liquid crystal active channel:</em> Illustration of an active channel. <code>width= 20</code> and <span class="arithmatex">\(d = 2\)</span>.</p>
+<p>This simple channel with the activity <span class="arithmatex">\(\alpha_0\)</span> inside and <span class="arithmatex">\(\alpha = 0\)</span>
+outside is included as the function</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">conf_active_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+</code></pre></div>
+<p>Which sets the activity to
+<span class="arithmatex">\(<span class="arithmatex">\(\alpha = \alpha_0 \left[1 -1/2 \left(\tanh([x-w/2]/d) -\tanh([x+w/2]/d) \right)\right].\)</span>\)</span>
+<span class="arithmatex">\(w\)</span> is here the width of the channel, <span class="arithmatex">\(\alpha_0\)</span> is the activity in the
+channel and <span class="arithmatex">\(d\)</span> is the width of the interface between the channel and
+the bulk. More complicated structures can be created if one wish.</p>
+<h2 id="three-dimensions">Three dimensions</h2>
+<p>In three dimensions, the <span class="arithmatex">\(Q\)</span>-tensor can be characterized as</p>
+<div class="arithmatex">\[
+Q_{ij} = S (n_i n_j - \frac{1}{3} \delta_{ij} ) + P (m_i m_j - l_i l_j),
+\]</div>
+<p>where <span class="arithmatex">\((\mathbf n, \mathbf m, \mathbf l )\)</span> is an orthornmal triad.
+It is five parameters: <span class="arithmatex">\(S\)</span>, the two defining angles of <span class="arithmatex">\(\mathbf n\)</span>, <span class="arithmatex">\(P\)</span> and the angle of <span class="arithmatex">\(\mathbf m\)</span> in the plane orthogonal to <span class="arithmatex">\(\mathbf n\)</span>.
+<span class="arithmatex">\(S\)</span> can always be determined from the highest eigenvalue <span class="arithmatex">\(\lambda_{\textrm{max}}\)</span> of <span class="arithmatex">\(Q\)</span> by <sup id="fnref2:Schimming2022Thesis"><a class="footnote-ref" href="#fn:Schimming2022Thesis">1</a></sup></p>
+<div class="arithmatex">\[
+S = \frac{3}{2} \lambda_{\textrm{max}}
+\]</div>
+<h2 id="topological-defects">Topological defects</h2>
+<p>Topological defects in nematic liquid crystals are called disclinations and are characterized the orientation of the rod-like particles having rotated after following a path around the dislocation.
+From <sup id="fnref:schimming2023kinematics"><a class="footnote-ref" href="#fn:schimming2023kinematics">6</a></sup>,</p>
+<div class="arithmatex">\[
+D_{\gamma i} = \epsilon_{\gamma \mu \nu} \epsilon_{ikl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}.
+\]</div>
+<p>We can write this as</p>
+<div class="arithmatex">\[
+D_{\gamma i} = \delta_{\gamma i} ( \partial_k Q_{k\alpha} \partial_l Q_{l\alpha} - \partial_k Q_{l\alpha}\partial_l Q_{k\alpha}) + 2( \partial_\gamma Q_{k\alpha} \partial_k Q_{i\alpha} - \partial_\gamma Q_{i\alpha} \partial_k Q_{k\alpha})
+\]</div>
+<p>to reduce the number of sums preformed.</p>
+<p>In two dimensions, where <span class="arithmatex">\(\mathbf n = (\cos \theta,\sin \theta)\)</span>, we have</p>
+<div class="arithmatex">\[
+Q = S\begin{pmatrix}
+\cos \theta \cos \theta - \frac{1}{2} &amp; \cos \theta \sin \theta \\
+\cos \theta \sin \theta &amp; \sin \theta \sin \theta - \frac{1}{2}\\
+\end{pmatrix}
+= \frac{S}{2}
+\begin{pmatrix}
+\cos (2\theta) &amp;  \sin(2\theta) \\
+\sin(2\theta) &amp; - \cos (2\theta)\\
+\end{pmatrix},
+\]</div>
+<div class="arithmatex">\[
+= \frac{1}{2}
+\begin{pmatrix}
+\psi_1 &amp;  \psi_2 \\
+\psi_2 &amp; - \psi_1\\
+\end{pmatrix},
+\]</div>
+<p>where <span class="arithmatex">\(\psi_1,\psi_2\)</span> are the components of an <span class="arithmatex">\(\mathcal D^2\)</span> order parameter.
+We get only one component of <span class="arithmatex">\(D_{\gamma i}\)</span>, which is <span class="arithmatex">\(D_{33}\)</span> which is</p>
+<div class="arithmatex">\[
+D_{33} = \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu \alpha} \partial_l Q_{\nu \alpha}
+\]</div>
+<div class="arithmatex">\[
+= \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 1} \partial_l Q_{\nu 1}
++ \epsilon_{\mu \nu} \epsilon_{kl} \partial_k Q_{\mu 2} \partial_l Q_{\nu 2}
+\]</div>
+<p>We have <span class="arithmatex">\(Q_{\mu1} = \frac{1}{2} \psi_\mu\)</span> and <span class="arithmatex">\(Q_{\mu 2} = \frac{1}{2} \epsilon_{\mu q} \psi_q\)</span>, so</p>
+<div class="arithmatex">\[
+D_{33} = \frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu)
++ \frac{1}{4} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k  \epsilon_{\mu q} \psi_q) (\partial_l \epsilon_{\nu r} \psi_r)
+\]</div>
+<p>And using that</p>
+<div class="arithmatex">\[
+\epsilon_{\mu \nu} \epsilon_{\mu q} \epsilon_{\nu r} = \epsilon_{qr},
+\]</div>
+<p>we get</p>
+<div class="arithmatex">\[
+D_{33} = \frac{1}{2} \epsilon_{\mu \nu} \epsilon_{kl} (\partial_k \psi_\mu )(\partial_l \psi_\nu).
+\]</div>
+<p>This is the same determinant as we would get using the coarse grain density of <sup id="fnref:skogvoll2023Topological"><a class="footnote-ref" href="#fn:skogvoll2023Topological">7</a></sup>, only with <span class="arithmatex">\(\psi_0\)</span>, so, the disclination density should be</p>
+<div class="arithmatex">\[
+\rho_{\gamma i} = \frac{1}{\pi S_0^2} D_{\gamma i}
+\]</div>
+<p>This fiel is found by the function </p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">calc_disclination_density_nematic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+which returns a tensorfield in three dimensions and a scalar field (<span class="arithmatex">\(\rho_{33}\)</span>) in two. 
+Since we have tensor in three dimenstions, the story is more complicated than usual. 
+This tensor contains two pieces of information, namely which direction the disclination is pointing, and around which axis <span class="arithmatex">\(\boldsymbol \Omega\)</span>, near the disclination, the rods are rotating.
+In that way, it is similar to a dislocation density in a crystal structure, only that it allows for the orientation the "Burgers vector" to be any direction.
+It can be written like this <sup id="fnref2:schimming2023kinematics"><a class="footnote-ref" href="#fn:schimming2023kinematics">6</a></sup></p>
+<div class="arithmatex">\[
+\rho_{\gamma i} = \omega \Omega_\gamma t_{i} ,
+\]</div>
+<p>where the unit vectors are <span class="arithmatex">\(\boldsymbol t\)</span> is tangent vector and <span class="arithmatex">\(\boldsymbol\Omega\)</span> is the rotational vector.
+From this, we see that</p>
+<div class="arithmatex">\[
+\omega^2 =|\rho|^2 = \rho_{\gamma i} \rho_{\gamma i} 
+\]</div>
+<p>so <span class="arithmatex">\(\omega\)</span> is the quantity we should integrate to find the nodes of the defects. 
+The unitvectors <span class="arithmatex">\(\boldsymbol t\)</span> and <span class="arithmatex">\(\boldsymbol \Omega\)</span> is found as the eigenvectors of the matrices <span class="arithmatex">\(\rho^T \rho\)</span> and <span class="arithmatex">\(\rho \rho^T\)</span> respectivly.
+Since the eigenvectors are determined up to a sign one have to make sure that <span class="arithmatex">\(\boldsymbol t\)</span> is continous along the defect and impose the condition <span class="arithmatex">\(\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\text{Tr}(\rho))\)</span>.
+The <span class="arithmatex">\(\rho\)</span> tensor field is calculated decomposed into the above mentioned vectors by the function</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">calc_disclination_density_decoupled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+which returns <span class="arithmatex">\(\omega, \Omega, T,\)</span> and <span class="arithmatex">\(\text{Tr}(\rho)\)</span>. </p>
+<p>From Ref.<sup id="fnref3:schimming2023kinematics"><a class="footnote-ref" href="#fn:schimming2023kinematics">6</a></sup>, we have</p>
+<div class="arithmatex">\[
+t_i \delta^{(2)}(\mathbf r_{\perp}) = \delta^{(2)}(\mathbf Q_\perp) \Omega_\gamma D_{\gamma i}
+\]</div>
+<p>replacing the delta function, which we may generalize to</p>
+<div class="arithmatex">\[
+\mathbf \rho = \Omega_{\gamma} \frac{1}{\pi (S_0-P_0)^2} D_{\gamma i}.
+\]</div>
+<h3 id="inserting-topological-defects">Inserting topological defects</h3>
+<p>How do we insert topological defects of a given character?</p>
+<p>We can generate an initial state of <span class="arithmatex">\(Q_{ij}\)</span> by writing</p>
+<div class="arithmatex">\[
+Q_{ij} = S_0 \left (\frac{1}{2} n_i n_j - \frac{1}{d} \delta_{ij} \right ),
+\]</div>
+<p>and then simply impose an orientation field corresponding to an angle field on the <span class="arithmatex">\(\mathbf n\)</span> fields.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:Schimming2022Thesis">
+<p>Schimming, C. D. (2022). Theoretical and Computational Methods for Mesoscopic Textures in Nematic Liquid Crystals with Anisotropic Elasticity. PhD Thesis. The University of Minnesota. <a href="https://hdl.handle.net/11299/241713">https://hdl.handle.net/11299/241713</a>&#160;<a class="footnote-backref" href="#fnref:Schimming2022Thesis" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:Schimming2022Thesis" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:marchetti2013hydrodynamics">
+<p>Marchetti, M. C., Joanny, J-F., Ramaswamy, S., Liverpool, T. B., Prost, J., and Rao, M. and Simha, R. A. (2013). Hydrodynamics of soft active matter. Reviews of Modern Physics. 85, 3, 1143. <a href="https://doi.org/10.1103/RevModPhys.85.1143">https://doi.org/10.1103/RevModPhys.85.1143</a>&#160;<a class="footnote-backref" href="#fnref:marchetti2013hydrodynamics" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:genkin2017topological">
+<p>Genkin, M. M., Sokolov, A., Lavrentovich, O. D. and Aranson, I. S. (2017). Topological defects in a living nematic ensnare swimming bacteria. Physical Review X. 7, 1,011029. <a href="https://doi.org/10.1103/PhysRevX.7.011029">https://doi.org/10.1103/PhysRevX.7.011029</a>&#160;<a class="footnote-backref" href="#fnref:genkin2017topological" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:nejad2020memory">
+<p>Nejad, M. R., Doostmohammadi, A. and Yeomans, J. M. (2021). Memory effects, arches and polar defect ordering at the cross-over from wet to dry active nematics. Soft Matter. 17, 9, 2500-2511. <a href="https://doi.org/10.1039/D0SM01794A">https://doi.org/10.1039/D0SM01794A</a>&#160;<a class="footnote-backref" href="#fnref:nejad2020memory" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:angheluta2021role">
+<p>Angheluta, L., Chen, Z., Marchetti, M. C. and Bowick, Mark J. (2021). The role of fluid flow in the dynamics of active nematic defects. New Journal of Physics. 23, 3, 033009. <a href="https://doi.org/10.1088/1367-2630/abe8a8">https://doi.org/10.1088/1367-2630/abe8a8</a>&#160;<a class="footnote-backref" href="#fnref:angheluta2021role" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:schimming2023kinematics">
+<p>Schimming, C. D. and Viñals, J. (2023). Kinematics and dynamics of disclination lines in three-dimensional nematics. Proceedings of the Royal Society A. 479, 2273, 20230042. <a href="https://doi.org/10.1098/rspa.2023.0042">https://doi.org/10.1098/rspa.2023.0042</a>&#160;<a class="footnote-backref" href="#fnref:schimming2023kinematics" title="Jump back to footnote 6 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:schimming2023kinematics" title="Jump back to footnote 6 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:schimming2023kinematics" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:skogvoll2023Topological">
+<p>Skogvoll, V., Rønning, J., Salvalaglio, M., Angheluta, L. (2023). A unified field theory of topological defects and non-linear local excitations. npj Comput Mater, 9, 122. <a href="https://doi.org/10.1038/s41524-023-01077-6">https://doi.org/10.1038/s41524-023-01077-6</a>&#160;<a class="footnote-backref" href="#fnref:skogvoll2023Topological" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 <a href="https://github.com/vidarsko/ComFiT"  target="_blank" rel="noopener">Vidar Skogvoll and Jonas Rønning</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.right", "search.suggest", "search.highlight", "content.code.annotation", "content.code.copy", "content.tabs"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
