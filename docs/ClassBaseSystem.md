@@ -819,6 +819,82 @@ Tests are included in `test_base_system.py`, but for visual examination, here ar
 ![Testing of the evolution code in 3 dimensions](img/base_system_evolution_test_3D.gif#only-light)
 ![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_3D-colorinverted.gif#only-dark)
 
+## Stochastic noize
+Supose that the equation 
+
+$$
+\partial_t T = \omega(\nabla) T + N(T) 
+$$
+
+has a noize term[^gallego2011predictor] in the non-linear part $N = N_{ns} + f$. 
+We can in that case still do the integration with the integrating factor and get the following equation in fourier space
+
+$$
+\tilde T(t+\Delta t) = e^{\tilde \omega \Delta t} \tilde T(t) +  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde N_{ns}(T, t+\tau)   +  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde f(t+\tau),
+$$
+
+The first of these integrals can be handled using one of the schemes described above, 
+but the later needs some extra care. 
+We have in fourier space
+
+$$
+\tilde T_s =  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde f(\vec k,n\Delta t+\tau).
+$$
+
+Let now 
+
+$$
+\hat f(\vec k, \tau) = \tilde A(\vec k) \eta(k,\tau),
+$$
+
+where $\eta$ is a white noise and $\tilde A(\vec k)$ is a kernel that contains the spatial variation. 
+The mean value of $\tilde T_s$ vanishes,
+while the coorelation is
+
+$$
+\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \tilde A^2(\vec k) e^{2\tilde \omega \Delta t} \int_0^{\Delta t}\int_0^{\Delta t} d\tau_1 d\tau_2 e^{-\tilde\omega (\tau_1 + \tau_2)}  \langle \eta(n_1\Delta t+\tau_1)\eta(n_2\Delta t+\tau_2)\rangle
+$$
+
+where $t_1 =n_1 \Delta t$. Using that $\eta$ is delta corelated we can write
+
+$$
+\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 \tilde A^2(\vec k) e^{2\tilde \omega \Delta t} \int_0^{\Delta t}\int_0^{\Delta t} d\tau_1 d\tau_2 e^{-\tilde\omega (\tau_1 + \tau_2)} \delta((n_1 -n_2)\Delta t + \tau_1 -\tau_2 ).
+$$
+
+Here $\sigma$ is the standard deviation of $\eta$.
+The delta function pics out $\tau_1 = \tau_2 +(n_2-n_1)\Delta t$, this is only posible if $n_1 = n_2$ because $\tau_i \in (0,\Delta t)$,
+which gives 
+
+$$
+ \langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 \tilde A^2(\vec k) e^{\tilde \omega \Delta t [2 +(n_2-n_1)]} \delta_{n_1,n_2}\int_0^{\Delta t}  d\tau_2 e^{-2\tilde\omega \tau_2 }.
+ $$
+ 
+ the last integral is trivial and we can write this as
+
+ $$
+\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 A^2(\vec k) \delta_{n_1,n_2} \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right).
+ $$
+
+The stochastic part of the integral can therefore be evaluated as
+
+$$
+\tilde T_s = \sigma \tilde A(\vec k)\eta_k\sqrt{ \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right)}.
+$$
+
+For some wave vectors $\omega \Delta t$ is close to zero.
+To avoid problems with divisions of zero we taylor expand the integrating factor when $|\omega \Delta t| < 10^{-2}$, and have
+
+$$
+T_s(|\omega|< \text{tol}) \approx \sigma \tilde A(\vec k\eta_n)\sqrt{ \frac{1}{2\hat \omega} \left(1 + 2\tilde\omega \Delta t  -1 \right)} = \sigma \tilde A(\vec k)\eta_n \sqrt{  \Delta t  } 
+$$
+
+Which is the same as would have been in a standard Euler-Maruyama scheme. 
+
+### Notes on the kernel
+
+
+
+
 ## Algorithms for tracking defects
 
 To be written
@@ -834,3 +910,5 @@ substituted for python code using chatGPT.
 [^skogvollUnifiedFieldTheory2023]: Skogvoll, V., Rønning, J., Salvalaglio, M., & Angheluta, L. (2023). A unified field theory of topological defects and non-linear local excitations. Npj Computational Materials, 9(1), Article 1. [https://doi.org/10.1038/s41524-023-01077-6](https://doi.org/10.1038/s41524-023-01077-6)
 
 [^skogvollPhaseFieldCrystal2022]: Skogvoll, V., Angheluta, L., Skaugen, A., Salvalaglio, M., & Viñals, J. (2022). A phase field crystal theory of the kinematics of dislocation lines. Journal of the Mechanics and Physics of Solids, 166, 104932. https://doi.org/10.1016/j.jmps.2022.104932
+
+[^gallego2011predictor]: Gallego, R. (2011) Predictor-corrector pseudospectral methods for stochastic partial differential equations with additive white noise. Applied Mathematics and Computation, 218(7), 3905-3917
