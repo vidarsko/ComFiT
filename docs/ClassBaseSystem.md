@@ -819,14 +819,14 @@ Tests are included in `test_base_system.py`, but for visual examination, here ar
 ![Testing of the evolution code in 3 dimensions](img/base_system_evolution_test_3D.gif#only-light)
 ![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_3D-colorinverted.gif#only-dark)
 
-## Stochastic noize
+## Stochastic noise
 Supose that the equation 
 
 $$
 \partial_t T = \omega(\nabla) T + N(T) 
 $$
 
-has a noize term[^gallego2011predictor] in the non-linear part $N = N_{ns} + f$. 
+has a noise term in the non-linear part $N = N_{ns} + f$. 
 We can in that case still do the integration with the integrating factor and get the following equation in fourier space
 
 $$
@@ -835,82 +835,59 @@ $$
 
 The first of these integrals can be handled using one of the schemes described above, 
 but the later needs some extra care. 
+We will here give a short discussion how to handle this integra,
+while a more detailed discussion can be found in [^gallego2011predictor].
 We have in fourier space
 
 $$
 \tilde T_s =  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde f(\vec k,n\Delta t+\tau).
 $$
 
-Let now 
-
+with
 $$
-\hat f(\vec k, \tau) = \tilde A(\vec k) \eta(k,\tau),
-$$
-
-where $\eta$ is a white noise and $\tilde A(\vec k)$ is a kernel that contains the spatial variation. 
-The mean value of $\tilde T_s$ vanishes,
-while the coorelation is
-
-$$
-\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \tilde A^2(\vec k) e^{2\tilde \omega \Delta t} \int_0^{\Delta t}\int_0^{\Delta t} d\tau_1 d\tau_2 e^{-\tilde\omega (\tau_1 + \tau_2)}  \langle \eta(n_1\Delta t+\tau_1)\eta(n_2\Delta t+\tau_2)\rangle
+\tilde f = \int d\vec r e^{i\vec k \cdot \vec r} f(\vec r,n\Delta t+\tau)
 $$
 
-where $t_1 =n_1 \Delta t$. Using that $\eta$ is delta corelated we can write
+we therfore have to evaluate the following integrals
 
 $$
-\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 \tilde A^2(\vec k) e^{2\tilde \omega \Delta t} \int_0^{\Delta t}\int_0^{\Delta t} d\tau_1 d\tau_2 e^{-\tilde\omega (\tau_1 + \tau_2)} \delta((n_1 -n_2)\Delta t + \tau_1 -\tau_2 ).
+\tilde T_s =  e^{\tilde \omega \Delta t}\int d\vec r \int_0^{\Delta t} d\tau e^{-\tilde\omega \tau} e^{i\vec k \cdot \vec r} f(\vec r,n\Delta t+\tau).
 $$
 
-Here $\sigma$ is the standard deviation of $\eta$.
-The delta function pics out $\tau_1 = \tau_2 +(n_2-n_1)\Delta t$, this is only posible if $n_1 = n_2$ because $\tau_i \in (0,\Delta t)$,
-which gives 
+The noise is assumed to have the zero mean and being delta correlated in time and space $\langle f(r,t)\rangle = 0$ and $\langle f(\vec r_1,t_1)f(\vec r_2,t_2) = \sigma^2 \delta(\vec r_1 -\vec r_2) \delta(t_1 -t_2)$. 
+The mean of the integral is then $\langle T_s(t)\rangle = 0 $, 
+while the variance is 
 
 $$
- \langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 \tilde A^2(\vec k) e^{\tilde \omega \Delta t [2 +(n_2-n_1)]} \delta_{n_1,n_2}\int_0^{\Delta t}  d\tau_2 e^{-2\tilde\omega \tau_2 }.
- $$
- 
- the last integral is trivial and we can write this as
-
- $$
-\langle\tilde T_s(t_1) \tilde T_s(t_2) \rangle = \sigma^2 A^2(\vec k) \delta_{n_1,n_2} \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right).
- $$
-
-The stochastic part of the integral can therefore be evaluated as
-
-$$
-\tilde T_s = \sigma \tilde A(\vec k)\eta_k\sqrt{ \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right)}.
+\langle \tilde T_s(t_1, t_2) \rangle =  e^{2\tilde \omega \Delta t}\int d\vec r_2 \int d\vec r_1 \int_0^{\Delta t} d\tau_1 \int_0^{\Delta t} d\tau_2 e^{-\tilde\omega \tau_2-\tilde\omega \tau_1} e^{i\vec k_1 \cdot \vec r_1+i\vec k_2 \cdot \vec r_2} \langle f(\vec r_1,n_1 \Delta t+\tau_1)f(\vec r_2,n_2 \Delta t +\tau_2) \rangle
 $$
 
-For some wave vectors $\omega \Delta t$ is close to zero.
-To avoid problems with divisions of zero we taylor expand the integrating factor when $|\omega \Delta t| < 10^{-2}$, and have
+Using the correlations of $f$ we have
 
 $$
-T_s(|\omega|< \text{tol}) \approx \sigma \tilde A(\vec k\eta_n)\sqrt{ \frac{1}{2\hat \omega} \left(1 + 2\tilde\omega \Delta t  -1 \right)} = \sigma \tilde A(\vec k)\eta_n \sqrt{  \Delta t  } 
+\langle \tilde T_s(k_1,t_1)T(k_2, t_2) \rangle =  e^{2\tilde \omega \Delta t}\int d\vec r_2 \int d\vec r_1 \int_0^{\Delta t} d\tau_1 \int_0^{\Delta t} d\tau_2 e^{-\tilde\omega \tau_2-\tilde\omega \tau_1} e^{i\vec k_1 \cdot \vec r_1+i\vec k_2 \cdot \vec r_2} \sigma^2 \delta(\vec r_1 -\vec r_2)\delta( [n_1-n_2] \Delta t+\tau_1-\tau_2)
 $$
 
-Which is the same as would have been in a standard Euler-Maruyama scheme. 
-
-### Notes on the kernel
-The kernel $A(\vec k)$ is representing the spatial coherence of the noise. 
-It comes from the fourier transform of the noize,
-which in our notation reads
+Using the delta functions and notising that $n_1 =n_2$ is the only option that is non-zero we get 
 
 $$
-\tilde f = \int d\vec r e^{i\vec k \cdot \vec r} f(\vec r,t)
+\langle \tilde T_s(k_2,t_1)T_s(k_2,t_2) \rangle =  \sigma^2e^{2\tilde \omega \Delta t}\int d\vec r   e^{i (\vec k_1 \cdot +\vec k_2) \cdot \vec r}  \int_0^{\Delta t} d\tau e^{-2\tilde\omega \tau}
 $$
 
-Assuming white noize in time we write this as
+Preforming the integral we find
 
 $$
-\tilde f(k,t) = \eta(t) \int d\vec r e^{i\vec k \cdot \vec r} \xi(\vec r)
+\langle \tilde T_s(k_1,t_1)T_s(k_2,t_2) \rangle =  \sigma^2e^{2\tilde \omega \Delta t}\delta(k_1 -k_2) \frac{1}{2\hat \omega} \left(1-e^{-2\tilde \omega \Delta t }\right)
 $$
 
-With $\xi$ being some noize with a spatial distribution. 
-The kernel is then given by the integral
+We can then evaluate the integral as [^gallego2011predictor] 
 
 $$
-A(\vec k) = \int d\vec r e^{i\vec k \cdot \vec r} \xi(\vec r)
+T_s(\vec k,t) = \sigma \tilde A(\vec k)\eta_{\vec k}\sqrt{ \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right)}, 
 $$
+
+with $\eta_k$ being the fourier transform of a gaussian noise.
+$A(\vec k)$ is here a kernel which is added to controll the injection scale of the noise. 
 
 ## Algorithms for tracking defects
 
