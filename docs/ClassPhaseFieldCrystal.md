@@ -7,7 +7,7 @@ The free energy functional is a function of the phase field $\psi$, which is a r
 The PFC model is a powerful tool for studying the dynamics of crystals, and it has been used to study a wide range of phenomena, including the formation of defects, the dynamics of grain boundaries, and the growth of crystals.
 
 ```python
-file: comfit/models/phase_field_crystal.py 
+file: comfit/phase_field_crystal/phase_field_crystal.py 
 class: PhaseFieldCrystal
 ```
 
@@ -920,7 +920,7 @@ $$
 
 where $\mathcal L$ is as defined previously (as the product $\mathcal L_1 ...$), and $\mathcal L_{\sum}$ is a particular sum of $\mathcal L_i$ operators.
 $\mathcal L$ is calculated (in Fourier space) by the function `calc_L_f`, and the $\mathcal L_{\sum}$ is calculated by the function `calc_L_sum_f` in the `pfc` class.
-The stress tensor is then calculated by the function `calc_microscopic_stress_tensor` in the `pfc` class. 
+The stress tensor is then calculated by the function `calc_stress_tensor_microscopic` in the `pfc` class. 
 
 ### Equilibrium elastic constants
 

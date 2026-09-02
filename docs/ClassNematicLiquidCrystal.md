@@ -6,10 +6,10 @@ The molecules are rod-like and the orientation is described by a unit vector, th
 The nematic liquid crystal is the simplest form of liquid crystal, and is characterized by the nematic director being the only order parameter. 
 The nematic liquid crystal is used to describe the behavior of many biological systems, such as the cytoskeleton, and is also used in many technological applications, such as in liquid crystal displays.
 
-In this class, we simulate an active nematic liquid crystal using [framework].
+In this class, we simulate an active nematic liquid crystal using the continuum theory described below.
 
 ```python
-file: comfit/models/nematic_liquid_crystal.py 
+file: comfit/nematic_liquid_crystal/nematic_liquid_crystal.py 
 class: NematicLiquidCrystal
 ```
 
@@ -228,10 +228,9 @@ nem.evolve_nematic_no_flow(self,number_of_steps,method='ETD2RK')
 ## The velocity field {#sec:nem_vel}
 
 For a given orderparameter $Q$ the velocity field is calculated in
-Fourier space using
-eq (??).
+Fourier space using the Edward-Beris equation for $\mathbf u$ given above.
 We start by finding an expression for
-the pressure by taking the divergence of this eq. (??) and then using the incompressibility
+the pressure by taking the divergence of this equation and then using the incompressibility
 condition giving $$\nabla^2 P = \nabla \cdot \mathbf F,$$ where
 $\mathbf F =  \nabla \cdot \sigma^a(Q) +\nabla \cdot \sigma^p(Q)$ is the
 active and passive forces. This is solved in Fourier space as
@@ -297,17 +296,16 @@ Because of the head-tail symmetry if the nematic director the
 topological defects in the nematic phase can have half integer winding
 number. We can see this by maping the $Q$ tensor to a complex field.
 This is done by writing the nematic director as
-$\\mathbf{n} = \cos{\theta} \hat x + \sin{\theta} \hat y$, with
+$\mathbf{n} = \cos{\theta} \hat x + \sin{\theta} \hat y$, with
 $\hat x /\hat y$ being the unit vectors in $x /y$ direction, and mapping
-the $Q$ tensor, see
-eq. (??), to the complex field
+the $Q$ tensor defined above to the complex field
 
 $$
 \psi = Q_{xx} +  iQ_{xy} = \frac{S}{2} e^{2 i\theta}.
 $$
 
 Using the same arguments as for the BEC we find that the allowed winding
-numbers $$k = \int_C \nabla \theta \cdot d\\mathbf{l} = 2\pi q$$ with
+numbers $$k = \int_C \nabla \theta \cdot d\mathbf{l} = 2\pi q$$ with
 $q$ being a half-integer. The defects of lowest absolute charge is the
 $\pm 1/2$ defects, which are depicted below.
 
@@ -319,7 +317,7 @@ $\pm 1/2$ defects, which are depicted below.
 For tracing the defect nodes one can use the function
 
 ```python
-calc_vortex_nodes_nem(self, dt_Q=None,polarization = None)
+calc_disclination_nodes_nem(self, dt_Q=None,polarization = None)
 ```
 
 If `dt_Q` is given this finds the defects velocity and if `polarization` is given the polarization of the $+1/2$ defects are
@@ -334,7 +332,7 @@ where $\mathbf{r}_+$ is the defects position.
 The field $\mathbf{e}_+$ can be found by the function
 
 ```python
-calc_defect_polarization_field(self)
+calc_disclination_polarization_field(self)
 ```
 
 Note that this function does not include the normalization to avoid
