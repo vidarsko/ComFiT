@@ -284,7 +284,7 @@ class NematicLiquidCrystal(BaseSystem):
         '''
         F_af = []
         for j in range(self.dim):
-            F_af.append(np.sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_sym_tl(Q,j,i),axes=(range(-self.dim, 0)) ) for i in range(self.dim)))
+            F_af.append(sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_sym_tl(Q,j,i),axes=(range(-self.dim, 0)) ) for i in range(self.dim)))
         return np.array(F_af)
 
     def calc_passive_force_f(self,Q):
@@ -303,7 +303,7 @@ class NematicLiquidCrystal(BaseSystem):
         Pi_f = self.calc_passive_stress_f(Q)
         F_pf = []
         for j in range(self.dim):
-            F_pf.append(np.sum(1j * self.k[i] *Pi_f[j][i] for i in range(self.dim)))
+            F_pf.append(sum(1j * self.k[i] *Pi_f[j][i] for i in range(self.dim)))
         return numpy.array(F_pf)
 
     def calc_passive_stress_f(self,Q):
@@ -321,12 +321,12 @@ class NematicLiquidCrystal(BaseSystem):
         """
         if self.dim == 2:
             H = self.calc_molecular_field(Q)
-            Antisym_QH = np.sum(self.get_sym_tl(Q,0,k)*self.get_sym_tl(H,k,1) -self.get_sym_tl(H,0,k)*self.get_sym_tl(Q,k,1) for k in range(self.dim))
+            Antisym_QH = sum(self.get_sym_tl(Q,0,k)*self.get_sym_tl(H,k,1) -self.get_sym_tl(H,0,k)*self.get_sym_tl(Q,k,1) for k in range(self.dim))
             Ericksen = np.zeros((self.dim,self.xRes,self.yRes),dtype=np.complex128)
-            Ericksen[0] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym_tl(Q,m,l)))*
+            Ericksen[0] = - self.K*sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym_tl(Q,m,l)))*
                                               sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q,m,l)))
                                               for m in range(self.dim) for l in range(self.dim))
-            Ericksen[1] = - self.K*np.sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym_tl(Q,m,l)))*
+            Ericksen[1] = - self.K*sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym_tl(Q,m,l)))*
                                               sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q,m,l)))
                                               for m in range(self.dim) for l in range(self.dim))
 
@@ -342,28 +342,28 @@ class NematicLiquidCrystal(BaseSystem):
 
             Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
 
-            Antisym_QH[0] = np.sum(self.get_sym_tl(Q,0,k)*self.get_sym_tl(H,k,1) -self.get_sym_tl(H,0,k)*self.get_sym_tl(Q,k,1) for k in range(self.dim))
-            Antisym_QH[1] = np.sum(
+            Antisym_QH[0] = sum(self.get_sym_tl(Q,0,k)*self.get_sym_tl(H,k,1) -self.get_sym_tl(H,0,k)*self.get_sym_tl(Q,k,1) for k in range(self.dim))
+            Antisym_QH[1] = sum(
                 self.get_sym_tl(Q, 0, k) * self.get_sym_tl(H, k, 2) - self.get_sym_tl(H, 0, k) * self.get_sym_tl(Q, k, 2) for k in
                 range(self.dim))
-            Antisym_QH[2] = np.sum(
+            Antisym_QH[2] = sum(
                 self.get_sym_tl(Q, 1, k) * self.get_sym_tl(H, k, 2) - self.get_sym_tl(H, 1, k) * self.get_sym_tl(Q, k, 2) for k in
                 range(self.dim))
 
             Ericksen = np.zeros((5, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
-            Ericksen[0] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+            Ericksen[0] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
                                             sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[1] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+            Ericksen[1] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
                                             sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[2] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+            Ericksen[2] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
                                             sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[3] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+            Ericksen[3] = - self.K * sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
                                             sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[4] = - self.K * np.sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
+            Ericksen[4] = - self.K * sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
                                             sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
 
@@ -428,8 +428,8 @@ class NematicLiquidCrystal(BaseSystem):
         numpy.ndarray
             The pressure
         '''
-        p_af = np.sum(1j*self.k[i]*F_af[i] for i in range(self.dim))
-        p_pf = np.sum(1j*self.k[i]*F_pf[i] for i in range(self.dim))
+        p_af = sum(1j*self.k[i]*F_af[i] for i in range(self.dim))
+        p_pf = sum(1j*self.k[i]*F_pf[i] for i in range(self.dim))
         return -(p_af + p_pf)/self.k2_press
 
     
@@ -483,7 +483,7 @@ class NematicLiquidCrystal(BaseSystem):
         numpy.ndarray
             The strainrate
         """
-        trace_u = np.sum(1j*self.k[i]*self.u_f[i] for i in range(self.dim))
+        trace_u = sum(1j*self.k[i]*self.u_f[i] for i in range(self.dim))
         if self.dim == 2:
             E_f = np.zeros((2,self.xRes,self.yRes),dtype=np.complex128)
             E_f[0] = (1j*self.k[0] *self.u_f[0]) - trace_u/2
@@ -521,7 +521,7 @@ class NematicLiquidCrystal(BaseSystem):
             Antisym_Omega_Q[0] = -2 *Q[1]*Omega
             Antisym_Omega_Q[1] = 2*Q[0]*Omega
 
-            advectiv_deriv = - np.sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
+            advectiv_deriv = - sum(self.u[k]* sp.fft.ifftn(1j*self.k[k] * Q_f,axes=(range(-self.dim,0)))for k in range(self.dim) )
 
             return sp.fft.fftn(Antisym_Omega_Q +advectiv_deriv, axes=range(-self.dim,0)) +N_f
 
@@ -531,7 +531,7 @@ class NematicLiquidCrystal(BaseSystem):
             N_f = self.calc_nonlinear_evolution_term_no_flow_f(Q,t)
             Omega = self.calc_vorticity_tensor()
 
-            advectiv_deriv = - np.sum(
+            advectiv_deriv = - sum(
                 self.u[k] * sp.fft.ifftn(1j * self.k[k] * Q_f, axes=(range(-self.dim, 0))) for k in range(self.dim))
 
             Antisym_Omega_Q = np.zeros_like(Q_f)
@@ -659,7 +659,7 @@ class NematicLiquidCrystal(BaseSystem):
 
         elif self.dim == 3:
             D = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
-            term_trace = np.sum(np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,k,a)))*
+            term_trace = sum(np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,k,a)))*
                                     np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,l,a)))
                                     - np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,l,a)))*
                                     np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,k,a)))
@@ -667,7 +667,7 @@ class NematicLiquidCrystal(BaseSystem):
 
             for gam in range(self.dim):
                 for i in range(self.dim):
-                    D[gam, i] = 2*np.sum(np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_sym_tl(self.Q_f,k,a)))*
+                    D[gam, i] = 2*sum(np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_sym_tl(self.Q_f,k,a)))*
                                     np.real(sp.fft.ifftn(1j*self.k[k] * self.get_sym_tl(self.Q_f,i,a)))
                                     - np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_sym_tl(self.Q_f,i,a)))*
                                     np.real(sp.fft.ifftn(1j*self.k[k] * self.get_sym_tl(self.Q_f,k,a)))
@@ -700,22 +700,22 @@ class NematicLiquidCrystal(BaseSystem):
             rho = self.calc_disclination_density()
 
 
-            omega = np.sqrt(np.sum(rho[i,j]*rho[i,j] for i in range(self.dim) for j in range(self.dim)) )
+            omega = np.sqrt(sum(rho[i,j]*rho[i,j] for i in range(self.dim) for j in range(self.dim)) )
 
             DDT = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
             DTD = np.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
 
             for i in range(self.dim):
                 for j in range(self.dim):
-                    DDT[:,:,:,i,j] = np.sum(rho[i,k]*rho[j,k] for k in range(self.dim))
-                    DTD[:, :, :, i, j] = np.sum(rho[k,i] * rho[ k,j] for k in range(self.dim))
+                    DDT[:,:,:,i,j] = sum(rho[i,k]*rho[j,k] for k in range(self.dim))
+                    DTD[:, :, :, i, j] = sum(rho[k,i] * rho[ k,j] for k in range(self.dim))
 
             vals_1,vecs_1 =  numpy.linalg.eigh(DDT)
             vals_2, vecs_2 = numpy.linalg.eigh(DTD)
 
             Omega_R = np.transpose(vecs_1[:,:,:,:,2], (3,0,1,2))
             T = np.transpose(vecs_2[:,:,:,:,2], (3,0,1,2))
-            trRho = np.sum(rho[i,i] for i in range(self.dim))
+            trRho = sum(rho[i,i] for i in range(self.dim))
             return omega, Omega_R, T, trRho
 
     def calc_g_matrix(self,dt_Q):
@@ -731,7 +731,7 @@ class NematicLiquidCrystal(BaseSystem):
         g =  np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
         for gamma in range(self.dim):
             for k in range(self.dim):
-                g[gamma,k] = np.sum(tool_levi_civita_symbol(gamma,mu,nu) * self.get_sym_tl(dt_Q,mu,alpha)
+                g[gamma,k] = sum(tool_levi_civita_symbol(gamma,mu,nu) * self.get_sym_tl(dt_Q,mu,alpha)
                        * np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,nu,alpha)))
                        for mu in range(self.dim) for nu in range(self.dim) for alpha in range(self.dim))
         return g
@@ -826,11 +826,11 @@ class NematicLiquidCrystal(BaseSystem):
             if (T is not None) and (Omega_R is not None) and (g is not None) and (omega is not None):
                 dot_Omega_g = np.zeros((self.dim))
                 for i in range(self.dim):
-                    dot_Omega_g[i] = np.sum(Omega_R[k] * g[k,i] for k in range(self.dim))
+                    dot_Omega_g[i] = sum(Omega_R[k] * g[k,i] for k in range(self.dim))
 
                 dislocation_velocity = np.zeros((self.dim))
                 for i in range(self.dim):
-                    dislocation_velocity[i] = np.sum(
+                    dislocation_velocity[i] = sum(
                         tool_levi_civita_symbol(i,j,k)*T[j]* dot_Omega_g[k] for j in range(self.dim)
                         for k in range(self.dim)
                     )
@@ -920,7 +920,7 @@ class NematicLiquidCrystal(BaseSystem):
                     pos = position_list[i]
                     if np.sqrt(sum( (disclination['position'][i] -pos[i])**2 for i in range(self.dim) )) <  5*self.a0:
                         tan_neight = disclination_nodes[i]['tangent_vector']
-                        if np.sum((tan_neight[j] -tangent_vector[j] )**2 -(tan_neight[j] + tangent_vector[j])**2 for j in range(self.dim)) > 0:
+                        if sum((tan_neight[j] -tangent_vector[j] )**2 -(tan_neight[j] + tangent_vector[j])**2 for j in range(self.dim)) > 0:
 
                             tangent_vector = -1* tangent_vector
                         break

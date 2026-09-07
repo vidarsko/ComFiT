@@ -534,7 +534,7 @@ class BoseEinsteinCondensate(BaseSystem):
             The kinetic energy
         """
         u = self.calc_velocity()
-        u2 = np.sum(u[i]**2 for i in range(self.dim))
+        u2 = sum(u[i]**2 for i in range(self.dim))
         return 0.5*self.calc_integrate_field(u2)
 
 
