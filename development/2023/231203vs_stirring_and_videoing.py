@@ -34,7 +34,7 @@ def V_t():
 
     pos_y = bec.ymid + stirrer_radius * np.sin(freq * bec.t)
 
-    stirrer = bec.calc_Gaussian(width = size/np.sqrt(2), top = strength, position =  [pos_x, pos_y])
+    stirrer = bec.calc_gaussian(width = size/np.sqrt(2), top = strength, position =  [pos_x, pos_y])
 
     harmonic = bec.conf_harmonic_potential(R_tf)
 
@@ -46,7 +46,7 @@ def V_t():
 
 bec.V0 = V_t()
 
-bec.conf_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_thomas_fermi()
 
 bec.evolve_relax(20,'ETD2RK')
 

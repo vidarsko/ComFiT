@@ -31,7 +31,7 @@ class TestQuantumMechanics(unittest.TestCase):
             
             # Initialize a quantum mechanics system
             qm = cf.QuantumMechanics(dim,**p)
-            qm.conf_initial_condition_Gaussian()
+            qm.conf_initial_condition_gaussian()
 
             # qm.plot_complex_field(qm.psi)
             # plt.show()

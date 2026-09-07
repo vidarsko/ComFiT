@@ -16,7 +16,7 @@ bec.plot_lib = 'plotly'
 # bec.conf_insert_vortex_dipole()
 # bec.conf_insert_vortex_ring()
 # bec.evolve_relax(100)
-bec.psi = bec.calc_Gaussian(width=5)*np.exp(1j*bec.x/3)
+bec.psi = bec.calc_gaussian(width=5)*np.exp(1j*bec.x/3)
 # fig = bec.plot_field(abs(bec.psi),number_of_layers=4,alpha=0.1)
 fig = bec.plot_complex_field(bec.psi)
 # fig = bec.plot_field(abs(bec.psi))

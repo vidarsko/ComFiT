@@ -14,12 +14,12 @@ def V_t(t):
     pos_x = bec.xmid + stirrer_radius * np.cos(freq * t)
     pos_y = bec.ymid + stirrer_radius * np.sin(freq * t)
     pos_z = bec.zmid
-    return  bec.calc_Gaussian(width=size/np.sqrt(2), top=strength,position= [pos_x, pos_y,pos_z])
+    return  bec.calc_gaussian(width=size/np.sqrt(2), top=strength,position= [pos_x, pos_y,pos_z])
 
 #bec.conf_time_dependent_potential(V_t)
 
 bec.V_ext = V_t(0)
-bec.conf_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_thomas_fermi()
 bec.evolve_relax(20)
 
 bec.plot_field(np.abs(bec.psi)**2)

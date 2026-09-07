@@ -17,14 +17,14 @@ bec = cf.BoseEinsteinCondensate(2,xRes=256,yRes=128,gamma=0,dt=0.05)
 
 bec = cf.BoseEinsteinCondensate(2,xRes=256,yRes=128,gamma=0,dt=0.05)
 
-pot = bec.calc_Gaussian(width = 5/np.sqrt(2), top = 4, position =  [bec.xmid+50,bec.ymid] )
+pot = bec.calc_gaussian(width = 5/np.sqrt(2), top = 4, position =  [bec.xmid+50,bec.ymid] )
 bec.conf_external_potential(pot, additive=False)
 
 ### task 2: Initialise the wavefunction using the Thomas-Fermi ground state and relax the system in imaginary time 
 # for 50 time steps. Plot the absolut value squared of the wave function
 #(Hint: the evolvers vere discussed in the previous notebook)
 
-bec.conf_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_thomas_fermi()
 
 bec.evolve_relax(50, method='ETD2RK') 
 

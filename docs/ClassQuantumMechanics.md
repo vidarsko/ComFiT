@@ -32,7 +32,7 @@ import numpy as np
 qm = cf.QuantumMechanics(1, xlim=[-50,50], xRes=1001, dt=0.1)
 
 # Initialize a Gaussian wavepacket at x=5 with velocity=1
-qm.conf_initial_condition_Gaussian(position=5, width=1, initial_velocity=1)
+qm.conf_initial_condition_gaussian(position=5, width=1, initial_velocity=1)
 
 # Add a potential barrier (optional)
 qm.V_ext = 0.5 * (qm.x > 10) * (qm.x < 12)  # Barrier from x=10 to 12
@@ -133,4 +133,4 @@ such that the probability density $|\psi(\mathbf{r})|^2 = (2\pi \sigma^2)^{-d/2}
 
 An initial average velocity $\mathbf v_0$ (corresponding to an average momentum $\hbar \mathbf{k}_0 = m_e \mathbf{v}_0$) can be imparted to the wave packet by multiplying it with a complex phase factor $e^{\mathfrak i \mathbf{k}_0 \cdot \mathbf r} = e^{\mathfrak i (m_e/\hbar)\mathbf v_0 \cdot \mathbf r}$. In dimensionless units where $m_e=\hbar=1$, this simplifies to $e^{\mathfrak i \mathbf v_0 \cdot \mathbf r}$.
 
-Such an initial condition can be configured using the function `qm.conf_initial_condition_Gaussian`.
+Such an initial condition can be configured using the function `qm.conf_initial_condition_gaussian`.

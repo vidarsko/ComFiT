@@ -18,9 +18,9 @@ dxxypsi = pfc.ifft(pfc.dif[0] * pfc.dif[0] * pfc.dif[1] * pfc.fft(pfc.psi)).real
 dxyypsi = pfc.ifft(pfc.dif[0] * pfc.dif[1] * pfc.dif[1] * pfc.fft(pfc.psi)).real
 dyyypsi = pfc.ifft(pfc.dif[1] * pfc.dif[1] * pfc.dif[1] * pfc.fft(pfc.psi)).real
 
-S111111 = pfc.ifft(pfc.fft(dxxxpsi**2)*pfc.calc_Gaussian_filter_f()).real
-S111112 = pfc.ifft(pfc.fft(dxxxpsi*dxxypsi)*pfc.calc_Gaussian_filter_f()).real
-Skkllmm = pfc.ifft(pfc.fft(dxxxpsi**2 + 3*dxxxpsi*dxxypsi + 3*dxxypsi**2 + dyyypsi**2 + dyyypsi**2)*pfc.calc_Gaussian_filter_f()).real
+S111111 = pfc.ifft(pfc.fft(dxxxpsi**2)*pfc.calc_gaussian_filter_f()).real
+S111112 = pfc.ifft(pfc.fft(dxxxpsi*dxxypsi)*pfc.calc_gaussian_filter_f()).real
+Skkllmm = pfc.ifft(pfc.fft(dxxxpsi**2 + 3*dxxxpsi*dxxypsi + 3*dxxypsi**2 + dyyypsi**2 + dyyypsi**2)*pfc.calc_gaussian_filter_f()).real
 
 print("Mean of S111111:", np.mean(S111111))
 print("Reference value of S111111:", pfc.S111111_ref)

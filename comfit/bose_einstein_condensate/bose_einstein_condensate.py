@@ -118,7 +118,7 @@ class BoseEinsteinCondensate(BaseSystem):
 
 
 
-    def conf_initial_condition_Thomas_Fermi(self) -> None:
+    def conf_initial_condition_thomas_fermi(self) -> None:
         """Finds the Thomas_Fermi ground state.
 
         Must be preceded by an energy relaxation to find the true ground state
@@ -157,7 +157,7 @@ class BoseEinsteinCondensate(BaseSystem):
             position = [self.xmid, self.ymid]
 
         if self.psi is None:
-            self.conf_initial_condition_Thomas_Fermi()
+            self.conf_initial_condition_thomas_fermi()
 
         self.psi = self.psi * np.exp(1j * self.calc_angle_field_single_vortex(position=position, charge=charge))
         self.psi_f = sp.fft.fftn(self.psi)
@@ -183,7 +183,7 @@ class BoseEinsteinCondensate(BaseSystem):
             raise Exception("The dimension of the system must be 2 for a vortex dipole configuration.")
 
         if self.psi is None:
-            self.conf_initial_condition_Thomas_Fermi()
+            self.conf_initial_condition_thomas_fermi()
 
         if dipole_vector is None:
             dipole_vector = [self.size_x / 3, 0]
@@ -218,7 +218,7 @@ class BoseEinsteinCondensate(BaseSystem):
             raise Exception("The dimension of the system must be 3 for a vortex line configuration.")
 
         if self.psi is None:
-            self.conf_initial_condition_Thomas_Fermi()
+            self.conf_initial_condition_thomas_fermi()
         
         if position is None:
             position = [self.xmid , self.ymid]
@@ -265,7 +265,7 @@ class BoseEinsteinCondensate(BaseSystem):
         theta = self.calc_angle_field_vortex_ring(position=position, radius=radius, normal_vector=normal_vector)
 
         if self.psi is None:
-            self.conf_initial_condition_Thomas_Fermi()
+            self.conf_initial_condition_thomas_fermi()
 
         self.psi = self.psi * np.exp(1j * theta)
         self.psi_f = sp.fft.fftn(self.psi)

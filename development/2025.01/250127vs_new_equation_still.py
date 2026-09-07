@@ -55,8 +55,8 @@ dxxpsi = pfc.ifft(pfc.dif[0]*pfc.dif[0]*pfc.fft(psi)).real
 dxypsi = pfc.ifft(pfc.dif[0]*pfc.dif[1]*pfc.fft(psi)).real
 
 # print("S1111_eq:", pfc.S1111_eq)
-op_real = pfc.ifft(pfc.fft(2*dxxpsi*dxxpsi-3*S1)/S2*pfc.calc_Gaussian_filter_f()).real
-op_imag = pfc.ifft(pfc.fft(2*dxxpsi*dxypsi)/S2*pfc.calc_Gaussian_filter_f()).real
+op_real = pfc.ifft(pfc.fft(2*dxxpsi*dxxpsi-3*S1)/S2*pfc.calc_gaussian_filter_f()).real
+op_imag = pfc.ifft(pfc.fft(2*dxxpsi*dxypsi)/S2*pfc.calc_gaussian_filter_f()).real
 op = op_real + 1j*op_imag
 
 fig1 = pfc.plot_field(psi)

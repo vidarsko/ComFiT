@@ -348,7 +348,7 @@ The ``fftshift`` function is used to shift the zero frequency component to the c
 
     bs = cf.BaseSystem(1, xlim=[-10,10], xRes=101)
 
-    field = 0.5*bs.calc_Gaussian(position=1)
+    field = 0.5*bs.calc_gaussian(position=1)
     field_f = bs.fft(field)
 
     fig, ax = bs.plot_subplots(1,2)
@@ -411,7 +411,7 @@ $$
 This is why we have the following function
 
 ```python
-calc_Gaussian_filter_f
+calc_gaussian_filter_f
 ```
 
 which calculates $\mathcal K_{\mathfrak f}$.
@@ -419,13 +419,13 @@ which calculates $\mathcal K_{\mathfrak f}$.
 Typically, a field is coarse-grained with a width using the following piece of code
 
 ```python
-field = bs.ifft(bs.fft(field) * self.calc_Gaussian_filter_f(width))
+field = bs.ifft(bs.fft(field) * self.calc_gaussian_filter_f(width))
 ```
 
 The Gaussian function is actually so useful that is given by can be calculated using
 
 ```python
-Gaussian = bs.calc_Gaussian()
+Gaussian = bs.calc_gaussian()
 ```
 
 ## Vortex fields

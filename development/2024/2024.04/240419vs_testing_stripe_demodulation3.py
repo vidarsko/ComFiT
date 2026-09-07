@@ -39,7 +39,7 @@ pfc.a0 = 2*np.pi
 pfc.evolve_PFC(500)
 
 def demodulate(pfc,q):
-    return sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_Gaussian_filter_f())
+    return sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_gaussian_filter_f())
 
 
 def orientation(pfc,T):
@@ -48,7 +48,7 @@ def orientation(pfc,T):
     p = np.zeros((len(qs),pfc.xRes,pfc.yRes))
     eta = np.zeros((len(qs),pfc.xRes,pfc.yRes),dtype=complex)
     for q,n in zip(qs,range(len(qs))):
-        eta[n] = sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_Gaussian_filter_f())
+        eta[n] = sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_gaussian_filter_f())
         # pfc.plot_field(abs(eta))
         # plt.show()
         p[n] = np.exp(abs(eta[n])/T)
@@ -78,7 +78,7 @@ def orientation(pfc,T):
 Q_net, eta_net,eta_net2 = orientation(pfc,T)
 
 def coarse_grain(field,width):
-    return sp.fft.ifftn(sp.fft.fftn(field)*pfc.calc_Gaussian_filter_f(a0=width))
+    return sp.fft.ifftn(sp.fft.fftn(field)*pfc.calc_gaussian_filter_f(a0=width))
 
 cg = 10*pfc.a0
 Q_net[0] = coarse_grain(Q_net[0],cg)

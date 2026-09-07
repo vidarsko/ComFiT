@@ -9,7 +9,7 @@ xlim = [-10,10]
 dx = (xlim[1]-xlim[0])/(xRes-1)
 
 qm = cf.QuantumMechanics(1, xlim=xlim, dt=dt, xRes=xRes)
-qm.conf_initial_condition_Gaussian(position=0, width=1, initial_velocity=1)
+qm.conf_initial_condition_gaussian(position=0, width=1, initial_velocity=1)
 psi_initial = qm.psi
 
 
@@ -38,7 +38,7 @@ xlim = [-50,50]
 dx = (xlim[1]-xlim[0])/(xRes-1)
 
 qm = cf.QuantumMechanics(1, xlim=xlim, dt=dt, xRes=xRes)
-qm.conf_initial_condition_Gaussian(position=-10, width=1, initial_velocity= 1)
+qm.conf_initial_condition_gaussian(position=-10, width=1, initial_velocity= 1)
 # qm.V_ext = 1
 # V = 1 * (qm.x > 0 ) * (qm.x < 5)
 # qm.V_ext = V

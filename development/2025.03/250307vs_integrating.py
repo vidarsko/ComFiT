@@ -3,7 +3,7 @@
 import comfit as cf
 
 qm = cf.QuantumMechanics(1)
-qm.conf_initial_condition_Gaussian()
+qm.conf_initial_condition_gaussian()
 
 # interval = qm.calc_region_interval(5,10)
 # print(qm.calc_integrate_field(abs(qm.psi)**2))

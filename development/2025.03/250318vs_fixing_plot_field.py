@@ -40,7 +40,7 @@ class WaveEquation(cf.BaseSystem):
 
 
 we = WaveEquation(1, 1)
-we.conf_initial_state([we.calc_Gaussian(width=10, top=1), np.zeros(we.dims)])
+we.conf_initial_state([we.calc_gaussian(width=10, top=1), np.zeros(we.dims)])
 
 
 fig,ax = we.plot_field(we.psi[0], ylim=[0,1])

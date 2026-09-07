@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 # initial_pos = [5,5]
 # k = 0.01
 # qm.V_ext = k*(qm.x**2 + qm.y**2)
-# qm.conf_initial_condition_Gaussian(position=initial_pos, width=1)
+# qm.conf_initial_condition_gaussian(position=initial_pos, width=1)
 
 # def plot_qm_vs_classical(T):
 #     dt = 0.1 
@@ -20,7 +20,7 @@ import plotly.graph_objects as go
 #     V_ext = 1/2 * k*(qm.x**2 + qm.y**2)
 
 #     qm.V_ext = V_ext
-#     qm.conf_initial_condition_Gaussian(position=initial_pos, width=1)
+#     qm.conf_initial_condition_gaussian(position=initial_pos, width=1)
 #     # qm.dt = 0.1
 
 #     timesteps = int(T / dt)
@@ -46,7 +46,7 @@ dt = 0.1
 qm = cf.QuantumMechanics(1,xlim=[-10,10], dt=dt) 
 
 # Sets the initial condition to a Gaussian wavepacket centered at x=0 with width 1
-qm.conf_initial_condition_Gaussian(position=0, width=1) 
+qm.conf_initial_condition_gaussian(position=0, width=1) 
 psi = qm.psi # Get the wavefunction at time t=0
 
 fig, ax = qm.plot_complex_field(psi)

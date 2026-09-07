@@ -43,6 +43,12 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
   lowercase `2d`/`3d`, per PEP8's lowercase module/function naming convention (now stated
   explicitly in `docs/Conventions.md`) and for consistency with `comfit/phase_field_crystal/`'s
   existing lowercase `2d`/`3d` file naming.
+- `QuantumMechanics.conf_initial_condition_Gaussian` renamed to `conf_initial_condition_gaussian`,
+  `BoseEinsteinCondensate.conf_initial_condition_Thomas_Fermi` renamed to
+  `conf_initial_condition_thomas_fermi`, and `BaseSystem.calc_Gaussian_filter_f`/`calc_Gaussian`
+  renamed to `calc_gaussian_filter_f`/`calc_gaussian` — function and variable names are always
+  lowercase in this codebase, with no exception for embedded proper nouns (now stated explicitly
+  in `docs/Conventions.md`), matching the convention used by NumPy/SciPy/scikit-learn.
 
 ### Documentation
 

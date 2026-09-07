@@ -22,9 +22,9 @@ cf.tool_make_animation_gif(n)
 
 # qm = cf.QuantumMechanics(1,xlim=[-10,100],dx=0.1)
 
-# qm.V_ext = qm.calc_Gaussian(position=30,width=10,top=1)
+# qm.V_ext = qm.calc_gaussian(position=30,width=10,top=1)
 
-# qm.conf_initial_condition_Gaussian(position=0,width=1,initial_velocity=1)
+# qm.conf_initial_condition_gaussian(position=0,width=1,initial_velocity=1)
 
 # ymax = np.max(np.abs(qm.psi)**2)
 

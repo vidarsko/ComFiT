@@ -160,12 +160,12 @@ Below is a prepromt you can use with a language model to help you get started.
 
     QuantumMechanics (instance: qm):
     evolve_schrodinger(number_of_steps) evolves qm.psi
-    conf_initial_condition_Gaussian(position, width, initial_velocity)
+    conf_initial_condition_gaussian(position, width, initial_velocity)
     conf_wavefunction(psi) #sets wavefunction
 
     BoseEinsteinCondensate (bec)
     evolve_dGPE(number_of_steps) evolves bec.psi
-    conf_initial_condition_Thomas_Fermi()
+    conf_initial_condition_thomas_fermi()
     conf_insert_vortex(charge,position)
     conf_dissipative_frame(interface_width)
     evolve_relax(number_of_steps)

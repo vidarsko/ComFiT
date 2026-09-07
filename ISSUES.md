@@ -10,13 +10,6 @@ marked done and left in place.
 
 ## Naming — needs a decision, not just an obvious fix
 
-- **`Gaussian`/`Thomas_Fermi` vs `ordered`/`disordered` capitalization.** Method names like
-  `conf_initial_condition_Gaussian`, `conf_initial_condition_Thomas_Fermi`, `calc_Gaussian_filter_f`,
-  `calc_Gaussian` capitalize the embedded distribution name, while `conf_initial_condition_ordered`,
-  `conf_initial_condition_disordered` don't (because "ordered" isn't a proper noun). This might
-  already be the "right" convention (capitalize eponyms, lowercase ordinary adjectives) rather than
-  an inconsistency — flagging for a maintainer call rather than assuming either direction.
-
 - **`calc_disclination_velocity_field`'s parameter names** (`T`, `Omega_R`, `g`, `omega`) are
   terse/cryptic compared to the descriptive-name convention used almost everywhere else in
   `NematicLiquidCrystal` (e.g. `dipole_vector`, `charge_tolerance`). Renaming them to something like

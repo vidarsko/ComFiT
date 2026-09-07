@@ -210,12 +210,12 @@ Animations: loop evolve + plot + `self.plot_save(fig, n)`, then
 
 **Per-model notables** (verified method names, not exhaustive):
 
-- `QuantumMechanics`: `evolve_schrodinger`, `conf_initial_condition_Gaussian(position, width, initial_velocity)`,
+- `QuantumMechanics`: `evolve_schrodinger`, `conf_initial_condition_gaussian(position, width, initial_velocity)`,
   `conf_harmonic_potential`, `conf_hydrogen_state`, `conf_wavefunction`,
   `calc_hydrogen_state`.
 - `BoseEinsteinCondensate`: `evolve_dGPE`, `evolve_relax`,
   `evolve_comoving_dGPE`, `conf_initial_condition_disordered`,
-  `conf_initial_condition_Thomas_Fermi`, `conf_external_potential`,
+  `conf_initial_condition_thomas_fermi`, `conf_external_potential`,
   `conf_insert_vortex`, `conf_insert_vortex_dipole`,
   `conf_insert_vortex_filament`, `conf_insert_vortex_ring`,
   `conf_vortex_remover`, `conf_dissipative_frame(interface_width=7, ...)`,

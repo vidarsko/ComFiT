@@ -11,7 +11,7 @@ potential = 2.89
 phase_blob_threshold = 0.5
 
 # Initialize a Gaussian wavepacket at x=5 with velocity=1
-qm.conf_initial_condition_Gaussian(position=[5,0,0], width=1, initial_velocity=[velocity,0,0])
+qm.conf_initial_condition_gaussian(position=[5,0,0], width=1, initial_velocity=[velocity,0,0])
 
 # Add a potential barrier (optional)
 qm.V_ext = potential * (qm.x > 10) * (qm.x < 12)  # Barrier from x=10 to 12

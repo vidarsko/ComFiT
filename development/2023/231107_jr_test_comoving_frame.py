@@ -4,9 +4,9 @@ import comfit as cf
 
 bec = cf.BoseEinsteinCondensate(3,xRes=64,yRes=64,zRes=64,gamma=0,dt=0.1)
 
-bec.V0 = bec.calc_Gaussian(width=2/np.sqrt(2),top=4,position=[bec.xmid,bec.ymid,bec.zmid])
+bec.V0 = bec.calc_gaussian(width=2/np.sqrt(2),top=4,position=[bec.xmid,bec.ymid,bec.zmid])
 
-bec.conf_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_thomas_fermi()
 bec.evolve_relax(100)
 
 bec.conf_dissipative_frame(frame_width_x=26,frame_width_y=26,frame_width_z=26)

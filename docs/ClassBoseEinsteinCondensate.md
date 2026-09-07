@@ -97,7 +97,7 @@ $$
 This ground state guess can be initialized using:
 
 ```python
-bec.conf_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_thomas_fermi()
 ```
 
 Once this guess is initialized, the wave function can be propagated in imaginary time to relax towards the true ground state using the function:
@@ -137,7 +137,7 @@ The evolver will evaluate this function using the current simulation time `bec.t
 To simplify setup, some common potentials are provided:
 
 * **Harmonic Potential:** Can be created using `bec.calc_harmonic_potential(R_tf)`, where `R_tf` is the Thomas-Fermi radius. This returns $V_H(\mathbf{r}) = |\mathbf{r} - \mathbf{r}_{mid}|^2 / \texttt{R_tf}^2$. You would then use `conf_external_potential` to set this as the external potential.
-* **Gaussian Potential:** Can be created using `bec.calc_Gaussian(position, width, top=strength)`. This returns $V_g(\mathbf{r}) = \texttt{strength} \times e^{-|\mathbf{r} - \mathbf{r}_{position}|^2/(2 \times \texttt{width}^2)}$. You would then use `conf_external_potential` to set this as the external potential.
+* **Gaussian Potential:** Can be created using `bec.calc_gaussian(position, width, top=strength)`. This returns $V_g(\mathbf{r}) = \texttt{strength} \times e^{-|\mathbf{r} - \mathbf{r}_{position}|^2/(2 \times \texttt{width}^2)}$. You would then use `conf_external_potential` to set this as the external potential.
 
 Much of the interesting physics occurs when the potential is time-dependent. For this, one can define a function `V(t)` as shown above and update the external potential by calling `bec.conf_external_potential(V)`.
 

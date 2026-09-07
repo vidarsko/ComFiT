@@ -4,7 +4,7 @@ import numpy as np
 
 bs = cf.BaseSystem(1, xlim=[-10,10], xRes=101)
 
-field = 0.5*bs.calc_Gaussian(position=1)
+field = 0.5*bs.calc_gaussian(position=1)
 field_f = bs.fft(field)
 
 fig, ax = bs.plot_subplots(1,2)
@@ -15,7 +15,7 @@ bs.plot_save(fig)
 
 # bs.plot_save(fig)
 # bs = cf.BaseSystem(2, xlim=[-10,10], ylim=[-10,10])
-# field = bs.calc_Gaussian(position=(0,0))
+# field = bs.calc_gaussian(position=(0,0))
 
 # fig, ax = bs.plot_subplots(2,1)
 
@@ -28,7 +28,7 @@ bs.plot_save(fig)
 
 
 # bs = cf.BaseSystem(3, xlim=[-10,10], ylim=[-10,10], zlim=[-10,10])
-# field = bs.calc_Gaussian(position=(0,0,0))
+# field = bs.calc_gaussian(position=(0,0,0))
 
 # fig, ax = bs.plot_subplots(2,1)
 

@@ -58,7 +58,7 @@ class QuantumMechanics(BaseSystem):
         """
         return 'QuantumMechanics'
 
-    def conf_initial_condition_Gaussian(
+    def conf_initial_condition_gaussian(
             self : 'QuantumMechanics',
             position: Optional[Union[List[float], np.ndarray]] = None,
             width: Optional[float] = None,
@@ -86,7 +86,7 @@ class QuantumMechanics(BaseSystem):
         if width is None:
             width = self.size_x/10
 
-        self.psi = np.sqrt(self.calc_Gaussian(position=position,width=width))
+        self.psi = np.sqrt(self.calc_gaussian(position=position,width=width))
         
         if initial_velocity is not None:
             if self.dim == 1:

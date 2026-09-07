@@ -270,7 +270,7 @@ class BaseSystemCalc:
         """
         return sum([self.k[i] ** 2 for i in range(len(self.k))])
 
-    def calc_Gaussian_filter_f(self, a0=None):
+    def calc_gaussian_filter_f(self, a0=None):
         """Calculate Gaussian filter in Fourier space.
 
         This method computes a Gaussian filter in Fourier space using the formula:
@@ -323,10 +323,10 @@ class BaseSystemCalc:
         # Check if field is complex or real
         if np.iscomplexobj(field):
             # For complex fields, apply the filter to real and imaginary parts
-            return self.ifft(self.fft(field) * self.calc_Gaussian_filter_f(width))
+            return self.ifft(self.fft(field) * self.calc_gaussian_filter_f(width))
         else:
             # For real fields, ensure the output remains real
-            return np.real(self.ifft(self.fft(field) * self.calc_Gaussian_filter_f(width)))
+            return np.real(self.ifft(self.fft(field) * self.calc_gaussian_filter_f(width)))
 
     def calc_determinant_field(self, psi: list[np.ndarray, np.ndarray]) -> np.ndarray:
         """Calculate the determinant transformation of a given field.
@@ -641,7 +641,7 @@ class BaseSystemCalc:
         else:
             raise Exception("Not valid for other dimensions.")
 
-    def calc_Gaussian(self, 
+    def calc_gaussian(self, 
             position=None, 
             width=None, 
             top=None,

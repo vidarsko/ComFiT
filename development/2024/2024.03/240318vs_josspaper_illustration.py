@@ -16,14 +16,14 @@ bs.plot_field(field, ax=ax1)
 
 # # Quantum Mechanical System 
 qm = cf.QuantumMechanics(3, xRes=41, yRes=41, zRes=41)
-qm.conf_initial_condition_Gaussian(initial_velocity=[0,0.1,0.3])
+qm.conf_initial_condition_gaussian(initial_velocity=[0,0.1,0.3])
 qm.evolve_schrodinger(200)
 ax2 = fig.add_subplot(2, 2, 2, projection='3d')
 qm.plot_complex_field(qm.psi, ax=ax2)
 
 # Bose Einstein Condensate System
 bec = cf.BoseEinsteinCondensate(3, xRes=41, yRes=41, zRes=41)
-bec.conf_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_thomas_fermi()
 bec.conf_insert_vortex_ring()
 bec.evolve_relax(100)
 vortex_nodes = bec.calc_vortex_nodes()

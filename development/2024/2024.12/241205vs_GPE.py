@@ -1,7 +1,7 @@
 import comfit as cf
 
 bec = cf.BoseEinsteinCondensate(2)
-bec.conf_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_thomas_fermi()
 
 for n in range(100):
     bec.evolve_dGPE(1)

@@ -12,7 +12,7 @@ pfc.show(fig)
 import matplotlib.pyplot as plt
 import numpy as np
 
-psi0 = pfc.ifft(pfc.psi_f*pfc.calc_Gaussian_filter_f()).real
+psi0 = pfc.ifft(pfc.psi_f*pfc.calc_gaussian_filter_f()).real
 
 dxpsi0 = pfc.ifft(pfc.dif[0]*pfc.fft(psi0)).real
 dypsi0 = pfc.ifft(pfc.dif[1]*pfc.fft(psi0)).real

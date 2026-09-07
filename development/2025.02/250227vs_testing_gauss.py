@@ -5,7 +5,7 @@ import numpy as np
 qm = cf.QuantumMechanics(1)  # 1D quantum system
 
 # Set up initial Gaussian wavepacket
-qm.conf_initial_condition_Gaussian(
+qm.conf_initial_condition_gaussian(
     position=0.0,      # Center position
     width=2,         # Width of Gaussian
     initial_velocity=2.0  # Initial momentum

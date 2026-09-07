@@ -42,7 +42,7 @@ print(eta0)
 
 
 def demodulate(pfc,q):
-    return sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_Gaussian_filter_f())
+    return sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_gaussian_filter_f())
 
 
 def orientation(pfc,T):
@@ -51,7 +51,7 @@ def orientation(pfc,T):
     p = np.zeros((len(qs),pfc.xRes,pfc.yRes))
     eta = np.zeros((len(qs),pfc.xRes,pfc.yRes),dtype=complex)
     for q,n in zip(qs,range(len(qs))):
-        eta[n] = sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_Gaussian_filter_f())
+        eta[n] = sp.fft.ifftn(sp.fft.fftn(pfc.psi*np.exp(-1j*q[0]*pfc.x - 1j*q[1]*pfc.y))*pfc.calc_gaussian_filter_f())
         p[n] = np.exp(abs(eta[n])/T)
         Z += p[n]
     
@@ -61,8 +61,8 @@ def orientation(pfc,T):
     for q,n in zip(qs,range(len(qs))):
         prob = p[n]/Z
         eta_f = sp.fft.fftn(eta[n])
-        # delta_q[0] = np.imag(sp.fft.ifftn(pfc.calc_Gaussian_filter_f()*sp.fft.fftn(sp.fft.ifftn(pfc.dif[0]*eta_f)/eta[n])))
-        # delta_q[1] = np.imag(sp.fft.ifftn(pfc.calc_Gaussian_filter_f()*sp.fft.fftn(sp.fft.ifftn(pfc.dif[1]*eta_f)/eta[n])))
+        # delta_q[0] = np.imag(sp.fft.ifftn(pfc.calc_gaussian_filter_f()*sp.fft.fftn(sp.fft.ifftn(pfc.dif[0]*eta_f)/eta[n])))
+        # delta_q[1] = np.imag(sp.fft.ifftn(pfc.calc_gaussian_filter_f()*sp.fft.fftn(sp.fft.ifftn(pfc.dif[1]*eta_f)/eta[n])))
         delta_q[0] = np.imag(sp.fft.ifftn(pfc.dif[0]*eta_f)/eta[n])
         delta_q[1] = np.imag(sp.fft.ifftn(pfc.dif[1]*eta_f)/eta[n])
 

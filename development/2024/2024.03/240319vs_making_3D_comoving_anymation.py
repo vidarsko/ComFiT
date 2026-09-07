@@ -8,11 +8,11 @@ import scipy as sp
 
 bec = cf.BoseEinsteinCondensate(3,xRes=64,yRes=64,zRes=64,gamma=0,dt=0.05)
 
-pot = bec.calc_Gaussian(width=3.5/np.sqrt(2),top = 4,position = [bec.xmid,bec.ymid,bec.zmid])
+pot = bec.calc_gaussian(width=3.5/np.sqrt(2),top = 4,position = [bec.xmid,bec.ymid,bec.zmid])
 
 bec.conf_external_potential(pot, additive=False)
 
-bec.conf_initial_condition_Thomas_Fermi()
+bec.conf_initial_condition_thomas_fermi()
 bec.evolve_relax(100)
 
 bec.conf_dissipative_frame(frame_width_x=25,frame_width_y=25,frame_width_z=25)

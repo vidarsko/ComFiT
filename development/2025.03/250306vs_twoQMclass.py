@@ -50,7 +50,7 @@ class TwoParticleQM(cf.BaseSystem):
                                         self.calc_nonlinear_evolution_function_f, 
                                         self.psi, self.psi_f)
 
-    def conf_initial_condition_Gaussian(self,
+    def conf_initial_condition_gaussian(self,
             particle_type,
             position1,
             width1,
@@ -59,11 +59,11 @@ class TwoParticleQM(cf.BaseSystem):
             width2,
             initial_velocity2):
 
-        psi1 = np.sqrt(self.calc_Gaussian(self.x1, position1, width1))*np.exp(1j * initial_velocity1 * self.x1)  \
-              * np.sqrt(self.calc_Gaussian(self.x2, position2, width2))*np.exp(1j * initial_velocity2 * self.x2)
+        psi1 = np.sqrt(self.calc_gaussian(self.x1, position1, width1))*np.exp(1j * initial_velocity1 * self.x1)  \
+              * np.sqrt(self.calc_gaussian(self.x2, position2, width2))*np.exp(1j * initial_velocity2 * self.x2)
 
-        psi2 = np.sqrt(self.calc_Gaussian(self.x2, position1, width1))*np.exp(1j * initial_velocity1 * self.x2)  \
-              * np.sqrt(self.calc_Gaussian(self.x1, position2, width2))*np.exp(1j * initial_velocity2 * self.x1)
+        psi2 = np.sqrt(self.calc_gaussian(self.x2, position1, width1))*np.exp(1j * initial_velocity1 * self.x2)  \
+              * np.sqrt(self.calc_gaussian(self.x1, position2, width2))*np.exp(1j * initial_velocity2 * self.x1)
 
 
         if particle_type == 'boson':
@@ -73,7 +73,7 @@ class TwoParticleQM(cf.BaseSystem):
         
         self.psi_f = sp.fft.fftn(self.psi)
 
-    def calc_Gaussian(self, x, position, width):
+    def calc_gaussian(self, x, position, width):
 
         rx2m = (x - position - self.size_x) ** 2
         rx2 = (x - position) ** 2
@@ -86,12 +86,12 @@ class TwoParticleQM(cf.BaseSystem):
 if __name__ == '__main__':
     # Initialize system
     qm = TwoParticleQM(xlim=[-20,20], ylim=[-20,20])
-    qm.conf_initial_condition_Gaussian(particle_type='fermion',
+    qm.conf_initial_condition_gaussian(particle_type='fermion',
                                            position1=-10, width1=3, initial_velocity1=-20,
                                            position2=10, width2=3, initial_velocity2=0)
     
 
-    qm.V_ext = -qm.calc_Gaussian(qm.x1-qm.x2, 0, 2)
+    qm.V_ext = -qm.calc_gaussian(qm.x1-qm.x2, 0, 2)
     # fig, ax = qm.plot_complex_field(qm.psi)
     # qm.show(fig)
 

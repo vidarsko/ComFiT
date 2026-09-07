@@ -1315,7 +1315,7 @@ class PhaseFieldCrystal(BaseSystem):
         eta = np.zeros([number_of_modes] + self.dims, 
                        dtype=complex)
 
-        Gaussian_filter_f = self.calc_Gaussian_filter_f()
+        Gaussian_filter_f = self.calc_gaussian_filter_f()
 
         order_parameter = self.psi if self.psi.ndim == self.dim else self.psi[0]
 
@@ -1396,7 +1396,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         stress = self.calc_stress_tensor_microscopic()
 
-        Gaussian_filter_f = self.calc_Gaussian_filter_f()
+        Gaussian_filter_f = self.calc_gaussian_filter_f()
 
         # Number of independent stress components
         if self.dim == 1:
@@ -1442,7 +1442,7 @@ class PhaseFieldCrystal(BaseSystem):
         k2 = self.calc_k2()
 
         return np.array([
-            -2*self.calc_Gaussian_filter_f()*self.fft(
+            -2*self.calc_gaussian_filter_f()*self.fft(
                 sum([
                 self.ifft(L_f*self.dif[i]*field_f)*self.ifft(L_sum_f*self.dif[i]*self.dif[j]*field_f) 
                 for i in range(self.dim)
@@ -1485,7 +1485,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         structure_tensor_f = np.zeros([number_of_independent_strain_components] + self.dims, dtype=complex)
 
-        Gaussian_filter_f = self.calc_Gaussian_filter_f()
+        Gaussian_filter_f = self.calc_gaussian_filter_f()
         if self.dim == 1:
             structure_tensor_f[0] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[0])
         elif self.dim == 2:
@@ -1706,7 +1706,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
                        dtype=complex)
-        Gaussian_filter_f = self.calc_Gaussian_filter_f()
+        Gaussian_filter_f = self.calc_gaussian_filter_f()
 
         if self.dim == 2:
             if self.type == 'PhaseFieldCrystal2DTriangular':

@@ -6,7 +6,7 @@ import numpy as np
 qm = cf.QuantumMechanics(1, xlim=[-50,50], xRes=1001, dt=0.1)
 
 # Initialize a Gaussian wavepacket at x=5 with velocity=1
-qm.conf_initial_condition_Gaussian(position=5, width=1, initial_velocity=1)
+qm.conf_initial_condition_gaussian(position=5, width=1, initial_velocity=1)
 
 # Add a potential barrier (optional)
 qm.V_ext = 0.5 * (qm.x > 10) * (qm.x < 12)  # Barrier from x=10 to 12
