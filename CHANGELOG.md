@@ -50,6 +50,24 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
   lowercase in this codebase, with no exception for embedded proper nouns (now stated explicitly
   in `docs/Conventions.md`), matching the convention used by NumPy/SciPy/scikit-learn.
 
+### Fixed
+
+- `NematicLiquidCrystal.calc_active_force_f` and 17 other call sites across
+  `nematic_liquid_crystal.py` (plus one in `BoseEinsteinCondensate.calc_kinetic_energy`) passed a
+  generator expression to `np.sum(...)`. Recent NumPy raises `TypeError: Calling np.sum(generator)
+  is deprecated` instead of the old (undocumented) behavior of silently falling back to Python's
+  builtin `sum()` — which is what these calls actually relied on, since `np.sum(generator)` never
+  summed over all axes as the array form would. Replaced with the builtin `sum(...)` directly,
+  preserving the original (elementwise-add-the-yielded-arrays) behavior explicitly. This was
+  blocking the entire `tests_nematic_liquid_crystal` suite on current NumPy.
+- `setup.py`: `kaleido==0.2.1` pinned against an unpinned `plotly` broke on any environment that
+  resolved a current `plotly` (7.0 dropped support for Kaleido below v1.0.0 — see
+  [plotly.py changelog](https://github.com/plotly/plotly.py)), causing every `plot_save`
+  (`fig.write_image`) call to fail with `RuntimeError: Image export requires the Kaleido package,
+  v1.0.0 or greater`. Bumped to `kaleido>=1.0.0`, `plotly>=6.1.1`. Kaleido v1 requires a system
+  Chrome install rather than bundling one; `.github/workflows/tests_plot.yml` now fetches a
+  compatible build via `plotly.io.get_chrome()` before running the plot test suite.
+
 ### Documentation
 
 - Converted the Google-style (`Args:`/`Returns:`/`Raises:`) docstrings in

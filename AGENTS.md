@@ -16,14 +16,30 @@ judgment call, more testing, or touches too much surface area to fix in passing,
 `ISSUES.md` instead of guessing — don't leave it undocumented. Keep this file's per-model method
 lists (below) in sync with any renames you make.
 
+This applies to *any* notable change made in this pass, not just renames — a bugfix stumbled into
+while chasing a test failure (e.g. a NumPy-compatibility break), a dependency version bump, a CI
+workflow change, all belong in `CHANGELOG.md` too. Use a `### Fixed` (or other fitting) subheading
+under `[Unreleased] - 2.0.0` rather than omitting the entry because it doesn't fit the existing
+`### Renamed (breaking)` / `### Documentation` subheadings. Before ending a session, re-check that
+everything actually changed on disk this session has a matching `CHANGELOG.md` entry — it's easy
+for an incidental fix (as opposed to the renames that are the explicit point of a pass) to slip
+through.
+
+When an `ISSUES.md` naming item gets resolved (a maintainer makes the casing/wording call), add
+the resulting rule to `docs/Conventions.md`'s "File naming conventions" or "Programming notation
+conventions" section *before* doing the rename, then remove the item from `ISSUES.md`. This is
+the authoritative, canonical location for naming conventions — not this file, not the README (it
+doesn't mention naming at all) — so every such decision must land there or it's lost to future
+passes. See the `2d`/`3d` casing and the no-caps-for-proper-nouns (`Gaussian` → `gaussian`) rules
+already recorded there for the pattern to follow.
+
 ## Coding style
 
-Follow `docs/Conventions.md`: PEP8, NumPy-style docstrings (a template for
-both stand-alone functions and model methods is given there), a fixed import
-order (stdlib, third-party, local — blank line between groups), and fixed
-notational choices (e.g. `\mathfrak i` for the imaginary unit, `_f` suffix
-for Fourier-space quantities). Match existing docstrings rather than
-inventing a new style.
+Follow `docs/Conventions.md`: naming conventions (file, function, and variable casing — see
+above), PEP8, NumPy-style docstrings (a template for both stand-alone functions and model methods
+is given there), a fixed import order (stdlib, third-party, local — blank line between groups),
+and fixed notational choices (e.g. `\mathfrak i` for the imaginary unit, `_f` suffix for
+Fourier-space quantities). Match existing docstrings rather than inventing a new style.
 
 ## Documentation writing style
 
