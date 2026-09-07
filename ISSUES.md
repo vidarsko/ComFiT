@@ -10,13 +10,6 @@ marked done and left in place.
 
 ## Naming — needs a decision, not just an obvious fix
 
-- **`calc_disclination_velocity_field`'s parameter names** (`T`, `Omega_R`, `g`, `omega`) are
-  terse/cryptic compared to the descriptive-name convention used almost everywhere else in
-  `NematicLiquidCrystal` (e.g. `dipole_vector`, `charge_tolerance`). Renaming them to something like
-  `tangent_vector`, `rotation_vector`, `g_matrix`, `omega_field` seems right but requires someone
-  who understands the physics to confirm those are the correct descriptive names before it's done
-  as a "safe" rename — left alone this pass.
-
 - **`R_tf` (BoseEinsteinCondensate harmonic trap) vs `trapping_strength` (QuantumMechanics harmonic
   trap).** These parametrize conceptually related harmonic traps differently (radius vs. strength),
   so this is likely not actually the "same quantity" and may not need reconciling at all — noted so

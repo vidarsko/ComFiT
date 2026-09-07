@@ -74,6 +74,11 @@ $$
   it to get a step count) or otherwise not literally the same value — is named `delta_t`
   (lowercase; PEP8 gives no exception for a capitalized `Delta_t`), not a copy of `dt` under a
   different name.
+* Public function/method parameters are named descriptively even when the underlying physics
+  literature or a docstring uses a bare mathematical symbol for the same quantity (e.g. a
+  `tangent_vector` parameter for what a cited paper calls $\hat T$) — the symbol belongs in the
+  equation/docstring, not the call signature. This mirrors the descriptive-name convention already
+  used for most parameters in this codebase (`dipole_vector`, `charge_tolerance`, etc.).
 
 Stand-alone functions are documented as follows:
 

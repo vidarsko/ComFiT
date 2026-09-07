@@ -56,6 +56,17 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
   the resulting `dt`-vs-`delta_t` naming rule in `docs/Conventions.md` before renaming.
   `NematicLiquidCrystal.calc_dt_psi`'s `delta_t` parameter was already correct under this rule and
   needed no change.
+- `NematicLiquidCrystal.calc_disclination_velocity_field`: `T`, `Omega_R`, `g`, `omega` parameters
+  renamed to `tangent_vector`, `rotation_vector`, `g_matrix`, `disclination_density_magnitude`.
+  This function implements the disclination velocity law of Schimming & Viñals, "Kinematics and
+  dynamics of disclination lines in three-dimensional nematics," Proc. R. Soc. A 479:20230042
+  (2023) (arXiv:2212.10620), Eq. (8) — confirmed against the paper before renaming, per AGENTS.md's
+  requirement that a physics-informed rename be checked rather than guessed. The new names match
+  what the call site and the sibling `calc_disclination_density_decoupled`'s docstring already used
+  informally. Also filled in the previously-missing `Parameters` docstring entries for these four
+  arguments, and fixed `calc_g_matrix`'s `Returns` docstring (said "The disclination density",
+  copy-pasted from a neighboring function; now says "The g matrix"). Recorded the general
+  descriptive-parameter-naming rule this implies in `docs/Conventions.md`.
 
 ### Fixed
 
