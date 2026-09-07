@@ -647,26 +647,26 @@ class PhaseFieldCrystal(BaseSystem):
     #######################################################
     ##### MECHANICAL EQUILIBRIUM (CONSERVED) ##############
     #######################################################
-    def evolve_PFC_mechanical_equilibrium(self, time, Delta_t = 10, method='ETD2RK'):
+    def evolve_PFC_mechanical_equilibrium(self, time, delta_t = 10, method='ETD2RK'):
         """Evolves the PFC in mechanical equilibrium.
-        
+
         Parameters
         ----------
         time : float
             The total time to evolve the PFC.
-        Delta_t : float, optional
+        delta_t : float, optional
             The time step for the mechanical equilibrium evolution, by default 10.
         method : str, optional
             The method to use for the evolution, by default 'ETD2RK'.
-            
+
         Returns
         -------
         None
             Updates self.psi and self.psi_f.
         """
-        
+
         number_of_steps = round(time/self.dt)
-        number_of_steps_per_iteration = round(Delta_t/self.dt)
+        number_of_steps_per_iteration = round(delta_t/self.dt)
         number_of_iterations = round(number_of_steps/number_of_steps_per_iteration)
 
         for n in tqdm(range(number_of_iterations), desc='Evolving the PFC in mechanical equilibrium'):

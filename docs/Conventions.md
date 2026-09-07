@@ -69,6 +69,11 @@ $$
   2. Third-party library imports
   3. Local application imports
   4. Each group should be separated by a blank line
+* `dt` is reserved for `self.dt`, the base system's own time step (or a value taken directly from
+  it). Any other time-interval quantity — one that is computed against `self.dt` (e.g. divided by
+  it to get a step count) or otherwise not literally the same value — is named `delta_t`
+  (lowercase; PEP8 gives no exception for a capitalized `Delta_t`), not a copy of `dt` under a
+  different name.
 
 Stand-alone functions are documented as follows:
 

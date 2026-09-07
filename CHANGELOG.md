@@ -49,6 +49,13 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
   renamed to `calc_gaussian_filter_f`/`calc_gaussian` — function and variable names are always
   lowercase in this codebase, with no exception for embedded proper nouns (now stated explicitly
   in `docs/Conventions.md`), matching the convention used by NumPy/SciPy/scikit-learn.
+- `PhaseFieldCrystal.evolve_PFC_mechanical_equilibrium`: `Delta_t` parameter renamed to `delta_t`
+  (PEP8 gives no exception for a capitalized local/parameter name). Confirmed first that this
+  quantity is not literally `self.dt` under another name — it's a distinct, coarser interval that
+  the method divides `self.dt` into (`round(Delta_t/self.dt)`) to get a step count — and recorded
+  the resulting `dt`-vs-`delta_t` naming rule in `docs/Conventions.md` before renaming.
+  `NematicLiquidCrystal.calc_dt_psi`'s `delta_t` parameter was already correct under this rule and
+  needed no change.
 
 ### Fixed
 

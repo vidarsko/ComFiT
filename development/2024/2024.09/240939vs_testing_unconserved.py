@@ -29,7 +29,7 @@ pfc.evolve_PFC(100)
 dislocation_nodes = pfc.calc_dislocation_nodes()
 assert len(dislocation_nodes) == 2
 
-pfc.evolve_PFC_mechanical_equilibrium(350,Delta_t=1)
+pfc.evolve_PFC_mechanical_equilibrium(350,delta_t=1)
 
 # Check that the dislocation\s have annihilated
 dislocation_nodes = pfc.calc_dislocation_nodes()

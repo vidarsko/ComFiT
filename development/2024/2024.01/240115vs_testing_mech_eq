@@ -27,7 +27,7 @@ pfc.plot_field(pfc.psi,ax=axs[0],colormap='sunburst',colorbar=False)
 
 # for n in range(50):
 #     print(n)
-pfc.evolve_PFC_mechanical_equilibrium(350,Delta_t=1)
+pfc.evolve_PFC_mechanical_equilibrium(350,delta_t=1)
     # pfc.plot_field(pfc.psi,ax=axs[1],colorbar=False,colormap='sunburst')
     # plt.draw()
     # plt.pause(0.01)

@@ -17,13 +17,6 @@ marked done and left in place.
   who understands the physics to confirm those are the correct descriptive names before it's done
   as a "safe" rename — left alone this pass.
 
-- **`dt`/`delta_t`/`Delta_t` for "time step".** `BaseSystem` sets `self.dt` (default `0.1`) in
-  `base_system_init.py`. `NematicLiquidCrystal` evolvers use a local `delta_t` in places,
-  `PhaseFieldCrystal` evolvers use `Delta_t` (also a PEP8 violation — capitalized local variable) in
-  others. Before renaming, need to check whether these locals are literally `self.dt` under another
-  name or a distinct per-substep quantity (e.g. an RK stage sub-step) — conflating them would be a
-  behavior-relevant mistake, not just a rename.
-
 - **`R_tf` (BoseEinsteinCondensate harmonic trap) vs `trapping_strength` (QuantumMechanics harmonic
   trap).** These parametrize conceptually related harmonic traps differently (radius vs. strength),
   so this is likely not actually the "same quantity" and may not need reconciling at all — noted so
