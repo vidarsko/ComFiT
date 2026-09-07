@@ -378,7 +378,7 @@ class BaseSystemCalc:
         psi : list of numpy.ndarray
             A list of two psi fields.
         psi0 : float, optional
-            The value of psi_0. Default is 1.
+            The value of psi0. Default is 1.
             
         Returns
         -------
@@ -505,18 +505,18 @@ class BaseSystemCalc:
 
                 return [Vx, Vy, Vz]
 
-    def calc_defect_current_density(self, psi, dt_psi, psi_0=0):
+    def calc_defect_current_density(self, psi, dt_psi, psi0=0):
         """Calculates the conserved current of the superfluid density.
-        
+
         Parameters
         ----------
         psi : numpy.ndarray
             The vector field that we find the density of.
         dt_psi : numpy.ndarray
             The time derivative of psi.
-        psi_0 : float or numpy.ndarray, optional
+        psi0 : float or numpy.ndarray, optional
             The equilibrium state. Default is 0.
-        
+
         Returns
         -------
         list of numpy.ndarray
@@ -531,8 +531,8 @@ class BaseSystemCalc:
                 dx_psi1 = sp.fft.ifftn(self.dif[0] * psi_f[1])
                 dy_psi0 = sp.fft.ifftn(self.dif[1] * psi_f[0])
 
-                Jx = -  np.real(dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) / (psi_0 * np.pi)
-                Jy = - np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0) / (psi_0 * np.pi)
+                Jx = -  np.real(dt_psi[0] * dy_psi1 - dt_psi[1] * dy_psi0) / (psi0 * np.pi)
+                Jy = - np.real(-dt_psi[0] * dx_psi1 + dt_psi[1] * dx_psi0) / (psi0 * np.pi)
 
                 return [Jx, Jy]
 

@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 Full documentation can be found here: [https://comfitlib.com/](https://comfitlib.com/).
 
+## [Unreleased] - 2.0.0
+
+A cleanup pass over naming consistency and documentation ahead of 2.0.0. No functional/numerical
+changes are included in this pass — only renames (breaking, since names are part of the public
+API) and documentation fixes. See ISSUES.md for consistency issues identified but deliberately
+deferred (ambiguous naming calls, or changes judged too large/risky for this pass).
+
+### Renamed (breaking)
+
+- `QuantumMechanics.__init__`: `dimension` parameter renamed to `dim`, for consistency with
+  `BoseEinsteinCondensate`, `NematicLiquidCrystal`, and `PhaseFieldCrystal`, which all take `dim`.
+- `NematicLiquidCrystal.calc_disclination_nodes_nem` renamed to `calc_disclination_nodes`, for
+  consistency with `calc_vortex_nodes` (BEC) and `calc_dislocation_nodes` (PFC), neither of which
+  carry a model-specific suffix.
+- `NematicLiquidCrystal.calc_disclination_density_nematic` renamed to `calc_disclination_density`,
+  for the same reason (also removes a second, differently-spelled redundant-suffix convention that
+  coexisted with the `_nem` one above).
+- `NematicLiquidCrystal.conf_active_channel`: `d` parameter renamed to `interface_width`, for
+  consistency with the same concept in `BoseEinsteinCondensate.conf_dissipative_frame`.
+- `BoseEinsteinCondensate.conf_vortex_remover`: `Area` parameter renamed to `area` (lowercase, for
+  consistency with every other parameter name in the codebase; PEP8 also reserves capitalized names
+  for classes).
+- `BoseEinsteinCondensate.evolve_comoving_dGPE`: `velx` parameter renamed to `vel_x`.
+- `BaseSystem.calc_defect_current_density`: `psi_0` parameter renamed to `psi0`, for consistency
+  with the identical equilibrium-amplitude parameter on `calc_defect_density`,
+  `calc_defect_density_singular`, and `calc_delta_function`.
+- `BaseSystem.get_anti_sym`: `omega` parameter renamed to `tensor`, for consistency with the
+  identical parameter on `get_sym`/`get_sym_tl`.
+- `BaseSystem`: internal `_check_if_fourier_and_adjust` renamed to `check_if_fourier_and_adjust`
+  (dropped the leading underscore — it was the only "private" name in the codebase; the codebase
+  does not otherwise use underscore-privacy).
+- `comfit.tool.tool_math_functions`: `levi_civita_symbol` renamed to `tool_levi_civita_symbol`, for
+  consistency with the `tool_` prefix convention used by every other function in `comfit/tool/`.
+- `comfit.tool.tool_plotly_colorbar` (internal helpers): `format_tick_value` and
+  `generate_numbers_between` renamed to `tool_format_tick_value` and `tool_generate_numbers_between`.
+
+### Documentation
+
+- Converted the Google-style (`Args:`/`Returns:`/`Raises:`) docstrings in
+  `BoseEinsteinCondensate` and `NematicLiquidCrystal` (and the nematic
+  `plot_field_velocity_and_director_*` helper files) to the NumPy style mandated by
+  `docs/Conventions.md`, matching the rest of the codebase.
+- Fixed a number of stale/incorrect docstrings that had drifted from the actual signature or
+  behavior: `conf_insert_vortex_filament` (documented a nonexistent `position1`/`position2` pair
+  instead of the real `position`/`charge`), `conf_dissipative_frame` (documented `d` instead of the
+  real `interface_width`), `calc_disclination_nodes` (documented a `'Rotation_vector'` dict key
+  instead of the real `'rotation_vector'`), `NematicLiquidCrystal.__init__` (documented `dimension`
+  instead of the real `dim`).
+- Fixed the `plot_*` return-value docstrings in `PhaseFieldCrystal` (`plot_PFC`,
+  `plot_orientation_field`) that documented the return tuple as `(ax, fig)`; the actual (and
+  documented-elsewhere) convention is `(fig, ax)`.
+- Fixed a systematic `numpy.narray` → `numpy.ndarray` typo (24 instances) in
+  `nematic_liquid_crystal.py`, and normalized "fourier space" → "Fourier space" and
+  "orderparameter" → "order parameter" for consistency with the rest of the codebase.
+- Fixed `docs/ClassBaseSystem.md` (`self.t` → `self.time`, the attribute that actually exists),
+  `docs/TopologicalDefects.md` (`` `defect_note` `` → `` `defect_node` ``), and a handful of other
+  spelling/typo fixes in docstrings and docs pages (`docs/ClassNematicLiquidCrystal.md`, etc.).
+- Added a docstring note to `PhaseFieldCrystal.__init__` clarifying it is not meant to be
+  instantiated directly (users should use one of the six concrete lattice subclasses).
+
 ## [1.9.6] - 2025-04-24
 - Added `calc_coarse_grain` method to the BaseSystem class.
 

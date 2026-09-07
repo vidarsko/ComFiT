@@ -174,7 +174,7 @@ class BaseSystemPlot:
 
         return field, fig, ax, kwargs
     
-    def _check_if_fourier_and_adjust(self, field, **kwargs):
+    def check_if_fourier_and_adjust(self, field, **kwargs):
         """Check if the field is in Fourier space and adjust it if necessary.
 
         Parameters
@@ -265,7 +265,7 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        field, kwargs = self._check_if_fourier_and_adjust(field, **kwargs)  
+        field, kwargs = self.check_if_fourier_and_adjust(field, **kwargs)  
 
         if plot_lib == "plotly":
             return plot_field_plotly(self, field, **kwargs)
@@ -303,7 +303,7 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        complex_field, kwargs = self._check_if_fourier_and_adjust(complex_field, **kwargs)  
+        complex_field, kwargs = self.check_if_fourier_and_adjust(complex_field, **kwargs)  
 
         if plot_lib == "plotly":
             return plot_complex_field_plotly(self, complex_field, **kwargs)
@@ -342,7 +342,7 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        angle_field, kwargs = self._check_if_fourier_and_adjust(angle_field, **kwargs)
+        angle_field, kwargs = self.check_if_fourier_and_adjust(angle_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space angle field plotting not implemented.")
 
@@ -383,7 +383,7 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        vector_field, kwargs = self._check_if_fourier_and_adjust(vector_field, **kwargs)
+        vector_field, kwargs = self.check_if_fourier_and_adjust(vector_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space vector field plotting not implemented.")
 
@@ -429,7 +429,7 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        field, kwargs = self._check_if_fourier_and_adjust(field, **kwargs)
+        field, kwargs = self.check_if_fourier_and_adjust(field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space plot in plane not implemented.")
 
@@ -479,7 +479,7 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        complex_field, kwargs = self._check_if_fourier_and_adjust(complex_field, **kwargs)
+        complex_field, kwargs = self.check_if_fourier_and_adjust(complex_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space complex field plot in plane not implemented.")
 
@@ -530,7 +530,7 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        angle_field, kwargs = self._check_if_fourier_and_adjust(angle_field, **kwargs)
+        angle_field, kwargs = self.check_if_fourier_and_adjust(angle_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space angle field plot in plane not implemented.")
 
@@ -578,7 +578,7 @@ class BaseSystemPlot:
 
         plot_lib = kwargs.get('plot_lib', self.plot_lib)
 
-        vector_field, kwargs = self._check_if_fourier_and_adjust(vector_field, **kwargs)
+        vector_field, kwargs = self.check_if_fourier_and_adjust(vector_field, **kwargs)
         if kwargs['fourier']:
             raise NotImplementedError("Fourier space vector field plot in plane not implemented.")
 

@@ -180,7 +180,7 @@ Below is a prepromt you can use with a language model to help you get started.
     calc_active_force_f
     calc_passive_force_f
     calc_pressure_f
-    calc_disclination_density_nematic
+    calc_disclination_density
     calc_order_and_director
     plot_nodes
 

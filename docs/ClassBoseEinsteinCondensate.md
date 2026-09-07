@@ -249,10 +249,10 @@ $$
 Here, $\gamma_0$ is the bulk dissipation value, $\gamma_{max}$ is the high value in the buffer (often implicitly set, e.g., $\gamma_{max} \approx \gamma_0 + 1$), $d$ is the width of the interface between the bulk and the buffer, and $w_x$ defines the size of the central low-dissipation region along the x-axis. Similar functions define $\gamma_y(y)$ and $\gamma_z(z)$. When $\gamma$ depends on space, the term involving $\gamma \nabla^2 \psi$ can no longer be treated as part of the linear operator $\omega$ and must be handled within the non-linear term calculation. This is managed by the specific evolver:
 
 ```python
-bec.evolve_comoving_dGPE(number_of_steps, velx, method='ETD2RK')
+bec.evolve_comoving_dGPE(number_of_steps, vel_x, method='ETD2RK')
 ```
 
-This evolver assumes the boost (and thus the flow) is in the positive x-direction with speed `velx` and correctly handles the spatially dependent dissipation $\gamma(\mathbf{r})$.
+This evolver assumes the boost (and thus the flow) is in the positive x-direction with speed `vel_x` and correctly handles the spatially dependent dissipation $\gamma(\mathbf{r})$.
 
 [^andersonObservationBoseEinsteinCondensation1995]: Anderson, M. H., Ensher, J. R., Matthews, M. R., Wieman, C. E., & Cornell, E. A. (1995). Observation of Bose-Einstein Condensation in a Dilute Atomic Vapor. Science, 269(5221), 198–201. [https://doi.org/10.1126/science.269.5221.198](https://doi.org/10.1126/science.269.5221.198)
 [^dalfovo1999theory]: Dalfovo, F., Giorgini, S., Pitaevskii, L. P. and Stringari, S. (1999). Theory of Bose-Einstein condensation in trapped gases. Reviews of Modern Physics. 71, 3, 463. [https://doi.org/10.1103/RevModPhys.71.463](https://doi.org/10.1103/RevModPhys.71.463)

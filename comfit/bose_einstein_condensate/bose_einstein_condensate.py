@@ -11,20 +11,24 @@ class BoseEinsteinCondensate(BaseSystem):
     def __init__(self, dim: int, **kwargs):
         """Initializes a system to simulate a Bose-Einstein Condensate using the Gross-Pitaevskii equation.
 
-        Args:
-            dim : int
-                The dimension of the system.
-            kwargs : dict, optional
-                Optional keyword arguments to set additional parameters. see
-                https://comfitlib.com/ClassBoseEinsteinCondensate/
+        Parameters
+        ----------
+        dim : int
+            The dimension of the system.
+        kwargs : dict, optional
+            Optional keyword arguments to set additional parameters. see
+            https://comfitlib.com/ClassBoseEinsteinCondensate/
 
-        Returns:
-            The system object representing the BoseEinsteinCondensate simulation. BoseEinsteinCondensate object
+        Returns
+        -------
+        BoseEinsteinCondensate
+            The system object representing the BoseEinsteinCondensate simulation.
 
-        Example:
-            bec = BoseEinsteinCondensate(3,xRes=101,yRes=101,zRes=101, gamma=0.5)
-            Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101 in all directions.
-            The dissipative factor gamma is set to 0.5.
+        Examples
+        --------
+        >>> bec = BoseEinsteinCondensate(3,xRes=101,yRes=101,zRes=101, gamma=0.5)
+        Creates a BoseEinsteinCondensate system with 3 dimensions and a spatial resolution of 101 in all directions.
+        The dissipative factor gamma is set to 0.5.
         """
 
         # First initialize the BaseSystem class
@@ -47,10 +51,9 @@ class BoseEinsteinCondensate(BaseSystem):
     def __str__(self) -> str:
         """Output a string representation of the system.
 
-        Args:
-            None
-
-        Returns:
+        Returns
+        -------
+        str
             A string representation of the system.
         """
         return f"ComFiT object: BoseEinsteinCondensate\n \
@@ -58,12 +61,16 @@ class BoseEinsteinCondensate(BaseSystem):
 
     # CONFIGURATION FUNCTIONS
     def conf_initial_condition_disordered(self, noise_strength: float = 0.01) -> np.ndarray:
-        """Sets disordered initial condition for the BoseEinsteinCondensate with some thermal flcutiations
-        
-        Args:
-            noise_strength: the strength of the noise
+        """Sets disordered initial condition for the BoseEinsteinCondensate with some thermal fluctuations
 
-        Returns:
+        Parameters
+        ----------
+        noise_strength : float
+            the strength of the noise
+
+        Returns
+        -------
+        None
             Sets the value of self.psi and self.psi_f
         """
 
@@ -87,11 +94,16 @@ class BoseEinsteinCondensate(BaseSystem):
     def conf_external_potential(self, V_ext: Union[Callable, float], additive: bool = False) -> None:
         """Sets the external potential of the system.
 
-        Args:
-            V_ext (function or float): the external potential
-            additive (bool, optional): whether to add the new potential to the existing potential or not
+        Parameters
+        ----------
+        V_ext : function or float
+            the external potential
+        additive : bool, optional
+            whether to add the new potential to the existing potential or not
 
-        Returns:
+        Returns
+        -------
+        None
             Modifies the value of self.V_ext
         """
 
@@ -109,12 +121,11 @@ class BoseEinsteinCondensate(BaseSystem):
     def conf_initial_condition_Thomas_Fermi(self) -> None:
         """Finds the Thomas_Fermi ground state.
 
-        Must be precided by an energy relaxation to find the true ground state
+        Must be preceded by an energy relaxation to find the true ground state
 
-        Args:
-            None
-        
-        Returns: 
+        Returns
+        -------
+        None
             Sets the value of self.psi and self.psi_f
         """
         V_0 = np.zeros(self.dims) + self.V_ext(self.time)
@@ -127,11 +138,16 @@ class BoseEinsteinCondensate(BaseSystem):
     def conf_insert_vortex(self, charge: int = 1, position: Optional[list[float]] = None):
         """Sets the initial condition for a vortex dipole
 
-        Args:
-            charge (int): the charge of the vortex
-            position (list): the position of the vortex
+        Parameters
+        ----------
+        charge : int
+            the charge of the vortex
+        position : list
+            the position of the vortex
 
-        Returns:
+        Returns
+        -------
+        None
             Modifies the value of self.psi and self.psi_f
         """
         if not (self.dim == 2):
@@ -153,14 +169,15 @@ class BoseEinsteinCondensate(BaseSystem):
     ):
         """Sets the initial condition for a vortex dipole configuration in a 2-dimensional system.
 
-        Args:
-            None
-
-        Returns:
+        Returns
+        -------
+        None
             Modifies the value of self.psi and self.psi_f
 
-        Raises:
-            Exception: If the dimension of the system is not 2.
+        Raises
+        ------
+        Exception
+            If the dimension of the system is not 2.
         """
         if not (self.dim == 2):
             raise Exception("The dimension of the system must be 2 for a vortex dipole configuration.")
@@ -182,13 +199,19 @@ class BoseEinsteinCondensate(BaseSystem):
             position = None,
             charge = None
     ) -> None:
-        """ Insert a pair of vortex lines into the condensate. The vortex lines are asumed to be elongated along the z-axis.
-        Args:
-            optional:
-                position1: the position in the xy-plane of the first vortex filament (vector)
-                position2: the position in the xy-plane of the seconf vortex filament (vector)
-        :returns
-        Modifies the value of self.psi and self.psi_f
+        """ Insert a vortex line into the condensate. The vortex line is assumed to be elongated along the z-axis.
+
+        Parameters
+        ----------
+        position : array_like, optional
+            the position in the xy-plane of the vortex filament (vector)
+        charge : int, optional
+            the charge of the vortex filament
+
+        Returns
+        -------
+        None
+            Modifies the value of self.psi and self.psi_f
         """
 
         if not (self.dim == 3):
@@ -215,13 +238,19 @@ class BoseEinsteinCondensate(BaseSystem):
         normal_vector: list[float] = [0, 0, 1]
     ) -> None:
         """Sets the initial condition for a vortex ring configuration in a 3-dimensional system
-        
-        Args:
-            position: the position of the vortex ring (list)
-            radius: the radius of the vortex ring (float)
-            normal_vector: the normal vector of the vortex ring (list)
-        
-        Returns:
+
+        Parameters
+        ----------
+        position : list, optional
+            the position of the vortex ring
+        radius : float, optional
+            the radius of the vortex ring
+        normal_vector : list, optional
+            the normal vector of the vortex ring
+
+        Returns
+        -------
+        None
             Modifies the value of self.psi and self.psi_f
         """
         if not (self.dim == 3):
@@ -241,24 +270,29 @@ class BoseEinsteinCondensate(BaseSystem):
         self.psi = self.psi * np.exp(1j * theta)
         self.psi_f = sp.fft.fftn(self.psi)
 
-    def conf_vortex_remover(self, nodes: list[dict], Area: list[float]) -> None:
+    def conf_vortex_remover(self, nodes: list[dict], area: list[float]) -> None:
         '''Removes vortices
-        
+
         Function that finds and removes vortices outside of the area defined by the corners
         (x1,y1), (x1,y2), (x2,y1), (x2,y2)
 
-        Args:
-            nodes (list) a list containing the vortices
-            Area  (array) list on the format (x1,x2,y1,y2)
+        Parameters
+        ----------
+        nodes : list
+            a list containing the vortices
+        area : array
+            list on the format (x1,x2,y1,y2)
 
-        Returns:
+        Returns
+        -------
+        None
             Modifies the value of self.psi and self.psi_f
         '''
         for vortex in nodes:
             x_coord = vortex['position'][0]
             y_coord = vortex['position'][1]
-            if not (Area[0] < x_coord and x_coord < Area[1] \
-                    and Area[2] < y_coord and y_coord < Area[3]):
+            if not (area[0] < x_coord and x_coord < area[1] \
+                    and area[2] < y_coord and y_coord < area[3]):
                 self.conf_insert_vortex(charge=-1 * vortex['charge'], position=[x_coord + self.dx, y_coord])
                 # self.conf_insert_vortex(charge=vortex['charge'], position=[7, 0])
 
@@ -271,14 +305,21 @@ class BoseEinsteinCondensate(BaseSystem):
 
         This function sets self.gamma so that it has a low value in the bulk and a large value near the edges.
         This sets a dissipative frame around the computational domain
-        
-        Args:
-            d: length of the interface between the low gamma and high gamma regions (float)
-            frame_width_x: distance fom center to the frame in x-direction (float)
-            frame_width_y:    -- " --                         y-direction (float)
-            frame_width_z:     -- " --                         z-direction (float)
 
-        Returns:
+        Parameters
+        ----------
+        interface_width : float
+            length of the interface between the low gamma and high gamma regions
+        frame_width_x : float
+            distance fom center to the frame in x-direction
+        frame_width_y : float
+            -- " --                         y-direction
+        frame_width_z : float
+            -- " --                         z-direction
+
+        Returns
+        -------
+        None
             modify self.gamma
         '''
 
@@ -313,12 +354,17 @@ class BoseEinsteinCondensate(BaseSystem):
     # Time evolution
     def evolve_dGPE(self, number_of_steps: int , method: str = 'ETD2RK') -> None:
         '''Evolver for the dGPE.
-        
-        Args:
-            number_of_steps: the number of time steps that we are evolving the equation  (int)
-            method: the integration method we want to use. ETD2RK is sett as default  (string, optional)
-        
-        Returns:
+
+        Parameters
+        ----------
+        number_of_steps : int
+            the number of time steps that we are evolving the equation
+        method : string, optional
+            the integration method we want to use. ETD2RK is sett as default
+
+        Returns
+        -------
+        None
             Updates the self.psi and self.psi_f
        '''
 
@@ -334,12 +380,17 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def evolve_relax(self, number_of_steps: int, method: str = 'ETD2RK') -> None:
         '''Evolver for the dGPE in imaginary time that relax the equation closer to the ground state
-        
-        Args:
-            number_of_steps: the number of time steps that we are evolving the equation (int)
-            method: the integration method we want to use. ETD2RK is sett as default (string)
-        
-        Returns:
+
+        Parameters
+        ----------
+        number_of_steps : int
+            the number of time steps that we are evolving the equation
+        method : string
+            the integration method we want to use. ETD2RK is sett as default
+
+        Returns
+        -------
+        None
             Updates the self.psi and self.psi_f
         '''
         temp_t = self.time
@@ -359,22 +410,28 @@ class BoseEinsteinCondensate(BaseSystem):
         
         self.conf_external_potential(temp_V)
 
-    def evolve_comoving_dGPE(self, number_of_steps: int, velx: float, method: str = 'ETD2RK') -> None:
+    def evolve_comoving_dGPE(self, number_of_steps: int, vel_x: float, method: str = 'ETD2RK') -> None:
         '''Evolver for the dGPE in the comoving frame.
 
         This evolver assume that the stirring is in the x-direction and that gamma is spatialy dependent
-        
-        Args:
-            number_of_steps: the number of time steps that we are evolving the equation (int)
-            velx: velocity in x direction (float) 
-            method: the integration method we want to use. ETD2RK is sett as default (string)
-        
-        Returns:
+
+        Parameters
+        ----------
+        number_of_steps : int
+            the number of time steps that we are evolving the equation
+        vel_x : float
+            velocity in x direction
+        method : string
+            the integration method we want to use. ETD2RK is sett as default
+
+        Returns
+        -------
+        None
             Updates the fields self.psi and self.psi_f
         '''
         k2 = self.calc_k2()
 
-        omega_f = (1j) * (1 - 1 / 2 * k2) + velx * self.dif[0]
+        omega_f = (1j) * (1 - 1 / 2 * k2) + vel_x * self.dif[0]
 
         if method == 'ETD2RK':
             integrating_factors_f = self.calc_evolution_integrating_factors_ETD2RK(omega_f)
@@ -393,12 +450,16 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def calc_nonlinear_evolution_function_f(self, psi: np.ndarray, t) -> np.ndarray:
         """Calculates the non-linear evolution term of the dGPE
-        
-        Args:
-            psi: the wavefunction at a given time. (numpy.ndarray)
-        
-        Returns:
-            The non-linear evolution term (numpy.ndarray)
+
+        Parameters
+        ----------
+        psi : numpy.ndarray
+            the wavefunction at a given time.
+
+        Returns
+        -------
+        numpy.ndarray
+            The non-linear evolution term
         """
         
         psi2 = np.abs(psi) ** 2
@@ -408,12 +469,16 @@ class BoseEinsteinCondensate(BaseSystem):
         """Calculates the non-linear evolution term of the dGPE when gamma is not a constant.
 
         Relevant for example in the comoving frame when we have a dissipative frame around the edge.
-        
-        Args:
-            psi: the wavefunction at a given time. (numpy.ndarray)
-        
-        Returns:
-            the non-linear evolution term (numpy.ndarray)
+
+        Parameters
+        ----------
+        psi : numpy.ndarray
+            the wavefunction at a given time.
+
+        Returns
+        -------
+        numpy.ndarray
+            the non-linear evolution term
         """
         psi2 = np.abs(psi) ** 2
         term1 = sp.fft.fftn(-(1j + self.gamma) * (self.V_ext(t) + psi2) * psi)
@@ -426,11 +491,10 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_superfluid_current(self) -> np.ndarray:
         """Calculates the superfluid current
 
-        Args:
-            None
-        
-        Returns:
-            The superfluid current (numpy.ndarray) 
+        Returns
+        -------
+        numpy.ndarray
+            The superfluid current
         """
         if self.dim == 2:
             J_s = np.zeros((self.dim,self.xRes,self.yRes))
@@ -444,12 +508,11 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def calc_velocity(self) -> np.ndarray:
         """Calculates the weighted velocity field
-        
-        Args:
-            None
 
-        Returns:
-            The weighted velocity field (numpy.ndarray) 
+        Returns
+        -------
+        numpy.ndarray
+            The weighted velocity field
         """
         if self.dim == 2:
             u = np.zeros((self.dim, self.xRes, self.yRes))
@@ -465,11 +528,10 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_kinetic_energy(self) -> float:
         """Calculates the kinetic energy.
 
-        Args:
-            None
-
-        Returns:
-            The kinetic energy (float) 
+        Returns
+        -------
+        float
+            The kinetic energy
         """
         u = self.calc_velocity()
         u2 = np.sum(u[i]**2 for i in range(self.dim))
@@ -479,11 +541,10 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_hamiltonian_density(self) -> np.ndarray:
         """Calculates the hamiltonian density
 
-        Args:
-            None
-
-        Returns:
-            The hamiltonian density (numpy.ndarray) 
+        Returns
+        -------
+        numpy.ndarray
+            The hamiltonian density
         """
         k2 = self.calc_k2()
         interaction_term = 1/2*np.abs(self.psi)**4
@@ -494,10 +555,9 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_hamiltonian(self) -> float:
         """Function that calculates the Hamiltonian
 
-        Args:
-            None
-
-        Returns:
+        Returns
+        -------
+        float
             The Hamiltonian
         """
         H = self.calc_hamiltonian_density()
@@ -505,11 +565,15 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def calc_harmonic_potential(self, R_tf: float) -> np.ndarray:
         """Calculates a harmonic trap with R_tf being the Thomas-Fermi radius
-        
-        Args:
-            R_tf (float): The Thomas-Fermi radius
-        
-        Returns:
+
+        Parameters
+        ----------
+        R_tf : float
+            The Thomas-Fermi radius
+
+        Returns
+        -------
+        numpy.ndarray
             A harmonic potential
         """
         trapping_strength = 1 / (R_tf ** 2)
@@ -525,12 +589,11 @@ class BoseEinsteinCondensate(BaseSystem):
 
     def calc_force_on_external_potential(self) -> np.ndarray: 
         """Calculates the average force acting on the external potential.
-        
-        Args:
-            None
-        
-        Returns:
-            Average force on the potential (numpy.ndarray) 
+
+        Returns
+        -------
+        numpy.ndarray
+            Average force on the potential
         """
         Force =np.zeros(self.dim)
         potential_f = sp.fft.ifftn(self.V_ext(self.time))
@@ -546,11 +609,15 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_vortex_density(self, psi: Optional[np.ndarray] = None) -> np.ndarray:
         """Calculates the vortex density of the system.
 
-        Args:
-            psi: The wavefunction of the system. (numpy.ndarray)
-        
-        Returns:
-            The vortex density of the system. numpy.ndarray
+        Parameters
+        ----------
+        psi : numpy.ndarray, optional
+            The wavefunction of the system.
+
+        Returns
+        -------
+        numpy.ndarray
+            The vortex density of the system.
         """
         if psi is None:
             psi = self.psi
@@ -560,11 +627,10 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_vortex_density_singular(self) -> np.ndarray:
         """Calculates the vortex density of the system using the singular method.
 
-        Args:
-            None
-        
-        Returns:
-            The vortex density of the system. (numpy.ndarray)
+        Returns
+        -------
+        numpy.ndarray
+            The vortex density of the system.
         """
         # TODO: Insert the correct value of the equilibrium of psi, based on theory (Vidar 03.12.23)
         return self.calc_defect_density([np.real(self.psi), np.imag(self.psi)])
@@ -572,12 +638,17 @@ class BoseEinsteinCondensate(BaseSystem):
     def calc_vortex_velocity_field(self, dt_psi: np.ndarray, psi: Optional[np.ndarray] = None) -> np.ndarray:
         """Calculates the vortex velocity field of the system.
 
-        Args:
-            dt_psi: The time derivative of the wavefunction of the system. (numpy.ndarray)
-            psi: The wavefunction of the system. (numpy.ndarray)
+        Parameters
+        ----------
+        dt_psi : numpy.ndarray
+            The time derivative of the wavefunction of the system.
+        psi : numpy.ndarray, optional
+            The wavefunction of the system.
 
-        Returns:
-            The vortex velocity field of the system. numpy.ndarray: 
+        Returns
+        -------
+        numpy.ndarray
+            The vortex velocity field of the system.
         """
         if psi is None:
             psi = self.psi
@@ -589,10 +660,14 @@ class BoseEinsteinCondensate(BaseSystem):
         """
         Calculate the positions and charges of vortex nodes based on the defect density.
 
-        Args:
-            dt_psi: The time derivative of the wavefunction of the system.     (numpy.ndarray)
-    
-        Returns:
+        Parameters
+        ----------
+        dt_psi : numpy.ndarray, optional
+            The time derivative of the wavefunction of the system.
+
+        Returns
+        -------
+        list of dict
             List of dictionaries representing the vortex nodes. Each dictionary contains the following keys:
                   - 'position_index': The position index of the vortex node in the defect density array.
                   - 'charge': The charge of the vortex node.

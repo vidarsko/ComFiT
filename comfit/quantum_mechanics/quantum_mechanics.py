@@ -10,18 +10,18 @@ from comfit.core import BaseSystem
 from comfit.tool import tool_colormap
 
 class QuantumMechanics(BaseSystem):
-    def __init__(self : 'QuantumMechanics', 
-            dimension: int, 
+    def __init__(self : 'QuantumMechanics',
+            dim: int,
             **kwargs: Dict[str, Any]
             ) -> None:
-        """Initializes a quamtum mechanics system evolving according to the Schrödinger equation
+        """Initializes a quantum mechanics system evolving according to the Schrödinger equation
 
         Parameters
         ----------
-        dimension : int
+        dim : int
             The dimension of the system.
         kwargs : dict, optional
-            Optional keyword arguments to set additional parameters. 
+            Optional keyword arguments to set additional parameters.
             See https://comfitlib.com/ClassBaseSystem/.
 
         Examples
@@ -31,7 +31,7 @@ class QuantumMechanics(BaseSystem):
         """
 
         # First initialize the BaseSystem class
-        super().__init__(dimension, **kwargs)
+        super().__init__(dim, **kwargs)
 
         # Type of the system
         self.psi = None

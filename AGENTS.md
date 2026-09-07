@@ -6,6 +6,16 @@ crystal, active nematics, etc.), used by researchers to produce results they
 publish on. Correctness of numerics is the top priority — more important than
 style, coverage of edge cases, or speed of changes.
 
+## Tracking cleanup work
+
+A naming-consistency/documentation cleanup pass is underway ahead of/around the 2.0.0 release
+(no functional changes — renames and doc fixes only, since names are part of the public API and
+this is a major-version bump). Record every such change in `CHANGELOG.md` under the `[Unreleased]
+- 2.0.0` heading as you make it. If you spot a naming/documentation inconsistency that needs a
+judgment call, more testing, or touches too much surface area to fix in passing, add it to
+`ISSUES.md` instead of guessing — don't leave it undocumented. Keep this file's per-model method
+lists (below) in sync with any renames you make.
+
 ## Coding style
 
 Follow `docs/Conventions.md`: PEP8, NumPy-style docstrings (a template for
@@ -118,10 +128,9 @@ the grid and provides shared calc/plot machinery but has no dynamics or
 `conf_*` methods of its own (`BaseSystemConf` is literally empty — all
 `conf_*` methods live on the model subclasses). Four models inherit from it:
 `QuantumMechanics`, `BoseEinsteinCondensate`, `NematicLiquidCrystal`,
-`PhaseFieldCrystal`. Constructor signatures are **not uniform**:
-`BoseEinsteinCondensate(dim, **kwargs)` and `NematicLiquidCrystal(dim,
-**kwargs)` take `dim` first; `QuantumMechanics(dimension, **kwargs)` names
-the same argument `dimension` instead. `PhaseFieldCrystal` itself is not
+`PhaseFieldCrystal`. All four take `dim` as the first constructor argument
+(as of 2.0.0 — before that, `QuantumMechanics` alone named it `dimension`;
+see CHANGELOG.md). `PhaseFieldCrystal` itself is not
 meant to be instantiated directly — users instantiate one of six concrete
 subclasses exported from `comfit/__init__.py`
 (`PhaseFieldCrystal1DPeriodic(nx, **kwargs)`,
@@ -217,9 +226,9 @@ Animations: loop evolve + plot + `self.plot_save(fig, n)`, then
   `conf_initial_condition_ordered`, `conf_insert_disclination_dipole`,
   `conf_initial_disclination_lines`, `conf_active_channel`, `conf_velocity`,
   `calc_active_force_f`, `calc_passive_force_f`, `calc_pressure_f`,
-  `calc_disclination_density_nematic`, `calc_order_and_director`,
-  `calc_disclination_nodes_nem` (note the `_nem` suffix — not
-  `calc_disclination_nodes`).
+  `calc_disclination_density`, `calc_order_and_director`,
+  `calc_disclination_nodes` (as of 2.0.0 — before that, these carried
+  redundant `_nematic`/`_nem` model suffixes; see CHANGELOG.md).
 - `PhaseFieldCrystal` (base, shared by all six lattice subclasses): field
   `psi` is a real scalar representing crystalline density, evolved via
   `evolve_PFC`; `conf_PFC_from_amplitudes`/`calc_PFC_from_amplitudes`,

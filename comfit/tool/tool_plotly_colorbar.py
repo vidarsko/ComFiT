@@ -13,7 +13,7 @@ superscripts = {'0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
                 '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹',
                 '-': '⁻'}
 
-def format_tick_value(
+def tool_format_tick_value(
     val: float
     ) -> str:
     """Format a numeric value with appropriate SI prefix and significant figures.
@@ -62,7 +62,7 @@ def format_tick_value(
 
 
 
-def generate_numbers_between(
+def tool_generate_numbers_between(
         cmin: float, 
         cmax: float
         ) -> Tuple[np.ndarray, float]:
@@ -117,7 +117,7 @@ def generate_numbers_between(
     reiterated = False
     if number_of_steps < 1:
         cmid = (cmin + cmax) / 2
-        numbers_between, delta_exp, reiterated = generate_numbers_between(cmin-cmid, cmax-cmid)
+        numbers_between, delta_exp, reiterated = tool_generate_numbers_between(cmin-cmid, cmax-cmid)
         reiterated = True
 
     elif number_of_steps <= 5:
@@ -176,7 +176,7 @@ def tool_plotly_colorbar(
         cmin = ax['vmin']
         cmax = ax['vmax']
 
-        numbers_between = generate_numbers_between(cmin, cmax)
+        numbers_between = tool_generate_numbers_between(cmin, cmax)
 
         tickvals, delta_exp, reiterated = numbers_between
         ticktext = [round(tickval/10**delta_exp) for tickval in tickvals]
@@ -192,7 +192,7 @@ def tool_plotly_colorbar(
             title='×10' + ''.join([superscripts[digit] for digit in str(int(delta_exp))])
         
         # tickvals = np.linspace(cmin, cmax, 7)
-        # ticktext = [format_tick_value(val) for val in tickvals]
+        # ticktext = [tool_format_tick_value(val) for val in tickvals]
 
     elif type == 'angle':
         title=None

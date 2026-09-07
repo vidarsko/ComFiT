@@ -11,14 +11,21 @@ from comfit.plot.plot_field_plotly import plot_field_plotly
 def plot_field_velocity_and_director_plotly(self, field, velocity, director, **kwargs):
     """Plot the fields, velocity, and director field in 2 dimensions using Plotly.
 
-    Args:
-        field (ndarray): The field to be plotted.
-        velocity (ndarray): The velocity to be plotted.
-        director (ndarray): The director to be plotted.
-        **kwargs: Keyword arguments for the plot.
+    Parameters
+    ----------
+    field : ndarray
+        The field to be plotted.
+    velocity : ndarray
+        The velocity to be plotted.
+    director : ndarray
+        The director to be plotted.
+    **kwargs : Any
+        Keyword arguments for the plot.
 
-    Returns:
-        The plotly figure (go.Figure).
+    Returns
+    -------
+    go.Figure
+        The plotly figure.
     """
     if field.dtype == bool:
         field = field.astype(float)

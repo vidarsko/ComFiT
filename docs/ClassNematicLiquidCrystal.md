@@ -79,7 +79,7 @@ This returns the element $Q_{ij}$ of a symmetric and traceless tensor
 field. In addition to this we also have the function
 
 ```python
-get_anti_sym(self,omega,i,j)
+get_anti_sym(self,tensor,i,j)
 ```
 
 so that we can optimally store the antisymetric tensors as well. In two
@@ -99,8 +99,8 @@ This is taken care of in the function
 calc_order_and_director(self)
 ```
 
-Wich returns `S, n`, where `n` is the director field.
-Note that a nematic liquid crystall can be biaxial and given as
+Which returns `S, n`, where `n` is the director field.
+Note that a nematic liquid crystal can be biaxial and given as
 
 $$
 Q_{ij} = S (n_i n_j - \frac{1}{3} \delta_{ij}) + P (m_i m_j -l_i l_j)
@@ -317,7 +317,7 @@ $\pm 1/2$ defects, which are depicted below.
 For tracing the defect nodes one can use the function
 
 ```python
-calc_disclination_nodes_nem(self, dt_Q=None,polarization = None)
+calc_disclination_nodes(self, dt_Q=None,polarization = None)
 ```
 
 If `dt_Q` is given this finds the defects velocity and if `polarization` is given the polarization of the $+1/2$ defects are
@@ -390,7 +390,7 @@ This simple channel with the activity $\alpha_0$ inside and $\alpha = 0$
 outside is included as the function
 
 ```python
-conf_active_channel(self,width,d=7)
+conf_active_channel(self,width,interface_width=7)
 ```
 
 Which sets the activity to
@@ -494,7 +494,7 @@ $$
 This fiel is found by the function 
 
 ```python
-calc_disclination_density_nematic(self)
+calc_disclination_density(self)
 ```
 which returns a tensorfield in three dimensions and a scalar field ($\rho_{33}$) in two. 
 Since we have tensor in three dimenstions, the story is more complicated than usual. 

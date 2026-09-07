@@ -65,7 +65,7 @@ class TestNematicLiquidCrystal(unittest.TestCase):
             dipole_position=nem.rmid)
         nem.evolve_nematic_no_flow(10)
         nem.evolve_nematic(1)
-        Dnodes = nem.calc_disclination_nodes_nem()
+        Dnodes = nem.calc_disclination_nodes()
 
         self.assertEqual(len(Dnodes), 2, "Dipole nodes not found")
 

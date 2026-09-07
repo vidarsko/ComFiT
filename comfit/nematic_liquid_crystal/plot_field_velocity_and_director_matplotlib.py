@@ -6,21 +6,30 @@ from comfit.tool.tool_set_plot_axis_properties_matplotlib import tool_set_plot_a
 def plot_field_velocity_and_director_matplotlib(self, field, velocity, director, **kwargs):
     """Plot the fields, velocity, and director field in 2 dimensions
 
-    Args:
-        field (ndarray): The field to be plotted.
-        velocity (ndarray): The velocity to be plotted.
-        director (ndarray): The director to be plotted.
-        **kwargs: Keyword arguments for the plot.
-            See https://comfitlib.com/ClassBaseSystem/
-            for a full list of keyword arguments.
+    Parameters
+    ----------
+    field : ndarray
+        The field to be plotted.
+    velocity : ndarray
+        The velocity to be plotted.
+    director : ndarray
+        The director to be plotted.
+    **kwargs : Any
+        Keyword arguments for the plot.
+        See https://comfitlib.com/ClassBaseSystem/
+        for a full list of keyword arguments.
 
-    Returns:
+    Returns
+    -------
+    tuple
         A tuple consisting of
             - The figure
-            - The axes with the plotted field, velocity, and director. ax (Axes)
+            - The axes with the plotted field, velocity, and director.
 
-    Raises:
-        Exception: If the dimension is other than 2.
+    Raises
+    ------
+    Exception
+        If the dimension is other than 2.
     """
     if field.dtype == bool:
         field = field.astype(float)

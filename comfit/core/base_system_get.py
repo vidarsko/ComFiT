@@ -66,18 +66,18 @@ class BaseSystemGet:
             elif i == 2:
                 return tensor[2] if j == 0 else tensor[4] if j == 1 else -(tensor[0] + tensor[3])
 
-    def get_anti_sym(self, omega: np.ndarray, i: int, j: int) -> np.ndarray:
+    def get_anti_sym(self, tensor: np.ndarray, i: int, j: int) -> np.ndarray:
         """Gets the i,j component of an anti-symmetric tensor saved in an array structure.
 
         Parameters
         ----------
-        omega : numpy.ndarray
+        tensor : numpy.ndarray
             The anti-symmetric tensor.
         i : int
             The row index.
         j : int
             The column index.
-        
+
         Returns
         -------
         numpy.ndarray
@@ -87,9 +87,9 @@ class BaseSystemGet:
         if self.dim == 2:
             if i==j:
                 return 0
-            return (-1)**i *omega
+            return (-1)**i *tensor
         elif self.dim ==3:
             if i ==j:
                 return 0
             else:
-                return np.sign(j-i)*omega[i+j-1]
+                return np.sign(j-i)*tensor[i+j-1]

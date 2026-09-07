@@ -28,20 +28,20 @@ def tool_multinom(
         prod = np.prod([factorial(count) for count in counts.values()])
         return 1 / prod
 
-def levi_civita_symbol(i, j, k):
+def tool_levi_civita_symbol(i, j, k):
     """Calculate the Levi-Civita symbol (antisymmetric tensor).
 
     The Levi-Civita symbol is defined as:
         1 if (i,j,k) is an even permutation of (0,1,2)
         -1 if (i,j,k) is an odd permutation of (0,1,2)
         0 if any indices are repeated or not in {0,1,2}
-    
+
     Parameters
     ----------
     i : int
         First index
     j : int
-        Second index  
+        Second index
     k : int
         Third index
 
@@ -52,11 +52,11 @@ def levi_civita_symbol(i, j, k):
 
     Examples
     --------
-    >>> levi_civita_symbol(0,1,2)
+    >>> tool_levi_civita_symbol(0,1,2)
     1
-    >>> levi_civita_symbol(1,0,2) 
+    >>> tool_levi_civita_symbol(1,0,2)
     -1
-    >>> levi_civita_symbol(0,0,1)
+    >>> tool_levi_civita_symbol(0,0,1)
     0
     """
     if {i, j, k} != {0, 1, 2}:

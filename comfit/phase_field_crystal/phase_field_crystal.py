@@ -19,9 +19,12 @@ class PhaseFieldCrystal(BaseSystem):
     def __init__(self, dim, **kwargs):
         """
         Initializes a system to simulate a Phase Field Crystal.
-        
+
         This class is the base of the other phase field crystal models implemented in comfit.
-        
+        Not meant to be instantiated directly — use one of the concrete lattice subclasses
+        (e.g. `PhaseFieldCrystal2DTriangular`), which take unit-cell counts (`nx`, `ny`, ...)
+        instead of `dim` and derive the grid from the crystal lattice.
+
         Parameters
         ----------
         dim : int
@@ -1693,10 +1696,9 @@ class PhaseFieldCrystal(BaseSystem):
     def calc_orientation_field(self):
         """Calculates the orientation field of the phase-field crystal.
 
-        Args:
-            None
-        
-        Returns:
+        Returns
+        -------
+        numpy.ndarray
             An orientation field, which is a vector field specifying the orientation of the crystal.
         """
 
@@ -1832,7 +1834,7 @@ class PhaseFieldCrystal(BaseSystem):
         Returns
         -------
         tuple
-            A tuple containing (ax, fig), the axes and figure containing the plot.
+            A tuple containing (fig, ax), the figure and axes containing the plot.
         """
         
         PFC_is_distorted = True if hasattr(self, 'bool_is_shear_distorted') and self.bool_is_shear_distorted else False
@@ -1858,7 +1860,7 @@ class PhaseFieldCrystal(BaseSystem):
         Returns
         -------
         tuple
-            A tuple containing (ax, fig), the axes and figure containing the plot.
+            A tuple containing (fig, ax), the figure and axes containing the plot.
         """
         PFC_has_velocity_field = hasattr(self, 'bool_has_velocity_field') and self.bool_has_velocity_field
 
@@ -1881,7 +1883,7 @@ class PhaseFieldCrystal(BaseSystem):
         Returns
         -------
         tuple
-            A tuple containing (ax, fig), the axes and figure containing the plot.
+            A tuple containing (fig, ax), the figure and axes containing the plot.
         """
 
         if orientation_field is None:
