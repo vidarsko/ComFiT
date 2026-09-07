@@ -14,8 +14,8 @@ import plotly.graph_objects as go
 
 # Local application imports
 from comfit.tool import (
-    tool_matplotlib_define_3D_plot_ax,
-    tool_plotly_define_3D_plot_ax,
+    tool_matplotlib_define_3d_plot_ax,
+    tool_plotly_define_3d_plot_ax,
     tool_set_plot_axis_properties_matplotlib,
     tool_set_plot_axis_properties_plotly,
     tool_plotly_colorbar
@@ -164,7 +164,7 @@ def plot_vector_field_in_plane_both_plot_libs(
 
     if plot_lib == "plotly":
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
+        ax = tool_plotly_define_3d_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
         ax['vmin'] = kwargs.get('vmin', 0)
         ax['vmax'] = kwargs.get('vmax', np.max(max_vector))
@@ -199,7 +199,7 @@ def plot_vector_field_in_plane_both_plot_libs(
 
     elif plot_lib == "matplotlib":
         
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
         ax.quiver(x, y, z, U_verts, V_verts, W_verts, color='blue')

@@ -10,18 +10,6 @@ marked done and left in place.
 
 ## Naming — needs a decision, not just an obvious fix
 
-- **`2D`/`3D` vs `2d`/`3d` casing split.** `comfit/tool/` uses uppercase in both filenames and
-  function names for six files: `tool_add_spacing_2D.py`/`tool_add_spacing_3D.py`,
-  `tool_matplotlib_define_2D_plot_ax.py`/`_3D_plot_ax.py`,
-  `tool_plotly_define_2D_plot_ax.py`/`_3D_plot_ax.py`. `comfit/phase_field_crystal/` uses
-  lowercase in its six lattice-subclass filenames (`phase_field_crystal_2d_square.py`, etc.).
-  These six `tool_*` functions are also part of the public API (re-exported from
-  `comfit/__init__.py`) and used at ~80 call sites across `comfit/plot/`,
-  `comfit/nematic_liquid_crystal/`, and `comfit/core/base_system_plot.py`. Renaming is mechanical
-  but touches a lot of surface area for a purely cosmetic call; needs a decision on which casing
-  wins before it's worth doing as one coordinated change (files + `__init__.py` exports + every
-  call site + docs).
-
 - **`Gaussian`/`Thomas_Fermi` vs `ordered`/`disordered` capitalization.** Method names like
   `conf_initial_condition_Gaussian`, `conf_initial_condition_Thomas_Fermi`, `calc_Gaussian_filter_f`,
   `calc_Gaussian` capitalize the embedded distribution name, while `conf_initial_condition_ordered`,

@@ -38,6 +38,11 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
   consistency with the `tool_` prefix convention used by every other function in `comfit/tool/`.
 - `comfit.tool.tool_plotly_colorbar` (internal helpers): `format_tick_value` and
   `generate_numbers_between` renamed to `tool_format_tick_value` and `tool_generate_numbers_between`.
+- `comfit.tool`: `tool_add_spacing_2D`/`tool_add_spacing_3D`, `tool_matplotlib_define_2D_plot_ax`/
+  `_3D_plot_ax`, and `tool_plotly_define_2D_plot_ax`/`_3D_plot_ax` (and their files) renamed to
+  lowercase `2d`/`3d`, per PEP8's lowercase module/function naming convention (now stated
+  explicitly in `docs/Conventions.md`) and for consistency with `comfit/phase_field_crystal/`'s
+  existing lowercase `2d`/`3d` file naming.
 
 ### Documentation
 

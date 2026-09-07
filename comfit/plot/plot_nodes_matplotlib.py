@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from comfit.tool import (
     tool_set_plot_axis_properties_matplotlib,
     tool_extract_node_arrays,
-tool_matplotlib_define_3D_plot_ax
+tool_matplotlib_define_3d_plot_ax
 )
 
 def plot_nodes_matplotlib(
@@ -86,7 +86,7 @@ def plot_nodes_matplotlib(
 
         if ax == None:
             fig.clf()
-            ax= tool_matplotlib_define_3D_plot_ax(fig, ax)
+            ax= tool_matplotlib_define_3d_plot_ax(fig, ax)
 
         quiver_scale = 2 # The scale of the quiver arrows
 

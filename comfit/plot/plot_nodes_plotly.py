@@ -10,8 +10,8 @@ import plotly.figure_factory as ff
 
 from comfit.tool import (
     tool_set_plot_axis_properties_plotly,
-    tool_plotly_define_2D_plot_ax,
-    tool_plotly_define_3D_plot_ax,
+    tool_plotly_define_2d_plot_ax,
+    tool_plotly_define_3d_plot_ax,
     tool_extract_node_arrays
 )
 
@@ -57,7 +57,7 @@ def plot_nodes_plotly(
 
     if self.dim == 2:
 
-        ax = tool_plotly_define_2D_plot_ax(fig, ax)
+        ax = tool_plotly_define_2d_plot_ax(fig, ax)
 
         if node_arrays['charge_given']:
             if len(node_arrays['x_coordinates_negative']) > 0:
@@ -139,7 +139,7 @@ def plot_nodes_plotly(
 
     elif self.dim == 3:
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        ax = tool_plotly_define_3d_plot_ax(fig, ax)
 
         x = np.array(node_arrays['x_coordinates'])
         y = np.array(node_arrays['y_coordinates'])

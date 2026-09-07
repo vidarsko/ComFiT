@@ -15,8 +15,8 @@ from skimage.measure import marching_cubes
 from comfit.tool import tool_complete_field, \
                         tool_set_plot_axis_properties_matplotlib, \
                         tool_colormap, \
-                        tool_matplotlib_define_2D_plot_ax, \
-                        tool_matplotlib_define_3D_plot_ax
+                        tool_matplotlib_define_2d_plot_ax, \
+                        tool_matplotlib_define_3d_plot_ax
 
 def plot_complex_field_in_plane_matplotlib(
         self: 'BaseSystem',
@@ -57,7 +57,7 @@ def plot_complex_field_in_plane_matplotlib(
 
     complex_field, fig, ax, kwargs = self.plot_prepare(complex_field, field_type = 'complex', **kwargs)
 
-    ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+    ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
 
     kwargs['plot_is_3D'] = True
 

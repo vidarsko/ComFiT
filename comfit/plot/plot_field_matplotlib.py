@@ -19,8 +19,8 @@ from comfit.tool import (
     tool_set_plot_axis_properties_matplotlib,
     tool_set_plot_axis_properties_plotly,
     tool_colormap,
-    tool_matplotlib_define_2D_plot_ax,
-    tool_matplotlib_define_3D_plot_ax
+    tool_matplotlib_define_2d_plot_ax,
+    tool_matplotlib_define_3d_plot_ax
 )
 
 from .plot_surface_matplotlib import plot_surface_matplotlib
@@ -58,7 +58,7 @@ def plot_field_matplotlib(
 
     if self.dim == 1:
 
-        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_2d_plot_ax(fig, ax)
 
         # Extract coordinates
         x = kwargs.get('x', self.x/self.a0).flatten()
@@ -74,7 +74,7 @@ def plot_field_matplotlib(
         # Keyword arguments particular to the 2D case
         kwargs['grid'] = kwargs.get('grid', False)
 
-        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_2d_plot_ax(fig, ax)
             
         # Set the colormap
         colormap_string = kwargs.get('colormap', 'viridis')
@@ -171,7 +171,7 @@ def plot_field_matplotlib(
 
     elif self.dim == 3:
 
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
             
         # Keyword arguments particular to the 3D case

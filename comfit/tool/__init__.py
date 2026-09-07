@@ -7,8 +7,8 @@ from .tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_
 
 from .tool_complete_field import tool_complete_field
 
-from .tool_add_spacing_2D import tool_add_spacing_2D
-from .tool_add_spacing_3D import tool_add_spacing_3D
+from .tool_add_spacing_2d import tool_add_spacing_2d
+from .tool_add_spacing_3d import tool_add_spacing_3d
 
 from .tool_print_in_color import tool_print_in_color
 from .tool_configure_axis import tool_configure_axis
@@ -18,11 +18,11 @@ from .tool_make_animation import tool_make_animation_movie, tool_make_animation_
 from .tool_plotly_colorbar import tool_plotly_colorbar
 
 from .tool_plotly_find_next_xN import tool_plotly_find_next_xN
-from .tool_plotly_define_2D_plot_ax import tool_plotly_define_2D_plot_ax
+from .tool_plotly_define_2d_plot_ax import tool_plotly_define_2d_plot_ax
 
 from .tool_plotly_find_next_sceneN import tool_plotly_find_next_sceneN
-from .tool_plotly_define_3D_plot_ax import tool_plotly_define_3D_plot_ax
+from .tool_plotly_define_3d_plot_ax import tool_plotly_define_3d_plot_ax
 from .tool_extract_node_arrays import tool_extract_node_arrays
 
-from .tool_matplotlib_define_2D_plot_ax import tool_matplotlib_define_2D_plot_ax
-from .tool_matplotlib_define_3D_plot_ax import tool_matplotlib_define_3D_plot_ax
+from .tool_matplotlib_define_2d_plot_ax import tool_matplotlib_define_2d_plot_ax
+from .tool_matplotlib_define_3d_plot_ax import tool_matplotlib_define_3d_plot_ax

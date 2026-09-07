@@ -15,7 +15,7 @@ from comfit.tool import (
     tool_complete_field,
     tool_set_plot_axis_properties_matplotlib,
     tool_colormap,
-    tool_matplotlib_define_3D_plot_ax
+    tool_matplotlib_define_3d_plot_ax
 )
 
 def plot_field_in_plane_matplotlib(
@@ -61,7 +61,7 @@ def plot_field_in_plane_matplotlib(
 
     field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
-    ax = tool_matplotlib_define_3D_plot_ax(fig, ax) 
+    ax = tool_matplotlib_define_3d_plot_ax(fig, ax) 
 
     # Default values of position and normal vector
     if position is None:

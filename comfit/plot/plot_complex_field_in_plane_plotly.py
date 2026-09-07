@@ -14,7 +14,7 @@ from skimage.measure import marching_cubes
 from comfit.tool import tool_complete_field,\
                         tool_colormap, \
                         tool_set_plot_axis_properties_plotly, \
-                        tool_plotly_define_3D_plot_ax, \
+                        tool_plotly_define_3d_plot_ax, \
                         tool_plotly_colorbar
 
 def plot_complex_field_in_plane_plotly(
@@ -56,7 +56,7 @@ def plot_complex_field_in_plane_plotly(
     kwargs['colormap'] = kwargs.get('colormap', 'angle') # Override the default colormap with 'angle'
     complex_field, fig, ax, kwargs = self.plot_prepare(complex_field, field_type = 'complex', **kwargs)
 
-    ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
+    ax = tool_plotly_define_3d_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
     # Default values of position and normal vector
     if position is None:

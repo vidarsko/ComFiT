@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
-from comfit.tool.tool_add_spacing_2D import tool_add_spacing_2D
+from comfit.tool.tool_add_spacing_2d import tool_add_spacing_2d
 
 from comfit.plot.plot_field_plotly import plot_field_plotly
 
@@ -54,7 +54,7 @@ def plot_field_velocity_and_director_plotly(self, field, velocity, director, **k
 
     spacing = kwargs.get('spacing', 5)
 
-    X, Y, U, V = tool_add_spacing_2D(X,Y,director[0],director[1],spacing)
+    X, Y, U, V = tool_add_spacing_2d(X,Y,director[0],director[1],spacing)
 
     u = U.flatten()
     v = V.flatten()

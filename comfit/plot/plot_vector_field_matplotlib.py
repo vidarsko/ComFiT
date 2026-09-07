@@ -13,10 +13,10 @@ import matplotlib
 # Local application imports
 from comfit.tool import (
     tool_complete_field,
-    tool_add_spacing_2D,
-    tool_add_spacing_3D,
-    tool_matplotlib_define_2D_plot_ax,
-    tool_matplotlib_define_3D_plot_ax, 
+    tool_add_spacing_2d,
+    tool_add_spacing_3d,
+    tool_matplotlib_define_2d_plot_ax,
+    tool_matplotlib_define_3d_plot_ax, 
     tool_set_plot_axis_properties_matplotlib
 )
 
@@ -78,7 +78,7 @@ def plot_vector_field_matplotlib(
         
     if self.dim == 1 and vector_field.shape == (1,self.xRes):
 
-        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_2d_plot_ax(fig, ax)
 
         X, Y = np.meshgrid(x, np.array([0]), indexing='ij')
 
@@ -87,7 +87,7 @@ def plot_vector_field_matplotlib(
 
         V[:,0] = vector_field[0]
 
-        X,Y,U,V = tool_add_spacing_2D(X,Y,U,V,spacing)
+        X,Y,U,V = tool_add_spacing_2d(X,Y,U,V,spacing)
 
         ax.quiver(X, Y, U, V, color='blue', angles='xy', scale_units='xy', scale=1)
         kwargs['ylim'] = [np.min(vector_field[0]), np.max(vector_field[0])]
@@ -99,7 +99,7 @@ def plot_vector_field_matplotlib(
 
     elif self.dim == 1 and vector_field.shape == (2,self.xRes):
 
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
             
         X, Y, Z = np.meshgrid(x, np.array([0]), np.array([0]), indexing='ij')
@@ -111,7 +111,7 @@ def plot_vector_field_matplotlib(
         V[:,0,0] = vector_field[0]
         W[:,0,0] = vector_field[1]
 
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         ax.quiver(X, Y, Z, U, V, W, color='blue')
 
@@ -133,7 +133,7 @@ def plot_vector_field_matplotlib(
 
     elif self.dim == 1 and vector_field.shape == (3,self.xRes):
         
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
         X, Y, Z = np.meshgrid(x, np.array([0]), np.array([0]), indexing='ij')
@@ -148,7 +148,7 @@ def plot_vector_field_matplotlib(
         W[:,0,0] = vector_field[2]
 
         # Add spacing
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
@@ -179,14 +179,14 @@ def plot_vector_field_matplotlib(
 
     elif self.dim == 2 and vector_field.shape == (1,self.xRes,self.yRes):
         
-        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_2d_plot_ax(fig, ax)
 
         X, Y = np.meshgrid(x, y, indexing='ij')
 
         U = vector_field[0]
         V = np.zeros(X.shape)
 
-        X,Y,U,V = tool_add_spacing_2D(X,Y,U,V,spacing)
+        X,Y,U,V = tool_add_spacing_2d(X,Y,U,V,spacing)
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2))
@@ -209,11 +209,11 @@ def plot_vector_field_matplotlib(
 
     elif self.dim == 2 and vector_field.shape == (2,self.xRes,self.yRes):
 
-        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_2d_plot_ax(fig, ax)
 
         X, Y = np.meshgrid(x, y, indexing='ij')
 
-        X, Y, U, V = tool_add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
+        X, Y, U, V = tool_add_spacing_2d(X,Y,vector_field[0],vector_field[1],spacing)
 
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
     
@@ -239,7 +239,7 @@ def plot_vector_field_matplotlib(
 
     elif self.dim == 2 and vector_field.shape == (3,self.xRes,self.yRes):
 
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
         
         X, Y, Z = np.meshgrid(x, y, np.array([0]), indexing='ij')
@@ -251,7 +251,7 @@ def plot_vector_field_matplotlib(
         V[:,:,0] = vector_field[1]
         W[:,:,0] = vector_field[2]
 
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
 
@@ -282,7 +282,7 @@ def plot_vector_field_matplotlib(
 
     elif self.dim == 3 and vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
 
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
         X, Y, Z = np.meshgrid(x, y, z, indexing='ij')              
@@ -293,7 +293,7 @@ def plot_vector_field_matplotlib(
         W = np.zeros(U.shape)
 
         # Add spacing
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2))
@@ -313,7 +313,7 @@ def plot_vector_field_matplotlib(
 
     elif self.dim == 3 and vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
 
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
         X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
@@ -324,7 +324,7 @@ def plot_vector_field_matplotlib(
         W = np.zeros(U.shape)
 
         # Add spacing
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
@@ -349,7 +349,7 @@ def plot_vector_field_matplotlib(
 
     elif self.dim == 3 and vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
 
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
 
         X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
@@ -359,7 +359,7 @@ def plot_vector_field_matplotlib(
         V = vector_field[1]
         W = vector_field[2]
 
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
 
 

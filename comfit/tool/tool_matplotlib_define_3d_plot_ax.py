@@ -4,7 +4,7 @@ from typing import Optional, Union
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
-def tool_matplotlib_define_3D_plot_ax(
+def tool_matplotlib_define_3d_plot_ax(
         fig : plt,
         ax : Optional[Union[Axes3D, plt.Axes]] = None
         ) -> Axes3D:

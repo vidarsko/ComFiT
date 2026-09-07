@@ -9,9 +9,9 @@ from comfit.tool import tool_create_orthonormal_triad
 from comfit.tool import tool_set_plot_axis_properties_matplotlib
 from comfit.tool import tool_complete_field
 from comfit.tool import tool_print_in_color
-from comfit.tool import tool_matplotlib_define_3D_plot_ax
-from comfit.tool import tool_plotly_define_3D_plot_ax
-from comfit.tool import tool_plotly_define_2D_plot_ax
+from comfit.tool import tool_matplotlib_define_3d_plot_ax
+from comfit.tool import tool_plotly_define_3d_plot_ax
+from comfit.tool import tool_plotly_define_2d_plot_ax
 
 from comfit.plot import plot_surface_matplotlib
 from comfit.plot import plot_field_matplotlib
@@ -742,7 +742,7 @@ class BaseSystemPlot:
         fig = kwargs.get('fig', ax['fig'])
         ax['fig'] = fig
 
-        ax = tool_plotly_define_2D_plot_ax(fig, ax)
+        ax = tool_plotly_define_2d_plot_ax(fig, ax)
 
         # Assign the trace to the specific xaxis and yaxis
         if hasattr(trace, 'update'):

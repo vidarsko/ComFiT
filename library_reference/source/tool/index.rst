@@ -6,12 +6,12 @@ Auxiliary functions for the manipulation of data and plots.
 .. toctree::
    :maxdepth: 1
 
-.. automodule:: comfit.tool.tool_add_spacing_2D
+.. automodule:: comfit.tool.tool_add_spacing_2d
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. automodule:: comfit.tool.tool_add_spacing_3D
+.. automodule:: comfit.tool.tool_add_spacing_3d
     :members:
     :undoc-members:
     :show-inheritance:
@@ -51,12 +51,12 @@ Auxiliary functions for the manipulation of data and plots.
     :undoc-members:
     :show-inheritance:
 
-.. automodule:: comfit.tool.tool_matplotlib_define_2D_plot_ax
+.. automodule:: comfit.tool.tool_matplotlib_define_2d_plot_ax
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. automodule:: comfit.tool.tool_matplotlib_define_3D_plot_ax
+.. automodule:: comfit.tool.tool_matplotlib_define_3d_plot_ax
     :members:
     :undoc-members:
     :show-inheritance:
@@ -66,12 +66,12 @@ Auxiliary functions for the manipulation of data and plots.
     :undoc-members:
     :show-inheritance:
 
-.. automodule:: comfit.tool.tool_plotly_define_2D_plot_ax
+.. automodule:: comfit.tool.tool_plotly_define_2d_plot_ax
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. automodule:: comfit.tool.tool_plotly_define_3D_plot_ax
+.. automodule:: comfit.tool.tool_plotly_define_3d_plot_ax
     :members:
     :undoc-members:
     :show-inheritance:

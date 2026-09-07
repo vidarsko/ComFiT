@@ -16,8 +16,8 @@ from comfit.tool import (
     tool_set_plot_axis_properties_plotly,
     tool_colormap,
     tool_plotly_find_next_xN,
-    tool_plotly_define_2D_plot_ax,
-    tool_plotly_define_3D_plot_ax,
+    tool_plotly_define_2d_plot_ax,
+    tool_plotly_define_3d_plot_ax,
     tool_plotly_colorbar
 )
 
@@ -70,7 +70,7 @@ def plot_field_plotly(
 
     if self.dim == 1:
 
-        ax = tool_plotly_define_2D_plot_ax(fig, ax) #Defines xN, yN and plot_dimension
+        ax = tool_plotly_define_2d_plot_ax(fig, ax) #Defines xN, yN and plot_dimension
 
         if not kwargs['field_is_nan']:
             trace = go.Scatter(
@@ -92,7 +92,7 @@ def plot_field_plotly(
 
     if self.dim == 2:
         
-        ax = tool_plotly_define_2D_plot_ax(fig, ax) #Defines xN, yN and plot_dimension
+        ax = tool_plotly_define_2d_plot_ax(fig, ax) #Defines xN, yN and plot_dimension
 
         X = kwargs.get('X', None)
         Y = kwargs.get('Y', None)
@@ -130,7 +130,7 @@ def plot_field_plotly(
     ###############################################################
     elif self.dim == 3:
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
+        ax = tool_plotly_define_3d_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
         # Keyword arguments particular to the 3D case
         number_of_layers = kwargs.get('number_of_layers', 1)

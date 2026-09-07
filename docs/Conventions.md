@@ -11,6 +11,7 @@ In this section, we will describe the conventions used in the documentation and 
 
 * Documentation files are named using CamelCase.
 * Image files in the docs folder are named using `snake_case`
+* Use lowercase `2d`/`3d` (not `2D`/`3D`) in file, function, and variable names, per PEP8.
 
 ## Mathematical conventions
 

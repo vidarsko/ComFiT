@@ -14,10 +14,10 @@ import plotly.graph_objects as go
 from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
 from comfit.tool import (
     tool_complete_field,
-    tool_add_spacing_2D,
-    tool_add_spacing_3D,
-    tool_plotly_define_2D_plot_ax,
-    tool_plotly_define_3D_plot_ax,
+    tool_add_spacing_2d,
+    tool_add_spacing_3d,
+    tool_plotly_define_2d_plot_ax,
+    tool_plotly_define_3d_plot_ax,
     tool_plotly_colorbar
 )
 
@@ -79,7 +79,7 @@ def plot_vector_field_plotly(
     if self.dim == 1 and vector_field.shape == (1,self.xRes):
 
         kwargs['colorbar'] = False
-        ax = tool_plotly_define_2D_plot_ax(fig, ax)
+        ax = tool_plotly_define_2d_plot_ax(fig, ax)
         
         X, Y = np.meshgrid(x, np.array([0]), indexing='ij')
         
@@ -88,7 +88,7 @@ def plot_vector_field_plotly(
 
         V[:,0] = vector_field[0]
 
-        X,Y,U,V = tool_add_spacing_2D(X,Y,U,V,spacing)
+        X,Y,U,V = tool_add_spacing_2d(X,Y,U,V,spacing)
         
         fig, ax = self.plot_field(vector_field[0], **kwargs)
 
@@ -99,7 +99,7 @@ def plot_vector_field_plotly(
 
     elif self.dim == 1 and vector_field.shape == (2,self.xRes):
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        ax = tool_plotly_define_3d_plot_ax(fig, ax)
             
         X, Y, Z = np.meshgrid(x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -113,7 +113,7 @@ def plot_vector_field_plotly(
         ax['vmin'] = kwargs.get('vmin', 0)
         ax['vmax'] = kwargs.get('vmax', np.max(np.sqrt(vector_field[0]**2 + vector_field[1]**2)))
 
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         if not kwargs['field_is_nan']:
             fig.add_trace(go.Cone(x=X.flatten(), 
@@ -155,7 +155,7 @@ def plot_vector_field_plotly(
     elif self.dim == 1 and vector_field.shape == (3,self.xRes):
         
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        ax = tool_plotly_define_3d_plot_ax(fig, ax)
         
         X, Y, Z = np.meshgrid(x, np.array([0]), np.array([0]), indexing='ij')
 
@@ -169,7 +169,7 @@ def plot_vector_field_plotly(
         W[:,0,0] = vector_field[2]
 
         # Add spacing
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
@@ -221,14 +221,14 @@ def plot_vector_field_plotly(
 
     elif self.dim == 2 and vector_field.shape == (1,self.xRes,self.yRes):
   
-        ax = tool_plotly_define_2D_plot_ax(fig, ax)
+        ax = tool_plotly_define_2d_plot_ax(fig, ax)
 
         X, Y = np.meshgrid(x, y, indexing='ij')
 
         U = vector_field[0]
         V = np.zeros(X.shape)
 
-        X,Y,U,V = tool_add_spacing_2D(X,Y,U,V,spacing)
+        X,Y,U,V = tool_add_spacing_2d(X,Y,U,V,spacing)
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2))
@@ -287,11 +287,11 @@ def plot_vector_field_plotly(
 
     elif self.dim == 2 and vector_field.shape == (2,self.xRes,self.yRes):
 
-        ax = tool_plotly_define_2D_plot_ax(fig, ax)
+        ax = tool_plotly_define_2d_plot_ax(fig, ax)
 
         X, Y = np.meshgrid(x, y, indexing='ij')
 
-        X, Y, U, V = tool_add_spacing_2D(X,Y,vector_field[0],vector_field[1],spacing)
+        X, Y, U, V = tool_add_spacing_2d(X,Y,vector_field[0],vector_field[1],spacing)
 
         u = U.flatten()
         v = V.flatten()
@@ -342,7 +342,7 @@ def plot_vector_field_plotly(
 
     elif self.dim == 2 and vector_field.shape == (3,self.xRes,self.yRes):
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        ax = tool_plotly_define_3d_plot_ax(fig, ax)
         
         X, Y, Z = np.meshgrid(x, y, np.array([0]), indexing='ij')
         U = np.zeros(X.shape)
@@ -353,7 +353,7 @@ def plot_vector_field_plotly(
         V[:,:,0] = vector_field[1]
         W[:,:,0] = vector_field[2]
 
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
 
@@ -408,7 +408,7 @@ def plot_vector_field_plotly(
 
     elif self.dim == 3 and vector_field.shape == (1,self.xRes,self.yRes,self.zRes):
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        ax = tool_plotly_define_3d_plot_ax(fig, ax)
 
         X, Y, Z = np.meshgrid(x, y, z, indexing='ij')              
 
@@ -418,7 +418,7 @@ def plot_vector_field_plotly(
         W = np.zeros(U.shape)
 
         # Add spacing
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2))
@@ -461,7 +461,7 @@ def plot_vector_field_plotly(
 
     elif self.dim == 3 and vector_field.shape == (2,self.xRes,self.yRes,self.zRes):
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        ax = tool_plotly_define_3d_plot_ax(fig, ax)
 
         X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
@@ -471,7 +471,7 @@ def plot_vector_field_plotly(
         W = np.zeros(U.shape)
 
         # Add spacing
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         # Normalize the vectors
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2))
@@ -517,7 +517,7 @@ def plot_vector_field_plotly(
 
     elif self.dim == 3 and vector_field.shape == (3,self.xRes,self.yRes,self.zRes):
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        ax = tool_plotly_define_3d_plot_ax(fig, ax)
 
         X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
@@ -526,7 +526,7 @@ def plot_vector_field_plotly(
         V = vector_field[1]
         W = vector_field[2]
 
-        X,Y,Z,U,V,W = tool_add_spacing_3D(X,Y,Z,U,V,W,spacing)
+        X,Y,Z,U,V,W = tool_add_spacing_3d(X,Y,Z,U,V,W,spacing)
 
         max_vector = np.max(np.sqrt(U ** 2 + V ** 2 + W ** 2))
         ax['vmin'] = kwargs.get('vmin', 0)

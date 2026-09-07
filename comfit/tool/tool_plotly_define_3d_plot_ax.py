@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 # Local packages
 from .tool_plotly_find_next_sceneN import tool_plotly_find_next_sceneN
 
-def tool_plotly_define_3D_plot_ax(
+def tool_plotly_define_3d_plot_ax(
         fig: go.Figure, 
         ax: Dict[str, Any]
         ) -> Dict[str, Any]:

@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 # Local imports
 from comfit.tool.tool_complete_field import tool_complete_field
 from comfit.tool.tool_set_plot_axis_properties_plotly import tool_set_plot_axis_properties_plotly
-from comfit.tool import tool_plotly_define_3D_plot_ax, tool_plotly_colorbar
+from comfit.tool import tool_plotly_define_3d_plot_ax, tool_plotly_colorbar
 
 def plot_field_in_plane_plotly(
         self: 'BaseSystem',
@@ -55,7 +55,7 @@ def plot_field_in_plane_plotly(
 
     field, fig, ax, kwargs = self.plot_prepare(field, field_type = 'real', **kwargs)
 
-    ax = tool_plotly_define_3D_plot_ax(fig, ax) #Defines sceneN, plot_dimension
+    ax = tool_plotly_define_3d_plot_ax(fig, ax) #Defines sceneN, plot_dimension
 
 
     # Default values of position and normal vector

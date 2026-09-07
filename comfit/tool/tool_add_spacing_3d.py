@@ -3,7 +3,7 @@ from typing import Tuple
 #General packages
 import numpy as np
 
-def tool_add_spacing_3D(
+def tool_add_spacing_3d(
         X : np.ndarray,
         Y : np.ndarray,
         Z : np.ndarray,

@@ -21,8 +21,8 @@ from comfit.tool import (
     tool_colormap, 
     tool_set_plot_axis_properties_plotly,
     tool_plotly_colorbar,
-    tool_plotly_define_2D_plot_ax,
-    tool_plotly_define_3D_plot_ax
+    tool_plotly_define_2d_plot_ax,
+    tool_plotly_define_3d_plot_ax
 )
 
 
@@ -72,7 +72,7 @@ def plot_complex_field_plotly(
 
     if self.dim == 1:
 
-        ax = tool_plotly_define_2D_plot_ax(fig, ax)
+        ax = tool_plotly_define_2d_plot_ax(fig, ax)
 
         vlim = kwargs.get('vlim', None)
         if vlim is not None:
@@ -182,7 +182,7 @@ def plot_complex_field_plotly(
 
         if plot_method == '3Dsurface':
 
-            ax = tool_plotly_define_3D_plot_ax(fig, ax)
+            ax = tool_plotly_define_3d_plot_ax(fig, ax)
 
             # Plot field as 3D surface where height is amplitude and color is phase
             X, Y = np.meshgrid(x, y, indexing='ij')
@@ -206,7 +206,7 @@ def plot_complex_field_plotly(
 
         elif plot_method == 'phase_angle':
             
-            ax = tool_plotly_define_2D_plot_ax(fig, ax)
+            ax = tool_plotly_define_2d_plot_ax(fig, ax)
             
             norm = mcolors.Normalize(vmin=-np.pi, vmax=np.pi)
 
@@ -281,7 +281,7 @@ def plot_complex_field_plotly(
     ###############################################################
     elif self.dim == 3:
 
-        ax = tool_plotly_define_3D_plot_ax(fig, ax)
+        ax = tool_plotly_define_3d_plot_ax(fig, ax)
         kwargs['ax'] = ax 
 
         # Keyword arguments particular to the 3D case

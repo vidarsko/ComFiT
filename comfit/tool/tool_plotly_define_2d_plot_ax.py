@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 # Local packages
 from comfit.tool import tool_plotly_find_next_xN
 
-def tool_plotly_define_2D_plot_ax(
+def tool_plotly_define_2d_plot_ax(
         fig: go.Figure, 
         ax: Dict[str, Any]
         ) -> Dict[str, Any]:

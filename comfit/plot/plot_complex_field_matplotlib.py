@@ -16,8 +16,8 @@ from comfit.tool import (
     tool_complete_field,
     tool_colormap,
     tool_set_plot_axis_properties_matplotlib,
-    tool_matplotlib_define_2D_plot_ax,
-    tool_matplotlib_define_3D_plot_ax
+    tool_matplotlib_define_2d_plot_ax,
+    tool_matplotlib_define_3d_plot_ax
 )
 from .plot_surface_matplotlib import plot_surface_matplotlib
 
@@ -63,7 +63,7 @@ def plot_complex_field_matplotlib(
 
     if self.dim == 1:
 
-        ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_2d_plot_ax(fig, ax)
 
         x = kwargs.get('x', self.x).flatten()
 
@@ -126,7 +126,7 @@ def plot_complex_field_matplotlib(
             grid = kwargs.get('grid', True)
             kwargs['axis_equal'] = False
             
-            ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+            ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
             kwargs['plot_is_3D'] = True
             
             # Get the colors from a colormap (e.g., hsv, but you can choose any other)
@@ -145,7 +145,7 @@ def plot_complex_field_matplotlib(
             custom_colormap = kwargs['colormap_object']
             
             # Check if an axis object is provided
-            ax = tool_matplotlib_define_2D_plot_ax(fig, ax)
+            ax = tool_matplotlib_define_2d_plot_ax(fig, ax)
 
             # Padding for the colorbar
             padding=0.05
@@ -165,7 +165,7 @@ def plot_complex_field_matplotlib(
 
         colormap = kwargs['colormap_object']
 
-        ax = tool_matplotlib_define_3D_plot_ax(fig, ax)
+        ax = tool_matplotlib_define_3d_plot_ax(fig, ax)
         kwargs['plot_is_3D'] = True
     
         if plot_method == 'phase_angle':
