@@ -60,6 +60,10 @@ $$
 
 * [PEP8](https://peps.python.org/pep-0008/) for python programming
 * [NumPy docstring format](https://numpydoc.readthedocs.io/en/latest/format.html) for documentation strings
+* Function and variable names are always lowercase, with no exception for embedded proper nouns
+  (e.g. `calc_gaussian`, `conf_initial_condition_thomas_fermi`, not `calc_Gaussian`,
+  `conf_initial_condition_Thomas_Fermi`), matching the convention used by NumPy/SciPy/scikit-learn.
+  Capitalization is reserved for class names.
 * Import ordering should follow this pattern:
   1. Standard library imports
   2. Third-party library imports
