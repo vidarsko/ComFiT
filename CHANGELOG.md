@@ -26,6 +26,13 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
   consistency with every other parameter name in the codebase; PEP8 also reserves capitalized names
   for classes).
 - `BoseEinsteinCondensate.evolve_comoving_dGPE`: `velx` parameter renamed to `vel_x`.
+- `BoseEinsteinCondensate.calc_harmonic_potential`: `R_tf` parameter renamed to
+  `thomas_fermi_radius`, for consistency with the descriptive-parameter-name convention (see
+  `docs/Conventions.md`) — `R_tf` was an ad hoc abbreviation of a bare mathematical symbol rather
+  than a spelled-out name. This is the same quantity as `QuantumMechanics.conf_harmonic_potential`'s
+  `trapping_strength` (both build `1/thomas_fermi_radius**2 * (r - r_mid)**2`), just parametrized
+  differently — deliberately, since interactions give the Thomas-Fermi radius a physical meaning
+  `QuantumMechanics` lacks, so the two parameters were kept distinct rather than unified.
 - `BaseSystem.calc_defect_current_density`: `psi_0` parameter renamed to `psi0`, for consistency
   with the identical equilibrium-amplitude parameter on `calc_defect_density`,
   `calc_defect_density_singular`, and `calc_delta_function`.
@@ -109,6 +116,8 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
   spelling/typo fixes in docstrings and docs pages (`docs/ClassNematicLiquidCrystal.md`, etc.).
 - Added a docstring note to `PhaseFieldCrystal.__init__` clarifying it is not meant to be
   instantiated directly (users should use one of the six concrete lattice subclasses).
+- Fixed `QuantumMechanics.conf_harmonic_potential`'s docstring, which still described the
+  now-renamed `R_tf` parameter (a leftover from before it was renamed to `trapping_strength`).
 
 ## [1.9.6] - 2025-04-24
 - Added `calc_coarse_grain` method to the BaseSystem class.

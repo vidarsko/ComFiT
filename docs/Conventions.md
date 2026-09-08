@@ -76,9 +76,11 @@ $$
   different name.
 * Public function/method parameters are named descriptively even when the underlying physics
   literature or a docstring uses a bare mathematical symbol for the same quantity (e.g. a
-  `tangent_vector` parameter for what a cited paper calls $\hat T$) — the symbol belongs in the
-  equation/docstring, not the call signature. This mirrors the descriptive-name convention already
-  used for most parameters in this codebase (`dipole_vector`, `charge_tolerance`, etc.).
+  `tangent_vector` parameter for what a cited paper calls $\hat T$, or `thomas_fermi_radius` for
+  what's commonly written $R_{tf}$) — the symbol belongs in the equation/docstring, not the call
+  signature. This also rules out ad hoc abbreviations standing in for the descriptive name
+  (`thomas_fermi_radius`, not `R_tf`). This mirrors the descriptive-name convention already used
+  for most parameters in this codebase (`dipole_vector`, `charge_tolerance`, etc.).
 
 Stand-alone functions are documented as follows:
 

@@ -563,12 +563,12 @@ class BoseEinsteinCondensate(BaseSystem):
         H = self.calc_hamiltonian_density()
         return self.calc_integrate_field(H)
 
-    def calc_harmonic_potential(self, R_tf: float) -> np.ndarray:
-        """Calculates a harmonic trap with R_tf being the Thomas-Fermi radius
+    def calc_harmonic_potential(self, thomas_fermi_radius: float) -> np.ndarray:
+        """Calculates a harmonic trap with thomas_fermi_radius being the Thomas-Fermi radius
 
         Parameters
         ----------
-        R_tf : float
+        thomas_fermi_radius : float
             The Thomas-Fermi radius
 
         Returns
@@ -576,7 +576,7 @@ class BoseEinsteinCondensate(BaseSystem):
         numpy.ndarray
             A harmonic potential
         """
-        trapping_strength = 1 / (R_tf ** 2)
+        trapping_strength = 1 / (thomas_fermi_radius ** 2)
         if self.dim == 1:
             return trapping_strength * (self.x - self.xmid) ** 2
         if self.dim == 2:

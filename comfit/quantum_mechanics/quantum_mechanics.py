@@ -108,8 +108,8 @@ class QuantumMechanics(BaseSystem):
             self : 'QuantumMechanics', 
             trapping_strength: Optional[float] = None
             ) -> None:
-        """Set the external potential to a harmonic trap with R_tf being the thomas fermi radius
-        
+        """Set the external potential to a harmonic trap
+
         Parameters
         ----------
         trapping_strength : float, optional

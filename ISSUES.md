@@ -8,13 +8,6 @@ priority." This file tracks lower-stakes cleanup debt so it isn't lost. Resolved
 removed from this file (their resolution should already be recorded in CHANGELOG.md) rather than
 marked done and left in place.
 
-## Naming — needs a decision, not just an obvious fix
-
-- **`R_tf` (BoseEinsteinCondensate harmonic trap) vs `trapping_strength` (QuantumMechanics harmonic
-  trap).** These parametrize conceptually related harmonic traps differently (radius vs. strength),
-  so this is likely not actually the "same quantity" and may not need reconciling at all — noted so
-  it isn't silently swept into a batch rename later without checking.
-
 ## Structural / organizational (bigger than a rename)
 
 - **`comfit/plot/plot_vector_field_in_plane_both_plot_libs.py`** is the only file in `comfit/plot/`
