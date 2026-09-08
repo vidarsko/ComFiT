@@ -1,9 +1,9 @@
 # Class: Nematic Liquid Crystal
 
-A nematic liquid crystal is a state of matter between a solid and a liquid. 
-It is characterized by the orientation of the molecules, which is ordered, but not the position. 
-The molecules are rod-like and the orientation is described by a unit vector, the nematic director. 
-The nematic liquid crystal is the simplest form of liquid crystal, and is characterized by the nematic director being the only order parameter. 
+A nematic liquid crystal is a state of matter between a solid and a liquid.
+It is characterized by the orientation of the molecules, which is ordered, but not the position.
+The molecules are rod-like and the orientation is described by a unit vector, the nematic director.
+The nematic liquid crystal is the simplest form of liquid crystal, and is characterized by the nematic director being the only order parameter.
 The nematic liquid crystal is used to describe the behavior of many biological systems, such as the cytoskeleton, and is also used in many technological applications, such as in liquid crystal displays.
 
 In this class, we simulate an active nematic liquid crystal using the continuum theory described below.
@@ -35,20 +35,21 @@ nem.u
 
 The NematicLiquidCrystal class takes the same keyword as the BaseSystem class in addition to
 
-| Keyword | Definition | Default value|
-|---------|------------|--------------|
-| `alpha`  | The activity parameter. Negative is extensile | $-1$ |
-| `K`  | Frank elastic constant  | $1$ |
-| `A`  | Parameter in front of $\text{Tr}(Q^2)$ in the free-energy | $1$ |
-| `B`  | Parameter in front of $\text{Tr}(Q^2)^2$ in the free-energy | $1$ |
-| `C`  | Parameter in front of $\text{Tr}(Q^3)$ in the free-energy. 3D only | $0$ |
-| `gamma`  | Rotational diffusion | $1$ |
-| `Gamma`  | Friction  | $0$ |
-| `eta`  | Viscosity | $1$ |
+| Keyword | Definition | Default value |
+| --------- | ------------ | -------------- |
+| `alpha` | The activity parameter. Negative is extensile | $-1$ |
+| `K` | Frank elastic constant | $1$ |
+| `A` | Parameter in front of $\text{Tr}(Q^2)$ in the free-energy | $1$ |
+| `B` | Parameter in front of $\text{Tr}(Q^2)^2$ in the free-energy | $1$ |
+| `C` | Parameter in front of $\text{Tr}(Q^3)$ in the free-energy. 3D only | $0$ |
+| `gamma` | Rotational diffusion | $1$ |
+| `Gamma` | Friction | $0$ |
+| `eta` | Viscosity | $1$ |
 
-These parameters are discussed in more detail in the model section. 
+These parameters are discussed in more detail in the model section.
 
 ### Note on the tensor parameters
+
 The $Q$ tensor is given by the nematic director as
 
 $$
@@ -67,24 +68,24 @@ $$
 \end{aligned}
 $$
 
-respectivly.
+respectively.
 We can translate from tensor indexes to the right value stored in the vector by
 using the function
 
 ```python
-get_sym_tl(self,Q,i,j)
+get_component_from_symmetric_traceless_tensor(self,Q,i,j)
 ```
 
 This returns the element $Q_{ij}$ of a symmetric and traceless tensor
 field. In addition to this we also have the function
 
 ```python
-get_anti_sym(self,tensor,i,j)
+get_component_from_antisymmetric_tensor(self,tensor,i,j)
 ```
 
 so that we can optimally store the antisymetric tensors as well. In two
 dimensions these only have one independent component, which is stored as
-a scalar field,
+a length-1 array holding a single scalar field,
 while in three dimensions it is stored as
 
 $$
@@ -92,7 +93,7 @@ $$
 $$
 
 In order to calculate the director field $\mathbf n$ and the amount of order $S$ in two dimensions we use that we can map the orderparameter to the complex field $\psi = Q_{xx} +  iQ_{xy} =Se^{2i\theta}/2$, where $\theta$  is the angle of the director field.
-In three dimensions we use that $S$ is given by the largest eigenvalue as $S = 3\lambda/2$ with the director being the coresponding eigenvector [^Schimming2022Thesis].
+In three dimensions we use that $S$ is given by the largest eigenvalue as $S = 3\lambda/2$ with the director being the corresponding eigenvector [^Schimming2022Thesis].
 This is taken care of in the function
 
 ```python
@@ -135,7 +136,7 @@ calc_vorticity_tensor(self)
 ```
 
 Note that the velocity has to be updated before this function is called.
-The calculation of the pressure and velocity is described furhter down.
+The calculation of the pressure and velocity is described further down.
 Since the active stress is simply proportional to $Q$ we have not included any
 function to calculate it, but calculate the force directly with the function
 
@@ -156,8 +157,8 @@ $$
 
 where it is assumed that there is a single Frank elastic constant $K$.
 Here $Q^2 = QQ$ denote a standard matrix multiplication, and similar for $Q^3$.
-We therfore have that $\text{Tr}(Q^2)^2 = Q_{kj}Q_{jk}$.
-The $\text{Tr}(Q^3)$ term only exists in three dimensons since it is zero for all symetric traceless matrices in two dimensions.
+We therefore have that $\text{Tr}(Q^2)^2 = Q_{kj}Q_{jk}$.
+The $\text{Tr}(Q^3)$ term only exists in three dimensions since it is zero for all symmetric traceless matrices in two dimensions.
 The molecular field is given as
 
 $$
@@ -202,7 +203,7 @@ The evolution of this is handled by the function
 nem.evolve_nematic(self,number_of_steps,method='ETD2RK')
 ```
 
-## Disipative dynamics
+## Dissipative dynamics
 
 Note that if we set the velocity field to zero the dynamics become
 $$\partial_t Q=  \frac{K}{\gamma} \nabla^2 Q_{ij} +\frac{A}{\gamma}(B - 2Q^2_{kk})Q_{ij}.$$
@@ -259,19 +260,19 @@ conf_velocity(self,Q)
 
 Note that `calc_pressure_f` only returns the Fourier transform of the
 pressure. The function `conf_velocity` updates both the velocity field `self.u`
-and its Fourier transform `self.u_f`. 
-The arguments `F_af` and `F_pf` are the active and passive forces respectivly.  
+and its Fourier transform `self.u_f`.
+The arguments `F_af` and `F_pf` are the active and passive forces respectively.  
 
 ## Minimum of the free energy
 
-When starting a simulation it is often interesting to start from a configuration that is the minimum of the free energy pluss some perturbations or with a vortex dipole/fillament.
-From the free energy we see that the minimum energy is given by a homogeneous nematic, and it is inedependent of the direction the nematogens are pointing.
+When starting a simulation it is often interesting to start from a configuration that is the minimum of the free energy plus some perturbations or with a vortex dipole/filament.
+From the free energy we see that the minimum energy is given by a homogeneous nematic, and it is independent of the direction the nematogens are pointing.
 Assuming that the unitvector $\mathbf n$ is homogeneous we can rewrite the free energy in terms of the parameter $S$.
 
-### In two dimmensions
+### In two dimensions
 
-the free energy is only given by powers of $\text{Tr}(Q^2)$ which in two dimmensions is $S^2/2$ in terms of $S$.
-The free-energy is therfore for a homogeneous two dimentional nematic given as
+the free energy is only given by powers of $\text{Tr}(Q^2)$ which in two dimensions is $S^2/2$ in terms of $S$.
+The free-energy is therefore for a homogeneous two dimensional nematic given as
 
 $$
 \mathcal F =  \int \left( - \frac{A}{2} \left[ B \frac{S^2}{2} -\frac{S^4}{4}   \right] \right).
@@ -292,9 +293,9 @@ when $B > -3 C^2/(16A^2)$.
 
 ## Topological defects and active turbulence
 
-Because of the head-tail symmetry if the nematic director the
+Because of the head-tail symmetry of the nematic director the
 topological defects in the nematic phase can have half integer winding
-number. We can see this by maping the $Q$ tensor to a complex field.
+number. We can see this by mapping the $Q$ tensor to a complex field.
 This is done by writing the nematic director as
 $\mathbf{n} = \cos{\theta} \hat x + \sin{\theta} \hat y$, with
 $\hat x /\hat y$ being the unit vectors in $x /y$ direction, and mapping
@@ -360,16 +361,16 @@ conf_insert_vortex_dipole(self, dipole_vector=None, dipole_position=None)
 which works similarly as the one implemented for the BEC. This function
 can be used either to initialize a homogeneous state with a dipole, or
 it can be used to insert a dipole into an already existing nematic.
-In three dimensions one can initialise two disclination lines paralel to the z-axis using the function 
+In three dimensions one can initialise two disclination lines parallel to the z-axis using the function
 
 ```python
 conf_initial_disclination_lines(self, position1=None,position2 = None)
 ```
 
-This function intialises a wedge defect looking like the two dimensional $+1/2$ defect at `position1` and one 
-looking like a $-1/2$ at `position2`. 
+This function initialises a wedge defect looking like the two dimensional $+1/2$ defect at `position1` and one
+looking like a $-1/2$ at `position2`.
 The positions are in the xy-plane.
-If no positions are given the defects are placed at the positions 
+If no positions are given the defects are placed at the positions
 
 ```python
     position1 = [self.xmid+self.size_x/3, self.ymid]
@@ -430,7 +431,7 @@ $$
 D_{\gamma i} = \delta_{\gamma i} ( \partial_k Q_{k\alpha} \partial_l Q_{l\alpha} - \partial_k Q_{l\alpha}\partial_l Q_{k\alpha}) + 2( \partial_\gamma Q_{k\alpha} \partial_k Q_{i\alpha} - \partial_\gamma Q_{i\alpha} \partial_k Q_{k\alpha})
 $$
 
-to reduce the number of sums preformed.
+to reduce the number of sums performed.
 
 In two dimensions, where $\mathbf n = (\cos \theta,\sin \theta)$, we have
 
@@ -491,13 +492,14 @@ $$
 \rho_{\gamma i} = \frac{1}{\pi S_0^2} D_{\gamma i}
 $$
 
-This fiel is found by the function 
+This field is found by the function
 
 ```python
 calc_disclination_density(self)
 ```
-which returns a tensorfield in three dimensions and a scalar field ($\rho_{33}$) in two. 
-Since we have tensor in three dimenstions, the story is more complicated than usual. 
+
+which returns a tensorfield in three dimensions and a scalar field ($\rho_{33}$) in two.
+Since we have tensor in three dimensions, the story is more complicated than usual.
 This tensor contains two pieces of information, namely which direction the disclination is pointing, and around which axis $\boldsymbol \Omega$, near the disclination, the rods are rotating.
 In that way, it is similar to a dislocation density in a crystal structure, only that it allows for the orientation the "Burgers vector" to be any direction.
 It can be written like this [^schimming2023kinematics]
@@ -510,19 +512,19 @@ where the unit vectors are $\boldsymbol t$ is tangent vector and $\boldsymbol\Om
 From this, we see that
 
 $$
-\omega^2 =|\rho|^2 = \rho_{\gamma i} \rho_{\gamma i} 
+\omega^2 =|\rho|^2 = \rho_{\gamma i} \rho_{\gamma i}
 $$
 
-so $\omega$ is the quantity we should integrate to find the nodes of the defects. 
-The unitvectors $\boldsymbol t$ and $\boldsymbol \Omega$ is found as the eigenvectors of the matrices $\rho^T \rho$ and $\rho \rho^T$ respectivly.
-Since the eigenvectors are determined up to a sign one have to make sure that $\boldsymbol t$ is continous along the defect and impose the condition $\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\text{Tr}(\rho))$.
+so $\omega$ is the quantity we should integrate to find the nodes of the defects.
+The unitvectors $\boldsymbol t$ and $\boldsymbol \Omega$ is found as the eigenvectors of the matrices $\rho^T \rho$ and $\rho \rho^T$ respectively.
+Since the eigenvectors are determined up to a sign one have to make sure that $\boldsymbol t$ is continuous along the defect and impose the condition $\text{sign}(\boldsymbol \Omega \cdot \boldsymbol t) = \text{sign}(\text{Tr}(\rho))$.
 The $\rho$ tensor field is calculated decomposed into the above mentioned vectors by the function
 
 ```python
 calc_disclination_density_decoupled(self)
 ```
-which returns $\omega, \Omega, T,$ and $\text{Tr}(\rho)$. 
 
+which returns $\omega, \Omega, T,$ and $\text{Tr}(\rho)$.
 
 From Ref.[^schimming2023kinematics], we have
 

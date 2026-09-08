@@ -33,23 +33,23 @@ $$
 
 These are the optional keywords for the `BaseSystem` class.
 
-| Keyword | Definition | Default value|
-|---------|------------|--------------|
-| `xmin`  | Minimum value of $x$ of the simulation domain | $0$ |
-| `ymin`  | Minimum value of $y$ of the simulation domain | $0$ |
-| `zmin`  | Minimum value of $z$ of the simulation domain | $0$ |
-| `xmax`  | Maximum value of $x$ of the simulation domain. | $100$ |
-| `ymax`  | Maximum value of $y$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 100 \\ 100 \\ \end{array} \right \rbrace$ |
-| `zmax`  | Maximum value of $z$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  100 \\ \end{array} \right \rbrace$ |
-| `xRes`  | Resolution of the $x$ axis | $101$ |
-| `yRes`  | Resolution of the $y$ axis | $\left \lbrace \begin{array}{c} 1 \\ 101 \\  101 \\ \end{array} \right \rbrace$ |
-| `zRes`  | Resolution of the $z$ axis | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  101 \\ \end{array} \right \rbrace$ |
-| `dx`    | Spacing between points on the $x$-axis. Trumps `xRes` if provided. `xmax` will be modified to match. | $\frac{\texttt{xmax}-\texttt{xmin}}{\texttt{xRes}} = 1$ |
-| `dy`    | Spacing between points on the $y$-axis. Trumps `yRes` if provided. | $\frac{\texttt{ymax}-\texttt{ymin}}{\texttt{yRes}} = 1$ |
-| `dz`    | Spacing between points on the $x$-axis. Trumps `zRes` if provided. | $\frac{\texttt{zmax}-\texttt{zmin}}{\texttt{zRes}} = 1$ |
-| `xlim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $x$-direction. Trumps `xmin` and `xmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = (0,101)$ |
-| `ylim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $y$-direction. Trumps `ymin` and `ymax` if provided. | $(\texttt{ymin},\texttt{ymax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,101) \\  (0,101) \\ \end{array} \right \rbrace$|
-| `zlim`  | List or tuple consisting of the lower and upper limit for the simulation domain in the $z$-direction. Trumps `zmin` and `zmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,1) \\  (0,101) \\ \end{array} \right \rbrace$|
+| Keyword | Definition | Default value |
+| --------- | ------------ | -------------- |
+| `xmin` | Minimum value of $x$ of the simulation domain | $0$ |
+| `ymin` | Minimum value of $y$ of the simulation domain | $0$ |
+| `zmin` | Minimum value of $z$ of the simulation domain | $0$ |
+| `xmax` | Maximum value of $x$ of the simulation domain. | $100$ |
+| `ymax` | Maximum value of $y$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 100 \\ 100 \\ \end{array} \right \rbrace$ |
+| `zmax` | Maximum value of $z$ of the simulation domain | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  100 \\ \end{array} \right \rbrace$ |
+| `xRes` | Resolution of the $x$ axis | $101$ |
+| `yRes` | Resolution of the $y$ axis | $\left \lbrace \begin{array}{c} 1 \\ 101 \\  101 \\ \end{array} \right \rbrace$ |
+| `zRes` | Resolution of the $z$ axis | $\left \lbrace \begin{array}{c} 1 \\ 1 \\  101 \\ \end{array} \right \rbrace$ |
+| `dx` | Spacing between points on the $x$-axis. Trumps `xRes` if provided. `xmax` will be modified to match. | $\frac{\texttt{xmax}-\texttt{xmin}}{\texttt{xRes}} = 1$ |
+| `dy` | Spacing between points on the $y$-axis. Trumps `yRes` if provided. | $\frac{\texttt{ymax}-\texttt{ymin}}{\texttt{yRes}} = 1$ |
+| `dz` | Spacing between points on the $x$-axis. Trumps `zRes` if provided. | $\frac{\texttt{zmax}-\texttt{zmin}}{\texttt{zRes}} = 1$ |
+| `xlim` | List or tuple consisting of the lower and upper limit for the simulation domain in the $x$-direction. Trumps `xmin` and `xmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = (0,101)$ |
+| `ylim` | List or tuple consisting of the lower and upper limit for the simulation domain in the $y$-direction. Trumps `ymin` and `ymax` if provided. | $(\texttt{ymin},\texttt{ymax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,101) \\  (0,101) \\ \end{array} \right \rbrace$ |
+| `zlim` | List or tuple consisting of the lower and upper limit for the simulation domain in the $z$-direction. Trumps `zmin` and `zmax` if provided. | $(\texttt{xmin},\texttt{xmax}) = \left \lbrace \begin{array}{c} (0,1) \\ (0,1) \\  (0,101) \\ \end{array} \right \rbrace$ |
 | `time` | Float specifying the time of initialization | $0$ |
 | `a0` | Characteristic length scale associated with the system, in units of which all plots will be scaled. This is also the default width used with the coarse-graining operation. | $1$ |
 | `X` | 2D numpy array with position coordinates. Typically used when the coordinates are not a regular grid. | `None` |
@@ -58,23 +58,23 @@ These are the optional keywords for the `BaseSystem` class.
 
 From these keywords, a number of useful parameters are constructed, given in the table below.
 
-| Parameter      | Definition   | Value |
-| -------------- | --------------| ----- |
-| `x`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} \texttt{xRes} \\ \texttt{xRes}\times 1  \\ \texttt{xRes}\times 1 \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `xmin` to (including) `xmax-dx`. |
-| `y`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1 \times \texttt{yRes}  \\ 1 \times \texttt{yRes} \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `ymin` to (including) `ymax-dy`. |
-| `z`            | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1  \\ 1 \times 1 \times \texttt{zRes} \\ \end{array} \right \rbrace$ consisting of the grid points from `zmin` to (including) `zmax-dz`. |
-| `xmidi`        | Index of the mid $x$-value. In the case of an odd `xRes`, this midpoint index will not hit the middle exactly but undershoot by `dx/2`. |
-| `xmid`         | The $x$ value given by `xmidi`. |
-| `ymidi`        | Index of the mid $y$-value. In the case of an odd `yRes`, this midpoint index will not hit the middle exactly but undershoot by `dy/2`. |
-| `ymid`         | The $y$ value given by `ymidi`. |
-| `zmidi`        | Index of the mid $z$-value. In the case of an odd `zRes`, this midpoint index will not hit the middle exactly but undershoot by `dz/2`. |
-| `zmid`         | The $z$ value given by `zmidi`. |
+| Parameter | Definition | Value |
+| -------------- | -------------- | ----- |
+| `x` | Numpy array with dimensions $\left \lbrace \begin{array}{l} \texttt{xRes} \\ \texttt{xRes}\times 1  \\ \texttt{xRes}\times 1 \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `xmin` to (including) `xmax-dx`. |  |
+| `y` | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1 \times \texttt{yRes}  \\ 1 \times \texttt{yRes} \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `ymin` to (including) `ymax-dy`. |  |
+| `z` | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1  \\ 1 \times 1 \times \texttt{zRes} \\ \end{array} \right \rbrace$ consisting of the grid points from `zmin` to (including) `zmax-dz`. |  |
+| `xmidi` | Index of the mid $x$-value. In the case of an odd `xRes`, this midpoint index will not hit the middle exactly but undershoot by `dx/2`. |  |
+| `xmid` | The $x$ value given by `xmidi`. |  |
+| `ymidi` | Index of the mid $y$-value. In the case of an odd `yRes`, this midpoint index will not hit the middle exactly but undershoot by `dy/2`. |  |
+| `ymid` | The $y$ value given by `ymidi`. |  |
+| `zmidi` | Index of the mid $z$-value. In the case of an odd `zRes`, this midpoint index will not hit the middle exactly but undershoot by `dz/2`. |  |
+| `zmid` | The $z$ value given by `zmidi`. |  |
 | `size_x` | Size of the $x$-axis | $\texttt{xmax} - \texttt{xmin}$ |
-| `size_y` | Size of the $y$-axis |  $\texttt{ymax} - \texttt{ymin}$ (1 if `dim` $<2$) |
-| `size_z` | Size of the $z$-axis |  $\texttt{zmax} - \texttt{zmin}$ (1 if `dim` $<3$)|
+| `size_y` | Size of the $y$-axis | $\texttt{ymax} - \texttt{ymin}$ (1 if `dim` $<2$) |
+| `size_z` | Size of the $z$-axis | $\texttt{zmax} - \texttt{zmin}$ (1 if `dim` $<3$) |
 | `size_min` | Minimum value of the simulation domain | $\left \lbrace \begin{array}{c} \texttt{size_x} \\ \texttt{min}(\texttt{size_x}, \texttt{size_y})\\ \texttt{min}(\texttt{size_x}, \texttt{size_y}, \texttt{size_z}) \\ \end{array} \right \rbrace$ |
 | `size_max` | Maximum value of the simulation domain | $\left \lbrace \begin{array}{c} \texttt{size_x} \\ \texttt{max}(\texttt{size_x}, \texttt{size_y})\\ \texttt{max}(\texttt{size_x}, \texttt{size_y}, \texttt{size_z}) \\ \end{array} \right \rbrace$ |
-| `dV`          | Volume element of the grid. | $\left \lbrace \begin{array}{l} \texttt{dx} \\ \texttt{dx} \times \texttt{dy}  \\ \texttt{dx} \times \texttt{dy} \times \texttt{dz}  \\ \end{array} \right \rbrace$.|
+| `dV` | Volume element of the grid. | $\left \lbrace \begin{array}{l} \texttt{dx} \\ \texttt{dx} \times \texttt{dy}  \\ \texttt{dx} \times \texttt{dy} \times \texttt{dz}  \\ \end{array} \right \rbrace$. |
 | `volume` | Volume of the simulation domain | $\texttt{size_x} \times \texttt{size_y} \times \texttt{size_z}$ |
 
 Note that even though variables like `yRes`, `zRes` etc. are defined in cases where they are not relevant, such as for a $1$-dimensional system, they play no significant role in any calculations in such situations.
@@ -82,12 +82,11 @@ Note that even though variables like `yRes`, `zRes` etc. are defined in cases wh
 ![](img/base_system_x_axis_illustration.png#only-light)
 ![](img/base_system_x_axis_illustration-colorinverted.png#only-dark)
 
-
-Periodic boundary conditions means that `xmax` and `xmin` are identified as the same point. 
+Periodic boundary conditions means that `xmax` and `xmin` are identified as the same point.
 
 ## Fourier transformations
 
-ComFiT is based on so-called spectral methods, which means using Fourier transformations to solve differential equations. 
+ComFiT is based on so-called spectral methods, which means using Fourier transformations to solve differential equations.
 There are some subtleties to how the Fourier transformations work, which we will explain here.
 If you prefer a video explanation, you can watch the following video.
 
@@ -477,7 +476,6 @@ These expressions are based on the geometry depicted in the following figure.
 ![Vortex ring angle field explanation](img/base_system_vortex_ring_angle_field_explanation.png#only-light)
 ![Vortex ring angle field explanation](img/base_system_vortex_ring_angle_field_explanation-colorinverted.png#only-dark)
 
-
 *Vortex ring angle field explanation:* Geometry of a vortex ring in the plane given by $\vec n$.
 $\mathcal N'$ is the plane normal to the tangent vector $\vec t'$ at $\vec r'$ upon which we impose a Cartesian coordinate system to determine the angles $\theta_1$, $\theta_2$ that are used to construct the (inset) initial angle field.
 Figure reprinted from Ref.[^skogvollPhaseFieldCrystal2022] with permission.
@@ -748,7 +746,7 @@ $$
 $$
 
 $$
-\psi(t+\Delta t)_f = \psi_{\mathfrak f 0} + \dot{\psi}_{\mathfrak f 0} \frac{\Delta t}{2} + \dot{\psi}_{\mathfrak f a} \frac{\Delta t}{2},
+\psi(t+\Delta t)*f = \psi*{\mathfrak f 0} + \dot{\psi}*{\mathfrak f 0} \frac{\Delta t}{2} + \dot{\psi}*{\mathfrak f a} \frac{\Delta t}{2},
 $$
 
 which is a two-stage Runge-Kutta method called Heun's method.
@@ -764,11 +762,11 @@ $$
 $$
 
 $$
-\psi_{\mathfrak f c} = \psi_{\mathfrak f a} + ( 2 \dot{\psi}_{\mathfrak f b} - \dot{\psi}_{\mathfrak f 0}) \frac{\Delta t}{2}
+\psi_{\mathfrak f c} = \psi_{\mathfrak f a} + ( 2 \dot{\psi}*{\mathfrak f b} - \dot{\psi}*{\mathfrak f 0}) \frac{\Delta t}{2}
 $$
 
 $$
-\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f 0} + \frac{1}{6} ( \dot{\psi}_{\mathfrak f 0} + 2 \dot{\psi}_{\mathfrak f a} + 2 \dot{\psi}_{\mathfrak f b} + \dot{\psi}_{\mathfrak f c} ) \Delta t.
+\psi_{\mathfrak f} (t+\Delta t) = \psi_{\mathfrak f 0} + \frac{1}{6} ( \dot{\psi}*{\mathfrak f 0} + 2 \dot{\psi}*{\mathfrak f a} + 2 \dot{\psi}*{\mathfrak f b} + \dot{\psi}*{\mathfrak f c} ) \Delta t.
 $$
 
 Note that this is not the typical Runge-Kutta 4 method, due to the differences in calculating $\psi_{\mathfrak f c}$.
@@ -820,21 +818,21 @@ Tests are included in `test_base_system.py`, but for visual examination, here ar
 ![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_3D-colorinverted.gif#only-dark)
 
 ## Stochastic noise
-Supose that the equation 
+Suppose that the equation
 
 $$
-\partial_t T = \omega(\nabla) T + N(T) 
+\partial_t T = \omega(\nabla) T + N(T)
 $$
 
-has a noise term in the non-linear part $N = N_{ns} + f$. 
+has a noise term in the non-linear part $N = N_{ns} + f$.
 We can in that case still do the integration with the integrating factor and get the following equation in fourier space
 
 $$
 \tilde T(t+\Delta t) = e^{\tilde \omega \Delta t} \tilde T(t) +  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde N_{ns}(T, t+\tau)   +  e^{\tilde \omega \Delta t}\int_0^{\Delta t} d\tau e^{-\tilde\omega \tau}  \tilde f(t+\tau),
 $$
 
-The first of these integrals can be handled using one of the schemes described above, 
-but the later needs some extra care. 
+The first of these integrals can be handled using one of the schemes described above,
+but the later needs some extra care.
 We will here give a short discussion how to handle this integra,
 while a more detailed discussion can be found in [^gallego2011predictor].
 We have in fourier space
@@ -848,15 +846,15 @@ $$
 \tilde f = \int d\vec r e^{i\vec k \cdot \vec r} f(\vec r,n\Delta t+\tau)
 $$
 
-we therfore have to evaluate the following integrals
+we therefore have to evaluate the following integrals
 
 $$
 \tilde T_s =  e^{\tilde \omega \Delta t}\int d\vec r \int_0^{\Delta t} d\tau e^{-\tilde\omega \tau} e^{i\vec k \cdot \vec r} f(\vec r,n\Delta t+\tau).
 $$
 
-The noise is assumed to have the zero mean and being delta correlated in time and space $\langle f(r,t)\rangle = 0$ and $\langle f(\vec r_1,t_1)f(\vec r_2,t_2) = \sigma^2 \delta(\vec r_1 -\vec r_2) \delta(t_1 -t_2)$. 
-The mean of the integral is then $\langle T_s(t)\rangle = 0 $, 
-while the variance is 
+The noise is assumed to have the zero mean and being delta correlated in time and space $\langle f(r,t)\rangle = 0$ and $\langle f(\vec r_1,t_1)f(\vec r_2,t_2) = \sigma^2 \delta(\vec r_1 -\vec r_2) \delta(t_1 -t_2)$.
+The mean of the integral is then $\langle T_s(t)\rangle = 0 $,
+while the variance is
 
 $$
 \langle \tilde T_s(t_1, t_2) \rangle =  e^{2\tilde \omega \Delta t}\int d\vec r_2 \int d\vec r_1 \int_0^{\Delta t} d\tau_1 \int_0^{\Delta t} d\tau_2 e^{-\tilde\omega \tau_2-\tilde\omega \tau_1} e^{i\vec k_1 \cdot \vec r_1+i\vec k_2 \cdot \vec r_2} \langle f(\vec r_1,n_1 \Delta t+\tau_1)f(\vec r_2,n_2 \Delta t +\tau_2) \rangle
@@ -868,26 +866,26 @@ $$
 \langle \tilde T_s(k_1,t_1)T(k_2, t_2) \rangle =  e^{2\tilde \omega \Delta t}\int d\vec r_2 \int d\vec r_1 \int_0^{\Delta t} d\tau_1 \int_0^{\Delta t} d\tau_2 e^{-\tilde\omega \tau_2-\tilde\omega \tau_1} e^{i\vec k_1 \cdot \vec r_1+i\vec k_2 \cdot \vec r_2} \sigma^2 \delta(\vec r_1 -\vec r_2)\delta( [n_1-n_2] \Delta t+\tau_1-\tau_2)
 $$
 
-Using the delta functions and notising that $n_1 =n_2$ is the only option that is non-zero we get 
+Using the delta functions and noticing that $n_1 =n_2$ is the only option that is non-zero we get
 
 $$
 \langle \tilde T_s(k_2,t_1)T_s(k_2,t_2) \rangle =  \sigma^2e^{2\tilde \omega \Delta t}\int d\vec r   e^{i (\vec k_1 \cdot +\vec k_2) \cdot \vec r}  \int_0^{\Delta t} d\tau e^{-2\tilde\omega \tau}
 $$
 
-Preforming the integral we find
+Performing the integral we find
 
 $$
 \langle \tilde T_s(k_1,t_1)T_s(k_2,t_2) \rangle =  \sigma^2e^{2\tilde \omega \Delta t}\delta(k_1 -k_2) \frac{1}{2\hat \omega} \left(1-e^{-2\tilde \omega \Delta t }\right)
 $$
 
-We can then evaluate the integral as [^gallego2011predictor] 
+We can then evaluate the integral as [^gallego2011predictor]
 
 $$
-T_s(\vec k,t) = \sigma \tilde A(\vec k)\eta_{\vec k}\sqrt{ \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right)}, 
+T_s(\vec k,t) = \sigma \tilde A(\vec k)\eta_{\vec k}\sqrt{ \frac{1}{2\hat \omega} \left(e^{2\tilde \omega \Delta t } -1 \right)},
 $$
 
 with $\eta_k$ being the fourier transform of a gaussian noise.
-$A(\vec k)$ is here a kernel which is added to controll the injection scale of the noise. 
+$A(\vec k)$ is here a kernel which is added to control the injection scale of the noise.
 
 ## Algorithms for tracking defects
 
@@ -897,7 +895,6 @@ To be written
 
 The equations for the velocity are taken from Ref.[^skogvollUnifiedFieldTheory2023], simplified using Mathematica and then
 substituted for python code using chatGPT.
-
 
 [^coxExponentialTimeDifferencing2002]: Cox, S. M., & Matthews, P. C. (2002). Exponential Time Differencing for Stiff Systems. Journal of Computational Physics, 176(2), 430–455. [https://doi.org/10.1006/jcph.2002.6995](https://doi.org/10.1006/jcph.2002.6995)
 

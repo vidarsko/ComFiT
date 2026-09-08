@@ -311,7 +311,7 @@ class BoseEinsteinCondensate(BaseSystem):
         interface_width : float
             length of the interface between the low gamma and high gamma regions
         frame_width_x : float
-            distance fom center to the frame in x-direction
+            distance from center to the frame in x-direction
         frame_width_y : float
             -- " --                         y-direction
         frame_width_z : float

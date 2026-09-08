@@ -11,7 +11,7 @@ Below is a prepromt you can use with a language model to help you get started.
 ??? abstract "Preprompt for large language model (LLM)"
     ```python
     You are a helpful coding assistant who answers questions to the point.
-    
+
     Gauge the understanding of the user before providing answers.
 
     Remind the user that you may not give completely correct answers and encourage the user to paste error messages if they encounter any.
@@ -211,7 +211,7 @@ See the ComFiT Library Reference below for a complete list of class methods and 
 
 The best way to get to know ComFiT is by using it in one of the following tutorials.
 
-###Base System
+### Base System
 
 <div class="grid cards" style="display: flex; flex-wrap: wrap;">
     <a href="https://colab.research.google.com/github/vidarsko/ComFiT/blob/main/tutorial/base_system_basic_framework.ipynb" class="card" style="min-width: 160px; flex: 0 1 calc(20.00% - 10px); margin: 5px;">
@@ -281,7 +281,7 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     <img src="img/quantum_mechanics_barrier_reflection-colorinverted.gif#only-dark">
     </p>
     <p style="color: var(--md-default-fg-color)">
-    Quantum tunneling. 
+    Quantum tunneling.
     </p>
 </a>
 </div>
@@ -449,7 +449,6 @@ General tutorials.
 </a>
 </div>
 
-
 For the time being, ComFiT is limited to periodic boundary conditions, but this may change in the future.
 
 ## Installation
@@ -462,18 +461,18 @@ pip install comfit
 
 pip install comfit in your terminal or command prompt.
 
-## Virtual environnement
+## Virtual environment
 
-Using a virtual environnement when using ComFiT is highly encouraged for because even though we try to write robust code, it is still a library under development, so previously written simulations may break. By keeping your simulations together with the specific version of ComFiT, you make sure that your simulations will not break due to coming updates.
+Using a virtual environment when using ComFiT is highly encouraged because even though we try to write robust code, it is still a library under development, so previously written simulations may break. By keeping your simulations together with the specific version of ComFiT, you make sure that your simulations will not break due to coming updates.
 
-To create a virtual environnement, run the following command in your terminal after having navigated to the root folder of your exploration project
+To create a virtual environment, run the following command in your terminal after having navigated to the root folder of your exploration project
 
 ```bash
 Python -m venv myvenv
 ```
 
 This will create the folder `myvenv` which will contain the local installation of Python and associated packages.
-To activate the virtual environnement, simply run
+To activate the virtual environment, simply run
 
 ```bash
 .\venv\Scripts\activate
@@ -487,7 +486,7 @@ If your folder is part of a github repository, it is recommended to remove the v
 
 We welcome contributions.
 Whether you're fixing a bug, adding a new feature, or improving our documentation, your support helps us make the package more robust and versatile.
-Contributions can take many forms, from fixing minor bugs to implementing complex new features. 
+Contributions can take many forms, from fixing minor bugs to implementing complex new features.
 Below are the ways you can contribute:
 
 ### Bug Fixes
@@ -524,5 +523,5 @@ For detailed instructions on implementing your own PDE model with ComFiT, refer 
 
 ### Documentation Improvements
 
-Good documentation is key to a project's usability and its community's growth. 
+Good documentation is key to a project's usability and its community's growth.
 If you see areas for improvement or want to add documentation for undocumented features, your contributions are greatly appreciated.

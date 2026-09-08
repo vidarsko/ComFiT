@@ -10,10 +10,10 @@ See the ComFiT Library Reference below for a complete list of class methods and 
     </a>
 </div>
 
-The `ComFiT` package supports both the `plotly` (default) and `matplotlib` 
-plotting libraries. 
-You can easily switch between the two by setting the `plot_lib` attribute of the 
-`BaseSystem` class to either `plotly` or `matplotlib`, `plot_lib` can also be 
+The `ComFiT` package supports both the `plotly` (default) and `matplotlib`
+plotting libraries.
+You can easily switch between the two by setting the `plot_lib` attribute of the
+`BaseSystem` class to either `plotly` or `matplotlib`, `plot_lib` can also be
 passed as an argument to the plotting functions.
 
 Every plotting function returns a tuple containing a `fig` and an `ax` object.
@@ -22,7 +22,7 @@ Every plotting function returns a tuple containing a `fig` and an `ax` object.
     The `fig` object is the figure object of the plot, while the `ax` object represents the individual axes of the plot.
 
 === "`plotly`"
-    The `fig` object is the figure for the plot, and the `ax` object is a dictionary containing properties necessary for correct placement of subplots. 
+    The `fig` object is the figure for the plot, and the `ax` object is a dictionary containing properties necessary for correct placement of subplots.
     Default is `ax = {'row': 1, 'col': 1, 'nrows': 1, 'ncols': 1}`.
 
 To show the plot, use the `show` function, which takes the `fig` object as an argument
@@ -42,34 +42,34 @@ $$
 \left \lbrace \begin{array}{l} \textrm{default value if } \texttt{dim }= 1 \\ \textrm{default value if } \texttt{dim }= 2  \\ \textrm{default value if } \texttt{dim }= 3  \\ \end{array} \right \rbrace
 $$
 
-| Keyword         | Definition         | Default value |
+| Keyword | Definition | Default value |
 | ------------------ | --------------- | ----------- |
-| `xlabel` | The label on the x-axis | $x/a_0$|
-| `ylabel` | The label on the y-axis |  $\left \lbrace \begin{array}{c} \texttt{none} \\ y/a_0 \\  y/a_0 \\ \end{array} \right \rbrace$  |
-| `zlabel` | The label on the z-axis |  $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  z/a_0 \\ \end{array} \right \rbrace$  |
+| `xlabel` | The label on the x-axis | $x/a_0$ |
+| `ylabel` | The label on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ y/a_0 \\  y/a_0 \\ \end{array} \right \rbrace$ |
+| `zlabel` | The label on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  z/a_0 \\ \end{array} \right \rbrace$ |
 | `suptitle` | The figure title | None |
-| `title` | The axes title | None|
+| `title` | The axes title | None |
 | `xmin` | The lower limit on the x-axis | `bs.xmin` |
-| `xmax`| The upper limit on the x-axis | `bs.xmax - bs.dx` |
-| `xlim`| A list or tuple consisting of the lower and upper limit on the x-axis. If `xlim` is provided, it trumps any provided `xmin` or `xmax`. | None|
+| `xmax` | The upper limit on the x-axis | `bs.xmax - bs.dx` |
+| `xlim` | A list or tuple consisting of the lower and upper limit on the x-axis. If `xlim` is provided, it trumps any provided `xmin` or `xmax`. | None |
 | `ymin` | The lower limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymin} \\  \texttt{bs.ymin} \\ \end{array} \right \rbrace$ |
-| `ymax`| The upper limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymax-bs.dy} \\  \texttt{bs.ymax-bs.dy} \\ \end{array} \right \rbrace$ |
-| `ylim`| A list or tuple consisting of the lower and upper limit on the y-axis. If `ylim` is provided, it trumps any provided `ymin` or `ymax`. | None |
+| `ymax` | The upper limit on the y-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{bs.ymax-bs.dy} \\  \texttt{bs.ymax-bs.dy} \\ \end{array} \right \rbrace$ |
+| `ylim` | A list or tuple consisting of the lower and upper limit on the y-axis. If `ylim` is provided, it trumps any provided `ymin` or `ymax`. | None |
 | `zmin` | The lower limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmin} \\ \end{array} \right \rbrace$ |
-| `zmax`| The upper limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmax-bs.dz} \\ \end{array} \right \rbrace$ |
-| `zlim`| List or tuple consisting of the lower and upper limit on the z-axis. If `zlim` is provided, it trumps any provided `zmin` or `zmax`. | None |
-| `vmin` | Lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. |None|
-| `vmax` | Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. |None|
+| `zmax` | The upper limit on the z-axis | $\left \lbrace \begin{array}{c} \texttt{none} \\ \texttt{none} \\  \texttt{bs.zmax-bs.dz} \\ \end{array} \right \rbrace$ |
+| `zlim` | List or tuple consisting of the lower and upper limit on the z-axis. If `zlim` is provided, it trumps any provided `zmin` or `zmax`. | None |
+| `vmin` | Lower limit on the field to be plotted. In the case of a complex function, this is the lower limit of the absolute value of the field to be plotted. | None |
+| `vmax` | Upper limit on the value of field to be plotted. In the case of a complex function, this is the upper limit of the absolute value of the field to be plotted. | None |
 | `vlim` | List or tuple consisting of the lower and upper limit of the value to be plotted. Only relevant for `plot_field`. | None |
 | `vlim_symmetric` | A Boolean parameter specifying whether the value limits should be symmetric. Only relevant for `plot_field`. | `False` |
-| `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable)|
+| `colorbar` | Boolean parameter indicating whether or not to plot the colorbar | `True` (if applicable) |
 | `colormap` | String specifying the colormap to be used | Varies |
 | `grid` | Boolean parameter indicating whether or not to plot the axes grid | `False` |
 | `hold` | Boolean parameter indicating whether or not to hold the current plot | `False` |
 | `opacity` | The opacity of the plot (only sometimes relevant) | 1 |
 | `plot_shadows` | Boolean parameter indicating whether or not to plot the shadows of the objects. Only applicable for `plot_complex_field`. | `True` |
-| `fig` | `plotly` or `matplotlib` figure handle | None|
-| `ax` | `matplotlib` axis handle or dictionary with subplot properties | None|
+| `fig` | `plotly` or `matplotlib` figure handle | None |
+| `ax` | `matplotlib` axis handle or dictionary with subplot properties | None |
 | `xticks` | List of ticks on the x-axis | None |
 | `xticklabels` | List of labels for the ticks on the x-axis | None |
 | `yticks` | List of ticks on the y-axis | None |
@@ -80,14 +80,13 @@ $$
 | `cticklabels` | List of labels for the ticks on the colorbar | None |
 | `alpha` | The alpha value of the plot | 0.5 |
 | `spacing` | The spacing between the arrows in a vector field plot | Varies |
-| `x` | A custom 1D x-coordinate array with the same shape as `bs.x`.  | `bs.x` |
-| `y` | A custom 1D y-coordinate array with the same shape as `bs.y`.  | `bs.y` |
-| `z` | A custom 1D z-coordinate array with the same shape as `bs.z`.  | `bs.z` |
-| `X` | A custom nD x-coordinate array.  | None |
-| `Y` | A custom nD y-coordinate array.  | None |
-| `Z` | A custom nD z-coordinate array.  | None |
+| `x` | A custom 1D x-coordinate array with the same shape as `bs.x`. | `bs.x` |
+| `y` | A custom 1D y-coordinate array with the same shape as `bs.y`. | `bs.y` |
+| `z` | A custom 1D z-coordinate array with the same shape as `bs.z`. | `bs.z` |
+| `X` | A custom nD x-coordinate array. | None |
+| `Y` | A custom nD y-coordinate array. | None |
+| `Z` | A custom nD z-coordinate array. | None |
 | `fourier` | Boolean parameter indicating whether or not the field to plot is in Fourier space | `False` |
-
 
 ## Subplots
 
@@ -129,10 +128,10 @@ cfi.show(fig)
 The convention followed in `ComFiT` are as follows:
 
 * When a plotting function is called *without* a keyword argument specifying the current figure or axes, then the current figure will be cleared and potential axes (in the case of matplotlib) will be created onto it.
-This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
+This is because with no reference to which axes the plot is meant to go on top, there is no way of knowing.
 * If a figure is provided by the keyword `fig=myfig` with, then it will be cleared and the new plot will be plotted on `myfig`.
-This is because with no reference to which axes the plot is meant to go ontop, there is no way of knowing.
-* If an axes object is provided by the keyword `ax`, then the `ax` instance will be cleared and the new plot will be plotted on `ax`, unless the keyword `hold=True` is provided, in which case the new plot will be plotted ontop of the old plot.
+This is because with no reference to which axes the plot is meant to go on top, there is no way of knowing.
+* If an axes object is provided by the keyword `ax`, then the `ax` instance will be cleared and the new plot will be plotted on `ax`, unless the keyword `hold=True` is provided, in which case the new plot will be plotted on top of the old plot.
 
 To show the current plot, one writes
 
@@ -206,12 +205,8 @@ scene_updates = {
 
 In all plot functions, there's an important distinction between the `kwargs` and `ax` dictionaries:
 
-- `kwargs`: Contains settings specific to the current plot
-- `ax`: Contains settings that apply to all plots in a given subplot
-
-
-
-
+* `kwargs`: Contains settings specific to the current plot
+* `ax`: Contains settings that apply to all plots in a given subplot
 
 ## Colormaps
 
@@ -272,16 +267,15 @@ The `plot_field` function is used to plot a real field.
     ![](img/plotting_plot_field_demo.png#only-light)
     ![](img/plotting_plot_field_demo-colorinverted.png#only-dark)
 
-#### `plot_field_in_plane` 
+#### `plot_field_in_plane`
 
 The `plot_field_in_plane` function is used to plot a real field in a plane.
 
 ??? example "Example"
-    ```python 
+    ```python
     import comfit as cf
     import matplotlib.pyplot as plt
     import numpy as np
-
 
     fig = plt.figure()
 
@@ -303,7 +297,7 @@ The `plot_field_in_plane` function is used to plot a real field in a plane.
 
 Complex fields are fields that take complex values, for example the electric field in a light wave.
 
-#### `plot_complex_field` 
+#### `plot_complex_field`
 
 The `plot_complex_field` function is used to plot a complex field.
 
@@ -347,14 +341,14 @@ The `plot_complex_field` function is used to plot a complex field.
     ![](img/plotting_plot_complex_field_demo.png#only-light)
     ![](img/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
 
-#### `plot_complex_field_in_plane` 
+#### `plot_complex_field_in_plane`
 
 The `plot_complex_field_in_plane` function is used to plot a complex field in a plane.
 The modulus of the complex field is shown as the alpha channel, where the minimum modulus value is transparent and the maximum modulus value is opaque.
 The phase of the complex field is shown as the color of the field, where the color is determined by the angle color scheme.
 
 ??? example "Example"
-    ```python 
+    ```python
     import comfit as cf
     import matplotlib.pyplot as plt
     import numpy as np
@@ -412,12 +406,12 @@ The `plot_angle_field` function is used to plot an angle field.
     ![](img/plotting_plot_angle_field_demo.png#only-light)
     ![](img/plotting_plot_angle_field_demo-colorinverted.png#only-dark)
 
-#### `plot_angle_field_in_plane` 
+#### `plot_angle_field_in_plane`
 
 The `plot_angle_field_in_plane` function is used to plot an angle field in a plane.
 
 ??? example "Example"
-    ```python 
+    ```python
     import comfit as cf
     import matplotlib.pyplot as plt
     import numpy as np
@@ -449,7 +443,7 @@ Together with the typical keyword arguments, the `plot_vector_field` function ha
 The behavior of this plot function is dependent on the interplay between the dimension of the system and the dimension $n$ of the vector field.
 In cases where `dim` $+ n > 3$, it is not possible to plot the vector field in a quantitatively accurate (QA) way.
 In such cases, different scalings which results in not quantitatively accurate representations (not QA) are taken to visualize the vector field, as described in the table below, and the user is encouraged to plot the vector field components individually for quantitative analysis.
-The scaling used is can be seen in the code of the `plot_vector_field` function, and a custom scaling can be provided by the user by setting the `vx_scale`, `vy_scale` and `vz_scale` keyword arguments. 
+The scaling used is can be seen in the code of the `plot_vector_field` function, and a custom scaling can be provided by the user by setting the `vx_scale`, `vy_scale` and `vz_scale` keyword arguments.
 These factors scale the normalized vector field ($\frac{\mathbf v = \mathbf v }{|\mathbf v|}$) components in the x-, y- and z-axes, respectively, as shown for $n=3$ below.
 
 ```python
@@ -473,8 +467,8 @@ The following table summarizes the behavior of the `plot_vector_field` function.
 
 | System dimension | $n=1$ | $n=2$ | $n=3$ |
 | ----------------- | ----- | ----- | ----- |
-|`dim=1` | $v_x$ on y-axis <br>(QA). | $v_x$ on y-axis, $v_y$ on z-axis <br>(QA). | $v_x, v_y$ and $v_z$ along x-, y- and z-axes, respectively <br>(not QA).  |
-| `dim=2` | $v_x$ on the x-axis. <br>(not QA) | $v_x$ and $v_y$ on x- and y-axes, respectively <br>(not QA).| $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
+| `dim=1` | $v_x$ on y-axis <br>(QA). | $v_x$ on y-axis, $v_y$ on z-axis <br>(QA). | $v_x, v_y$ and $v_z$ along x-, y- and z-axes, respectively <br>(not QA). |
+| `dim=2` | $v_x$ on the x-axis. <br>(not QA) | $v_x$ and $v_y$ on x- and y-axes, respectively <br>(not QA). | $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
 | `dim=3` | $v_x$ on the x-axis <br>(not QA) | $v_x$, $v_y$ on the x-, and y-xes, respectively <br>(not QA). | $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
 
 ??? example "Example"
@@ -595,7 +589,7 @@ cf.tool_make_animation_gif(n)
 where `n` is the last frame number.
 
 ??? example "Example"
-    
+
     Here is how one would create an animation of a field.
 
     ```python
@@ -621,8 +615,6 @@ This has the benefit of wrapping around itself at θ = ±π, stressing that thes
 ![Angle color scheme](img/conventions_angle_colormap-colorinverted.png#only-dark)
 
 *Angle color scheme.* The color scheme follows the hsv color circle going through  $\theta=0$ (Red), $\theta=\pi/3$ (Yellow), $\theta=2\pi/3$ (Lime), $\theta = \pm \pi$ (Aqua), $\theta = -2\pi/3$ (Blue), $\theta = -\pi/3$ (Fuchsia).
-
-
 
 ### Technicality: The `marching_cubes` function and interpolation
 
@@ -739,7 +731,7 @@ points =
  [10 10 10]]
 ```
 
-Then, we create the `field_values` array by 
+Then, we create the `field_values` array by
 
 ```python
 field_values = field.ravel()

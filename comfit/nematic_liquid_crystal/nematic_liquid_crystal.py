@@ -222,7 +222,7 @@ class NematicLiquidCrystal(BaseSystem):
 
 
     def conf_active_channel(self,width = None,interface_width=7):
-        """Configures the activity to zero everywhere exept for inside a channel of width "width"
+        """Configures the activity to zero everywhere except for inside a channel of width "width"
 
         Parameters
         ----------
@@ -270,7 +270,7 @@ class NematicLiquidCrystal(BaseSystem):
         self.u = np.real(sp.fft.ifftn(self.u_f, axes=(range(-self.dim, 0))))
 
     def calc_active_force_f(self,Q):
-        '''Function that calculates the activ force in Fourier space.
+        '''Function that calculates the active force in Fourier space.
 
         Parameters
         ----------
@@ -284,7 +284,7 @@ class NematicLiquidCrystal(BaseSystem):
         '''
         F_af = []
         for j in range(self.dim):
-            F_af.append(sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_sym_tl(Q,j,i),axes=(range(-self.dim, 0)) ) for i in range(self.dim)))
+            F_af.append(sum(1j*self.k[i]*sp.fft.fftn(self.alpha *self.get_component_from_symmetric_traceless_tensor(Q,j,i),axes=(range(-self.dim, 0)) ) for i in range(self.dim)))
         return np.array(F_af)
 
     def calc_passive_force_f(self,Q):
@@ -321,19 +321,20 @@ class NematicLiquidCrystal(BaseSystem):
         """
         if self.dim == 2:
             H = self.calc_molecular_field(Q)
-            Antisym_QH = sum(self.get_sym_tl(Q,0,k)*self.get_sym_tl(H,k,1) -self.get_sym_tl(H,0,k)*self.get_sym_tl(Q,k,1) for k in range(self.dim))
+            Antisym_QH = np.zeros((1, self.xRes, self.yRes), dtype=np.complex128)
+            Antisym_QH[0] = sum(self.get_component_from_symmetric_traceless_tensor(Q,0,k)*self.get_component_from_symmetric_traceless_tensor(H,k,1) -self.get_component_from_symmetric_traceless_tensor(H,0,k)*self.get_component_from_symmetric_traceless_tensor(Q,k,1) for k in range(self.dim))
             Ericksen = np.zeros((self.dim,self.xRes,self.yRes),dtype=np.complex128)
-            Ericksen[0] = - self.K*sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym_tl(Q,m,l)))*
-                                              sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q,m,l)))
+            Ericksen[0] = - self.K*sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q,m,l)))*
+                                              sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q,m,l)))
                                               for m in range(self.dim) for l in range(self.dim))
-            Ericksen[1] = - self.K*sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_sym_tl(Q,m,l)))*
-                                              sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q,m,l)))
+            Ericksen[1] = - self.K*sum(sp.fft.ifftn(1j*self.k[0]*sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q,m,l)))*
+                                              sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q,m,l)))
                                               for m in range(self.dim) for l in range(self.dim))
 
             stress = np.zeros((self.dim,self.dim,self.xRes,self.yRes),dtype=np.complex128)
             for i in range(self.dim):
                 for j in range(self.dim):
-                    stress[i][j] = self.get_sym_tl(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
+                    stress[i][j] = self.get_component_from_symmetric_traceless_tensor(Ericksen,i,j) + self.get_component_from_antisymmetric_tensor(Antisym_QH,i,j)
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
         elif self.dim == 3:
@@ -342,35 +343,35 @@ class NematicLiquidCrystal(BaseSystem):
 
             Antisym_QH = np.zeros((3, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
 
-            Antisym_QH[0] = sum(self.get_sym_tl(Q,0,k)*self.get_sym_tl(H,k,1) -self.get_sym_tl(H,0,k)*self.get_sym_tl(Q,k,1) for k in range(self.dim))
+            Antisym_QH[0] = sum(self.get_component_from_symmetric_traceless_tensor(Q,0,k)*self.get_component_from_symmetric_traceless_tensor(H,k,1) -self.get_component_from_symmetric_traceless_tensor(H,0,k)*self.get_component_from_symmetric_traceless_tensor(Q,k,1) for k in range(self.dim))
             Antisym_QH[1] = sum(
-                self.get_sym_tl(Q, 0, k) * self.get_sym_tl(H, k, 2) - self.get_sym_tl(H, 0, k) * self.get_sym_tl(Q, k, 2) for k in
+                self.get_component_from_symmetric_traceless_tensor(Q, 0, k) * self.get_component_from_symmetric_traceless_tensor(H, k, 2) - self.get_component_from_symmetric_traceless_tensor(H, 0, k) * self.get_component_from_symmetric_traceless_tensor(Q, k, 2) for k in
                 range(self.dim))
             Antisym_QH[2] = sum(
-                self.get_sym_tl(Q, 1, k) * self.get_sym_tl(H, k, 2) - self.get_sym_tl(H, 1, k) * self.get_sym_tl(Q, k, 2) for k in
+                self.get_component_from_symmetric_traceless_tensor(Q, 1, k) * self.get_component_from_symmetric_traceless_tensor(H, k, 2) - self.get_component_from_symmetric_traceless_tensor(H, 1, k) * self.get_component_from_symmetric_traceless_tensor(Q, k, 2) for k in
                 range(self.dim))
 
             Ericksen = np.zeros((5, self.xRes, self.yRes,self.zRes), dtype=np.complex128)
-            Ericksen[0] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
+            Ericksen[0] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[1] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
+            Ericksen[1] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[2] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
+            Ericksen[2] = - self.K * sum(sp.fft.ifftn(1j * self.k[0] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[3] = - self.K * sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
+            Ericksen[3] = - self.K * sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
-            Ericksen[4] = - self.K * sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_sym_tl(Q, m, l))) *
-                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_sym_tl(Q, m, l)))
+            Ericksen[4] = - self.K * sum(sp.fft.ifftn(1j * self.k[1] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l))) *
+                                            sp.fft.ifftn(1j * self.k[2] * sp.fft.fftn(self.get_component_from_symmetric_traceless_tensor(Q, m, l)))
                                             for m in range(self.dim) for l in range(self.dim))
 
             stress = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
             for i in range(self.dim):
                 for j in range(self.dim):
-                    stress[i][j] = self.get_sym_tl(Ericksen,i,j) + self.get_anti_sym(Antisym_QH,i,j)
+                    stress[i][j] = self.get_component_from_symmetric_traceless_tensor(Ericksen,i,j) + self.get_component_from_antisymmetric_tensor(Antisym_QH,i,j)
             return sp.fft.fftn(stress, axes=(range(-self.dim, 0)) )
 
     def calc_trace_Q2(self,Q):
@@ -434,7 +435,7 @@ class NematicLiquidCrystal(BaseSystem):
 
     
     def calc_gradient_pressure_f(self,p_f):
-        """Caclulates the gradient of the pressure
+        """Calculates the gradient of the pressure
 
         Parameters
         ----------
@@ -659,18 +660,18 @@ class NematicLiquidCrystal(BaseSystem):
 
         elif self.dim == 3:
             D = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
-            term_trace = sum(np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,k,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,l,a)))
-                                    - np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,l,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_sym_tl(self.Q_f,k,a)))
+            term_trace = sum(np.real(sp.fft.ifftn(1j*self.k[k]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,k,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_component_from_symmetric_traceless_tensor(self.Q_f,l,a)))
+                                    - np.real(sp.fft.ifftn(1j*self.k[k]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,l,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_component_from_symmetric_traceless_tensor(self.Q_f,k,a)))
                                     for k in range(self.dim) for a in range(self.dim) for l in range(self.dim))
 
             for gam in range(self.dim):
                 for i in range(self.dim):
-                    D[gam, i] = 2*sum(np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_sym_tl(self.Q_f,k,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[k] * self.get_sym_tl(self.Q_f,i,a)))
-                                    - np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_sym_tl(self.Q_f,i,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[k] * self.get_sym_tl(self.Q_f,k,a)))
+                    D[gam, i] = 2*sum(np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,k,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[k] * self.get_component_from_symmetric_traceless_tensor(self.Q_f,i,a)))
+                                    - np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,i,a)))*
+                                    np.real(sp.fft.ifftn(1j*self.k[k] * self.get_component_from_symmetric_traceless_tensor(self.Q_f,k,a)))
                                     for k in range(self.dim) for a in range(self.dim))
                     if gam == i:
                         D[gam,i] += term_trace
@@ -731,8 +732,8 @@ class NematicLiquidCrystal(BaseSystem):
         g =  np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
         for gamma in range(self.dim):
             for k in range(self.dim):
-                g[gamma,k] = sum(tool_levi_civita_symbol(gamma,mu,nu) * self.get_sym_tl(dt_Q,mu,alpha)
-                       * np.real(sp.fft.ifftn(1j*self.k[k]* self.get_sym_tl(self.Q_f,nu,alpha)))
+                g[gamma,k] = sum(tool_levi_civita_symbol(gamma,mu,nu) * self.get_component_from_symmetric_traceless_tensor(dt_Q,mu,alpha)
+                       * np.real(sp.fft.ifftn(1j*self.k[k]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,nu,alpha)))
                        for mu in range(self.dim) for nu in range(self.dim) for alpha in range(self.dim))
         return g
 
@@ -791,7 +792,7 @@ class NematicLiquidCrystal(BaseSystem):
             Q_eig = numpy.zeros((self.xRes,self.yRes,self.zRes,self.dim,self.dim))
             for i in range(self.dim):
                 for j in range(self.dim):
-                    Q_eig[:,:,:,i,j] = self.get_sym_tl(self.Q,i,j)
+                    Q_eig[:,:,:,i,j] = self.get_component_from_symmetric_traceless_tensor(self.Q,i,j)
 
             eigvals, eigvectors = numpy.linalg.eigh(Q_eig)
             S = 3/2 *eigvals[:,:,:,2]

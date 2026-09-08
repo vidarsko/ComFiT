@@ -23,10 +23,3 @@ marked done and left in place.
   had a file open for another reason (see CHANGELOG.md's "Documentation" section for the ones
   found). A dedicated spell-check pass across every docstring and every `docs/*.md` page has not
   been done and would likely turn up more.
-
-## Design smells noticed in passing (functional, not naming — flagged for awareness only)
-
-- `BaseSystem.get_anti_sym` has a pre-existing `# TODO: I don't like that the input vector is a
-  scalar field in 2 dimensions. (Vidar 11.03.24)` comment — a real API-shape concern (not just a
-  name), already flagged by the author previously. Left untouched; out of scope for a
-  naming/documentation pass, and touching it would be a functional change.

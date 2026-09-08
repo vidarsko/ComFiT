@@ -81,10 +81,10 @@ $$
 
 The non-linear part (in this context, the potential term which depends on $\psi$ only through multiplication) is $N = -\mathfrak i V \psi$.
 
-| Atomic unit of | Value               |
-|----------------|---------------------|
-| Length ($a_0$) | 0.529 Å (Angstrom)  |
-| Energy ($E_h$) | 27.2 eV (electron volts)  |
+| Atomic unit of | Value                    |
+|----------------|--------------------------|
+| Length ($a_0$) | 0.529 Å (Angstrom)       |
+| Energy ($E_h$) | 27.2 eV (electron volts) |
 | Time ($\tau$)  | 24.2 as (attoseconds)    |
 
 ## The Born rule
@@ -117,9 +117,9 @@ $$
 
 ### Physical Significance of the Fourier Transform in QM
 
-1.  **Complementarity**: The Fourier transform relationship mathematically embodies Heisenberg's uncertainty principle. A wave function highly localized in position space (narrow $\psi(\mathbf{r})$) corresponds to a widely spread momentum distribution (broad $\phi(\mathbf{k})$), and vice versa.
-2.  **Operator Correspondence**: In the position representation, the momentum operator is $\hat{\mathbf{p}} = -\mathfrak i\hbar\nabla$. The Fourier transform maps this differential operator in position space to a simple multiplicative operator ($\hbar \mathbf{k}$) in momentum space.
-3.  **Energy Eigenstates**: For a free particle ($V=0$), the energy eigenstates are plane waves, $\psi(\mathbf r) \propto e^{\mathfrak i \mathbf k \cdot \mathbf r}$, which are also momentum eigenstates.
+1. **Complementarity**: The Fourier transform relationship mathematically embodies Heisenberg's uncertainty principle. A wave function highly localized in position space (narrow $\psi(\mathbf{r})$) corresponds to a widely spread momentum distribution (broad $\phi(\mathbf{k})$), and vice versa.
+2. **Operator Correspondence**: In the position representation, the momentum operator is $\hat{\mathbf{p}} = -\mathfrak i\hbar\nabla$. The Fourier transform maps this differential operator in position space to a simple multiplicative operator ($\hbar \mathbf{k}$) in momentum space.
+3. **Energy Eigenstates**: For a free particle ($V=0$), the energy eigenstates are plane waves, $\psi(\mathbf r) \propto e^{\mathfrak i \mathbf k \cdot \mathbf r}$, which are also momentum eigenstates.
 
 ## A wave packet
 

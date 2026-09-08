@@ -7,8 +7,9 @@ Full documentation can be found here: [https://comfitlib.com/](https://comfitlib
 
 A cleanup pass over naming consistency and documentation ahead of 2.0.0. No functional/numerical
 changes are included in this pass — only renames (breaking, since names are part of the public
-API) and documentation fixes. See ISSUES.md for consistency issues identified but deliberately
-deferred (ambiguous naming calls, or changes judged too large/risky for this pass).
+API) and documentation fixes, with one exception (see Changed (breaking) below). See ISSUES.md for
+consistency issues identified but deliberately deferred (ambiguous naming calls, or changes judged
+too large/risky for this pass).
 
 ### Renamed (breaking)
 
@@ -36,8 +37,12 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
 - `BaseSystem.calc_defect_current_density`: `psi_0` parameter renamed to `psi0`, for consistency
   with the identical equilibrium-amplitude parameter on `calc_defect_density`,
   `calc_defect_density_singular`, and `calc_delta_function`.
-- `BaseSystem.get_anti_sym`: `omega` parameter renamed to `tensor`, for consistency with the
-  identical parameter on `get_sym`/`get_sym_tl`.
+- `BaseSystem.get_sym`, `get_sym_tl`, and `get_anti_sym` renamed to
+  `get_component_from_symmetric_tensor`, `get_component_from_symmetric_traceless_tensor`, and
+  `get_component_from_antisymmetric_tensor` respectively, spelling out what the abbreviated names
+  left implicit (see `docs/ClassNematicLiquidCrystal.md`, `AGENTS.md`, and ISSUES.md, all updated
+  to match). `get_anti_sym`'s `omega` parameter was also renamed to `tensor` along the way, for
+  consistency with the identical parameter on the other two.
 - `BaseSystem`: internal `_check_if_fourier_and_adjust` renamed to `check_if_fourier_and_adjust`
   (dropped the leading underscore — it was the only "private" name in the codebase; the codebase
   does not otherwise use underscore-privacy).
@@ -74,6 +79,17 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
   arguments, and fixed `calc_g_matrix`'s `Returns` docstring (said "The disclination density",
   copy-pasted from a neighboring function; now says "The g matrix"). Recorded the general
   descriptive-parameter-naming rule this implies in `docs/Conventions.md`.
+
+### Changed (breaking)
+
+- `BaseSystem.get_component_from_antisymmetric_tensor` (see rename above) took its `tensor`
+  argument inconsistently depending on `self.dim`: a length-3 array of component fields in 3D, but
+  a bare scalar field (no array wrapper at all) in 2D, flagged by a pre-existing `# TODO` on the
+  function (see ISSUES.md). Since a 2D antisymmetric tensor has exactly one independent component,
+  it now takes a length-1 array in 2D too, consistent with the 3D convention. Updated the one call
+  site, `NematicLiquidCrystal.calc_passive_stress_f` (both the 2D and 3D branches build
+  `Antisym_QH`), to match. The computed stress values are unchanged — this only changes the storage
+  convention of the intermediate argument.
 
 ### Fixed
 
@@ -220,7 +236,7 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
 - Made a wheel for the distribution
 
 ## [1.2.0] - 2024-02-24
-- Bug fixes and stability imrpovements.
+- Bug fixes and stability improvements.
 - Included the Mayavi package for 3D plotting.
 
 ## [1.1.0] - 2023-12-07

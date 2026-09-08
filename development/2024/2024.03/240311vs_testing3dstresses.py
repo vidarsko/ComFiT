@@ -19,4 +19,4 @@ plt.show()
 
 # for i in range(3):
 #     for j in range(3):
-#         pfc.plot_field_in_plane(pfc.get_sym(stress,i,j)/pfc.el_mu,ax=axs[i,j])
+#         pfc.plot_field_in_plane(pfc.get_component_from_symmetric_tensor(stress,i,j)/pfc.el_mu,ax=axs[i,j])

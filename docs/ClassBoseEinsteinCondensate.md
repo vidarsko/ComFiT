@@ -189,7 +189,7 @@ Note: The exact form of the momentum equation can vary depending on the derivati
 To study how the BEC interacts with impurities, one can model the impurity as an external potential (e.g., Gaussian) and measure the force exerted on it [^ronning2020classical][^astrakharchik2004motion][^pinsker2017gaussian]. According to the Ehrenfest theorem, the force exerted by the external potential on the condensate is given by $\mathbf{F}_{cond} = -\langle \nabla V_{ext}\rangle$. By Newton's third law, the force exerted by the condensate on the potential (or the object creating it) is $\mathbf{F}_{pot} = - \mathbf{F}_{cond} = \langle \nabla V_{ext}\rangle$. Written explicitly, this is:
 
 $$
-\mathbf{F}_{pot} = \int d\mathbf{r} |\psi|^2 \nabla V_{ext}(\mathbf{r}) = -\int d\mathbf{r} V_{ext}(\mathbf{r}) \nabla(|\psi|^2),
+\mathbf{F}*{pot} = \int d\mathbf{r} |\psi|^2 \nabla V*{ext}(\mathbf{r}) = -\int d\mathbf{r} V_{ext}(\mathbf{r}) \nabla(|\psi|^2),
 $$
 
 where the second equality follows from integration by parts (assuming boundary terms vanish). This force is calculated by the function:
@@ -223,7 +223,7 @@ Vortices can be created in several ways: by manually inserting them into the ini
 When studying a BEC stirred by a potential moving at velocity $-\mathbf{V}_p$, it is sometimes convenient to switch to a reference frame moving with the potential (the comoving frame). In this frame, the potential is stationary, and the BEC flows past it with velocity $\mathbf{V}_p$. The transformed dGPE reads:
 
 $$
-\partial_t \psi = -\mathbf{V}_p \cdot \nabla \psi - (\mathfrak{i}+\gamma) \left[-\frac{1}{2}\nabla^2 + V_{ext}(\mathbf{r}) -1 +|\psi|^2 \right]\psi.
+\partial_t \psi = -\mathbf{V}*p \cdot \nabla \psi - (\mathfrak{i}+\gamma) \left[-\frac{1}{2}\nabla^2 + V*{ext}(\mathbf{r}) -1 +|\psi|^2 \right]\psi.
 $$
 
 Note that a standard Galilean transformation of the GPE ($\gamma=0$) often includes a phase factor $e^{i(\mathbf{V}_p \cdot \mathbf{r} - \frac{1}{2} V_p^2 t)}$ to ensure the transformed velocity represents the velocity in the new frame[^Pismen]. However, the dGPE ($\gamma \neq 0$) is not Galilean invariant, so we omit this phase factor here. Consequently, the superfluid velocity calculated from $\psi$ in this frame still represents the velocity in the original lab frame [^ronning2020classical].

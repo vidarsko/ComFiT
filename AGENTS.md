@@ -181,7 +181,9 @@ so `x + y` broadcasts to `(xRes, yRes)`.
 only exists on model subclasses, not `BaseSystem`; `evolve_*` advances the
 simulation state (increments `time` by `dt` per step), returns `None`;
 `plot_*` returns `(fig, ax)`; `get_*` — narrower than the name suggests, in
-practice only `get_sym`/`get_sym_tl`/`get_anti_sym` on `BaseSystem`, for
+practice only `get_component_from_symmetric_tensor`/
+`get_component_from_symmetric_traceless_tensor`/
+`get_component_from_antisymmetric_tensor` on `BaseSystem`, for
 (anti)symmetrizing tensor components, not a general accessor pattern.
 
 **Fourier fields** are suffixed `_f`. Transform via `self.fft`/`self.ifft`
