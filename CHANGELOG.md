@@ -95,29 +95,9 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
 
 ### Documentation
 
-- Converted the Google-style (`Args:`/`Returns:`/`Raises:`) docstrings in
-  `BoseEinsteinCondensate` and `NematicLiquidCrystal` (and the nematic
-  `plot_field_velocity_and_director_*` helper files) to the NumPy style mandated by
-  `docs/Conventions.md`, matching the rest of the codebase.
-- Fixed a number of stale/incorrect docstrings that had drifted from the actual signature or
-  behavior: `conf_insert_vortex_filament` (documented a nonexistent `position1`/`position2` pair
-  instead of the real `position`/`charge`), `conf_dissipative_frame` (documented `d` instead of the
-  real `interface_width`), `calc_disclination_nodes` (documented a `'Rotation_vector'` dict key
-  instead of the real `'rotation_vector'`), `NematicLiquidCrystal.__init__` (documented `dimension`
-  instead of the real `dim`).
-- Fixed the `plot_*` return-value docstrings in `PhaseFieldCrystal` (`plot_PFC`,
-  `plot_orientation_field`) that documented the return tuple as `(ax, fig)`; the actual (and
-  documented-elsewhere) convention is `(fig, ax)`.
-- Fixed a systematic `numpy.narray` → `numpy.ndarray` typo (24 instances) in
-  `nematic_liquid_crystal.py`, and normalized "fourier space" → "Fourier space" and
-  "orderparameter" → "order parameter" for consistency with the rest of the codebase.
-- Fixed `docs/ClassBaseSystem.md` (`self.t` → `self.time`, the attribute that actually exists),
-  `docs/TopologicalDefects.md` (`` `defect_note` `` → `` `defect_node` ``), and a handful of other
-  spelling/typo fixes in docstrings and docs pages (`docs/ClassNematicLiquidCrystal.md`, etc.).
-- Added a docstring note to `PhaseFieldCrystal.__init__` clarifying it is not meant to be
-  instantiated directly (users should use one of the six concrete lattice subclasses).
-- Fixed `QuantumMechanics.conf_harmonic_potential`'s docstring, which still described the
-  now-renamed `R_tf` parameter (a leftover from before it was renamed to `trapping_strength`).
+- Large documentation cleanup pass: docstring style/consistency fixes across the codebase, several
+  stale/incorrect docstrings corrected to match actual behavior, typo fixes, and removal of an
+  orphaned scratch file (`docs/compiled_document.md`). No behavioral changes.
 
 ### Structural
 

@@ -10,11 +10,6 @@ marked done and left in place.
 
 ## Documentation infrastructure
 
-- **`docs/compiled_document.md`** looks like an orphaned generated/scratch file — it's tracked in
-  git, but not referenced from `mkdocs.yml`'s nav, and its (only) content is a near-duplicate
-  fragment of `docs/ClassBaseSystem.md`'s ETD2RK section. Probably safe to delete, but leaving it
-  for a maintainer to confirm rather than deleting tracked content unilaterally.
-
 - **Repo-wide markdownlint violations.** `docs/Conventions.md` mandates markdownlint for all
   Markdown docs, but the IDE's markdownlint integration flags many pre-existing violations across
   `docs/*.md` just from files touched in this pass (trailing whitespace, `MD060` table-pipe-spacing,
