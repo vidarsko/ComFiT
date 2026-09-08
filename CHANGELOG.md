@@ -119,6 +119,35 @@ deferred (ambiguous naming calls, or changes judged too large/risky for this pas
 - Fixed `QuantumMechanics.conf_harmonic_potential`'s docstring, which still described the
   now-renamed `R_tf` parameter (a leftover from before it was renamed to `trapping_strength`).
 
+### Structural
+
+- `comfit/tool/tool_plotly_colorbar.py` bundled three distinct functions
+  (`tool_plotly_colorbar`, `tool_format_tick_value`, `tool_generate_numbers_between`) in one file,
+  unlike the one-function-per-file pattern used everywhere else in `comfit/tool/`. Split into
+  `tool_plotly_colorbar.py`, `tool_format_tick_value.py`, and `tool_generate_numbers_between.py`.
+  `tool_format_tick_value` and `tool_generate_numbers_between` are now exported directly from
+  `comfit.tool` (previously reachable only via `comfit.tool.tool_plotly_colorbar`);
+  `tool_plotly_colorbar`'s own import path and behavior are unchanged. Also dropped an unused
+  `tool_colormap` import from `tool_plotly_colorbar.py`.
+
+### Reviewed (no change)
+
+- `comfit/plot/plot_vector_field_in_plane_both_plot_libs.py` was flagged as the only file in
+  `comfit/plot/` combining both backends in one file instead of following the
+  `plot_X_matplotlib.py` / `plot_X_plotly.py` per-backend file-pair pattern. Confirmed with the
+  maintainer this was intentional: unlike the other pairs, most of this function's body (marching
+  cubes, interpolation, vector scaling) is backend-agnostic setup shared by both backends, with only
+  the final rendering calls differing — splitting it would duplicate that shared code across two
+  files rather than clean anything up. Left as-is.
+
+- `comfit/nematic_liquid_crystal/plot_field_velocity_and_director_matplotlib.py` and `_plotly.py`
+  were flagged as the only backend-split `plot_*` files living outside `comfit/plot/`. Confirmed
+  with the maintainer this is intentional: `comfit/plot/` holds generic plotting primitives backing
+  `BaseSystem`'s generic `plot_*` methods, while `plot_field_velocity_and_director` is a composite
+  visualization specific to nematic physics (overlaying a scalar field, a velocity streamplot, and
+  a headless director quiver plotted for the ±n symmetry) that isn't meaningful for other models.
+  It is correctly defined only on `NematicLiquidCrystal`, not `BaseSystem`. Left as-is.
+
 ## [1.9.6] - 2025-04-24
 - Added `calc_coarse_grain` method to the BaseSystem class.
 

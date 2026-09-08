@@ -8,25 +8,6 @@ priority." This file tracks lower-stakes cleanup debt so it isn't lost. Resolved
 removed from this file (their resolution should already be recorded in CHANGELOG.md) rather than
 marked done and left in place.
 
-## Structural / organizational (bigger than a rename)
-
-- **`comfit/plot/plot_vector_field_in_plane_both_plot_libs.py`** is the only file in `comfit/plot/`
-  that doesn't follow the `plot_X_matplotlib.py` / `plot_X_plotly.py` per-backend file-pair pattern
-  used by the other 9 matched pairs in that directory. Worth considering whether to split it to
-  match, but that's a structural change, not a rename — deferred.
-
-- **`comfit/nematic_liquid_crystal/plot_field_velocity_and_director_matplotlib.py` and
-  `_plotly.py`** are the only backend-split `plot_*` files that live outside `comfit/plot/` (every
-  other model dispatches through `comfit/plot/` via `BaseSystem.plot_*`). Possibly intentional
-  (model-specific plot, not a generic `BaseSystem` one) — flagging as an architecture question
-  rather than assuming they should move.
-
-- **`comfit/tool/tool_plotly_colorbar.py`** now correctly has all-`tool_`-prefixed function names
-  (`tool_plotly_colorbar`, `tool_format_tick_value`, `tool_generate_numbers_between`), but still
-  bundles three distinct utilities in one file, unlike the one-function-per-file pattern everywhere
-  else in `comfit/tool/`. Worth splitting, but a file split changes import paths too — deferred as
-  a judgment call on whether it's worth the churn for three small, tightly related functions.
-
 ## Documentation infrastructure
 
 - **`docs/compiled_document.md`** looks like an orphaned generated/scratch file — it's tracked in

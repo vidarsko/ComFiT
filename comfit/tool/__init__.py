@@ -15,6 +15,8 @@ from .tool_configure_axis import tool_configure_axis
 
 from .tool_make_animation import tool_make_animation_movie, tool_make_animation_gif
 
+from .tool_format_tick_value import tool_format_tick_value
+from .tool_generate_numbers_between import tool_generate_numbers_between
 from .tool_plotly_colorbar import tool_plotly_colorbar
 
 from .tool_plotly_find_next_xN import tool_plotly_find_next_xN
