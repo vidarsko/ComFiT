@@ -20,11 +20,29 @@ PhaseFieldCrystal2DTriangular, PhaseFieldCrystal2DSquare,
 PhaseFieldCrystal3DBodyCenteredCubic, PhaseFieldCrystal3DFaceCenteredCubic,
 PhaseFieldCrystal3DSimpleCubic)
 
+## Quickstart (minimal constructor calls)
+
+qm = cf.QuantumMechanics(dim, **kwargs)   # dim = 1, 2, or 3
+bec = cf.BoseEinsteinCondensate(dim, **kwargs)
+nlc = cf.NematicLiquidCrystal(dim, **kwargs)
+
+PFC subclasses take unit-cell counts (nx, ny[, nz]) instead of dim/xRes - the grid is derived
+from the crystal lattice, not specified directly:
+pfc = cf.PhaseFieldCrystal2DTriangular(nx, ny, **kwargs)
+# PhaseFieldCrystal1DPeriodic(nx, **kwargs), PhaseFieldCrystal2DSquare(nx, ny, **kwargs),
+# the three 3D lattices: (nx, ny, nz, **kwargs)
+
+All fields (qm.psi, bec.psi, nlc.Q, pfc.psi) are None right after construction. Set them with a
+conf_initial_condition_*/conf_PFC_from_amplitudes call (or assign directly, then also set
+<field>_f via cfi.fft), then advance with evolve_*(number_of_steps) in a loop.
+
 ## Configuration (constructor kwargs, also readable as attributes afterwards)
 
 dim (1, 2, or 3)
 dx, xmin, xmax, xlim ([xmin, xmax]), xRes - and the equivalent y*/z* variants when bs.dim > 1
-dt
+  override hierarchy if over-specified: xlim > xmin/xmax > xRes > dx
+  unspecified defaults: xRes=101, dx=1.0, xmin=0
+dt (default 0.1)
 plot_lib ('matplotlib' or 'plotly', default 'plotly')
 workers: number of threads used for FFTs (passed to scipy.fft), default -1 (all available cores)
 
