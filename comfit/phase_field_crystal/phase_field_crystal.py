@@ -163,6 +163,10 @@ class PhaseFieldCrystal(BaseSystem):
         None
             Updates the PFC state.
         """
+        # self.k is mutated in place below, so any cached calc_k2() result is now stale.
+        if hasattr(self, '_k2_cache'):
+            del self._k2_cache
+
         if self.dim == 1:
             self.k[0] = self.k[0]/(1+distortion)
             self.dif[0] = self.dif[0]/(1+distortion)

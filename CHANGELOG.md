@@ -108,6 +108,18 @@ too large/risky for this pass).
   v1.0.0 or greater`. Bumped to `kaleido>=1.0.0`, `plotly>=6.1.1`. Kaleido v1 requires a system
   Chrome install rather than bundling one; `.github/workflows/tests_plot.yml` now fetches a
   compatible build via `plotly.io.get_chrome()` before running the plot test suite.
+- `BaseSystem.calc_k2()`'s new cache (see `### Performance` below) was never invalidated, but
+  `self.k` is not actually fixed for a system's lifetime: `PhaseFieldCrystal.conf_apply_distortion`
+  mutates it in place to strain the lattice. Once `calc_k2()` had been called on an instance, every
+  later call — including on a `copy.deepcopy` made after distortion, since the stale attribute
+  copies along with everything else — kept silently returning the pre-distortion k². This broke
+  `conf_strain_to_equilibrium`'s free-energy search (every PFC type converged to a near-zero
+  "equilibrium" strain, with the numerically-differentiated elastic constants all coming out as
+  `0.00000`) and destabilized `evolve_PFC_mechanical_equilibrium`, which relies on `calc_k2()` for
+  the elastic Green's function used to advect the field toward equilibrium (fed through enough
+  iterations, this surfaced as a `psi**3` overflow and crashed the dislocation-annihilation test).
+  Fixed by invalidating `_k2_cache` at the top of `conf_apply_distortion`, before any of its `self.k`
+  mutations.
 
 ### Added
 

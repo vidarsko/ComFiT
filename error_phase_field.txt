@@ -1,0 +1,1383 @@
+Run xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest discover tests/tests_phase_field_crystal/
+/home/runner/work/ComFiT/ComFiT/comfit/tool/tool_math_functions.py:14: SyntaxWarning: invalid escape sequence '\*'
+  \*args : int
+Initiating a 2D square PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.15216
+Equilibrium amplitude A : 0.15212
+Ratio (equilibrium/proto): 0.99970
+---
+Proto amplitude       B : 0.09051
+Equilibrium amplitude B : 0.09053
+Ratio (equilibrium/proto): 1.00024
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.13106
+Equilibrium lambda (numerical)           : 0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.13112
+Ratio (equilibrium/proto)                : 0.00000
+---
+Proto mu                             : 0.13106
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.13112
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : -0.07689
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : -0.07713
+Ratio (equilibrium/proto)               : -0.00000
+
+Evolving the PFC (conserved):   0%|          | 0/100 [00:00<?, ?it/s]
+Evolving the PFC (conserved):  51%|█████     | 51/100 [00:00<00:00, 505.55it/s]
+Evolving the PFC (conserved): 100%|██████████| 100/100 [00:00<00:00, 514.68it/s]
+Initiating a 2D square PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.15216
+Equilibrium amplitude A : 0.15212
+Ratio (equilibrium/proto): 0.99970
+---
+Proto amplitude       B : 0.09051
+Equilibrium amplitude B : 0.09053
+Ratio (equilibrium/proto): 1.00024
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.13106
+Equilibrium lambda (numerical)           : 0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.13112
+Ratio (equilibrium/proto)                : 0.00000
+---
+Proto mu                             : 0.13106
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.13112
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : -0.07689
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : -0.07713
+Ratio (equilibrium/proto)               : -0.00000
+
+Evolving the PFC (conserved):   0%|          | 0/100 [00:00<?, ?it/s]
+Evolving the PFC (conserved):  52%|█████▏    | 52/100 [00:00<00:00, 514.14it/s]
+Evolving the PFC (conserved): 100%|██████████| 100/100 [00:00<00:00, 519.55it/s]
+../home/runner/work/ComFiT/ComFiT/comfit/phase_field_crystal/phase_field_crystal.py:980: RuntimeWarning: invalid value encountered in scalar divide
+  print('Ratio (equilibrium/proto)               : {:.05f}'.format(el_gamma/self.el_gamma))
+Initiating a 2D square PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.10
+Equilibrium mean density psi0: -0.10
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.09814
+Equilibrium amplitude A : 0.09816
+Ratio (equilibrium/proto): 1.00020
+---
+Proto amplitude       B : 0.04692
+Equilibrium amplitude B : 0.04693
+Ratio (equilibrium/proto): 1.00024
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.03522
+Equilibrium lambda (numerical)           : 0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.03523
+Ratio (equilibrium/proto)                : 0.00000
+---
+Proto mu                             : 0.03522
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.03523
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00661
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00661
+Ratio (equilibrium/proto)               : 0.00000
+Initiating a 2D square PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.20
+Equilibrium mean density psi0: -0.20
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13295
+Equilibrium amplitude A : 0.13295
+Ratio (equilibrium/proto): 1.00001
+---
+Proto amplitude       B : 0.07384
+Equilibrium amplitude B : 0.07384
+Ratio (equilibrium/proto): 0.99998
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.08725
+Equilibrium lambda (numerical)           : 0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.08724
+Ratio (equilibrium/proto)                : 0.00000
+---
+Proto mu                             : 0.08725
+Equilibrium mu (numerical)           : -0.00000
+Equilibrium mu (from eq. amplitudes) : 0.08724
+Ratio (equilibrium/proto)            : -0.00000
+---
+Proto gamma                             : -0.03310
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : -0.03309
+Ratio (equilibrium/proto)               : -0.00000
+Initiating a 2D square PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.15216
+Equilibrium amplitude A : 0.15212
+Ratio (equilibrium/proto): 0.99970
+---
+Proto amplitude       B : 0.09051
+Equilibrium amplitude B : 0.09053
+Ratio (equilibrium/proto): 1.00024
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.13106
+Equilibrium lambda (numerical)           : 0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.13112
+Ratio (equilibrium/proto)                : 0.00000
+---
+Proto mu                             : 0.13106
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.13112
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : -0.07689
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : -0.07713
+Ratio (equilibrium/proto)               : -0.00000
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+
+Evolving the PFC (conserved):   0%|          | 0/200 [00:00<?, ?it/s]
+Evolving the PFC (conserved):  20%|█▉        | 39/200 [00:00<00:00, 378.75it/s]
+Evolving the PFC (conserved):  39%|███▉      | 78/200 [00:00<00:00, 382.84it/s]
+Evolving the PFC (conserved):  58%|█████▊    | 117/200 [00:00<00:00, 383.68it/s]
+Evolving the PFC (conserved):  78%|███████▊  | 157/200 [00:00<00:00, 386.02it/s]
+Evolving the PFC (conserved):  98%|█████████▊| 197/200 [00:00<00:00, 388.15it/s]
+Evolving the PFC (conserved): 100%|██████████| 200/200 [00:00<00:00, 386.35it/s]
+.Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+
+Evolving the PFC (conserved):   0%|          | 0/100 [00:00<?, ?it/s]
+Evolving the PFC (conserved):  39%|███▉      | 39/100 [00:00<00:00, 382.84it/s]
+Evolving the PFC (conserved):  79%|███████▉  | 79/100 [00:00<00:00, 386.81it/s]
+Evolving the PFC (conserved): 100%|██████████| 100/100 [00:00<00:00, 387.54it/s]
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+
+Evolving the PFC (conserved):   0%|          | 0/100 [00:00<?, ?it/s]
+Evolving the PFC (conserved):  49%|████▉     | 49/100 [00:00<00:00, 489.49it/s]
+Evolving the PFC (conserved):  99%|█████████▉| 99/100 [00:00<00:00, 493.54it/s]
+Evolving the PFC (conserved): 100%|██████████| 100/100 [00:00<00:00, 492.34it/s]
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+
+Evolving the PFC (conserved):   0%|          | 0/100 [00:00<?, ?it/s]
+Evolving the PFC (conserved):  39%|███▉      | 39/100 [00:00<00:00, 387.99it/s]
+Evolving the PFC (conserved):  79%|███████▉  | 79/100 [00:00<00:00, 389.84it/s]
+Evolving the PFC (conserved): 100%|██████████| 100/100 [00:00<00:00, 390.43it/s]
+....Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.10
+Equilibrium mean density psi0: -0.10
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.09118
+Equilibrium amplitude A : 0.09132
+Ratio (equilibrium/proto): 1.00149
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.02494
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.02502
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.02494
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.02502
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.20
+Equilibrium mean density psi0: -0.20
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.12327
+Equilibrium amplitude A : 0.12358
+Ratio (equilibrium/proto): 1.00252
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.04558
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.04581
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.04558
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.04581
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+Initiating a 2D triangular PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00001
+Equilibrium q-vector: 0.99999
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.30
+Equilibrium mean density psi0: -0.30
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.13483
+Equilibrium amplitude A : 0.13681
+Ratio (equilibrium/proto): 1.01465
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.05454
+Equilibrium lambda (numerical)           : -0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)                : -0.00000
+---
+Proto mu                             : 0.05454
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.05615
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.00000
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.00000
+Ratio (equilibrium/proto)               : nan
+
+Evolving the PFC (conserved):   0%|          | 0/100 [00:00<?, ?it/s]
+Evolving the PFC (conserved):  24%|██▍       | 24/100 [00:00<00:00, 236.40it/s]
+Evolving the PFC (conserved):  50%|█████     | 50/100 [00:00<00:00, 247.08it/s]
+Evolving the PFC (conserved):  76%|███████▌  | 76/100 [00:00<00:00, 249.82it/s]
+Evolving the PFC (conserved): 100%|██████████| 100/100 [00:00<00:00, 250.84it/s]
+
+Evolving the PFC in mechanical equilibrium:   0%|          | 0/350 [00:00<?, ?it/s]/home/runner/work/ComFiT/ComFiT/comfit/phase_field_crystal/phase_field_crystal.py:1066: RuntimeWarning: invalid value encountered in divide
+  kappa[l] = self.k[l]/k
+/home/runner/work/ComFiT/ComFiT/comfit/phase_field_crystal/phase_field_crystal.py:1078: RuntimeWarning: divide by zero encountered in divide
+  u_f[i] += 1/k2*Gij_f*g_f[j]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]/home/runner/work/ComFiT/ComFiT/comfit/phase_field_crystal/phase_field_crystal.py:626: RuntimeWarning: overflow encountered in power
+  return -self.calc_k2()*self.fft(self.t * psi ** 2 + self.v * psi ** 3)
+/home/runner/work/ComFiT/ComFiT/comfit/phase_field_crystal/phase_field_crystal.py:626: RuntimeWarning: invalid value encountered in multiply
+  return -self.calc_k2()*self.fft(self.t * psi ** 2 + self.v * psi ** 3)
+
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 270.43it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 284.80it/s]
+
+Evolving the PFC in mechanical equilibrium:   1%|          | 2/350 [00:00<00:19, 18.16it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 269.38it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.78it/s]
+
+Evolving the PFC in mechanical equilibrium:   1%|          | 4/350 [00:00<00:19, 17.88it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 289.59it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 262.66it/s]
+
+Evolving the PFC in mechanical equilibrium:   2%|▏         | 6/350 [00:00<00:19, 17.84it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.48it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 283.13it/s]
+
+Evolving the PFC in mechanical equilibrium:   2%|▏         | 8/350 [00:00<00:19, 17.85it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.14it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 262.72it/s]
+
+Evolving the PFC in mechanical equilibrium:   3%|▎         | 10/350 [00:00<00:19, 17.67it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 280.91it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 269.89it/s]
+
+Evolving the PFC in mechanical equilibrium:   3%|▎         | 12/350 [00:00<00:19, 17.70it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.27it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 279.19it/s]
+
+Evolving the PFC in mechanical equilibrium:   4%|▍         | 14/350 [00:00<00:18, 17.71it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.46it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.50it/s]
+
+Evolving the PFC in mechanical equilibrium:   5%|▍         | 16/350 [00:00<00:18, 17.65it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 294.78it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.93it/s]
+
+Evolving the PFC in mechanical equilibrium:   5%|▌         | 18/350 [00:01<00:18, 17.87it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.91it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 285.85it/s]
+
+Evolving the PFC in mechanical equilibrium:   6%|▌         | 20/350 [00:01<00:18, 17.89it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.12it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 270.46it/s]
+
+Evolving the PFC in mechanical equilibrium:   6%|▋         | 22/350 [00:01<00:18, 17.84it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 285.78it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.28it/s]
+
+Evolving the PFC in mechanical equilibrium:   7%|▋         | 24/350 [00:01<00:18, 17.88it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 265.58it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 283.06it/s]
+
+Evolving the PFC in mechanical equilibrium:   7%|▋         | 26/350 [00:01<00:18, 17.84it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.13it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.83it/s]
+
+Evolving the PFC in mechanical equilibrium:   8%|▊         | 28/350 [00:01<00:18, 17.76it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 287.76it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.64it/s]
+
+Evolving the PFC in mechanical equilibrium:   9%|▊         | 30/350 [00:01<00:17, 17.83it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 269.50it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 290.21it/s]
+
+Evolving the PFC in mechanical equilibrium:   9%|▉         | 32/350 [00:01<00:17, 17.92it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.46it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.05it/s]
+
+Evolving the PFC in mechanical equilibrium:  10%|▉         | 34/350 [00:01<00:17, 17.84it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 287.50it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 270.45it/s]
+
+Evolving the PFC in mechanical equilibrium:  10%|█         | 36/350 [00:02<00:17, 17.87it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 272.86it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 291.41it/s]
+
+Evolving the PFC in mechanical equilibrium:  11%|█         | 38/350 [00:02<00:17, 17.98it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 269.47it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.87it/s]
+
+Evolving the PFC in mechanical equilibrium:  11%|█▏        | 40/350 [00:02<00:17, 17.92it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 285.39it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 275.18it/s]
+
+Evolving the PFC in mechanical equilibrium:  12%|█▏        | 42/350 [00:02<00:17, 17.99it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 275.85it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 294.29it/s]
+
+Evolving the PFC in mechanical equilibrium:  13%|█▎        | 44/350 [00:02<00:16, 18.15it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 274.20it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.10it/s]
+
+Evolving the PFC in mechanical equilibrium:  13%|█▎        | 46/350 [00:02<00:16, 18.03it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 295.98it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 276.42it/s]
+
+Evolving the PFC in mechanical equilibrium:  14%|█▎        | 48/350 [00:02<00:16, 18.16it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.26it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 293.24it/s]
+
+Evolving the PFC in mechanical equilibrium:  14%|█▍        | 50/350 [00:02<00:16, 18.20it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.94it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.39it/s]
+
+Evolving the PFC in mechanical equilibrium:  15%|█▍        | 52/350 [00:02<00:16, 18.02it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 282.22it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 276.01it/s]
+
+Evolving the PFC in mechanical equilibrium:  15%|█▌        | 54/350 [00:03<00:16, 17.99it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 264.53it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 297.55it/s]
+
+Evolving the PFC in mechanical equilibrium:  16%|█▌        | 56/350 [00:03<00:16, 18.05it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 272.77it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 269.09it/s]
+
+Evolving the PFC in mechanical equilibrium:  17%|█▋        | 58/350 [00:03<00:16, 17.98it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 283.02it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 270.57it/s]
+
+Evolving the PFC in mechanical equilibrium:  17%|█▋        | 60/350 [00:03<00:16, 17.99it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 263.89it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 278.47it/s]
+
+Evolving the PFC in mechanical equilibrium:  18%|█▊        | 62/350 [00:03<00:16, 17.94it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.21it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 274.35it/s]
+
+Evolving the PFC in mechanical equilibrium:  18%|█▊        | 64/350 [00:03<00:16, 17.86it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 289.40it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.24it/s]
+
+Evolving the PFC in mechanical equilibrium:  19%|█▉        | 66/350 [00:03<00:15, 17.93it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 278.57it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 284.17it/s]
+
+Evolving the PFC in mechanical equilibrium:  19%|█▉        | 68/350 [00:03<00:15, 18.06it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 264.61it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 258.80it/s]
+
+Evolving the PFC in mechanical equilibrium:  20%|██        | 70/350 [00:03<00:15, 17.81it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 283.04it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 264.81it/s]
+
+Evolving the PFC in mechanical equilibrium:  21%|██        | 72/350 [00:04<00:15, 17.77it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 258.11it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 279.25it/s]
+
+Evolving the PFC in mechanical equilibrium:  21%|██        | 74/350 [00:04<00:15, 17.72it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.87it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 262.33it/s]
+
+Evolving the PFC in mechanical equilibrium:  22%|██▏       | 76/350 [00:04<00:15, 17.64it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 280.77it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 261.34it/s]
+
+Evolving the PFC in mechanical equilibrium:  22%|██▏       | 78/350 [00:04<00:15, 17.58it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 261.83it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 287.36it/s]
+
+Evolving the PFC in mechanical equilibrium:  23%|██▎       | 80/350 [00:04<00:15, 17.67it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 269.75it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 255.90it/s]
+
+Evolving the PFC in mechanical equilibrium:  23%|██▎       | 82/350 [00:04<00:15, 17.59it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 272.71it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.90it/s]
+
+Evolving the PFC in mechanical equilibrium:  24%|██▍       | 84/350 [00:04<00:15, 17.58it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 216.23it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 265.56it/s]
+
+Evolving the PFC in mechanical equilibrium:  25%|██▍       | 86/350 [00:04<00:15, 16.93it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.42it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 260.30it/s]
+
+Evolving the PFC in mechanical equilibrium:  25%|██▌       | 88/350 [00:04<00:15, 17.03it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 282.89it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.06it/s]
+
+Evolving the PFC in mechanical equilibrium:  26%|██▌       | 90/350 [00:05<00:15, 17.24it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.14it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 289.72it/s]
+
+Evolving the PFC in mechanical equilibrium:  26%|██▋       | 92/350 [00:05<00:14, 17.54it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.37it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 266.07it/s]
+
+Evolving the PFC in mechanical equilibrium:  27%|██▋       | 94/350 [00:05<00:14, 17.52it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 284.49it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 276.01it/s]
+
+Evolving the PFC in mechanical equilibrium:  27%|██▋       | 96/350 [00:05<00:14, 17.68it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 260.57it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 284.17it/s]
+
+Evolving the PFC in mechanical equilibrium:  28%|██▊       | 98/350 [00:05<00:14, 17.71it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 265.88it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 262.87it/s]
+
+Evolving the PFC in mechanical equilibrium:  29%|██▊       | 100/350 [00:05<00:14, 17.56it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 284.48it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.27it/s]
+
+Evolving the PFC in mechanical equilibrium:  29%|██▉       | 102/350 [00:05<00:14, 17.62it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.82it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 282.61it/s]
+
+Evolving the PFC in mechanical equilibrium:  30%|██▉       | 104/350 [00:05<00:13, 17.74it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 276.95it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 264.93it/s]
+
+Evolving the PFC in mechanical equilibrium:  30%|███       | 106/350 [00:05<00:13, 17.70it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 283.26it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.37it/s]
+
+Evolving the PFC in mechanical equilibrium:  31%|███       | 108/350 [00:06<00:13, 17.74it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 266.02it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 286.60it/s]
+
+Evolving the PFC in mechanical equilibrium:  31%|███▏      | 110/350 [00:06<00:13, 17.81it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 270.64it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 264.73it/s]
+
+Evolving the PFC in mechanical equilibrium:  32%|███▏      | 112/350 [00:06<00:13, 17.71it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 270.25it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 266.51it/s]
+
+Evolving the PFC in mechanical equilibrium:  33%|███▎      | 114/350 [00:06<00:13, 17.66it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 264.94it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 248.40it/s]
+
+Evolving the PFC in mechanical equilibrium:  33%|███▎      | 116/350 [00:06<00:13, 17.47it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 262.38it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 262.48it/s]
+
+Evolving the PFC in mechanical equilibrium:  34%|███▎      | 118/350 [00:06<00:13, 17.39it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 256.60it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.72it/s]
+
+Evolving the PFC in mechanical equilibrium:  34%|███▍      | 120/350 [00:06<00:13, 17.35it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.44it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 287.22it/s]
+
+Evolving the PFC in mechanical equilibrium:  35%|███▍      | 122/350 [00:06<00:12, 17.58it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 277.10it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.42it/s]
+
+Evolving the PFC in mechanical equilibrium:  35%|███▌      | 124/350 [00:06<00:12, 17.69it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 286.02it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 272.28it/s]
+
+Evolving the PFC in mechanical equilibrium:  36%|███▌      | 126/350 [00:07<00:12, 17.78it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 264.08it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 282.05it/s]
+
+Evolving the PFC in mechanical equilibrium:  37%|███▋      | 128/350 [00:07<00:12, 17.79it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.16it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.90it/s]
+
+Evolving the PFC in mechanical equilibrium:  37%|███▋      | 130/350 [00:07<00:12, 17.70it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 288.87it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 263.09it/s]
+
+Evolving the PFC in mechanical equilibrium:  38%|███▊      | 132/350 [00:07<00:12, 17.74it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 261.91it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.49it/s]
+
+Evolving the PFC in mechanical equilibrium:  38%|███▊      | 134/350 [00:07<00:12, 17.64it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 272.51it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 263.15it/s]
+
+Evolving the PFC in mechanical equilibrium:  39%|███▉      | 136/350 [00:07<00:12, 17.58it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 282.25it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.60it/s]
+
+Evolving the PFC in mechanical equilibrium:  39%|███▉      | 138/350 [00:07<00:12, 17.60it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 262.08it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 283.56it/s]
+
+Evolving the PFC in mechanical equilibrium:  40%|████      | 140/350 [00:07<00:11, 17.64it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 270.38it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 261.08it/s]
+
+Evolving the PFC in mechanical equilibrium:  41%|████      | 142/350 [00:08<00:11, 17.55it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 285.94it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 248.50it/s]
+
+Evolving the PFC in mechanical equilibrium:  41%|████      | 144/350 [00:08<00:11, 17.49it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 264.81it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 281.69it/s]
+
+Evolving the PFC in mechanical equilibrium:  42%|████▏     | 146/350 [00:08<00:11, 17.58it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 269.80it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 262.72it/s]
+
+Evolving the PFC in mechanical equilibrium:  42%|████▏     | 148/350 [00:08<00:11, 17.50it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 281.05it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 269.95it/s]
+
+Evolving the PFC in mechanical equilibrium:  43%|████▎     | 150/350 [00:08<00:11, 17.58it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 266.57it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 284.50it/s]
+
+Evolving the PFC in mechanical equilibrium:  43%|████▎     | 152/350 [00:08<00:11, 17.69it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 272.31it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 263.90it/s]
+
+Evolving the PFC in mechanical equilibrium:  44%|████▍     | 154/350 [00:08<00:11, 17.64it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 283.96it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 265.62it/s]
+
+Evolving the PFC in mechanical equilibrium:  45%|████▍     | 156/350 [00:08<00:10, 17.67it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 259.54it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 284.17it/s]
+
+Evolving the PFC in mechanical equilibrium:  45%|████▌     | 158/350 [00:08<00:10, 17.72it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 267.25it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 257.25it/s]
+
+Evolving the PFC in mechanical equilibrium:  46%|████▌     | 160/350 [00:09<00:10, 17.55it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 273.69it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 268.99it/s]
+
+Evolving the PFC in mechanical equilibrium:  46%|████▋     | 162/350 [00:09<00:10, 17.47it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 271.44it/s]
+
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Evolving the PFC (conserved): 100%|██████████| 10/10 [00:00<00:00, 285.46it/s]
+
+Evolving the PFC in mechanical equilibrium:  47%|████▋     | 164/350 [00:09<00:10, 17.68it/s]
+
+Evolving the PFC (conserved):   0%|          | 0/10 [00:00<?, ?it/s]
+Ratio (equilibrium/proto)               : 0.00000
+Initiating a 3D simple cubic PFC model.
+---
+Straining PFC to reach equilibrium
+---
+Equilibrium strain: 0.00002
+Equilibrium q-vector: 0.99998
+---
+Equilibrium amplitudes:
+---
+Proto mean density psi0      : -0.33
+Equilibrium mean density psi0: -0.33
+Ratio (equilibrium/proto)     : 1.00000
+---
+Proto amplitude       A : 0.09017
+Equilibrium amplitude A : 0.09023
+Ratio (equilibrium/proto): 1.00070
+---
+Proto amplitude       B : 0.04786
+Equilibrium amplitude B : 0.04790
+Ratio (equilibrium/proto): 1.00082
+---
+Proto amplitude       C : 0.02227
+Equilibrium amplitude C : 0.02231
+Ratio (equilibrium/proto): 1.00199
+---
+Equilibrium elastic constants:
+---
+Proto lambda                             : 0.10012
+Equilibrium lambda (numerical)           : 0.00000
+Equilibrium lambda (from eq. amplitudes) : 0.10043
+Ratio (equilibrium/proto)                : 0.00000
+---
+Proto mu                             : 0.10012
+Equilibrium mu (numerical)           : 0.00000
+Equilibrium mu (from eq. amplitudes) : 0.10043
+Ratio (equilibrium/proto)            : 0.00000
+---
+Proto gamma                             : 0.09659
+Equilibrium gamma (numerical)           : 0.00000
+Equilibrium gamma (from eq. amplitudes) : 0.09639
+Ratio (equilibrium/proto)               : 0.00000
+Error: Process completed with exit code 1.
