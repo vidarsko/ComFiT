@@ -1,6 +1,7 @@
 name: Run Core tests
 
 on:
+  workflow_dispatch:  # Allows manually triggering this workflow from the Actions tab or `gh workflow run`, regardless of the path filters below
   push:
     branches:
       - 'main'

@@ -133,6 +133,12 @@ too large/risky for this pass).
   `self.fft`/`.ifft` (as in `BoseEinsteinCondensate` and `NematicLiquidCrystal`) are threaded too.
   No numerical/behavioral change at the default.
 
+### CI
+
+- Added `workflow_dispatch` to all `tests_*.yml` workflows, so any of them can be run manually
+  (Actions tab, or `gh workflow run`) regardless of their path filters — useful for changes in
+  `comfit/core/` that can affect every model but only auto-trigger `tests_core.yml`.
+
 ### Documentation
 
 - Large documentation cleanup pass: docstring style/consistency fixes across the codebase, several
