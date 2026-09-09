@@ -123,6 +123,9 @@ too large/risky for this pass).
   style) and `MD033` (inline HTML — needed for the card-grid templates in `docs/Templates.md` and
   `docs/index.md`) project-wide, and fixing `MD046` (code-block style) to `fenced`. No behavioral
   changes.
+- Rewrote the LLM preprompt on the documentation landing page (`docs/index.md`): fixed stale/
+  incorrect API references and a bug in the example code, and reorganized it into clearer
+  sections. No behavioral changes.
 
 ### Structural
 

@@ -659,19 +659,21 @@ class NematicLiquidCrystal(BaseSystem):
             return self.calc_defect_density(psi, psi0)
 
         elif self.dim == 3:
+            # Precompute the real-space gradients of every independent tensor
+            # component once (dim batched iffts) instead of recomputing the
+            # same ifftn calls repeatedly inside the sums below.
+            dQ = [np.real(self.ifft(1j*self.k[m]*self.Q_f)) for m in range(self.dim)]
+
+            def d(m, n, a):
+                return self.get_component_from_symmetric_traceless_tensor(dQ[m], n, a)
+
             D = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
-            term_trace = sum(np.real(sp.fft.ifftn(1j*self.k[k]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,k,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_component_from_symmetric_traceless_tensor(self.Q_f,l,a)))
-                                    - np.real(sp.fft.ifftn(1j*self.k[k]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,l,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[l] * self.get_component_from_symmetric_traceless_tensor(self.Q_f,k,a)))
+            term_trace = sum(d(k,k,a)*d(l,l,a) - d(k,l,a)*d(l,k,a)
                                     for k in range(self.dim) for a in range(self.dim) for l in range(self.dim))
 
             for gam in range(self.dim):
                 for i in range(self.dim):
-                    D[gam, i] = 2*sum(np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,k,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[k] * self.get_component_from_symmetric_traceless_tensor(self.Q_f,i,a)))
-                                    - np.real(sp.fft.ifftn(1j*self.k[gam]* self.get_component_from_symmetric_traceless_tensor(self.Q_f,i,a)))*
-                                    np.real(sp.fft.ifftn(1j*self.k[k] * self.get_component_from_symmetric_traceless_tensor(self.Q_f,k,a)))
+                    D[gam, i] = 2*sum(d(gam,k,a)*d(k,i,a) - d(gam,i,a)*d(k,k,a)
                                     for k in range(self.dim) for a in range(self.dim))
                     if gam == i:
                         D[gam,i] += term_trace
