@@ -42,5 +42,7 @@ jobs:
         python -c "import plotly.io as pio; pio.get_chrome()"
 
     - name: Run plot tests
+      env:
+        MPLBACKEND: Agg
       run: |
         xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python -m unittest discover tests/tests_plot/
