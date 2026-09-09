@@ -33,14 +33,15 @@ class BaseSystemEvolve:
             A tuple containing the evolved field and the predicted field in Fourier space.
         """
 
-        N0_f = nonlinear_evolution_function_f(field, self.time)
+        with sp.fft.set_workers(-1):
+            N0_f = nonlinear_evolution_function_f(field, self.time)
 
-        a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
-        a = self.ifft(a_f)
+            a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
+            a = self.ifft(a_f)
 
-        N_a_f = nonlinear_evolution_function_f(a, self.time+self.dt)
-        field_f = a_f + integrating_factors_f[2] * (N_a_f - N0_f)
-        field = self.ifft(field_f)
+            N_a_f = nonlinear_evolution_function_f(a, self.time+self.dt)
+            field_f = a_f + integrating_factors_f[2] * (N_a_f - N0_f)
+            field = self.ifft(field_f)
 
         self.time += self.dt
 
@@ -72,24 +73,25 @@ class BaseSystemEvolve:
             A tuple containing the evolved field and the predicted field in Fourier space.
         """
          
-        N_0f = nonlinear_evolution_function_f(field, self.time)
+        with sp.fft.set_workers(-1):
+            N_0f = nonlinear_evolution_function_f(field, self.time)
 
-        a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
-        a = self.ifft(a_f)
-        N_a = nonlinear_evolution_function_f(a, self.time + self.dt / 2)
+            a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]
+            a = self.ifft(a_f)
+            N_a = nonlinear_evolution_function_f(a, self.time + self.dt / 2)
 
-        b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
-        b = self.ifft(b_f)
-        N_b = nonlinear_evolution_function_f(b, self.time + self.dt / 2)
+            b_f = field_f * integrating_factors_f[0] + N_a * integrating_factors_f[1]
+            b = self.ifft(b_f)
+            N_b = nonlinear_evolution_function_f(b, self.time + self.dt / 2)
 
-        c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
-        c = self.ifft(c_f)
-        N_c = nonlinear_evolution_function_f(c, self.time + self.dt)
+            c_f = a_f * integrating_factors_f[0] + (2 * N_b - N_0f) * integrating_factors_f[1]
+            c = self.ifft(c_f)
+            N_c = nonlinear_evolution_function_f(c, self.time + self.dt)
 
-        field_f = field_f * integrating_factors_f[2] + N_0f * integrating_factors_f[3] \
-                  + (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
+            field_f = field_f * integrating_factors_f[2] + N_0f * integrating_factors_f[3] \
+                      + (N_a + N_b) * integrating_factors_f[4] + N_c * integrating_factors_f[5]
 
-        field = self.ifft(field_f)
+            field = self.ifft(field_f)
 
         self.time += self.dt
 

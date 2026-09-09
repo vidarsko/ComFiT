@@ -258,17 +258,25 @@ class BaseSystemCalc:
 
     def calc_k2(self):
         """Calculates the squared wavenumber.
-        
+
         Parameters
         ----------
         None
-            
+
         Returns
         -------
         numpy.ndarray
             The squared wavenumber.
+
+        Notes
+        -----
+        The result depends only on self.k, which is fixed at grid setup,
+        so it is computed once and cached. A copy is returned each call
+        since some callers mutate the result in place.
         """
-        return sum([self.k[i] ** 2 for i in range(len(self.k))])
+        if not hasattr(self, '_k2_cache'):
+            self._k2_cache = sum([self.k[i] ** 2 for i in range(len(self.k))])
+        return self._k2_cache.copy()
 
     def calc_gaussian_filter_f(self, a0=None):
         """Calculate Gaussian filter in Fourier space.

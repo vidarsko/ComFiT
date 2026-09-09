@@ -109,6 +109,22 @@ too large/risky for this pass).
   Chrome install rather than bundling one; `.github/workflows/tests_plot.yml` now fetches a
   compatible build via `plotly.io.get_chrome()` before running the plot test suite.
 
+### Performance
+
+- `BaseSystem.calc_k2()` recomputed the squared-wavenumber grid from scratch on every call. Several
+  systems' per-timestep nonlinear evolution functions
+  (`PhaseFieldCrystal.calc_nonlinear_evolution_function_conserved_f`/`_unconserved_f`,
+  `BoseEinsteinCondensate.calc_nonlinear_evolution_term_comoving_f`) call it on every Runge-Kutta
+  stage of every step, even though `self.k` (and hence its square) is fixed for the lifetime of a
+  system. Cached the result; still returns a copy on each call, since some callers (e.g.
+  `NematicLiquidCrystal.conf_initial_condition_ordered`'s `k2_press`) mutate the returned array in
+  place.
+- `BaseSystem.fft`/`.ifft` ran `scipy.fft` single-threaded (its default, `workers=1`). Passed
+  `workers=-1` to use all available cores, and wrapped `evolve_ETD2RK_loop`/`evolve_ETD4RK_loop` in
+  `scipy.fft.set_workers(-1)` so nonlinear evolution functions that call `scipy.fft` directly rather
+  than going through `self.fft`/`.ifft` (as in `BoseEinsteinCondensate` and `NematicLiquidCrystal`)
+  are threaded too. No numerical/behavioral change.
+
 ### Documentation
 
 - Large documentation cleanup pass: docstring style/consistency fixes across the codebase, several
