@@ -114,6 +114,15 @@ too large/risky for this pass).
 - Large documentation cleanup pass: docstring style/consistency fixes across the codebase, several
   stale/incorrect docstrings corrected to match actual behavior, typo fixes, and removal of an
   orphaned scratch file (`docs/compiled_document.md`). No behavioral changes.
+- Follow-up dedicated sweeps deferred from the pass above (see former ISSUES.md entries): a
+  package-wide spell-check across every docstring and `docs/*.md` page (more typos found and
+  fixed), and a full markdownlint compliance pass across `docs/*.md` (missing image alt text,
+  malformed/inconsistent tables, indented code blocks converted to fenced, a duplicate heading, a
+  missing top-level heading, and false-positive footnote-reference warnings resolved). Added
+  `.markdownlint.json` disabling `MD013` (line-length — doesn't fit this project's prose/math/table
+  style) and `MD033` (inline HTML — needed for the card-grid templates in `docs/Templates.md` and
+  `docs/index.md`) project-wide, and fixing `MD046` (code-block style) to `fenced`. No behavioral
+  changes.
 
 ### Structural
 

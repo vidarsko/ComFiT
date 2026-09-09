@@ -1,4 +1,4 @@
-# <img src="img/logo.png" width="25" height="25"> ComFiT documentation
+# <img src="img/logo.png" width="25" height="25" alt="ComFiT logo"> ComFiT documentation
 
 ComFiT ([Github](https://github.com/vidarsko/ComFiT)) is a versatile Python library for simulating field theories, including plotting and animation in an object-oriented manner.
 If you use ComFiT in your research, please cite the following paper:
@@ -8,6 +8,7 @@ If you use ComFiT in your research, please cite the following paper:
 
 Below is a prepromt you can use with a language model to help you get started.
 
+<!-- markdownlint-disable MD046 -->
 ??? abstract "Preprompt for large language model (LLM)"
     ```python
     You are a helpful coding assistant who answers questions to the point.
@@ -196,6 +197,7 @@ Below is a prepromt you can use with a language model to help you get started.
     calc_dislocation_nodes
     calc_orientation_field, calc_free_energy
     ```
+<!-- markdownlint-enable MD046 -->
 
 See the ComFiT Library Reference below for a complete list of class methods and their usage.
 
@@ -218,8 +220,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong> Basic Framework</strong></div>
         <hr>
         <p>
-        <img src="img/index_tutorial_base_system_basic_framework_demo.gif#only-light">
-        <img src="img/index_tutorial_base_system_basic_framework_demo-colorinverted.gif#only-dark">
+        <img src="img/index_tutorial_base_system_basic_framework_demo.gif#only-light" alt="Computing derivatives and animating fields with BaseSystem">
+        <img src="img/index_tutorial_base_system_basic_framework_demo-colorinverted.gif#only-dark" alt="Computing derivatives and animating fields with BaseSystem">
         </p>
         <p style="color: var(--md-default-fg-color)"> Understand the basics of ComFiT, how to calculate derivatives and produce plots and animations in 1, 2 and 3 dimensions. </p>
     </a>
@@ -227,8 +229,8 @@ The best way to get to know ComFiT is by using it in one of the following tutori
         <div> <strong>How to make your own model</strong></div>
         <hr>
         <p>
-        <img src="img/index_tutorial_base_system_make_your_own_model.gif#only-light">
-        <img src="img/index_tutorial_base_system_make_your_own_model-colorinverted.gif#only-dark">
+        <img src="img/index_tutorial_base_system_make_your_own_model.gif#only-light" alt="Implementing and animating a custom partial differential equation model">
+        <img src="img/index_tutorial_base_system_make_your_own_model-colorinverted.gif#only-dark" alt="Implementing and animating a custom partial differential equation model">
         </p>
         <p style="color: var(--md-default-fg-color)">Learn how to implement, solve and animate your own partial differential equation.</p>
 </a>
@@ -244,8 +246,8 @@ Author: [Carl Fredrik Nordbø Knutsen](https://www.mn.uio.no/fysikk/?vrtx=person
     <div> <strong> Module 1 </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_qm_assignment_module_1.gif#only-light">
-    <img src="img/index_tutorial_qm_assignment_module_1-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_qm_assignment_module_1.gif#only-light" alt="Schrödinger equation simulation for a single particle in one and two dimensions">
+    <img src="img/index_tutorial_qm_assignment_module_1-colorinverted.gif#only-dark" alt="Schrödinger equation simulation for a single particle in one and two dimensions">
     </p>
     <p style="color: var(--md-default-fg-color)">
 The Schrödinger equation for a single particle, in one and two dimensions.
@@ -255,8 +257,8 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     <div> <strong> Module 2 </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_qm_assignment_module_2.png#only-light">
-    <img src="img/index_tutorial_qm_assignment_module_2-colorinverted.png#only-dark">
+    <img src="img/index_tutorial_qm_assignment_module_2.png#only-light" alt="Quantum operators and expectation values">
+    <img src="img/index_tutorial_qm_assignment_module_2-colorinverted.png#only-dark" alt="Quantum operators and expectation values">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Operators and expectation values.
@@ -266,8 +268,8 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     <div> <strong> Module 3 </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_qm_harmonic_oscillator.gif#only-light">
-    <img src="img/index_tutorial_qm_harmonic_oscillator-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_qm_harmonic_oscillator.gif#only-light" alt="Quantum harmonic oscillator eigenstates">
+    <img src="img/index_tutorial_qm_harmonic_oscillator-colorinverted.gif#only-dark" alt="Quantum harmonic oscillator eigenstates">
     </p>
     <p style="color: var(--md-default-fg-color)">
     The Quantum Harmonic Oscillator and her eigenstates.
@@ -277,8 +279,8 @@ The Schrödinger equation for a single particle, in one and two dimensions.
     <div> <strong> Module 4 </strong></div>
     <hr>
     <p>
-    <img src="img/quantum_mechanics_barrier_reflection.gif#only-light">
-    <img src="img/quantum_mechanics_barrier_reflection-colorinverted.gif#only-dark">
+    <img src="img/quantum_mechanics_barrier_reflection.gif#only-light" alt="Quantum tunneling through a potential barrier">
+    <img src="img/quantum_mechanics_barrier_reflection-colorinverted.gif#only-dark" alt="Quantum tunneling through a potential barrier">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Quantum tunneling.
@@ -293,8 +295,8 @@ General tutorials.
         <div> <strong> 1D wave packets </strong></div>
         <hr>
         <p>
-        <img src="img/index_1D_Quantum_Mechanics_Gaussian.gif#only-light">
-        <img src="img/index_1D_Quantum_Mechanics_Gaussian-colorinverted.gif#only-dark">
+        <img src="img/index_1D_Quantum_Mechanics_Gaussian.gif#only-light" alt="1D Gaussian wave packet simulation">
+        <img src="img/index_1D_Quantum_Mechanics_Gaussian-colorinverted.gif#only-dark" alt="1D Gaussian wave packet simulation">
         </p>
         <p style="color: var(--md-default-fg-color)">
         Understand the basics of the Quantum Mechanics model.
@@ -304,8 +306,8 @@ General tutorials.
         <div> <strong> 2D wave packets </strong></div>
         <hr>
         <p>
-        <img src="img/index_tutorial_qm_2D_wave_packet.gif#only-light">
-        <img src="img/index_tutorial_qm_2D_wave_packet-colorinverted.gif#only-dark">
+        <img src="img/index_tutorial_qm_2D_wave_packet.gif#only-light" alt="2D quantum wave packet simulation">
+        <img src="img/index_tutorial_qm_2D_wave_packet-colorinverted.gif#only-dark" alt="2D quantum wave packet simulation">
         </p>
         <p style="color: var(--md-default-fg-color)">
         Understand how to plot a quantum mechanical system in 2 dimensions.
@@ -315,8 +317,8 @@ General tutorials.
     <div> <strong> 3D wave packets </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_qm_3D_wave_packet.gif#only-light">
-    <img src="img/index_tutorial_qm_3D_wave_packet-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_qm_3D_wave_packet.gif#only-light" alt="3D quantum wave packet simulation">
+    <img src="img/index_tutorial_qm_3D_wave_packet-colorinverted.gif#only-dark" alt="3D quantum wave packet simulation">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Understand how to plot a quantum mechanical system in 3 dimensions.
@@ -338,8 +340,8 @@ General tutorials.
     <div> <strong> The hydrogen atom </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_quantum_mechanics_hydrogen.gif#only-light">
-    <img src="img/index_tutorial_quantum_mechanics_hydrogen-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_quantum_mechanics_hydrogen.gif#only-light" alt="Hydrogen atom wavefunction simulation">
+    <img src="img/index_tutorial_quantum_mechanics_hydrogen-colorinverted.gif#only-dark" alt="Hydrogen atom wavefunction simulation">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the hydrogen atom.
@@ -354,8 +356,8 @@ General tutorials.
     <div> <strong> Basic Framework </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_bec_basic_framework-colorinverted.gif#only-dark">
-    <img src="img/index_tutorial_bec_basic_framework.gif#only-light">
+    <img src="img/index_tutorial_bec_basic_framework-colorinverted.gif#only-dark" alt="Basic Bose-Einstein condensate simulation framework">
+    <img src="img/index_tutorial_bec_basic_framework.gif#only-light" alt="Basic Bose-Einstein condensate simulation framework">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Understand the basics of the Bose Einstein Condensate model.
@@ -365,8 +367,8 @@ General tutorials.
     <div> <strong>Time-dependent potentials</strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_bec_time_dependent_potentials-colorinverted.gif#only-dark">
-    <img src="img/index_tutorial_bec_time_dependent_potentials.gif#only-light">
+    <img src="img/index_tutorial_bec_time_dependent_potentials-colorinverted.gif#only-dark" alt="Stirring a Bose-Einstein condensate with a time-dependent potential">
+    <img src="img/index_tutorial_bec_time_dependent_potentials.gif#only-light" alt="Stirring a Bose-Einstein condensate with a time-dependent potential">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to create time-dependent potentials to stir the Bose Einstein Condensate model.
@@ -376,8 +378,8 @@ General tutorials.
     <div> <strong>Comoving frame and defect tracking</strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_bec_comoving_frame_defect_tracking-colorinverted.gif#only-dark">
-    <img src="img/index_tutorial_bec_comoving_frame_defect_tracking.gif#only-light">
+    <img src="img/index_tutorial_bec_comoving_frame_defect_tracking-colorinverted.gif#only-dark" alt="Tracking vortex defects in a Bose-Einstein condensate in a comoving frame">
+    <img src="img/index_tutorial_bec_comoving_frame_defect_tracking.gif#only-light" alt="Tracking vortex defects in a Bose-Einstein condensate in a comoving frame">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to track defects and study defects made by an obstacle.
@@ -387,8 +389,8 @@ General tutorials.
     <div> <strong>3D and comoving frame </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_bec_3D_comoving_frame-colorinverted.gif#only-dark">
-    <img src="img/index_tutorial_bec_3D_comoving_frame.gif#only-light">
+    <img src="img/index_tutorial_bec_3D_comoving_frame-colorinverted.gif#only-dark" alt="3D Bose-Einstein condensate simulation in a comoving frame">
+    <img src="img/index_tutorial_bec_3D_comoving_frame.gif#only-light" alt="3D Bose-Einstein condensate simulation in a comoving frame">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to use the Bose Einstein Condensate model in 3 dimensions and in a comoving frame.
@@ -403,8 +405,8 @@ General tutorials.
     <div> <strong> 2D active nematic </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_nematic_liquid_crystal_2D_active_nematic.gif#only-light">
-    <img src="img/index_tutorial_nematic_liquid_crystal_2D_active_nematic-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_nematic_liquid_crystal_2D_active_nematic.gif#only-light" alt="2D active nematic liquid crystal simulation">
+    <img src="img/index_tutorial_nematic_liquid_crystal_2D_active_nematic-colorinverted.gif#only-dark" alt="2D active nematic liquid crystal simulation">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Simulate an active nematic liquid crystal in 2 dimensions.
@@ -419,8 +421,8 @@ General tutorials.
     <div> <strong> Basic framework </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_pfc_basic_framework.gif#only-light">
-    <img src="img/index_tutorial_pfc_basic_framework-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_pfc_basic_framework.gif#only-light" alt="Basic phase field crystal framework with dislocations">
+    <img src="img/index_tutorial_pfc_basic_framework-colorinverted.gif#only-dark" alt="Basic phase field crystal framework with dislocations">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Get to know the basic of the PFC framework, including how to insert dislocations, plot them, and evolve the PFC.
@@ -429,8 +431,8 @@ General tutorials.
     <div> <strong> Stresses and strains </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_pfc_stresses_and_strains.gif#only-light">
-    <img src="img/index_tutorial_pfc_stresses_and_strains-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_pfc_stresses_and_strains.gif#only-light" alt="Calculating stresses and strains in a phase field crystal model">
+    <img src="img/index_tutorial_pfc_stresses_and_strains-colorinverted.gif#only-dark" alt="Calculating stresses and strains in a phase field crystal model">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Learn how to calculate stresses and strains in the PFC model.
@@ -440,8 +442,8 @@ General tutorials.
     <div> <strong> Polycrystalline systems </strong></div>
     <hr>
     <p>
-    <img src="img/index_tutorial_pfc_polycrystals.gif#only-light">
-    <img src="img/index_tutorial_pfc_polycrystals-colorinverted.gif#only-dark">
+    <img src="img/index_tutorial_pfc_polycrystals.gif#only-light" alt="Polycrystalline phase field crystal simulation">
+    <img src="img/index_tutorial_pfc_polycrystals-colorinverted.gif#only-dark" alt="Polycrystalline phase field crystal simulation">
     </p>
     <p style="color: var(--md-default-fg-color)">
     Create polycrystalline systems with the PFC model and evolve it according to different dynamics.

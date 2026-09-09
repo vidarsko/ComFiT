@@ -76,12 +76,13 @@ pfc.psi
 ```
 
 ## Crystal symmetry
+<!-- markdownlint-disable MD046 -->
 
 The way in which this field can model a crystalline lattice is by the ground state having that particular symmetry.
 For instance, the figure below shows the (real) field $\psi$ for a (a) 2D triangular, and a (b) 2D square lattice.
 
 ![PFC symmetries](img/phase_field_crystal_ground_state.png#only-light)
-![PFC symmetrie](img/phase_field_crystal_ground_state-colorinverted.png#only-dark)
+![PFC symmetries](img/phase_field_crystal_ground_state-colorinverted.png#only-dark)
 
 **Figure:** Ground state of the PFC model for (a) 2D triangular and (b) 2D square lattice.
 
@@ -452,7 +453,9 @@ Below are all the lattice constants and primary RLVs and BLVs for the models we 
     }
     $$
 
+<!-- markdownlint-enable MD046 -->
 ## The ground state
+<!-- markdownlint-disable MD046 -->
 
 To find the ground state of a PFC, one inserts a particular mode approximation into the free energy density, average over a unit cell ([coarse-grain](ClassBaseSystem.md)) and minimizes it with respect to the amplitudes.
 
@@ -727,6 +730,7 @@ We refer to these amplitudes $A,B,C$ as *proto amplitudes* and they are calculat
 The proto amplitudes are saved in the `pfc` instance as `eta0`.
 The function `calc_free_energy_from_proto_amplitudes` calculates the free energy $\mathcal F_{UC}$ from the proto amplitudes, including $\psi_0$.
 
+<!-- markdownlint-enable MD046 -->
 ### Straining the ground state to equilibrium
 
 While the q-vector given above and the proto amplitudes are good approximations to the ground state, they are not exact.
@@ -744,6 +748,7 @@ Given the equilibrium configuration, we can find more accurate estimates for the
 This is done in the `calc_strained_amplitudes` function in the `pfc` class, which also calculates new values for the elastic constants (see below).
 
 ## The amplitude approximation - deviations from the ground state
+<!-- markdownlint-disable MD046 -->
 
 So far, we have only looked at the equilibrium state of the PFC, which has a specific symmetry, and the few-mode approximations that can be used to describe the PFC in this state.
 For small deviations from the equilibrium state, like in the presence of few dislocations and small strains, we can use the amplitude approximation, in which we assume that the field can be written as
@@ -765,11 +770,12 @@ These fields can be found by demodulating the field $\psi$ with the primary RLVs
 
 The figure below shows an example of the evolution of the PFC for a triangular lattice and the corresponding amplitude fields.
 
-![](img/phase_field_crystal_amplitude_approximation.png#only-light)
-![](img/phase_field_crystal_amplitude_approximation-colorinverted.png#only-dark)
+![Evolution of the 2D triangular PFC model and its demodulated amplitude fields](img/phase_field_crystal_amplitude_approximation.png#only-light)
+![Evolution of the 2D triangular PFC model and its demodulated amplitude fields](img/phase_field_crystal_amplitude_approximation-colorinverted.png#only-dark)
 
 **Figure:** Snapshots of an example evolution of the 2D triangular PFC model at (top row) $t=0$ and (bottom row) $t=600$. Parameters used were $(r,\psi_0) = (-0.3,-0.3)$. The columns show the demodulated fields $\bar \psi$ and $\{ \eta_n \}_{n=1}^{3}$, where the complex fields are shown by their phase $\theta_n$ and brightness corresponding to the magnitude $|\eta_n|$. Taken from Ref. [^skogvollSymmetryTopologyCrystal2023] with permission.
 
+<!-- markdownlint-enable MD046 -->
 ## Elasticity
 
 This quantity is the Poisson ratio, under some conditions. I think.
@@ -786,6 +792,7 @@ pfc.el_nu
 ```
 
 ### Stress tensor
+<!-- markdownlint-disable MD046 -->
 
 The equations for calculating the stress tensor are found in Ref.
 [^skogvollStressOrderedSystems2021], but we list them below, together
@@ -920,6 +927,7 @@ where $\mathcal L$ is as defined previously (as the product $\mathcal L_1 ...$),
 $\mathcal L$ is calculated (in Fourier space) by the function `calc_L_f`, and the $\mathcal L_{\sum}$ is calculated by the function `calc_L_sum_f` in the `pfc` class.
 The stress tensor is then calculated by the function `calc_stress_tensor_microscopic` in the `pfc` class.
 
+<!-- markdownlint-enable MD046 -->
 ### Equilibrium elastic constants
 
 As mentioned above, the equilbrium state of the PFC is not exactly given by $q_0=1$, and the proto amplitudes are not exact.
@@ -952,8 +960,8 @@ $$
 We can apply the distortion $\mathfrak u$ with the function `conf_apply_distortion` in the `pfc` class.
 The result of this procedure for a $4\times 4$ square PFC is shown in the figure below
 
-![](img/phase_field_crystal_strain_elastic_constants.png#only-light)
-![](img/phase_field_crystal_strain_elastic_constants-colorinverted.png#only-dark)
+![Elastic constant fit as a function of applied strain for a square PFC](img/phase_field_crystal_strain_elastic_constants.png#only-light)
+![Elastic constant fit as a function of applied strain for a square PFC](img/phase_field_crystal_strain_elastic_constants-colorinverted.png#only-dark)
 
 **Figure:** The elastic constants of a 2D square PFC model as a function of the strain $\epsilon$ in the $x$-direction. The fit shows the numerical fit of the elastic constant $\mu$ to the applied strain, showing excellent agreement.
 
@@ -1030,6 +1038,7 @@ strain = strain - np.mean(strain, axis=0)
 ```
 
 ## Dislocations
+<!-- markdownlint-disable MD046 -->
 
 The Burgers vector is defined by
 
@@ -1111,7 +1120,9 @@ Using the primary BLVs we get the charges summarized below
 | $\mathbf a^{(2)} = a_0 (0,1,0)$ | $0$ | $\color{red} 1$ | $0$ | | $\color{red} 1$ | $0$ | $\color{red} 1$ | $\color{blue}-1$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ | $\color{red} 1$ |
 | $\mathbf a^{(3)} = a_0(0,0,1)$ | $0$ | $0$ | $\color{red} 1$ | | $\color{red} 1$ | $\color{red} 1$ | $0$ | $\color{red} 1$ | $\color{red} 1$ | $0$ | | $\color{red} 1$ | $\color{red} 1$ | $\color{blue}-1$ | $\color{red} 1$ |
 
+<!-- markdownlint-enable MD046 -->
 ## The dislocation density tensor
+<!-- markdownlint-disable MD046 -->
 
 Given a PFC configuration, the dislocation density tensor may be
 calculated as [^skogvollPhaseFieldCrystal2022]
@@ -1135,7 +1146,9 @@ $$
 In the language of
 this
 
+<!-- markdownlint-enable MD046 -->
 ## Equations of motion
+<!-- markdownlint-disable MD046 -->
 
 ### Conserved evolution
 
@@ -1252,6 +1265,7 @@ $$
 \end{pmatrix}
 $$
 
+<!-- markdownlint-enable MD046 -->
 ## Configurations
 
 The PFC class has a number of methods for generating initial conditions.
@@ -1261,6 +1275,7 @@ The PFC class has a number of methods for generating initial conditions.
 The simplest setup for the PFC is to insert a dislocation dipole or dislocation loop.
 
 ### Polycrystal configurations
+<!-- markdownlint-disable MD046 -->
 
 To set a polycrystal configuration, one typically calculates the PFC from a set of rotated reciprocal lattices.
 This is done in the `calc_PFC_from_amplitudes` method, using the `rotation` keyword argument.
@@ -1333,6 +1348,7 @@ The available types are
     ![Four grain configuration in a PFC](img/phase_field_crystal_four_grain_inclusion.png#only-light)
     ![Four grain configuration in a PFC](img/phase_field_crystal_four_grain_inclusion-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 ### Calculating the orientation field
 
 In many simulations with polycrystals, it is useful to calculate the orientation field.
@@ -1356,6 +1372,7 @@ $$
 of which will indicate to which degree the orientation of the PFC aligns with that direction.
 
 ## Straining the PFC
+<!-- markdownlint-disable MD046 -->
 
 In some simulations, it is useful to prescribe a strain to the PFC.
 This is done by updating the grid on which the PFC is defined.
@@ -1439,6 +1456,7 @@ $$
     When applying an external strain, however, the grid components will vary in the different directions and will become multi-dimensional arrays.
     This increases the memory usage of the simulation. 
 
+<!-- markdownlint-enable MD046 -->
 The strain thus contains three components `strain[0]`, `strain[1]`, and `strain[2]`.
 
 , and the grid is updated according to

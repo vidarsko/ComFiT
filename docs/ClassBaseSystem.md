@@ -60,15 +60,15 @@ From these keywords, a number of useful parameters are constructed, given in the
 
 | Parameter | Definition | Value |
 | -------------- | -------------- | ----- |
-| `x` | Numpy array with dimensions $\left \lbrace \begin{array}{l} \texttt{xRes} \\ \texttt{xRes}\times 1  \\ \texttt{xRes}\times 1 \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `xmin` to (including) `xmax-dx`. |  |
-| `y` | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1 \times \texttt{yRes}  \\ 1 \times \texttt{yRes} \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `ymin` to (including) `ymax-dy`. |  |
-| `z` | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1  \\ 1 \times 1 \times \texttt{zRes} \\ \end{array} \right \rbrace$ consisting of the grid points from `zmin` to (including) `zmax-dz`. |  |
-| `xmidi` | Index of the mid $x$-value. In the case of an odd `xRes`, this midpoint index will not hit the middle exactly but undershoot by `dx/2`. |  |
-| `xmid` | The $x$ value given by `xmidi`. |  |
-| `ymidi` | Index of the mid $y$-value. In the case of an odd `yRes`, this midpoint index will not hit the middle exactly but undershoot by `dy/2`. |  |
-| `ymid` | The $y$ value given by `ymidi`. |  |
-| `zmidi` | Index of the mid $z$-value. In the case of an odd `zRes`, this midpoint index will not hit the middle exactly but undershoot by `dz/2`. |  |
-| `zmid` | The $z$ value given by `zmidi`. |  |
+| `x` | Numpy array with dimensions $\left \lbrace \begin{array}{l} \texttt{xRes} \\ \texttt{xRes}\times 1  \\ \texttt{xRes}\times 1 \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `xmin` to (including) `xmax-dx`. | |
+| `y` | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1 \times \texttt{yRes}  \\ 1 \times \texttt{yRes} \times 1  \\ \end{array} \right \rbrace$ consisting of the grid points from `ymin` to (including) `ymax-dy`. | |
+| `z` | Numpy array with dimensions $\left \lbrace \begin{array}{l} 1 \\ 1  \\ 1 \times 1 \times \texttt{zRes} \\ \end{array} \right \rbrace$ consisting of the grid points from `zmin` to (including) `zmax-dz`. | |
+| `xmidi` | Index of the mid $x$-value. In the case of an odd `xRes`, this midpoint index will not hit the middle exactly but undershoot by `dx/2`. | |
+| `xmid` | The $x$ value given by `xmidi`. | |
+| `ymidi` | Index of the mid $y$-value. In the case of an odd `yRes`, this midpoint index will not hit the middle exactly but undershoot by `dy/2`. | |
+| `ymid` | The $y$ value given by `ymidi`. | |
+| `zmidi` | Index of the mid $z$-value. In the case of an odd `zRes`, this midpoint index will not hit the middle exactly but undershoot by `dz/2`. | |
+| `zmid` | The $z$ value given by `zmidi`. | |
 | `size_x` | Size of the $x$-axis | $\texttt{xmax} - \texttt{xmin}$ |
 | `size_y` | Size of the $y$-axis | $\texttt{ymax} - \texttt{ymin}$ (1 if `dim` $<2$) |
 | `size_z` | Size of the $z$-axis | $\texttt{zmax} - \texttt{zmin}$ (1 if `dim` $<3$) |
@@ -79,8 +79,8 @@ From these keywords, a number of useful parameters are constructed, given in the
 
 Note that even though variables like `yRes`, `zRes` etc. are defined in cases where they are not relevant, such as for a $1$-dimensional system, they play no significant role in any calculations in such situations.
 
-![](img/base_system_x_axis_illustration.png#only-light)
-![](img/base_system_x_axis_illustration-colorinverted.png#only-dark)
+![Illustration of the BaseSystem x-axis convention](img/base_system_x_axis_illustration.png#only-light)
+![Illustration of the BaseSystem x-axis convention](img/base_system_x_axis_illustration-colorinverted.png#only-dark)
 
 Periodic boundary conditions means that `xmax` and `xmin` are identified as the same point.
 
@@ -338,6 +338,7 @@ before passing the field to be plotted.
 This adjusts the discrete transform to approximate the continuous Fourier transform.
 The ``fftshift`` function is used to shift the zero frequency component to the center of the array.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
     ```python
     # In ComFiT 1.9.0
@@ -357,10 +358,11 @@ The ``fftshift`` function is used to shift the zero frequency component to the c
     bs.plot_save(fig)
     ```
 
-    ![](img/base_system_fourier_transform_illustration.png#only-light)
-    ![](img/base_system_fourier_transform_illustration-colorinverted.png#only-dark)
+    ![Real field and its Fourier transform plotted side by side](img/base_system_fourier_transform_illustration.png#only-light)
+    ![Real field and its Fourier transform plotted side by side](img/base_system_fourier_transform_illustration-colorinverted.png#only-dark)
 
     Notice that since the field is real, the Fourier transform is symmetric in amplitude and opposite in phase around the zero frequency.
+<!-- markdownlint-enable MD046 -->
 
 ## Coarse-graining
 
@@ -812,10 +814,10 @@ Tests are included in `test_base_system.py`, but for visual examination, here ar
 ![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_1D-colorinverted.gif#only-dark)
 
 ![Testing of the evolution code in 2 dimensions](img/base_system_evolution_test_2D.gif#only-light)
-![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_2D-colorinverted.gif#only-dark)
+![Testing of the evolution code in 2 dimensions](img/base_system_evolution_test_2D-colorinverted.gif#only-dark)
 
 ![Testing of the evolution code in 3 dimensions](img/base_system_evolution_test_3D.gif#only-light)
-![Testing of the evolution code in 1 dimension](img/base_system_evolution_test_3D-colorinverted.gif#only-dark)
+![Testing of the evolution code in 3 dimensions](img/base_system_evolution_test_3D-colorinverted.gif#only-dark)
 
 ## Stochastic noise
 Suppose that the equation

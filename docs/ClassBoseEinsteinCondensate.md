@@ -43,13 +43,13 @@ $$
 i\hbar \partial_t\psi = \left[-\frac{\hbar^2}{2m} \nabla^2+ V_{ext}(\mathbf{r}, t) -\mu +g|\psi|^2 \right]\psi.
 $$
 
-Here, $\mu$ is the chemical potential, $m$ is the mass of the bosons, $g$ is an interaction parameter, and $\hbar$ is the reduced Planck constant. $\psi$ is the wave function describing the condensate phase, and $V_{ext}(\mathbf{r}, t)$ is an external potential, which can depend on position $\mathbf{r}$ and time $t$. The GPE can be obtained from the variational principle $\mathfrak i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}$ [^kevrekidis2007emergent][^pitaevskiiBook] with the Hamiltonian:
+Here, $\mu$ is the chemical potential, $m$ is the mass of the bosons, $g$ is an interaction parameter, and $\hbar$ is the reduced Planck constant. $\psi$ is the wave function describing the condensate phase, and $V_{ext}(\mathbf{r}, t)$ is an external potential, which can depend on position $\mathbf{r}$ and time $t$. The GPE can be obtained from the variational principle $\mathfrak i \hbar \partial_t \psi = \frac{\delta K}{\delta \psi^*}$ [^kevrekidis2007emergent] [^pitaevskiiBook] with the Hamiltonian:
 
 $$
 K = \int d\mathbf{r} \left[\frac{\hbar^2}{2m}|\nabla\psi|^2 +(V_{ext}(\mathbf{r}, t) -\mu)|\psi|^2 +\frac{g}{2}|\psi|^4 \right].
 $$
 
-We introduce dimensionless units for length $\xi = \hbar/\sqrt{m\mu}$ and time $\tau = \xi/c$, and rescale the wave function as $\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi$. Additionally, we include a dissipative factor $\gamma$. This results in the damped Gross-Pitaevskii equation (dGPE) in dimensionless form as [^gardiner2003stochastic][^rooney2012stochastic][^bradley2012energy][^skaugenUnifiedPerspectiveTwodimensional2018]:
+We introduce dimensionless units for length $\xi = \hbar/\sqrt{m\mu}$ and time $\tau = \xi/c$, and rescale the wave function as $\psi \rightarrow \sqrt{\frac{g}{\mu}}\psi$. Additionally, we include a dissipative factor $\gamma$. This results in the damped Gross-Pitaevskii equation (dGPE) in dimensionless form as [^gardiner2003stochastic] [^rooney2012stochastic] [^bradley2012energy] [^skaugenUnifiedPerspectiveTwodimensional2018]:
 
 !!! equation "The damped Gross-Pitaevski equation (`evolve_dGPE`)"
     $$
@@ -71,9 +71,9 @@ bec.calc_hamiltonian_density()
 
 ## Approximation of Ground States
 
-In simulations, it is often convenient to start in a configuration that is close to the ground state. We can estimate this ground state by noting that the GPE dissipates energy when evolved in imaginary time ($t \rightarrow -it$) [^minguzzi2004numerical][^kevrekidis2007emergent]. We refer to this as *evolving the dGPE in imaginary time*. Given an external potential $V_{ext}$, we can therefore find an approximation to the ground state by starting with an initial guess and then removing energy from the guessed state by evolving the equations in imaginary time.
+In simulations, it is often convenient to start in a configuration that is close to the ground state. We can estimate this ground state by noting that the GPE dissipates energy when evolved in imaginary time ($t \rightarrow -it$) [^minguzzi2004numerical] [^kevrekidis2007emergent]. We refer to this as *evolving the dGPE in imaginary time*. Given an external potential $V_{ext}$, we can therefore find an approximation to the ground state by starting with an initial guess and then removing energy from the guessed state by evolving the equations in imaginary time.
 
-To obtain an initial guess for the ground state for a given potential $V_{ext}$, we use the Thomas-Fermi approximation [^dalfovo1999theory][^kevrekidis2007emergent]. In this approximation, we assume that $\psi$ is slowly varying, allowing us to neglect the Laplacian term ($\nabla^2 \psi \approx 0$). Looking for stationary solutions ($\partial_t \psi = 0$) to the dGPE, we obtain the equation:
+To obtain an initial guess for the ground state for a given potential $V_{ext}$, we use the Thomas-Fermi approximation [^dalfovo1999theory] [^kevrekidis2007emergent]. In this approximation, we assume that $\psi$ is slowly varying, allowing us to neglect the Laplacian term ($\nabla^2 \psi \approx 0$). Looking for stationary solutions ($\partial_t \psi = 0$) to the dGPE, we obtain the equation:
 
 $$
 0 = (V_{ext}(\mathbf{r}) - 1 +|\psi|^2 )\psi.
@@ -161,7 +161,7 @@ Here, the superfluid velocity is introduced as $\mathbf{v}_s = \nabla \theta$. T
 bec.calc_superfluid_current()   
 ```
 
-We can also substitute the Madelung transformation into the Hamiltonian to get [^bradley2012energy][^nore1997kolmogorov]:
+We can also substitute the Madelung transformation into the Hamiltonian to get [^bradley2012energy] [^nore1997kolmogorov]:
 
 $$
 K = \int d\mathbf{r} \left[\frac{1}{2}\rho v_s^2 +\frac{1}{8} \frac{|\nabla \rho|^2}{\rho} + (V_{ext}-1)\rho +\frac{1}{2}\rho^2 \right].
@@ -175,7 +175,7 @@ bec.calc_velocity()
 bec.calc_kinetic_energy()
 ```
 
-Furthermore, by inserting the Madelung transformation into the dGPE, one can derive equations resembling the Navier-Stokes equations [^kevrekidis2007emergent][^bradley2012energy]:
+Furthermore, by inserting the Madelung transformation into the dGPE, one can derive equations resembling the Navier-Stokes equations [^kevrekidis2007emergent] [^bradley2012energy]:
 
 $$\begin{aligned}
     \partial_t \rho + \nabla\cdot(\rho \mathbf{v}_s) &= 2\gamma \rho (1-V_{eff}), \\
@@ -186,7 +186,7 @@ Note: The exact form of the momentum equation can vary depending on the derivati
 
 ## Forces on External Potential
 
-To study how the BEC interacts with impurities, one can model the impurity as an external potential (e.g., Gaussian) and measure the force exerted on it [^ronning2020classical][^astrakharchik2004motion][^pinsker2017gaussian]. According to the Ehrenfest theorem, the force exerted by the external potential on the condensate is given by $\mathbf{F}_{cond} = -\langle \nabla V_{ext}\rangle$. By Newton's third law, the force exerted by the condensate on the potential (or the object creating it) is $\mathbf{F}_{pot} = - \mathbf{F}_{cond} = \langle \nabla V_{ext}\rangle$. Written explicitly, this is:
+To study how the BEC interacts with impurities, one can model the impurity as an external potential (e.g., Gaussian) and measure the force exerted on it [^ronning2020classical] [^astrakharchik2004motion] [^pinsker2017gaussian]. According to the Ehrenfest theorem, the force exerted by the external potential on the condensate is given by $\mathbf{F}_{cond} = -\langle \nabla V_{ext}\rangle$. By Newton's third law, the force exerted by the condensate on the potential (or the object creating it) is $\mathbf{F}_{pot} = - \mathbf{F}_{cond} = \langle \nabla V_{ext}\rangle$. Written explicitly, this is:
 
 $$
 \mathbf{F}*{pot} = \int d\mathbf{r} |\psi|^2 \nabla V*{ext}(\mathbf{r}) = -\int d\mathbf{r} V_{ext}(\mathbf{r}) \nabla(|\psi|^2),

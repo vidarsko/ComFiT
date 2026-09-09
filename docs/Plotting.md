@@ -148,8 +148,6 @@ plt.pause(0.01)
 
 ## Plotly 3D properties
 
-## Plotly 3D properties
-
 Plotly handles manipulating figures differently in 2D and 3D dimensions.
 In the `tool_set_plot_axis_properties_plotly` function, several helper dictionaries are constructed to set the proper plotting properties.
 
@@ -237,6 +235,7 @@ Real fields are fields that take real values, for example the temperature in a r
 
 The `plot_field` function is used to plot a real field.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
 
     ```python
@@ -267,10 +266,12 @@ The `plot_field` function is used to plot a real field.
     ![](img/plotting_plot_field_demo.png#only-light)
     ![](img/plotting_plot_field_demo-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 #### `plot_field_in_plane`
 
 The `plot_field_in_plane` function is used to plot a real field in a plane.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
     ```python
     import comfit as cf
@@ -293,6 +294,7 @@ The `plot_field_in_plane` function is used to plot a real field in a plane.
     ![](img/plotting_plot_field_in_plane_demo.png#only-light)
     ![](img/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 ### Complex fields
 
 Complex fields are fields that take complex values, for example the electric field in a light wave.
@@ -301,6 +303,7 @@ Complex fields are fields that take complex values, for example the electric fie
 
 The `plot_complex_field` function is used to plot a complex field.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
 
     ```python
@@ -341,12 +344,14 @@ The `plot_complex_field` function is used to plot a complex field.
     ![](img/plotting_plot_complex_field_demo.png#only-light)
     ![](img/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 #### `plot_complex_field_in_plane`
 
 The `plot_complex_field_in_plane` function is used to plot a complex field in a plane.
 The modulus of the complex field is shown as the alpha channel, where the minimum modulus value is transparent and the maximum modulus value is opaque.
 The phase of the complex field is shown as the color of the field, where the color is determined by the angle color scheme.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
     ```python
     import comfit as cf
@@ -369,6 +374,7 @@ The phase of the complex field is shown as the color of the field, where the col
     ![](img/plotting_plot_complex_field_in_plane_demo.png#only-light)
     ![](img/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 ### Angle fields
 
 Angle fields are fields that take values in the interval $[-\pi,\pi]$, for example the phase of a complex field.
@@ -377,6 +383,7 @@ Angle fields are fields that take values in the interval $[-\pi,\pi]$, for examp
 
 The `plot_angle_field` function is used to plot an angle field.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
     ```python
     import comfit as cf
@@ -406,10 +413,12 @@ The `plot_angle_field` function is used to plot an angle field.
     ![](img/plotting_plot_angle_field_demo.png#only-light)
     ![](img/plotting_plot_angle_field_demo-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 #### `plot_angle_field_in_plane`
 
 The `plot_angle_field_in_plane` function is used to plot an angle field in a plane.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
     ```python
     import comfit as cf
@@ -432,6 +441,7 @@ The `plot_angle_field_in_plane` function is used to plot an angle field in a pla
     ![](img/plotting_plot_angle_field_in_plane_demo.png#only-light)
     ![](img/plotting_plot_angle_field_in_plane_demo-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 ### Vector fields
 
 #### `plot_vector_field`
@@ -471,6 +481,7 @@ The following table summarizes the behavior of the `plot_vector_field` function.
 | `dim=2` | $v_x$ on the x-axis. <br>(not QA) | $v_x$ and $v_y$ on x- and y-axes, respectively <br>(not QA). | $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
 | `dim=3` | $v_x$ on the x-axis <br>(not QA) | $v_x$, $v_y$ on the x-, and y-xes, respectively <br>(not QA). | $v_x$, $v_y$ and $v_z$ on the x-, y- and z-axes, respectively <br>(not QA). |
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
     ```python
     import comfit as cf
@@ -539,10 +550,12 @@ The following table summarizes the behavior of the `plot_vector_field` function.
     ![](img/plotting_plot_vector_field_demo.png#only-light)
     ![](img/plotting_plot_vector_field_demo-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 #### `plot_vector_field_in_plane`
 
 The `plot_vector_field_in_plane` function is used to plot a vector field in a plane.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
     ```python
     import comfit as cf
@@ -567,6 +580,7 @@ The `plot_vector_field_in_plane` function is used to plot a vector field in a pl
     ![](img/plotting_plot_vector_field_in_plane_demo.png#only-light)
     ![](img/plotting_plot_vector_field_in_plane_demo-colorinverted.png#only-dark)
 
+<!-- markdownlint-enable MD046 -->
 ## Animation
 
 Creating animations are typically done by exporting each frame to a `png`-file and then combining the frames together.
@@ -588,6 +602,7 @@ cf.tool_make_animation_gif(n)
 
 where `n` is the last frame number.
 
+<!-- markdownlint-disable MD046 -->
 ??? example "Example"
 
     Here is how one would create an animation of a field.
@@ -602,6 +617,7 @@ where `n` is the last frame number.
     cf.tool_make_animation_gif(n)
     ```
 
+<!-- markdownlint-enable MD046 -->
 ## Angle color scheme
 
 In many of the plotting functions, we are plotting angles, for example in plotting the phase
