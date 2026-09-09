@@ -33,7 +33,7 @@ class BaseSystemEvolve:
             A tuple containing the evolved field and the predicted field in Fourier space.
         """
 
-        with sp.fft.set_workers(-1):
+        with sp.fft.set_workers(self.workers):
             N0_f = nonlinear_evolution_function_f(field, self.time)
 
             a_f = integrating_factors_f[0] * field_f + integrating_factors_f[1] * N0_f
@@ -73,7 +73,7 @@ class BaseSystemEvolve:
             A tuple containing the evolved field and the predicted field in Fourier space.
         """
          
-        with sp.fft.set_workers(-1):
+        with sp.fft.set_workers(self.workers):
             N_0f = nonlinear_evolution_function_f(field, self.time)
 
             a_f = field_f * integrating_factors_f[0] + N_0f * integrating_factors_f[1]

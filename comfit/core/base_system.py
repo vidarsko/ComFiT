@@ -34,7 +34,7 @@ class BaseSystem(BaseSystemInit, BaseSystemConf, BaseSystemEvolve, BaseSystemCal
         individually.
         """
         
-        return sp.fft.fftn(field, axes=range(-self.dim, 0), workers=-1)
+        return sp.fft.fftn(field, axes=range(-self.dim, 0), workers=self.workers)
 
     def ifft(self, field):
         """Perform an inverse fast Fourier transform on a field.
@@ -57,4 +57,4 @@ class BaseSystem(BaseSystemInit, BaseSystemConf, BaseSystemEvolve, BaseSystemCal
         individually.
         """
         
-        return sp.fft.ifftn(field, axes=range(-self.dim, 0), workers=-1)
+        return sp.fft.ifftn(field, axes=range(-self.dim, 0), workers=self.workers)

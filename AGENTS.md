@@ -6,6 +6,11 @@ crystal, active nematics, etc.), used by researchers to produce results they
 publish on. Correctness of numerics is the top priority — more important than
 style, coverage of edge cases, or speed of changes.
 
+## Testing
+
+Don't run the test suite (`pytest`) locally. The maintainer pushes to GitHub and lets CI run the
+tests there instead.
+
 ## Tracking cleanup work
 
 A naming-consistency/documentation cleanup pass is underway ahead of/around the 2.0.0 release

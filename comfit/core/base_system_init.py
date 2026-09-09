@@ -75,6 +75,9 @@ class BaseSystemInit:
         self.time = kwargs.get('time', 0)
         self.dt = kwargs.get('dt', 0.1)
 
+        # Number of threads used for FFTs (see BaseSystem.fft/.ifft). -1 uses all available cores.
+        self.workers = kwargs.get('workers', -1)
+
         # Construct parameters
         self.x = np.linspace(self.xmin, self.xmax-self.dx, self.xRes)
         self.y = np.linspace(self.ymin, self.ymax-self.dy, self.yRes)
