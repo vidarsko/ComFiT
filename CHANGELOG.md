@@ -246,6 +246,12 @@ too large/risky for this pass).
 - Rewrote the LLM preprompt on the documentation landing page (`docs/index.md`): fixed stale/
   incorrect API references and a bug in the example code, and reorganized it into clearer
   sections. No behavioral changes.
+- `docs/Plotting.md`: every plotting-function example (`plot_field`, `plot_field_in_plane`,
+  `plot_complex_field`, `plot_complex_field_in_plane`, `plot_angle_field`,
+  `plot_angle_field_in_plane`, `plot_vector_field`, `plot_vector_field_in_plane`) now has a
+  `matplotlib`/`plotly` tab pair, with the `plotly` tab embedding a live, interactive version of
+  the plot (generated via `docs/img/generate_plotly_html_demos.py`) instead of a static
+  screenshot. No behavioral changes.
 
 ### Structural
 

@@ -238,33 +238,62 @@ The `plot_field` function is used to plot a real field.
 <!-- markdownlint-disable MD046 -->
 ??? example "Example"
 
-    ```python
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
+    === "`matplotlib`"
 
-    fig = plt.figure()
+        ```python
+        import comfit as cf
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-    ax1 = fig.add_subplot(131)
-    bs = cf.BaseSystem(1,xRes=31)
-    field = bs.x**2
-    bs.plot_field(field,ax=ax1)
+        fig = plt.figure()
 
-    ax2 = fig.add_subplot(132)
-    bs = cf.BaseSystem(2,xRes=31,yRes=31)
-    field = bs.x**2 + bs.y**2
-    bs.plot_field(field,ax=ax2)
+        ax1 = fig.add_subplot(131)
+        bs = cf.BaseSystem(1,xRes=31)
+        field = bs.x**2
+        bs.plot_field(field,ax=ax1)
 
-    ax3 = fig.add_subplot(133, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    field = bs.x**2 + bs.y**2 + bs.z**2
-    bs.plot_field(field,ax=ax3)
+        ax2 = fig.add_subplot(132)
+        bs = cf.BaseSystem(2,xRes=31,yRes=31)
+        field = bs.x**2 + bs.y**2
+        bs.plot_field(field,ax=ax2)
 
-    plt.show()
-    ```
+        ax3 = fig.add_subplot(133, projection='3d')
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        field = bs.x**2 + bs.y**2 + bs.z**2
+        bs.plot_field(field,ax=ax3)
 
-    ![](img/plotting_plot_field_demo.png#only-light)
-    ![](img/plotting_plot_field_demo-colorinverted.png#only-dark)
+        plt.show()
+        ```
+
+        ![](img/plotting_plot_field_demo.png#only-light)
+        ![](img/plotting_plot_field_demo-colorinverted.png#only-dark)
+
+    === "`plotly`"
+
+        ```python
+        import comfit as cf
+
+        bs1 = cf.BaseSystem(1,xRes=31)
+        field1 = bs1.x**2
+
+        bs2 = cf.BaseSystem(2,xRes=31,yRes=31)
+        field2 = bs2.x**2 + bs2.y**2
+
+        bs3 = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        field3 = bs3.x**2 + bs3.y**2 + bs3.z**2
+
+        fig, axs = bs1.plot_subplots(1, 3)
+
+        bs1.plot_field(field1, fig=fig, ax=axs[0])
+        bs2.plot_field(field2, fig=fig, ax=axs[1])
+        bs3.plot_field(field3, fig=fig, ax=axs[2])
+
+        bs1.show(fig)
+        ```
+
+        <iframe src="../img/plotting_plot_field_demo_interactive.html" width="100%" height="440" style="border: 1px solid var(--md-default-fg-color--lightest); border-radius: 4px;" loading="lazy"></iframe>
+
+        *Drag to rotate the 3D panel, scroll to zoom, and hover any panel for values.*
 
 <!-- markdownlint-enable MD046 -->
 #### `plot_field_in_plane`
@@ -273,26 +302,47 @@ The `plot_field_in_plane` function is used to plot a real field in a plane.
 
 <!-- markdownlint-disable MD046 -->
 ??? example "Example"
-    ```python
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
 
-    fig = plt.figure()
+    === "`matplotlib`"
 
-    ax1 = fig.add_subplot(121, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    field = (bs.x**2 + bs.y**2 + bs.z**2)
-    bs.plot_field_in_plane(field, ax=ax1)
+        ```python
+        import comfit as cf
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-    ax2 = fig.add_subplot(122, projection='3d')
-    bs.plot_field_in_plane(field, ax=ax2, normal_vector=[1,1,0],position=[10,10,10])
+        fig = plt.figure()
 
-    plt.show()
-    ```
+        ax1 = fig.add_subplot(121, projection='3d')
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        field = (bs.x**2 + bs.y**2 + bs.z**2)
+        bs.plot_field_in_plane(field, ax=ax1)
 
-    ![](img/plotting_plot_field_in_plane_demo.png#only-light)
-    ![](img/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark)
+        ax2 = fig.add_subplot(122, projection='3d')
+        bs.plot_field_in_plane(field, ax=ax2, normal_vector=[1,1,0],position=[10,10,10])
+
+        plt.show()
+        ```
+
+        ![](img/plotting_plot_field_in_plane_demo.png#only-light)
+        ![](img/plotting_plot_field_in_plane_demo-colorinverted.png#only-dark)
+
+    === "`plotly`"
+
+        ```python
+        import comfit as cf
+
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        field = bs.x**2 + bs.y**2 + bs.z**2
+
+        fig, axs = bs.plot_subplots(1, 2)
+
+        bs.plot_field_in_plane(field, fig=fig, ax=axs[0])
+        bs.plot_field_in_plane(field, fig=fig, ax=axs[1], normal_vector=[1,1,0], position=[10,10,10])
+
+        bs.show(fig)
+        ```
+
+        <iframe src="../img/plotting_plot_field_in_plane_demo_interactive.html" width="100%" height="440" style="border: 1px solid var(--md-default-fg-color--lightest); border-radius: 4px;" loading="lazy"></iframe>
 
 <!-- markdownlint-enable MD046 -->
 ### Complex fields
@@ -306,43 +356,74 @@ The `plot_complex_field` function is used to plot a complex field.
 <!-- markdownlint-disable MD046 -->
 ??? example "Example"
 
-    ```python
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
+    === "`matplotlib`"
 
-    fig = plt.figure()
+        ```python
+        import comfit as cf
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-    ax1 = fig.add_subplot(231)
-    bs = cf.BaseSystem(1,xRes=31)
-    field = bs.x**2*np.exp(1j*bs.x/3)
-    bs.plot_complex_field(field,ax=ax1)
+        fig = plt.figure()
 
-    ax2 = fig.add_subplot(232)
-    bs = cf.BaseSystem(2,xRes=31,yRes=31)
-    field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
-    bs.plot_complex_field(field,ax=ax2,plot_method='phase_angle')
+        ax1 = fig.add_subplot(231)
+        bs = cf.BaseSystem(1,xRes=31)
+        field = bs.x**2*np.exp(1j*bs.x/3)
+        bs.plot_complex_field(field,ax=ax1)
 
-    ax3 = fig.add_subplot(233, projection='3d')
-    bs = cf.BaseSystem(2,xRes=31,yRes=31)
-    field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
-    bs.plot_complex_field(field,ax=ax3,plot_method='3Dsurface')
+        ax2 = fig.add_subplot(232)
+        bs = cf.BaseSystem(2,xRes=31,yRes=31)
+        field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
+        bs.plot_complex_field(field,ax=ax2,plot_method='phase_angle')
 
-    ax5 = fig.add_subplot(235, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
-    bs.plot_complex_field(field,ax=ax5,plot_method='phase_angle')
+        ax3 = fig.add_subplot(233, projection='3d')
+        bs = cf.BaseSystem(2,xRes=31,yRes=31)
+        field = (bs.x**2 + bs.y**2)*np.exp(1j*bs.x/3)
+        bs.plot_complex_field(field,ax=ax3,plot_method='3Dsurface')
 
-    ax6 = fig.add_subplot(236, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
-    bs.plot_complex_field(field,ax=ax6,plot_method='phase_blob')
+        ax5 = fig.add_subplot(235, projection='3d')
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
+        bs.plot_complex_field(field,ax=ax5,plot_method='phase_angle')
 
-    plt.show()
-    ```
+        ax6 = fig.add_subplot(236, projection='3d')
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.x/3)
+        bs.plot_complex_field(field,ax=ax6,plot_method='phase_blob')
 
-    ![](img/plotting_plot_complex_field_demo.png#only-light)
-    ![](img/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
+        plt.show()
+        ```
+
+        ![](img/plotting_plot_complex_field_demo.png#only-light)
+        ![](img/plotting_plot_complex_field_demo-colorinverted.png#only-dark)
+
+    === "`plotly`"
+
+        ```python
+        import comfit as cf
+
+        bs1 = cf.BaseSystem(1,xRes=31)
+        field1 = bs1.x**2*np.exp(1j*bs1.x/3)
+
+        bs2 = cf.BaseSystem(2,xRes=31,yRes=31)
+        field2 = (bs2.x**2 + bs2.y**2)*np.exp(1j*bs2.x/3)
+
+        # Lower resolution than the matplotlib example above, to keep the
+        # embedded file size down (the 3D methods add several surfaces each).
+        bs3 = cf.BaseSystem(3,xRes=15,yRes=15,zRes=15)
+        field3 = (bs3.x**2 + bs3.y**2 + bs3.z**2)*np.exp(1j*bs3.x/3)
+
+        fig, axs = bs1.plot_subplots(2, 3)
+
+        bs1.plot_complex_field(field1, fig=fig, ax=axs[0][0])
+        bs2.plot_complex_field(field2, fig=fig, ax=axs[0][1], plot_method='phase_angle')
+        bs2.plot_complex_field(field2, fig=fig, ax=axs[0][2], plot_method='3Dsurface')
+        bs3.plot_complex_field(field3, fig=fig, ax=axs[1][1], plot_method='phase_angle')
+        bs3.plot_complex_field(field3, fig=fig, ax=axs[1][2], plot_method='phase_blob')
+
+        bs1.show(fig)
+        ```
+
+        <iframe src="../img/plotting_plot_complex_field_demo_interactive.html" width="100%" height="580" style="border: 1px solid var(--md-default-fg-color--lightest); border-radius: 4px;" loading="lazy"></iframe>
 
 <!-- markdownlint-enable MD046 -->
 #### `plot_complex_field_in_plane`
@@ -353,26 +434,47 @@ The phase of the complex field is shown as the color of the field, where the col
 
 <!-- markdownlint-disable MD046 -->
 ??? example "Example"
-    ```python
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
 
-    fig = plt.figure()
+    === "`matplotlib`"
 
-    ax1 = fig.add_subplot(121, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    complex_field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.y/3)
-    bs.plot_complex_field_in_plane(complex_field, ax=ax1)
+        ```python
+        import comfit as cf
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-    ax2 = fig.add_subplot(122, projection='3d')
-    bs.plot_complex_field_in_plane(complex_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+        fig = plt.figure()
 
-    plt.show()
-    ```
+        ax1 = fig.add_subplot(121, projection='3d')
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        complex_field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.y/3)
+        bs.plot_complex_field_in_plane(complex_field, ax=ax1)
 
-    ![](img/plotting_plot_complex_field_in_plane_demo.png#only-light)
-    ![](img/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
+        ax2 = fig.add_subplot(122, projection='3d')
+        bs.plot_complex_field_in_plane(complex_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+
+        plt.show()
+        ```
+
+        ![](img/plotting_plot_complex_field_in_plane_demo.png#only-light)
+        ![](img/plotting_plot_complex_field_in_plane_demo-colorinverted.png#only-dark)
+
+    === "`plotly`"
+
+        ```python
+        import comfit as cf
+
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        complex_field = (bs.x**2 + bs.y**2 + bs.z**2)*np.exp(1j*bs.y/3)
+
+        fig, axs = bs.plot_subplots(1, 2)
+
+        bs.plot_complex_field_in_plane(complex_field, fig=fig, ax=axs[0])
+        bs.plot_complex_field_in_plane(complex_field, fig=fig, ax=axs[1], normal_vector=[0,0,1], position=[10,10,10])
+
+        bs.show(fig)
+        ```
+
+        <iframe src="../img/plotting_plot_complex_field_in_plane_demo_interactive.html" width="100%" height="440" style="border: 1px solid var(--md-default-fg-color--lightest); border-radius: 4px;" loading="lazy"></iframe>
 
 <!-- markdownlint-enable MD046 -->
 ### Angle fields
@@ -385,33 +487,63 @@ The `plot_angle_field` function is used to plot an angle field.
 
 <!-- markdownlint-disable MD046 -->
 ??? example "Example"
-    ```python
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
 
-    fig = plt.figure()
+    === "`matplotlib`"
 
-    ax1 = fig.add_subplot(131)
-    bs = cf.BaseSystem(1,xRes=31)
-    angle_field = np.mod((bs.x)/5,2*np.pi)-np.pi
-    bs.plot_angle_field(angle_field,ax=ax1)
+        ```python
+        import comfit as cf
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-    ax2 = fig.add_subplot(132)
-    bs = cf.BaseSystem(2,xRes=31,yRes=31)
-    angle_field = np.mod((bs.x + 2*bs.y)/5,2*np.pi)-np.pi
-    bs.plot_angle_field(angle_field,ax=ax2)
+        fig = plt.figure()
 
-    ax3 = fig.add_subplot(133, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
-    bs.plot_angle_field(angle_field,ax=ax3)
+        ax1 = fig.add_subplot(131)
+        bs = cf.BaseSystem(1,xRes=31)
+        angle_field = np.mod((bs.x)/5,2*np.pi)-np.pi
+        bs.plot_angle_field(angle_field,ax=ax1)
 
-    plt.show()
-    ```
+        ax2 = fig.add_subplot(132)
+        bs = cf.BaseSystem(2,xRes=31,yRes=31)
+        angle_field = np.mod((bs.x + 2*bs.y)/5,2*np.pi)-np.pi
+        bs.plot_angle_field(angle_field,ax=ax2)
 
-    ![](img/plotting_plot_angle_field_demo.png#only-light)
-    ![](img/plotting_plot_angle_field_demo-colorinverted.png#only-dark)
+        ax3 = fig.add_subplot(133, projection='3d')
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
+        bs.plot_angle_field(angle_field,ax=ax3)
+
+        plt.show()
+        ```
+
+        ![](img/plotting_plot_angle_field_demo.png#only-light)
+        ![](img/plotting_plot_angle_field_demo-colorinverted.png#only-dark)
+
+    === "`plotly`"
+
+        ```python
+        import comfit as cf
+
+        bs1 = cf.BaseSystem(1,xRes=31)
+        angle_field1 = np.mod(bs1.x/5,2*np.pi)-np.pi
+
+        bs2 = cf.BaseSystem(2,xRes=31,yRes=31)
+        angle_field2 = np.mod((bs2.x + 2*bs2.y)/5,2*np.pi)-np.pi
+
+        # Lower resolution than the matplotlib example above, to keep the
+        # embedded file size down (dim=3 adds several marching-cubes surfaces).
+        bs3 = cf.BaseSystem(3,xRes=15,yRes=15,zRes=15)
+        angle_field3 = np.mod((bs3.x + 2*bs3.y + 3*bs3.z)/5,2*np.pi)-np.pi
+
+        fig, axs = bs1.plot_subplots(1, 3)
+
+        bs1.plot_angle_field(angle_field1, fig=fig, ax=axs[0])
+        bs2.plot_angle_field(angle_field2, fig=fig, ax=axs[1])
+        bs3.plot_angle_field(angle_field3, fig=fig, ax=axs[2])
+
+        bs1.show(fig)
+        ```
+
+        <iframe src="../img/plotting_plot_angle_field_demo_interactive.html" width="100%" height="440" style="border: 1px solid var(--md-default-fg-color--lightest); border-radius: 4px;" loading="lazy"></iframe>
 
 <!-- markdownlint-enable MD046 -->
 #### `plot_angle_field_in_plane`
@@ -420,26 +552,47 @@ The `plot_angle_field_in_plane` function is used to plot an angle field in a pla
 
 <!-- markdownlint-disable MD046 -->
 ??? example "Example"
-    ```python
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
 
-    fig = plt.figure()
+    === "`matplotlib`"
 
-    ax1 = fig.add_subplot(121, projection='3d')
-    bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
-    angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
-    bs.plot_angle_field_in_plane(angle_field, ax=ax1)
+        ```python
+        import comfit as cf
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-    ax2 = fig.add_subplot(122, projection='3d')
-    bs.plot_angle_field_in_plane(angle_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+        fig = plt.figure()
 
-    plt.show()
-    ```
+        ax1 = fig.add_subplot(121, projection='3d')
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
+        bs.plot_angle_field_in_plane(angle_field, ax=ax1)
 
-    ![](img/plotting_plot_angle_field_in_plane_demo.png#only-light)
-    ![](img/plotting_plot_angle_field_in_plane_demo-colorinverted.png#only-dark)
+        ax2 = fig.add_subplot(122, projection='3d')
+        bs.plot_angle_field_in_plane(angle_field, ax=ax2, normal_vector=[0,0,1],position=[10,10,10])
+
+        plt.show()
+        ```
+
+        ![](img/plotting_plot_angle_field_in_plane_demo.png#only-light)
+        ![](img/plotting_plot_angle_field_in_plane_demo-colorinverted.png#only-dark)
+
+    === "`plotly`"
+
+        ```python
+        import comfit as cf
+
+        bs = cf.BaseSystem(3,xRes=31,yRes=31,zRes=31)
+        angle_field = np.mod((bs.x + 2*bs.y + 3*bs.z)/5,2*np.pi)-np.pi
+
+        fig, axs = bs.plot_subplots(1, 2)
+
+        bs.plot_angle_field_in_plane(angle_field, fig=fig, ax=axs[0])
+        bs.plot_angle_field_in_plane(angle_field, fig=fig, ax=axs[1], normal_vector=[0,0,1], position=[10,10,10])
+
+        bs.show(fig)
+        ```
+
+        <iframe src="../img/plotting_plot_angle_field_in_plane_demo_interactive.html" width="100%" height="440" style="border: 1px solid var(--md-default-fg-color--lightest); border-radius: 4px;" loading="lazy"></iframe>
 
 <!-- markdownlint-enable MD046 -->
 ### Vector fields
@@ -483,72 +636,123 @@ The following table summarizes the behavior of the `plot_vector_field` function.
 
 <!-- markdownlint-disable MD046 -->
 ??? example "Example"
-    ```python
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
 
-    fig = plt.figure()
+    === "`matplotlib`"
 
-    #1D system
-    bs = cf.BaseSystem(1,xRes=31)
+        ```python
+        import comfit as cf
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-    # 1D vector field
-    ax1 = fig.add_subplot(331)
-    vector_field = np.array([bs.x*np.cos(bs.x/5)])
-    bs.plot_vector_field(vector_field,ax=ax1, spacing=1)
+        fig = plt.figure()
 
-    # 2D vector field
-    ax2 = fig.add_subplot(332, projection='3d')
-    vector_field = np.array([bs.x*np.cos(bs.x/5), bs.x*np.sin(bs.x/5)])
-    bs.plot_vector_field(vector_field,ax=ax2, spacing=2)
+        #1D system
+        bs = cf.BaseSystem(1,xRes=31)
 
-    # 3D vector field
-    ax3 = fig.add_subplot(333, projection='3d')
-    vector_field = np.array([bs.x*np.cos(bs.x/5), bs.x*np.sin(bs.x/5), bs.x*np.cos(bs.x/5)])
-    bs.plot_vector_field(vector_field,ax=ax3, spacing=3)
+        # 1D vector field
+        ax1 = fig.add_subplot(331)
+        vector_field = np.array([bs.x*np.cos(bs.x/5)])
+        bs.plot_vector_field(vector_field,ax=ax1, spacing=1)
 
-    #2D system
-    bs = cf.BaseSystem(2,xRes=31,yRes=31)
+        # 2D vector field
+        ax2 = fig.add_subplot(332, projection='3d')
+        vector_field = np.array([bs.x*np.cos(bs.x/5), bs.x*np.sin(bs.x/5)])
+        bs.plot_vector_field(vector_field,ax=ax2, spacing=2)
 
-    # 1D vector field
-    ax4 = fig.add_subplot(334)
-    vector_field = np.array([bs.x*np.cos(bs.y/5)])
-    bs.plot_vector_field(vector_field,ax=ax4,spacing=3)
+        # 3D vector field
+        ax3 = fig.add_subplot(333, projection='3d')
+        vector_field = np.array([bs.x*np.cos(bs.x/5), bs.x*np.sin(bs.x/5), bs.x*np.cos(bs.x/5)])
+        bs.plot_vector_field(vector_field,ax=ax3, spacing=3)
 
-    # 2D vector field
-    ax5 = fig.add_subplot(335)
-    vector_field = np.array([bs.x*np.cos(bs.y/5), bs.y*np.sin(bs.x/5)])
-    bs.plot_vector_field(vector_field,ax=ax5,spacing=5)
+        #2D system
+        bs = cf.BaseSystem(2,xRes=31,yRes=31)
 
-    # 3D vector field
-    ax6 = fig.add_subplot(336, projection='3d')
-    vector_field = np.array([bs.x*np.cos(bs.y/5), bs.y*np.sin(bs.x/5), bs.x*np.cos(bs.y/5)])
-    bs.plot_vector_field(vector_field,ax=ax6, spacing=3)
+        # 1D vector field
+        ax4 = fig.add_subplot(334)
+        vector_field = np.array([bs.x*np.cos(bs.y/5)])
+        bs.plot_vector_field(vector_field,ax=ax4,spacing=3)
 
-    # 3D system
-    bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+        # 2D vector field
+        ax5 = fig.add_subplot(335)
+        vector_field = np.array([bs.x*np.cos(bs.y/5), bs.y*np.sin(bs.x/5)])
+        bs.plot_vector_field(vector_field,ax=ax5,spacing=5)
 
-    # 1D vector field
-    ax7 = fig.add_subplot(337, projection='3d')
-    vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5)])
-    bs.plot_vector_field(vector_field,ax=ax7,spacing=3)
+        # 3D vector field
+        ax6 = fig.add_subplot(336, projection='3d')
+        vector_field = np.array([bs.x*np.cos(bs.y/5), bs.y*np.sin(bs.x/5), bs.x*np.cos(bs.y/5)])
+        bs.plot_vector_field(vector_field,ax=ax6, spacing=3)
 
-    # 2D vector field
-    ax8 = fig.add_subplot(338, projection='3d')
-    vector_field = np.array([bs.z+ bs.x*np.cos(bs.y/5), bs.z + bs.y*np.sin(bs.x/5)])
-    bs.plot_vector_field(vector_field,ax=ax8,spacing=5)
+        # 3D system
+        bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
 
-    # 3D vector field
-    ax9 = fig.add_subplot(339, projection='3d')
-    vector_field = np.array([bs.z+ bs.x*np.cos(bs.y/5), bs.z + bs.y*np.sin(bs.x/5), -bs.z + bs.x*np.cos(bs.y/5)])
-    bs.plot_vector_field(vector_field,ax=ax9,spacing=3)
+        # 1D vector field
+        ax7 = fig.add_subplot(337, projection='3d')
+        vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5)])
+        bs.plot_vector_field(vector_field,ax=ax7,spacing=3)
 
-    plt.show()
-    ```
+        # 2D vector field
+        ax8 = fig.add_subplot(338, projection='3d')
+        vector_field = np.array([bs.z+ bs.x*np.cos(bs.y/5), bs.z + bs.y*np.sin(bs.x/5)])
+        bs.plot_vector_field(vector_field,ax=ax8,spacing=5)
 
-    ![](img/plotting_plot_vector_field_demo.png#only-light)
-    ![](img/plotting_plot_vector_field_demo-colorinverted.png#only-dark)
+        # 3D vector field
+        ax9 = fig.add_subplot(339, projection='3d')
+        vector_field = np.array([bs.z+ bs.x*np.cos(bs.y/5), bs.z + bs.y*np.sin(bs.x/5), -bs.z + bs.x*np.cos(bs.y/5)])
+        bs.plot_vector_field(vector_field,ax=ax9,spacing=3)
+
+        plt.show()
+        ```
+
+        ![](img/plotting_plot_vector_field_demo.png#only-light)
+        ![](img/plotting_plot_vector_field_demo-colorinverted.png#only-dark)
+
+    === "`plotly`"
+
+        ```python
+        import comfit as cf
+        import numpy as np
+
+        # 1D, 2D and 3D systems
+        bs1 = cf.BaseSystem(1,xRes=31)
+        bs2 = cf.BaseSystem(2,xRes=31,yRes=31)
+        bs3 = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+
+        fig, axs = bs1.plot_subplots(3, 3)
+
+        # 1D system
+        vector_field = np.array([bs1.x*np.cos(bs1.x/5)])
+        bs1.plot_vector_field(vector_field, fig=fig, ax=axs[0][0], spacing=1)
+
+        vector_field = np.array([bs1.x*np.cos(bs1.x/5), bs1.x*np.sin(bs1.x/5)])
+        bs1.plot_vector_field(vector_field, fig=fig, ax=axs[0][1], spacing=2)
+
+        vector_field = np.array([bs1.x*np.cos(bs1.x/5), bs1.x*np.sin(bs1.x/5), bs1.x*np.cos(bs1.x/5)])
+        bs1.plot_vector_field(vector_field, fig=fig, ax=axs[0][2], spacing=3)
+
+        # 2D system
+        vector_field = np.array([bs2.x*np.cos(bs2.y/5)])
+        bs2.plot_vector_field(vector_field, fig=fig, ax=axs[1][0], spacing=3)
+
+        vector_field = np.array([bs2.x*np.cos(bs2.y/5), bs2.y*np.sin(bs2.x/5)])
+        bs2.plot_vector_field(vector_field, fig=fig, ax=axs[1][1], spacing=5)
+
+        vector_field = np.array([bs2.x*np.cos(bs2.y/5), bs2.y*np.sin(bs2.x/5), bs2.x*np.cos(bs2.y/5)])
+        bs2.plot_vector_field(vector_field, fig=fig, ax=axs[1][2], spacing=3)
+
+        # 3D system
+        vector_field = np.array([bs3.z+bs3.x*np.cos(bs3.y/5)])
+        bs3.plot_vector_field(vector_field, fig=fig, ax=axs[2][0], spacing=3)
+
+        vector_field = np.array([bs3.z+bs3.x*np.cos(bs3.y/5), bs3.z+bs3.y*np.sin(bs3.x/5)])
+        bs3.plot_vector_field(vector_field, fig=fig, ax=axs[2][1], spacing=5)
+
+        vector_field = np.array([bs3.z+bs3.x*np.cos(bs3.y/5), bs3.z+bs3.y*np.sin(bs3.x/5), -bs3.z+bs3.x*np.cos(bs3.y/5)])
+        bs3.plot_vector_field(vector_field, fig=fig, ax=axs[2][2], spacing=3)
+
+        bs1.show(fig)
+        ```
+
+        <iframe src="../img/plotting_plot_vector_field_demo_interactive.html" width="100%" height="720" style="border: 1px solid var(--md-default-fg-color--lightest); border-radius: 4px;" loading="lazy"></iframe>
 
 <!-- markdownlint-enable MD046 -->
 #### `plot_vector_field_in_plane`
@@ -557,28 +761,52 @@ The `plot_vector_field_in_plane` function is used to plot a vector field in a pl
 
 <!-- markdownlint-disable MD046 -->
 ??? example "Example"
-    ```python
-    import comfit as cf
-    import matplotlib.pyplot as plt
-    import numpy as np
 
-    fig = plt.figure()
+    === "`matplotlib`"
 
-    ax1 = fig.add_subplot(121, projection='3d')
-    bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
-    vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5), -bs.z+bs.x*np.cos(bs.y/5)])
-    bs.plot_vector_field_in_plane(vector_field, ax=ax1)
+        ```python
+        import comfit as cf
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-    ax2 = fig.add_subplot(122, projection='3d')
-    bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
-    vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5)])
-    bs.plot_vector_field_in_plane(vector_field, ax=ax2, normal_vector=[0,1,1],position=[2,3,3])
+        fig = plt.figure()
 
-    plt.show()
-    ```
+        ax1 = fig.add_subplot(121, projection='3d')
+        bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+        vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5), -bs.z+bs.x*np.cos(bs.y/5)])
+        bs.plot_vector_field_in_plane(vector_field, ax=ax1)
 
-    ![](img/plotting_plot_vector_field_in_plane_demo.png#only-light)
-    ![](img/plotting_plot_vector_field_in_plane_demo-colorinverted.png#only-dark)
+        ax2 = fig.add_subplot(122, projection='3d')
+        bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+        vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5)])
+        bs.plot_vector_field_in_plane(vector_field, ax=ax2, normal_vector=[0,1,1],position=[2,3,3])
+
+        plt.show()
+        ```
+
+        ![](img/plotting_plot_vector_field_in_plane_demo.png#only-light)
+        ![](img/plotting_plot_vector_field_in_plane_demo-colorinverted.png#only-dark)
+
+    === "`plotly`"
+
+        ```python
+        import comfit as cf
+        import numpy as np
+
+        bs = cf.BaseSystem(3,xRes=11,yRes=11,zRes=11)
+
+        fig, axs = bs.plot_subplots(1, 2)
+
+        vector_field = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5), -bs.z+bs.x*np.cos(bs.y/5)])
+        bs.plot_vector_field_in_plane(vector_field, fig=fig, ax=axs[0])
+
+        vector_field2 = np.array([bs.z+bs.x*np.cos(bs.y/5), bs.z+bs.y*np.sin(bs.x/5)])
+        bs.plot_vector_field_in_plane(vector_field2, fig=fig, ax=axs[1], normal_vector=[0,1,1], position=[2,3,3])
+
+        bs.show(fig)
+        ```
+
+        <iframe src="../img/plotting_plot_vector_field_in_plane_demo_interactive.html" width="100%" height="440" style="border: 1px solid var(--md-default-fg-color--lightest); border-radius: 4px;" loading="lazy"></iframe>
 
 <!-- markdownlint-enable MD046 -->
 ## Animation
