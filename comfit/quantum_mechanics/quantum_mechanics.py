@@ -87,7 +87,7 @@ class QuantumMechanics(BaseSystem):
             width = self.size_x/10
 
         self.psi = np.sqrt(self.calc_gaussian(position=position,width=width))
-        
+
         if initial_velocity is not None:
             if self.dim == 1:
                 v0 = initial_velocity
@@ -100,8 +100,9 @@ class QuantumMechanics(BaseSystem):
             elif self.dim == 3:
                 v0 = initial_velocity
                 self.psi = self.psi * np.exp(1j * (v0[0] * self.x + v0[1] * self.y + v0[2] * self.z))
-        
-        self.psi_f = sp.fft.fftn(self.psi)
+
+        self.psi = np.array([self.psi])
+        self.psi_f = self.fft(self.psi)
 
 
     def conf_harmonic_potential(
@@ -157,8 +158,8 @@ class QuantumMechanics(BaseSystem):
             Configures self.psi and self.psi_f.
         """
 
-        self.psi = self.calc_hydrogen_state(n,l,m)
-        self.psi_f = sp.fft.fftn(self.psi)
+        self.psi = np.array([self.calc_hydrogen_state(n,l,m)])
+        self.psi_f = self.fft(self.psi)
 
     def conf_wavefunction(
             self: 'QuantumMechanics', 
@@ -174,10 +175,11 @@ class QuantumMechanics(BaseSystem):
         Returns
         -------
         None
-            Configures self.psi and self.psi_f.
+            Configures self.psi and self.psi_f. self.psi always carries a
+            leading component axis, so self.psi[0] is set to psi.
         """
-        self.psi = psi
-        self.psi_f = sp.fft.fftn(self.psi)   
+        self.psi = np.array([psi])
+        self.psi_f = self.fft(self.psi)
 
     def calc_hydrogen_state(
             self: 'QuantumMechanics', 
@@ -241,7 +243,7 @@ class QuantumMechanics(BaseSystem):
             potential = self.V_ext(t)
         else:
             potential = self.V_ext
-        return sp.fft.fftn((1j) * (-potential) * psi)
+        return self.fft((1j) * (-potential) * psi)
 
 
     ## Time evolution functions

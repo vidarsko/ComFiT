@@ -44,7 +44,18 @@ class TestQuantumMechanics(unittest.TestCase):
             qm.evolve_schrodinger(1000)
             norm_at_time1 = qm.calc_integrate_field(abs(qm.psi)**2)
             self.assertAlmostEqual(norm_at_time1, 1.0, places=3)
-        
+
+    def test_psi_component_axis(self):
+        """qm.psi always carries a leading component axis of size 1."""
+        qm = cf.QuantumMechanics(2, xRes=21, yRes=21)
+
+        qm.conf_initial_condition_gaussian()
+        self.assertEqual(qm.psi.shape, (1, qm.xRes, qm.yRes))
+        self.assertEqual(qm.psi_f.shape, qm.psi.shape)
+
+        qm.conf_wavefunction(qm.psi[0])
+        self.assertEqual(qm.psi.shape, (1, qm.xRes, qm.yRes))
+        self.assertEqual(qm.psi_f.shape, qm.psi.shape)
 
 
 if __name__ == '__main__':

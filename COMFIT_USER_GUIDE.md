@@ -48,10 +48,11 @@ workers: number of threads used for FFTs (passed to scipy.fft), default -1 (all 
 
 ## Other attributes
 
-psi (field): primary order parameter (name/meaning varies by model, e.g. bec.psi is the
+psi (field): primary order parameter (name/meaning varies by model, e.g. bec.psi[0] is the
 condensate wavefunction, pfc.psi[0] is the crystal density field, nlc.Q is a tensor field
-instead). pfc.psi always carries a leading component axis - pfc.psi[1:] holds a velocity field
-once evolve_PFC_hydrodynamic has been called; bec.psi/qm.psi do not carry this axis.
+instead). psi always carries a leading component axis, so psi[0] is the field itself even
+for models with no multi-component mode (bec.psi, qm.psi - always size 1); pfc.psi[1:] holds
+a velocity field once evolve_PFC_hydrodynamic has been called.
 psi_f: Fourier transform of psi
 x: coordinate array (and y, z when bs.dim > 1)
 xmid, xmidi: midpoint coordinate and its index (and y/z equivalents)
@@ -156,12 +157,14 @@ ls.show(fig)
 
 ## Models inheriting BaseSystem
 
-QuantumMechanics (instance: qm) - qm.psi is the wavefunction:
+QuantumMechanics (instance: qm) - qm.psi[0] is the wavefunction; qm.psi always carries a
+leading component axis of size 1 (no multi-component mode exists for this model):
 evolve_schrodinger(number_of_steps) evolves qm.psi
 conf_initial_condition_gaussian(position, width, initial_velocity)
 conf_wavefunction(psi) # sets wavefunction directly
 
-BoseEinsteinCondensate (bec) - bec.psi is the condensate wavefunction:
+BoseEinsteinCondensate (bec) - bec.psi[0] is the condensate wavefunction; bec.psi always
+carries a leading component axis of size 1 (no multi-component mode exists for this model):
 evolve_dGPE(number_of_steps) evolves bec.psi
 evolve_relax(number_of_steps) relaxes bec.psi towards a stationary state
 conf_initial_condition_thomas_fermi()

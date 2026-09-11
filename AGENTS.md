@@ -168,9 +168,11 @@ crystal's lattice.
 `dim>1`), `dt` (default `0.1`), `plot_lib` (`'plotly'` or `'matplotlib'`,
 **default `'plotly'`**). Derived: `psi`/`psi_f` (primary field and its
 Fourier transform — name/shape vary by model, e.g. `Q` for the nematic
-tensor; `PhaseFieldCrystal.psi` always carries a leading component axis,
-see the `PhaseFieldCrystal` entry below — `QuantumMechanics`/
-`BoseEinsteinCondensate`'s `psi` do not), `x`/`xmid`/`xmidi`/`size_x` (and
+tensor; `psi`/`psi_f` always carry a leading component axis, size 1 for
+`QuantumMechanics`/`BoseEinsteinCondensate` — no multi-component mode
+exists for either — and size `1+dim` for `PhaseFieldCrystal` once
+`evolve_PFC_hydrodynamic` has been called, see the `PhaseFieldCrystal`
+entry below), `x`/`xmid`/`xmidi`/`size_x` (and
 y/z), `Res`, `dims`, `rmin`/`rmax`
 (always length-3 lists `[xmin,ymin,zmin]`/`[xmax,ymax,zmax]`, regardless of
 `dim`), `volume`, `dV`, `time`, `k` (wavenumbers per axis), `dif`
@@ -204,7 +206,11 @@ trailing spatial axes get transformed — but beware raw `scipy.fft`/`np.fft`
 calls elsewhere that don't restrict `axes` this way; they transform every
 axis including a leading component one (`BaseSystem.calc_advect_field` was
 fixed to use `self.fft`/`.ifft` for exactly this reason — see
-`CHANGELOG.md`). Derivatives: `self.ifft(self.dif[0] * field_f)` for
+`CHANGELOG.md`). `QuantumMechanics.psi`/`BoseEinsteinCondensate.psi` also
+carry a (permanent, size-1) leading axis, but their raw `scipy.fft` calls
+were left as-is: transforming a length-1 axis is the identity, so they
+remain numerically correct — this stops being true if either model ever
+grows a multi-component mode. Derivatives: `self.ifft(self.dif[0] * field_f)` for
 ∂/∂x, Laplacian via `self.ifft(-self.calc_k2() * field_f)` (`.real` if the
 field is real).
 
@@ -240,10 +246,13 @@ Animations: loop evolve + plot + `self.plot_save(fig, n)`, then
 
 **Per-model notables** (verified method names, not exhaustive):
 
-- `QuantumMechanics`: `evolve_schrodinger`, `conf_initial_condition_gaussian(position, width, initial_velocity)`,
+- `QuantumMechanics`: field `psi` always carries a leading component axis of size 1 (no
+  multi-component mode exists for this model). `evolve_schrodinger`,
+  `conf_initial_condition_gaussian(position, width, initial_velocity)`,
   `conf_harmonic_potential`, `conf_hydrogen_state`, `conf_wavefunction`,
   `calc_hydrogen_state`.
-- `BoseEinsteinCondensate`: `evolve_dGPE`, `evolve_relax`,
+- `BoseEinsteinCondensate`: field `psi` always carries a leading component axis of size 1 (no
+  multi-component mode exists for this model). `evolve_dGPE`, `evolve_relax`,
   `evolve_comoving_dGPE`, `conf_initial_condition_disordered`,
   `conf_initial_condition_thomas_fermi`, `conf_external_potential`,
   `conf_insert_vortex`, `conf_insert_vortex_dipole`,

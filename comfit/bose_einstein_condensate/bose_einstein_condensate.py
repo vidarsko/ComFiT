@@ -71,7 +71,9 @@ class BoseEinsteinCondensate(BaseSystem):
         Returns
         -------
         None
-            Sets the value of self.psi and self.psi_f
+            Sets the value of self.psi and self.psi_f. self.psi always
+            carries a leading component axis, so self.psi[0] is set to the
+            newly configured disordered state.
         """
 
         if self.dim == 1:
@@ -88,7 +90,7 @@ class BoseEinsteinCondensate(BaseSystem):
         else:
             raise Exception("Code for this dimension has not yet been implemented.")
 
-        self.psi = noise_strength * self.psi
+        self.psi = np.array([noise_strength * self.psi])
         self.psi_f = sp.fft.fftn(self.psi)
 
     def conf_external_potential(self, V_ext: Union[Callable, float], additive: bool = False) -> None:
@@ -126,12 +128,15 @@ class BoseEinsteinCondensate(BaseSystem):
         Returns
         -------
         None
-            Sets the value of self.psi and self.psi_f
+            Sets the value of self.psi and self.psi_f. self.psi always
+            carries a leading component axis, so self.psi[0] is set to the
+            newly configured Thomas-Fermi state.
         """
         V_0 = np.zeros(self.dims) + self.V_ext(self.time)
-        self.psi = np.emath.sqrt(1 - V_0)
+        psi = np.emath.sqrt(1 - V_0)
 
-        self.psi[V_0 > 1] = 0
+        psi[V_0 > 1] = 0
+        self.psi = np.array([psi])
         self.psi_f = sp.fft.fftn(self.psi)
 
     # CONFIGURATION FUNCTIONS
@@ -502,8 +507,10 @@ class BoseEinsteinCondensate(BaseSystem):
             J_s = np.zeros((self.dim, self.xRes, self.yRes,self.zRes))
         else:
             raise(Exception('Calculation of the  superfluid current is not implemented in this dimension'))
+        psi = self.psi[0]
+        psi_f = self.psi_f[0]
         for i in range(self.dim):
-            J_s[i] = np.imag( np.conj(self.psi) * sp.fft.ifftn(1j*self.k[i] *self.psi_f ))
+            J_s[i] = np.imag( np.conj(psi) * sp.fft.ifftn(1j*self.k[i] *psi_f ))
         return J_s
 
     def calc_velocity(self) -> np.ndarray:
@@ -520,9 +527,10 @@ class BoseEinsteinCondensate(BaseSystem):
             u = np.zeros((self.dim, self.xRes, self.yRes, self.zRes))
         else:
             raise (Exception('Calculation of the weighted velocity is not implemented in this dimension'))
-        theta = np.angle(self.psi)
+        theta = np.angle(self.psi[0])
+        psi_f = self.psi_f[0]
         for i in range(self.dim):
-            u[i] = np.imag(np.exp(-1j*theta)* sp.fft.ifftn(1j * self.k[i] * self.psi_f))
+            u[i] = np.imag(np.exp(-1j*theta)* sp.fft.ifftn(1j * self.k[i] * psi_f))
         return u
 
     def calc_kinetic_energy(self) -> float:
@@ -546,10 +554,12 @@ class BoseEinsteinCondensate(BaseSystem):
         numpy.ndarray
             The hamiltonian density
         """
+        psi = self.psi[0]
+        psi_f = self.psi_f[0]
         k2 = self.calc_k2()
-        interaction_term = 1/2*np.abs(self.psi)**4
-        potential_term = (self.V_ext(self.time) - 1 )* np.abs(self.psi)**2
-        laplacian_term = -1/2 *np.real( np.conj(self.psi) * sp.fft.ifftn(-k2*self.psi_f))
+        interaction_term = 1/2*np.abs(psi)**4
+        potential_term = (self.V_ext(self.time) - 1 )* np.abs(psi)**2
+        laplacian_term = -1/2 *np.real( np.conj(psi) * sp.fft.ifftn(-k2*psi_f))
         return laplacian_term +potential_term + interaction_term
 
     def calc_hamiltonian(self) -> float:
@@ -598,7 +608,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Force =np.zeros(self.dim)
         potential_f = sp.fft.ifftn(self.V_ext(self.time))
         for i in range(self.dim):
-            Force_density = np.real(np.abs(self.psi)**2 * sp.fft.ifftn(1j*self.k[i]* potential_f))
+            Force_density = np.real(np.abs(self.psi[0])**2 * sp.fft.ifftn(1j*self.k[i]* potential_f))
             Force[i] = self.calc_integrate_field(Force_density)
         return Force
         #TODO: It is not clear to me exactly what this function does (Vidar 04.12.23)
@@ -612,7 +622,7 @@ class BoseEinsteinCondensate(BaseSystem):
         Parameters
         ----------
         psi : numpy.ndarray, optional
-            The wavefunction of the system.
+            The wavefunction of the system. If None, self.psi[0] is used.
 
         Returns
         -------
@@ -620,7 +630,7 @@ class BoseEinsteinCondensate(BaseSystem):
             The vortex density of the system.
         """
         if psi is None:
-            psi = self.psi
+            psi = self.psi[0]
 
         return self.calc_defect_density([np.real(psi), np.imag(psi)])
 
@@ -633,7 +643,7 @@ class BoseEinsteinCondensate(BaseSystem):
             The vortex density of the system.
         """
         # TODO: Insert the correct value of the equilibrium of psi, based on theory (Vidar 03.12.23)
-        return self.calc_defect_density([np.real(self.psi), np.imag(self.psi)])
+        return self.calc_defect_density([np.real(self.psi[0]), np.imag(self.psi[0])])
 
     def calc_vortex_velocity_field(self, dt_psi: np.ndarray, psi: Optional[np.ndarray] = None) -> np.ndarray:
         """Calculates the vortex velocity field of the system.
@@ -643,7 +653,7 @@ class BoseEinsteinCondensate(BaseSystem):
         dt_psi : numpy.ndarray
             The time derivative of the wavefunction of the system.
         psi : numpy.ndarray, optional
-            The wavefunction of the system.
+            The wavefunction of the system. If None, self.psi[0] is used.
 
         Returns
         -------
@@ -651,7 +661,7 @@ class BoseEinsteinCondensate(BaseSystem):
             The vortex velocity field of the system.
         """
         if psi is None:
-            psi = self.psi
+            psi = self.psi[0]
 
         return self.calc_defect_velocity_field([np.real(psi), np.imag(psi)],
                                         [np.real(dt_psi), np.imag(dt_psi)])
@@ -676,10 +686,10 @@ class BoseEinsteinCondensate(BaseSystem):
         """
 
         # Calculate defect density
-        rho = self.calc_vortex_density(self.psi)
+        rho = self.calc_vortex_density(self.psi[0])
 
         if dt_psi is not None:
-            velocity_field = self.calc_vortex_velocity_field(dt_psi, self.psi)
+            velocity_field = self.calc_vortex_velocity_field(dt_psi, self.psi[0])
 
         if self.dim == 2:
             vortex_nodes = self.calc_defect_nodes(np.abs(rho), 

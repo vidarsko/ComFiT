@@ -91,9 +91,32 @@ class TestBoseEinsteinCondensate(unittest.TestCase):
 
             # Check if the plane equation is zero
             self.assertAlmostEqual(plane_equation,0,delta=0.5)
-            
 
+    def test_psi_component_axis(self):
+        """bec.psi always carries a leading component axis of size 1
+        (no multi-component mode exists for this model), and dt_psi fed
+        into calc_vortex_nodes must be bare-shaped (i.e. derived from
+        bec.psi[0], not bec.psi) for the shared defect-tracking pipeline
+        to work."""
+        bec = cf.BoseEinsteinCondensate(2, xRes=31, yRes=31)
 
+        bec.conf_initial_condition_disordered()
+        self.assertEqual(bec.psi.shape, (1, bec.xRes, bec.yRes))
+        self.assertEqual(bec.psi_f.shape, bec.psi.shape)
+
+        bec.conf_insert_vortex_dipole(dipole_vector=[bec.xmax/3, 0], dipole_position=bec.rmid)
+        self.assertEqual(bec.psi.shape, (1, bec.xRes, bec.yRes))
+
+        psi_prev = bec.psi[0].copy()
+        bec.evolve_relax(10)
+        dt_psi = (bec.psi[0] - psi_prev) / (10 * bec.dt)
+
+        # This must not raise (a leading-axis dt_psi would break the
+        # boolean-mask indexing inside calc_defect_velocity_field).
+        nodes = bec.calc_vortex_nodes(dt_psi)
+        self.assertEqual(len(nodes), 2)
+        for node in nodes:
+            self.assertEqual(len(node['velocity']), 2)
 
 
 

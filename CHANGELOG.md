@@ -111,6 +111,33 @@ too large/risky for this pass).
   match, and added a regression test (`test_phase_field_crystal_2d_triangular_psi_component_axis`)
   covering the shape transition and the reconfigure-after-hydrodynamic case, since neither had any
   test coverage before.
+- `QuantumMechanics.psi`/`psi_f` and `BoseEinsteinCondensate.psi`/`psi_f` now always carry a
+  leading component axis of size 1 (`psi[0]` is the wavefunction), for consistency with
+  `PhaseFieldCrystal.psi` above and `NematicLiquidCrystal.Q` — every field in the codebase now
+  follows the same "leading component axis" convention, whether or not the model has more than one
+  component. `conf_wavefunction`, `conf_initial_condition_gaussian`, `conf_hydrogen_state`
+  (`QuantumMechanics`), and `conf_initial_condition_disordered`, `conf_initial_condition_thomas_fermi`
+  (`BoseEinsteinCondensate`) now wrap their result in `np.array([...])`; the latter's boolean-mask
+  assignment (`self.psi[V_0 > 1] = 0`) is now done on the bare array before wrapping, since it would
+  otherwise mismatch the leading axis (the same class of bug as the `conf_create_polycrystal` fix
+  above). `BoseEinsteinCondensate.calc_superfluid_current`, `calc_velocity`,
+  `calc_hamiltonian_density`, `calc_force_on_external_potential`, `calc_vortex_density`,
+  `calc_vortex_density_singular`, `calc_vortex_velocity_field`, and `calc_vortex_nodes` now
+  explicitly read `self.psi[0]`/`self.psi_f[0]` rather than relying on `self.psi`/`self.psi_f`
+  broadcasting correctly against derived bare-shaped arrays (which happened to still work today,
+  since `calc_defect_density`/`calc_defect_velocity_field` in `base_system_calc.py` are
+  shape-agnostic list-of-real-arrays functions — but only as long as every element of the list has
+  the same shape; a caller passing one bare and one leading-axis element, as `calc_vortex_nodes`
+  would have with an unfixed `dt_psi`, breaks the boolean-mask indexing inside
+  `calc_defect_velocity_field`). Fixed two tutorials that fed a leading-axis `dt_psi` (computed as
+  `bec.psi - psi_prev`) into `calc_vortex_nodes` for exactly this reason —
+  `bose_einstein_condensate_basic_framework.ipynb` and
+  `bose_einstein_condensate_comoving_frame_and_defect_tracking.ipynb` now compute `dt_psi` from
+  `bec.psi[0]`. `QuantumMechanics`/`BoseEinsteinCondensate` never gain more than one component, so
+  raw (unrestricted-`axes`) `scipy.fft`/`np.fft` calls elsewhere in both files were left as-is —
+  see the note added to `AGENTS.md`. Added regression tests
+  (`test_psi_component_axis` in both `tests_quantum_mechanics` and `tests_bose_einstein_condensate`)
+  covering the shape and, for BEC, the `dt_psi` case that was actually broken in the tutorials.
 
 ### Fixed
 

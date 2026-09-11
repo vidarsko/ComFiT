@@ -4,6 +4,12 @@ Quantum mechanics describes the behavior of nature at the scale of atoms and sub
 
 This class simulates quantum mechanics by evolving the Schrödinger equation.
 
+!!! note "Shape of `qm.psi`"
+    `qm.psi` always carries a leading component axis of size 1, so
+    `qm.psi[0]` is the wavefunction itself — but since QuantumMechanics has
+    no multi-component mode, `qm.psi` (bare) plots and integrates
+    identically to `qm.psi[0]`.
+
 ```python
 file: comfit/quantum_mechanics/quantum_mechanics.py 
 class: QuantumMechanics

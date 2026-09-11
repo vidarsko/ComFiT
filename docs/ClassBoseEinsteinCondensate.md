@@ -27,6 +27,12 @@ The primary field in the Bose-Einstein condensate model is the complex wave func
 bec.psi
 ```
 
+!!! note "Shape of `bec.psi`"
+    `bec.psi` always carries a leading component axis of size 1, so
+    `bec.psi[0]` is the wavefunction $\psi$ itself — but since
+    BoseEinsteinCondensate has no multi-component mode, `bec.psi` (bare)
+    plots and integrates identically to `bec.psi[0]`.
+
 The `BoseEinsteinCondensate` class accepts the same keyword arguments as the `BaseSystem` class, with the addition of the following specific parameter:
 
 | Keyword | Definition         | Default Value |
