@@ -1,0 +1,791 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: Nematic Liquid Crystal &mdash; ComFiT Library Reference 1.8.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=496f73d5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class: Phase Field Crystal" href="../phase_field_crystal/index.html" />
+    <link rel="prev" title="Class: Bose Einstein Condensate" href="../bose_einstein_condensate/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ComFiT Library Reference
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../core/index.html">Base System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum_mechanics/index.html">Class: Quantum Mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bose_einstein_condensate/index.html">Class: Bose Einstein Condensate</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Class: Nematic Liquid Crystal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.__init__"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_active_force_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_active_force_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_density"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_density_decoupled"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_density_decoupled()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_nodes"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_polarization_field"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_polarization_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_velocity_field"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_disclination_velocity_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_dt_psi"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_dt_psi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_equilibrium_S"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_equilibrium_S()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_g_matrix"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_g_matrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_gradient_pressure_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_gradient_pressure_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_molecular_field"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_molecular_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_nonlinear_evolution_function_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_nonlinear_evolution_function_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_nonlinear_evolution_term_no_flow_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_nonlinear_evolution_term_no_flow_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_order_and_director"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_order_and_director()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_passive_force_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_passive_force_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_passive_stress_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_passive_stress_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_pressure_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_pressure_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_strain_rate_tensor_f"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_strain_rate_tensor_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_trace_Q2"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_trace_Q2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_vorticity_tensor"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.calc_vorticity_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_active_channel"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_active_channel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_initial_condition_ordered"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_initial_condition_ordered()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_initial_disclination_lines"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_initial_disclination_lines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_insert_disclination_dipole"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_insert_disclination_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_velocity"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.conf_velocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.evolve_nematic"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.evolve_nematic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.evolve_nematic_no_flow"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.evolve_nematic_no_flow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.plot_field_velocity_and_director"><code class="docutils literal notranslate"><span class="pre">NematicLiquidCrystal.plot_field_velocity_and_director()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.nematic_liquid_crystal.plot_field_velocity_and_director_matplotlib.plot_field_velocity_and_director_matplotlib"><code class="docutils literal notranslate"><span class="pre">plot_field_velocity_and_director_matplotlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comfit.nematic_liquid_crystal.plot_field_velocity_and_director_plotly.plot_field_velocity_and_director_plotly"><code class="docutils literal notranslate"><span class="pre">plot_field_velocity_and_director_plotly()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../phase_field_crystal/index.html">Class: Phase Field Crystal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Auxiliary Plot Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tool/index.html">Auxiliary Tool Functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ComFiT Library Reference</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: Nematic Liquid Crystal</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/nematic_liquid_crystal/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-nematic-liquid-crystal">
+<h1>Class: Nematic Liquid Crystal<a class="headerlink" href="#class-nematic-liquid-crystal" title="Link to this heading"></a></h1>
+<p>Nematic Liquid Crystal model.</p>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py class" id="module-comfit.nematic_liquid_crystal.nematic_liquid_crystal">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">comfit.nematic_liquid_crystal.nematic_liquid_crystal.</span></span><span class="sig-name descname"><span class="pre">NematicLiquidCrystal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../core/index.html#comfit.core.base_system.BaseSystem" title="comfit.core.base_system.BaseSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSystem</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a system to simulate a (active) nematic liquid crystal</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dim<span class="classifier">int</span></dt><dd><p>The dimension of the system.</p>
+</dd>
+<dt>kwargs<span class="classifier">dict, optional</span></dt><dd><p>Optional keyword arguments to set additional parameters. See
+<a class="reference external" href="https://comfitlib.com/ClassNematicLiquidCrystal/">https://comfitlib.com/ClassNematicLiquidCrystal/</a></p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>NematicLiquidCrystal</dt><dd><p>The system object representing the nematic simulation.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nematic</span> <span class="o">=</span> <span class="n">NematicLiquidCrystal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">xRes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">yRes</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">Creates a nematic liquid crystal with 2 dimensions and a spatial resolution of 100.</span>
+<span class="go">The activity alpha is set to -0.5.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_active_force_f">
+<span class="sig-name descname"><span class="pre">calc_active_force_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_active_force_f" title="Link to this definition"></a></dt>
+<dd><p>Function that calculates the active force in Fourier space.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Q<span class="classifier">numpy.ndarray</span></dt><dd><p>the order parameter that we use to find the force.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The active force in Fourier space</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_density">
+<span class="sig-name descname"><span class="pre">calc_disclination_density</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_density" title="Link to this definition"></a></dt>
+<dd><p>Calculates the disclination density for the nematic. Note that in three dimension the disclination density is a tensor</p>
+<section id="id3">
+<h2>Returns<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The disclination density</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_density_decoupled">
+<span class="sig-name descname"><span class="pre">calc_disclination_density_decoupled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_density_decoupled" title="Link to this definition"></a></dt>
+<dd><p>Calculates the decoupled disclination density in three dimensions.</p>
+<section id="id4">
+<h2>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>omega<span class="classifier">numpy.ndarray</span></dt><dd><p>The scalar magnitude of the disclination density tensor.</p>
+</dd>
+<dt>rotation_field<span class="classifier">numpy.ndarray</span></dt><dd><p>The rotation vector field, the leading eigenvector of the disclination density tensor
+contracted with its transpose.</p>
+</dd>
+<dt>T<span class="classifier">numpy.ndarray</span></dt><dd><p>The tangent vector, the leading eigenvector of the disclination density tensor’s
+transpose contracted with itself.</p>
+</dd>
+<dt>rho_trace<span class="classifier">numpy.ndarray</span></dt><dd><p>The trace of the disclination density tensor.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_nodes">
+<span class="sig-name descname"><span class="pre">calc_disclination_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt_Q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_nodes" title="Link to this definition"></a></dt>
+<dd><p>Calculates the positions and charges of disclination nodes based on the disclination density.</p>
+<section id="id5">
+<h2>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dt_Q<span class="classifier">numpy.ndarray, optional</span></dt><dd><p>The time derivative of the order parameter. If not provided, the velocity of the disclination nodes will not be calculated.</p>
+</dd>
+<dt>polarization<span class="classifier">numpy.ndarray, optional</span></dt><dd><p>The polarization field for positive defects in 2D. If provided the direction of the positive defects are shown.</p>
+</dd>
+<dt>charge_tolerance<span class="classifier">float, optional</span></dt><dd><p>The tolerance given to the defect finding algorithm in 3D. Default 0.1</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h2>Returns<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>list of dict</dt><dd><dl class="simple">
+<dt>A list of dictionaries representing the disclination nodes. Each dictionary contains the following keys:</dt><dd><ul class="simple">
+<li><p>‘position_index’: The position index of the disclination node in the disclination density array.</p></li>
+<li><p>‘charge’: The charge of the disclination node.</p></li>
+<li><p>‘position’: The position of the disclination node as a list [x, y].</p></li>
+<li><p>‘velocity’: The velocity of the disclination node as a list [vx, vy].</p></li>
+</ul>
+</dd>
+<dt>In 3F the charge key is removed and we instead have</dt><dd><p>-‘tangent_vector’: The tangent vector of the dislocation
+-‘rotation_vector’: The rotation vector of the dislocation</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_polarization_field">
+<span class="sig-name descname"><span class="pre">calc_disclination_polarization_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_polarization_field" title="Link to this definition"></a></dt>
+<dd><p>Calculates the polarization field of the disclination in two dimensions</p>
+<section id="id7">
+<h2>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The polarization field</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_velocity_field">
+<span class="sig-name descname"><span class="pre">calc_disclination_velocity_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt_Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disclination_density_magnitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_disclination_velocity_field" title="Link to this definition"></a></dt>
+<dd><p>Calculates the velocity field of the disclination in two dimensions</p>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dt_Q<span class="classifier">numpy.ndarray</span></dt><dd><p>the time derivative of the order parameter</p>
+</dd>
+<dt>tangent_vector<span class="classifier">numpy.ndarray, optional</span></dt><dd><p>the unit tangent vector to the disclination line (3D only)</p>
+</dd>
+<dt>rotation_vector<span class="classifier">numpy.ndarray, optional</span></dt><dd><p>the unit rotation vector of the disclination line, i.e. the axis about which the
+director winds (3D only)</p>
+</dd>
+<dt>g_matrix<span class="classifier">numpy.ndarray, optional</span></dt><dd><p>the auxiliary tensor coupling <cite>dt_Q</cite> to the spatial derivatives of <cite>self.Q</cite>, from
+<cite>calc_g_matrix</cite> (3D only)</p>
+</dd>
+<dt>disclination_density_magnitude<span class="classifier">numpy.ndarray, optional</span></dt><dd><p>the scalar magnitude of the disclination density tensor (3D only)</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The velocity field.
+Note in 2D this returns a field while in 3D this is returning a vector</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_dt_psi">
+<span class="sig-name descname"><span class="pre">calc_dt_psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_dt_psi" title="Link to this definition"></a></dt>
+<dd><p>Calculates the time derivative of the order parameter as a complex field</p>
+<section id="id10">
+<h2>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Q_prev<span class="classifier">numpy.ndarray</span></dt><dd><p>the order parameter at the previous time step</p>
+</dd>
+<dt>delta_t<span class="classifier">float</span></dt><dd><p>the time step</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h2>Returns<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The time derivative of the order parameter</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_equilibrium_S">
+<span class="sig-name descname"><span class="pre">calc_equilibrium_S</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_equilibrium_S" title="Link to this definition"></a></dt>
+<dd><p>Calculates the strength of nematic order S</p>
+<section id="id12">
+<h2>Returns<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>equilibrium value of S</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_g_matrix">
+<span class="sig-name descname"><span class="pre">calc_g_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt_Q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_g_matrix" title="Link to this definition"></a></dt>
+<dd><p>Calculates the matrix g, that is used to find the disclination velocity in 3D</p>
+<section id="id13">
+<h2>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The g matrix</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_gradient_pressure_f">
+<span class="sig-name descname"><span class="pre">calc_gradient_pressure_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_f</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_gradient_pressure_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the gradient of the pressure</p>
+<section id="id14">
+<h2>Parameters<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>p_f<span class="classifier">numpy.ndarray</span></dt><dd><p>the pressure in Fourier space</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h2>Returns<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>Gradient of the pressure</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_molecular_field">
+<span class="sig-name descname"><span class="pre">calc_molecular_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_molecular_field" title="Link to this definition"></a></dt>
+<dd><p>Finds the molecular field</p>
+<section id="id16">
+<h2>Parameters<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Q<span class="classifier">numpy.ndarray</span></dt><dd><p>The nematic tensor</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h2>Returns<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The molecular field</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_nonlinear_evolution_function_f">
+<span class="sig-name descname"><span class="pre">calc_nonlinear_evolution_function_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_nonlinear_evolution_function_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the non-linear evolution function for the nematic</p>
+<section id="id18">
+<h2>Parameters<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Q<span class="classifier">numpy.ndarray</span></dt><dd><p>the nematic order parameter</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h2>Returns<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The non-linear evolution function evaluated in Fourier space</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_nonlinear_evolution_term_no_flow_f">
+<span class="sig-name descname"><span class="pre">calc_nonlinear_evolution_term_no_flow_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_nonlinear_evolution_term_no_flow_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the non-linear evolution function for the nematic without the flow field</p>
+<section id="id20">
+<h2>Parameters<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Q<span class="classifier">numpy.ndarray</span></dt><dd><p>the nematic order parameter</p>
+</dd>
+</dl>
+</section>
+<section id="id21">
+<h2>Returns<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The non-linear evolution function evaluated in Fourier space</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_order_and_director">
+<span class="sig-name descname"><span class="pre">calc_order_and_director</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_order_and_director" title="Link to this definition"></a></dt>
+<dd><p>Calculates the amount of order (S) and the director field (n)</p>
+<section id="id22">
+<h2>Returns<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple</dt><dd><dl class="simple">
+<dt>Tuple consisting of</dt><dd><ul class="simple">
+<li><p>Amount of order (scalar field)</p></li>
+<li><p>the director field (vector field)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_passive_force_f">
+<span class="sig-name descname"><span class="pre">calc_passive_force_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_passive_force_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the passive force in Fourier space</p>
+<section id="id23">
+<h2>Parameters<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Q<span class="classifier">numpy.ndarray</span></dt><dd><p>the order parameter that we use to find the force.</p>
+</dd>
+</dl>
+</section>
+<section id="id24">
+<h2>Returns<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The passive force in Fourier space</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_passive_stress_f">
+<span class="sig-name descname"><span class="pre">calc_passive_stress_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_passive_stress_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the passive stress in Fourier space</p>
+<section id="id25">
+<h2>Parameters<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Q<span class="classifier">numpy.ndarray</span></dt><dd><p>the order parameter that we use to find the stress.</p>
+</dd>
+</dl>
+</section>
+<section id="id26">
+<h2>Returns<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The passive stress in Fourier space</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_pressure_f">
+<span class="sig-name descname"><span class="pre">calc_pressure_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F_af</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F_pf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_pressure_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the pressure in Fourier space. The zero mode is set to zero</p>
+<section id="id27">
+<h2>Parameters<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>F_af<span class="classifier">numpy.ndarray</span></dt><dd><p>the active force in Fourier space</p>
+</dd>
+<dt>F_pf<span class="classifier">numpy.ndarray</span></dt><dd><p>the passive force in Fourier space</p>
+</dd>
+</dl>
+</section>
+<section id="id28">
+<h2>Returns<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The pressure</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_strain_rate_tensor_f">
+<span class="sig-name descname"><span class="pre">calc_strain_rate_tensor_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_strain_rate_tensor_f" title="Link to this definition"></a></dt>
+<dd><p>Calculates the strainrate tensor</p>
+<section id="id29">
+<h2>Returns<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The strainrate</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_trace_Q2">
+<span class="sig-name descname"><span class="pre">calc_trace_Q2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_trace_Q2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_vorticity_tensor">
+<span class="sig-name descname"><span class="pre">calc_vorticity_tensor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.calc_vorticity_tensor" title="Link to this definition"></a></dt>
+<dd><p>Calculates the vorticity tensor</p>
+<section id="id30">
+<h2>Returns<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The vorticity tensor</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_active_channel">
+<span class="sig-name descname"><span class="pre">conf_active_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_active_channel" title="Link to this definition"></a></dt>
+<dd><p>Configures the activity to zero everywhere except for inside a channel of width “width”</p>
+<section id="id31">
+<h2>Parameters<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>width<span class="classifier">float</span></dt><dd><p>width of the channel</p>
+</dd>
+<dt>interface_width<span class="classifier">float, optional</span></dt><dd><p>width of interface</p>
+</dd>
+</dl>
+</section>
+<section id="id32">
+<h2>Returns<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Updates the activity to the channel configuration.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_initial_condition_ordered">
+<span class="sig-name descname"><span class="pre">conf_initial_condition_ordered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_strength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_initial_condition_ordered" title="Link to this definition"></a></dt>
+<dd><p>Configures the system with the nematogens pointing in the x-direction in 2D and in the z-direction in 3D
+with some random noise in the angle.</p>
+<section id="id33">
+<h2>Parameters<a class="headerlink" href="#id33" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>noise_strength<span class="classifier">float</span></dt><dd><p>A measure for how much noise to put in the angle</p>
+</dd>
+</dl>
+</section>
+<section id="id34">
+<h2>Returns<a class="headerlink" href="#id34" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Initialises self.Q and self.Q_f</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h2>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension is not 2 or 3</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_initial_disclination_lines">
+<span class="sig-name descname"><span class="pre">conf_initial_disclination_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_initial_disclination_lines" title="Link to this definition"></a></dt>
+<dd><p>Sets the initial condition for a disclination line in a 3-dimensional system.</p>
+<p>The dislocation is parallel to the z-axis</p>
+<section id="id35">
+<h2>Parameters<a class="headerlink" href="#id35" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>position1<span class="classifier">list</span></dt><dd><p>the position of the first dislocation. Only the position in the xy plane is used</p>
+</dd>
+</dl>
+</section>
+<section id="id36">
+<h2>Returns<a class="headerlink" href="#id36" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Sets the value of self.Q and self.Q_f</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_insert_disclination_dipole">
+<span class="sig-name descname"><span class="pre">conf_insert_disclination_dipole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dipole_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_insert_disclination_dipole" title="Link to this definition"></a></dt>
+<dd><p>Sets the initial condition for a disclination dipole configuration in a 2-dimensional system.</p>
+<section id="id37">
+<h2>Returns<a class="headerlink" href="#id37" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Configures self.Q and self.Q_f with a disclination dipole configuration.</p>
+</dd>
+</dl>
+</section>
+<section id="id38">
+<h2>Raises<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension of the system is not 2.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_velocity">
+<span class="sig-name descname"><span class="pre">conf_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.conf_velocity" title="Link to this definition"></a></dt>
+<dd><p>Updates the velocity and its fourier transform given a nematic field Q.</p>
+<section id="id39">
+<h2>Parameters<a class="headerlink" href="#id39" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Q<span class="classifier">numpy.ndarray</span></dt><dd><p>the Q tensor</p>
+</dd>
+</dl>
+</section>
+<section id="id40">
+<h2>Returns<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Updates self.u and self.u_f.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.evolve_nematic">
+<span class="sig-name descname"><span class="pre">evolve_nematic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD2RK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.evolve_nematic" title="Link to this definition"></a></dt>
+<dd><p>Evolves the nematic system</p>
+<section id="id41">
+<h2>Parameters<a class="headerlink" href="#id41" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>number_of_steps<span class="classifier">int</span></dt><dd><p>the number of time steps that we are evolving the equation</p>
+</dd>
+<dt>method<span class="classifier">string</span></dt><dd><p>the integration method we want to use. ETD2RK is sett as default</p>
+</dd>
+</dl>
+</section>
+<section id="id42">
+<h2>Returns<a class="headerlink" href="#id42" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Updates the fields self.Q and self.Q_f</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.evolve_nematic_no_flow">
+<span class="sig-name descname"><span class="pre">evolve_nematic_no_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ETD2RK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.evolve_nematic_no_flow" title="Link to this definition"></a></dt>
+<dd><p>Evolves the nematic system without the flow field</p>
+<section id="id43">
+<h2>Parameters<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>number_of_steps<span class="classifier">int</span></dt><dd><p>the number of time steps that we are evolving the equation</p>
+</dd>
+<dt>method<span class="classifier">string</span></dt><dd><p>the integration method we want to use. ETD2RK is sett as default</p>
+</dd>
+</dl>
+</section>
+<section id="id44">
+<h2>Returns<a class="headerlink" href="#id44" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>None</dt><dd><p>Updates the fields self.Q and self.Q_f</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.plot_field_velocity_and_director">
+<span class="sig-name descname"><span class="pre">plot_field_velocity_and_director</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">director</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.nematic_liquid_crystal.NematicLiquidCrystal.plot_field_velocity_and_director" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function" id="module-comfit.nematic_liquid_crystal.plot_field_velocity_and_director_matplotlib">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.plot_field_velocity_and_director_matplotlib.plot_field_velocity_and_director_matplotlib">
+<span class="sig-prename descclassname"><span class="pre">comfit.nematic_liquid_crystal.plot_field_velocity_and_director_matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_field_velocity_and_director_matplotlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">director</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.plot_field_velocity_and_director_matplotlib.plot_field_velocity_and_director_matplotlib" title="Link to this definition"></a></dt>
+<dd><p>Plot the fields, velocity, and director field in 2 dimensions</p>
+<section id="id45">
+<h2>Parameters<a class="headerlink" href="#id45" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">ndarray</span></dt><dd><p>The field to be plotted.</p>
+</dd>
+<dt>velocity<span class="classifier">ndarray</span></dt><dd><p>The velocity to be plotted.</p>
+</dd>
+<dt>director<span class="classifier">ndarray</span></dt><dd><p>The director to be plotted.</p>
+</dd>
+<dt><a href="#id46"><span class="problematic" id="id47">**</span></a>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot.
+See <a class="reference external" href="https://comfitlib.com/ClassBaseSystem/">https://comfitlib.com/ClassBaseSystem/</a>
+for a full list of keyword arguments.</p>
+</dd>
+</dl>
+</section>
+<section id="id48">
+<h2>Returns<a class="headerlink" href="#id48" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple</dt><dd><dl class="simple">
+<dt>A tuple consisting of</dt><dd><ul class="simple">
+<li><p>The figure</p></li>
+<li><p>The axes with the plotted field, velocity, and director.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id49">
+<h2>Raises<a class="headerlink" href="#id49" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Exception</dt><dd><p>If the dimension is other than 2.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function" id="module-comfit.nematic_liquid_crystal.plot_field_velocity_and_director_plotly">
+<dt class="sig sig-object py" id="comfit.nematic_liquid_crystal.plot_field_velocity_and_director_plotly.plot_field_velocity_and_director_plotly">
+<span class="sig-prename descclassname"><span class="pre">comfit.nematic_liquid_crystal.plot_field_velocity_and_director_plotly.</span></span><span class="sig-name descname"><span class="pre">plot_field_velocity_and_director_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">director</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#comfit.nematic_liquid_crystal.plot_field_velocity_and_director_plotly.plot_field_velocity_and_director_plotly" title="Link to this definition"></a></dt>
+<dd><p>Plot the fields, velocity, and director field in 2 dimensions using Plotly.</p>
+<section id="id50">
+<h2>Parameters<a class="headerlink" href="#id50" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>field<span class="classifier">ndarray</span></dt><dd><p>The field to be plotted.</p>
+</dd>
+<dt>velocity<span class="classifier">ndarray</span></dt><dd><p>The velocity to be plotted.</p>
+</dd>
+<dt>director<span class="classifier">ndarray</span></dt><dd><p>The director to be plotted.</p>
+</dd>
+<dt><a href="#id51"><span class="problematic" id="id52">**</span></a>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for the plot.</p>
+</dd>
+</dl>
+</section>
+<section id="id53">
+<h2>Returns<a class="headerlink" href="#id53" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>go.Figure</dt><dd><p>The plotly figure.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../bose_einstein_condensate/index.html" class="btn btn-neutral float-left" title="Class: Bose Einstein Condensate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../phase_field_crystal/index.html" class="btn btn-neutral float-right" title="Class: Phase Field Crystal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vidar Skogvoll and Jonas Rønning.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
