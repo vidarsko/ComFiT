@@ -108,7 +108,8 @@ class BaseSystemPlot:
         # Check if the field is an order parameter containing several components
         if field_type in ['real', 'complex', 'angle']:
             if field.ndim == self.dim+1:
-                tool_print_in_color('Warning: The provided field seems to be an order parameter containing several fields. Only the zeroth component will be plotted.')
+                if field.shape[0] > 1:
+                    tool_print_in_color('Warning: The provided field seems to be an order parameter containing several fields. Only the zeroth component will be plotted.')
                 field = field[0]
 
         # Check if the field is complex when it should be real

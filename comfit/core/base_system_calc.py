@@ -901,12 +901,12 @@ class BaseSystemCalc:
             raise ValueError("The order of the taylor expansion must be less than or equal to 3.")
 
         if field_f is None:
-            field_f = sp.fft.fftn(field)
+            field_f = self.fft(field)
 
         if order > 0:
             for i in range(self.dim):
                 # Calculate the derivative
-                difield = sp.fft.ifftn(self.dif[i]*field_f)
+                difield = self.ifft(self.dif[i]*field_f)
                 # Advect the PFC
                 field = field - u[i]*difield
 
@@ -914,16 +914,16 @@ class BaseSystemCalc:
             for i in range(self.dim):
                 for j in range(i, self.dim):
                     # Calculate the derivative
-                    dijfield = sp.fft.ifftn(self.dif[i]*self.dif[j]*field_f)
+                    dijfield = self.ifft(self.dif[i]*self.dif[j]*field_f)
                     # Advect the PFC
                     field = field + tool_multinom(i,j)*u[i]*u[j]*dijfield
-        
+
         if order > 2:
             for i in range(self.dim):
                 for j in range(i, self.dim):
                     for k in range(j, self.dim):
                         # Calculate the derivative
-                        dijkfield = sp.fft.ifftn(self.dif[i]*self.dif[j]*self.dif[k]*field_f)
+                        dijkfield = self.ifft(self.dif[i]*self.dif[j]*self.dif[k]*field_f)
                         # Advect the PFC
                         field = field - tool_multinom(i,j,k)*u[i]*u[j]*u[k]*dijkfield
 

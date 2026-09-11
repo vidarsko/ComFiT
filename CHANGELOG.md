@@ -90,6 +90,27 @@ too large/risky for this pass).
   site, `NematicLiquidCrystal.calc_passive_stress_f` (both the 2D and 3D branches build
   `Antisym_QH`), to match. The computed stress values are unchanged — this only changes the storage
   convention of the intermediate argument.
+- `PhaseFieldCrystal.psi`/`psi_f` now always carry a leading component axis: `psi[0]` is the
+  crystalline density, and `psi[1:]` (added lazily, zero-initialized, the first time
+  `evolve_PFC_hydrodynamic` is called) holds the velocity field. Previously `psi` was bare-shaped
+  (`ndim == dim`) until hydrodynamic evolution engaged, at which point it silently switched to
+  `ndim == dim+1` — every reader of `self.psi`/`self.psi_f` had to branch on
+  `hasattr(self, 'bool_has_velocity_field')` or `psi.ndim` to know which shape it currently had
+  (fixes #36). Removed the `bool_has_velocity_field` flag and every such branch — `psi[0]`/`psi_f[0]`
+  is now unconditionally the density in `evolve_PFC`, `calc_PFC_free_energy_density_and_chemical_potential`,
+  `calc_demodulate_PFC`, `calc_orientation_field`, `calc_stress_tensor_microscopic`,
+  `calc_stress_divergence_f`, `calc_structure_tensor_f`, and `plot_PFC`. `conf_PFC_from_amplitudes`
+  and `conf_create_polycrystal`'s region-based assignments (previously `self.psi[region] = ...`) now
+  operate on `self.psi[0]`, since `self.psi` is no longer guaranteed bare-shaped; calling
+  `conf_PFC_from_amplitudes` after hydrodynamic evolution has begun now correctly preserves the
+  velocity-field components (reset to zero) instead of silently corrupting them into a shape
+  mismatch. Updated the `docs/ClassPhaseFieldCrystal.md` example, `COMFIT_USER_GUIDE.md`, and the
+  `tutorial/phase_field_crystal_polycrystalline_systems.ipynb` tutorial (which set `pfc.psi`
+  directly, bypassing `conf_PFC_from_amplitudes`, and used the now-invalid
+  `pfc.psi[inclusion_region] = ...`/raw `scipy.fft.fftn(pfc.psi)` pattern in several cells) to
+  match, and added a regression test (`test_phase_field_crystal_2d_triangular_psi_component_axis`)
+  covering the shape transition and the reconfigure-after-hydrodynamic case, since neither had any
+  test coverage before.
 
 ### Fixed
 
@@ -120,6 +141,21 @@ too large/risky for this pass).
   iterations, this surfaced as a `psi**3` overflow and crashed the dislocation-annihilation test).
   Fixed by invalidating `_k2_cache` at the top of `conf_apply_distortion`, before any of its `self.k`
   mutations.
+- `PhaseFieldCrystal.calc_PFC_free_energy_density_and_chemical_potential` defaulted to
+  `self.psi`/`self.psi_f` rather than `self.psi[0]`/`self.psi_f[0]`. Since `self.psi` already
+  carried a leading component axis once hydrodynamic evolution had engaged (before this pass, via
+  the now-removed `bool_has_velocity_field` lazy wrap), `calc_free_energy()` called after
+  `evolve_PFC_hydrodynamic` computed the free energy density over the velocity components too, not
+  just the crystal density. Found while auditing every `self.psi`/`self.psi_f` use for the
+  leading-component-axis change above.
+- `BaseSystem.calc_advect_field` called raw `scipy.fft.fftn`/`ifftn` with no `axes` restriction,
+  unlike `self.fft`/`.ifft` (which restrict to the trailing `self.dim` axes specifically so a field
+  can carry leading component axes — see `AGENTS.md`). Harmless while its only caller
+  (`PhaseFieldCrystal.conf_advect_PFC`) always passed a bare-shaped field, but would silently
+  corrupt a field carrying a leading component axis (mixing information across components in
+  Fourier space) — a real risk now that `PhaseFieldCrystal.psi` always carries one. Switched to
+  `self.fft`/`.ifft`, consistent with the rest of the codebase, which also gets it `self.workers`
+  threading as a side effect.
 
 ### Added
 

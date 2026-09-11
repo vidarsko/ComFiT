@@ -137,6 +137,37 @@ class TestPhaseFieldCrystal(unittest.TestCase):
         dislocation_nodes = pfc.calc_dislocation_nodes()
         self.assertEqual(len(dislocation_nodes),0)
 
+    def test_phase_field_crystal_2d_triangular_psi_component_axis(self):
+        """pfc.psi always carries a leading component axis (issue #36):
+        shape[0]==1 for the classical PFC, extended to 1+dim once
+        evolve_PFC_hydrodynamic is called, and preserved (velocity reset to
+        zero) across a later conf_PFC_from_amplitudes call."""
+        pfc = cf.PhaseFieldCrystal2DTriangular(11, 14)
+        pfc.conf_PFC_from_amplitudes()
+
+        self.assertEqual(pfc.psi.shape[0], 1)
+        self.assertEqual(pfc.psi.shape, (1,) + tuple(pfc.dims))
+        self.assertEqual(pfc.psi_f.shape, pfc.psi.shape)
+
+        pfc.evolve_PFC_hydrodynamic(5)
+
+        self.assertEqual(pfc.psi.shape[0], 1 + pfc.dim)
+        self.assertEqual(pfc.psi_f.shape, pfc.psi.shape)
+        self.assertTrue(np.isrealobj(pfc.psi))
+        self.assertFalse(np.any(np.isnan(pfc.psi)))
+
+        # calc_free_energy should only see the density component, not the
+        # velocity field stacked in psi[1:].
+        free_energy = pfc.calc_free_energy()
+        self.assertFalse(np.isnan(free_energy))
+
+        # Reconfiguring the density should preserve the velocity-field
+        # component count (reset to zero), not silently drop it.
+        pfc.conf_PFC_from_amplitudes()
+        self.assertEqual(pfc.psi.shape[0], 1 + pfc.dim)
+        for i in range(1, pfc.psi.shape[0]):
+            self.assertTrue(np.all(pfc.psi[i] == 0))
+
     ## 2D square tests
 
     def test_phase_field_crystal_2d_square_initial_amplitudes(self):

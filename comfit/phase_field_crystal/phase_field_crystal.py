@@ -124,9 +124,16 @@ class PhaseFieldCrystal(BaseSystem):
         Returns
         -------
         None
-            Configures self.psi and self.psi_f.
+            Configures self.psi and self.psi_f. self.psi always carries a
+            leading component axis: self.psi[0] is set to the newly
+            configured density. If a velocity field is already present (see
+            evolve_PFC_hydrodynamic), self.psi[1:] is reset to zero rather
+            than carried over from the previous configuration.
         """
-        self.psi = self.calc_PFC_from_amplitudes(eta, rotation)
+        psi = self.calc_PFC_from_amplitudes(eta, rotation)
+
+        n_components = self.psi.shape[0] if hasattr(self, 'psi') else 1
+        self.psi = np.array([psi] + [np.zeros_like(psi)]*(n_components-1))
         self.psi_f = self.fft(self.psi)
 
     def conf_advect_PFC(self, u):
@@ -515,7 +522,7 @@ class PhaseFieldCrystal(BaseSystem):
 
             # Set the rotated field in the inclusion region
             region  = self.calc_region_disk(position, radius)
-            self.psi[region] = psi_rotated[region]
+            self.psi[0][region] = psi_rotated[region]
             self.psi_f = self.fft(self.psi)
 
             # Smooth the interface
@@ -526,8 +533,8 @@ class PhaseFieldCrystal(BaseSystem):
             if self.dim == 1:
                 raise Exception("Polycrystal type four_grain is not valid for 1 dimension.") 
                 
-            self.psi = self.calc_PFC_from_amplitudes(self.eta0)
-            
+            self.psi = np.array([self.calc_PFC_from_amplitudes(self.eta0)])
+
             l1  = self.y>1/6*self.ymax+(4/6*self.ymax)/(1/1*self.xmax)*self.x
             l2  = self.y>1/2*self.ymax+(1/2*self.ymax)/(2/3*self.xmax)*self.x
             l3  = self.y>1/2*self.ymax-(1/2*self.ymax)/(2/3*self.xmax)*self.x
@@ -545,18 +552,18 @@ class PhaseFieldCrystal(BaseSystem):
             rotated_psi = np.roll(rotated_psi, -round(self.yRes/2), axis=1)
             rotated_psi = np.roll(rotated_psi, -round(self.xRes/3), axis=0)
             region = np.bool_((l4*~(l7)*~(l8) + ~(l1)*~(l3)*~(l7))*zdir)
-            self.psi[region] = rotated_psi[region]
+            self.psi[0][region] = rotated_psi[region]
 
             rotated_psi = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,22.5/180*np.pi])
             rotated_psi = np.roll(rotated_psi, -round(self.yRes/2), axis=1)
             rotated_psi = np.roll(rotated_psi, round(self.xRes/3), axis=0)
             region = np.bool_((l1*l6*l7 + l7*l10*~(l4))*zdir)
-            self.psi[region] = rotated_psi[region]
+            self.psi[0][region] = rotated_psi[region]
 
             rotated_psi = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,45/180*np.pi])
             rotated_psi = np.roll(rotated_psi, -round(self.xRes/2), axis=0)
             region = np.bool_((l1*~(l4)*~(l5) + ~(l1)*l4*l9)*zdir)
-            self.psi[region] = rotated_psi[region]
+            self.psi[0][region] = rotated_psi[region]
 
             self.psi_f = self.fft(self.psi)
 
@@ -687,10 +694,12 @@ class PhaseFieldCrystal(BaseSystem):
                                 gamma_S = 2**-6,
                                 rho0 = 2**-6):
         """Evolves the PFC according to hydrodynamic PFC dynamics.
-        
-        This requires introducing a velocity field. 
-        If psi does not contain this field, it is added to the components psi[1], psi[2], psi[3].
-        
+
+        This requires introducing a velocity field, stored in the components
+        self.psi[1], self.psi[2], self.psi[3] alongside the density
+        self.psi[0]. The velocity components are added (initialized to zero)
+        on the first call if not already present.
+
         Parameters
         ----------
         number_of_steps : int
@@ -701,23 +710,19 @@ class PhaseFieldCrystal(BaseSystem):
             The surface tension coefficient, by default 2**-6.
         rho0 : float, optional
             The mass density, by default 2**-6.
-            
+
         Returns
         -------
         None
             Updates self.psi and self.psi_f.
         """
-        
-        if hasattr(self,'bool_has_velocity_field'):
-            pass
-        else:
-            self.bool_has_velocity_field = True
-            self.psi = np.array([self.psi]+[np.zeros_like(self.psi)]*self.dim)
-            self.psi_f = np.array([self.psi_f]+[np.zeros_like(self.psi_f)]*self.dim)
-            # print("psi shape", self.psi.shape).
 
-            if not hasattr(self,'external_force_density_f'):
-                self.external_force_density_f = np.zeros([self.dim] + self.dims, dtype=complex)
+        if self.psi.shape[0] == 1:
+            self.psi = np.array([self.psi[0]]+[np.zeros_like(self.psi[0])]*self.dim)
+            self.psi_f = np.array([self.psi_f[0]]+[np.zeros_like(self.psi_f[0])]*self.dim)
+
+        if not hasattr(self,'external_force_density_f'):
+            self.external_force_density_f = np.zeros([self.dim] + self.dims, dtype=complex)
 
         self.gamma_S = gamma_S
         self.rho0 = rho0
@@ -833,7 +838,7 @@ class PhaseFieldCrystal(BaseSystem):
         print(f'Equilibrium strain: {final_strain:.05f}')
         print(f'Equilibrium q-vector: {1/(1+final_strain):.05f}')
 
-        psi0 = np.mean(self.psi)
+        psi0 = np.mean(self.psi[0])
         # print(f'Eq. psi0: {psi0:.02f}')
 
         eta = self.calc_demodulate_PFC(only_primary_modes=False)
@@ -997,10 +1002,10 @@ class PhaseFieldCrystal(BaseSystem):
         ----------
         field : ndarray, optional
             The field to calculate the free energy density and chemical potential of.
-            If None, self.psi is used.
+            If None, self.psi[0] (the density component) is used.
         field_f : ndarray, optional
             The Fourier transform of the field.
-            If None, self.psi_f is used.
+            If None, self.psi_f[0] is used.
 
         Returns
         -------
@@ -1011,8 +1016,8 @@ class PhaseFieldCrystal(BaseSystem):
         """
 
         if field is None:
-            field = self.psi
-            field_f = self.psi_f
+            field = self.psi[0]
+            field_f = self.psi_f[0]
 
         psi_f = field_f
         
@@ -1321,7 +1326,7 @@ class PhaseFieldCrystal(BaseSystem):
 
         Gaussian_filter_f = self.calc_gaussian_filter_f()
 
-        order_parameter = self.psi if self.psi.ndim == self.dim else self.psi[0]
+        order_parameter = self.psi[0]
 
         if self.dim == 2:
                 for n in range(number_of_modes):
@@ -1356,10 +1361,7 @@ class PhaseFieldCrystal(BaseSystem):
             If the dimension of the system is 1D.
         """
 
-        if hasattr(self,'bool_has_velocity_field') and self.bool_has_velocity_field:
-            psi_f = self.psi_f[0]
-        else:
-            psi_f = self.psi_f
+        psi_f = self.psi_f[0]
 
         if self.dim==1:
             raise Exception("The stress tensor is not yet defined in 1D.")
@@ -1433,11 +1435,7 @@ class PhaseFieldCrystal(BaseSystem):
             The divergence of the stress tensor in Fourier space.
         """
         if field_f is None:
-            PFC_has_velocity_field = hasattr(self, 'bool_has_velocity_field') and self.bool_has_velocity_field
-            if PFC_has_velocity_field:
-                field_f = self.psi_f[0]
-            else:
-                field_f = self.psi_f
+            field_f = self.psi_f[0]
 
         L_f = self.calc_L_f()
         Lpsi = self.ifft(L_f*field_f)
@@ -1469,10 +1467,7 @@ class PhaseFieldCrystal(BaseSystem):
             The structure tensor in Fourier space.
         """
 
-        if hasattr(self,'bool_has_velocity_field') and self.bool_has_velocity_field:
-            field_f = self.psi_f[0]
-        else:
-            field_f = self.psi_f
+        field_f = self.psi_f[0]
 
         # Calculate the gradient
         psi_gradient = np.zeros([self.dim] + self.dims, dtype=complex)
@@ -1706,7 +1701,7 @@ class PhaseFieldCrystal(BaseSystem):
             An orientation field, which is a vector field specifying the orientation of the crystal.
         """
 
-        order_parameter = self.psi if self.psi.ndim == self.dim else self.psi[0]
+        order_parameter = self.psi[0]
 
         eta = np.zeros([self.number_of_primary_reciprocal_lattice_modes] + self.dims, 
                        dtype=complex)
@@ -1866,13 +1861,8 @@ class PhaseFieldCrystal(BaseSystem):
         tuple
             A tuple containing (fig, ax), the figure and axes containing the plot.
         """
-        PFC_has_velocity_field = hasattr(self, 'bool_has_velocity_field') and self.bool_has_velocity_field
-
         kwargs['colormap'] = kwargs.get('colormap', 'viridis' if self.plot_lib == 'plotly' else 'viridis')
-        if PFC_has_velocity_field:
-            return self.plot_field(self.psi[0], **kwargs)
-        else:
-            return self.plot_field(self.psi, **kwargs)
+        return self.plot_field(self.psi[0], **kwargs)
 
     def plot_orientation_field(self, orientation_field=None, **kwargs):
         """Plots the orientation field of the phase-field crystal.

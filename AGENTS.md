@@ -168,7 +168,10 @@ crystal's lattice.
 `dim>1`), `dt` (default `0.1`), `plot_lib` (`'plotly'` or `'matplotlib'`,
 **default `'plotly'`**). Derived: `psi`/`psi_f` (primary field and its
 Fourier transform — name/shape vary by model, e.g. `Q` for the nematic
-tensor), `x`/`xmid`/`xmidi`/`size_x` (and y/z), `Res`, `dims`, `rmin`/`rmax`
+tensor; `PhaseFieldCrystal.psi` always carries a leading component axis,
+see the `PhaseFieldCrystal` entry below — `QuantumMechanics`/
+`BoseEinsteinCondensate`'s `psi` do not), `x`/`xmid`/`xmidi`/`size_x` (and
+y/z), `Res`, `dims`, `rmin`/`rmax`
 (always length-3 lists `[xmin,ymin,zmin]`/`[xmax,ymax,zmax]`, regardless of
 `dim`), `volume`, `dV`, `time`, `k` (wavenumbers per axis), `dif`
 (`1j*k[i]`, for differentiation), `a0` (length scale, default `1`).
@@ -195,9 +198,13 @@ practice only `get_component_from_symmetric_tensor`/
 (`BaseSystem.fft`/`.ifft`, both in `base_system.py`), which call
 `scipy.fft.fftn`/`ifftn` **restricted to the last `self.dim` axes**
 (`axes=range(-self.dim, 0)`). This means a field can carry extra leading
-axes (e.g. tensor/vector components, as with the nematic `Q` tensor) that
-`fft`/`ifft` leave alone and only the trailing spatial axes get
-transformed. Derivatives: `self.ifft(self.dif[0] * field_f)` for
+axes (e.g. tensor/vector components, as with the nematic `Q` tensor or
+`PhaseFieldCrystal.psi`) that `fft`/`ifft` leave alone and only the
+trailing spatial axes get transformed — but beware raw `scipy.fft`/`np.fft`
+calls elsewhere that don't restrict `axes` this way; they transform every
+axis including a leading component one (`BaseSystem.calc_advect_field` was
+fixed to use `self.fft`/`.ifft` for exactly this reason — see
+`CHANGELOG.md`). Derivatives: `self.ifft(self.dif[0] * field_f)` for
 ∂/∂x, Laplacian via `self.ifft(-self.calc_k2() * field_f)` (`.real` if the
 field is real).
 
@@ -253,8 +260,12 @@ Animations: loop evolve + plot + `self.plot_save(fig, n)`, then
   `calc_disclination_nodes` (as of 2.0.0 — before that, these carried
   redundant `_nematic`/`_nem` model suffixes; see CHANGELOG.md).
 - `PhaseFieldCrystal` (base, shared by all six lattice subclasses): field
-  `psi` is a real scalar representing crystalline density, evolved via
-  `evolve_PFC`; `conf_PFC_from_amplitudes`/`calc_PFC_from_amplitudes`,
+  `psi` always carries a leading component axis — `psi[0]` is the real
+  scalar crystalline density; `psi[1:]` holds a velocity field once
+  `evolve_PFC_hydrodynamic` has been called (added lazily on first call,
+  zero-initialized), absent (`psi.shape[0] == 1`) otherwise. Evolved via
+  `evolve_PFC`/`evolve_PFC_hydrodynamic`;
+  `conf_PFC_from_amplitudes`/`calc_PFC_from_amplitudes`,
   `conf_apply_distortion`, `conf_strain_to_equilibrium`,
   `conf_create_polycrystal`,
   `calc_nonlinear_evolution_function_conserved_f`/`_unconserved_f`,

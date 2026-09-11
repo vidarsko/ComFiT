@@ -29,6 +29,15 @@ The phase field $\psi$.
 pfc.psi
 ```
 
+!!! note "Shape of `pfc.psi`"
+    `pfc.psi` always carries a leading component axis, so `pfc.psi[0]` is
+    the density field $\psi$ itself, even when there is no other component.
+    This keeps `pfc.psi` consistent across the classical PFC (where
+    `pfc.psi[0]` is the only component) and the hydrodynamic PFC (see
+    [Hydrodynamic PFC evolution](#hydrodynamic-pfc-evolution)), where
+    `pfc.psi[1], pfc.psi[2], pfc.psi[3]` hold the velocity field
+    $\boldsymbol v$ alongside it.
+
 ## Basic model
 
 The PFC methodology is based on postulating a free energy
@@ -1265,6 +1274,9 @@ $$
 \end{pmatrix}
 $$
 
+This is the vector stored in `pfc.psi`: `pfc.psi[0]` is $\psi$, and
+`pfc.psi[1], pfc.psi[2], pfc.psi[3]` are $v_1, v_2, v_3$.
+
 <!-- markdownlint-enable MD046 -->
 ## Configurations
 
@@ -1289,7 +1301,6 @@ In order to avoid numerical artifacts with the interface, it is recommended to s
     import comfit as cf
     import numpy as np
     import matplotlib.pyplot as plt
-    import scipy as sp
 
     pfc = cf.PhaseFieldCrystal2DSquare(30,30)
     pfc.dt=0.05
@@ -1303,15 +1314,16 @@ In order to avoid numerical artifacts with the interface, it is recommended to s
     # Specify the region centered at the mid position with radius 6 a0.
     inclusion_region = pfc.calc_region_disk(pfc.rmid, 6*pfc.a0)
 
-    # Set the rotated field in the inclusion region
-    pfc.psi[inclusion_region] = psi_rotated[inclusion_region]
-    pfc.psi_f = sp.fft.fftn(pfc.psi)
+    # Set the rotated field in the inclusion region (pfc.psi[0] is the
+    # density; see the note on pfc.psi's shape above)
+    pfc.psi[0][inclusion_region] = psi_rotated[inclusion_region]
+    pfc.psi_f = pfc.fft(pfc.psi)
 
     #Smooth the interface
     tau = 10
     pfc.evolve_PFC(round(tau/pfc.dt)) 
 
-    pfc.plot_field(pfc.psi)
+    pfc.plot_field(pfc.psi[0])
     plt.show()
     ```
 

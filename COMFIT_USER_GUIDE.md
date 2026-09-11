@@ -49,7 +49,9 @@ workers: number of threads used for FFTs (passed to scipy.fft), default -1 (all 
 ## Other attributes
 
 psi (field): primary order parameter (name/meaning varies by model, e.g. bec.psi is the
-condensate wavefunction, pfc.psi is the crystal density field, nlc.Q is a tensor field instead)
+condensate wavefunction, pfc.psi[0] is the crystal density field, nlc.Q is a tensor field
+instead). pfc.psi always carries a leading component axis - pfc.psi[1:] holds a velocity field
+once evolve_PFC_hydrodynamic has been called; bec.psi/qm.psi do not carry this axis.
 psi_f: Fourier transform of psi
 x: coordinate array (and y, z when bs.dim > 1)
 xmid, xmidi: midpoint coordinate and its index (and y/z equivalents)
@@ -178,10 +180,13 @@ calc_order_and_director
 calc_disclination_nodes() returns detected disclination node positions/charges
 plot_nodes
 
-PhaseFieldCrystal (pfc) - pfc.psi is the (real, scalar) crystal density field:
+PhaseFieldCrystal (pfc) - pfc.psi[0] is the (real, scalar) crystal density field; pfc.psi
+always carries a leading component axis (size 1 unless evolve_PFC_hydrodynamic has been
+called, which extends it with a velocity field in pfc.psi[1:]):
 evolve_PFC(number_of_steps) evolves pfc.psi
+evolve_PFC_hydrodynamic(number_of_steps) evolves pfc.psi including the coupled velocity field
 conf_PFC_from_amplitudes / calc_PFC_from_amplitudes
 calc_nonlinear_evolution_function_conserved_f, calc_nonlinear_evolution_function_unconserved_f
 calc_dislocation_nodes() returns detected dislocation node positions/Burgers vectors
 calc_orientation_field, calc_free_energy
-plot_field
+plot_field, plot_PFC
