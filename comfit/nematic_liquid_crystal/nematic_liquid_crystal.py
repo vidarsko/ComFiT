@@ -662,10 +662,10 @@ class NematicLiquidCrystal(BaseSystem):
             # Precompute the real-space gradients of every independent tensor
             # component once (dim batched iffts) instead of recomputing the
             # same ifftn calls repeatedly inside the sums below.
-            dQ = [np.real(self.ifft(1j*self.k[m]*self.Q_f)) for m in range(self.dim)]
+            Q_gradient = [np.real(self.ifft(1j*self.k[m]*self.Q_f)) for m in range(self.dim)]
 
             def d(m, n, a):
-                return self.get_component_from_symmetric_traceless_tensor(dQ[m], n, a)
+                return self.get_component_from_symmetric_traceless_tensor(Q_gradient[m], n, a)
 
             D = np.zeros((self.dim,self.dim,self.xRes,self.yRes,self.zRes))
             term_trace = sum(d(k,k,a)*d(l,l,a) - d(k,l,a)*d(l,k,a)
@@ -690,13 +690,13 @@ class NematicLiquidCrystal(BaseSystem):
         -------
         omega : numpy.ndarray
             The scalar magnitude of the disclination density tensor.
-        Omega_R : numpy.ndarray
-            The rotation vector, the leading eigenvector of the disclination density tensor
+        rotation_field : numpy.ndarray
+            The rotation vector field, the leading eigenvector of the disclination density tensor
             contracted with its transpose.
         T : numpy.ndarray
             The tangent vector, the leading eigenvector of the disclination density tensor's
             transpose contracted with itself.
-        trRho : numpy.ndarray
+        rho_trace : numpy.ndarray
             The trace of the disclination density tensor.
         """
         if self.dim == 3:
@@ -716,10 +716,10 @@ class NematicLiquidCrystal(BaseSystem):
             vals_1,vecs_1 =  numpy.linalg.eigh(DDT)
             vals_2, vecs_2 = numpy.linalg.eigh(DTD)
 
-            Omega_R = np.transpose(vecs_1[:,:,:,:,2], (3,0,1,2))
+            rotation_field = np.transpose(vecs_1[:,:,:,:,2], (3,0,1,2))
             T = np.transpose(vecs_2[:,:,:,:,2], (3,0,1,2))
-            trRho = sum(rho[i,i] for i in range(self.dim))
-            return omega, Omega_R, T, trRho
+            rho_trace = sum(rho[i,i] for i in range(self.dim))
+            return omega, rotation_field, T, rho_trace
 
     def calc_g_matrix(self,dt_Q):
         """Calculates the matrix g, that is used to find the disclination velocity in 3D
@@ -913,7 +913,7 @@ class NematicLiquidCrystal(BaseSystem):
                     disclination['polarization'] = [float('nan'), float('nan')]
 
         elif self.dim == 3:
-            omega, Omega_R, T, trD = self.calc_disclination_density_decoupled()
+            omega, rotation_field, T, rho_trace = self.calc_disclination_density_decoupled()
             S0 = self.calc_equilibrium_S()
             print(S0)
             disclination_nodes = self.calc_defect_nodes(omega,charge_tolerance=charge_tolerance)
@@ -925,7 +925,7 @@ class NematicLiquidCrystal(BaseSystem):
             for disclination in disclination_nodes:
 
                 tangent_vector = np.array([T[i][disclination['position_index']] for i in range(3)])
-                rotation_vector = np.array([Omega_R[i][disclination['position_index']] for i in range(3)])
+                rotation_vector = np.array([rotation_field[i][disclination['position_index']] for i in range(3)])
                 omega_at_dislocation = omega[disclination['position_index']]
 
 
@@ -938,7 +938,7 @@ class NematicLiquidCrystal(BaseSystem):
                             tangent_vector = -1* tangent_vector
                         break
 
-                if np.sign(np.sum([tangent_vector[i]*rotation_vector[i] for i in range(self.dim)])) != np.sign(trD[disclination['position_index']]):
+                if np.sign(np.sum([tangent_vector[i]*rotation_vector[i] for i in range(self.dim)])) != np.sign(rho_trace[disclination['position_index']]):
                     rotation_vector = -1*rotation_vector
 
                 if dt_Q is not None:

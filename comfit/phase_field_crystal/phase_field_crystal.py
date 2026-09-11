@@ -541,22 +541,22 @@ class PhaseFieldCrystal(BaseSystem):
 
             zdir = 1 if self.dim == 2 else np.ones((1,1,self.zRes))
 
-            pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,-22.5/180*np.pi])
-            pfcRotated = np.roll(pfcRotated, -round(self.yRes/2), axis=1)
-            pfcRotated = np.roll(pfcRotated, -round(self.xRes/3), axis=0)
+            rotated_psi = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,-22.5/180*np.pi])
+            rotated_psi = np.roll(rotated_psi, -round(self.yRes/2), axis=1)
+            rotated_psi = np.roll(rotated_psi, -round(self.xRes/3), axis=0)
             region = np.bool_((l4*~(l7)*~(l8) + ~(l1)*~(l3)*~(l7))*zdir)
-            self.psi[region] = pfcRotated[region]
+            self.psi[region] = rotated_psi[region]
 
-            pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,22.5/180*np.pi])
-            pfcRotated = np.roll(pfcRotated, -round(self.yRes/2), axis=1)
-            pfcRotated = np.roll(pfcRotated, round(self.xRes/3), axis=0)
+            rotated_psi = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,22.5/180*np.pi])
+            rotated_psi = np.roll(rotated_psi, -round(self.yRes/2), axis=1)
+            rotated_psi = np.roll(rotated_psi, round(self.xRes/3), axis=0)
             region = np.bool_((l1*l6*l7 + l7*l10*~(l4))*zdir)
-            self.psi[region] = pfcRotated[region]
+            self.psi[region] = rotated_psi[region]
 
-            pfcRotated = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,45/180*np.pi])
-            pfcRotated = np.roll(pfcRotated, -round(self.xRes/2), axis=0)
+            rotated_psi = self.calc_PFC_from_amplitudes(self.eta0, rotation=[0,0,45/180*np.pi])
+            rotated_psi = np.roll(rotated_psi, -round(self.xRes/2), axis=0)
             region = np.bool_((l1*~(l4)*~(l5) + ~(l1)*l4*l9)*zdir)
-            self.psi[region] = pfcRotated[region]
+            self.psi[region] = rotated_psi[region]
 
             self.psi_f = self.fft(self.psi)
 
@@ -1475,10 +1475,10 @@ class PhaseFieldCrystal(BaseSystem):
             field_f = self.psi_f
 
         # Calculate the gradient
-        diPsi = np.zeros([self.dim] + self.dims, dtype=complex)
+        psi_gradient = np.zeros([self.dim] + self.dims, dtype=complex)
         for i in range(self.dim):
-            diPsi[i] = self.dif[i]*field_f
-        diPsi = np.real(self.ifft(diPsi))
+            psi_gradient[i] = self.dif[i]*field_f
+        psi_gradient = np.real(self.ifft(psi_gradient))
 
         if self.dim == 1:
             number_of_independent_strain_components = 1
@@ -1491,18 +1491,18 @@ class PhaseFieldCrystal(BaseSystem):
 
         Gaussian_filter_f = self.calc_gaussian_filter_f()
         if self.dim == 1:
-            structure_tensor_f[0] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[0])
+            structure_tensor_f[0] = Gaussian_filter_f*self.fft(psi_gradient[0]*psi_gradient[0])
         elif self.dim == 2:
-            structure_tensor_f[0] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[0])
-            structure_tensor_f[1] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[1])
-            structure_tensor_f[2] = Gaussian_filter_f*self.fft(diPsi[1]*diPsi[1])
+            structure_tensor_f[0] = Gaussian_filter_f*self.fft(psi_gradient[0]*psi_gradient[0])
+            structure_tensor_f[1] = Gaussian_filter_f*self.fft(psi_gradient[0]*psi_gradient[1])
+            structure_tensor_f[2] = Gaussian_filter_f*self.fft(psi_gradient[1]*psi_gradient[1])
         elif self.dim == 3:
-            structure_tensor_f[0] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[0])
-            structure_tensor_f[1] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[1])
-            structure_tensor_f[2] = Gaussian_filter_f*self.fft(diPsi[0]*diPsi[2])
-            structure_tensor_f[3] = Gaussian_filter_f*self.fft(diPsi[1]*diPsi[1])
-            structure_tensor_f[4] = Gaussian_filter_f*self.fft(diPsi[1]*diPsi[2])
-            structure_tensor_f[5] = Gaussian_filter_f*self.fft(diPsi[2]*diPsi[2])
+            structure_tensor_f[0] = Gaussian_filter_f*self.fft(psi_gradient[0]*psi_gradient[0])
+            structure_tensor_f[1] = Gaussian_filter_f*self.fft(psi_gradient[0]*psi_gradient[1])
+            structure_tensor_f[2] = Gaussian_filter_f*self.fft(psi_gradient[0]*psi_gradient[2])
+            structure_tensor_f[3] = Gaussian_filter_f*self.fft(psi_gradient[1]*psi_gradient[1])
+            structure_tensor_f[4] = Gaussian_filter_f*self.fft(psi_gradient[1]*psi_gradient[2])
+            structure_tensor_f[5] = Gaussian_filter_f*self.fft(psi_gradient[2]*psi_gradient[2])
 
         return structure_tensor_f
             
