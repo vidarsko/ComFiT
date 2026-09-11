@@ -133,7 +133,13 @@ too large/risky for this pass).
   `bec.psi - psi_prev`) into `calc_vortex_nodes` for exactly this reason —
   `bose_einstein_condensate_basic_framework.ipynb` and
   `bose_einstein_condensate_comoving_frame_and_defect_tracking.ipynb` now compute `dt_psi` from
-  `bec.psi[0]`. `QuantumMechanics`/`BoseEinsteinCondensate` never gain more than one component, so
+  `bec.psi[0]`. Also fixed `quantum_mechanics_harmonic_oscillator.ipynb` and
+  `quantum_mechanics_stirring_potential.ipynb`, which set `qm.psi` directly (bypassing
+  `conf_initial_condition_gaussian`) to a bare array — wrapped the initial assignment in
+  `np.array([...])`; every downstream cell (including the harmonic oscillator tutorial's own
+  `a_dag` ladder-operator function) only ever does elementwise arithmetic on `qm.psi`, which
+  preserves the leading axis automatically, so no other cell needed changing.
+  `QuantumMechanics`/`BoseEinsteinCondensate` never gain more than one component, so
   raw (unrestricted-`axes`) `scipy.fft`/`np.fft` calls elsewhere in both files were left as-is —
   see the note added to `AGENTS.md`. Added regression tests
   (`test_psi_component_axis` in both `tests_quantum_mechanics` and `tests_bose_einstein_condensate`)
