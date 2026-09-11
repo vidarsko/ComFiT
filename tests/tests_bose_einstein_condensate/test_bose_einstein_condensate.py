@@ -104,16 +104,21 @@ class TestBoseEinsteinCondensate(unittest.TestCase):
         self.assertEqual(bec.psi.shape, (1, bec.xRes, bec.yRes))
         self.assertEqual(bec.psi_f.shape, bec.psi.shape)
 
-        bec.conf_insert_vortex_dipole(dipole_vector=[bec.xmax/3, 0], dipole_position=bec.rmid)
-        self.assertEqual(bec.psi.shape, (1, bec.xRes, bec.yRes))
+        # conf_insert_vortex_dipole lazily initializes via
+        # conf_initial_condition_thomas_fermi when self.psi is None; use a
+        # fresh instance so the dipole is inserted into a clean condensate
+        # (matching test_vortex_tracker_2D) rather than the noisy state above.
+        bec2 = cf.BoseEinsteinCondensate(2, xRes=31, yRes=31)
+        bec2.conf_insert_vortex_dipole(dipole_vector=[bec2.xmax/3, 0], dipole_position=bec2.rmid)
+        self.assertEqual(bec2.psi.shape, (1, bec2.xRes, bec2.yRes))
 
-        psi_prev = bec.psi[0].copy()
-        bec.evolve_relax(10)
-        dt_psi = (bec.psi[0] - psi_prev) / (10 * bec.dt)
+        psi_prev = bec2.psi[0].copy()
+        bec2.evolve_relax(100)
+        dt_psi = (bec2.psi[0] - psi_prev) / (100 * bec2.dt)
 
         # This must not raise (a leading-axis dt_psi would break the
         # boolean-mask indexing inside calc_defect_velocity_field).
-        nodes = bec.calc_vortex_nodes(dt_psi)
+        nodes = bec2.calc_vortex_nodes(dt_psi)
         self.assertEqual(len(nodes), 2)
         for node in nodes:
             self.assertEqual(len(node['velocity']), 2)
