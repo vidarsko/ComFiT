@@ -31,7 +31,7 @@ def tool_generate_numbers_between(
     Raises
     ------
     ValueError
-        If cmin is greater than cmax.
+        If cmin is greater than cmax, or if either is NaN.
 
     Notes
     -----
@@ -41,6 +41,9 @@ def tool_generate_numbers_between(
     - If range <= 15 units: step = 3×10^delta_exp
     - If range <= 20 units: step = 4×10^delta_exp
     """
+    if np.isnan(cmin) or np.isnan(cmax):
+        raise ValueError("cmin and cmax must not be NaN")
+
     if cmin > cmax:
         raise ValueError("cmin must be less than cmax")
 

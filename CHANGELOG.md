@@ -189,6 +189,15 @@ too large/risky for this pass).
   Fourier space) — a real risk now that `PhaseFieldCrystal.psi` always carries one. Switched to
   `self.fft`/`.ifft`, consistent with the rest of the codebase, which also gets it `self.workers`
   threading as a side effect.
+- `BaseSystemPlot.plot_prepare` computed real-field colorbar limits with plain `np.min`/`np.max`,
+  which propagate `NaN` rather than ignore it. Plotting any real field containing `NaN` (e.g. a
+  masked/undefined region, or a diverged simulation) passed `NaN` through as `vmin`/`vmax` into
+  `tool_generate_numbers_between`, whose `cmin > cmax` guard never triggers on `NaN` (all `NaN`
+  comparisons are `False`) — execution fell through every `number_of_steps` branch (also all `False`
+  against `NaN`) and crashed with `UnboundLocalError` instead of producing a plot. Switched to
+  `np.nanmin`/`np.nanmax` so a field with some `NaN` entries still gets a valid colorbar range from
+  the rest, and added an explicit `NaN` check to `tool_generate_numbers_between` that raises a clear
+  `ValueError` for the genuinely-unplottable case (a field that is entirely `NaN`). (#60)
 
 ### Added
 

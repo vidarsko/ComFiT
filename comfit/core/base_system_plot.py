@@ -150,8 +150,8 @@ class BaseSystemPlot:
 
         if field_type == 'real':
             # Field limits
-            field_min = np.min(field)
-            field_max = np.max(field)
+            field_min = np.nanmin(field)
+            field_max = np.nanmax(field)
 
             if 'vlim' in kwargs:
                 vlim = kwargs['vlim']
